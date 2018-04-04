@@ -3,7 +3,7 @@
 
 ![image](./readme_img/1.jpeg)
 
-本專案利用簡單的Convolutional Neural Network來實作辨識台鐵訂票網站的驗證碼(如上圖)，訓練集的部分以模仿驗證碼樣式的方式來產生、另外驗證集的部分則自台鐵訂票網站擷取，再以手動方式標記約1000筆。
+本專案利用簡單的Convolutional Neural Network來實作辨識臺鐵訂票網站的驗證碼(如上圖)，訓練集的部分以模仿驗證碼樣式的方式來產生、另外驗證集的部分則自臺鐵訂票網站擷取，再以手動方式標記約1000筆。
 
 目前驗證集對於6碼型態的驗證碼的單碼辨識率達到```98.84%```，整體辨識成功率達到```91.13%```。
 底下有詳盡的說明。
@@ -37,9 +37,9 @@
 
 ## Generate training set
 
-首先我們要先觀察驗證碼，你可以寫一支爬蟲程式去擷取一兩百張驗證碼回來細細比對。我們不難發現台鐵的驗證碼不外乎由兩個主要元素組成：
+首先我們要先觀察驗證碼，你可以寫一支爬蟲程式去擷取一兩百張驗證碼回來細細比對。我們不難發現臺鐵的驗證碼不外乎由兩個主要元素組成：
 - ```5 ~ 6碼```的數字，大小似乎不一致，而且都有經過旋轉，另外顏色是浮動的。
-- 背景是浮動的顏色，另外還有不少干擾的線條，看起來應該是矩形，由黑線和白線組成，且有部分會蓋到數字上面。
+- 背景是浮動的顏色，另外還有不少幹擾的線條，看起來應該是矩形，由黑線和白線組成，且有部分會蓋到數字上面。
 
 進一步研究會發現:
 - 數字的旋轉角度約在```-55 ~ 55度```間，大小約```25 ~ 27pt```。
@@ -47,14 +47,14 @@
 - 背景和字型顏色的部分，可以用一些色彩均值化的手法快速的從數百張的驗證碼中得出每一張的背景及數字的顏色，進而我們就能算出顏色的範圍。這部分可以用opencv的k-means來實作，這邊就不再贅述。
 
 背景的R/G/B範圍約是在```180 ~ 250```間，文字的部分則是```10 ~ 140```間。
-- 干擾的線條是矩形，有左、上是黑線條且右、下是白線條和倒過來，共兩種樣式(也可以當作是旋轉180度)，平均大約會出現```30 ~ 32個```隨機分布在圖中，長寬都大約落在```5 ~ 21px```間。
+- 幹擾的線條是矩形，有左、上是黑線條且右、下是白線條和倒過來，共兩種樣式(也可以當作是旋轉180度)，平均大約會出現```30 ~ 32個```隨機分佈在圖中，長寬都大約落在```5 ~ 21px```間。
 另外，大約有4成的機會白線會蓋在數字上，黑線蓋在文字上的機率則更低。
 
 有了這些觀察，只差一點點就可以產生訓練集了，我們現在來觀察數字都落在圖片上的甚麼位置上:
 
 ![image](./readme_img/5.PNG)![image](./readme_img/6.PNG)![image](./readme_img/7.PNG)
 
-從這幾張圖中不難看出文字並非規則地分布在圖片上，我們可以猜測文字是旋轉後被隨機左移或右移了，甚至還會有重疊的情況，所以沒辦法用切割的方式一次處理一個文字。
+從這幾張圖中不難看出文字並非規則地分佈在圖片上，我們可以猜測文字是旋轉後被隨機左移或右移了，甚至還會有重疊的情況，所以沒辦法用切割的方式一次處理一個文字。
 
 以上就是我們簡單觀察到的驗證碼規則，訓練集產生的部分實作在```captcha_gen.py```中，雖然寫得有點雜亂，不過沒甚麼特別的地方，就是照著上面的規則產生，可以試著以自己的方式實作看看。
 
@@ -104,7 +104,7 @@ model.compile(loss='categorical_crossentropy', optimizer='Adamax', metrics=['acc
 
 *關於optimizer的選擇，可以參考這兩篇，寫得不錯：
 1. An overview of gradient descent optimization algorithms -  http://ruder.io/optimizing-gradient-descent/index.html
-2. SGD，Adagrad，Adadelta，Adam等优化方法总结和比较 - http://ycszen.github.io/2016/08/24/SGD%EF%BC%8CAdagrad%EF%BC%8CAdadelta%EF%BC%8CAdam%E7%AD%89%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93%E5%92%8C%E6%AF%94%E8%BE%83/
+2. SGD，Adagrad，Adadelta，Adam等優化方法總結和比較 - http://ycszen.github.io/2016/08/24/SGD%EF%BC%8CAdagrad%EF%BC%8CAdadelta%EF%BC%8CAdam%E7%AD%89%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93%E5%92%8C%E6%AF%94%E8%BE%83/
 **
 
 --
@@ -251,7 +251,7 @@ callbacks_list = [tensorBoard, earlystop, checkpoint]
 ```
 
 ## Training the model
-至此為止我們已經把所有需要的資料都準備好了，現在只需要一台好電腦就可以開始訓練了，建議使用GPU來訓練，不然要很久，真的很久....。
+至此為止我們已經把所有需要的資料都準備好了，現在只需要一臺好電腦就可以開始訓練了，建議使用GPU來訓練，不然要很久，真的很久....。
 
 若在訓練時出現Resource exhausted的錯誤，可以考慮調低一些參數(如batch_size)。
 
@@ -275,7 +275,7 @@ model.fit(train_data, train_label, batch_size=400, epochs=50, verbose=2, validat
 
 ## Reference
 1. An overview of gradient descent optimization algorithms -  http://ruder.io/optimizing-gradient-descent/index.html
-2. SGD，Adagrad，Adadelta，Adam等优化方法总结和比较 - http://ycszen.github.io/2016/08/24/SGD%EF%BC%8CAdagrad%EF%BC%8CAdadelta%EF%BC%8CAdam%E7%AD%89%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93%E5%92%8C%E6%AF%94%E8%BE%83/
+2. SGD，Adagrad，Adadelta，Adam等優化方法總結和比較 - http://ycszen.github.io/2016/08/24/SGD%EF%BC%8CAdagrad%EF%BC%8CAdadelta%EF%BC%8CAdam%E7%AD%89%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93%E5%92%8C%E6%AF%94%E8%BE%83/
 3. Going Deeper with Convolutions - http://arxiv.org/abs/1409.4842
 
 --------------------
@@ -381,7 +381,7 @@ model.compile(loss='categorical_crossentropy', optimizer='Adamax', metrics=['acc
 
 *About the choice of an optimizer, you can refer below:
 1. An overview of gradient descent optimization algorithms -  http://ruder.io/optimizing-gradient-descent/index.html
-2. SGD，Adagrad，Adadelta，Adam等优化方法总结和比较 - http://ycszen.github.io/2016/08/24/SGD%EF%BC%8CAdagrad%EF%BC%8CAdadelta%EF%BC%8CAdam%E7%AD%89%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93%E5%92%8C%E6%AF%94%E8%BE%83/
+2. SGD，Adagrad，Adadelta，Adam等優化方法總結和比較 - http://ycszen.github.io/2016/08/24/SGD%EF%BC%8CAdagrad%EF%BC%8CAdadelta%EF%BC%8CAdam%E7%AD%89%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93%E5%92%8C%E6%AF%94%E8%BE%83/
 **
 
 --
@@ -541,5 +541,5 @@ The accuracy for a single digit on the validation set is about ```98.84%```, and
 
 ## Reference
 1. An overview of gradient descent optimization algorithms -  http://ruder.io/optimizing-gradient-descent/index.html
-2. SGD，Adagrad，Adadelta，Adam等优化方法总结和比较 - http://ycszen.github.io/2016/08/24/SGD%EF%BC%8CAdagrad%EF%BC%8CAdadelta%EF%BC%8CAdam%E7%AD%89%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93%E5%92%8C%E6%AF%94%E8%BE%83/
+2. SGD，Adagrad，Adadelta，Adam等優化方法總結和比較 - http://ycszen.github.io/2016/08/24/SGD%EF%BC%8CAdagrad%EF%BC%8CAdadelta%EF%BC%8CAdam%E7%AD%89%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93%E5%92%8C%E6%AF%94%E8%BE%83/
 3. Going Deeper with Convolutions - http://arxiv.org/abs/1409.4842

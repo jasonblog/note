@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Android的几种多线程方式（AsyncTask,HandlerThread,IntentService,ThreadPool），使用场景以及注意事项 | Jason note</title>
+        <title>Android的幾種多線程方式（AsyncTask,HandlerThread,IntentService,ThreadPool），使用場景以及注意事項 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -54,10 +54,10 @@
         
     <div class="book"
         data-level="4.38.2"
-        data-chapter-title="Android的几种多线程方式（AsyncTask,HandlerThread,IntentService,ThreadPool），使用场景以及注意事项"
+        data-chapter-title="Android的幾種多線程方式（AsyncTask,HandlerThread,IntentService,ThreadPool），使用場景以及注意事項"
         data-filepath="android_note/androidde_ji_zhong_duo_xian_cheng_fang_shi_ff08_as.md"
         data-basepath=".."
-        data-revision="Thu Apr 05 2018 00:51:33 GMT+0800 (CST)"
+        data-revision="Thu Apr 05 2018 00:55:39 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -2020,7 +2020,7 @@
                         
                             <b>4.37.1.</b>
                         
-                        如何了解Task、Thread、ThreadPool、Handler、Looper、Message、MessageQueue、AsyncTask
+                        如何瞭解Task、Thread、ThreadPool、Handler、Looper、Message、MessageQueue、AsyncTask
                     </a>
             
             
@@ -2146,7 +2146,7 @@
                         
                             <b>4.38.1.</b>
                         
-                        Android多线程的四种方式
+                        Android多線程的四種方式
                     </a>
             
             
@@ -2161,7 +2161,7 @@
                         
                             <b>4.38.2.</b>
                         
-                        Android的几种多线程方式（AsyncTask,HandlerThread,IntentService,ThreadPool），使用场景以及注意事项
+                        Android的幾種多線程方式（AsyncTask,HandlerThread,IntentService,ThreadPool），使用場景以及注意事項
                     </a>
             
             
@@ -2176,7 +2176,7 @@
                         
                             <b>4.38.3.</b>
                         
-                        Android 多线程编程的总结
+                        Android 多線程編程的總結
                     </a>
             
             
@@ -21797,59 +21797,59 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="android&#x7684;&#x51E0;&#x79CD;&#x591A;&#x7EBF;&#x7A0B;&#x65B9;&#x5F0F;&#xFF08;asynctaskhandlerthreadintentservicethreadpool&#xFF09;&#xFF0C;&#x4F7F;&#x7528;&#x573A;&#x666F;&#x4EE5;&#x53CA;&#x6CE8;&#x610F;&#x4E8B;&#x9879;">Android&#x7684;&#x51E0;&#x79CD;&#x591A;&#x7EBF;&#x7A0B;&#x65B9;&#x5F0F;&#xFF08;AsyncTask,HandlerThread,IntentService,ThreadPool&#xFF09;&#xFF0C;&#x4F7F;&#x7528;&#x573A;&#x666F;&#x4EE5;&#x53CA;&#x6CE8;&#x610F;&#x4E8B;&#x9879;</h1>
-<p>&#x5728;&#x7A0B;&#x5E8F;&#x5F00;&#x53D1;&#x7684;&#x5B9E;&#x8DF5;&#x5F53;&#x4E2D;&#xFF0C;&#x4E3A;&#x4E86;&#x8BA9;&#x7A0B;&#x5E8F;&#x8868;&#x73B0;&#x5F97;&#x66F4;&#x52A0;&#x6D41;&#x7545;&#xFF0C;&#x6211;&#x4EEC;&#x80AF;&#x5B9A;&#x4F1A;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x5230;&#x591A;&#x7EBF;&#x7A0B;&#x6765;&#x63D0;&#x5347;&#x7A0B;&#x5E8F;&#x7684;&#x5E76;&#x53D1;&#x6267;&#x884C;&#x6027;&#x80FD;&#x3002;&#x4F46;&#x662F;&#x7F16;&#x5199;&#x591A;&#x7EBF;&#x7A0B;&#x5E76;&#x53D1;&#x7684;&#x4EE3;&#x7801;&#x4E00;&#x76F4;&#x4EE5;&#x6765;&#x90FD;&#x662F;&#x4E00;&#x4E2A;&#x76F8;&#x5BF9;&#x68D8;&#x624B;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x6240;&#x4EE5;&#x60F3;&#x8981;&#x83B7;&#x5F97;&#x66F4;&#x4F73;&#x7684;&#x7A0B;&#x5E8F;&#x6027;&#x80FD;&#xFF0C;&#x6211;&#x4EEC;&#x975E;&#x5E38;&#x6709;&#x5FC5;&#x8981;&#x638C;&#x63E1;&#x591A;&#x7EBF;&#x7A0B;&#x5E76;&#x53D1;&#x7F16;&#x7A0B;&#x7684;&#x57FA;&#x7840;&#x6280;&#x80FD;&#x3002;</p>
-<h3 id="&#x5F15;&#x5165;&#x591A;&#x7EBF;&#x7A0B;&#x800C;&#x53EF;&#x80FD;&#x4F34;&#x968F;&#x800C;&#x6765;&#x7684;&#x5185;&#x5B58;&#x95EE;&#x9898;">&#x5F15;&#x5165;&#x591A;&#x7EBF;&#x7A0B;&#x800C;&#x53EF;&#x80FD;&#x4F34;&#x968F;&#x800C;&#x6765;&#x7684;&#x5185;&#x5B58;&#x95EE;&#x9898;</h3>
-<p>&#x867D;&#x7136;&#x4F7F;&#x7528;&#x591A;&#x7EBF;&#x7A0B;&#x53EF;&#x4EE5;&#x63D0;&#x9AD8;&#x7A0B;&#x5E8F;&#x7684;&#x5E76;&#x53D1;&#x91CF;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7279;&#x522B;&#x6CE8;&#x610F;&#x56E0;&#x4E3A;&#x5F15;&#x5165;&#x591A;&#x7EBF;&#x7A0B;&#x800C;&#x53EF;&#x80FD;&#x4F34;&#x968F;&#x800C;&#x6765;&#x7684;&#x5185;&#x5B58;&#x95EE;&#x9898;&#x3002;&#x4F8B;&#x5982;&#xFF1A;&#x5728; Activity &#x5185;&#x90E8;&#x5B9A;&#x4E49;&#x7684;&#x4E00;&#x4E2A; AsyncTask&#xFF0C;&#x5B83;&#x5C5E;&#x4E8E;&#x4E00;&#x4E2A;&#x5185;&#x90E8;&#x7C7B;&#xFF0C;&#x8BE5;&#x7C7B;&#x672C;&#x8EAB;&#x548C;&#x5916;&#x9762;&#x7684; Activity &#x662F;&#x6709;&#x5F15;&#x7528;&#x5173;&#x7CFB;&#x7684;&#xFF0C;&#x5982;&#x679C; Activity &#x8981;&#x9500;&#x6BC1;&#x7684;&#x65F6;&#x5019;&#xFF0C;AsyncTask &#x8FD8;&#x4ECD;&#x7136;&#x5728;&#x8FD0;&#x884C;&#xFF0C;&#x8FD9;&#x4F1A;&#x5BFC;&#x81F4; Activity &#x6CA1;&#x6709;&#x529E;&#x6CD5;&#x5B8C;&#x5168;&#x91CA;&#x653E;&#xFF0C;&#x4ECE;&#x800C;&#x5F15;&#x53D1;&#x5185;&#x5B58;&#x6CC4;&#x6F0F;&#x3002;&#x6240;&#x4EE5;&#x8BF4;&#xFF0C;&#x591A;&#x7EBF;&#x7A0B;&#x662F;&#x63D0;&#x5347;&#x7A0B;&#x5E8F;&#x6027;&#x80FD;&#x7684;&#x6709;&#x6548;&#x624B;&#x6BB5;&#x4E4B;&#x4E00;&#xFF0C;&#x4F46;&#x662F;&#x4F7F;&#x7528;&#x591A;&#x7EBF;&#x7A0B;&#x5374;&#x9700;&#x8981;&#x5341;&#x5206;&#x8C28;&#x614E;&#x5C0F;&#x5FC3;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x4E86;&#x89E3;&#x80CC;&#x540E;&#x7684;&#x6267;&#x884C;&#x673A;&#x5236;&#x4EE5;&#x53CA;&#x4F7F;&#x7528;&#x7684;&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#xFF0C;&#x5F88;&#x53EF;&#x80FD;&#x5F15;&#x8D77;&#x4E25;&#x91CD;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
-<p>&#x4E0B;&#x9762;&#x6211;&#x4EEC;&#x6765;&#x4E00;&#x4E2A;&#x4E00;&#x4E2A;&#x5206;&#x6790;&#x4E0B;&#x7CFB;&#x7EDF;&#x4E3A;&#x6211;&#x4EEC;&#x63D0;&#x4F9B;&#x7684;&#x51E0;&#x79CD;&#x591A;&#x7EBF;&#x7A0B;&#x65B9;&#x5F0F;&#xFF0C;&#x5305;&#x62EC;&#xFF1A;AsyncTask,HandlerThread,IntentService,ThreadPool</p>
+                        <h1 id="android&#x7684;&#x5E7E;&#x7A2E;&#x591A;&#x7DDA;&#x7A0B;&#x65B9;&#x5F0F;&#xFF08;asynctaskhandlerthreadintentservicethreadpool&#xFF09;&#xFF0C;&#x4F7F;&#x7528;&#x5834;&#x666F;&#x4EE5;&#x53CA;&#x6CE8;&#x610F;&#x4E8B;&#x9805;">Android&#x7684;&#x5E7E;&#x7A2E;&#x591A;&#x7DDA;&#x7A0B;&#x65B9;&#x5F0F;&#xFF08;AsyncTask,HandlerThread,IntentService,ThreadPool&#xFF09;&#xFF0C;&#x4F7F;&#x7528;&#x5834;&#x666F;&#x4EE5;&#x53CA;&#x6CE8;&#x610F;&#x4E8B;&#x9805;</h1>
+<p>&#x5728;&#x7A0B;&#x5E8F;&#x958B;&#x767C;&#x7684;&#x5BE6;&#x8E10;&#x7576;&#x4E2D;&#xFF0C;&#x70BA;&#x4E86;&#x8B93;&#x7A0B;&#x5E8F;&#x8868;&#x73FE;&#x5F97;&#x66F4;&#x52A0;&#x6D41;&#x66A2;&#xFF0C;&#x6211;&#x5011;&#x80AF;&#x5B9A;&#x6703;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x5230;&#x591A;&#x7DDA;&#x7A0B;&#x4F86;&#x63D0;&#x5347;&#x7A0B;&#x5E8F;&#x7684;&#x4F75;&#x767C;&#x57F7;&#x884C;&#x6027;&#x80FD;&#x3002;&#x4F46;&#x662F;&#x7DE8;&#x5BEB;&#x591A;&#x7DDA;&#x7A0B;&#x4F75;&#x767C;&#x7684;&#x4EE3;&#x78BC;&#x4E00;&#x76F4;&#x4EE5;&#x4F86;&#x90FD;&#x662F;&#x4E00;&#x500B;&#x76F8;&#x5C0D;&#x68D8;&#x624B;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x6240;&#x4EE5;&#x60F3;&#x8981;&#x7372;&#x5F97;&#x66F4;&#x4F73;&#x7684;&#x7A0B;&#x5E8F;&#x6027;&#x80FD;&#xFF0C;&#x6211;&#x5011;&#x975E;&#x5E38;&#x6709;&#x5FC5;&#x8981;&#x638C;&#x63E1;&#x591A;&#x7DDA;&#x7A0B;&#x4F75;&#x767C;&#x7DE8;&#x7A0B;&#x7684;&#x57FA;&#x790E;&#x6280;&#x80FD;&#x3002;</p>
+<h3 id="&#x5F15;&#x5165;&#x591A;&#x7DDA;&#x7A0B;&#x800C;&#x53EF;&#x80FD;&#x4F34;&#x96A8;&#x800C;&#x4F86;&#x7684;&#x5167;&#x5B58;&#x554F;&#x984C;">&#x5F15;&#x5165;&#x591A;&#x7DDA;&#x7A0B;&#x800C;&#x53EF;&#x80FD;&#x4F34;&#x96A8;&#x800C;&#x4F86;&#x7684;&#x5167;&#x5B58;&#x554F;&#x984C;</h3>
+<p>&#x96D6;&#x7136;&#x4F7F;&#x7528;&#x591A;&#x7DDA;&#x7A0B;&#x53EF;&#x4EE5;&#x63D0;&#x9AD8;&#x7A0B;&#x5E8F;&#x7684;&#x4F75;&#x767C;&#x91CF;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x5011;&#x9700;&#x8981;&#x7279;&#x5225;&#x6CE8;&#x610F;&#x56E0;&#x70BA;&#x5F15;&#x5165;&#x591A;&#x7DDA;&#x7A0B;&#x800C;&#x53EF;&#x80FD;&#x4F34;&#x96A8;&#x800C;&#x4F86;&#x7684;&#x5167;&#x5B58;&#x554F;&#x984C;&#x3002;&#x4F8B;&#x5982;&#xFF1A;&#x5728; Activity &#x5167;&#x90E8;&#x5B9A;&#x7FA9;&#x7684;&#x4E00;&#x500B; AsyncTask&#xFF0C;&#x5B83;&#x5C6C;&#x65BC;&#x4E00;&#x500B;&#x5167;&#x90E8;&#x985E;&#xFF0C;&#x8A72;&#x985E;&#x672C;&#x8EAB;&#x548C;&#x5916;&#x9762;&#x7684; Activity &#x662F;&#x6709;&#x5F15;&#x7528;&#x95DC;&#x4FC2;&#x7684;&#xFF0C;&#x5982;&#x679C; Activity &#x8981;&#x92B7;&#x71EC;&#x7684;&#x6642;&#x5019;&#xFF0C;AsyncTask &#x9084;&#x4ECD;&#x7136;&#x5728;&#x904B;&#x884C;&#xFF0C;&#x9019;&#x6703;&#x5C0E;&#x81F4; Activity &#x6C92;&#x6709;&#x8FA6;&#x6CD5;&#x5B8C;&#x5168;&#x91CB;&#x653E;&#xFF0C;&#x5F9E;&#x800C;&#x5F15;&#x767C;&#x5167;&#x5B58;&#x6D29;&#x6F0F;&#x3002;&#x6240;&#x4EE5;&#x8AAA;&#xFF0C;&#x591A;&#x7DDA;&#x7A0B;&#x662F;&#x63D0;&#x5347;&#x7A0B;&#x5E8F;&#x6027;&#x80FD;&#x7684;&#x6709;&#x6548;&#x624B;&#x6BB5;&#x4E4B;&#x4E00;&#xFF0C;&#x4F46;&#x662F;&#x4F7F;&#x7528;&#x591A;&#x7DDA;&#x7A0B;&#x537B;&#x9700;&#x8981;&#x5341;&#x5206;&#x8B39;&#x614E;&#x5C0F;&#x5FC3;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x77AD;&#x89E3;&#x80CC;&#x5F8C;&#x7684;&#x57F7;&#x884C;&#x6A5F;&#x5236;&#x4EE5;&#x53CA;&#x4F7F;&#x7528;&#x7684;&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#xFF0C;&#x5F88;&#x53EF;&#x80FD;&#x5F15;&#x8D77;&#x56B4;&#x91CD;&#x7684;&#x554F;&#x984C;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x6211;&#x5011;&#x4F86;&#x4E00;&#x500B;&#x4E00;&#x500B;&#x5206;&#x6790;&#x4E0B;&#x7CFB;&#x7D71;&#x70BA;&#x6211;&#x5011;&#x63D0;&#x4F9B;&#x7684;&#x5E7E;&#x7A2E;&#x591A;&#x7DDA;&#x7A0B;&#x65B9;&#x5F0F;&#xFF0C;&#x5305;&#x62EC;&#xFF1A;AsyncTask,HandlerThread,IntentService,ThreadPool</p>
 <h2 id="1-asynctask">1. AsyncTask</h2>
-<h3 id="&#x4F7F;&#x7528;&#x573A;&#x666F;&#xFF1A;">&#x4F7F;&#x7528;&#x573A;&#x666F;&#xFF1A;</h3>
-<p>&#x4E3A; UI &#x7EBF;&#x7A0B;&#x4E0E;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x4E4B;&#x95F4;&#x8FDB;&#x884C;&#x5FEB;&#x901F;&#x7684;&#x5207;&#x6362;&#x63D0;&#x4F9B;&#x4E00;&#x79CD;&#x7B80;&#x5355;&#x4FBF;&#x6377;&#x7684;&#x673A;&#x5236;&#x3002;&#x9002;&#x7528;&#x4E8E;&#x5F53;&#x4E0B;&#x7ACB;&#x5373;&#x9700;&#x8981;&#x542F;&#x52A8;&#xFF0C;&#x4F46;&#x662F;&#x5F02;&#x6B65;&#x6267;&#x884C;&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#x77ED;&#x6682;&#x7684;&#x4F7F;&#x7528;&#x573A;&#x666F;&#x3002;</p>
+<h3 id="&#x4F7F;&#x7528;&#x5834;&#x666F;&#xFF1A;">&#x4F7F;&#x7528;&#x5834;&#x666F;&#xFF1A;</h3>
+<p>&#x70BA; UI &#x7DDA;&#x7A0B;&#x8207;&#x5DE5;&#x4F5C;&#x7DDA;&#x7A0B;&#x4E4B;&#x9593;&#x9032;&#x884C;&#x5FEB;&#x901F;&#x7684;&#x5207;&#x63DB;&#x63D0;&#x4F9B;&#x4E00;&#x7A2E;&#x7C21;&#x55AE;&#x4FBF;&#x6377;&#x7684;&#x6A5F;&#x5236;&#x3002;&#x9069;&#x7528;&#x65BC;&#x7576;&#x4E0B;&#x7ACB;&#x5373;&#x9700;&#x8981;&#x555F;&#x52D5;&#xFF0C;&#x4F46;&#x662F;&#x7570;&#x6B65;&#x57F7;&#x884C;&#x7684;&#x751F;&#x547D;&#x9031;&#x671F;&#x77ED;&#x66AB;&#x7684;&#x4F7F;&#x7528;&#x5834;&#x666F;&#x3002;</p>
 <h3 id="&#x57FA;&#x672C;&#x4F7F;&#x7528;">&#x57FA;&#x672C;&#x4F7F;&#x7528;</h3>
-<p>AsyncTask&#x662F;&#x4E00;&#x4E2A;&#x62BD;&#x8C61;&#x65B9;&#x6CD5;&#xFF0C;&#x5982;&#x679C;&#x60F3;&#x4F7F;&#x7528;&#x5B83;&#xFF0C;&#x9700;&#x8981;&#x5148;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x5B50;&#x7C7B;&#x6765;&#x7EE7;&#x627F;&#x4ED6;&#xFF0C;&#x8FD8;&#x9700;&#x8981;&#x4E3A;&#x5176;&#x6307;&#x5B9A;&#x4E09;&#x4E2A;&#x6CDB;&#x578B;&#x53C2;&#x6570;&#xFF1A;</p>
-<p>AsyncTask&#x662F;&#x4E00;&#x4E2A;&#x62BD;&#x8C61;&#x65B9;&#x6CD5;&#xFF0C;&#x5982;&#x679C;&#x60F3;&#x4F7F;&#x7528;&#x5B83;&#xFF0C;&#x9700;&#x8981;&#x5148;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x5B50;&#x7C7B;&#x6765;&#x7EE7;&#x627F;&#x4ED6;&#xFF0C;&#x8FD8;&#x9700;&#x8981;&#x4E3A;&#x5176;&#x6307;&#x5B9A;&#x4E09;&#x4E2A;&#x6CDB;&#x578B;&#x53C2;&#x6570;&#xFF1A;</p>
+<p>AsyncTask&#x662F;&#x4E00;&#x500B;&#x62BD;&#x8C61;&#x65B9;&#x6CD5;&#xFF0C;&#x5982;&#x679C;&#x60F3;&#x4F7F;&#x7528;&#x5B83;&#xFF0C;&#x9700;&#x8981;&#x5148;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x5B50;&#x985E;&#x4F86;&#x7E7C;&#x627F;&#x4ED6;&#xFF0C;&#x9084;&#x9700;&#x8981;&#x70BA;&#x5176;&#x6307;&#x5B9A;&#x4E09;&#x500B;&#x6CDB;&#x578B;&#x53C3;&#x6578;&#xFF1A;</p>
+<p>AsyncTask&#x662F;&#x4E00;&#x500B;&#x62BD;&#x8C61;&#x65B9;&#x6CD5;&#xFF0C;&#x5982;&#x679C;&#x60F3;&#x4F7F;&#x7528;&#x5B83;&#xFF0C;&#x9700;&#x8981;&#x5148;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x5B50;&#x985E;&#x4F86;&#x7E7C;&#x627F;&#x4ED6;&#xFF0C;&#x9084;&#x9700;&#x8981;&#x70BA;&#x5176;&#x6307;&#x5B9A;&#x4E09;&#x500B;&#x6CDB;&#x578B;&#x53C3;&#x6578;&#xFF1A;</p>
 <ul>
 <li>Params
-&#x5728;&#x6267;&#x884C;AsyncTask&#x65F6;&#x9700;&#x8981;&#x4F20;&#x5165;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x53EF;&#x7528;&#x4E8E;&#x5728;&#x540E;&#x53F0;&#x4EFB;&#x52A1;&#x4E2D;&#x4F7F;&#x7528;&#x3002;</li>
+&#x5728;&#x57F7;&#x884C;AsyncTask&#x6642;&#x9700;&#x8981;&#x50B3;&#x5165;&#x7684;&#x53C3;&#x6578;&#xFF0C;&#x53EF;&#x7528;&#x65BC;&#x5728;&#x5F8C;&#x81FA;&#x4EFB;&#x52D9;&#x4E2D;&#x4F7F;&#x7528;&#x3002;</li>
 <li>Progress
-&#x540E;&#x53F0;&#x4EFB;&#x52A1;&#x6267;&#x884C;&#x65F6;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x5728;&#x754C;&#x9762;&#x4E0A;&#x663E;&#x793A;&#x5F53;&#x524D;&#x7684;&#x8FDB;&#x5EA6;&#xFF0C;&#x5219;&#x4F7F;&#x7528;&#x8FD9;&#x91CC;&#x6307;&#x5B9A;&#x7684;&#x6CDB;&#x578B;&#x4F5C;&#x4E3A;&#x8FDB;&#x5EA6;&#x5355;&#x4F4D;&#x3002;</li>
+&#x5F8C;&#x81FA;&#x4EFB;&#x52D9;&#x57F7;&#x884C;&#x6642;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x5728;&#x754C;&#x9762;&#x4E0A;&#x986F;&#x793A;&#x7576;&#x524D;&#x7684;&#x9032;&#x5EA6;&#xFF0C;&#x5247;&#x4F7F;&#x7528;&#x9019;&#x88E1;&#x6307;&#x5B9A;&#x7684;&#x6CDB;&#x578B;&#x4F5C;&#x70BA;&#x9032;&#x5EA6;&#x55AE;&#x4F4D;&#x3002;</li>
 <li>Result
-&#x5F53;&#x4EFB;&#x52A1;&#x6267;&#x884C;&#x5B8C;&#x6BD5;&#x540E;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x5BF9;&#x7ED3;&#x679C;&#x8FDB;&#x884C;&#x8FD4;&#x56DE;&#xFF0C;&#x5219;&#x4F7F;&#x7528;&#x8FD9;&#x91CC;&#x6307;&#x5B9A;&#x7684;&#x6CDB;&#x578B;&#x4F5C;&#x4E3A;&#x8FD4;&#x56DE;&#x503C;&#x7C7B;&#x578B;&#x3002;</li>
+&#x7576;&#x4EFB;&#x52D9;&#x57F7;&#x884C;&#x5B8C;&#x7562;&#x5F8C;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x5C0D;&#x7D50;&#x679C;&#x9032;&#x884C;&#x8FD4;&#x56DE;&#xFF0C;&#x5247;&#x4F7F;&#x7528;&#x9019;&#x88E1;&#x6307;&#x5B9A;&#x7684;&#x6CDB;&#x578B;&#x4F5C;&#x70BA;&#x8FD4;&#x56DE;&#x503C;&#x985E;&#x578B;&#x3002;</li>
 </ul>
-<h3 id="&#x7ECF;&#x5E38;&#x9700;&#x8981;&#x53BB;&#x91CD;&#x5199;&#x7684;&#x65B9;&#x6CD5;&#x6709;&#x4EE5;&#x4E0B;&#x56DB;&#x4E2A;&#xFF1A;">&#x7ECF;&#x5E38;&#x9700;&#x8981;&#x53BB;&#x91CD;&#x5199;&#x7684;&#x65B9;&#x6CD5;&#x6709;&#x4EE5;&#x4E0B;&#x56DB;&#x4E2A;&#xFF1A;</h3>
+<h3 id="&#x7D93;&#x5E38;&#x9700;&#x8981;&#x53BB;&#x91CD;&#x5BEB;&#x7684;&#x65B9;&#x6CD5;&#x6709;&#x4EE5;&#x4E0B;&#x56DB;&#x500B;&#xFF1A;">&#x7D93;&#x5E38;&#x9700;&#x8981;&#x53BB;&#x91CD;&#x5BEB;&#x7684;&#x65B9;&#x6CD5;&#x6709;&#x4EE5;&#x4E0B;&#x56DB;&#x500B;&#xFF1A;</h3>
 <ul>
 <li><p>onPreExecute()
-&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x4F1A;&#x5728;&#x540E;&#x53F0;&#x4EFB;&#x52A1;&#x5F00;&#x59CB;&#x6267;&#x884C;&#x4E4B;&#x95F4;&#x8C03;&#x7528;&#xFF0C;&#x7528;&#x4E8E;&#x8FDB;&#x884C;&#x4E00;&#x4E9B;&#x754C;&#x9762;&#x4E0A;&#x7684;&#x521D;&#x59CB;&#x5316;&#x64CD;&#x4F5C;&#xFF0C;&#x6BD4;&#x5982;&#x663E;&#x793A;&#x4E00;&#x4E2A;&#x8FDB;&#x5EA6;&#x6761;&#x5BF9;&#x8BDD;&#x6846;&#x7B49;&#x3002;</p>
+&#x9019;&#x500B;&#x65B9;&#x6CD5;&#x6703;&#x5728;&#x5F8C;&#x81FA;&#x4EFB;&#x52D9;&#x958B;&#x59CB;&#x57F7;&#x884C;&#x4E4B;&#x9593;&#x8ABF;&#x7528;&#xFF0C;&#x7528;&#x65BC;&#x9032;&#x884C;&#x4E00;&#x4E9B;&#x754C;&#x9762;&#x4E0A;&#x7684;&#x521D;&#x59CB;&#x5316;&#x64CD;&#x4F5C;&#xFF0C;&#x6BD4;&#x5982;&#x986F;&#x793A;&#x4E00;&#x500B;&#x9032;&#x5EA6;&#x689D;&#x5C0D;&#x8A71;&#x6846;&#x7B49;&#x3002;</p>
 </li>
 <li><p>doInBackground(Params...)
-&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x4EE3;&#x7801;&#x90FD;&#x4F1A;&#x5728;&#x5B50;&#x7EBF;&#x7A0B;&#x4E2D;&#x8FD0;&#x884C;&#xFF0C;&#x6211;&#x4EEC;&#x5E94;&#x8BE5;&#x5728;&#x8FD9;&#x91CC;&#x53BB;&#x5904;&#x7406;&#x6240;&#x6709;&#x7684;&#x8017;&#x65F6;&#x4EFB;&#x52A1;&#x3002;&#x4EFB;&#x52A1;&#x4E00;&#x65E6;&#x5B8C;&#x6210;&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;return&#x8BED;&#x53E5;&#x6765;&#x5C06;&#x4EFB;&#x52A1;&#x7684;&#x6267;&#x884C;&#x7ED3;&#x679C;&#x8FDB;&#x884C;&#x8FD4;&#x56DE;&#xFF0C;&#x5982;&#x679C;AsyncTask&#x7684;&#x7B2C;&#x4E09;&#x4E2A;&#x6CDB;&#x578B;&#x53C2;&#x6570;&#x6307;&#x5B9A;&#x7684;&#x662F;Void&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4E0D;&#x8FD4;&#x56DE;&#x4EFB;&#x52A1;&#x6267;&#x884C;&#x7ED3;&#x679C;&#x3002;&#x6CE8;&#x610F;&#xFF0C;&#x5728;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x4E2D;&#x662F;&#x4E0D;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;UI&#x64CD;&#x4F5C;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x66F4;&#x65B0;UI&#x5143;&#x7D20;&#xFF0C;&#x6BD4;&#x5982;&#x8BF4;&#x53CD;&#x9988;&#x5F53;&#x524D;&#x4EFB;&#x52A1;&#x7684;&#x6267;&#x884C;&#x8FDB;&#x5EA6;&#xFF0C;&#x53EF;&#x4EE5;&#x8C03;&#x7528;publishProgress(Progress...)&#x65B9;&#x6CD5;&#x6765;&#x5B8C;&#x6210;&#x3002;</p>
+&#x9019;&#x500B;&#x65B9;&#x6CD5;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x4EE3;&#x78BC;&#x90FD;&#x6703;&#x5728;&#x5B50;&#x7DDA;&#x7A0B;&#x4E2D;&#x904B;&#x884C;&#xFF0C;&#x6211;&#x5011;&#x61C9;&#x8A72;&#x5728;&#x9019;&#x88E1;&#x53BB;&#x8655;&#x7406;&#x6240;&#x6709;&#x7684;&#x8017;&#x6642;&#x4EFB;&#x52D9;&#x3002;&#x4EFB;&#x52D9;&#x4E00;&#x65E6;&#x5B8C;&#x6210;&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x904E;return&#x8A9E;&#x53E5;&#x4F86;&#x5C07;&#x4EFB;&#x52D9;&#x7684;&#x57F7;&#x884C;&#x7D50;&#x679C;&#x9032;&#x884C;&#x8FD4;&#x56DE;&#xFF0C;&#x5982;&#x679C;AsyncTask&#x7684;&#x7B2C;&#x4E09;&#x500B;&#x6CDB;&#x578B;&#x53C3;&#x6578;&#x6307;&#x5B9A;&#x7684;&#x662F;Void&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4E0D;&#x8FD4;&#x56DE;&#x4EFB;&#x52D9;&#x57F7;&#x884C;&#x7D50;&#x679C;&#x3002;&#x6CE8;&#x610F;&#xFF0C;&#x5728;&#x9019;&#x500B;&#x65B9;&#x6CD5;&#x4E2D;&#x662F;&#x4E0D;&#x53EF;&#x4EE5;&#x9032;&#x884C;UI&#x64CD;&#x4F5C;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x66F4;&#x65B0;UI&#x5143;&#x7D20;&#xFF0C;&#x6BD4;&#x5982;&#x8AAA;&#x53CD;&#x994B;&#x7576;&#x524D;&#x4EFB;&#x52D9;&#x7684;&#x57F7;&#x884C;&#x9032;&#x5EA6;&#xFF0C;&#x53EF;&#x4EE5;&#x8ABF;&#x7528;publishProgress(Progress...)&#x65B9;&#x6CD5;&#x4F86;&#x5B8C;&#x6210;&#x3002;</p>
 </li>
 <li><p>onProgressUpdate(Progress...)
-&#x5F53;&#x5728;&#x540E;&#x53F0;&#x4EFB;&#x52A1;&#x4E2D;&#x8C03;&#x7528;&#x4E86;publishProgress(Progress...)&#x65B9;&#x6CD5;&#x540E;&#xFF0C;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x5C31;&#x5F88;&#x5FEB;&#x4F1A;&#x88AB;&#x8C03;&#x7528;&#xFF0C;&#x65B9;&#x6CD5;&#x4E2D;&#x643A;&#x5E26;&#x7684;&#x53C2;&#x6570;&#x5C31;&#x662F;&#x5728;&#x540E;&#x53F0;&#x4EFB;&#x52A1;&#x4E2D;&#x4F20;&#x9012;&#x8FC7;&#x6765;&#x7684;&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x4E2D;&#x53EF;&#x4EE5;&#x5BF9;UI&#x8FDB;&#x884C;&#x64CD;&#x4F5C;&#xFF0C;&#x5229;&#x7528;&#x53C2;&#x6570;&#x4E2D;&#x7684;&#x6570;&#x503C;&#x5C31;&#x53EF;&#x4EE5;&#x5BF9;&#x754C;&#x9762;&#x5143;&#x7D20;&#x8FDB;&#x884C;&#x76F8;&#x5E94;&#x7684;&#x66F4;&#x65B0;&#x3002;</p>
+&#x7576;&#x5728;&#x5F8C;&#x81FA;&#x4EFB;&#x52D9;&#x4E2D;&#x8ABF;&#x7528;&#x4E86;publishProgress(Progress...)&#x65B9;&#x6CD5;&#x5F8C;&#xFF0C;&#x9019;&#x500B;&#x65B9;&#x6CD5;&#x5C31;&#x5F88;&#x5FEB;&#x6703;&#x88AB;&#x8ABF;&#x7528;&#xFF0C;&#x65B9;&#x6CD5;&#x4E2D;&#x651C;&#x5E36;&#x7684;&#x53C3;&#x6578;&#x5C31;&#x662F;&#x5728;&#x5F8C;&#x81FA;&#x4EFB;&#x52D9;&#x4E2D;&#x50B3;&#x905E;&#x904E;&#x4F86;&#x7684;&#x3002;&#x5728;&#x9019;&#x500B;&#x65B9;&#x6CD5;&#x4E2D;&#x53EF;&#x4EE5;&#x5C0D;UI&#x9032;&#x884C;&#x64CD;&#x4F5C;&#xFF0C;&#x5229;&#x7528;&#x53C3;&#x6578;&#x4E2D;&#x7684;&#x6578;&#x503C;&#x5C31;&#x53EF;&#x4EE5;&#x5C0D;&#x754C;&#x9762;&#x5143;&#x7D20;&#x9032;&#x884C;&#x76F8;&#x61C9;&#x7684;&#x66F4;&#x65B0;&#x3002;</p>
 </li>
 <li><p>onPostExecute(Result)
-&#x5F53;&#x540E;&#x53F0;&#x4EFB;&#x52A1;&#x6267;&#x884C;&#x5B8C;&#x6BD5;&#x5E76;&#x901A;&#x8FC7;return&#x8BED;&#x53E5;&#x8FDB;&#x884C;&#x8FD4;&#x56DE;&#x65F6;&#xFF0C;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x5C31;&#x5F88;&#x5FEB;&#x4F1A;&#x88AB;&#x8C03;&#x7528;&#x3002;&#x8FD4;&#x56DE;&#x7684;&#x6570;&#x636E;&#x4F1A;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x4F20;&#x9012;&#x5230;&#x6B64;&#x65B9;&#x6CD5;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x8FD4;&#x56DE;&#x7684;&#x6570;&#x636E;&#x6765;&#x8FDB;&#x884C;&#x4E00;&#x4E9B;UI&#x64CD;&#x4F5C;&#xFF0C;&#x6BD4;&#x5982;&#x8BF4;&#x63D0;&#x9192;&#x4EFB;&#x52A1;&#x6267;&#x884C;&#x7684;&#x7ED3;&#x679C;&#xFF0C;&#x4EE5;&#x53CA;&#x5173;&#x95ED;&#x6389;&#x8FDB;&#x5EA6;&#x6761;&#x5BF9;&#x8BDD;&#x6846;&#x7B49;&#x3002;
-&#x6700;&#x540E;&#x5728;&#x9700;&#x8981;&#x7684;&#x5730;&#x65B9;&#x8C03;&#x7528;&#x65B9;&#x6CD5; new MyAsyncTask().execute(); &#x5C31;&#x53EF;&#x4EE5;&#x8FD0;&#x884C;&#x4E86;&#x3002;</p>
+&#x7576;&#x5F8C;&#x81FA;&#x4EFB;&#x52D9;&#x57F7;&#x884C;&#x5B8C;&#x7562;&#x4E26;&#x901A;&#x904E;return&#x8A9E;&#x53E5;&#x9032;&#x884C;&#x8FD4;&#x56DE;&#x6642;&#xFF0C;&#x9019;&#x500B;&#x65B9;&#x6CD5;&#x5C31;&#x5F88;&#x5FEB;&#x6703;&#x88AB;&#x8ABF;&#x7528;&#x3002;&#x8FD4;&#x56DE;&#x7684;&#x6578;&#x64DA;&#x6703;&#x4F5C;&#x70BA;&#x53C3;&#x6578;&#x50B3;&#x905E;&#x5230;&#x6B64;&#x65B9;&#x6CD5;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x8FD4;&#x56DE;&#x7684;&#x6578;&#x64DA;&#x4F86;&#x9032;&#x884C;&#x4E00;&#x4E9B;UI&#x64CD;&#x4F5C;&#xFF0C;&#x6BD4;&#x5982;&#x8AAA;&#x63D0;&#x9192;&#x4EFB;&#x52D9;&#x57F7;&#x884C;&#x7684;&#x7D50;&#x679C;&#xFF0C;&#x4EE5;&#x53CA;&#x95DC;&#x9589;&#x6389;&#x9032;&#x5EA6;&#x689D;&#x5C0D;&#x8A71;&#x6846;&#x7B49;&#x3002;
+&#x6700;&#x5F8C;&#x5728;&#x9700;&#x8981;&#x7684;&#x5730;&#x65B9;&#x8ABF;&#x7528;&#x65B9;&#x6CD5; new MyAsyncTask().execute(); &#x5C31;&#x53EF;&#x4EE5;&#x904B;&#x884C;&#x4E86;&#x3002;</p>
 </li>
 </ul>
-<p>&#x6700;&#x540E;&#x5728;&#x9700;&#x8981;&#x7684;&#x5730;&#x65B9;&#x8C03;&#x7528;&#x65B9;&#x6CD5; new MyAsyncTask().execute(); &#x5C31;&#x53EF;&#x4EE5;&#x8FD0;&#x884C;&#x4E86;&#x3002;</p>
-<h3 id="&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#xFF1A;">&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#xFF1A;</h3>
+<p>&#x6700;&#x5F8C;&#x5728;&#x9700;&#x8981;&#x7684;&#x5730;&#x65B9;&#x8ABF;&#x7528;&#x65B9;&#x6CD5; new MyAsyncTask().execute(); &#x5C31;&#x53EF;&#x4EE5;&#x904B;&#x884C;&#x4E86;&#x3002;</p>
+<h3 id="&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#xFF1A;">&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#xFF1A;</h3>
 <ul>
-<li><p>&#x9996;&#x5148;&#xFF0C;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x6240;&#x6709;&#x7684; AsyncTask &#x4EFB;&#x52A1;&#x90FD;&#x662F;&#x88AB;&#x7EBF;&#x6027;&#x8C03;&#x5EA6;&#x6267;&#x884C;&#x7684;&#xFF0C;&#x4ED6;&#x4EEC;&#x5904;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x4EFB;&#x52A1;&#x961F;&#x5217;&#x5F53;&#x4E2D;&#xFF0C;&#x6309;&#x987A;&#x5E8F;&#x9010;&#x4E2A;&#x6267;&#x884C;&#x3002;&#x5047;&#x8BBE;&#x4F60;&#x6309;&#x7167;&#x987A;&#x5E8F;&#x542F;&#x52A8;20&#x4E2A; AsyncTask&#xFF0C;&#x4E00;&#x65E6;&#x5176;&#x4E2D;&#x7684;&#x67D0;&#x4E2A; AsyncTask &#x6267;&#x884C;&#x65F6;&#x95F4;&#x8FC7;&#x957F;&#xFF0C;&#x961F;&#x5217;&#x4E2D;&#x7684;&#x5176;&#x4ED6;&#x5269;&#x4F59; AsyncTask &#x90FD;&#x5904;&#x4E8E;&#x963B;&#x585E;&#x72B6;&#x6001;&#xFF0C;&#x5FC5;&#x987B;&#x7B49;&#x5230;&#x8BE5;&#x4EFB;&#x52A1;&#x6267;&#x884C;&#x5B8C;&#x6BD5;&#x4E4B;&#x540E;&#x624D;&#x80FD;&#x591F;&#x6709;&#x673A;&#x4F1A;&#x6267;&#x884C;&#x4E0B;&#x4E00;&#x4E2A;&#x4EFB;&#x52A1;&#x3002;<code>&#x4E3A;&#x4E86;&#x89E3;&#x51B3;&#x4E0A;&#x9762;&#x63D0;&#x5230;&#x7684;&#x7EBF;&#x6027;&#x961F;&#x5217;&#x7B49;&#x5F85;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; AsyncTask.executeOnExecutor()&#x5F3A;&#x5236;&#x6307;&#x5B9A; AsyncTask &#x4F7F;&#x7528;&#x7EBF;&#x7A0B;&#x6C60;&#x5E76;&#x53D1;&#x8C03;&#x5EA6;&#x4EFB;&#x52A1;&#x3002;</code></p>
+<li><p>&#x9996;&#x5148;&#xFF0C;&#x9ED8;&#x8A8D;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x6240;&#x6709;&#x7684; AsyncTask &#x4EFB;&#x52D9;&#x90FD;&#x662F;&#x88AB;&#x7DDA;&#x6027;&#x8ABF;&#x5EA6;&#x57F7;&#x884C;&#x7684;&#xFF0C;&#x4ED6;&#x5011;&#x8655;&#x5728;&#x540C;&#x4E00;&#x500B;&#x4EFB;&#x52D9;&#x968A;&#x5217;&#x7576;&#x4E2D;&#xFF0C;&#x6309;&#x9806;&#x5E8F;&#x9010;&#x500B;&#x57F7;&#x884C;&#x3002;&#x5047;&#x8A2D;&#x4F60;&#x6309;&#x7167;&#x9806;&#x5E8F;&#x555F;&#x52D5;20&#x500B; AsyncTask&#xFF0C;&#x4E00;&#x65E6;&#x5176;&#x4E2D;&#x7684;&#x67D0;&#x500B; AsyncTask &#x57F7;&#x884C;&#x6642;&#x9593;&#x904E;&#x9577;&#xFF0C;&#x968A;&#x5217;&#x4E2D;&#x7684;&#x5176;&#x4ED6;&#x5269;&#x9918; AsyncTask &#x90FD;&#x8655;&#x65BC;&#x963B;&#x585E;&#x72C0;&#x614B;&#xFF0C;&#x5FC5;&#x9808;&#x7B49;&#x5230;&#x8A72;&#x4EFB;&#x52D9;&#x57F7;&#x884C;&#x5B8C;&#x7562;&#x4E4B;&#x5F8C;&#x624D;&#x80FD;&#x5920;&#x6709;&#x6A5F;&#x6703;&#x57F7;&#x884C;&#x4E0B;&#x4E00;&#x500B;&#x4EFB;&#x52D9;&#x3002;<code>&#x70BA;&#x4E86;&#x89E3;&#x6C7A;&#x4E0A;&#x9762;&#x63D0;&#x5230;&#x7684;&#x7DDA;&#x6027;&#x968A;&#x5217;&#x7B49;&#x5F85;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; AsyncTask.executeOnExecutor()&#x5F37;&#x5236;&#x6307;&#x5B9A; AsyncTask &#x4F7F;&#x7528;&#x7DDA;&#x7A0B;&#x6C60;&#x4F75;&#x767C;&#x8ABF;&#x5EA6;&#x4EFB;&#x52D9;&#x3002;</code></p>
 </li>
-<li><p>&#x5176;&#x6B21;&#xFF0C;&#x5982;&#x4F55;&#x624D;&#x80FD;&#x591F;&#x771F;&#x6B63;&#x7684;&#x53D6;&#x6D88;&#x4E00;&#x4E2A; AsyncTask &#x7684;&#x6267;&#x884C;&#x5462;&#xFF1F;&#x6211;&#x4EEC;&#x77E5;&#x9053; AsyncTaks &#x6709;&#x63D0;&#x4F9B; cancel()&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x4F46;&#x662F;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x5B9E;&#x9645;&#x4E0A;&#x505A;&#x4E86;&#x4EC0;&#x4E48;&#x4E8B;&#x60C5;&#x5462;&#xFF1F;&#x7EBF;&#x7A0B;&#x672C;&#x8EAB;&#x5E76;&#x4E0D;&#x5177;&#x5907;&#x4E2D;&#x6B62;&#x6B63;&#x5728;&#x6267;&#x884C;&#x7684;&#x4EE3;&#x7801;&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x4E3A;&#x4E86;&#x80FD;&#x591F;&#x8BA9;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x66F4;&#x65E9;&#x7684;&#x88AB;&#x9500;&#x6BC1;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5728; doInBackground()&#x7684;&#x4EE3;&#x7801;&#x4E2D;&#x4E0D;&#x65AD;&#x7684;&#x6DFB;&#x52A0;&#x7A0B;&#x5E8F;&#x662F;&#x5426;&#x88AB;&#x4E2D;&#x6B62;&#x7684;&#x5224;&#x65AD;&#x903B;&#x8F91;&#x3002;&#x4E00;&#x65E6;&#x4EFB;&#x52A1;&#x88AB;&#x6210;&#x529F;&#x4E2D;&#x6B62;&#xFF0C;AsyncTask &#x5C31;&#x4E0D;&#x4F1A;&#x7EE7;&#x7EED;&#x8C03;&#x7528; onPostExecute()&#xFF0C;&#x800C;&#x662F;&#x901A;&#x8FC7;&#x8C03;&#x7528; onCancelled()&#x7684;&#x56DE;&#x8C03;&#x65B9;&#x6CD5;&#x53CD;&#x9988;&#x4EFB;&#x52A1;&#x6267;&#x884C;&#x53D6;&#x6D88;&#x7684;&#x7ED3;&#x679C;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x6839;&#x636E;&#x4EFB;&#x52A1;&#x56DE;&#x8C03;&#x5230;&#x54EA;&#x4E2A;&#x65B9;&#x6CD5;&#xFF08;&#x662F; onPostExecute &#x8FD8;&#x662F; onCancelled&#xFF09;&#x6765;&#x51B3;&#x5B9A;&#x662F;&#x5BF9; UI &#x8FDB;&#x884C;&#x6B63;&#x5E38;&#x7684;&#x66F4;&#x65B0;&#x8FD8;&#x662F;&#x628A;&#x5BF9;&#x5E94;&#x7684;&#x4EFB;&#x52A1;&#x6240;&#x5360;&#x7528;&#x7684;&#x5185;&#x5B58;&#x8FDB;&#x884C;&#x9500;&#x6BC1;&#x7B49;&#x3002;</p>
+<li><p>&#x5176;&#x6B21;&#xFF0C;&#x5982;&#x4F55;&#x624D;&#x80FD;&#x5920;&#x771F;&#x6B63;&#x7684;&#x53D6;&#x6D88;&#x4E00;&#x500B; AsyncTask &#x7684;&#x57F7;&#x884C;&#x5462;&#xFF1F;&#x6211;&#x5011;&#x77E5;&#x9053; AsyncTaks &#x6709;&#x63D0;&#x4F9B; cancel()&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x4F46;&#x662F;&#x9019;&#x500B;&#x65B9;&#x6CD5;&#x5BE6;&#x969B;&#x4E0A;&#x505A;&#x4E86;&#x4EC0;&#x9EBC;&#x4E8B;&#x60C5;&#x5462;&#xFF1F;&#x7DDA;&#x7A0B;&#x672C;&#x8EAB;&#x4E26;&#x4E0D;&#x5177;&#x5099;&#x4E2D;&#x6B62;&#x6B63;&#x5728;&#x57F7;&#x884C;&#x7684;&#x4EE3;&#x78BC;&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x70BA;&#x4E86;&#x80FD;&#x5920;&#x8B93;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x66F4;&#x65E9;&#x7684;&#x88AB;&#x92B7;&#x71EC;&#xFF0C;&#x6211;&#x5011;&#x9700;&#x8981;&#x5728; doInBackground()&#x7684;&#x4EE3;&#x78BC;&#x4E2D;&#x4E0D;&#x65B7;&#x7684;&#x6DFB;&#x52A0;&#x7A0B;&#x5E8F;&#x662F;&#x5426;&#x88AB;&#x4E2D;&#x6B62;&#x7684;&#x5224;&#x65B7;&#x908F;&#x8F2F;&#x3002;&#x4E00;&#x65E6;&#x4EFB;&#x52D9;&#x88AB;&#x6210;&#x529F;&#x4E2D;&#x6B62;&#xFF0C;AsyncTask &#x5C31;&#x4E0D;&#x6703;&#x7E7C;&#x7E8C;&#x8ABF;&#x7528; onPostExecute()&#xFF0C;&#x800C;&#x662F;&#x901A;&#x904E;&#x8ABF;&#x7528; onCancelled()&#x7684;&#x56DE;&#x8ABF;&#x65B9;&#x6CD5;&#x53CD;&#x994B;&#x4EFB;&#x52D9;&#x57F7;&#x884C;&#x53D6;&#x6D88;&#x7684;&#x7D50;&#x679C;&#x3002;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x6839;&#x64DA;&#x4EFB;&#x52D9;&#x56DE;&#x8ABF;&#x5230;&#x54EA;&#x500B;&#x65B9;&#x6CD5;&#xFF08;&#x662F; onPostExecute &#x9084;&#x662F; onCancelled&#xFF09;&#x4F86;&#x6C7A;&#x5B9A;&#x662F;&#x5C0D; UI &#x9032;&#x884C;&#x6B63;&#x5E38;&#x7684;&#x66F4;&#x65B0;&#x9084;&#x662F;&#x628A;&#x5C0D;&#x61C9;&#x7684;&#x4EFB;&#x52D9;&#x6240;&#x4F54;&#x7528;&#x7684;&#x5167;&#x5B58;&#x9032;&#x884C;&#x92B7;&#x71EC;&#x7B49;&#x3002;</p>
 </li>
-<li><p>&#x6700;&#x540E;&#xFF0C;&#x4F7F;&#x7528; AsyncTask &#x5F88;&#x5BB9;&#x6613;&#x5BFC;&#x81F4;&#x5185;&#x5B58;&#x6CC4;&#x6F0F;&#xFF0C;&#x4E00;&#x65E6;&#x628A; AsyncTask &#x5199;&#x6210; Activity &#x7684;&#x5185;&#x90E8;&#x7C7B;&#x7684;&#x5F62;&#x5F0F;&#x5C31;&#x5F88;&#x5BB9;&#x6613;&#x56E0;&#x4E3A; AsyncTask &#x751F;&#x547D;&#x5468;&#x671F;&#x7684;&#x4E0D;&#x786E;&#x5B9A;&#x800C;&#x5BFC;&#x81F4; Activity &#x53D1;&#x751F;&#x6CC4;&#x6F0F;&#x3002;</p>
+<li><p>&#x6700;&#x5F8C;&#xFF0C;&#x4F7F;&#x7528; AsyncTask &#x5F88;&#x5BB9;&#x6613;&#x5C0E;&#x81F4;&#x5167;&#x5B58;&#x6D29;&#x6F0F;&#xFF0C;&#x4E00;&#x65E6;&#x628A; AsyncTask &#x5BEB;&#x6210; Activity &#x7684;&#x5167;&#x90E8;&#x985E;&#x7684;&#x5F62;&#x5F0F;&#x5C31;&#x5F88;&#x5BB9;&#x6613;&#x56E0;&#x70BA; AsyncTask &#x751F;&#x547D;&#x9031;&#x671F;&#x7684;&#x4E0D;&#x78BA;&#x5B9A;&#x800C;&#x5C0E;&#x81F4; Activity &#x767C;&#x751F;&#x6D29;&#x6F0F;&#x3002;</p>
 </li>
 </ul>
-<p>&#x7EFC;&#x4E0A;&#x6240;&#x8FF0;&#xFF0C;AsyncTask &#x867D;&#x7136;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x79CD;&#x7B80;&#x5355;&#x4FBF;&#x6377;&#x7684;&#x5F02;&#x6B65;&#x673A;&#x5236;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x4EEC;&#x8FD8;&#x662F;&#x5F88;&#x6709;&#x5FC5;&#x8981;&#x7279;&#x522B;&#x5173;&#x6CE8;&#x5230;&#x4ED6;&#x7684;&#x7F3A;&#x70B9;&#xFF0C;&#x907F;&#x514D;&#x51FA;&#x73B0;&#x56E0;&#x4E3A;&#x4F7F;&#x7528;&#x9519;&#x8BEF;&#x800C;&#x5BFC;&#x81F4;&#x7684;&#x4E25;&#x91CD;&#x7CFB;&#x7EDF;&#x6027;&#x80FD;&#x95EE;&#x9898;&#x3002;</p>
+<p>&#x7D9C;&#x4E0A;&#x6240;&#x8FF0;&#xFF0C;AsyncTask &#x96D6;&#x7136;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x7A2E;&#x7C21;&#x55AE;&#x4FBF;&#x6377;&#x7684;&#x7570;&#x6B65;&#x6A5F;&#x5236;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x5011;&#x9084;&#x662F;&#x5F88;&#x6709;&#x5FC5;&#x8981;&#x7279;&#x5225;&#x95DC;&#x6CE8;&#x5230;&#x4ED6;&#x7684;&#x7F3A;&#x9EDE;&#xFF0C;&#x907F;&#x514D;&#x51FA;&#x73FE;&#x56E0;&#x70BA;&#x4F7F;&#x7528;&#x932F;&#x8AA4;&#x800C;&#x5C0E;&#x81F4;&#x7684;&#x56B4;&#x91CD;&#x7CFB;&#x7D71;&#x6027;&#x80FD;&#x554F;&#x984C;&#x3002;</p>
 <h2 id="2-handlerthread">2. HandlerThread</h2>
-<h3 id="&#x4F7F;&#x7528;&#x573A;&#x666F;&#xFF1A;">&#x4F7F;&#x7528;&#x573A;&#x666F;&#xFF1A;</h3>
-<p>&#x4E3A;&#x67D0;&#x4E9B;&#x56DE;&#x8C03;&#x65B9;&#x6CD5;&#x6216;&#x8005;&#x7B49;&#x5F85;&#x67D0;&#x4E9B;&#x4EFB;&#x52A1;&#x7684;&#x6267;&#x884C;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x4E13;&#x5C5E;&#x7684;&#x7EBF;&#x7A0B;&#xFF0C;&#x5E76;&#x63D0;&#x4F9B;&#x7EBF;&#x7A0B;&#x4EFB;&#x52A1;&#x7684;&#x8C03;&#x5EA6;&#x673A;&#x5236;&#x3002;</p>
-<p>&#x5927;&#x591A;&#x6570;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;AsyncTask &#x90FD;&#x80FD;&#x591F;&#x6EE1;&#x8DB3;&#x591A;&#x7EBF;&#x7A0B;&#x5E76;&#x53D1;&#x7684;&#x573A;&#x666F;&#x9700;&#x8981;&#xFF08;&#x5728;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x6267;&#x884C;&#x4EFB;&#x52A1;&#x5E76;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x5230;&#x4E3B;&#x7EBF;&#x7A0B;&#xFF09;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x5E76;&#x4E0D;&#x662F;&#x4E07;&#x80FD;&#x7684;&#x3002;&#x4F8B;&#x5982;&#x6253;&#x5F00;&#x76F8;&#x673A;&#x4E4B;&#x540E;&#x7684;&#x9884;&#x89C8;&#x5E27;&#x6570;&#x636E;&#x662F;&#x901A;&#x8FC7; onPreviewFrame()&#x7684;&#x65B9;&#x6CD5;&#x8FDB;&#x884C;&#x56DE;&#x8C03;&#x7684;&#xFF0C;onPreviewFrame()&#x548C; open()&#x76F8;&#x673A;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x6267;&#x884C;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x7684;&#x3002;&#x5982;&#x679C;&#x4F7F;&#x7528; AsyncTask&#xFF0C;&#x4F1A;&#x56E0;&#x4E3A; AsyncTask &#x9ED8;&#x8BA4;&#x7684;&#x7EBF;&#x6027;&#x6267;&#x884C;&#x7684;&#x7279;&#x6027;(&#x5373;&#x4F7F;&#x6362;&#x6210;&#x5E76;&#x53D1;&#x6267;&#x884C;)&#x4F1A;&#x5BFC;&#x81F4;&#x56E0;&#x4E3A;&#x65E0;&#x6CD5;&#x628A;&#x4EFB;&#x52A1;&#x53CA;&#x65F6;&#x4F20;&#x9012;&#x7ED9;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x800C;&#x5BFC;&#x81F4;&#x4EFB;&#x52A1;&#x5728;&#x4E3B;&#x7EBF;&#x7A0B;&#x4E2D;&#x88AB;&#x5EF6;&#x8FDF;&#xFF0C;&#x76F4;&#x5230;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x7A7A;&#x95F2;&#xFF0C;&#x624D;&#x53EF;&#x4EE5;&#x628A;&#x4EFB;&#x52A1;&#x5207;&#x6362;&#x5230;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x4E2D;&#x8FDB;&#x884C;&#x6267;&#x884C;&#x3002;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7684;&#x662F;&#x4E00;&#x4E2A;&#x6267;&#x884C;&#x5728;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#xFF0C;&#x540C;&#x65F6;&#x53C8;&#x80FD;&#x591F;&#x5904;&#x7406;&#x961F;&#x5217;&#x4E2D;&#x7684;&#x590D;&#x6742;&#x4EFB;&#x52A1;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x800C; HandlerThread &#x7684;&#x51FA;&#x73B0;&#x5C31;&#x662F;&#x4E3A;&#x4E86;&#x5B9E;&#x73B0;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x7684;&#xFF0C;&#x5B83;&#x7EC4;&#x5408;&#x4E86; Handler&#xFF0C;MessageQueue&#xFF0C;Looper &#x5B9E;&#x73B0;&#x4E86;&#x4E00;&#x4E2A;&#x957F;&#x65F6;&#x95F4;&#x8FD0;&#x884C;&#x7684;&#x7EBF;&#x7A0B;&#xFF0C;&#x4E0D;&#x65AD;&#x7684;&#x4ECE;&#x961F;&#x5217;&#x4E2D;&#x83B7;&#x53D6;&#x4EFB;&#x52A1;&#x8FDB;&#x884C;&#x6267;&#x884C;&#x7684;&#x529F;&#x80FD;&#x3002;</p>
+<h3 id="&#x4F7F;&#x7528;&#x5834;&#x666F;&#xFF1A;">&#x4F7F;&#x7528;&#x5834;&#x666F;&#xFF1A;</h3>
+<p>&#x70BA;&#x67D0;&#x4E9B;&#x56DE;&#x8ABF;&#x65B9;&#x6CD5;&#x6216;&#x8005;&#x7B49;&#x5F85;&#x67D0;&#x4E9B;&#x4EFB;&#x52D9;&#x7684;&#x57F7;&#x884C;&#x8A2D;&#x7F6E;&#x4E00;&#x500B;&#x5C08;&#x5C6C;&#x7684;&#x7DDA;&#x7A0B;&#xFF0C;&#x4E26;&#x63D0;&#x4F9B;&#x7DDA;&#x7A0B;&#x4EFB;&#x52D9;&#x7684;&#x8ABF;&#x5EA6;&#x6A5F;&#x5236;&#x3002;</p>
+<p>&#x5927;&#x591A;&#x6578;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;AsyncTask &#x90FD;&#x80FD;&#x5920;&#x6EFF;&#x8DB3;&#x591A;&#x7DDA;&#x7A0B;&#x4F75;&#x767C;&#x7684;&#x5834;&#x666F;&#x9700;&#x8981;&#xFF08;&#x5728;&#x5DE5;&#x4F5C;&#x7DDA;&#x7A0B;&#x57F7;&#x884C;&#x4EFB;&#x52D9;&#x4E26;&#x8FD4;&#x56DE;&#x7D50;&#x679C;&#x5230;&#x4E3B;&#x7DDA;&#x7A0B;&#xFF09;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x4E26;&#x4E0D;&#x662F;&#x842C;&#x80FD;&#x7684;&#x3002;&#x4F8B;&#x5982;&#x6253;&#x958B;&#x76F8;&#x6A5F;&#x4E4B;&#x5F8C;&#x7684;&#x9810;&#x89BD;&#x5E40;&#x6578;&#x64DA;&#x662F;&#x901A;&#x904E; onPreviewFrame()&#x7684;&#x65B9;&#x6CD5;&#x9032;&#x884C;&#x56DE;&#x8ABF;&#x7684;&#xFF0C;onPreviewFrame()&#x548C; open()&#x76F8;&#x6A5F;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x57F7;&#x884C;&#x5728;&#x540C;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x7684;&#x3002;&#x5982;&#x679C;&#x4F7F;&#x7528; AsyncTask&#xFF0C;&#x6703;&#x56E0;&#x70BA; AsyncTask &#x9ED8;&#x8A8D;&#x7684;&#x7DDA;&#x6027;&#x57F7;&#x884C;&#x7684;&#x7279;&#x6027;(&#x5373;&#x4F7F;&#x63DB;&#x6210;&#x4F75;&#x767C;&#x57F7;&#x884C;)&#x6703;&#x5C0E;&#x81F4;&#x56E0;&#x70BA;&#x7121;&#x6CD5;&#x628A;&#x4EFB;&#x52D9;&#x53CA;&#x6642;&#x50B3;&#x905E;&#x7D66;&#x5DE5;&#x4F5C;&#x7DDA;&#x7A0B;&#x800C;&#x5C0E;&#x81F4;&#x4EFB;&#x52D9;&#x5728;&#x4E3B;&#x7DDA;&#x7A0B;&#x4E2D;&#x88AB;&#x5EF6;&#x9072;&#xFF0C;&#x76F4;&#x5230;&#x5DE5;&#x4F5C;&#x7DDA;&#x7A0B;&#x7A7A;&#x9592;&#xFF0C;&#x624D;&#x53EF;&#x4EE5;&#x628A;&#x4EFB;&#x52D9;&#x5207;&#x63DB;&#x5230;&#x5DE5;&#x4F5C;&#x7DDA;&#x7A0B;&#x4E2D;&#x9032;&#x884C;&#x57F7;&#x884C;&#x3002;&#x6240;&#x4EE5;&#x6211;&#x5011;&#x9700;&#x8981;&#x7684;&#x662F;&#x4E00;&#x500B;&#x57F7;&#x884C;&#x5728;&#x5DE5;&#x4F5C;&#x7DDA;&#x7A0B;&#xFF0C;&#x540C;&#x6642;&#x53C8;&#x80FD;&#x5920;&#x8655;&#x7406;&#x968A;&#x5217;&#x4E2D;&#x7684;&#x8907;&#x96DC;&#x4EFB;&#x52D9;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x800C; HandlerThread &#x7684;&#x51FA;&#x73FE;&#x5C31;&#x662F;&#x70BA;&#x4E86;&#x5BE6;&#x73FE;&#x9019;&#x500B;&#x529F;&#x80FD;&#x7684;&#xFF0C;&#x5B83;&#x7D44;&#x5408;&#x4E86; Handler&#xFF0C;MessageQueue&#xFF0C;Looper &#x5BE6;&#x73FE;&#x4E86;&#x4E00;&#x500B;&#x9577;&#x6642;&#x9593;&#x904B;&#x884C;&#x7684;&#x7DDA;&#x7A0B;&#xFF0C;&#x4E0D;&#x65B7;&#x7684;&#x5F9E;&#x968A;&#x5217;&#x4E2D;&#x7372;&#x53D6;&#x4EFB;&#x52D9;&#x9032;&#x884C;&#x57F7;&#x884C;&#x7684;&#x529F;&#x80FD;&#x3002;</p>
 <h3 id="&#x57FA;&#x672C;&#x7528;&#x6CD5;&#xFF1A;">&#x57FA;&#x672C;&#x7528;&#x6CD5;&#xFF1A;</h3>
-<p>HandlerThread &#x7EE7;&#x627F;&#x4E8E; Thread,&#x5B83;&#x672C;&#x8D28;&#x4E0A;&#x662F;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#xFF0C;&#x53EA;&#x4E0D;&#x8FC7;&#x662F; Android &#x4E3A;&#x6211;&#x4EEC;&#x5C01;&#x88C5;&#x597D;&#x4E86; Looper &#x548C; MessageQueue&#x7684;&#x7EBF;&#x7A0B;&#xFF0C;&#x7B80;&#x5316;&#x4E86;&#x64CD;&#x4F5C;&#x3002;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x5F88;&#x7B80;&#x5355;&#xFF1A;</p>
-<pre><code class="lang-java"><span class="hljs-comment">// &#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#xFF0C;&#x7EBF;&#x7A0B;&#x540D;&#x5B57; : handlerThreadTest</span>
+<p>HandlerThread &#x7E7C;&#x627F;&#x65BC; Thread,&#x5B83;&#x672C;&#x8CEA;&#x4E0A;&#x662F;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#xFF0C;&#x53EA;&#x4E0D;&#x904E;&#x662F; Android &#x70BA;&#x6211;&#x5011;&#x5C01;&#x88DD;&#x597D;&#x4E86; Looper &#x548C; MessageQueue&#x7684;&#x7DDA;&#x7A0B;&#xFF0C;&#x7C21;&#x5316;&#x4E86;&#x64CD;&#x4F5C;&#x3002;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x5F88;&#x7C21;&#x55AE;&#xFF1A;</p>
+<pre><code class="lang-java"><span class="hljs-comment">// &#x5275;&#x5EFA;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#xFF0C;&#x7DDA;&#x7A0B;&#x540D;&#x5B57; : handlerThreadTest</span>
 mHandlerThread = <span class="hljs-keyword">new</span> HandlerThread(<span class="hljs-string">&quot;handlerThreadTest&quot;</span>);
 mHandlerThread.start();
 
@@ -21862,44 +21862,44 @@ mHandlerThread.start();
     }
 };
 mTextView = (TextView) findViewById(R.id.text_view);
-<span class="hljs-comment">// &#x4E3B;&#x7EBF;&#x7A0B;&#x53D1;&#x51FA;&#x6D88;&#x606F;</span>
+<span class="hljs-comment">// &#x4E3B;&#x7DDA;&#x7A0B;&#x767C;&#x51FA;&#x6D88;&#x606F;</span>
 mTextView.setOnClickListener(<span class="hljs-keyword">new</span> View.OnClickListener() {
     <span class="hljs-annotation">@Override</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClick</span><span class="hljs-params">(View v)</span> </span>{
         Message msg = <span class="hljs-keyword">new</span> Message();
-        msg.obj = <span class="hljs-string">&quot;&#x7B2C;&#x4E00;&#x6761;&#x4FE1;&#x606F;&quot;</span>;
+        msg.obj = <span class="hljs-string">&quot;&#x7B2C;&#x4E00;&#x689D;&#x4FE1;&#x606F;&quot;</span>;
         mHandler.sendMessage(msg);
-        Log.e(<span class="hljs-string">&quot;Test&quot;</span>, <span class="hljs-string">&quot;&#x53D1;&#x51FA; &quot;</span> + msg.obj.toString() + <span class="hljs-string">&quot; &#x5728; &quot;</span>
+        Log.e(<span class="hljs-string">&quot;Test&quot;</span>, <span class="hljs-string">&quot;&#x767C;&#x51FA; &quot;</span> + msg.obj.toString() + <span class="hljs-string">&quot; &#x5728; &quot;</span>
               + Thread.currentThread().getName());
     }
 });
-<span class="hljs-comment">// &#x5B50;&#x7EBF;&#x7A0B;&#x53D1;&#x51FA;&#x6D88;&#x606F;</span>
+<span class="hljs-comment">// &#x5B50;&#x7DDA;&#x7A0B;&#x767C;&#x51FA;&#x6D88;&#x606F;</span>
 <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> Runnable() {
     <span class="hljs-annotation">@Override</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
         Message msg = <span class="hljs-keyword">new</span> Message();
-        msg.obj = <span class="hljs-string">&quot;&#x7B2C;&#x4E8C;&#x6761;&#x4FE1;&#x606F;&quot;</span>;
+        msg.obj = <span class="hljs-string">&quot;&#x7B2C;&#x4E8C;&#x689D;&#x4FE1;&#x606F;&quot;</span>;
         mHandler.sendMessage(msg);
-        Log.e(<span class="hljs-string">&quot;Test&quot;</span>, <span class="hljs-string">&quot;&#x53D1;&#x51FA; &quot;</span> + msg.obj.toString() + <span class="hljs-string">&quot; &#x5728; &quot;</span>
+        Log.e(<span class="hljs-string">&quot;Test&quot;</span>, <span class="hljs-string">&quot;&#x767C;&#x51FA; &quot;</span> + msg.obj.toString() + <span class="hljs-string">&quot; &#x5728; &quot;</span>
               + Thread.currentThread().getName());
     }
 }).start()&#xFF1B;
 </code></pre>
-<p>&#x6700;&#x540E;&#x5728;&#x4E0D;&#x9700;&#x8981;&#x7684;&#x65F6;&#x5019;&#x8BB0;&#x5F97;&#x8C03;&#x7528;quit();</p>
+<p>&#x6700;&#x5F8C;&#x5728;&#x4E0D;&#x9700;&#x8981;&#x7684;&#x6642;&#x5019;&#x8A18;&#x5F97;&#x8ABF;&#x7528;quit();</p>
 <pre><code class="lang-java"><span class="hljs-annotation">@Override</span>
 <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onDestroy</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-keyword">super</span>.onDestroy();
-    <span class="hljs-comment">//&#x505C;&#x6B62;&#x6D88;&#x606F;&#x5FAA;&#x73AF;</span>
+    <span class="hljs-comment">//&#x505C;&#x6B62;&#x6D88;&#x606F;&#x5FAA;&#x74B0;</span>
     mHandlerThread.quit();
 }
 </code></pre>
-<h3 id="&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#xFF1A;">&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#xFF1A;</h3>
-<p>HandlerThread &#x6BD4;&#x8F83;&#x5408;&#x9002;&#x5904;&#x7406;&#x90A3;&#x4E9B;&#x5728;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x6267;&#x884C;&#xFF0C;&#x9700;&#x8981;&#x82B1;&#x8D39;&#x65F6;&#x95F4;&#x504F;&#x957F;&#x7684;&#x4EFB;&#x52A1;&#x3002;&#x6211;&#x4EEC;&#x53EA;&#x9700;&#x8981;&#x628A;&#x4EFB;&#x52A1;&#x53D1;&#x9001;&#x7ED9; HandlerThread&#xFF0C;&#x7136;&#x540E;&#x5C31;&#x53EA;&#x9700;&#x8981;&#x7B49;&#x5F85;&#x4EFB;&#x52A1;&#x6267;&#x884C;&#x7ED3;&#x675F;&#x7684;&#x65F6;&#x5019;&#x901A;&#x77E5;&#x8FD4;&#x56DE;&#x5230;&#x4E3B;&#x7EBF;&#x7A0B;&#x5C31;&#x597D;&#x4E86;&#x3002;
-&#x53E6;&#x5916;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x4E00;&#x70B9;&#x662F;&#xFF0C;&#x4E00;&#x65E6;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x4E86; HandlerThread&#xFF0C;&#x9700;&#x8981;&#x7279;&#x522B;&#x6CE8;&#x610F;&#x7ED9; HandlerThread &#x8BBE;&#x7F6E;&#x4E0D;&#x540C;&#x7684;&#x7EBF;&#x7A0B;&#x4F18;&#x5148;&#x7EA7;&#xFF0C;CPU &#x4F1A;&#x6839;&#x636E;&#x8BBE;&#x7F6E;&#x7684;&#x4E0D;&#x540C;&#x7EBF;&#x7A0B;&#x4F18;&#x5148;&#x7EA7;&#x5BF9;&#x6240;&#x6709;&#x7684;&#x7EBF;&#x7A0B;&#x8FDB;&#x884C;&#x8C03;&#x5EA6;&#x4F18;&#x5316;&#x3002;</p>
+<h3 id="&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#xFF1A;">&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#xFF1A;</h3>
+<p>HandlerThread &#x6BD4;&#x8F03;&#x5408;&#x9069;&#x8655;&#x7406;&#x90A3;&#x4E9B;&#x5728;&#x5DE5;&#x4F5C;&#x7DDA;&#x7A0B;&#x57F7;&#x884C;&#xFF0C;&#x9700;&#x8981;&#x82B1;&#x8CBB;&#x6642;&#x9593;&#x504F;&#x9577;&#x7684;&#x4EFB;&#x52D9;&#x3002;&#x6211;&#x5011;&#x53EA;&#x9700;&#x8981;&#x628A;&#x4EFB;&#x52D9;&#x767C;&#x9001;&#x7D66; HandlerThread&#xFF0C;&#x7136;&#x5F8C;&#x5C31;&#x53EA;&#x9700;&#x8981;&#x7B49;&#x5F85;&#x4EFB;&#x52D9;&#x57F7;&#x884C;&#x7D50;&#x675F;&#x7684;&#x6642;&#x5019;&#x901A;&#x77E5;&#x8FD4;&#x56DE;&#x5230;&#x4E3B;&#x7DDA;&#x7A0B;&#x5C31;&#x597D;&#x4E86;&#x3002;
+&#x53E6;&#x5916;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x4E00;&#x9EDE;&#x662F;&#xFF0C;&#x4E00;&#x65E6;&#x6211;&#x5011;&#x4F7F;&#x7528;&#x4E86; HandlerThread&#xFF0C;&#x9700;&#x8981;&#x7279;&#x5225;&#x6CE8;&#x610F;&#x7D66; HandlerThread &#x8A2D;&#x7F6E;&#x4E0D;&#x540C;&#x7684;&#x7DDA;&#x7A0B;&#x512A;&#x5148;&#x7D1A;&#xFF0C;CPU &#x6703;&#x6839;&#x64DA;&#x8A2D;&#x7F6E;&#x7684;&#x4E0D;&#x540C;&#x7DDA;&#x7A0B;&#x512A;&#x5148;&#x7D1A;&#x5C0D;&#x6240;&#x6709;&#x7684;&#x7DDA;&#x7A0B;&#x9032;&#x884C;&#x8ABF;&#x5EA6;&#x512A;&#x5316;&#x3002;</p>
 <h2 id="3-intentserice">3. IntentSerice</h2>
-<p>&#x9ED8;&#x8BA4;&#x7684; Service &#x662F;&#x6267;&#x884C;&#x5728;&#x4E3B;&#x7EBF;&#x7A0B;&#x7684;&#xFF0C;&#x53EF;&#x662F;&#x901A;&#x5E38;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x8FD9;&#x5F88;&#x5BB9;&#x6613;&#x5F71;&#x54CD;&#x5230;&#x7A0B;&#x5E8F;&#x7684;&#x7ED8;&#x5236;&#x6027;&#x80FD;(&#x62A2;&#x5360;&#x4E86;&#x4E3B;&#x7EBF;&#x7A0B;&#x7684;&#x8D44;&#x6E90;)&#x3002;&#x9664;&#x4E86;&#x524D;&#x9762;&#x4ECB;&#x7ECD;&#x8FC7;&#x7684; AsyncTask &#x4E0E; HandlerThread&#xFF0C;&#x6211;&#x4EEC;&#x8FD8;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x4F7F;&#x7528; IntentService &#x6765;&#x5B9E;&#x73B0;&#x5F02;&#x6B65;&#x64CD;&#x4F5C;&#x3002;IntentService &#x7EE7;&#x627F;&#x81EA;&#x666E;&#x901A; Service &#x540C;&#x65F6;&#x53C8;&#x5728;&#x5185;&#x90E8;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A; HandlerThread&#xFF0C;&#x5728; onHandlerIntent()&#x7684;&#x56DE;&#x8C03;&#x91CC;&#x9762;&#x5904;&#x7406;&#x6254;&#x5230; IntentService &#x7684;&#x4EFB;&#x52A1;&#xFF0C;<code>&#x5728;&#x6267;&#x884C;&#x5B8C;&#x4EFB;&#x52A1;&#x540E;&#x4F1A;&#x81EA;&#x52A8;&#x505C;&#x6B62;&#x3002;&#x6240;&#x4EE5; IntentService &#x5C31;&#x4E0D;&#x4EC5;&#x4EC5;&#x5177;&#x5907;&#x4E86;&#x5F02;&#x6B65;&#x7EBF;&#x7A0B;&#x7684;&#x7279;&#x6027;&#xFF0C;&#x8FD8;&#x540C;&#x65F6;&#x4FDD;&#x7559;&#x4E86; Service &#x4E0D;&#x53D7;&#x4E3B;&#x9875;&#x9762;&#x751F;&#x547D;&#x5468;&#x671F;&#x5F71;&#x54CD;&#xFF0C;&#x4F18;&#x5148;&#x7EA7;&#x6BD4;&#x8F83;&#x9AD8;&#xFF0C;&#x9002;&#x5408;&#x6267;&#x884C;&#x9AD8;&#x4F18;&#x5148;&#x7EA7;&#x7684;&#x540E;&#x53F0;&#x4EFB;&#x52A1;,&#x4E0D;&#x5BB9;&#x6613;&#x88AB;&#x6740;&#x6B7B;&#x7684;&#x7279;&#x70B9;&#x3002;</code></p>
-<h3 id="&#x4F7F;&#x7528;&#x573A;&#x666F;&#xFF1A;">&#x4F7F;&#x7528;&#x573A;&#x666F;&#xFF1A;</h3>
-<p>&#x9002;&#x5408;&#x4E8E;&#x6267;&#x884C;&#x7531; UI &#x89E6;&#x53D1;&#x7684;&#x540E;&#x53F0; Service &#x4EFB;&#x52A1;&#xFF0C;&#x5E76;&#x53EF;&#x4EE5;&#x628A;&#x540E;&#x53F0;&#x4EFB;&#x52A1;&#x6267;&#x884C;&#x7684;&#x60C5;&#x51B5;&#x901A;&#x8FC7;&#x4E00;&#x5B9A;&#x7684;&#x673A;&#x5236;&#x53CD;&#x9988;&#x7ED9; UI&#x3002;</p>
+<p>&#x9ED8;&#x8A8D;&#x7684; Service &#x662F;&#x57F7;&#x884C;&#x5728;&#x4E3B;&#x7DDA;&#x7A0B;&#x7684;&#xFF0C;&#x53EF;&#x662F;&#x901A;&#x5E38;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x9019;&#x5F88;&#x5BB9;&#x6613;&#x5F71;&#x97FF;&#x5230;&#x7A0B;&#x5E8F;&#x7684;&#x7E6A;&#x88FD;&#x6027;&#x80FD;(&#x6436;&#x4F54;&#x4E86;&#x4E3B;&#x7DDA;&#x7A0B;&#x7684;&#x8CC7;&#x6E90;)&#x3002;&#x9664;&#x4E86;&#x524D;&#x9762;&#x4ECB;&#x7D39;&#x904E;&#x7684; AsyncTask &#x8207; HandlerThread&#xFF0C;&#x6211;&#x5011;&#x9084;&#x53EF;&#x4EE5;&#x9078;&#x64C7;&#x4F7F;&#x7528; IntentService &#x4F86;&#x5BE6;&#x73FE;&#x7570;&#x6B65;&#x64CD;&#x4F5C;&#x3002;IntentService &#x7E7C;&#x627F;&#x81EA;&#x666E;&#x901A; Service &#x540C;&#x6642;&#x53C8;&#x5728;&#x5167;&#x90E8;&#x5275;&#x5EFA;&#x4E86;&#x4E00;&#x500B; HandlerThread&#xFF0C;&#x5728; onHandlerIntent()&#x7684;&#x56DE;&#x8ABF;&#x88E1;&#x9762;&#x8655;&#x7406;&#x6254;&#x5230; IntentService &#x7684;&#x4EFB;&#x52D9;&#xFF0C;<code>&#x5728;&#x57F7;&#x884C;&#x5B8C;&#x4EFB;&#x52D9;&#x5F8C;&#x6703;&#x81EA;&#x52D5;&#x505C;&#x6B62;&#x3002;&#x6240;&#x4EE5; IntentService &#x5C31;&#x4E0D;&#x50C5;&#x50C5;&#x5177;&#x5099;&#x4E86;&#x7570;&#x6B65;&#x7DDA;&#x7A0B;&#x7684;&#x7279;&#x6027;&#xFF0C;&#x9084;&#x540C;&#x6642;&#x4FDD;&#x7559;&#x4E86; Service &#x4E0D;&#x53D7;&#x4E3B;&#x9801;&#x9762;&#x751F;&#x547D;&#x9031;&#x671F;&#x5F71;&#x97FF;&#xFF0C;&#x512A;&#x5148;&#x7D1A;&#x6BD4;&#x8F03;&#x9AD8;&#xFF0C;&#x9069;&#x5408;&#x57F7;&#x884C;&#x9AD8;&#x512A;&#x5148;&#x7D1A;&#x7684;&#x5F8C;&#x81FA;&#x4EFB;&#x52D9;,&#x4E0D;&#x5BB9;&#x6613;&#x88AB;&#x6BBA;&#x6B7B;&#x7684;&#x7279;&#x9EDE;&#x3002;</code></p>
+<h3 id="&#x4F7F;&#x7528;&#x5834;&#x666F;&#xFF1A;">&#x4F7F;&#x7528;&#x5834;&#x666F;&#xFF1A;</h3>
+<p>&#x9069;&#x5408;&#x65BC;&#x57F7;&#x884C;&#x7531; UI &#x89F8;&#x767C;&#x7684;&#x5F8C;&#x81FA; Service &#x4EFB;&#x52D9;&#xFF0C;&#x4E26;&#x53EF;&#x4EE5;&#x628A;&#x5F8C;&#x81FA;&#x4EFB;&#x52D9;&#x57F7;&#x884C;&#x7684;&#x60C5;&#x6CC1;&#x901A;&#x904E;&#x4E00;&#x5B9A;&#x7684;&#x6A5F;&#x5236;&#x53CD;&#x994B;&#x7D66; UI&#x3002;</p>
 <h3 id="&#x57FA;&#x672C;&#x7528;&#x6CD5;&#xFF1A;">&#x57FA;&#x672C;&#x7528;&#x6CD5;&#xFF1A;</h3>
 <pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyIntentService</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">IntentService</span> </span>{
 
@@ -21923,31 +21923,31 @@ mTextView.setOnClickListener(<span class="hljs-keyword">new</span> View.OnClickL
 
     <span class="hljs-annotation">@Override</span>
     <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onHandleIntent</span><span class="hljs-params">(@Nullable Intent intent)</span> </span>{
-        <span class="hljs-comment">// &#x6267;&#x884C;&#x8017;&#x65F6;&#x64CD;&#x4F5C;</span>
+        <span class="hljs-comment">// &#x57F7;&#x884C;&#x8017;&#x6642;&#x64CD;&#x4F5C;</span>
         Message msg1 = <span class="hljs-keyword">new</span> Message();
-        msg1.obj =<span class="hljs-string">&quot;&#x6211;&#x662F;&#x8017;&#x65F6;&#x64CD;&#x4F5C;&quot;</span>;
-        <span class="hljs-comment">// &#x8C03;&#x7528;&#x56DE;&#x8C03; &#xFF08;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5E7F;&#x64AD;&#x673A;&#x5236;&#x5B8C;&#x6210;&#xFF09;</span>
+        msg1.obj =<span class="hljs-string">&quot;&#x6211;&#x662F;&#x8017;&#x6642;&#x64CD;&#x4F5C;&quot;</span>;
+        <span class="hljs-comment">// &#x8ABF;&#x7528;&#x56DE;&#x8ABF; &#xFF08;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x5EE3;&#x64AD;&#x6A5F;&#x5236;&#x5B8C;&#x6210;&#xFF09;</span>
         <span class="hljs-keyword">if</span>(updateUI != <span class="hljs-keyword">null</span>) {
             updateUI.updateUI(msg1);
         }
     }
 }
 </code></pre>
-<p>&#x6700;&#x540E; Activity &#x901A;&#x8FC7; Handler &#x83B7;&#x53D6;&#x6570;&#x636E;&#x5E76;&#x5237;&#x65B0;UI&#x3002;</p>
-<h3 id="&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#xFF1A;">&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#xFF1A;</h3>
-<p>&#x4F7F;&#x7528; IntentService &#x9700;&#x8981;&#x7279;&#x522B;&#x7559;&#x610F;&#x4EE5;&#x4E0B;&#x51E0;&#x70B9;&#xFF1A;
-&#x9996;&#x5148;&#xFF0C;&#x56E0;&#x4E3A; IntentService &#x5185;&#x7F6E;&#x7684;&#x662F; HandlerThread &#x4F5C;&#x4E3A;&#x5F02;&#x6B65;&#x7EBF;&#x7A0B;&#xFF0C;&#x6240;&#x4EE5;&#x6BCF;&#x4E00;&#x4E2A;&#x4EA4;&#x7ED9; IntentService &#x7684;&#x4EFB;&#x52A1;&#x90FD;&#x5C06;&#x4EE5;&#x961F;&#x5217;&#x7684;&#x65B9;&#x5F0F;&#x9010;&#x4E2A;&#x88AB;&#x6267;&#x884C;&#x5230;&#xFF0C;&#x4E00;&#x65E6;&#x961F;&#x5217;&#x4E2D;&#x6709;&#x67D0;&#x4E2A;&#x4EFB;&#x52A1;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x8FC7;&#x957F;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x4F1A;&#x5BFC;&#x81F4;&#x540E;&#x7EED;&#x7684;&#x4EFB;&#x52A1;&#x90FD;&#x4F1A;&#x88AB;&#x5EF6;&#x8FDF;&#x5904;&#x7406;&#x3002;</p>
-<p>&#x5176;&#x6B21;&#xFF0C;&#x901A;&#x5E38;&#x4F7F;&#x7528;&#x5230; IntentService &#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x7ED3;&#x5408;&#x4F7F;&#x7528; BroadcastReceiver &#x628A;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x7684;&#x4EFB;&#x52A1;&#x6267;&#x884C;&#x7ED3;&#x679C;&#x8FD4;&#x56DE;&#x7ED9;&#x4E3B; UI &#x7EBF;&#x7A0B;&#x3002;&#x4F7F;&#x7528;&#x5E7F;&#x64AD;&#x5BB9;&#x6613;&#x5F15;&#x8D77;&#x6027;&#x80FD;&#x95EE;&#x9898;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; LocalBroadcastManager &#x6765;&#x53D1;&#x9001;&#x53EA;&#x5728;&#x7A0B;&#x5E8F;&#x5185;&#x90E8;&#x4F20;&#x9012;&#x7684;&#x5E7F;&#x64AD;&#xFF0C;&#x4ECE;&#x800C;&#x63D0;&#x5347;&#x5E7F;&#x64AD;&#x7684;&#x6027;&#x80FD;&#x3002;&#x6211;&#x4EEC;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; runOnUiThread() &#x5FEB;&#x901F;&#x56DE;&#x8C03;&#x5230;&#x4E3B; UI &#x7EBF;&#x7A0B;&#x3002;</p>
-<p>&#x6700;&#x540E;&#xFF0C;&#x5305;&#x542B;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684; IntentService &#x7684;&#x7A0B;&#x5E8F;&#x76F8;&#x6BD4;&#x8D77;&#x7EAF;&#x7CB9;&#x7684;&#x540E;&#x53F0;&#x7A0B;&#x5E8F;&#x66F4;&#x4E0D;&#x5BB9;&#x6613;&#x88AB;&#x7CFB;&#x7EDF;&#x6740;&#x6B7B;&#xFF0C;&#x8BE5;&#x7A0B;&#x5E8F;&#x7684;&#x4F18;&#x5148;&#x7EA7;&#x662F;&#x4ECB;&#x4E8E;&#x524D;&#x53F0;&#x7A0B;&#x5E8F;&#x4E0E;&#x7EAF;&#x540E;&#x53F0;&#x7A0B;&#x5E8F;&#x4E4B;&#x95F4;&#x7684;&#x3002;</p>
+<p>&#x6700;&#x5F8C; Activity &#x901A;&#x904E; Handler &#x7372;&#x53D6;&#x6578;&#x64DA;&#x4E26;&#x5237;&#x65B0;UI&#x3002;</p>
+<h3 id="&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#xFF1A;">&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#xFF1A;</h3>
+<p>&#x4F7F;&#x7528; IntentService &#x9700;&#x8981;&#x7279;&#x5225;&#x7559;&#x610F;&#x4EE5;&#x4E0B;&#x5E7E;&#x9EDE;&#xFF1A;
+&#x9996;&#x5148;&#xFF0C;&#x56E0;&#x70BA; IntentService &#x5167;&#x7F6E;&#x7684;&#x662F; HandlerThread &#x4F5C;&#x70BA;&#x7570;&#x6B65;&#x7DDA;&#x7A0B;&#xFF0C;&#x6240;&#x4EE5;&#x6BCF;&#x4E00;&#x500B;&#x4EA4;&#x7D66; IntentService &#x7684;&#x4EFB;&#x52D9;&#x90FD;&#x5C07;&#x4EE5;&#x968A;&#x5217;&#x7684;&#x65B9;&#x5F0F;&#x9010;&#x500B;&#x88AB;&#x57F7;&#x884C;&#x5230;&#xFF0C;&#x4E00;&#x65E6;&#x968A;&#x5217;&#x4E2D;&#x6709;&#x67D0;&#x500B;&#x4EFB;&#x52D9;&#x57F7;&#x884C;&#x6642;&#x9593;&#x904E;&#x9577;&#xFF0C;&#x90A3;&#x9EBC;&#x5C31;&#x6703;&#x5C0E;&#x81F4;&#x5F8C;&#x7E8C;&#x7684;&#x4EFB;&#x52D9;&#x90FD;&#x6703;&#x88AB;&#x5EF6;&#x9072;&#x8655;&#x7406;&#x3002;</p>
+<p>&#x5176;&#x6B21;&#xFF0C;&#x901A;&#x5E38;&#x4F7F;&#x7528;&#x5230; IntentService &#x7684;&#x6642;&#x5019;&#xFF0C;&#x6211;&#x5011;&#x6703;&#x7D50;&#x5408;&#x4F7F;&#x7528; BroadcastReceiver &#x628A;&#x5DE5;&#x4F5C;&#x7DDA;&#x7A0B;&#x7684;&#x4EFB;&#x52D9;&#x57F7;&#x884C;&#x7D50;&#x679C;&#x8FD4;&#x56DE;&#x7D66;&#x4E3B; UI &#x7DDA;&#x7A0B;&#x3002;&#x4F7F;&#x7528;&#x5EE3;&#x64AD;&#x5BB9;&#x6613;&#x5F15;&#x8D77;&#x6027;&#x80FD;&#x554F;&#x984C;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; LocalBroadcastManager &#x4F86;&#x767C;&#x9001;&#x53EA;&#x5728;&#x7A0B;&#x5E8F;&#x5167;&#x90E8;&#x50B3;&#x905E;&#x7684;&#x5EE3;&#x64AD;&#xFF0C;&#x5F9E;&#x800C;&#x63D0;&#x5347;&#x5EE3;&#x64AD;&#x7684;&#x6027;&#x80FD;&#x3002;&#x6211;&#x5011;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; runOnUiThread() &#x5FEB;&#x901F;&#x56DE;&#x8ABF;&#x5230;&#x4E3B; UI &#x7DDA;&#x7A0B;&#x3002;</p>
+<p>&#x6700;&#x5F8C;&#xFF0C;&#x5305;&#x542B;&#x6B63;&#x5728;&#x904B;&#x884C;&#x7684; IntentService &#x7684;&#x7A0B;&#x5E8F;&#x76F8;&#x6BD4;&#x8D77;&#x7D14;&#x7CB9;&#x7684;&#x5F8C;&#x81FA;&#x7A0B;&#x5E8F;&#x66F4;&#x4E0D;&#x5BB9;&#x6613;&#x88AB;&#x7CFB;&#x7D71;&#x6BBA;&#x6B7B;&#xFF0C;&#x8A72;&#x7A0B;&#x5E8F;&#x7684;&#x512A;&#x5148;&#x7D1A;&#x662F;&#x4ECB;&#x65BC;&#x524D;&#x81FA;&#x7A0B;&#x5E8F;&#x8207;&#x7D14;&#x5F8C;&#x81FA;&#x7A0B;&#x5E8F;&#x4E4B;&#x9593;&#x7684;&#x3002;</p>
 <h2 id="4-threadpool">4. ThreadPool</h2>
-<p>&#x7CFB;&#x7EDF;&#x4E3A;&#x6211;&#x4EEC;&#x63D0;&#x4F9B;&#x4E86; ThreadPoolExecutor &#x6765;&#x5B9E;&#x73B0;&#x591A;&#x7EBF;&#x7A0B;&#x5E76;&#x53D1;&#x6267;&#x884C;&#x4EFB;&#x52A1;&#x3002;</p>
-<h3 id="&#x4F7F;&#x7528;&#x573A;&#x666F;&#xFF1A;">&#x4F7F;&#x7528;&#x573A;&#x666F;&#xFF1A;</h3>
-<p>&#x628A;&#x4EFB;&#x52A1;&#x5206;&#x89E3;&#x6210;&#x4E0D;&#x540C;&#x7684;&#x5355;&#x5143;&#xFF0C;&#x5206;&#x53D1;&#x5230;&#x5404;&#x4E2A;&#x4E0D;&#x540C;&#x7684;&#x7EBF;&#x7A0B;&#x4E0A;&#xFF0C;&#x8FDB;&#x884C;&#x540C;&#x65F6;&#x5E76;&#x53D1;&#x5904;&#x7406;&#x3002;</p>
+<p>&#x7CFB;&#x7D71;&#x70BA;&#x6211;&#x5011;&#x63D0;&#x4F9B;&#x4E86; ThreadPoolExecutor &#x4F86;&#x5BE6;&#x73FE;&#x591A;&#x7DDA;&#x7A0B;&#x4F75;&#x767C;&#x57F7;&#x884C;&#x4EFB;&#x52D9;&#x3002;</p>
+<h3 id="&#x4F7F;&#x7528;&#x5834;&#x666F;&#xFF1A;">&#x4F7F;&#x7528;&#x5834;&#x666F;&#xFF1A;</h3>
+<p>&#x628A;&#x4EFB;&#x52D9;&#x5206;&#x89E3;&#x6210;&#x4E0D;&#x540C;&#x7684;&#x55AE;&#x5143;&#xFF0C;&#x5206;&#x767C;&#x5230;&#x5404;&#x500B;&#x4E0D;&#x540C;&#x7684;&#x7DDA;&#x7A0B;&#x4E0A;&#xFF0C;&#x9032;&#x884C;&#x540C;&#x6642;&#x4F75;&#x767C;&#x8655;&#x7406;&#x3002;</p>
 <h3 id="&#x57FA;&#x672C;&#x7528;&#x6CD5;&#xFF1A;">&#x57FA;&#x672C;&#x7528;&#x6CD5;&#xFF1A;</h3>
-<p>&#x7EBF;&#x7A0B;&#x6C60;&#x6709;&#x56DB;&#x4E2A;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#xFF0C;&#x8FD9;&#x56DB;&#x4E2A;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x548B;&#x4E00;&#x770B;&#xFF0C;&#x524D;&#x9762;&#x4E09;&#x4E2A;&#x90FD;&#x662F;&#x8C03;&#x7528;&#x7B2C;&#x56DB;&#x4E2A;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x6BCF;&#x4E00;&#x4E2A;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x90FD;&#x7279;&#x522B;&#x590D;&#x6742;&#xFF0C;&#x53C2;&#x6570;&#x5F88;&#x591A;&#xFF0C;&#x4F7F;&#x7528;&#x8D77;&#x6765;&#x6BD4;&#x8F83;&#x9EBB;&#x70E6;&#x3002;</p>
-<p>&#x4E0B;&#x9762;&#x5217;&#x51FA;&#x662F;&#x56DB;&#x79CD;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#xFF0C;&#x4ECE;&#x7B80;&#x5355;&#x5230;&#x590D;&#x6742;&#xFF1A;</p>
+<p>&#x7DDA;&#x7A0B;&#x6C60;&#x6709;&#x56DB;&#x500B;&#x69CB;&#x9020;&#x65B9;&#x6CD5;&#xFF0C;&#x9019;&#x56DB;&#x500B;&#x69CB;&#x9020;&#x65B9;&#x6CD5;&#x548B;&#x4E00;&#x770B;&#xFF0C;&#x524D;&#x9762;&#x4E09;&#x500B;&#x90FD;&#x662F;&#x8ABF;&#x7528;&#x7B2C;&#x56DB;&#x500B;&#x69CB;&#x9020;&#x65B9;&#x6CD5;&#x5BE6;&#x73FE;&#x7684;&#xFF0C;&#x6BCF;&#x4E00;&#x500B;&#x69CB;&#x9020;&#x65B9;&#x6CD5;&#x90FD;&#x7279;&#x5225;&#x8907;&#x96DC;&#xFF0C;&#x53C3;&#x6578;&#x5F88;&#x591A;&#xFF0C;&#x4F7F;&#x7528;&#x8D77;&#x4F86;&#x6BD4;&#x8F03;&#x9EBB;&#x7169;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x5217;&#x51FA;&#x662F;&#x56DB;&#x7A2E;&#x69CB;&#x9020;&#x65B9;&#x6CD5;&#xFF0C;&#x5F9E;&#x7C21;&#x55AE;&#x5230;&#x8907;&#x96DC;&#xFF1A;</p>
 <ul>
-<li>&#x7B2C;&#x4E00;&#x79CD;</li>
+<li>&#x7B2C;&#x4E00;&#x7A2E;</li>
 </ul>
 <pre><code class="lang-java">ThreadPoolExecutor(
 <span class="hljs-keyword">int</span> corePoolSize, 
@@ -21958,7 +21958,7 @@ BlockingQueue&lt;Runnable&gt; workQueue
 );
 </code></pre>
 <ul>
-<li>&#x7B2C;&#x4E8C;&#x79CD;</li>
+<li>&#x7B2C;&#x4E8C;&#x7A2E;</li>
 </ul>
 <pre><code class="lang-java">ThreadPoolExecutor(
 <span class="hljs-keyword">int</span> corePoolSize, 
@@ -21970,7 +21970,7 @@ RejectedExecutionHandler handler
 );
 </code></pre>
 <ul>
-<li>&#x7B2C;&#x4E09;&#x79CD;</li>
+<li>&#x7B2C;&#x4E09;&#x7A2E;</li>
 </ul>
 <pre><code class="lang-java">ThreadPoolExecutor(
 <span class="hljs-keyword">int</span> corePoolSize, 
@@ -21982,7 +21982,7 @@ ThreadFactory threadFactory
 );
 </code></pre>
 <ul>
-<li>&#x7B2C;&#x56DB;&#x79CD;</li>
+<li>&#x7B2C;&#x56DB;&#x7A2E;</li>
 </ul>
 <pre><code class="lang-java">ThreadPoolExecutor(
 <span class="hljs-keyword">int</span> corePoolSize, 
@@ -21994,31 +21994,31 @@ ThreadFactory threadFactory,
 RejectedExecutionHandler handler
 );
 </code></pre>
-<h3 id="&#x53C2;&#x6570;&#x4F5C;&#x7528;&#xFF1A;">&#x53C2;&#x6570;&#x4F5C;&#x7528;&#xFF1A;</h3>
+<h3 id="&#x53C3;&#x6578;&#x4F5C;&#x7528;&#xFF1A;">&#x53C3;&#x6578;&#x4F5C;&#x7528;&#xFF1A;</h3>
 <ul>
 <li><p>corePoolSize:
-&#x6C60;&#x4E2D;&#x6240;&#x4FDD;&#x5B58;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#xFF0C;&#x5305;&#x62EC;&#x7A7A;&#x95F2;&#x7EBF;&#x7A0B;&#x3002;</p>
+&#x6C60;&#x4E2D;&#x6240;&#x4FDD;&#x5B58;&#x7684;&#x7DDA;&#x7A0B;&#x6578;&#xFF0C;&#x5305;&#x62EC;&#x7A7A;&#x9592;&#x7DDA;&#x7A0B;&#x3002;</p>
 </li>
 <li><p>maximumPoolSize:
-&#x6C60;&#x4E2D;&#x5141;&#x8BB8;&#x7684;&#x6700;&#x5927;&#x7EBF;&#x7A0B;&#x6570;&#x3002;</p>
+&#x6C60;&#x4E2D;&#x5141;&#x8A31;&#x7684;&#x6700;&#x5927;&#x7DDA;&#x7A0B;&#x6578;&#x3002;</p>
 </li>
 <li><p>keepAliveTime:
-&#x5F53;&#x7EBF;&#x7A0B;&#x6570;&#x5927;&#x4E8E;&#x6838;&#x5FC3;&#x65F6;&#xFF0C;&#x6B64;&#x4E3A;&#x7EC8;&#x6B62;&#x524D;&#x591A;&#x4F59;&#x7684;&#x7A7A;&#x95F2;&#x7EBF;&#x7A0B;&#x7B49;&#x5F85;&#x65B0;&#x4EFB;&#x52A1;&#x7684;&#x6700;&#x957F;&#x65F6;&#x95F4;&#x3002;</p>
+&#x7576;&#x7DDA;&#x7A0B;&#x6578;&#x5927;&#x65BC;&#x6838;&#x5FC3;&#x6642;&#xFF0C;&#x6B64;&#x70BA;&#x7D42;&#x6B62;&#x524D;&#x591A;&#x9918;&#x7684;&#x7A7A;&#x9592;&#x7DDA;&#x7A0B;&#x7B49;&#x5F85;&#x65B0;&#x4EFB;&#x52D9;&#x7684;&#x6700;&#x9577;&#x6642;&#x9593;&#x3002;</p>
 </li>
 <li><p>unit:
-keepAliveTime&#x53C2;&#x6570;&#x7684;&#x65F6;&#x95F4;&#x5355;&#x4F4D;</p>
+keepAliveTime&#x53C3;&#x6578;&#x7684;&#x6642;&#x9593;&#x55AE;&#x4F4D;</p>
 </li>
 <li><p>workQueue:
-&#x6267;&#x884C;&#x524D;&#x7528;&#x4E8E;&#x4FDD;&#x6301;&#x4EFB;&#x52A1;&#x7684;&#x961F;&#x5217;&#x3002;&#x6B64;&#x961F;&#x5217;&#x4EC5;&#x4FDD;&#x6301;&#x7531; execute &#x65B9;&#x6CD5;&#x63D0;&#x4EA4;&#x7684; Runnable &#x4EFB;&#x52A1;&#x3002;</p>
+&#x57F7;&#x884C;&#x524D;&#x7528;&#x65BC;&#x4FDD;&#x6301;&#x4EFB;&#x52D9;&#x7684;&#x968A;&#x5217;&#x3002;&#x6B64;&#x968A;&#x5217;&#x50C5;&#x4FDD;&#x6301;&#x7531; execute &#x65B9;&#x6CD5;&#x63D0;&#x4EA4;&#x7684; Runnable &#x4EFB;&#x52D9;&#x3002;</p>
 </li>
 <li><p>threadFactory
-&#x6267;&#x884C;&#x7A0B;&#x5E8F;&#x521B;&#x5EFA;&#x65B0;&#x7EBF;&#x7A0B;&#x65F6;&#x4F7F;&#x7528;&#x7684;&#x5DE5;&#x5382;&#x3002;</p>
+&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x5275;&#x5EFA;&#x65B0;&#x7DDA;&#x7A0B;&#x6642;&#x4F7F;&#x7528;&#x7684;&#x5DE5;&#x5EE0;&#x3002;</p>
 </li>
 <li><p><strong>handler </strong>
-&#x7531;&#x4E8E;&#x8D85;&#x51FA;&#x7EBF;&#x7A0B;&#x8303;&#x56F4;&#x548C;&#x961F;&#x5217;&#x5BB9;&#x91CF;&#x800C;&#x4F7F;&#x6267;&#x884C;&#x88AB;&#x963B;&#x585E;&#x65F6;&#x6240;&#x4F7F;&#x7528;&#x7684;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x3002;</p>
+&#x7531;&#x65BC;&#x8D85;&#x51FA;&#x7DDA;&#x7A0B;&#x7BC4;&#x570D;&#x548C;&#x968A;&#x5217;&#x5BB9;&#x91CF;&#x800C;&#x4F7F;&#x57F7;&#x884C;&#x88AB;&#x963B;&#x585E;&#x6642;&#x6240;&#x4F7F;&#x7528;&#x7684;&#x8655;&#x7406;&#x7A0B;&#x5E8F;&#x3002;</p>
 </li>
 </ul>
-<p>&#x8FD9;&#x91CC;&#x7528;&#x590D;&#x6742;&#x7684;&#x4E00;&#x4E2A;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x8BF4;&#x660E;&#x5982;&#x4F55;&#x624B;&#x52A8;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x6C60;&#x3002;</p>
+<p>&#x9019;&#x88E1;&#x7528;&#x8907;&#x96DC;&#x7684;&#x4E00;&#x500B;&#x69CB;&#x9020;&#x65B9;&#x6CD5;&#x8AAA;&#x660E;&#x5982;&#x4F55;&#x624B;&#x52D5;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x6C60;&#x3002;</p>
 <pre><code class="lang-java"><span class="hljs-keyword">import</span> java.util.Collection;
 <span class="hljs-keyword">import</span> java.util.Iterator;
 <span class="hljs-keyword">import</span> java.util.concurrent.ArrayBlockingQueue;
@@ -22041,34 +22041,34 @@ keepAliveTime&#x53C2;&#x6570;&#x7684;&#x65F6;&#x95F4;&#x5355;&#x4F4D;</p>
 
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String args[])</span> </span>{
         executor = <span class="hljs-keyword">new</span> ThreadPoolExecutor(
-            CORE_POOL_SIZE,<span class="hljs-comment">// &#x6838;&#x5FC3;&#x7EBF;&#x7A0B;&#x6570; &#x6700;&#x5C0F;</span>
-            MAX_POOL_SIZE,<span class="hljs-comment">// &#x6700;&#x5927;&#x6267;&#x884C;&#x7EBF;&#x7A0B;&#x6570;</span>
-            ALIVE_POOL_SIZE,<span class="hljs-comment">// &#x7A7A;&#x95F2;&#x7EBF;&#x7A0B;&#x8D85;&#x65F6;</span>
-            TimeUnit.SECONDS,<span class="hljs-comment">// &#x8D85;&#x65F6;&#x65F6;&#x95F4;&#x5355;&#x4F4D;</span>
-            <span class="hljs-comment">// &#x5F53;&#x7EBF;&#x7A0B;&#x6C60;&#x8FBE;&#x5230;corePoolSize&#x65F6;&#xFF0C;&#x65B0;&#x63D0;&#x4EA4;&#x4EFB;&#x52A1;&#x5C06;&#x88AB;&#x653E;&#x5165;workQueue&#x4E2D;&#xFF0C;</span>
-            <span class="hljs-comment">// &#x7B49;&#x5F85;&#x7EBF;&#x7A0B;&#x6C60;&#x4E2D;&#x4EFB;&#x52A1;&#x8C03;&#x5EA6;&#x6267;&#x884C;</span>
-            <span class="hljs-keyword">new</span> ArrayBlockingQueue&lt;Runnable&gt;(BLOCK_POOL_SIZE),<span class="hljs-comment">// &#x963B;&#x585E;&#x961F;&#x5217;&#x5927;&#x5C0F;</span>
-            <span class="hljs-comment">// &#x7EBF;&#x7A0B;&#x5DE5;&#x5382;&#xFF0C;&#x4E3A;&#x7EBF;&#x7A0B;&#x6C60;&#x63D0;&#x4F9B;&#x521B;&#x5EFA;&#x65B0;&#x7EBF;&#x7A0B;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x5B83;&#x662F;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;&#xFF0C;</span>
-            <span class="hljs-comment">// &#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#xFF1A;Thread newThread(Runnable r)</span>
+            CORE_POOL_SIZE,<span class="hljs-comment">// &#x6838;&#x5FC3;&#x7DDA;&#x7A0B;&#x6578; &#x6700;&#x5C0F;</span>
+            MAX_POOL_SIZE,<span class="hljs-comment">// &#x6700;&#x5927;&#x57F7;&#x884C;&#x7DDA;&#x7A0B;&#x6578;</span>
+            ALIVE_POOL_SIZE,<span class="hljs-comment">// &#x7A7A;&#x9592;&#x7DDA;&#x7A0B;&#x8D85;&#x6642;</span>
+            TimeUnit.SECONDS,<span class="hljs-comment">// &#x8D85;&#x6642;&#x6642;&#x9593;&#x55AE;&#x4F4D;</span>
+            <span class="hljs-comment">// &#x7576;&#x7DDA;&#x7A0B;&#x6C60;&#x9054;&#x5230;corePoolSize&#x6642;&#xFF0C;&#x65B0;&#x63D0;&#x4EA4;&#x4EFB;&#x52D9;&#x5C07;&#x88AB;&#x653E;&#x5165;workQueue&#x4E2D;&#xFF0C;</span>
+            <span class="hljs-comment">// &#x7B49;&#x5F85;&#x7DDA;&#x7A0B;&#x6C60;&#x4E2D;&#x4EFB;&#x52D9;&#x8ABF;&#x5EA6;&#x57F7;&#x884C;</span>
+            <span class="hljs-keyword">new</span> ArrayBlockingQueue&lt;Runnable&gt;(BLOCK_POOL_SIZE),<span class="hljs-comment">// &#x963B;&#x585E;&#x968A;&#x5217;&#x5927;&#x5C0F;</span>
+            <span class="hljs-comment">// &#x7DDA;&#x7A0B;&#x5DE5;&#x5EE0;&#xFF0C;&#x70BA;&#x7DDA;&#x7A0B;&#x6C60;&#x63D0;&#x4F9B;&#x5275;&#x5EFA;&#x65B0;&#x7DDA;&#x7A0B;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x5B83;&#x662F;&#x4E00;&#x500B;&#x63A5;&#x53E3;&#xFF0C;</span>
+            <span class="hljs-comment">// &#x53EA;&#x6709;&#x4E00;&#x500B;&#x65B9;&#x6CD5;&#xFF1A;Thread newThread(Runnable r)</span>
             Executors.defaultThreadFactory(),
-            <span class="hljs-comment">// &#x7EBF;&#x7A0B;&#x6C60;&#x5BF9;&#x62D2;&#x7EDD;&#x4EFB;&#x52A1;&#x7684;&#x5904;&#x7406;&#x7B56;&#x7565;&#x3002;&#x4E00;&#x822C;&#x662F;&#x961F;&#x5217;&#x5DF2;&#x6EE1;&#x6216;&#x8005;&#x65E0;&#x6CD5;&#x6210;&#x529F;&#x6267;&#x884C;&#x4EFB;&#x52A1;&#xFF0C;</span>
-            <span class="hljs-comment">// &#x8FD9;&#x65F6;ThreadPoolExecutor&#x4F1A;&#x8C03;&#x7528;handler&#x7684;rejectedExecution</span>
-            <span class="hljs-comment">// &#x65B9;&#x6CD5;&#x6765;&#x901A;&#x77E5;&#x8C03;&#x7528;&#x8005;</span>
+            <span class="hljs-comment">// &#x7DDA;&#x7A0B;&#x6C60;&#x5C0D;&#x62D2;&#x7D55;&#x4EFB;&#x52D9;&#x7684;&#x8655;&#x7406;&#x7B56;&#x7565;&#x3002;&#x4E00;&#x822C;&#x662F;&#x968A;&#x5217;&#x5DF2;&#x6EFF;&#x6216;&#x8005;&#x7121;&#x6CD5;&#x6210;&#x529F;&#x57F7;&#x884C;&#x4EFB;&#x52D9;&#xFF0C;</span>
+            <span class="hljs-comment">// &#x9019;&#x6642;ThreadPoolExecutor&#x6703;&#x8ABF;&#x7528;handler&#x7684;rejectedExecution</span>
+            <span class="hljs-comment">// &#x65B9;&#x6CD5;&#x4F86;&#x901A;&#x77E5;&#x8ABF;&#x7528;&#x8005;</span>
             <span class="hljs-keyword">new</span> ThreadPoolExecutor.AbortPolicy()
         );
         executor.allowCoreThreadTimeOut(<span class="hljs-keyword">true</span>);
         <span class="hljs-comment">/*
-         * ThreadPoolExecutor&#x9ED8;&#x8BA4;&#x6709;&#x56DB;&#x4E2A;&#x62D2;&#x7EDD;&#x7B56;&#x7565;&#xFF1A;
+         * ThreadPoolExecutor&#x9ED8;&#x8A8D;&#x6709;&#x56DB;&#x500B;&#x62D2;&#x7D55;&#x7B56;&#x7565;&#xFF1A;
          *
-         * 1&#x3001;ThreadPoolExecutor.AbortPolicy()   &#x76F4;&#x63A5;&#x629B;&#x51FA;&#x5F02;&#x5E38;RejectedExecutionException
-         * 2&#x3001;ThreadPoolExecutor.CallerRunsPolicy()    &#x76F4;&#x63A5;&#x8C03;&#x7528;run&#x65B9;&#x6CD5;&#x5E76;&#x4E14;&#x963B;&#x585E;&#x6267;&#x884C;
-         * 3&#x3001;ThreadPoolExecutor.DiscardPolicy()   &#x76F4;&#x63A5;&#x4E22;&#x5F03;&#x540E;&#x6765;&#x7684;&#x4EFB;&#x52A1;
-         * 4&#x3001;ThreadPoolExecutor.DiscardOldestPolicy()  &#x4E22;&#x5F03;&#x5728;&#x961F;&#x5217;&#x4E2D;&#x961F;&#x9996;&#x7684;&#x4EFB;&#x52A1;
+         * 1&#x3001;ThreadPoolExecutor.AbortPolicy()   &#x76F4;&#x63A5;&#x62CB;&#x51FA;&#x7570;&#x5E38;RejectedExecutionException
+         * 2&#x3001;ThreadPoolExecutor.CallerRunsPolicy()    &#x76F4;&#x63A5;&#x8ABF;&#x7528;run&#x65B9;&#x6CD5;&#x4E26;&#x4E14;&#x963B;&#x585E;&#x57F7;&#x884C;
+         * 3&#x3001;ThreadPoolExecutor.DiscardPolicy()   &#x76F4;&#x63A5;&#x4E1F;&#x68C4;&#x5F8C;&#x4F86;&#x7684;&#x4EFB;&#x52D9;
+         * 4&#x3001;ThreadPoolExecutor.DiscardOldestPolicy()  &#x4E1F;&#x68C4;&#x5728;&#x968A;&#x5217;&#x4E2D;&#x968A;&#x9996;&#x7684;&#x4EFB;&#x52D9;
          */</span>
 
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) {
             <span class="hljs-keyword">try</span> {
-                executor.execute(<span class="hljs-keyword">new</span> WorkerThread(<span class="hljs-string">&quot;&#x7EBF;&#x7A0B; --&gt; &quot;</span> + i));
+                executor.execute(<span class="hljs-keyword">new</span> WorkerThread(<span class="hljs-string">&quot;&#x7DDA;&#x7A0B; --&gt; &quot;</span> + i));
                 LOG();
             } <span class="hljs-keyword">catch</span> (Exception e) {
                 System.out.println(<span class="hljs-string">&quot;AbortPolicy...&quot;</span>);
@@ -22076,13 +22076,13 @@ keepAliveTime&#x53C2;&#x6570;&#x7684;&#x65F6;&#x95F4;&#x5355;&#x4F4D;</p>
         }
         executor.shutdown();
 
-        <span class="hljs-comment">// &#x6240;&#x6709;&#x4EFB;&#x52A1;&#x6267;&#x884C;&#x5B8C;&#x6BD5;&#x540E;&#x518D;&#x6B21;&#x6253;&#x5370;&#x65E5;&#x5FD7;</span>
+        <span class="hljs-comment">// &#x6240;&#x6709;&#x4EFB;&#x52D9;&#x57F7;&#x884C;&#x5B8C;&#x7562;&#x5F8C;&#x518D;&#x6B21;&#x6253;&#x5370;&#x65E5;&#x8A8C;</span>
         <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> Runnable() {
             <span class="hljs-annotation">@Override</span>
             <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
                 <span class="hljs-keyword">try</span> {
                     Thread.sleep(<span class="hljs-number">1000</span>);
-                    System.out.println(<span class="hljs-string">&quot;\n\n---------&#x6267;&#x884C;&#x5B8C;&#x6BD5;---------\n&quot;</span>);
+                    System.out.println(<span class="hljs-string">&quot;\n\n---------&#x57F7;&#x884C;&#x5B8C;&#x7562;---------\n&quot;</span>);
                     LOG();
                 } <span class="hljs-keyword">catch</span> (Exception e) {
                     e.printStackTrace();
@@ -22095,17 +22095,17 @@ keepAliveTime&#x53C2;&#x6570;&#x7684;&#x65F6;&#x95F4;&#x5355;&#x4F4D;</p>
      * &#x6253;&#x5370; Log &#x4FE1;&#x606F;
      */</span>
     <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">LOG</span><span class="hljs-params">()</span> </span>{
-        System.out.println(<span class="hljs-string">&quot; ==============&#x7EBF;&#x7A0B;&#x6C60;===============\n&quot;</span>
-                           + <span class="hljs-string">&quot;   &#x7EBF;&#x7A0B;&#x6C60;&#x4E2D;&#x7EBF;&#x7A0B;&#x6570; : &quot;</span> + executor.getPoolSize()
-                           + <span class="hljs-string">&quot;   &#x7B49;&#x5F85;&#x6267;&#x884C;&#x7EBF;&#x7A0B;&#x6570; : &quot;</span> + executor.getQueue().size()
-                           + <span class="hljs-string">&quot;   &#x6240;&#x6709;&#x7684;&#x4EFB;&#x52A1;&#x6570; : &quot;</span> + executor.getTaskCount()
-                           + <span class="hljs-string">&quot;   &#x6267;&#x884C;&#x4EFB;&#x52A1;&#x7684;&#x7EBF;&#x7A0B;&#x6570; : &quot;</span> + executor.getActiveCount()
-                           + <span class="hljs-string">&quot;   &#x6267;&#x884C;&#x5B8C;&#x6BD5;&#x7684;&#x4EFB;&#x52A1;&#x6570; : &quot;</span> + executor.getCompletedTaskCount()
+        System.out.println(<span class="hljs-string">&quot; ==============&#x7DDA;&#x7A0B;&#x6C60;===============\n&quot;</span>
+                           + <span class="hljs-string">&quot;   &#x7DDA;&#x7A0B;&#x6C60;&#x4E2D;&#x7DDA;&#x7A0B;&#x6578; : &quot;</span> + executor.getPoolSize()
+                           + <span class="hljs-string">&quot;   &#x7B49;&#x5F85;&#x57F7;&#x884C;&#x7DDA;&#x7A0B;&#x6578; : &quot;</span> + executor.getQueue().size()
+                           + <span class="hljs-string">&quot;   &#x6240;&#x6709;&#x7684;&#x4EFB;&#x52D9;&#x6578; : &quot;</span> + executor.getTaskCount()
+                           + <span class="hljs-string">&quot;   &#x57F7;&#x884C;&#x4EFB;&#x52D9;&#x7684;&#x7DDA;&#x7A0B;&#x6578; : &quot;</span> + executor.getActiveCount()
+                           + <span class="hljs-string">&quot;   &#x57F7;&#x884C;&#x5B8C;&#x7562;&#x7684;&#x4EFB;&#x52D9;&#x6578; : &quot;</span> + executor.getCompletedTaskCount()
 
                           );
     }
 
-    <span class="hljs-comment">// &#x6A21;&#x62DF;&#x7EBF;&#x7A0B;&#x4EFB;&#x52A1;</span>
+    <span class="hljs-comment">// &#x6A21;&#x64EC;&#x7DDA;&#x7A0B;&#x4EFB;&#x52D9;</span>
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WorkerThread</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span> </span>{
         <span class="hljs-keyword">private</span> String threadName;
 
@@ -22135,13 +22135,13 @@ keepAliveTime&#x53C2;&#x6570;&#x7684;&#x65F6;&#x95F4;&#x5355;&#x4F4D;</p>
 
 }
 </code></pre>
-<h3 id="&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#xFF1A;">&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#xFF1A;</h3>
+<h3 id="&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#xFF1A;">&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#xFF1A;</h3>
 <ul>
-<li><p>&#x4F7F;&#x7528;&#x7EBF;&#x7A0B;&#x6C60;&#x9700;&#x8981;&#x7279;&#x522B;&#x6CE8;&#x610F;&#x540C;&#x65F6;&#x5E76;&#x53D1;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#x7684;&#x63A7;&#x5236;&#xFF0C;&#x7406;&#x8BBA;&#x4E0A;&#x6765;&#x8BF4;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x4EFB;&#x610F;&#x4F60;&#x60F3;&#x8981;&#x7684;&#x5E76;&#x53D1;&#x6570;&#x91CF;&#xFF0C;&#x4F46;&#x662F;&#x8FD9;&#x6837;&#x505A;&#x975E;&#x5E38;&#x7684;&#x4E0D;&#x597D;&#x3002;&#x56E0;&#x4E3A; CPU &#x53EA;&#x80FD;&#x540C;&#x65F6;&#x6267;&#x884C;&#x56FA;&#x5B9A;&#x6570;&#x91CF;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#xFF0C;&#x4E00;&#x65E6;&#x540C;&#x65F6;&#x5E76;&#x53D1;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#x8D85;&#x8FC7; CPU &#x80FD;&#x591F;&#x540C;&#x65F6;&#x6267;&#x884C;&#x7684;&#x9608;&#x503C;&#xFF0C;CPU &#x5C31;&#x9700;&#x8981;&#x82B1;&#x8D39;&#x7CBE;&#x529B;&#x6765;&#x5224;&#x65AD;&#x5230;&#x5E95;&#x54EA;&#x4E9B;&#x7EBF;&#x7A0B;&#x7684;&#x4F18;&#x5148;&#x7EA7;&#x6BD4;&#x8F83;&#x9AD8;&#xFF0C;&#x9700;&#x8981;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x7EBF;&#x7A0B;&#x4E4B;&#x95F4;&#x8FDB;&#x884C;&#x8C03;&#x5EA6;&#x5207;&#x6362;&#x3002;&#x4E00;&#x65E6;&#x540C;&#x65F6;&#x5E76;&#x53D1;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#x8FBE;&#x5230;&#x4E00;&#x5B9A;&#x7684;&#x91CF;&#x7EA7;&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019; CPU &#x5728;&#x4E0D;&#x540C;&#x7EBF;&#x7A0B;&#x4E4B;&#x95F4;&#x8FDB;&#x884C;&#x8C03;&#x5EA6;&#x7684;&#x65F6;&#x95F4;&#x5C31;&#x53EF;&#x80FD;&#x8FC7;&#x957F;&#xFF0C;&#x53CD;&#x800C;&#x5BFC;&#x81F4;&#x6027;&#x80FD;&#x4E25;&#x91CD;&#x4E0B;&#x964D;&#x3002;</p>
+<li><p>&#x4F7F;&#x7528;&#x7DDA;&#x7A0B;&#x6C60;&#x9700;&#x8981;&#x7279;&#x5225;&#x6CE8;&#x610F;&#x540C;&#x6642;&#x4F75;&#x767C;&#x7DDA;&#x7A0B;&#x6578;&#x91CF;&#x7684;&#x63A7;&#x5236;&#xFF0C;&#x7406;&#x8AD6;&#x4E0A;&#x4F86;&#x8AAA;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x8A2D;&#x7F6E;&#x4EFB;&#x610F;&#x4F60;&#x60F3;&#x8981;&#x7684;&#x4F75;&#x767C;&#x6578;&#x91CF;&#xFF0C;&#x4F46;&#x662F;&#x9019;&#x6A23;&#x505A;&#x975E;&#x5E38;&#x7684;&#x4E0D;&#x597D;&#x3002;&#x56E0;&#x70BA; CPU &#x53EA;&#x80FD;&#x540C;&#x6642;&#x57F7;&#x884C;&#x56FA;&#x5B9A;&#x6578;&#x91CF;&#x7684;&#x7DDA;&#x7A0B;&#x6578;&#xFF0C;&#x4E00;&#x65E6;&#x540C;&#x6642;&#x4F75;&#x767C;&#x7684;&#x7DDA;&#x7A0B;&#x6578;&#x91CF;&#x8D85;&#x904E; CPU &#x80FD;&#x5920;&#x540C;&#x6642;&#x57F7;&#x884C;&#x7684;&#x95BE;&#x503C;&#xFF0C;CPU &#x5C31;&#x9700;&#x8981;&#x82B1;&#x8CBB;&#x7CBE;&#x529B;&#x4F86;&#x5224;&#x65B7;&#x5230;&#x5E95;&#x54EA;&#x4E9B;&#x7DDA;&#x7A0B;&#x7684;&#x512A;&#x5148;&#x7D1A;&#x6BD4;&#x8F03;&#x9AD8;&#xFF0C;&#x9700;&#x8981;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x7DDA;&#x7A0B;&#x4E4B;&#x9593;&#x9032;&#x884C;&#x8ABF;&#x5EA6;&#x5207;&#x63DB;&#x3002;&#x4E00;&#x65E6;&#x540C;&#x6642;&#x4F75;&#x767C;&#x7684;&#x7DDA;&#x7A0B;&#x6578;&#x91CF;&#x9054;&#x5230;&#x4E00;&#x5B9A;&#x7684;&#x91CF;&#x7D1A;&#xFF0C;&#x9019;&#x500B;&#x6642;&#x5019; CPU &#x5728;&#x4E0D;&#x540C;&#x7DDA;&#x7A0B;&#x4E4B;&#x9593;&#x9032;&#x884C;&#x8ABF;&#x5EA6;&#x7684;&#x6642;&#x9593;&#x5C31;&#x53EF;&#x80FD;&#x904E;&#x9577;&#xFF0C;&#x53CD;&#x800C;&#x5C0E;&#x81F4;&#x6027;&#x80FD;&#x56B4;&#x91CD;&#x4E0B;&#x964D;&#x3002;</p>
 </li>
-<li><p>&#x53E6;&#x5916;&#x9700;&#x8981;&#x5173;&#x6CE8;&#x7684;&#x4E00;&#x70B9;&#x662F;&#xFF0C;&#x6BCF;&#x5F00;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x7EBF;&#x7A0B;&#xFF0C;&#x90FD;&#x4F1A;&#x8017;&#x8D39;&#x81F3;&#x5C11; 64K+ &#x7684;&#x5185;&#x5B58;&#x3002;&#x4E3A;&#x4E86;&#x80FD;&#x591F;&#x65B9;&#x4FBF;&#x7684;&#x5BF9;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#x8FDB;&#x884C;&#x63A7;&#x5236;&#xFF0C;ThreadPoolExecutor &#x4E3A;&#x6211;&#x4EEC;&#x63D0;&#x4F9B;&#x4E86;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5E76;&#x53D1;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#xFF0C;&#x4EE5;&#x53CA;&#x6700;&#x5927;&#x7684;&#x5E76;&#x53D1;&#x6570;&#x91CF;&#x8FDB;&#x884C;&#x8BBE;&#x7F6E;&#x3002;</p>
+<li><p>&#x53E6;&#x5916;&#x9700;&#x8981;&#x95DC;&#x6CE8;&#x7684;&#x4E00;&#x9EDE;&#x662F;&#xFF0C;&#x6BCF;&#x958B;&#x4E00;&#x500B;&#x65B0;&#x7684;&#x7DDA;&#x7A0B;&#xFF0C;&#x90FD;&#x6703;&#x8017;&#x8CBB;&#x81F3;&#x5C11; 64K+ &#x7684;&#x5167;&#x5B58;&#x3002;&#x70BA;&#x4E86;&#x80FD;&#x5920;&#x65B9;&#x4FBF;&#x7684;&#x5C0D;&#x7DDA;&#x7A0B;&#x6578;&#x91CF;&#x9032;&#x884C;&#x63A7;&#x5236;&#xFF0C;ThreadPoolExecutor &#x70BA;&#x6211;&#x5011;&#x63D0;&#x4F9B;&#x4E86;&#x521D;&#x59CB;&#x5316;&#x7684;&#x4F75;&#x767C;&#x7DDA;&#x7A0B;&#x6578;&#x91CF;&#xFF0C;&#x4EE5;&#x53CA;&#x6700;&#x5927;&#x7684;&#x4F75;&#x767C;&#x6578;&#x91CF;&#x9032;&#x884C;&#x8A2D;&#x7F6E;&#x3002;</p>
 </li>
-<li><p>&#x53E6;&#x5916;&#x9700;&#x8981;&#x5173;&#x6CE8;&#x7684;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x662F;&#xFF1A;Runtime.getRuntime().availableProcesser()&#x65B9;&#x6CD5;&#x5E76;&#x4E0D;&#x53EF;&#x9760;&#xFF0C;&#x4ED6;&#x8FD4;&#x56DE;&#x7684;&#x503C;&#x5E76;&#x4E0D;&#x662F;&#x771F;&#x5B9E;&#x7684; CPU &#x6838;&#x5FC3;&#x6570;&#xFF0C;&#x56E0;&#x4E3A; CPU &#x4F1A;&#x5728;&#x67D0;&#x4E9B;&#x60C5;&#x51B5;&#x4E0B;&#x9009;&#x62E9;&#x5BF9;&#x90E8;&#x5206;&#x6838;&#x5FC3;&#x8FDB;&#x884C;&#x7761;&#x7720;&#x5904;&#x7406;&#xFF0C;&#x5728;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x8FD4;&#x56DE;&#x7684;&#x6570;&#x91CF;&#x5C31;&#x53EA;&#x80FD;&#x662F;&#x6FC0;&#x6D3B;&#x7684; CPU &#x6838;&#x5FC3;&#x6570;&#x3002;</p>
+<li><p>&#x53E6;&#x5916;&#x9700;&#x8981;&#x95DC;&#x6CE8;&#x7684;&#x4E00;&#x500B;&#x554F;&#x984C;&#x662F;&#xFF1A;Runtime.getRuntime().availableProcesser()&#x65B9;&#x6CD5;&#x4E26;&#x4E0D;&#x53EF;&#x9760;&#xFF0C;&#x4ED6;&#x8FD4;&#x56DE;&#x7684;&#x503C;&#x4E26;&#x4E0D;&#x662F;&#x771F;&#x5BE6;&#x7684; CPU &#x6838;&#x5FC3;&#x6578;&#xFF0C;&#x56E0;&#x70BA; CPU &#x6703;&#x5728;&#x67D0;&#x4E9B;&#x60C5;&#x6CC1;&#x4E0B;&#x9078;&#x64C7;&#x5C0D;&#x90E8;&#x5206;&#x6838;&#x5FC3;&#x9032;&#x884C;&#x7761;&#x7720;&#x8655;&#x7406;&#xFF0C;&#x5728;&#x9019;&#x7A2E;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x8FD4;&#x56DE;&#x7684;&#x6578;&#x91CF;&#x5C31;&#x53EA;&#x80FD;&#x662F;&#x6FC0;&#x6D3B;&#x7684; CPU &#x6838;&#x5FC3;&#x6578;&#x3002;</p>
 </li>
 </ul>
 
@@ -22154,10 +22154,10 @@ keepAliveTime&#x53C2;&#x6570;&#x7684;&#x65F6;&#x95F4;&#x5355;&#x4F4D;</p>
         </div>
 
         
-        <a href="../android_note/androidduo_xian_cheng_de_si_zhong_fang_shi.html" class="navigation navigation-prev " aria-label="Previous page: Android多线程的四种方式"><i class="fa fa-angle-left"></i></a>
+        <a href="../android_note/androidduo_xian_cheng_de_si_zhong_fang_shi.html" class="navigation navigation-prev " aria-label="Previous page: Android多線程的四種方式"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../android_note/android_duo_xian_cheng_bian_cheng_de_zong_jie.html" class="navigation navigation-next " aria-label="Next page: Android 多线程编程的总结"><i class="fa fa-angle-right"></i></a>
+        <a href="../android_note/android_duo_xian_cheng_bian_cheng_de_zong_jie.html" class="navigation navigation-next " aria-label="Next page: Android 多線程編程的總結"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -126,6 +126,7 @@
    * [如何使用篇](android_note/ru_he_shi_yong_pian.md)
        * [如何使用Handler](android_note/ru_he_shi_yong_handler.md)
        * [如何使用HandlerThread](android_note/ru_he_shi_yong_handlerthread.md)
+       * 如何使用Thread和Handler
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
    * [Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法](ubuntu/windowsyuubuntu_shuang_xi_tong_ff0c_kai_ji_shi_zhe.md)

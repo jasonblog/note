@@ -132,7 +132,7 @@
        * [如何使用IntentService](android_note/ru_he_shi_yong_intentservice.md)
        * [如何使用AsyncTask](android_note/ru_he_shi_yong_asynctask.md)
    * [android thread](android_note/android_thread.md)
-       * Android多线程的四种方式
+       * [Android多线程的四种方式](android_note/androidduo_xian_cheng_de_si_zhong_fang_shi.md)
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
    * [Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法](ubuntu/windowsyuubuntu_shuang_xi_tong_ff0c_kai_ji_shi_zhe.md)

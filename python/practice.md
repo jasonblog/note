@@ -554,6 +554,14 @@ b.hello()
 
 SubDemo1 與 SubDemo2 繼承 (inherit) 自 Demo ，因此兩個子類別也都繼承了 hello() 方法 (method) ，雖然 SubDemo1 與 SubDemo2 所建立的物件各自是不同型態，然而由繼承關係兩種型態可通用 hello() 。
 
+### 在如何確定一個物體的大小？
+
+
+答案，"只使用 sys.getsizeof"不是完全完整的答案。
+這對於直接的內置對象是有效的，但它並不解釋它們可能包含什麼，特別是數字和字元串之外的類型。
+
+
+
 
 ## 模組
 ###Python 程式裡的 __name__ 可以用來分辨程式是直接執行還是被 import 的

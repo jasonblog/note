@@ -345,7 +345,7 @@ while line:
 fp.close()
 ```
 
-## 
+## 使用 with as
 
 ```py
 #!/usr/bin/python 
@@ -353,18 +353,24 @@ with open(filename.txt,'r') as fp:
      all_lines = fp.readlines()
 ```
 
+with之後的運算式傳回的物件，可以使用as指定給變數來參考，在上面的例子中，file所參考到的物件，最後會被自動關閉，即使在with as的區塊中發生了例外，`最後一定會關閉file所參考的物件`。
+
+
+
+
 Python 與中文處理
 http://web.ntnu.edu.tw/~samtseng/present/Python_and_Chinese.pdf
 
 
 
-## 測試檔案中文文字是Big5編碼
-ubuntu內建的文字編輯器gedit存檔時選檔案->另存新檔->字元編碼->繁體中文(big5)
+### 測試檔案中文文字是Big5編碼
+ubuntu內建的`文字編輯器gedit存檔時選檔案->另存新檔->字元編碼->繁體中文(big5)`
 
 
 
 ##在 Python 程式中，讀入中文文字檔案時，也要事先知道該檔案的編碼方式，才能正確讀取。例如：
 
+```py
 file_big5 = open('Big5File.txt', 'r', encoding='big5') 
 file1_big5 = open('Big5File1.txt', 'w', encoding='big5') 
 file_utf8 = open("UTF8File.txt", "w", encoding="utf-8")
@@ -382,7 +388,7 @@ file_utf8.close()
 with open("Big5File.txt", 'r', encoding='big5') as fp:
     for line in fp:
         print(line)
-
+```
 
 
 ## 物件導向三大特色

@@ -394,7 +394,7 @@ with open("Big5File.txt", 'r', encoding='big5') as fp:
 ## 物件導向三大特色
 1. 資料封裝(Encapsulation)
 
-   簡單講，資料封裝就是將資料分成私用(Private)、保護(Protected)、公用(Public)等，實踐 Information hiding 概念, 避免程式各個物件互相干擾，降低程式的複雜度及維護上的困難度。
+   簡單講，資料封裝就是將資料分成私用(Private)、保護(Protected)、公用(Public)等，實踐 Information hiding 概念, `避免程式各個物件互相干擾`，降低程式的複雜度及維護上的困難度。
 
 2. 繼承(Inheritance)
 
@@ -405,13 +405,13 @@ with open("Big5File.txt", 'r', encoding='big5') as fp:
    多型(Polymorphism) 代表能夠在執行階段，物件能夠依照不同情況變換資料型態，換句話說，多型是指一個物件參考可以在不同環境下，扮演不同角色的特性，指向不同的物件實體，可 透過實作多個繼承或介面來實現父類別，並使用Override或Overload來達成。
 
 
-封裝、繼承、多型為物件導向三大基礎 。 此三者具有次序性 ， 沒有封裝就不可能有繼承 、沒有繼承就不可能有多型。
+封裝、繼承、多型為物件導向三大基礎 。 `此三者具有次序性 ， 沒有封裝就不可能有繼承 、沒有繼承就不可能有多型`。
 
 封裝 (encapsulation) 的目的是將 Class 裡的屬性用 private 隱藏，只能透過public的方法存取資料。
-(隱藏程式細節，避免直接處理造成的困擾。使開發與維護更容易)
+`(隱藏程式細節，避免直接處理造成的困擾。使開發與維護更容易)`
 
 繼承 (Inheritance) 的目的，是要達到「程式碼再用」(Code Rause) 或「介面再用」。
-透過繼承，可以適當的切割類別，並在衍生類別中重複使用、擴充和修改基底類別中定義的行為，又不破壞原先基底類別設計。
+透過繼承，可以適當的切割類別，`並在衍生類別中重複使用、擴充和修改基底類別中定義的行為，又不破壞原先基底類別設計`。
 
 多型 (Polymorphism) 指的是不同型態的物件，定義相同的操作介面，由於被呼叫者 (Callee) 有著相同的介面，呼叫者並不用指定特別型別，只需針對介面進行操作，實際執行的物件則在runtime決定，藉此增加程式碼的彈性。
 
@@ -421,12 +421,13 @@ https://developer.mozilla.org/zh-TW/docs/Learn/Drafts/Python/Quickly_Learn_Objec
 
 這個物件可以包含好幾個變數（稱為屬性，attributes/properties），裡面儲存不同型別的資料。這個物件也可以包含已經自己設定好的函式（稱為 methods），用於操作物件的屬性。
 
-你可以用同一個型別去創建很多個物件（同一個類別），每個物件都有屬於自己的數值。
+你可以用`同一個型別去創建很多個物件（同一個類別），每個物件都有屬於自己的數值`。
 
-類別（ Class ），就是一個抽象的模板，
-實例(Instance)就是根據這個模板創造出來的資訊，像是王先生、蔡小姐等具體的對象，每個對象擁有相同的方法，但是各自所擁有的資料可能不同。
+###類別（ Class ），就是一個抽象的`模板`，
 
+###實例(Instance)就是根據這個模板創造出來的資訊，像是王先生、蔡小姐等具體的對象，每個對象擁有`相同的方法`，但是各自所擁有的`資料能不同`。
 
+```py
 class BankAccount:
     """ Class for Bank Accounts"""
 
@@ -472,13 +473,15 @@ if __name__ == '__main__':
 
     print(object1.type)    # 'Normal Account'
     print(object2.type)    # 'Normal Account'
-
+```
 
 ## python 物件導向「Class 」與「Instance」
 物件導向第一個特性：封裝
 物件導向的一個重要的特點就是封裝。在上面 Animal 的這個類別當中，每個實例就擁有自己的 Name 、 sound 、 age 這些資訊，我們可以通過一些函數來呼叫這些資訊，舉例來說，想要聽到這個動物的叫聲:
 print(Dog.sound)
 
+
+```py
 # -*- coding: utf-8 -*-
 class Animal(object):
     """
@@ -509,9 +512,12 @@ if __name__ == '__main__':
     
     Cat = Animal('5', '喵', '病貓')
     Cat.Animal_sounds()
+```
 
 
 ### 多型
+
+```py
 class Demo:
     def __init__(self, i):
         self.i = i
@@ -543,35 +549,46 @@ a = SubDemo1(22, 33)
 b = SubDemo2(44, "55")
 a.hello()
 b.hello()
+```
+
 
 SubDemo1 與 SubDemo2 繼承 (inherit) 自 Demo ，因此兩個子類別也都繼承了 hello() 方法 (method) ，雖然 SubDemo1 與 SubDemo2 所建立的物件各自是不同型態，然而由繼承關係兩種型態可通用 hello() 。
 
 
-##Python 程式裡的 __name__ 可以用來分辨程式是直接執行還是被 import 的
-#
-原來如果一個 python script 是被別的 python script 當成 module 來 import 的話，那麼這個被 import 的 python script 的 __name__ 就會是那個 python script 的名稱。而如果這個 python script 是直接被執行的話，__name__ 就會是 __main__。
+## 模組
+###Python 程式裡的 __name__ 可以用來分辨程式是直接執行還是被 import 的
 
+`角色不同`
+
+原來如果一個 python script 是被別的 python script `當成 module 來 import 的話`，那麼這個被 import 的 python script 的 __name__ 就會是那個 python script 的名稱。而如果這個 python script 是`直接被執行的話，__name__ 就會是 __main__`。
+
+
+```py
 if __name__ == '__main__':
     doSomething()
-
-## 模組
+```
 
 Python 提供的 module（模組）與 package（套件）是建立架構的基本元件，但在module之間為了重複使用一些 function（函數）或 class（類別）而必須互相 import（匯入），使用上一個不注意就會掉入混亂的 import 陷阱。
 
+```sh
 sample_package/
 ├── __init__.py
 ├── sample_module.py
 └── sample_module_import.py
+```
 
+```py
 from sample_module import sample_func
 if __name__ == '__main__':
     sample_func()
-
+```
 
 在 Python 中，import、import as 與 from import 是陳述句，可以出現在程式中陳述句可出現的任何位置，它們基本上用來在現有範疇（Scope）中匯入、設定名稱空間，舉例來說，如果先前程式範例是撰寫於 xmath.py 檔案中，那麼以下是一些 import、import as 與 from import 的使用實例，假設這些程式是撰寫在與 xmath.py 相同目錄的另一個 .py 檔案：
 
 
 - xmath.py
+
+```py
 def max(a, b):
     return a if a > b else b
 def min(a, b):
@@ -585,8 +602,9 @@ def sum(*numbers): # numbers 接受可變長度引數
 
 pi = 3.141592653589793
 e = 2.718281828459045
+```
 
-
+```py
 import xmath
 print '# import xmath'
 print xmath.pi
@@ -600,3 +618,5 @@ print math.e
 print '# from xmath import min'
 from xmath import min  # 將 min 複製至目前模組，不建議 from modu import *，易造成名稱衝突
 print min(10, 5)
+```
+

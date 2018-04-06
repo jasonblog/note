@@ -174,55 +174,61 @@ else:
 ```
 
 
-del述句:刪除名稱,連帶刪除與 物件之間的綁定關係
+##del述句:刪除名稱,連帶刪除與 物件之間的綁定關係
 垃圾收集機制(garbage collection)
+```py
 >>> a = 3
 >>> del a
 Traceback (most recent call last):
 File "<stdin>", line 1, in <module>
 NameError: name 'a' is not defined
-
+```
 
 
 ## for loop and while loop 等價只是應用點不同
+```py
 i = 1
 x = 0
 while i <= 100:
     x += i
     i += 1
 print(x)
-
-
-
+```
+```py
 x = 0
 for i in range(1,101):
     x += i
     i += 1
 print(x)
+```
 
 
+所謂「能提供一串東西的物件」,目前僅知是 `list、tuple、str, dict` 後續再詳細介紹
 
-
-所謂「能提供一串東西的物件」,目前僅知是 list、tuple、str, dict 後續再詳細介紹
-
-
-for 名稱 in 能提供一串東西的物件:
+```py
+for 名稱 in `能提供一串東西的物件`:
     述句
+```
 
 
+```py
 d = {'x': 1, 'y': 2, 'z': 3} 
 for key in d:
     print key, 'corresponds to', d[key]
+```
 
 
-##內建函式range 
+###內建函式range 
+```py
 range(3)產生出"物件", 能提供0、1、2
+```
 
 
+###break述句:
 
-##break述句:
+`立即跳出迴圈(最近的那一層)`
 
-立即跳出迴圈(最近的那一層)
+```py
 scores = (98, 87, 59, 64, 77)
 # 預設All Pass
 all_pass = True
@@ -236,13 +242,14 @@ if all_pass:
     print('passed')
 else:
     print('no all pass')
+```
 
 
 
+### continue述句:
+`跳到下一輪`
 
-## continue述句:
-跳到下一輪
-
+```py
 # 算大於60的平均
 scores = (55, 73, 81, 65, 95, 34)
 n = 0
@@ -258,35 +265,41 @@ for x in scores:
 high_total /= n
 
 print(high_total)
+```
+
+## 編碼 !!! 重要
+
+這是因為 Python 3.x 中，python 直譯器預期的 .py 編碼，`預設是 UTF-8`，而在 Ubuntu 15.10 中，預設採用的文字編碼也是 UTF-8，這時在 .py 檔案中撰寫中文，並不會有問題發生，然而，你知道在 Windows 中，使用記事本編輯文字檔案時，預設的文字編碼是什麼嗎？
 
 
-## 編碼
 
-這是因為 Python 3.x 中，python 直譯器預期的 .py 編碼，預設是 UTF-8，而在 Ubuntu 15.10 中，預設採用的文字編碼也是 UTF-8，這時在 .py 檔案中撰寫中文，並不會有問題發生，然而，你知道在 Windows 中，使用記事本編輯文字檔案時，預設的文字編碼是什麼嗎？
-
-
-
-## 關於Python腳本開頭兩行的
+### 關於Python腳本開頭兩行的
 
 http://www.itread01.com/content/1501168823.html
 
 有順序問題必須要下面這樣
+```py
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+```
 
-
-
+```py
 #!/usr/bin/python
+```
+
 是用來說明腳本語言是 python 的 是要用 /usr/bin下面的程序（工具）python，這個解釋器，來解釋 python 腳本，來運行 python 腳本的。
 
+```py
 2、# -*- coding: utf-8 -*-
+```
+
 是用來指定文件編碼為 utf-8 的 , 
 
 
-具體如何聲明python文件編碼？
+### 具體如何聲明python文件編碼？
 對此格式的詳細解釋是：
 
-如果沒有此文件編碼類型的聲明，則 python 默認以ASCII編碼去處理；如果你沒聲明編碼，但是文件中又包含非ASCII編碼的字符的話，python解析器去解析的 python 文件，自然就會報錯了。
+如果沒有此文件編碼類型的聲明，則 `python2 默認以ASCII編碼去處理`；如果你沒聲明編碼，但是文件中又包含非ASCII編碼的字符的話，`python解析器去解析` 的 `python 文件`，自然就會報錯了。
 必須放在python文件的第一行或第二行
 
 

@@ -866,7 +866,7 @@
    * [Python 讀取csv的某行](python/python_du_qu_csv_de_mou_xing.md)
    * [用 Anaconda 完美解決 Python2 和 python3 共存問題](python/yong_anaconda_wan_mei_jie_jue_python2_he_python3_g.md)
    * [Embed python / numpy in C++](python/embed_python__numpy_in_c++.md)
-   * practice
+   * [practice](python/practice.md)
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
    * [編譯vim8並添加對lua,python,ruby的支持](vim/bian_yi_vim8_bing_tian_jia_dui_lua_,_python_,_ruby.md)

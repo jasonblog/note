@@ -67,7 +67,7 @@
    * [有病治病，沒病強身: Cppcheck + Valgrind](linux_tools/you_bing_zhi_bing_ff0c_mei_bing_qiang_8eab3a_cppch.md)
 * [Android note](android_note/README.md)
    * [android resource](android_note/514.md)
-   * GDB在線調試Android Framework Native C/C++代碼
+   * [GDB在線調試Android Framework Native C/C++代碼](android_note/gdbzai_xian_diao_shi_android_framework_native_c__c.md)
    * [什麼時候用startService，什麼時候用bindService](android_note/startservice_bindservice.md)
    * [android的消息處理機制（圖+源碼分析）——Looper,Handler,Message](android_note/handler_looper_message_runnable.md)
    * [Android中Handler Runnable與Thread的區別詳解](android_note/runnable_thread.md)

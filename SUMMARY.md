@@ -70,6 +70,7 @@
    * [Android debug 技巧](android_note/android_debug_ji_qiao.md)
        * [Android下打印調試堆棧方法](android_note/androidxia_da_yin_diao_shi_dui_zhan_fang_fa.md)
        * [Android调试技巧(一)](android_note/androiddiao_shi_ji_5de728_4e0029.md)
+       * 理解Android Crash处理流程
    * [GDB在線調試Android Framework Native C/C++代碼](android_note/gdbzai_xian_diao_shi_android_framework_native_c__c.md)
    * [什麼時候用startService，什麼時候用bindService](android_note/startservice_bindservice.md)
    * [android的消息處理機制（圖+源碼分析）——Looper,Handler,Message](android_note/handler_looper_message_runnable.md)

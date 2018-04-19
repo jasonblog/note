@@ -1,0 +1,57 @@
+**********************************************************
+*** Direct questions or suggestions to dan@stahlke.org ***
+**********************************************************
+
+
+Gnuplot-Iostream Interface
+==========================
+
+This interface allows gnuplot to be controlled from C++ and is designed to
+be the lowest hanging fruit.  In other words, if you know how gnuplot works
+it should only take 30 seconds to learn this library.  Basically it is just
+an iostream pipe to gnuplot with some extra functions for pushing data
+arrays and getting mouse clicks.  Data sources include STL containers (eg.
+vector), Blitz++, and armadillo.  You can use nested data types like
+std::vector<std::vector<std::pair<double, double>>> (as well as even more
+exotic types).  Support for custom data types is possible.
+
+This is a low level interface, and usage involves manually sending commands
+to gnuplot using the "<<" operator (so you need to know gnuplot syntax).
+This is in my opinion the easiest way to do it if you are already
+comfortable with using gnuplot.  If you would like a more high level interface
+check out the gnuplot-cpp library (http://code.google.com/p/gnuplot-cpp).
+
+Documentation is available at http://www.stahlke.org/dan/gnuplot-iostream
+but also you can look at the example programs (starting with
+"example-misc.cc").
+
+
+Getting the source code
+=======================
+
+git clone https://github.com/dstahlke/gnuplot-iostream.git
+
+
+Usage
+=====
+
+See the examples source code for a quick intro.  Documentation is at
+the project home page http://www.stahlke.org/dan/gnuplot-iostream .
+To build examples just type 'make'.  There is an option you can edit in the
+Makefile to enable extra demos that require optional libraries.
+
+
+Note for Windows users
+======================
+
+Windows support basically works, but there are some troubles.  For hints, see:
+	https://github.com/dstahlke/gnuplot-iostream/wiki/Portability
+
+Contributors
+============
+
+Dan Stahlke (dan@stahlke.org)
+Jens Mueller
+Robbie Morrison
+Daniel Di Marco
+Sylwester Arabas

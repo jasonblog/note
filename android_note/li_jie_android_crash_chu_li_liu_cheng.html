@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>理解Android Crash处理流程 | Jason note</title>
+        <title>理解Android Crash處理流程 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,7 +41,7 @@
         
     
     
-    <link rel="next" href="../android_note/gdbzai_xian_diao_shi_android_framework_native_c__c.html" />
+    <link rel="next" href="../android_note/li_jie_native_crash_chu_li_liu_cheng.html" />
     
     
     <link rel="prev" href="../android_note/androiddiao_shi_ji_5de728_4e0029.html" />
@@ -54,10 +54,10 @@
         
     <div class="book"
         data-level="4.2.3"
-        data-chapter-title="理解Android Crash处理流程"
+        data-chapter-title="理解Android Crash處理流程"
         data-filepath="android_note/li_jie_android_crash_chu_li_liu_cheng.md"
         data-basepath=".."
-        data-revision="Thu Apr 19 2018 23:37:11 GMT+0800 (CST)"
+        data-revision="Thu Apr 19 2018 23:52:52 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -1159,7 +1159,7 @@
                         
                             <b>4.2.2.</b>
                         
-                        Android调试技巧(一)
+                        Android調試技巧(一)
                     </a>
             
             
@@ -1174,7 +1174,52 @@
                         
                             <b>4.2.3.</b>
                         
-                        理解Android Crash处理流程
+                        理解Android Crash處理流程
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.4" data-path="android_note/li_jie_native_crash_chu_li_liu_cheng.html">
+            
+                
+                    <a href="../android_note/li_jie_native_crash_chu_li_liu_cheng.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.4.</b>
+                        
+                        理解Native Crash處理流程
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.5" data-path="android_note/nativejin_cheng_zhi_trace_yuan_li.html">
+            
+                
+                    <a href="../android_note/nativejin_cheng_zhi_trace_yuan_li.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.5.</b>
+                        
+                        Native進程之Trace原理
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.6" data-path="android_note/debuggerdshou_hu_jin_cheng.html">
+            
+                
+                    <a href="../android_note/debuggerdshou_hu_jin_cheng.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.6.</b>
+                        
+                        debuggerd守護進程
                     </a>
             
             
@@ -21923,18 +21968,18 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="&#x7406;&#x89E3;android-crash&#x5904;&#x7406;&#x6D41;&#x7A0B;">&#x7406;&#x89E3;Android Crash&#x5904;&#x7406;&#x6D41;&#x7A0B;</h1>
+                        <h1 id="&#x7406;&#x89E3;android-crash&#x8655;&#x7406;&#x6D41;&#x7A0B;">&#x7406;&#x89E3;Android Crash&#x8655;&#x7406;&#x6D41;&#x7A0B;</h1>
 <div class="
                 col-lg-8 col-lg-offset-2
                 col-md-10 col-md-offset-1
                 post-container">
 
                                 <blockquote>
-  <p>&#x57FA;&#x4E8E;Android 6.0&#x7684;&#x6E90;&#x7801;&#x5256;&#x6790;&#xFF0C; &#x5206;&#x6790;Android&#x5E94;&#x7528;Crash&#x662F;&#x5982;&#x4F55;&#x5904;&#x7406;&#x7684;&#x3002;</p>
+  <p>&#x57FA;&#x65BC;Android 6.0&#x7684;&#x6E90;&#x78BC;&#x5256;&#x6790;&#xFF0C; &#x5206;&#x6790;Android&#x61C9;&#x7528;Crash&#x662F;&#x5982;&#x4F55;&#x8655;&#x7406;&#x7684;&#x3002;</p>
 </blockquote>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs cs">/frameworks/base/core/java/com/android/internal/os/RuntimeInit.java
-/frameworks/base/core/java/android/app/ActivityManagerNative.java (&#x542B;&#x5185;&#x90E8;&#x7C7B;AMP)
+/frameworks/base/core/java/android/app/ActivityManagerNative.java (&#x542B;&#x5167;&#x90E8;&#x985E;AMP)
 /frameworks/base/core/java/android/app/ApplicationErrorReport.java
 
 /frameworks/base/services/core/java/com/android/server/
@@ -21952,18 +21997,18 @@
 
 <h2 id="&#x4E00;&#x6982;&#x8FF0;">&#x4E00;&#x3001;&#x6982;&#x8FF0;<a class="anchorjs-link " href="#&#x4E00;&#x6982;&#x8FF0;" aria-label="Anchor link for: &#x4E00;&#x6982;&#x8FF0;" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h2>
 
-<p>App crash(&#x5168;&#x79F0;Application crash), &#x5BF9;&#x4E8E;Crash&#x53EF;&#x5206;&#x4E3A;native crash&#x548C;framework crash(&#x5305;&#x542B;app crash&#x5728;&#x5185;)&#xFF0C;&#x5BF9;&#x4E8E;crash&#x76F8;&#x4FE1;&#x5F88;&#x591A;app&#x5F00;&#x53D1;&#x8005;&#x90FD;&#x4F1A;&#x9047;&#x5230;&#xFF0C;&#x90A3;&#x4E48;&#x4E0A;&#x5C42;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x4F1A;&#x51FA;&#x73B0;crash&#x5462;&#xFF0C;&#x7CFB;&#x7EDF;&#x53C8;&#x662F;&#x5982;&#x4F55;&#x5904;&#x7406;crash&#x7684;&#x5462;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5728;app&#x5927;&#x5BB6;&#x7ECF;&#x5E38;&#x4F7F;&#x7528;<code class="highlighter-rouge">try...catch</code>&#x8BED;&#x53E5;&#xFF0C;&#x90A3;&#x4E48;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x6709;&#x6548;catch exception&#xFF0C;&#x5C31;&#x662F;&#x5BFC;&#x81F4;&#x5E94;&#x7528;crash&#xFF0C;&#x53D1;&#x751F;&#x6CA1;&#x6709;catch exception&#xFF0C;&#x7CFB;&#x7EDF;&#x4FBF;&#x4F1A;&#x6765;&#x8FDB;&#x884C;&#x6355;&#x83B7;&#xFF0C;&#x5E76;&#x8FDB;&#x5165;crash&#x6D41;&#x7A0B;&#x3002;&#x5982;&#x679C;&#x4F60;&#x662F;&#x4ECE;&#x4E8B;Android&#x7CFB;&#x7EDF;&#x5F00;&#x53D1;&#x6216;&#x8005;&#x67B6;&#x6784;&#x76F8;&#x5173;&#x5DE5;&#x4F5C;&#xFF0C;&#x6216;&#x8005;&#x9047;&#x5230;&#x9700;&#x8981;&#x89E3;&#x7CFB;&#x7EDF;&#x6027;&#x7684;&#x7591;&#x96BE;&#x6742;&#x75C7;&#xFF0C;&#x90A3;&#x4E48;&#x5F88;&#x6709;&#x5FC5;&#x8981;&#x4E86;&#x89E3;&#x7CFB;&#x7EDF;Crash&#x5904;&#x7406;&#x6D41;&#x7A0B;&#xFF0C;&#x77E5;&#x5176;&#x7136;&#x8FD8;&#x9700;&#x77E5;&#x5176;&#x6240;&#x4EE5;&#x7136;&#xFF1B;&#x5982;&#x679C;&#x4F60;&#x4EC5;&#x4EC5;&#x662F;App&#x521D;&#x7EA7;&#x5F00;&#x53D1;&#xFF0C;&#x53EF;&#x80FD;&#x672C;&#x6587;&#x5E76;&#x975E;&#x5F88;&#x9002;&#x5408;&#x9605;&#x8BFB;&#xFF0C;&#x6574;&#x4E2A;&#x7CFB;&#x7EDF;&#x6D41;&#x7A0B;&#x9519;&#x7EFC;&#x590D;&#x6742;&#x3002;</p>
+<p>App crash(&#x5168;&#x7A31;Application crash), &#x5C0D;&#x65BC;Crash&#x53EF;&#x5206;&#x70BA;native crash&#x548C;framework crash(&#x5305;&#x542B;app crash&#x5728;&#x5167;)&#xFF0C;&#x5C0D;&#x65BC;crash&#x76F8;&#x4FE1;&#x5F88;&#x591A;app&#x958B;&#x767C;&#x8005;&#x90FD;&#x6703;&#x9047;&#x5230;&#xFF0C;&#x90A3;&#x9EBC;&#x4E0A;&#x5C64;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x6703;&#x51FA;&#x73FE;crash&#x5462;&#xFF0C;&#x7CFB;&#x7D71;&#x53C8;&#x662F;&#x5982;&#x4F55;&#x8655;&#x7406;crash&#x7684;&#x5462;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5728;app&#x5927;&#x5BB6;&#x7D93;&#x5E38;&#x4F7F;&#x7528;<code class="highlighter-rouge">try...catch</code>&#x8A9E;&#x53E5;&#xFF0C;&#x90A3;&#x9EBC;&#x5982;&#x679C;&#x6C92;&#x6709;&#x6709;&#x6548;catch exception&#xFF0C;&#x5C31;&#x662F;&#x5C0E;&#x81F4;&#x61C9;&#x7528;crash&#xFF0C;&#x767C;&#x751F;&#x6C92;&#x6709;catch exception&#xFF0C;&#x7CFB;&#x7D71;&#x4FBF;&#x6703;&#x4F86;&#x9032;&#x884C;&#x6355;&#x7372;&#xFF0C;&#x4E26;&#x9032;&#x5165;crash&#x6D41;&#x7A0B;&#x3002;&#x5982;&#x679C;&#x4F60;&#x662F;&#x5F9E;&#x4E8B;Android&#x7CFB;&#x7D71;&#x958B;&#x767C;&#x6216;&#x8005;&#x67B6;&#x69CB;&#x76F8;&#x95DC;&#x5DE5;&#x4F5C;&#xFF0C;&#x6216;&#x8005;&#x9047;&#x5230;&#x9700;&#x8981;&#x89E3;&#x7CFB;&#x7D71;&#x6027;&#x7684;&#x7591;&#x96E3;&#x96DC;&#x75C7;&#xFF0C;&#x90A3;&#x9EBC;&#x5F88;&#x6709;&#x5FC5;&#x8981;&#x4E86;&#x89E3;&#x7CFB;&#x7D71;Crash&#x8655;&#x7406;&#x6D41;&#x7A0B;&#xFF0C;&#x77E5;&#x5176;&#x7136;&#x9084;&#x9700;&#x77E5;&#x5176;&#x6240;&#x4EE5;&#x7136;&#xFF1B;&#x5982;&#x679C;&#x4F60;&#x50C5;&#x50C5;&#x662F;App&#x521D;&#x7D1A;&#x958B;&#x767C;&#xFF0C;&#x53EF;&#x80FD;&#x672C;&#x6587;&#x4E26;&#x975E;&#x5F88;&#x9069;&#x5408;&#x95B1;&#x8B80;&#xFF0C;&#x6574;&#x500B;&#x7CFB;&#x7D71;&#x6D41;&#x7A0B;&#x932F;&#x7D9C;&#x8907;&#x96DC;&#x3002;</p>
 
-<p>&#x5728;Android&#x7CFB;&#x7EDF;&#x542F;&#x52A8;&#x7CFB;&#x5217;&#x6587;&#x7AE0;&#xFF0C;&#x5DF2;&#x8BB2;&#x8FF0;&#x8FC7;&#x4E0A;&#x5C42;&#x5E94;&#x7528;&#x90FD;&#x662F;&#x7531;Zygote fork&#x5B75;&#x5316;&#x800C;&#x6765;&#xFF0C;&#x5206;&#x4E3A;system_server&#x7CFB;&#x7EDF;&#x8FDB;&#x7A0B;&#x548C;&#x5404;&#x79CD;&#x5E94;&#x7528;&#x8FDB;&#x7A0B;&#xFF0C;&#x5728;&#x8FD9;&#x4E9B;&#x8FDB;&#x7A0B;&#x521B;&#x5EFA;&#x4E4B;&#x521D;&#x4F1A;&#x8BBE;&#x7F6E;&#x672A;&#x6355;&#x83B7;&#x5F02;&#x5E38;&#x7684;&#x5904;&#x7406;&#x5668;&#xFF0C;&#x5F53;&#x7CFB;&#x7EDF;&#x629B;&#x51FA;&#x672A;&#x6355;&#x83B7;&#x7684;&#x5F02;&#x5E38;&#x65F6;&#xFF0C;&#x6700;&#x7EC8;&#x90FD;&#x4EA4;&#x7ED9;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x5668;&#x3002;</p>
+<p>&#x5728;Android&#x7CFB;&#x7D71;&#x555F;&#x52D5;&#x7CFB;&#x5217;&#x6587;&#x7AE0;&#xFF0C;&#x5DF2;&#x8B1B;&#x8FF0;&#x904E;&#x4E0A;&#x5C64;&#x61C9;&#x7528;&#x90FD;&#x662F;&#x7531;Zygote fork&#x5B75;&#x5316;&#x800C;&#x4F86;&#xFF0C;&#x5206;&#x70BA;system_server&#x7CFB;&#x7D71;&#x9032;&#x7A0B;&#x548C;&#x5404;&#x7A2E;&#x61C9;&#x7528;&#x9032;&#x7A0B;&#xFF0C;&#x5728;&#x9019;&#x4E9B;&#x9032;&#x7A0B;&#x5275;&#x5EFA;&#x4E4B;&#x521D;&#x6703;&#x8A2D;&#x7F6E;&#x672A;&#x6355;&#x7372;&#x7570;&#x5E38;&#x7684;&#x8655;&#x7406;&#x5668;&#xFF0C;&#x7576;&#x7CFB;&#x7D71;&#x62CB;&#x51FA;&#x672A;&#x6355;&#x7372;&#x7684;&#x7570;&#x5E38;&#x6642;&#xFF0C;&#x6700;&#x7D42;&#x90FD;&#x4EA4;&#x7D66;&#x7570;&#x5E38;&#x8655;&#x7406;&#x5668;&#x3002;</p>
 
 <ul>
-  <li>&#x5BF9;&#x4E8E;system_server&#x8FDB;&#x7A0B;&#xFF1A;&#x6587;&#x7AE0;<a href="http://gityuan.com/2016/02/14/android-system-server/#commonInit" target="_blank">Android&#x7CFB;&#x7EDF;&#x542F;&#x52A8;-SystemServer&#x4E0A;&#x7BC7;</a>&#xFF0C;system_server&#x542F;&#x52A8;&#x8FC7;&#x7A0B;&#x4E2D;&#x7531;RuntimeInit.java&#x7684;<code class="highlighter-rouge">commonInit</code>&#x65B9;&#x6CD5;&#x8BBE;&#x7F6E;UncaughtHandler&#xFF0C;&#x7528;&#x4E8E;&#x5904;&#x7406;&#x672A;&#x6355;&#x83B7;&#x5F02;&#x5E38;&#xFF1B;</li>
-  <li>&#x5BF9;&#x4E8E;&#x666E;&#x901A;&#x5E94;&#x7528;&#x8FDB;&#x7A0B;&#xFF1A;&#x6587;&#x7AE0;<a href="http://gityuan.com/2016/03/26/app-process-create/#commoninit" target="_blank">&#x7406;&#x89E3;Android&#x8FDB;&#x7A0B;&#x521B;&#x5EFA;&#x6D41;&#x7A0B;</a> &#xFF0C;&#x8FDB;&#x7A0B;&#x521B;&#x5EFA;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x540C;&#x6837;&#x4F1A;&#x8C03;&#x7528;RuntimeInit.java&#x7684;<code class="highlighter-rouge">commonInit</code>&#x65B9;&#x6CD5;&#x8BBE;&#x7F6E;UncaughtHandler&#x3002;</li>
+  <li>&#x5C0D;&#x65BC;system_server&#x9032;&#x7A0B;&#xFF1A;&#x6587;&#x7AE0;<a href="http://gityuan.com/2016/02/14/android-system-server/#commonInit" target="_blank">Android&#x7CFB;&#x7D71;&#x555F;&#x52D5;-SystemServer&#x4E0A;&#x7BC7;</a>&#xFF0C;system_server&#x555F;&#x52D5;&#x904E;&#x7A0B;&#x4E2D;&#x7531;RuntimeInit.java&#x7684;<code class="highlighter-rouge">commonInit</code>&#x65B9;&#x6CD5;&#x8A2D;&#x7F6E;UncaughtHandler&#xFF0C;&#x7528;&#x65BC;&#x8655;&#x7406;&#x672A;&#x6355;&#x7372;&#x7570;&#x5E38;&#xFF1B;</li>
+  <li>&#x5C0D;&#x65BC;&#x666E;&#x901A;&#x61C9;&#x7528;&#x9032;&#x7A0B;&#xFF1A;&#x6587;&#x7AE0;<a href="http://gityuan.com/2016/03/26/app-process-create/#commoninit" target="_blank">&#x7406;&#x89E3;Android&#x9032;&#x7A0B;&#x5275;&#x5EFA;&#x6D41;&#x7A0B;</a> &#xFF0C;&#x9032;&#x7A0B;&#x5275;&#x5EFA;&#x904E;&#x7A0B;&#x4E2D;&#xFF0C;&#x540C;&#x6A23;&#x6703;&#x8ABF;&#x7528;RuntimeInit.java&#x7684;<code class="highlighter-rouge">commonInit</code>&#x65B9;&#x6CD5;&#x8A2D;&#x7F6E;UncaughtHandler&#x3002;</li>
 </ul>
 
-<h3 id="11-crash&#x8C03;&#x7528;&#x94FE;">1.1 crash&#x8C03;&#x7528;&#x94FE;<a class="anchorjs-link " href="#11-crash&#x8C03;&#x7528;&#x94FE;" aria-label="Anchor link for: 11 crash&#x8C03;&#x7528;&#x94FE;" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
+<h3 id="11-crash&#x8ABF;&#x7528;&#x93C8;">1.1 crash&#x8ABF;&#x7528;&#x93C8;<a class="anchorjs-link " href="#11-crash&#x8ABF;&#x7528;&#x93C8;" aria-label="Anchor link for: 11 crash&#x8ABF;&#x7528;&#x93C8;" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
 
-<p>crash&#x6D41;&#x7A0B;&#x7684;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x5173;&#x7CFB;&#x6765;&#x7ED3;&#x5C3E;&#xFF1A;</p>
+<p>crash&#x6D41;&#x7A0B;&#x7684;&#x65B9;&#x6CD5;&#x8ABF;&#x7528;&#x95DC;&#x4FC2;&#x4F86;&#x7D50;&#x5C3E;&#xFF1A;</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs css">AMP.handleApplicationCrash
     AMS.handleApplicationCrash
@@ -21984,43 +22029,43 @@ Process.killProcess(Process.myPid());
 System.exit(10);
 </code></pre></div></div>
 
-<p>&#x63A5;&#x4E0B;&#x6765;&#x8BF4;&#x8BF4;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x3002;</p>
+<p>&#x63A5;&#x4E0B;&#x4F86;&#x8AAA;&#x8AAA;&#x9019;&#x500B;&#x904E;&#x7A0B;&#x3002;</p>
 
-<h2 id="&#x4E8C;crash&#x5904;&#x7406;&#x6D41;&#x7A0B;">&#x4E8C;&#x3001;Crash&#x5904;&#x7406;&#x6D41;&#x7A0B;<a class="anchorjs-link " href="#&#x4E8C;crash&#x5904;&#x7406;&#x6D41;&#x7A0B;" aria-label="Anchor link for: &#x4E8C;crash&#x5904;&#x7406;&#x6D41;&#x7A0B;" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h2>
+<h2 id="&#x4E8C;crash&#x8655;&#x7406;&#x6D41;&#x7A0B;">&#x4E8C;&#x3001;Crash&#x8655;&#x7406;&#x6D41;&#x7A0B;<a class="anchorjs-link " href="#&#x4E8C;crash&#x8655;&#x7406;&#x6D41;&#x7A0B;" aria-label="Anchor link for: &#x4E8C;crash&#x8655;&#x7406;&#x6D41;&#x7A0B;" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h2>
 
-<p>&#x90A3;&#x4E48;&#x63A5;&#x4E0B;&#x6765;&#x4EE5;commonInit()&#x65B9;&#x6CD5;&#x4E3A;&#x8D77;&#x70B9;&#x6765;&#x5C55;&#x5F00;&#x8BF4;&#x660E;&#x3002;</p>
+<p>&#x90A3;&#x9EBC;&#x63A5;&#x4E0B;&#x4F86;&#x4EE5;commonInit()&#x65B9;&#x6CD5;&#x70BA;&#x8D77;&#x9EDE;&#x4F86;&#x5C55;&#x958B;&#x8AAA;&#x660E;&#x3002;</p>
 
 <h3 id="1-runtimeinitcommoninit">1. RuntimeInit.commonInit<a class="anchorjs-link " href="#1-runtimeinitcommoninit" aria-label="Anchor link for: 1 runtimeinitcommoninit" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">public class RuntimeInit {
     ...
     private static final void commonInit() {
-        //&#x8BBE;&#x7F6E;&#x9ED8;&#x8BA4;&#x7684;&#x672A;&#x6355;&#x83B7;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x5668;&#xFF0C;UncaughtHandler&#x5B9E;&#x4F8B;&#x5316;&#x8FC7;&#x7A0B;&#x3010;&#x89C1;&#x5C0F;&#x8282;2&#x3011;
+        //&#x8A2D;&#x7F6E;&#x9ED8;&#x8A8D;&#x7684;&#x672A;&#x6355;&#x7372;&#x7570;&#x5E38;&#x8655;&#x7406;&#x5668;&#xFF0C;UncaughtHandler&#x5BE6;&#x4F8B;&#x5316;&#x904E;&#x7A0B;&#x3010;&#x898B;&#x5C0F;&#x7BC0;2&#x3011;
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler());
         ...
     }
 }
 </code></pre></div></div>
 
-<p>setDefaultUncaughtExceptionHandler()&#x53EA;&#x662F;&#x5C06;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x5668;handler&#x5BF9;&#x8C61;&#x8D4B;&#x7ED9;Thread&#x6210;&#x5458;&#x53D8;&#x91CF;,&#x5373;<code class="highlighter-rouge">Thread.defaultUncaughtHandler = new UncaughtHandler()</code>&#x3002;&#x63A5;&#x4E0B;&#x6765;&#x770B;&#x770B;UncaughtHandler&#x5BF9;&#x8C61;&#x5B9E;&#x4F8B;&#x5316;&#x8FC7;&#x7A0B;&#x3002;</p>
+<p>setDefaultUncaughtExceptionHandler()&#x53EA;&#x662F;&#x5C07;&#x7570;&#x5E38;&#x8655;&#x7406;&#x5668;handler&#x5C0D;&#x8C61;&#x8CE6;&#x7D66;Thread&#x6210;&#x54E1;&#x8B8A;&#x91CF;,&#x5373;<code class="highlighter-rouge">Thread.defaultUncaughtHandler = new UncaughtHandler()</code>&#x3002;&#x63A5;&#x4E0B;&#x4F86;&#x770B;&#x770B;UncaughtHandler&#x5C0D;&#x8C61;&#x5BE6;&#x4F8B;&#x5316;&#x904E;&#x7A0B;&#x3002;</p>
 
 <h3 id="2-uncaughthandler">2. UncaughtHandler<a class="anchorjs-link " href="#2-uncaughthandler" aria-label="Anchor link for: 2 uncaughthandler" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
 
 <p>[&#x2013;&gt;RuntimeInit.java]</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">private static class UncaughtHandler implements Thread.UncaughtExceptionHandler {
-    //&#x8986;&#x5199;&#x63A5;&#x53E3;&#x65B9;&#x6CD5;
+    //&#x8986;&#x5BEB;&#x63A5;&#x53E3;&#x65B9;&#x6CD5;
     public void uncaughtException(Thread t, Throwable e) {
         try {
-            //&#x4FDD;&#x8BC1;crash&#x5904;&#x7406;&#x8FC7;&#x7A0B;&#x4E0D;&#x4F1A;&#x91CD;&#x5165;
+            //&#x4FDD;&#x8B49;crash&#x8655;&#x7406;&#x904E;&#x7A0B;&#x4E0D;&#x6703;&#x91CD;&#x5165;
             if (mCrashing) return;
             mCrashing = true;
 
             if (mApplicationObject == null) {
-                //system_server&#x8FDB;&#x7A0B;
+                //system_server&#x9032;&#x7A0B;
                 Clog_e(TAG, &quot;*** FATAL EXCEPTION IN SYSTEM PROCESS: &quot; + t.getName(), e);
             } else {
-                //&#x666E;&#x901A;&#x5E94;&#x7528;&#x8FDB;&#x7A0B;
+                //&#x666E;&#x901A;&#x61C9;&#x7528;&#x9032;&#x7A0B;
                 StringBuilder message = new StringBuilder();
                 message.append(&quot;FATAL EXCEPTION: &quot;).append(t.getName()).append(&quot;\n&quot;);
                 final String processName = ActivityThread.currentProcessName();
@@ -22031,13 +22076,13 @@ System.exit(10);
                 Clog_e(TAG, message.toString(), e);
             }
 
-            //&#x542F;&#x52A8;crash&#x5BF9;&#x8BDD;&#x6846;&#xFF0C;&#x7B49;&#x5F85;&#x5904;&#x7406;&#x5B8C;&#x6210; &#x3010;&#x89C1;&#x5C0F;&#x8282;2.1&#x548C;3&#x3011;
+            //&#x555F;&#x52D5;crash&#x5C0D;&#x8A71;&#x6846;&#xFF0C;&#x7B49;&#x5F85;&#x8655;&#x7406;&#x5B8C;&#x6210; &#x3010;&#x898B;&#x5C0F;&#x7BC0;2.1&#x548C;3&#x3011;
             ActivityManagerNative.getDefault().handleApplicationCrash(
                     mApplicationObject, new ApplicationErrorReport.CrashInfo(e));
         } catch (Throwable t2) {
             ...
         } finally {
-            //&#x786E;&#x4FDD;&#x5F53;&#x524D;&#x8FDB;&#x7A0B;&#x5F7B;&#x5E95;&#x6740;&#x6389;&#x3010;&#x89C1;&#x5C0F;&#x8282;11&#x3011;
+            //&#x78BA;&#x4FDD;&#x7576;&#x524D;&#x9032;&#x7A0B;&#x5FB9;&#x5E95;&#x6BBA;&#x6389;&#x3010;&#x898B;&#x5C0F;&#x7BC0;11&#x3011;
             Process.killProcess(Process.myPid());
             System.exit(10);
         }
@@ -22046,26 +22091,26 @@ System.exit(10);
 </code></pre></div></div>
 
 <ol>
-  <li>&#x5F53;system&#x8FDB;&#x7A0B;crash&#x7684;&#x4FE1;&#x606F;&#xFF1A;
+  <li>&#x7576;system&#x9032;&#x7A0B;crash&#x7684;&#x4FE1;&#x606F;&#xFF1A;
     <ul>
-      <li>&#x5F00;&#x5934;<code class="highlighter-rouge">*** FATAL EXCEPTION IN SYSTEM PROCESS [&#x7EBF;&#x7A0B;&#x540D;]</code>&#xFF1B;</li>
-      <li>&#x63A5;&#x7740;&#x8F93;&#x51FA;&#x53D1;&#x751F;crash&#x65F6;&#x7684;&#x8C03;&#x7528;&#x6808;&#x4FE1;&#x606F;&#xFF1B;</li>
+      <li>&#x958B;&#x982D;<code class="highlighter-rouge">*** FATAL EXCEPTION IN SYSTEM PROCESS [&#x7DDA;&#x7A0B;&#x540D;]</code>&#xFF1B;</li>
+      <li>&#x63A5;&#x8457;&#x8F38;&#x51FA;&#x767C;&#x751F;crash&#x6642;&#x7684;&#x8ABF;&#x7528;&#x68E7;&#x4FE1;&#x606F;&#xFF1B;</li>
     </ul>
   </li>
-  <li>&#x5F53;app&#x8FDB;&#x7A0B;crash&#x65F6;&#x7684;&#x4FE1;&#x606F;&#xFF1A;
+  <li>&#x7576;app&#x9032;&#x7A0B;crash&#x6642;&#x7684;&#x4FE1;&#x606F;&#xFF1A;
     <ul>
-      <li>&#x5F00;&#x5934;<code class="highlighter-rouge">FATAL EXCEPTION: [&#x7EBF;&#x7A0B;&#x540D;]</code>&#xFF1B;</li>
-      <li>&#x7D27;&#x63A5;&#x7740; <code class="highlighter-rouge">Process: [&#x8FDB;&#x7A0B;&#x540D;], PID: [&#x8FDB;&#x7A0B;id]</code>&#xFF1B;</li>
-      <li>&#x6700;&#x540E;&#x8F93;&#x51FA;&#x53D1;&#x751F;crash&#x65F6;&#x7684;&#x8C03;&#x7528;&#x6808;&#x4FE1;&#x606F;&#x3002;</li>
+      <li>&#x958B;&#x982D;<code class="highlighter-rouge">FATAL EXCEPTION: [&#x7DDA;&#x7A0B;&#x540D;]</code>&#xFF1B;</li>
+      <li>&#x7DCA;&#x63A5;&#x8457; <code class="highlighter-rouge">Process: [&#x9032;&#x7A0B;&#x540D;], PID: [&#x9032;&#x7A0B;id]</code>&#xFF1B;</li>
+      <li>&#x6700;&#x5F8C;&#x8F38;&#x51FA;&#x767C;&#x751F;crash&#x6642;&#x7684;&#x8ABF;&#x7528;&#x68E7;&#x4FE1;&#x606F;&#x3002;</li>
     </ul>
   </li>
 </ol>
 
-<p>&#x770B;&#x5230;&#x8FD9;&#x91CC;&#xFF0C;&#x4F60;&#x5C31;&#x4F1A;&#x53D1;&#x73B0;&#x8981;&#x4ECE;log&#x4E2D;&#x641C;&#x7D22;crash&#x4FE1;&#x606F;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x641C;&#x7D22;&#x5173;&#x952E;&#x8BCD;<code class="highlighter-rouge">FATAL EXCEPTION</code>&#xFF1B;&#x5982;&#x679C;&#x9700;&#x8981;&#x8FDB;&#x4E00;&#x6B65;&#x7B5B;&#x9009;&#x53EA;&#x641C;&#x7D22;&#x7CFB;&#x7EDF;crash&#x4FE1;&#x606F;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x641C;&#x7D22;&#x7684;&#x5173;&#x952E;&#x8BCD;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x6837;&#xFF0C;&#x6BD4;&#x5982;<code class="highlighter-rouge">*** FATAL EXCEPTION</code>&#x3002;</p>
+<p>&#x770B;&#x5230;&#x9019;&#x88E1;&#xFF0C;&#x4F60;&#x5C31;&#x6703;&#x767C;&#x73FE;&#x8981;&#x5F9E;log&#x4E2D;&#x641C;&#x7D22;crash&#x4FE1;&#x606F;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x641C;&#x7D22;&#x95DC;&#x9375;&#x8A5E;<code class="highlighter-rouge">FATAL EXCEPTION</code>&#xFF1B;&#x5982;&#x679C;&#x9700;&#x8981;&#x9032;&#x4E00;&#x6B65;&#x7BE9;&#x9078;&#x53EA;&#x641C;&#x7D22;&#x7CFB;&#x7D71;crash&#x4FE1;&#x606F;&#xFF0C;&#x5247;&#x53EF;&#x4EE5;&#x641C;&#x7D22;&#x7684;&#x95DC;&#x9375;&#x8A5E;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x6A23;&#xFF0C;&#x6BD4;&#x5982;<code class="highlighter-rouge">*** FATAL EXCEPTION</code>&#x3002;</p>
 
-<p>&#x5F53;&#x8F93;&#x51FA;&#x5B8C;crash&#x4FE1;&#x606F;&#x5230;logcat&#x91CC;&#x9762;&#xFF0C;&#x8FD9;&#x53EA;&#x662F;crash&#x6D41;&#x7A0B;&#x7684;&#x521A;&#x5F00;&#x59CB;&#x9636;&#x6BB5;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x5F39;&#x51FA;<code class="highlighter-rouge">crash&#x5BF9;&#x8BDD;&#x6846;</code>&#xFF0C;ActivityManagerNative.getDefault()&#x8FD4;&#x56DE;&#x7684;&#x662F;ActivityManagerProxy&#xFF08;&#x7B80;&#x79F0;<code class="highlighter-rouge">AMP</code>&#xFF09;&#xFF0C;<code class="highlighter-rouge">AMP</code>&#x7ECF;&#x8FC7;binder&#x8C03;&#x7528;&#x6700;&#x7EC8;&#x4EA4;&#x7ED9;ActivityManagerService(&#x7B80;&#x79F0;<code class="highlighter-rouge">AMS</code>)&#x4E2D;&#x76F8;&#x5E94;&#x7684;&#x65B9;&#x6CD5;&#x53BB;&#x5904;&#x7406;&#xFF0C;&#x6545;&#x63A5;&#x4E0B;&#x6765;&#x8C03;&#x7528;&#x7684;&#x662F;AMS.handleApplicationCrash()&#x3002;</p>
+<p>&#x7576;&#x8F38;&#x51FA;&#x5B8C;crash&#x4FE1;&#x606F;&#x5230;logcat&#x88E1;&#x9762;&#xFF0C;&#x9019;&#x53EA;&#x662F;crash&#x6D41;&#x7A0B;&#x7684;&#x525B;&#x958B;&#x59CB;&#x968E;&#x6BB5;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x5F48;&#x51FA;<code class="highlighter-rouge">crash&#x5C0D;&#x8A71;&#x6846;</code>&#xFF0C;ActivityManagerNative.getDefault()&#x8FD4;&#x56DE;&#x7684;&#x662F;ActivityManagerProxy&#xFF08;&#x7C21;&#x7A31;<code class="highlighter-rouge">AMP</code>&#xFF09;&#xFF0C;<code class="highlighter-rouge">AMP</code>&#x7D93;&#x904E;binder&#x8ABF;&#x7528;&#x6700;&#x7D42;&#x4EA4;&#x7D66;ActivityManagerService(&#x7C21;&#x7A31;<code class="highlighter-rouge">AMS</code>)&#x4E2D;&#x76F8;&#x61C9;&#x7684;&#x65B9;&#x6CD5;&#x53BB;&#x8655;&#x7406;&#xFF0C;&#x6545;&#x63A5;&#x4E0B;&#x4F86;&#x8ABF;&#x7528;&#x7684;&#x662F;AMS.handleApplicationCrash()&#x3002;</p>
 
-<p><strong>&#x6CE8;&#x610F;</strong>: mApplicationObject&#x7B49;&#x4E8E;null,&#x4E00;&#x5B9A;&#x4E0D;&#x662F;&#x666E;&#x901A;&#x7684;app&#x8FDB;&#x7A0B;. &#x4F46;&#x662F;&#x9664;&#x4E86;system&#x8FDB;&#x7A0B;, &#x4E5F;&#x6709;&#x53EF;&#x80FD;&#x662F;shell&#x8FDB;&#x7A0B;, &#x5373;&#x901A;&#x8FC7;app_process + &#x547D;&#x4EE4;&#x53C2;&#x6570; &#x7684;&#x65B9;&#x5F0F;&#x521B;&#x5EFA;&#x7684;&#x8FDB;&#x7A0B;.</p>
+<p><strong>&#x6CE8;&#x610F;</strong>: mApplicationObject&#x7B49;&#x65BC;null,&#x4E00;&#x5B9A;&#x4E0D;&#x662F;&#x666E;&#x901A;&#x7684;app&#x9032;&#x7A0B;. &#x4F46;&#x662F;&#x9664;&#x4E86;system&#x9032;&#x7A0B;, &#x4E5F;&#x6709;&#x53EF;&#x80FD;&#x662F;shell&#x9032;&#x7A0B;, &#x5373;&#x901A;&#x904E;app_process + &#x547D;&#x4EE4;&#x53C3;&#x6578; &#x7684;&#x65B9;&#x5F0F;&#x5275;&#x5EFA;&#x7684;&#x9032;&#x7A0B;.</p>
 
 <h4 id="21-crashinfo">2.1 CrashInfo<a class="anchorjs-link " href="#21-crashinfo" aria-label="Anchor link for: 21 crashinfo" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h4>
 
@@ -22077,7 +22122,7 @@ System.exit(10);
         public CrashInfo(Throwable tr) {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new FastPrintWriter(sw, false, 256);
-            tr.printStackTrace(pw); //&#x8F93;&#x51FA;&#x6808;trace
+            tr.printStackTrace(pw); //&#x8F38;&#x51FA;&#x68E7;trace
             pw.flush();
             stackTrace = sw.toString();
             exceptionMessage = tr.getMessage();
@@ -22113,28 +22158,28 @@ System.exit(10);
 }
 </code></pre></div></div>
 
-<p>&#x5C06;crash&#x4FE1;&#x606F;<code class="highlighter-rouge">&#x6587;&#x4EF6;&#x540D;</code>&#xFF0C;<code class="highlighter-rouge">&#x7C7B;&#x540D;</code>&#xFF0C;<code class="highlighter-rouge">&#x65B9;&#x6CD5;&#x540D;</code>&#xFF0C;<code class="highlighter-rouge">&#x5BF9;&#x5E94;&#x884C;&#x53F7;</code>&#x4EE5;&#x53CA;<code class="highlighter-rouge">&#x5F02;&#x5E38;&#x4FE1;&#x606F;</code>&#x90FD;&#x5C01;&#x88C5;&#x5230;CrashInfo&#x5BF9;&#x8C61;&#x3002;</p>
+<p>&#x5C07;crash&#x4FE1;&#x606F;<code class="highlighter-rouge">&#x6587;&#x4EF6;&#x540D;</code>&#xFF0C;<code class="highlighter-rouge">&#x985E;&#x540D;</code>&#xFF0C;<code class="highlighter-rouge">&#x65B9;&#x6CD5;&#x540D;</code>&#xFF0C;<code class="highlighter-rouge">&#x5C0D;&#x61C9;&#x884C;&#x865F;</code>&#x4EE5;&#x53CA;<code class="highlighter-rouge">&#x7570;&#x5E38;&#x4FE1;&#x606F;</code>&#x90FD;&#x5C01;&#x88DD;&#x5230;CrashInfo&#x5C0D;&#x8C61;&#x3002;</p>
 
 <h3 id="3-handleapplicationcrash">3. handleApplicationCrash<a class="anchorjs-link " href="#3-handleapplicationcrash" aria-label="Anchor link for: 3 handleapplicationcrash" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
 
 <p>[&#x2013;&gt;ActivityManagerService.java]</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">public void handleApplicationCrash(IBinder app, ApplicationErrorReport.CrashInfo crashInfo) {
-    //&#x83B7;&#x53D6;&#x8FDB;&#x7A0B;record&#x5BF9;&#x8C61;&#x3010;&#x89C1;&#x5C0F;&#x8282;3.1&#x3011;
+    //&#x7372;&#x53D6;&#x9032;&#x7A0B;record&#x5C0D;&#x8C61;&#x3010;&#x898B;&#x5C0F;&#x7BC0;3.1&#x3011;
     ProcessRecord r = findAppProcess(app, &quot;Crash&quot;);
     final String processName = app == null ? &quot;system_server&quot;
             : (r == null ? &quot;unknown&quot; : r.processName);
-    //&#x3010;&#x89C1;&#x5C0F;&#x8282;4&#x3011;
+    //&#x3010;&#x898B;&#x5C0F;&#x7BC0;4&#x3011;
     handleApplicationCrashInner(&quot;crash&quot;, r, processName, crashInfo);
 }
 </code></pre></div></div>
 
-<p>&#x5173;&#x4E8E;&#x8FDB;&#x7A0B;&#x540D;(processName)&#xFF1A;</p>
+<p>&#x95DC;&#x65BC;&#x9032;&#x7A0B;&#x540D;(processName)&#xFF1A;</p>
 
 <ol>
-  <li>&#x5F53;&#x8FDC;&#x7A0B;IBinder&#x5BF9;&#x8C61;&#x4E3A;&#x7A7A;&#x65F6;&#xFF0C;&#x5219;&#x8FDB;&#x7A0B;&#x540D;&#x4E3A;<code class="highlighter-rouge">system_server</code>&#xFF1B;</li>
-  <li>&#x5F53;&#x8FDC;&#x7A0B;IBinder&#x5BF9;&#x8C61;&#x4E0D;&#x4E3A;&#x7A7A;&#xFF0C;&#x4E14;ProcessRecord&#x4E3A;&#x7A7A;&#x65F6;&#xFF0C;&#x5219;&#x8FDB;&#x7A0B;&#x540D;&#x4E3A;<code class="highlighter-rouge">unknown</code>;</li>
-  <li>&#x5F53;&#x8FDC;&#x7A0B;IBinder&#x5BF9;&#x8C61;&#x4E0D;&#x4E3A;&#x7A7A;&#xFF0C;&#x4E14;ProcessRecord&#x4E0D;&#x4E3A;&#x7A7A;&#x65F6;&#xFF0C;&#x5219;&#x8FDB;&#x7A0B;&#x540D;&#x4E3A;ProcessRecord&#x5BF9;&#x8C61;&#x4E2D;&#x76F8;&#x5E94;&#x8FDB;&#x7A0B;&#x540D;&#x3002;</li>
+  <li>&#x7576;&#x9060;&#x7A0B;IBinder&#x5C0D;&#x8C61;&#x70BA;&#x7A7A;&#x6642;&#xFF0C;&#x5247;&#x9032;&#x7A0B;&#x540D;&#x70BA;<code class="highlighter-rouge">system_server</code>&#xFF1B;</li>
+  <li>&#x7576;&#x9060;&#x7A0B;IBinder&#x5C0D;&#x8C61;&#x4E0D;&#x70BA;&#x7A7A;&#xFF0C;&#x4E14;ProcessRecord&#x70BA;&#x7A7A;&#x6642;&#xFF0C;&#x5247;&#x9032;&#x7A0B;&#x540D;&#x70BA;<code class="highlighter-rouge">unknown</code>;</li>
+  <li>&#x7576;&#x9060;&#x7A0B;IBinder&#x5C0D;&#x8C61;&#x4E0D;&#x70BA;&#x7A7A;&#xFF0C;&#x4E14;ProcessRecord&#x4E0D;&#x70BA;&#x7A7A;&#x6642;&#xFF0C;&#x5247;&#x9032;&#x7A0B;&#x540D;&#x70BA;ProcessRecord&#x5C0D;&#x8C61;&#x4E2D;&#x76F8;&#x61C9;&#x9032;&#x7A0B;&#x540D;&#x3002;</li>
 </ol>
 
 <h4 id="31-findappprocess">3.1 findAppProcess<a class="anchorjs-link " href="#31-findappprocess" aria-label="Anchor link for: 31 findappprocess" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h4>
@@ -22153,33 +22198,33 @@ System.exit(10);
             final int NA = apps.size();
             for (int ia=0; ia&lt;NA; ia++) {
                 ProcessRecord p = apps.valueAt(ia);
-                //&#x5F53;&#x627E;&#x5230;&#x76EE;&#x6807;&#x8FDB;&#x7A0B;&#x5219;&#x8FD4;&#x56DE;
+                //&#x7576;&#x627E;&#x5230;&#x76EE;&#x6A19;&#x9032;&#x7A0B;&#x5247;&#x8FD4;&#x56DE;
                 if (p.thread != null &amp;&amp; p.thread.asBinder() == app) {
                     return p;
                 }
             }
         }
-        //&#x5982;&#x679C;&#x4EE3;&#x7801;&#x6267;&#x884C;&#x5230;&#x8FD9;&#x91CC;&#xFF0C;&#x8868;&#x660E;&#x65E0;&#x6CD5;&#x627E;&#x5230;&#x5E94;&#x7528;&#x6240;&#x5728;&#x7684;&#x8FDB;&#x7A0B;
+        //&#x5982;&#x679C;&#x4EE3;&#x78BC;&#x57F7;&#x884C;&#x5230;&#x9019;&#x88E1;&#xFF0C;&#x8868;&#x660E;&#x7121;&#x6CD5;&#x627E;&#x5230;&#x61C9;&#x7528;&#x6240;&#x5728;&#x7684;&#x9032;&#x7A0B;
         return null;
     }
 }
 </code></pre></div></div>
 
-<p>&#x5176;&#x4E2D; <code class="highlighter-rouge">mProcessNames = new ProcessMap&lt;ProcessRecord&gt;();</code>&#x5BF9;&#x4E8E;&#x4EE3;&#x7801;<code class="highlighter-rouge">mProcessNames.getMap()</code>&#x8FD4;&#x56DE;&#x7684;&#x662F;<code class="highlighter-rouge">mMap</code>&#xFF0C;&#x800C;<code class="highlighter-rouge">mMap= new ArrayMap&lt;String, SparseArray&lt;ProcessRecord&gt;&gt;()</code>;</p>
+<p>&#x5176;&#x4E2D; <code class="highlighter-rouge">mProcessNames = new ProcessMap&lt;ProcessRecord&gt;();</code>&#x5C0D;&#x65BC;&#x4EE3;&#x78BC;<code class="highlighter-rouge">mProcessNames.getMap()</code>&#x8FD4;&#x56DE;&#x7684;&#x662F;<code class="highlighter-rouge">mMap</code>&#xFF0C;&#x800C;<code class="highlighter-rouge">mMap= new ArrayMap&lt;String, SparseArray&lt;ProcessRecord&gt;&gt;()</code>;</p>
 
-<p><strong>&#x77E5;&#x8BC6;&#x5EF6;&#x4F38;&#xFF1A;</strong><code class="highlighter-rouge">SparseArray</code>&#x548C;<code class="highlighter-rouge">ArrayMap</code>&#x662F;Android&#x4E13;&#x95E8;&#x9488;&#x5BF9;&#x5185;&#x5B58;&#x4F18;&#x5316;&#x800C;&#x8BBE;&#x8BA1;&#x7684;&#x53D6;&#x4EE3;Java API&#x4E2D;&#x7684;<code class="highlighter-rouge">HashMap</code>&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3002;&#x5BF9;&#x4E8E;key&#x662F;int&#x7C7B;&#x578B;&#x5219;&#x4F7F;&#x7528;<code class="highlighter-rouge">SparseArray</code>&#xFF0C;&#x53EF;&#x907F;&#x514D;&#x81EA;&#x52A8;&#x88C5;&#x7BB1;&#x8FC7;&#x7A0B;&#xFF1B;&#x5BF9;&#x4E8E;key&#x4E3A;&#x5176;&#x4ED6;&#x7C7B;&#x578B;&#x5219;&#x4F7F;&#x7528;<code class="highlighter-rouge">ArrayMap</code>&#x3002;<code class="highlighter-rouge">HashMap</code>&#x7684;&#x67E5;&#x627E;&#x548C;&#x63D2;&#x5165;&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;&#x4E3A;O(1)&#x7684;&#x4EE3;&#x4EF7;&#x662F;&#x727A;&#x7272;&#x5927;&#x91CF;&#x7684;&#x5185;&#x5B58;&#x6765;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x800C;<code class="highlighter-rouge">SparseArray</code>&#x548C;<code class="highlighter-rouge">ArrayMap</code>&#x6027;&#x80FD;&#x7565;&#x900A;&#x4E8E;<code class="highlighter-rouge">HashMap</code>&#xFF0C;&#x4F46;&#x66F4;&#x8282;&#x7701;&#x5185;&#x5B58;&#x3002;</p>
+<p><strong>&#x77E5;&#x8B58;&#x5EF6;&#x4F38;&#xFF1A;</strong><code class="highlighter-rouge">SparseArray</code>&#x548C;<code class="highlighter-rouge">ArrayMap</code>&#x662F;Android&#x5C08;&#x9580;&#x91DD;&#x5C0D;&#x5167;&#x5B58;&#x512A;&#x5316;&#x800C;&#x8A2D;&#x8A08;&#x7684;&#x53D6;&#x4EE3;Java API&#x4E2D;&#x7684;<code class="highlighter-rouge">HashMap</code>&#x7684;&#x6578;&#x64DA;&#x7D50;&#x69CB;&#x3002;&#x5C0D;&#x65BC;key&#x662F;int&#x985E;&#x578B;&#x5247;&#x4F7F;&#x7528;<code class="highlighter-rouge">SparseArray</code>&#xFF0C;&#x53EF;&#x907F;&#x514D;&#x81EA;&#x52D5;&#x88DD;&#x7BB1;&#x904E;&#x7A0B;&#xFF1B;&#x5C0D;&#x65BC;key&#x70BA;&#x5176;&#x4ED6;&#x985E;&#x578B;&#x5247;&#x4F7F;&#x7528;<code class="highlighter-rouge">ArrayMap</code>&#x3002;<code class="highlighter-rouge">HashMap</code>&#x7684;&#x67E5;&#x627E;&#x548C;&#x63D2;&#x5165;&#x6642;&#x9593;&#x8907;&#x96DC;&#x5EA6;&#x70BA;O(1)&#x7684;&#x4EE3;&#x50F9;&#x662F;&#x72A7;&#x7272;&#x5927;&#x91CF;&#x7684;&#x5167;&#x5B58;&#x4F86;&#x5BE6;&#x73FE;&#x7684;&#xFF0C;&#x800C;<code class="highlighter-rouge">SparseArray</code>&#x548C;<code class="highlighter-rouge">ArrayMap</code>&#x6027;&#x80FD;&#x7565;&#x905C;&#x65BC;<code class="highlighter-rouge">HashMap</code>&#xFF0C;&#x4F46;&#x66F4;&#x7BC0;&#x7701;&#x5167;&#x5B58;&#x3002;</p>
 
-<p>&#x518D;&#x56DE;&#x5230;<code class="highlighter-rouge">mMap</code>&#xFF0C;&#x8FD9;&#x662F;&#x4EE5;&#x8FDB;&#x7A0B;name&#x4E3A;key&#xFF0C;&#x518D;&#x4EE5;(uid&#x4E3A;key&#xFF0C;&#x4EE5;ProcessRecord&#x4E3A;Value&#x7684;)&#x7ED3;&#x6784;&#x4F53;&#x4F5C;&#x4E3A;value&#x3002;&#x4E0B;&#x9762;&#x770B;&#x770B;&#x5176;get()&#x548C;put()&#x65B9;&#x6CD5;</p>
+<p>&#x518D;&#x56DE;&#x5230;<code class="highlighter-rouge">mMap</code>&#xFF0C;&#x9019;&#x662F;&#x4EE5;&#x9032;&#x7A0B;name&#x70BA;key&#xFF0C;&#x518D;&#x4EE5;(uid&#x70BA;key&#xFF0C;&#x4EE5;ProcessRecord&#x70BA;Value&#x7684;)&#x7D50;&#x69CB;&#x9AD4;&#x4F5C;&#x70BA;value&#x3002;&#x4E0B;&#x9762;&#x770B;&#x770B;&#x5176;get()&#x548C;put()&#x65B9;&#x6CD5;</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs cs">//&#x83B7;&#x53D6;mMap&#x4E2D;(name,uid)&#x6240;&#x5BF9;&#x5E94;&#x7684;ProcessRecord
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs cs">//&#x7372;&#x53D6;mMap&#x4E2D;(name,uid)&#x6240;&#x5C0D;&#x61C9;&#x7684;ProcessRecord
 public ProcessRecord get(String name, int uid) {}&#xFF1B;
-//&#x5C06;(name,uid, value)&#x6DFB;&#x52A0;&#x5230;mMap
+//&#x5C07;(name,uid, value)&#x6DFB;&#x52A0;&#x5230;mMap
 public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
 </code></pre></div></div>
 
-<p>findAppProcess()&#x6839;&#x636E;app(IBinder&#x7C7B;&#x578B;)&#x6765;&#x67E5;&#x8BE2;&#x76F8;&#x5E94;&#x7684;&#x76EE;&#x6807;&#x5BF9;&#x8C61;ProcessRecord&#x3002;</p>
+<p>findAppProcess()&#x6839;&#x64DA;app(IBinder&#x985E;&#x578B;)&#x4F86;&#x67E5;&#x8A62;&#x76F8;&#x61C9;&#x7684;&#x76EE;&#x6A19;&#x5C0D;&#x8C61;ProcessRecord&#x3002;</p>
 
-<p>&#x6709;&#x4E86;&#x8FDB;&#x7A0B;&#x8BB0;&#x5F55;&#x5BF9;&#x8C61;ProcessRecord&#x548C;&#x8FDB;&#x7A0B;&#x540D;processName&#xFF0C;&#x5219;&#x8FDB;&#x5165;&#x6267;&#x884C;Crash&#x5904;&#x7406;&#x65B9;&#x6CD5;&#xFF0C;&#x7EE7;&#x7EED;&#x5F80;&#x4E0B;&#x770B;&#x3002;</p>
+<p>&#x6709;&#x4E86;&#x9032;&#x7A0B;&#x8A18;&#x9304;&#x5C0D;&#x8C61;ProcessRecord&#x548C;&#x9032;&#x7A0B;&#x540D;processName&#xFF0C;&#x5247;&#x9032;&#x5165;&#x57F7;&#x884C;Crash&#x8655;&#x7406;&#x65B9;&#x6CD5;&#xFF0C;&#x7E7C;&#x7E8C;&#x5F80;&#x4E0B;&#x770B;&#x3002;</p>
 
 <h3 id="4-handleapplicationcrashinner">4. handleApplicationCrashInner<a class="anchorjs-link " href="#4-handleapplicationcrashinner" aria-label="Anchor link for: 4 handleapplicationcrashinner" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
 
@@ -22187,16 +22232,16 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs javascript">void handleApplicationCrashInner(String eventType, ProcessRecord r, String processName,
         ApplicationErrorReport.CrashInfo crashInfo) {
-    //&#x5C06;Crash&#x4FE1;&#x606F;&#x5199;&#x5165;&#x5230;Event log
+    //&#x5C07;Crash&#x4FE1;&#x606F;&#x5BEB;&#x5165;&#x5230;Event log
     EventLog.writeEvent(EventLogTags.AM_CRASH,...);
-    //&#x5C06;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x6DFB;&#x52A0;&#x5230;DropBox
+    //&#x5C07;&#x932F;&#x8AA4;&#x4FE1;&#x606F;&#x6DFB;&#x52A0;&#x5230;DropBox
     addErrorToDropBox(eventType, r, processName, null, null, null, null, null, crashInfo);
-    //&#x3010;&#x89C1;&#x5C0F;&#x8282;5&#x3011;
+    //&#x3010;&#x898B;&#x5C0F;&#x7BC0;5&#x3011;
     crashApplication(r, crashInfo);
 }
 </code></pre></div></div>
 
-<p>&#x5176;&#x4E2D;<a href="http://gityuan.com/2016/06/12/DropBoxManagerService/#amsadderrortodropbox" target="_blank">addErrorToDropBox</a>&#x662F;&#x5C06;crash&#x7684;&#x4FE1;&#x606F;&#x8F93;&#x51FA;&#x5230;&#x76EE;&#x5F55;<code class="highlighter-rouge">/data/system/dropbox</code>&#x3002;&#x4F8B;&#x5982;system_server&#x7684;dropbox&#x6587;&#x4EF6;&#x540D;&#x4E3A;system_server_crash@xxx.txt (xxx&#x4EE3;&#x8868;&#x7684;&#x662F;&#x65F6;&#x95F4;&#x6233;)</p>
+<p>&#x5176;&#x4E2D;<a href="http://gityuan.com/2016/06/12/DropBoxManagerService/#amsadderrortodropbox" target="_blank">addErrorToDropBox</a>&#x662F;&#x5C07;crash&#x7684;&#x4FE1;&#x606F;&#x8F38;&#x51FA;&#x5230;&#x76EE;&#x9304;<code class="highlighter-rouge">/data/system/dropbox</code>&#x3002;&#x4F8B;&#x5982;system_server&#x7684;dropbox&#x6587;&#x4EF6;&#x540D;&#x70BA;system_server_crash@xxx.txt (xxx&#x4EE3;&#x8868;&#x7684;&#x662F;&#x6642;&#x9593;&#x6233;)</p>
 
 <h3 id="5-crashapplication">5. crashApplication<a class="anchorjs-link " href="#5-crashapplication" aria-label="Anchor link for: 5 crashapplication" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
 
@@ -22215,13 +22260,13 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
 
     AppErrorResult result = new AppErrorResult();
     synchronized (this) {
-        // &#x5F53;&#x5B58;&#x5728;ActivityController&#x7684;&#x60C5;&#x51B5;,&#x6BD4;&#x5982;monkey
+        // &#x7576;&#x5B58;&#x5728;ActivityController&#x7684;&#x60C5;&#x6CC1;,&#x6BD4;&#x5982;monkey
         if (mController != null) {
             try {
                 String name = r != null ? r.processName : null;
                 int pid = r != null ? r.pid : Binder.getCallingPid();
                 int uid = r != null ? r.info.uid : Binder.getCallingUid();
-                //&#x8C03;&#x7528;monkey&#x7684;appCrashed
+                //&#x8ABF;&#x7528;monkey&#x7684;appCrashed
                 if (!mController.appCrashed(name, pid,
                         shortMsg, longMsg, timeMillis, crashInfo.stackTrace)) {
                     if (&quot;1&quot;.equals(SystemProperties.get(SYSTEM_DEBUGGABLE, &quot;0&quot;))
@@ -22246,11 +22291,11 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
             }
         }
 
-        //&#x6E05;&#x9664;&#x8FDC;&#x7A0B;&#x8C03;&#x7528;&#x8005;uid&#x548C;pid&#x4FE1;&#x606F;&#xFF0C;&#x5E76;&#x4FDD;&#x5B58;&#x5230;origId
+        //&#x6E05;&#x9664;&#x9060;&#x7A0B;&#x8ABF;&#x7528;&#x8005;uid&#x548C;pid&#x4FE1;&#x606F;&#xFF0C;&#x4E26;&#x4FDD;&#x5B58;&#x5230;origId
         final long origId = Binder.clearCallingIdentity();
         ...
 
-        //&#x3010;&#x89C1;&#x5C0F;&#x8282;6&#x3011;
+        //&#x3010;&#x898B;&#x5C0F;&#x7BC0;6&#x3011;
         if (r == null || !makeAppCrashingLocked(r, shortMsg, longMsg, stackTrace)) {
             Binder.restoreCallingIdentity(origId);
             return;
@@ -22262,31 +22307,31 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
         data.put(&quot;result&quot;, result);
         data.put(&quot;app&quot;, r);
         msg.obj = data;
-        //&#x53D1;&#x9001;&#x6D88;&#x606F;SHOW_ERROR_MSG&#xFF0C;&#x5F39;&#x51FA;&#x63D0;&#x793A;crash&#x7684;&#x5BF9;&#x8BDD;&#x6846;&#xFF0C;&#x7B49;&#x5F85;&#x7528;&#x6237;&#x9009;&#x62E9;&#x3010;&#x89C1;&#x5C0F;&#x8282;10&#x3011;
+        //&#x767C;&#x9001;&#x6D88;&#x606F;SHOW_ERROR_MSG&#xFF0C;&#x5F48;&#x51FA;&#x63D0;&#x793A;crash&#x7684;&#x5C0D;&#x8A71;&#x6846;&#xFF0C;&#x7B49;&#x5F85;&#x7528;&#x6236;&#x9078;&#x64C7;&#x3010;&#x898B;&#x5C0F;&#x7BC0;10&#x3011;
         mUiHandler.sendMessage(msg);
-        //&#x6062;&#x590D;&#x8FDC;&#x7A0B;&#x8C03;&#x7528;&#x8005;uid&#x548C;pid
+        //&#x6062;&#x5FA9;&#x9060;&#x7A0B;&#x8ABF;&#x7528;&#x8005;uid&#x548C;pid
         Binder.restoreCallingIdentity(origId);
     }
 
-    //&#x8FDB;&#x5165;&#x963B;&#x585E;&#x7B49;&#x5F85;&#xFF0C;&#x76F4;&#x5230;&#x7528;&#x6237;&#x9009;&#x62E9;crash&#x5BF9;&#x8BDD;&#x6846;&quot;&#x9000;&#x51FA;&quot;&#x6216;&#x8005;&quot;&#x9000;&#x51FA;&#x5E76;&#x62A5;&#x544A;&quot;
+    //&#x9032;&#x5165;&#x963B;&#x585E;&#x7B49;&#x5F85;&#xFF0C;&#x76F4;&#x5230;&#x7528;&#x6236;&#x9078;&#x64C7;crash&#x5C0D;&#x8A71;&#x6846;&quot;&#x9000;&#x51FA;&quot;&#x6216;&#x8005;&quot;&#x9000;&#x51FA;&#x4E26;&#x5831;&#x544A;&quot;
     int res = result.get();
 
     Intent appErrorIntent = null;
     synchronized (this) {
         if (r != null &amp;&amp; !r.isolated) {
-            // &#x5C06;&#x5D29;&#x6E83;&#x7684;&#x8FDB;&#x7A0B;&#x4FE1;&#x606F;&#x4FDD;&#x5B58;&#x5230;mProcessCrashTimes
+            // &#x5C07;&#x5D29;&#x6F70;&#x7684;&#x9032;&#x7A0B;&#x4FE1;&#x606F;&#x4FDD;&#x5B58;&#x5230;mProcessCrashTimes
             mProcessCrashTimes.put(r.info.processName, r.uid,
                     SystemClock.uptimeMillis());
         }
         if (res == AppErrorDialog.FORCE_QUIT_AND_REPORT) {
-            //&#x521B;&#x5EFA;action=&quot;android.intent.action.APP_ERROR&quot;&#xFF0C;&#x7EC4;&#x4EF6;&#x4E3A;r.errorReportReceiver&#x7684;Intent
+            //&#x5275;&#x5EFA;action=&quot;android.intent.action.APP_ERROR&quot;&#xFF0C;&#x7D44;&#x4EF6;&#x70BA;r.errorReportReceiver&#x7684;Intent
             appErrorIntent = createAppErrorIntentLocked(r, timeMillis, crashInfo);
         }
     }
 
     if (appErrorIntent != null) {
         try {
-            //&#x542F;&#x52A8;Intent&#x4E3A;appErrorIntent&#x7684;Activity
+            //&#x555F;&#x52D5;Intent&#x70BA;appErrorIntent&#x7684;Activity
             mContext.startActivityAsUser(appErrorIntent, new UserHandle(r.userId));
         } catch (ActivityNotFoundException e) {
             Slog.w(TAG, &quot;bug report receiver dissappeared&quot;, e);
@@ -22295,11 +22340,11 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
 }
 </code></pre></div></div>
 
-<p>&#x8BE5;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x505A;&#x7684;&#x4E24;&#x4EF6;&#x4E8B;&#xFF1A;</p>
+<p>&#x8A72;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x505A;&#x7684;&#x5169;&#x4EF6;&#x4E8B;&#xFF1A;</p>
 
 <ul>
-  <li>&#x8C03;&#x7528;<code class="highlighter-rouge">makeAppCrashingLocked</code>&#xFF0C;&#x7EE7;&#x7EED;&#x5904;&#x7406;crash&#x6D41;&#x7A0B;&#xFF1B;</li>
-  <li>&#x53D1;&#x9001;&#x6D88;&#x606F;SHOW_ERROR_MSG&#xFF0C;&#x5F39;&#x51FA;&#x63D0;&#x793A;crash&#x7684;&#x5BF9;&#x8BDD;&#x6846;&#xFF0C;&#x7B49;&#x5F85;&#x7528;&#x6237;&#x9009;&#x62E9;&#xFF1B;</li>
+  <li>&#x8ABF;&#x7528;<code class="highlighter-rouge">makeAppCrashingLocked</code>&#xFF0C;&#x7E7C;&#x7E8C;&#x8655;&#x7406;crash&#x6D41;&#x7A0B;&#xFF1B;</li>
+  <li>&#x767C;&#x9001;&#x6D88;&#x606F;SHOW_ERROR_MSG&#xFF0C;&#x5F48;&#x51FA;&#x63D0;&#x793A;crash&#x7684;&#x5C0D;&#x8A71;&#x6846;&#xFF0C;&#x7B49;&#x5F85;&#x7528;&#x6236;&#x9078;&#x64C7;&#xFF1B;</li>
 </ul>
 
 <h3 id="6-makeappcrashinglocked">6. makeAppCrashingLocked<a class="anchorjs-link " href="#6-makeappcrashinglocked" aria-label="Anchor link for: 6 makeappcrashinglocked" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
@@ -22309,14 +22354,14 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">private boolean makeAppCrashingLocked(ProcessRecord app,
         String shortMsg, String longMsg, String stackTrace) {
     app.crashing = true;
-    //&#x5C01;&#x88C5;crash&#x4FE1;&#x606F;&#x5230;crashingReport&#x5BF9;&#x8C61;
+    //&#x5C01;&#x88DD;crash&#x4FE1;&#x606F;&#x5230;crashingReport&#x5C0D;&#x8C61;
     app.crashingReport = generateProcessError(app,
             ActivityManager.ProcessErrorStateInfo.CRASHED, null, shortMsg, longMsg, stackTrace);
-    //&#x3010;&#x89C1;&#x5C0F;&#x8282;7&#x3011;
+    //&#x3010;&#x898B;&#x5C0F;&#x7BC0;7&#x3011;
     startAppProblemLocked(app);
-    //&#x505C;&#x6B62;&#x5C4F;&#x5E55;&#x51BB;&#x7ED3;&#x3010;&#x89C1;&#x5C0F;&#x8282;8&#x3011;
+    //&#x505C;&#x6B62;&#x5C4F;&#x5E55;&#x51CD;&#x7D50;&#x3010;&#x898B;&#x5C0F;&#x7BC0;8&#x3011;
     app.stopFreezingAllLocked();
-    //&#x3010;&#x89C1;&#x5C0F;&#x8282;9&#x3011;
+    //&#x3010;&#x898B;&#x5C0F;&#x7BC0;9&#x3011;
     return handleAppCrashLocked(app, &quot;force-crash&quot;, shortMsg, longMsg, stackTrace);
 }
 </code></pre></div></div>
@@ -22330,21 +22375,21 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
 
     for (int userId : mCurrentProfileIds) {
         if (app.userId == userId) {
-            //&#x83B7;&#x53D6;&#x5F53;&#x524D;&#x7528;&#x6237;&#x4E0B;&#x7684;crash&#x5E94;&#x7528;&#x7684;error receiver&#x3010;&#x89C1;&#x5C0F;&#x8282;7.1&#x3011;
+            //&#x7372;&#x53D6;&#x7576;&#x524D;&#x7528;&#x6236;&#x4E0B;&#x7684;crash&#x61C9;&#x7528;&#x7684;error receiver&#x3010;&#x898B;&#x5C0F;&#x7BC0;7.1&#x3011;
             app.errorReportReceiver = ApplicationErrorReport.getErrorReportReceiver(
                     mContext, app.info.packageName, app.info.flags);
         }
     }
-    //&#x5FFD;&#x7565;&#x5F53;&#x524D;app&#x7684;&#x5E7F;&#x64AD;&#x63A5;&#x6536;&#x3010;&#x89C1;&#x5C0F;&#x8282;7.2&#x3011;
+    //&#x5FFD;&#x7565;&#x7576;&#x524D;app&#x7684;&#x5EE3;&#x64AD;&#x63A5;&#x6536;&#x3010;&#x898B;&#x5C0F;&#x7BC0;7.2&#x3011;
     skipCurrentReceiverLocked(app);
 }
 </code></pre></div></div>
 
-<p>&#x8BE5;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#xFF1A;</p>
+<p>&#x8A72;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#xFF1A;</p>
 
 <ul>
-  <li>&#x83B7;&#x53D6;&#x5F53;&#x524D;&#x7528;&#x6237;&#x4E0B;&#x7684;crash&#x5E94;&#x7528;&#x7684;error receiver&#xFF1B;</li>
-  <li>&#x5FFD;&#x7565;&#x5F53;&#x524D;app&#x7684;&#x5E7F;&#x64AD;&#x63A5;&#x6536;&#xFF1B;</li>
+  <li>&#x7372;&#x53D6;&#x7576;&#x524D;&#x7528;&#x6236;&#x4E0B;&#x7684;crash&#x61C9;&#x7528;&#x7684;error receiver&#xFF1B;</li>
+  <li>&#x5FFD;&#x7565;&#x7576;&#x524D;app&#x7684;&#x5EE3;&#x64AD;&#x63A5;&#x6536;&#xFF1B;</li>
 </ul>
 
 <h4 id="71-geterrorreportreceiver">7.1 getErrorReportReceiver<a class="anchorjs-link " href="#71-geterrorreportreceiver" aria-label="Anchor link for: 71 geterrorreportreceiver" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h4>
@@ -22353,11 +22398,11 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs cs">public static ComponentName getErrorReportReceiver(Context context,
         String packageName, int appFlags) {
-    //&#x68C0;&#x67E5;Settings&#x4E2D;&#x7684;&quot;send_action_app_error&quot;&#x662F;&#x5426;&#x4F7F;&#x80FD;&#x9519;&#x8BEF;&#x62A5;&#x544A;&#x7684;&#x529F;&#x80FD;
+    //&#x6AA2;&#x67E5;Settings&#x4E2D;&#x7684;&quot;send_action_app_error&quot;&#x662F;&#x5426;&#x4F7F;&#x80FD;&#x932F;&#x8AA4;&#x5831;&#x544A;&#x7684;&#x529F;&#x80FD;
     int enabled = Settings.Global.getInt(context.getContentResolver(),
             Settings.Global.SEND_ACTION_APP_ERROR, 0);
     if (enabled == 0) {
-        //1.&#x5F53;&#x672A;&#x4F7F;&#x80FD;&#x65F6;&#xFF0C;&#x5219;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;
+        //1.&#x7576;&#x672A;&#x4F7F;&#x80FD;&#x6642;&#xFF0C;&#x5247;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;
         return null;
     }
 
@@ -22366,37 +22411,37 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
     String candidate = null;
     ComponentName result = null;
     try {
-        //&#x83B7;&#x53D6;&#x8BE5;crash&#x5E94;&#x7528;&#x7684;&#x5B89;&#x88C5;&#x5668;&#x7684;&#x5305;&#x540D;
+        //&#x7372;&#x53D6;&#x8A72;crash&#x61C9;&#x7528;&#x7684;&#x5B89;&#x88DD;&#x5668;&#x7684;&#x5305;&#x540D;
         candidate = pm.getInstallerPackageName(packageName);
     } catch (IllegalArgumentException e) {
     }
 
     if (candidate != null) {
-        result = getErrorReportReceiver(pm, packageName, candidate);//&#x3010;&#x89C1;&#x4E0B;&#x6587;&#x3011;
+        result = getErrorReportReceiver(pm, packageName, candidate);//&#x3010;&#x898B;&#x4E0B;&#x6587;&#x3011;
         if (result != null) {
-            //2.&#x5F53;&#x627E;&#x5230;&#x8BE5;crash&#x5E94;&#x7528;&#x7684;&#x5B89;&#x88C5;&#x5668;&#xFF0C;&#x5219;&#x8FD4;&#x56DE;&#xFF1B;
+            //2.&#x7576;&#x627E;&#x5230;&#x8A72;crash&#x61C9;&#x7528;&#x7684;&#x5B89;&#x88DD;&#x5668;&#xFF0C;&#x5247;&#x8FD4;&#x56DE;&#xFF1B;
             return result;
         }
     }
 
     if ((appFlags&amp;ApplicationInfo.FLAG_SYSTEM) != 0) {
-        //&#x8BE5;&#x7CFB;&#x7EDF;&#x5C5E;&#x6027;&#x540D;&#x4E3A;&quot;ro.error.receiver.system.apps&quot;
+        //&#x8A72;&#x7CFB;&#x7D71;&#x5C6C;&#x6027;&#x540D;&#x70BA;&quot;ro.error.receiver.system.apps&quot;
         candidate = SystemProperties.get(SYSTEM_APPS_ERROR_RECEIVER_PROPERTY);
-        result = getErrorReportReceiver(pm, packageName, candidate);//&#x3010;&#x89C1;&#x4E0B;&#x6587;&#x3011;
+        result = getErrorReportReceiver(pm, packageName, candidate);//&#x3010;&#x898B;&#x4E0B;&#x6587;&#x3011;
         if (result != null) {
-            //3.&#x5F53;crash&#x5E94;&#x7528;&#x662F;&#x7CFB;&#x7EDF;&#x5E94;&#x7528;&#x65F6;&#xFF0C;&#x4E14;&#x7CFB;&#x7EDF;&#x5C5E;&#x6027;&#x6307;&#x5B9A;error receiver&#x65F6;&#xFF0C;&#x5219;&#x8FD4;&#x56DE;&#xFF1B;
+            //3.&#x7576;crash&#x61C9;&#x7528;&#x662F;&#x7CFB;&#x7D71;&#x61C9;&#x7528;&#x6642;&#xFF0C;&#x4E14;&#x7CFB;&#x7D71;&#x5C6C;&#x6027;&#x6307;&#x5B9A;error receiver&#x6642;&#xFF0C;&#x5247;&#x8FD4;&#x56DE;&#xFF1B;
             return result;
         }
     }
 
-    //&#x8BE5;&#x9ED8;&#x8BA4;&#x5C5E;&#x6027;&#x540D;&#x4E3A;&quot;ro.error.receiver.default&quot;
+    //&#x8A72;&#x9ED8;&#x8A8D;&#x5C6C;&#x6027;&#x540D;&#x70BA;&quot;ro.error.receiver.default&quot;
     candidate = SystemProperties.get(DEFAULT_ERROR_RECEIVER_PROPERTY);
-    //4.&#x5F53;&#x9ED8;&#x8BA4;&#x5C5E;&#x6027;&#x503C;&#x6307;&#x5B9A;error receiver&#x65F6;&#xFF0C;&#x5219;&#x8FD4;&#x56DE;&#xFF1B;
-    return getErrorReportReceiver(pm, packageName, candidate); //&#x3010;&#x89C1;&#x4E0B;&#x6587;&#x3011;
+    //4.&#x7576;&#x9ED8;&#x8A8D;&#x5C6C;&#x6027;&#x503C;&#x6307;&#x5B9A;error receiver&#x6642;&#xFF0C;&#x5247;&#x8FD4;&#x56DE;&#xFF1B;
+    return getErrorReportReceiver(pm, packageName, candidate); //&#x3010;&#x898B;&#x4E0B;&#x6587;&#x3011;
 }
 </code></pre></div></div>
 
-<p><strong>getErrorReportReceiver</strong>&#xFF1A;&#x8FD9;&#x662F;&#x540C;&#x540D;&#x4E0D;&#x540C;&#x8F93;&#x5165;&#x53C2;&#x6570;&#x7684;&#x53E6;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<p><strong>getErrorReportReceiver</strong>&#xFF1A;&#x9019;&#x662F;&#x540C;&#x540D;&#x4E0D;&#x540C;&#x8F38;&#x5165;&#x53C3;&#x6578;&#x7684;&#x53E6;&#x4E00;&#x500B;&#x65B9;&#x6CD5;&#xFF1A;</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs javascript">static ComponentName getErrorReportReceiver(PackageManager pm, String errorPackage,
         String receiverPackage) {
@@ -22404,19 +22449,19 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
         return null;
     }
 
-    //&#x5F53;&#x5B89;&#x88C5;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x5B89;&#x88C5;&#x5668;Crash&#xFF0C;&#x5219;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;
+    //&#x7576;&#x5B89;&#x88DD;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x5B89;&#x88DD;&#x5668;Crash&#xFF0C;&#x5247;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;
     if (receiverPackage.equals(errorPackage)) {
         return null;
     }
 
-    //ACTION_APP_ERROR&#x503C;&#x4E3A;&quot;android.intent.action.APP_ERROR&quot;
+    //ACTION_APP_ERROR&#x503C;&#x70BA;&quot;android.intent.action.APP_ERROR&quot;
     Intent intent = new Intent(Intent.ACTION_APP_ERROR);
     intent.setPackage(receiverPackage);
     ResolveInfo info = pm.resolveActivity(intent, 0);
     if (info == null || info.activityInfo == null) {
         return null;
     }
-    //&#x521B;&#x5EFA;&#x5305;&#x540D;&#x4E3A;receiverPackage&#x7684;&#x7EC4;&#x4EF6;
+    //&#x5275;&#x5EFA;&#x5305;&#x540D;&#x70BA;receiverPackage&#x7684;&#x7D44;&#x4EF6;
     return new ComponentName(receiverPackage, info.activityInfo.name);
 }
 </code></pre></div></div>
@@ -22427,7 +22472,7 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs cpp">void skipCurrentReceiverLocked(ProcessRecord app) {
     for (BroadcastQueue queue : mBroadcastQueues) {
-        queue.skipCurrentReceiverLocked(app);  //&#x3010;&#x89C1;&#x5C0F;&#x8282;7.2.1&#x3011;
+        queue.skipCurrentReceiverLocked(app);  //&#x3010;&#x898B;&#x5C0F;&#x7BC0;7.2.1&#x3011;
     }
 }
 </code></pre></div></div>
@@ -22438,7 +22483,7 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs cs">public void skipCurrentReceiverLocked(ProcessRecord app) {
     BroadcastRecord r = null;
-    //&#x67E5;&#x770B;app&#x8FDB;&#x7A0B;&#x4E2D;&#x7684;&#x5E7F;&#x64AD;
+    //&#x67E5;&#x770B;app&#x9032;&#x7A0B;&#x4E2D;&#x7684;&#x5EE3;&#x64AD;
     if (mOrderedBroadcasts.size() &gt; 0) {
         BroadcastRecord br = mOrderedBroadcasts.get(0);
         if (br.curApp == app) {
@@ -22450,10 +22495,10 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
     }
 
     if (r != null) {
-        //&#x7ED3;&#x675F;app&#x8FDB;&#x7A0B;&#x7684;&#x5E7F;&#x64AD;&#x7ED3;&#x675F;
+        //&#x7D50;&#x675F;app&#x9032;&#x7A0B;&#x7684;&#x5EE3;&#x64AD;&#x7D50;&#x675F;
         finishReceiverLocked(r, r.resultCode, r.resultData,
                 r.resultExtras, r.resultAbort, false);
-        //&#x5E7F;&#x64AD;&#x8C03;&#x5EA6;
+        //&#x5EE3;&#x64AD;&#x8ABF;&#x5EA6;
         scheduleBroadcastsLocked();
     }
 }
@@ -22467,12 +22512,12 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
     int i = activities.size();
     while (i &gt; 0) {
         i--;
-        activities.get(i).stopFreezingScreenLocked(true); //&#x3010;&#x89C1;&#x5C0F;&#x8282;8.1&#x3011;
+        activities.get(i).stopFreezingScreenLocked(true); //&#x3010;&#x898B;&#x5C0F;&#x7BC0;8.1&#x3011;
     }
 }
 </code></pre></div></div>
 
-<p>&#x5176;&#x4E2D;activities&#x7C7B;&#x578B;&#x4E3A;ArrayList<code class="highlighter-rouge">&lt;ActivityRecord</code>&gt;&#xFF0C;&#x505C;&#x6B62;&#x8FDB;&#x7A0B;&#x91CC;&#x6240;&#x6709;&#x7684;Activity</p>
+<p>&#x5176;&#x4E2D;activities&#x985E;&#x578B;&#x70BA;ArrayList<code class="highlighter-rouge">&lt;ActivityRecord</code>&gt;&#xFF0C;&#x505C;&#x6B62;&#x9032;&#x7A0B;&#x88E1;&#x6240;&#x6709;&#x7684;Activity</p>
 
 <h4 id="81-arstopfreezingscreenlocked">8.1. AR.stopFreezingScreenLocked<a class="anchorjs-link " href="#81-arstopfreezingscreenlocked" aria-label="Anchor link for: 81 arstopfreezingscreenlocked" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h4>
 
@@ -22481,13 +22526,13 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">public void stopFreezingScreenLocked(boolean force) {
     if (force || frozenBeforeDestroy) {
         frozenBeforeDestroy = false;
-        //mWindowManager&#x7C7B;&#x578B;&#x4E3A;WMS //&#x3010;&#x89C1;&#x5C0F;&#x8282;8.1.1&#x3011;
+        //mWindowManager&#x985E;&#x578B;&#x70BA;WMS //&#x3010;&#x898B;&#x5C0F;&#x7BC0;8.1.1&#x3011;
         service.mWindowManager.stopAppFreezingScreen(appToken, force);
     }
 }
 </code></pre></div></div>
 
-<p>&#x5176;&#x4E2D;appToken&#x662F;IApplication.Stub&#x7C7B;&#x578B;&#xFF0C;&#x5373;WindowManager&#x7684;token&#x3002;</p>
+<p>&#x5176;&#x4E2D;appToken&#x662F;IApplication.Stub&#x985E;&#x578B;&#xFF0C;&#x5373;WindowManager&#x7684;token&#x3002;</p>
 
 <h5 id="811-wmsstopfreezingscreenlocked">8.1.1 WMS.stopFreezingScreenLocked<a class="anchorjs-link " href="#811-wmsstopfreezingscreenlocked" aria-label="Anchor link for: 811 wmsstopfreezingscreenlocked" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h5>
 
@@ -22495,7 +22540,7 @@ public ProcessRecord put(String name, int uid, ProcessRecord value) {}&#xFF1B;
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">@Override
 public void stopFreezingScreen() {
-    //&#x6743;&#x9650;&#x68C0;&#x67E5;
+    //&#x6B0A;&#x9650;&#x6AA2;&#x67E5;
     if (!checkCallingPermission(android.Manifest.permission.FREEZE_SCREEN,
             &quot;stopFreezingScreen()&quot;)) {
         throw new SecurityException(&quot;Requires FREEZE_SCREEN permission&quot;);
@@ -22507,7 +22552,7 @@ public void stopFreezingScreen() {
             mLastFinishedFreezeSource = &quot;client&quot;;
             final long origId = Binder.clearCallingIdentity();
             try {
-                stopFreezingDisplayLocked(); //&#x3010;&#x89C1;&#x6D41;&#x7A0B;8.1.1.1&#x3011;
+                stopFreezingDisplayLocked(); //&#x3010;&#x898B;&#x6D41;&#x7A0B;8.1.1.1&#x3011;
             } finally {
                 Binder.restoreCallingIdentity(origId);
             }
@@ -22522,28 +22567,28 @@ public void stopFreezingScreen() {
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">private void stopFreezingDisplayLocked() {
     if (!mDisplayFrozen) {
-        return; //&#x663E;&#x793A;&#x6CA1;&#x6709;&#x51BB;&#x7ED3;&#xFF0C;&#x5219;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;
+        return; //&#x986F;&#x793A;&#x6C92;&#x6709;&#x51CD;&#x7D50;&#xFF0C;&#x5247;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;
     }
 
-    //&#x5F80;&#x5F80;&#x8DDF;&#x5C4F;&#x5E55;&#x65CB;&#x8F6C;&#x76F8;&#x5173;
+    //&#x5F80;&#x5F80;&#x8DDF;&#x5C4F;&#x5E55;&#x65CB;&#x8F49;&#x76F8;&#x95DC;
     ...
 
     mDisplayFrozen = false;
-    //&#x4ECE;&#x4E0A;&#x6B21;&#x51BB;&#x5C4F;&#x5230;&#x73B0;&#x5728;&#x7684;&#x603B;&#x65F6;&#x957F;
+    //&#x5F9E;&#x4E0A;&#x6B21;&#x51CD;&#x5C4F;&#x5230;&#x73FE;&#x5728;&#x7684;&#x7E3D;&#x6642;&#x9577;
     mLastDisplayFreezeDuration = (int)(SystemClock.elapsedRealtime() - mDisplayFreezeTime);
 
-    //&#x79FB;&#x9664;&#x51BB;&#x5C4F;&#x7684;&#x8D85;&#x65F6;&#x6D88;&#x606F;
+    //&#x79FB;&#x9664;&#x51CD;&#x5C4F;&#x7684;&#x8D85;&#x6642;&#x6D88;&#x606F;
     mH.removeMessages(H.APP_FREEZE_TIMEOUT);
     mH.removeMessages(H.CLIENT_FREEZE_TIMEOUT);
 
     boolean updateRotation = false;
-    //&#x83B7;&#x53D6;&#x9ED8;&#x8BA4;&#x7684;DisplayContent
+    //&#x7372;&#x53D6;&#x9ED8;&#x8A8D;&#x7684;DisplayContent
     final DisplayContent displayContent = getDefaultDisplayContentLocked();
     final int displayId = displayContent.getDisplayId();
     ScreenRotationAnimation screenRotationAnimation =
             mAnimator.getScreenRotationAnimationLocked(displayId);
 
-    //&#x5C4F;&#x5E55;&#x65CB;&#x8F6C;&#x52A8;&#x753B;&#x7684;&#x76F8;&#x5173;&#x64CD;&#x4F5C;
+    //&#x5C4F;&#x5E55;&#x65CB;&#x8F49;&#x52D5;&#x756B;&#x7684;&#x76F8;&#x95DC;&#x64CD;&#x4F5C;
     if (CUSTOM_SCREEN_ROTATION &amp;&amp; screenRotationAnimation != null
             &amp;&amp; screenRotationAnimation.hasScreenshot()) {
         DisplayInfo displayInfo = displayContent.getDisplayInfo();
@@ -22551,7 +22596,7 @@ public void stopFreezingScreen() {
         if (!mPolicy.validateRotationAnimationLw(mExitAnimId, mEnterAnimId, isDimming)) {
             mExitAnimId = mEnterAnimId = 0;
         }
-        //&#x52A0;&#x8F7D;&#x52A8;&#x753B;&#x6700;&#x5927;&#x65F6;&#x957F;&#x4E3A;10s
+        //&#x52A0;&#x8F09;&#x52D5;&#x756B;&#x6700;&#x5927;&#x6642;&#x9577;&#x70BA;10s
         if (screenRotationAnimation.dismiss(mFxSession, MAX_ANIMATION_DURATION,
                 getTransitionAnimationScaleLocked(), displayInfo.logicalWidth,
                     displayInfo.logicalHeight, mExitAnimId, mEnterAnimId)) {
@@ -22568,42 +22613,42 @@ public void stopFreezingScreen() {
         }
         updateRotation = true;
     }
-    //&#x7ECF;&#x8FC7;&#x5C42;&#x5C42;&#x8C03;&#x7528;&#x5230;InputManagerService&#x670D;&#x52A1;&#xFF0C;IMS&#x670D;&#x52A1;&#x4F7F;&#x80FD;&#x8F93;&#x5165;&#x4E8B;&#x4EF6;&#x5206;&#x53D1;&#x529F;&#x80FD;
+    //&#x7D93;&#x904E;&#x5C64;&#x5C64;&#x8ABF;&#x7528;&#x5230;InputManagerService&#x670D;&#x52D9;&#xFF0C;IMS&#x670D;&#x52D9;&#x4F7F;&#x80FD;&#x8F38;&#x5165;&#x4E8B;&#x4EF6;&#x5206;&#x767C;&#x529F;&#x80FD;
     mInputMonitor.thawInputDispatchingLw();
 
     boolean configChanged;
-    //&#x5F53;display&#x88AB;&#x51BB;&#x7ED3;&#x65F6;&#x4E0D;&#x518D;&#x8BA1;&#x7B97;&#x5C4F;&#x5E55;&#x65B9;&#x5411;&#xFF0C;&#x4EE5;&#x907F;&#x514D;&#x4E0D;&#x8FDE;&#x7EED;&#x7684;&#x72B6;&#x6001;&#x3002;
+    //&#x7576;display&#x88AB;&#x51CD;&#x7D50;&#x6642;&#x4E0D;&#x518D;&#x8A08;&#x7B97;&#x5C4F;&#x5E55;&#x65B9;&#x5411;&#xFF0C;&#x4EE5;&#x907F;&#x514D;&#x4E0D;&#x9023;&#x7E8C;&#x7684;&#x72C0;&#x614B;&#x3002;
     configChanged = updateOrientationFromAppTokensLocked(false);
 
-    //display&#x51BB;&#x7ED3;&#x65F6;&#xFF0C;&#x6267;&#x884C;gc&#x64CD;&#x4F5C;
+    //display&#x51CD;&#x7D50;&#x6642;&#xFF0C;&#x57F7;&#x884C;gc&#x64CD;&#x4F5C;
     mH.removeMessages(H.FORCE_GC);
     mH.sendEmptyMessageDelayed(H.FORCE_GC, 2000);
 
-    //mScreenFrozenLock&#x7684;&#x7C7B;&#x578B;&#x4E3A;PowerManager.WakeLock&#xFF0C;&#x5373;&#x91CA;&#x653E;&#x5C4F;&#x5E55;&#x51BB;&#x7ED3;&#x7684;&#x9501;
+    //mScreenFrozenLock&#x7684;&#x985E;&#x578B;&#x70BA;PowerManager.WakeLock&#xFF0C;&#x5373;&#x91CB;&#x653E;&#x5C4F;&#x5E55;&#x51CD;&#x7D50;&#x7684;&#x9396;
     mScreenFrozenLock.release();
 
     if (updateRotation) {
-        //&#x66F4;&#x65B0;&#x5F53;&#x524D;&#x7684;&#x5C4F;&#x5E55;&#x65B9;&#x5411;
+        //&#x66F4;&#x65B0;&#x7576;&#x524D;&#x7684;&#x5C4F;&#x5E55;&#x65B9;&#x5411;
         configChanged |= updateRotationUncheckedLocked(false);
     }
 
     if (configChanged) {
-        //&#x5411;mH&#x53D1;&#x9001;configuraion&#x6539;&#x53D8;&#x7684;&#x6D88;&#x606F;
+        //&#x5411;mH&#x767C;&#x9001;configuraion&#x6539;&#x8B8A;&#x7684;&#x6D88;&#x606F;
         mH.sendEmptyMessage(H.SEND_NEW_CONFIGURATION);
     }
 }
 </code></pre></div></div>
 
-<p>&#x8BE5;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#xFF1A;</p>
+<p>&#x8A72;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#xFF1A;</p>
 
 <ol>
-  <li>&#x5904;&#x7406;&#x5C4F;&#x5E55;&#x65CB;&#x8F6C;&#x76F8;&#x5173;&#x903B;&#x8F91;&#xFF1B;</li>
-  <li>&#x79FB;&#x9664;&#x51BB;&#x5C4F;&#x7684;&#x8D85;&#x65F6;&#x6D88;&#x606F;&#xFF1B;</li>
-  <li>&#x5C4F;&#x5E55;&#x65CB;&#x8F6C;&#x52A8;&#x753B;&#x7684;&#x76F8;&#x5173;&#x64CD;&#x4F5C;;</li>
-  <li>&#x4F7F;&#x80FD;&#x8F93;&#x5165;&#x4E8B;&#x4EF6;&#x5206;&#x53D1;&#x529F;&#x80FD;&#xFF1B;</li>
-  <li>display&#x51BB;&#x7ED3;&#x65F6;&#xFF0C;&#x6267;&#x884C;gc&#x64CD;&#x4F5C;&#xFF1B;</li>
-  <li>&#x66F4;&#x65B0;&#x5F53;&#x524D;&#x7684;&#x5C4F;&#x5E55;&#x65B9;&#x5411;&#xFF1B;</li>
-  <li>&#x5411;mH&#x53D1;&#x9001;configuraion&#x6539;&#x53D8;&#x7684;&#x6D88;&#x606F;&#x3002;</li>
+  <li>&#x8655;&#x7406;&#x5C4F;&#x5E55;&#x65CB;&#x8F49;&#x76F8;&#x95DC;&#x908F;&#x8F2F;&#xFF1B;</li>
+  <li>&#x79FB;&#x9664;&#x51CD;&#x5C4F;&#x7684;&#x8D85;&#x6642;&#x6D88;&#x606F;&#xFF1B;</li>
+  <li>&#x5C4F;&#x5E55;&#x65CB;&#x8F49;&#x52D5;&#x756B;&#x7684;&#x76F8;&#x95DC;&#x64CD;&#x4F5C;;</li>
+  <li>&#x4F7F;&#x80FD;&#x8F38;&#x5165;&#x4E8B;&#x4EF6;&#x5206;&#x767C;&#x529F;&#x80FD;&#xFF1B;</li>
+  <li>display&#x51CD;&#x7D50;&#x6642;&#xFF0C;&#x57F7;&#x884C;gc&#x64CD;&#x4F5C;&#xFF1B;</li>
+  <li>&#x66F4;&#x65B0;&#x7576;&#x524D;&#x7684;&#x5C4F;&#x5E55;&#x65B9;&#x5411;&#xFF1B;</li>
+  <li>&#x5411;mH&#x767C;&#x9001;configuraion&#x6539;&#x8B8A;&#x7684;&#x6D88;&#x606F;&#x3002;</li>
 </ol>
 
 <h3 id="9amshandleappcrashlocked">9.AMS.handleAppCrashLocked<a class="anchorjs-link " href="#9amshandleappcrashlocked" aria-label="Anchor link for: 9amshandleappcrashlocked" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
@@ -22620,50 +22665,50 @@ public void stopFreezingScreen() {
     } else {
         crashTime = null;
     }
-    //&#x5F53;&#x540C;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#xFF0C;&#x8FDE;&#x7EED;&#x4E24;&#x6B21;crash&#x7684;&#x65F6;&#x95F4;&#x95F4;&#x9694;&#x5C0F;&#x4E8E;1&#x5206;&#x949F;&#x65F6;&#xFF0C;&#x5219;&#x8BA4;&#x4E3A;crash&#x592A;&#x8FC7;&#x4E8E;&#x9891;&#x7E41;
+    //&#x7576;&#x540C;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#xFF0C;&#x9023;&#x7E8C;&#x5169;&#x6B21;crash&#x7684;&#x6642;&#x9593;&#x9593;&#x9694;&#x5C0F;&#x65BC;1&#x5206;&#x9418;&#x6642;&#xFF0C;&#x5247;&#x8A8D;&#x70BA;crash&#x592A;&#x904E;&#x65BC;&#x983B;&#x7E41;
     if (crashTime != null &amp;&amp; now &lt; crashTime+ProcessList.MIN_CRASH_INTERVAL) {
         EventLog.writeEvent(EventLogTags.AM_PROCESS_CRASHED_TOO_MUCH,
                 app.userId, app.info.processName, app.uid);
-        //&#x3010;&#x89C1;&#x5C0F;&#x8282;9.1&#x3011;
+        //&#x3010;&#x898B;&#x5C0F;&#x7BC0;9.1&#x3011;
         mStackSupervisor.handleAppCrashLocked(app);
         if (!app.persistent) {
-            //&#x4E0D;&#x518D;&#x91CD;&#x542F;&#x975E;persistent&#x8FDB;&#x7A0B;&#xFF0C;&#x9664;&#x975E;&#x7528;&#x6237;&#x663E;&#x5F0F;&#x5730;&#x8C03;&#x7528;
+            //&#x4E0D;&#x518D;&#x91CD;&#x555F;&#x975E;persistent&#x9032;&#x7A0B;&#xFF0C;&#x9664;&#x975E;&#x7528;&#x6236;&#x986F;&#x5F0F;&#x5730;&#x8ABF;&#x7528;
             EventLog.writeEvent(EventLogTags.AM_PROC_BAD, app.userId, app.uid,
                     app.info.processName);
             if (!app.isolated) {
-                //&#x5C06;&#x5F53;&#x524D;app&#x52A0;&#x5165;&#x5230;mBadProcesses
+                //&#x5C07;&#x7576;&#x524D;app&#x52A0;&#x5165;&#x5230;mBadProcesses
                 mBadProcesses.put(app.info.processName, app.uid,
                         new BadProcessInfo(now, shortMsg, longMsg, stackTrace));
                 mProcessCrashTimes.remove(app.info.processName, app.uid);
             }
             app.bad = true;
             app.removed = true;
-            //&#x79FB;&#x9664;&#x8FDB;&#x7A0B;&#x7684;&#x6240;&#x6709;&#x670D;&#x52A1;&#xFF0C;&#x4FDD;&#x8BC1;&#x4E0D;&#x518D;&#x91CD;&#x542F;&#x3010;&#x89C1;&#x5C0F;&#x8282;9.2&#x3011;
+            //&#x79FB;&#x9664;&#x9032;&#x7A0B;&#x7684;&#x6240;&#x6709;&#x670D;&#x52D9;&#xFF0C;&#x4FDD;&#x8B49;&#x4E0D;&#x518D;&#x91CD;&#x555F;&#x3010;&#x898B;&#x5C0F;&#x7BC0;9.2&#x3011;
             removeProcessLocked(app, false, false, &quot;crash&quot;);
-            //&#x6062;&#x590D;&#x6700;&#x9876;&#x90E8;&#x7684;Activity&#x3010;&#x89C1;&#x5C0F;&#x8282;9.3&#x3011;
+            //&#x6062;&#x5FA9;&#x6700;&#x9802;&#x90E8;&#x7684;Activity&#x3010;&#x898B;&#x5C0F;&#x7BC0;9.3&#x3011;
             mStackSupervisor.resumeTopActivitiesLocked();
             return false;
         }
         mStackSupervisor.resumeTopActivitiesLocked();
     } else {
-        //&#x6B64;&#x5904;reason=&quot;force-crash&quot;&#x3010;&#x89C1;&#x5C0F;&#x8282;9.4&#x3011;
+        //&#x6B64;&#x8655;reason=&quot;force-crash&quot;&#x3010;&#x898B;&#x5C0F;&#x7BC0;9.4&#x3011;
         mStackSupervisor.finishTopRunningActivityLocked(app, reason);
     }
 
-    //&#x8FD0;&#x884C;&#x5728;&#x5F53;&#x524D;&#x8FDB;&#x7A0B;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x670D;&#x52A1;&#x7684;crash&#x6B21;&#x6570;&#x6267;&#x884C;&#x52A0;1&#x64CD;&#x4F5C;
+    //&#x904B;&#x884C;&#x5728;&#x7576;&#x524D;&#x9032;&#x7A0B;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x670D;&#x52D9;&#x7684;crash&#x6B21;&#x6578;&#x57F7;&#x884C;&#x52A0;1&#x64CD;&#x4F5C;
     for (int i=app.services.size()-1; i&gt;=0; i--) {
         ServiceRecord sr = app.services.valueAt(i);
         sr.crashCount++;
     }
 
-    //&#x5F53;&#x684C;&#x9762;&#x5E94;&#x7528;crash&#xFF0C;&#x5E76;&#x4E14;&#x88AB;&#x4E09;&#x65B9;app&#x6240;&#x53D6;&#x4EE3;&#xFF0C;&#x90A3;&#x4E48;&#x9700;&#x8981;&#x6E05;&#x7A7A;&#x684C;&#x9762;&#x5E94;&#x7528;&#x7684;&#x504F;&#x7231;&#x9009;&#x9879;&#x3002;
+    //&#x7576;&#x684C;&#x9762;&#x61C9;&#x7528;crash&#xFF0C;&#x4E26;&#x4E14;&#x88AB;&#x4E09;&#x65B9;app&#x6240;&#x53D6;&#x4EE3;&#xFF0C;&#x90A3;&#x9EBC;&#x9700;&#x8981;&#x6E05;&#x7A7A;&#x684C;&#x9762;&#x61C9;&#x7528;&#x7684;&#x504F;&#x611B;&#x9078;&#x9805;&#x3002;
     final ArrayList&lt;ActivityRecord&gt; activities = app.activities;
     if (app == mHomeProcess &amp;&amp; activities.size() &gt; 0
                 &amp;&amp; (mHomeProcess.info.flags &amp; ApplicationInfo.FLAG_SYSTEM) == 0) {
         for (int activityNdx = activities.size() - 1; activityNdx &gt;= 0; --activityNdx) {
             final ActivityRecord r = activities.get(activityNdx);
             if (r.isHomeActivity()) {
-                //&#x6E05;&#x7A7A;&#x504F;&#x7231;&#x5E94;&#x7528;
+                //&#x6E05;&#x7A7A;&#x504F;&#x611B;&#x61C9;&#x7528;
                 ActivityThread.getPackageManager()
                         .clearPackagePreferredActivities(r.packageName);
             }
@@ -22671,33 +22716,33 @@ public void stopFreezingScreen() {
     }
 
     if (!app.isolated) {
-        //&#x65E0;&#x6CD5;&#x8BB0;&#x5F55;&#x5B64;&#x7ACB;&#x8FDB;&#x7A0B;&#x7684;crash&#x65F6;&#x95F4;&#x70B9;&#xFF0C;&#x7531;&#x4E8E;&#x4ED6;&#x4EEC;&#x5E76;&#x6CA1;&#x6709;&#x4E00;&#x4E2A;&#x56FA;&#x5B9A;&#x8EAB;&#x4EFD;
+        //&#x7121;&#x6CD5;&#x8A18;&#x9304;&#x5B64;&#x7ACB;&#x9032;&#x7A0B;&#x7684;crash&#x6642;&#x9593;&#x9EDE;&#xFF0C;&#x7531;&#x65BC;&#x4ED6;&#x5011;&#x4E26;&#x6C92;&#x6709;&#x4E00;&#x500B;&#x56FA;&#x5B9A;&#x8EAB;&#x4EFD;
         mProcessCrashTimes.put(app.info.processName, app.uid, now);
     }
-    //&#x5F53;app&#x5B58;&#x5728;crash&#x7684;handler&#xFF0C;&#x90A3;&#x4E48;&#x4EA4;&#x7ED9;&#x5176;&#x5904;&#x7406;
+    //&#x7576;app&#x5B58;&#x5728;crash&#x7684;handler&#xFF0C;&#x90A3;&#x9EBC;&#x4EA4;&#x7D66;&#x5176;&#x8655;&#x7406;
     if (app.crashHandler != null) mHandler.post(app.crashHandler);
     return true;
 }
 </code></pre></div></div>
 
 <ol>
-  <li>&#x5F53;&#x540C;&#x4E00;&#x8FDB;&#x7A0B;&#x5728;&#x65F6;&#x95F4;&#x95F4;&#x9694;&#x5C0F;&#x4E8E;1&#x5206;&#x949F;&#x65F6;&#x8FDE;&#x7EED;&#x4E24;&#x6B21;crash&#xFF0C;&#x5219;&#x6267;&#x884C;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF1A;
+  <li>&#x7576;&#x540C;&#x4E00;&#x9032;&#x7A0B;&#x5728;&#x6642;&#x9593;&#x9593;&#x9694;&#x5C0F;&#x65BC;1&#x5206;&#x9418;&#x6642;&#x9023;&#x7E8C;&#x5169;&#x6B21;crash&#xFF0C;&#x5247;&#x57F7;&#x884C;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF1A;
     <ul>
-      <li>&#x5BF9;&#x4E8E;&#x975E;persistent&#x8FDB;&#x7A0B;&#xFF1A;
+      <li>&#x5C0D;&#x65BC;&#x975E;persistent&#x9032;&#x7A0B;&#xFF1A;
         <ul>
           <li>[9.1] mStackSupervisor.handleAppCrashLocked(app);</li>
           <li>[9.2] removeProcessLocked(app, false, false, &#x201C;crash&#x201D;);</li>
           <li>[9.3] mStackSupervisor.resumeTopActivitiesLocked();</li>
         </ul>
       </li>
-      <li>&#x5BF9;&#x4E8E;persistent&#x8FDB;&#x7A0B;&#xFF0C;&#x5219;&#x53EA;&#x6267;&#x884C;
+      <li>&#x5C0D;&#x65BC;persistent&#x9032;&#x7A0B;&#xFF0C;&#x5247;&#x53EA;&#x57F7;&#x884C;
         <ul>
           <li>[9.3] mStackSupervisor.resumeTopActivitiesLocked();</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>&#x5426;&#x5219;&#x6267;&#x884C;
+  <li>&#x5426;&#x5247;&#x57F7;&#x884C;
     <ul>
       <li>[9.4] mStackSupervisor.finishTopRunningActivityLocked(app, reason);</li>
     </ul>
@@ -22713,7 +22758,7 @@ public void stopFreezingScreen() {
         final ArrayList&lt;ActivityStack&gt; stacks = mActivityDisplays.valueAt(displayNdx).mStacks;
         int stackNdx = stacks.size() - 1;
         while (stackNdx &gt;= 0) {
-            //&#x8C03;&#x7528;ActivityStack&#x3010;&#x89C1;&#x5C0F;&#x8282;9.1.1&#x3011;
+            //&#x8ABF;&#x7528;ActivityStack&#x3010;&#x898B;&#x5C0F;&#x7BC0;9.1.1&#x3011;
             stacks.get(stackNdx).handleAppCrashLocked(app);
             stackNdx--;
         }
@@ -22732,7 +22777,7 @@ public void stopFreezingScreen() {
             final ActivityRecord r = activities.get(activityNdx);
             if (r.app == app) {
                 r.app = null;
-                //&#x7ED3;&#x675F;&#x5F53;&#x524D;activity
+                //&#x7D50;&#x675F;&#x7576;&#x524D;activity
                 finishCurrentActivityLocked(r, FINISH_IMMEDIATELY, false);
             }
         }
@@ -22740,7 +22785,7 @@ public void stopFreezingScreen() {
 }
 </code></pre></div></div>
 
-<p>&#x8FD9;&#x91CC;&#x7684;<code class="highlighter-rouge">mTaskHistory</code>&#x6570;&#x636E;&#x7C7B;&#x578B;&#x4E3A;ArrayList<taskrecord>&#xFF0C;&#x8BB0;&#x5F55;&#x7740;&#x6240;&#x6709;&#x5148;&#x524D;&#x7684;&#x540E;&#x53F0;activities&#x3002;&#x904D;&#x5386;&#x6240;&#x6709;activities&#xFF0C;&#x627E;&#x5230;&#x4F4D;&#x4E8E;&#x8BE5;ProcessRecord&#x7684;&#x6240;&#x6709;ActivityRecord&#xFF0C;&#x5E76;&#x7ED3;&#x675F;&#x8BE5;Acitivity&#x3002;</taskrecord></p>
+<p>&#x9019;&#x88E1;&#x7684;<code class="highlighter-rouge">mTaskHistory</code>&#x6578;&#x64DA;&#x985E;&#x578B;&#x70BA;ArrayList<taskrecord>&#xFF0C;&#x8A18;&#x9304;&#x8457;&#x6240;&#x6709;&#x5148;&#x524D;&#x7684;&#x5F8C;&#x81FA;activities&#x3002;&#x904D;&#x6B77;&#x6240;&#x6709;activities&#xFF0C;&#x627E;&#x5230;&#x4F4D;&#x65BC;&#x8A72;ProcessRecord&#x7684;&#x6240;&#x6709;ActivityRecord&#xFF0C;&#x4E26;&#x7D50;&#x675F;&#x8A72;Acitivity&#x3002;</taskrecord></p>
 
 <h4 id="92-amsremoveprocesslocked">9.2 AMS.removeProcessLocked<a class="anchorjs-link " href="#92-amsremoveprocesslocked" aria-label="Anchor link for: 92 amsremoveprocesslocked" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h4>
 
@@ -22750,18 +22795,18 @@ public void stopFreezingScreen() {
         boolean callerWillRestart, boolean allowRestart, String reason) {
     final String name = app.processName;
     final int uid = app.uid;
-    //&#x4ECE;mProcessNames&#x79FB;&#x9664;&#x8BE5;&#x8FDB;&#x7A0B;
+    //&#x5F9E;mProcessNames&#x79FB;&#x9664;&#x8A72;&#x9032;&#x7A0B;
     removeProcessNameLocked(name, uid);
     ...
     if (app.pid &gt; 0 &amp;&amp; app.pid != MY_PID) {
         int pid = app.pid;
         synchronized (mPidsSelfLocked) {
-            mPidsSelfLocked.remove(pid); //&#x79FB;&#x9664;&#x8BE5;pid
+            mPidsSelfLocked.remove(pid); //&#x79FB;&#x9664;&#x8A72;pid
             mHandler.removeMessages(PROC_START_TIMEOUT_MSG, app);
         }
         ...
         boolean willRestart = false;
-        //&#x5BF9;&#x4E8E;&#x975E;&#x5B64;&#x7ACB;&#x7684;persistent&#x8FDB;&#x7A0B;&#x8BBE;&#x7F6E;&#x6210;&#x53EF;&#x91CD;&#x542F;flags
+        //&#x5C0D;&#x65BC;&#x975E;&#x5B64;&#x7ACB;&#x7684;persistent&#x9032;&#x7A0B;&#x8A2D;&#x7F6E;&#x6210;&#x53EF;&#x91CD;&#x555F;flags
         if (app.persistent &amp;&amp; !app.isolated) {
             if (!callerWillRestart) {
                 willRestart = true;
@@ -22769,13 +22814,13 @@ public void stopFreezingScreen() {
                 needRestart = true;
             }
         }
-        // &#x6740;&#x8FDB;&#x7A0B;&#x3010;9.2.1&#x3011;
+        // &#x6BBA;&#x9032;&#x7A0B;&#x3010;9.2.1&#x3011;
         app.kill(reason, true);
-         //&#x79FB;&#x9664;&#x8FDB;&#x7A0B;&#x5E76;&#x6E05;&#x7A7A;&#x8BE5;&#x8FDB;&#x7A0B;&#x76F8;&#x5173;&#x8054;&#x7684;activity/service&#x7B49;&#x7EC4;&#x4EF6; &#x3010;9.2.2&#x3011;
+         //&#x79FB;&#x9664;&#x9032;&#x7A0B;&#x4E26;&#x6E05;&#x7A7A;&#x8A72;&#x9032;&#x7A0B;&#x76F8;&#x95DC;&#x806F;&#x7684;activity/service&#x7B49;&#x7D44;&#x4EF6; &#x3010;9.2.2&#x3011;
         handleAppDiedLocked(app, willRestart, allowRestart);
 
         if (willRestart) {
-            //&#x6B64;&#x5904;willRestart=false&#xFF0C;&#x4E0D;&#x8FDB;&#x5165;&#x8BE5;&#x5206;&#x652F;
+            //&#x6B64;&#x8655;willRestart=false&#xFF0C;&#x4E0D;&#x9032;&#x5165;&#x8A72;&#x5206;&#x652F;
             removeLruProcessLocked(app);
             addAppLocked(app.info, false, null /* ABI override */);
         }
@@ -22787,8 +22832,8 @@ public void stopFreezingScreen() {
 </code></pre></div></div>
 
 <ul>
-  <li><code class="highlighter-rouge">mProcessNames</code>&#x6570;&#x636E;&#x7C7B;&#x578B;&#x4E3A;ProcessMap<processrecord>&#xFF0C;&#x8FD9;&#x662F;&#x4EE5;&#x8FDB;&#x7A0B;&#x540D;&#x4E3A;key&#xFF0C;&#x8BB0;&#x5F55;&#x7740;&#x6240;&#x6709;&#x7684;ProcessRecord&#x4FE1;&#x606F;</processrecord></li>
-  <li><code class="highlighter-rouge">mPidsSelfLocked</code>&#x6570;&#x636E;&#x7C7B;&#x578B;&#x4E3A;SparseArray<processrecord>,&#x8FD9;&#x662F;&#x4EE5;pid&#x4E3A;key&#xFF0C;&#x8BB0;&#x5F55;&#x7740;&#x6240;&#x6709;&#x7684;ProcessRecord&#x4FE1;&#x606F;&#x3002;&#x8BE5;&#x5BF9;&#x8C61;&#x7684;&#x540C;&#x6B65;&#x4FDD;&#x62A4;&#x662F;&#x901A;&#x8FC7;&#x81EA;&#x8EAB;&#x9501;&#xFF0C;&#x800C;&#x975E;&#x5168;&#x5C40;ActivityManager&#x9501;&#x3002;</processrecord></li>
+  <li><code class="highlighter-rouge">mProcessNames</code>&#x6578;&#x64DA;&#x985E;&#x578B;&#x70BA;ProcessMap<processrecord>&#xFF0C;&#x9019;&#x662F;&#x4EE5;&#x9032;&#x7A0B;&#x540D;&#x70BA;key&#xFF0C;&#x8A18;&#x9304;&#x8457;&#x6240;&#x6709;&#x7684;ProcessRecord&#x4FE1;&#x606F;</processrecord></li>
+  <li><code class="highlighter-rouge">mPidsSelfLocked</code>&#x6578;&#x64DA;&#x985E;&#x578B;&#x70BA;SparseArray<processrecord>,&#x9019;&#x662F;&#x4EE5;pid&#x70BA;key&#xFF0C;&#x8A18;&#x9304;&#x8457;&#x6240;&#x6709;&#x7684;ProcessRecord&#x4FE1;&#x606F;&#x3002;&#x8A72;&#x5C0D;&#x8C61;&#x7684;&#x540C;&#x6B65;&#x4FDD;&#x8B77;&#x662F;&#x901A;&#x904E;&#x81EA;&#x8EAB;&#x9396;&#xFF0C;&#x800C;&#x975E;&#x5168;&#x5C40;ActivityManager&#x9396;&#x3002;</processrecord></li>
 </ul>
 
 <h5 id="921-appkill">9.2.1 app.kill<a class="anchorjs-link " href="#921-appkill" aria-label="Anchor link for: 921 appkill" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h5>
@@ -22802,8 +22847,8 @@ public void stopFreezingScreen() {
             Slog.i(TAG, &quot;Killing &quot; + toShortString() + &quot; (adj &quot; + setAdj + &quot;): &quot; + reason);
         }
         EventLog.writeEvent(EventLogTags.AM_KILL, userId, pid, processName, setAdj, reason);
-        Process.killProcessQuiet(pid); //&#x6740;&#x8FDB;&#x7A0B;
-        Process.killProcessGroup(info.uid, pid); //&#x6740;&#x8FDB;&#x7A0B;&#x7EC4;&#xFF0C;&#x5305;&#x62EC;native&#x8FDB;&#x7A0B;
+        Process.killProcessQuiet(pid); //&#x6BBA;&#x9032;&#x7A0B;
+        Process.killProcessGroup(info.uid, pid); //&#x6BBA;&#x9032;&#x7A0B;&#x7D44;&#xFF0C;&#x5305;&#x62EC;native&#x9032;&#x7A0B;
         if (!persistent) {
             killed = true;
             killedByAm = true;
@@ -22813,7 +22858,7 @@ public void stopFreezingScreen() {
 }
 </code></pre></div></div>
 
-<p>&#x6B64;&#x5904;reason&#x4E3A;&#x201C;crash&#x201D;&#xFF0C;&#x5173;&#x4E8E;&#x6740;&#x8FDB;&#x7A0B;&#x7684;&#x8FC7;&#x7A0B;&#x89C1;&#x6211;&#x7684;&#x53E6;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;<a href="http://gityuan.com/2016/04/16/kill-signal/" target="_blank">&#x7406;&#x89E3;&#x6740;&#x8FDB;&#x7A0B;&#x7684;&#x5B9E;&#x73B0;&#x539F;&#x7406;</a>.</p>
+<p>&#x6B64;&#x8655;reason&#x70BA;&#x201C;crash&#x201D;&#xFF0C;&#x95DC;&#x65BC;&#x6BBA;&#x9032;&#x7A0B;&#x7684;&#x904E;&#x7A0B;&#x898B;&#x6211;&#x7684;&#x53E6;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;<a href="http://gityuan.com/2016/04/16/kill-signal/" target="_blank">&#x7406;&#x89E3;&#x6BBA;&#x9032;&#x7A0B;&#x7684;&#x5BE6;&#x73FE;&#x539F;&#x7406;</a>.</p>
 
 <h5 id="922-handleappdiedlocked">9.2.2 handleAppDiedLocked<a class="anchorjs-link " href="#922-handleappdiedlocked" aria-label="Anchor link for: 922 handleappdiedlocked" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h5>
 
@@ -22822,7 +22867,7 @@ public void stopFreezingScreen() {
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">private final void handleAppDiedLocked(ProcessRecord app,
         boolean restarting, boolean allowRestart) {
     int pid = app.pid;
-    //&#x6E05;&#x9664;&#x5E94;&#x7528;&#x4E2D;service/receiver/ContentProvider&#x4FE1;&#x606F;
+    //&#x6E05;&#x9664;&#x61C9;&#x7528;&#x4E2D;service/receiver/ContentProvider&#x4FE1;&#x606F;
     boolean kept = cleanUpApplicationRecordLocked(app, restarting, allowRestart, -1);
     if (!kept &amp;&amp; !restarting) {
         removeLruProcessLocked(app);
@@ -22835,7 +22880,7 @@ public void stopFreezingScreen() {
         clearProfilerLocked();
     }
 
-    //&#x6E05;&#x9664;&#x5E94;&#x7528;&#x4E2D;activity&#x76F8;&#x5173;&#x4FE1;&#x606F;
+    //&#x6E05;&#x9664;&#x61C9;&#x7528;&#x4E2D;activity&#x76F8;&#x95DC;&#x4FE1;&#x606F;
     boolean hasVisibleActivities = mStackSupervisor.handleAppDiedLocked(app);
 
     app.activities.clear();
@@ -22861,7 +22906,7 @@ boolean resumeTopActivitiesLocked(ActivityStack targetStack, ActivityRecord targ
     }
     boolean result = false;
     if (isFrontStack(targetStack)) {
-        //&#x3010;&#x89C1;&#x5C0F;&#x8282;9.3.1&#x3011;
+        //&#x3010;&#x898B;&#x5C0F;&#x7BC0;9.3.1&#x3011;
         result = targetStack.resumeTopActivityLocked(target, targetOptions);
     }
 
@@ -22870,7 +22915,7 @@ boolean resumeTopActivitiesLocked(ActivityStack targetStack, ActivityRecord targ
         for (int stackNdx = stacks.size() - 1; stackNdx &gt;= 0; --stackNdx) {
             final ActivityStack stack = stacks.get(stackNdx);
             if (stack == targetStack) {
-                continue; //&#x5DF2;&#x7ECF;&#x542F;&#x52A8;
+                continue; //&#x5DF2;&#x7D93;&#x555F;&#x52D5;
             }
             if (isFrontStack(stack)) {
                 stack.resumeTopActivityLocked(null);
@@ -22881,7 +22926,7 @@ boolean resumeTopActivitiesLocked(ActivityStack targetStack, ActivityRecord targ
 }
 </code></pre></div></div>
 
-<p>&#x6B64;&#x5904;<code class="highlighter-rouge">mFocusedStack</code>&#x662F;&#x5F53;&#x524D;&#x6B63;&#x5728;&#x7B49;&#x5F85;&#x63A5;&#x6536;input&#x4E8B;&#x4EF6;&#x6216;&#x8005;&#x6B63;&#x5728;&#x542F;&#x52A8;&#x4E0B;&#x4E00;&#x4E2A;activity&#x7684;<code class="highlighter-rouge">ActivityStack</code>&#x3002;</p>
+<p>&#x6B64;&#x8655;<code class="highlighter-rouge">mFocusedStack</code>&#x662F;&#x7576;&#x524D;&#x6B63;&#x5728;&#x7B49;&#x5F85;&#x63A5;&#x6536;input&#x4E8B;&#x4EF6;&#x6216;&#x8005;&#x6B63;&#x5728;&#x555F;&#x52D5;&#x4E0B;&#x4E00;&#x500B;activity&#x7684;<code class="highlighter-rouge">ActivityStack</code>&#x3002;</p>
 
 <h5 id="931-asresumetopactivitylocked">9.3.1 AS.resumeTopActivityLocked<a class="anchorjs-link " href="#931-asresumetopactivitylocked" aria-label="Anchor link for: 931 asresumetopactivitylocked" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h5>
 
@@ -22889,7 +22934,7 @@ boolean resumeTopActivitiesLocked(ActivityStack targetStack, ActivityRecord targ
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">final boolean .resumeTopActivityLocked(ActivityRecord prev, Bundle options) {
     ...
-    result = resumeTopActivityInnerLocked(prev, options);//&#x3010;&#x89C1;&#x5C0F;&#x8282;9.3.2&#x3011;
+    result = resumeTopActivityInnerLocked(prev, options);//&#x3010;&#x898B;&#x5C0F;&#x7BC0;9.3.2&#x3011;
     return result;
 }
 </code></pre></div></div>
@@ -22899,33 +22944,33 @@ boolean resumeTopActivitiesLocked(ActivityStack targetStack, ActivityRecord targ
 <p>[-&gt; ActivityStack.java]</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">private boolean resumeTopActivityInnerLocked(ActivityRecord prev, Bundle options) {
-    //&#x627E;&#x5230;mTaskHistory&#x6808;&#x4E2D;&#x7B2C;&#x4E00;&#x4E2A;&#x672A;&#x5904;&#x4E8E;finishing&#x72B6;&#x6001;&#x7684;Activity
+    //&#x627E;&#x5230;mTaskHistory&#x68E7;&#x4E2D;&#x7B2C;&#x4E00;&#x500B;&#x672A;&#x8655;&#x65BC;finishing&#x72C0;&#x614B;&#x7684;Activity
     final ActivityRecord next = topRunningActivityLocked(null);
 
     if (mResumedActivity == next &amp;&amp; next.state == ActivityState.RESUMED &amp;&amp;
                         mStackSupervisor.allResumedActivitiesComplete()) {
-        //&#x5F53;top activity&#x5DF2;&#x7ECF;&#x5904;&#x4E8E;resume&#xFF0C;&#x5219;&#x65E0;&#x9700;&#x64CD;&#x4F5C;&#xFF1B;
+        //&#x7576;top activity&#x5DF2;&#x7D93;&#x8655;&#x65BC;resume&#xFF0C;&#x5247;&#x7121;&#x9700;&#x64CD;&#x4F5C;&#xFF1B;
         return false;
     }
 
     if (mService.isSleepingOrShuttingDown()
             &amp;&amp; mLastPausedActivity == next
             &amp;&amp; mStackSupervisor.allPausedActivitiesComplete()) {
-        //&#x5F53;&#x6B63;&#x5904;&#x4E8E;sleeping&#x72B6;&#x6001;&#xFF0C;top activity&#x5904;&#x4E8E;paused&#xFF0C;&#x5219;&#x65E0;&#x9700;&#x64CD;&#x4F5C;
+        //&#x7576;&#x6B63;&#x8655;&#x65BC;sleeping&#x72C0;&#x614B;&#xFF0C;top activity&#x8655;&#x65BC;paused&#xFF0C;&#x5247;&#x7121;&#x9700;&#x64CD;&#x4F5C;
         return false;
     }
 
-    //&#x6B63;&#x5728;&#x542F;&#x52A8;app&#x7684;activity&#xFF0C;&#x786E;&#x4FDD;app&#x4E0D;&#x4F1A;&#x88AB;&#x8BBE;&#x7F6E;&#x4E3A;stopped
+    //&#x6B63;&#x5728;&#x555F;&#x52D5;app&#x7684;activity&#xFF0C;&#x78BA;&#x4FDD;app&#x4E0D;&#x6703;&#x88AB;&#x8A2D;&#x7F6E;&#x70BA;stopped
     AppGlobals.getPackageManager().setPackageStoppedState(
                 next.packageName, false, next.userId);
-    //&#x56DE;&#x8C03;&#x5E94;&#x7528;onResume&#x65B9;&#x6CD5;
+    //&#x56DE;&#x8ABF;&#x61C9;&#x7528;onResume&#x65B9;&#x6CD5;
     next.app.thread.scheduleResumeActivity(next.appToken, next.app.repProcState,
                             mService.isNextTransitionForward(), resumeAnimOptions);
     ...
 }
 </code></pre></div></div>
 
-<p>&#x8BE5;&#x65B9;&#x6CD5;&#x4EE3;&#x7801;&#x6BD4;&#x8F83;&#x957F;&#xFF0C;&#x8FD9;&#x91CC;&#x5C31;&#x7B80;&#x5355;&#x5217;&#x4E3E;&#x51E0;&#x6761;&#x6BD4;&#x8F83;&#x91CD;&#x8981;&#x7684;&#x4EE3;&#x7801;&#x3002;&#x6267;&#x884C;&#x5B8C;&#x8BE5;&#x65B9;&#x6CD5;&#xFF0C;&#x5E94;&#x7528;&#x4E5F;&#x4FBF;&#x5B8C;&#x6210;&#x4E86;activity&#x7684;resume&#x8FC7;&#x7A0B;&#x3002;</p>
+<p>&#x8A72;&#x65B9;&#x6CD5;&#x4EE3;&#x78BC;&#x6BD4;&#x8F03;&#x9577;&#xFF0C;&#x9019;&#x88E1;&#x5C31;&#x7C21;&#x55AE;&#x5217;&#x8209;&#x5E7E;&#x689D;&#x6BD4;&#x8F03;&#x91CD;&#x8981;&#x7684;&#x4EE3;&#x78BC;&#x3002;&#x57F7;&#x884C;&#x5B8C;&#x8A72;&#x65B9;&#x6CD5;&#xFF0C;&#x61C9;&#x7528;&#x4E5F;&#x4FBF;&#x5B8C;&#x6210;&#x4E86;activity&#x7684;resume&#x904E;&#x7A0B;&#x3002;</p>
 
 <h4 id="94-finishtoprunningactivitylocked">9.4 finishTopRunningActivityLocked<a class="anchorjs-link " href="#94-finishtoprunningactivitylocked" aria-label="Anchor link for: 94 finishtoprunningactivitylocked" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h4>
 
@@ -22939,7 +22984,7 @@ boolean resumeTopActivitiesLocked(ActivityStack targetStack, ActivityRecord targ
         final int numStacks = stacks.size();
         for (int stackNdx = 0; stackNdx &lt; numStacks; ++stackNdx) {
             final ActivityStack stack = stacks.get(stackNdx);
-            //&#x6B64;&#x5904;reason= &quot;force-crash&quot;&#x3010;&#x89C1;&#x5C0F;&#x8282;9.4.2&#x3011;
+            //&#x6B64;&#x8655;reason= &quot;force-crash&quot;&#x3010;&#x898B;&#x5C0F;&#x7BC0;9.4.2&#x3011;
             stack.finishTopRunningActivityLocked(app, reason);
         }
     }
@@ -22949,12 +22994,12 @@ boolean resumeTopActivitiesLocked(ActivityStack targetStack, ActivityRecord targ
 <h5 id="942-asfinishtoprunningactivitylocked">9.4.2 AS.finishTopRunningActivityLocked<a class="anchorjs-link " href="#942-asfinishtoprunningactivitylocked" aria-label="Anchor link for: 942 asfinishtoprunningactivitylocked" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h5>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs cs">final void finishTopRunningActivityLocked(ProcessRecord app, String reason) {
-    //&#x627E;&#x5230;&#x6808;&#x9876;&#x7B2C;&#x4E00;&#x4E2A;&#x4E0D;&#x5904;&#x4E8E;finishing&#x72B6;&#x6001;&#x7684;activity
+    //&#x627E;&#x5230;&#x68E7;&#x9802;&#x7B2C;&#x4E00;&#x500B;&#x4E0D;&#x8655;&#x65BC;finishing&#x72C0;&#x614B;&#x7684;activity
     ActivityRecord r = topRunningActivityLocked(null);
     if (r != null &amp;&amp; r.app == app) {
         int taskNdx = mTaskHistory.indexOf(r.task);
         int activityNdx = r.task.mActivities.indexOf(r);
-        //&#x3010;&#x89C1;&#x5C0F;&#x8282;9.4.3&#x3011;
+        //&#x3010;&#x898B;&#x5C0F;&#x7BC0;9.4.3&#x3011;
         finishActivityLocked(r, Activity.RESULT_CANCELED, null, reason, false);
         --activityNdx;
         if (activityNdx &lt; 0) {
@@ -22972,7 +23017,7 @@ boolean resumeTopActivitiesLocked(ActivityStack targetStack, ActivityRecord targ
                     || r.state == ActivityState.PAUSING
                     || r.state == ActivityState.PAUSED) {
                 if (!r.isHomeActivity() || mService.mHomeProcess != r.app) {
-                    //&#x3010;&#x89C1;&#x5C0F;&#x8282;9.4.3&#x3011;
+                    //&#x3010;&#x898B;&#x5C0F;&#x7BC0;9.4.3&#x3011;
                     finishActivityLocked(r, Activity.RESULT_CANCELED, null, reason, false);
                 }
             }
@@ -22986,11 +23031,11 @@ boolean resumeTopActivitiesLocked(ActivityStack targetStack, ActivityRecord targ
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">final boolean finishActivityLocked(ActivityRecord r, int resultCode, Intent resultData,
            String reason, boolean oomAdj) {
     if (r.finishing) {
-        return false; //&#x6B63;&#x5728;finishing&#x5219;&#x8FD4;&#x56DE;
+        return false; //&#x6B63;&#x5728;finishing&#x5247;&#x8FD4;&#x56DE;
     }
-    //&#x8BBE;&#x7F6E;finish&#x72B6;&#x6001;&#x7684;activity&#x4E0D;&#x53EF;&#x89C1;
+    //&#x8A2D;&#x7F6E;finish&#x72C0;&#x614B;&#x7684;activity&#x4E0D;&#x53EF;&#x898B;
     r.makeFinishingLocked();
-    //&#x6682;&#x505C;key&#x7684;&#x5206;&#x53D1;&#x4E8B;&#x4EF6;
+    //&#x66AB;&#x505C;key&#x7684;&#x5206;&#x767C;&#x4E8B;&#x4EF6;
     r.pauseKeyDispatchingLocked();
 
     mWindowManager.prepareAppTransition(endTask
@@ -22998,19 +23043,19 @@ boolean resumeTopActivitiesLocked(ActivityStack targetStack, ActivityRecord targ
             : AppTransition.TRANSIT_ACTIVITY_CLOSE, false);
 
     mWindowManager.setAppVisibility(r.appToken, false);
-    //&#x56DE;&#x8C03;activity&#x7684;onPause&#x65B9;&#x6CD5;
+    //&#x56DE;&#x8ABF;activity&#x7684;onPause&#x65B9;&#x6CD5;
     startPausingLocked(false, false, false, false);
     ...
 }
 </code></pre></div></div>
 
-<p>&#x8BE5;&#x65B9;&#x6CD5;&#x6700;&#x7EC8;&#x4F1A;&#x56DE;&#x8C03;&#x5230;activity&#x7684;pause&#x65B9;&#x6CD5;&#x3002;</p>
+<p>&#x8A72;&#x65B9;&#x6CD5;&#x6700;&#x7D42;&#x6703;&#x56DE;&#x8ABF;&#x5230;activity&#x7684;pause&#x65B9;&#x6CD5;&#x3002;</p>
 
-<p>&#x6267;&#x884C;&#x5230;&#x8FD9;&#xFF0C;&#x6211;&#x4EEC;&#x8FD8;&#x56DE;&#x8FC7;&#x6765;&#x770B;&#x5C0F;&#x8282;<code class="highlighter-rouge">5.crashApplication</code>&#x4E2D;&#xFF0C;&#x5904;&#x7406;&#x5B8C;makeAppCrashingLocked&#xFF0C;&#x5219;&#x4F1A;&#x518D;&#x53D1;&#x9001;&#x6D88;&#x606F;SHOW_ERROR_MSG&#xFF0C;&#x5F39;&#x51FA;&#x63D0;&#x793A;crash&#x7684;&#x5BF9;&#x8BDD;&#x6846;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x518D;&#x770B;&#x770B;&#x8BE5;&#x8FC7;&#x7A0B;&#x3002;</p>
+<p>&#x57F7;&#x884C;&#x5230;&#x9019;&#xFF0C;&#x6211;&#x5011;&#x9084;&#x56DE;&#x904E;&#x4F86;&#x770B;&#x5C0F;&#x7BC0;<code class="highlighter-rouge">5.crashApplication</code>&#x4E2D;&#xFF0C;&#x8655;&#x7406;&#x5B8C;makeAppCrashingLocked&#xFF0C;&#x5247;&#x6703;&#x518D;&#x767C;&#x9001;&#x6D88;&#x606F;SHOW_ERROR_MSG&#xFF0C;&#x5F48;&#x51FA;&#x63D0;&#x793A;crash&#x7684;&#x5C0D;&#x8A71;&#x6846;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x518D;&#x770B;&#x770B;&#x8A72;&#x904E;&#x7A0B;&#x3002;</p>
 
 <h3 id="10-uihandler">10. UiHandler<a class="anchorjs-link " href="#10-uihandler" aria-label="Anchor link for: 10 uihandler" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
 
-<p>&#x901A;&#x8FC7;mUiHandler&#x53D1;&#x9001;message&#xFF0C;&#x4E14;&#x6D88;&#x606F;&#x7684;msg.waht=SHOW_ERROR_MSG&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x8FDB;&#x5165;UiHandler&#x6765;&#x770B;&#x770B;handleMessage&#x7684;&#x5904;&#x7406;&#x8FC7;&#x7A0B;&#x3002;</p>
+<p>&#x901A;&#x904E;mUiHandler&#x767C;&#x9001;message&#xFF0C;&#x4E14;&#x6D88;&#x606F;&#x7684;msg.waht=SHOW_ERROR_MSG&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x9032;&#x5165;UiHandler&#x4F86;&#x770B;&#x770B;handleMessage&#x7684;&#x8655;&#x7406;&#x904E;&#x7A0B;&#x3002;</p>
 
 <p>[-&gt; ActivityManagerService.java]</p>
 
@@ -23029,13 +23074,13 @@ boolean resumeTopActivitiesLocked(ActivityStack targetStack, ActivityRecord targ
                 ...
 
                if (mShowDialogs &amp;&amp; !mSleeping &amp;&amp; !mShuttingDown) {
-                   //&#x521B;&#x5EFA;&#x63D0;&#x793A;crash&#x5BF9;&#x8BDD;&#x6846;&#xFF0C;&#x7B49;&#x5F85;&#x7528;&#x6237;&#x9009;&#x62E9;&#xFF0C;5&#x5206;&#x949F;&#x64CD;&#x4F5C;&#x7B49;&#x5F85;&#x3002;
+                   //&#x5275;&#x5EFA;&#x63D0;&#x793A;crash&#x5C0D;&#x8A71;&#x6846;&#xFF0C;&#x7B49;&#x5F85;&#x7528;&#x6236;&#x9078;&#x64C7;&#xFF0C;5&#x5206;&#x9418;&#x64CD;&#x4F5C;&#x7B49;&#x5F85;&#x3002;
                    Dialog d = new AppErrorDialog(mContext,
                            ActivityManagerService.this, res, proc);
                    d.show();
                    proc.crashDialog = d;
                } else {
-                   //&#x5F53;&#x5904;&#x4E8E;sleep&#x72B6;&#x6001;&#xFF0C;&#x5219;&#x9ED8;&#x8BA4;&#x9009;&#x62E9;&#x9000;&#x51FA;&#x3002;
+                   //&#x7576;&#x8655;&#x65BC;sleep&#x72C0;&#x614B;&#xFF0C;&#x5247;&#x9ED8;&#x8A8D;&#x9078;&#x64C7;&#x9000;&#x51FA;&#x3002;
                    if (res != null) {
                        res.set(0);
                    }
@@ -23047,7 +23092,7 @@ boolean resumeTopActivitiesLocked(ActivityStack targetStack, ActivityRecord targ
 }
 </code></pre></div></div>
 
-<p>&#x5728;&#x53D1;&#x751F;crash&#x65F6;&#xFF0C;&#x9ED8;&#x8BA4;&#x7CFB;&#x7EDF;&#x4F1A;&#x5F39;&#x51FA;&#x63D0;&#x793A;crash&#x7684;&#x5BF9;&#x8BDD;&#x6846;&#xFF0C;&#x5E76;&#x963B;&#x585E;&#x7B49;&#x5F85;&#x7528;&#x6237;&#x9009;&#x62E9;&#x662F;&#x201C;&#x9000;&#x51FA;&#x201D;&#x6216; &#x201C;&#x9000;&#x51FA;&#x5E76;&#x62A5;&#x544A;&#x201D;&#xFF0C;&#x5F53;&#x7528;&#x6237;&#x4E0D;&#x505A;&#x4EFB;&#x4F55;&#x9009;&#x62E9;&#x65F6;5min&#x8D85;&#x65F6;&#x540E;&#xFF0C;&#x9ED8;&#x8BA4;&#x9009;&#x62E9;&#x201C;&#x9000;&#x51FA;&#x201D;&#xFF0C;&#x5F53;&#x624B;&#x673A;&#x4F11;&#x7720;&#x65F6;&#x4E5F;&#x9ED8;&#x8BA4;&#x9009;&#x62E9;&#x201C;&#x9000;&#x51FA;&#x201D;&#x3002;&#x5230;&#x8FD9;&#x91CC;&#x4E5F;&#x5E76;&#x6CA1;&#x6709;&#x771F;&#x6B63;&#x7ED3;&#x675F;&#xFF0C;&#x5728;&#x5C0F;&#x8282;<code class="highlighter-rouge">2.uncaughtException</code>&#x4E2D;&#x5728;<code class="highlighter-rouge">finnally</code>&#x8BED;&#x53E5;&#x5757;&#x8FD8;&#x6709;&#x4E00;&#x4E2A;&#x6740;&#x8FDB;&#x7A0B;&#x7684;&#x52A8;&#x4F5C;&#x3002;</p>
+<p>&#x5728;&#x767C;&#x751F;crash&#x6642;&#xFF0C;&#x9ED8;&#x8A8D;&#x7CFB;&#x7D71;&#x6703;&#x5F48;&#x51FA;&#x63D0;&#x793A;crash&#x7684;&#x5C0D;&#x8A71;&#x6846;&#xFF0C;&#x4E26;&#x963B;&#x585E;&#x7B49;&#x5F85;&#x7528;&#x6236;&#x9078;&#x64C7;&#x662F;&#x201C;&#x9000;&#x51FA;&#x201D;&#x6216; &#x201C;&#x9000;&#x51FA;&#x4E26;&#x5831;&#x544A;&#x201D;&#xFF0C;&#x7576;&#x7528;&#x6236;&#x4E0D;&#x505A;&#x4EFB;&#x4F55;&#x9078;&#x64C7;&#x6642;5min&#x8D85;&#x6642;&#x5F8C;&#xFF0C;&#x9ED8;&#x8A8D;&#x9078;&#x64C7;&#x201C;&#x9000;&#x51FA;&#x201D;&#xFF0C;&#x7576;&#x624B;&#x6A5F;&#x4F11;&#x7720;&#x6642;&#x4E5F;&#x9ED8;&#x8A8D;&#x9078;&#x64C7;&#x201C;&#x9000;&#x51FA;&#x201D;&#x3002;&#x5230;&#x9019;&#x88E1;&#x4E5F;&#x4E26;&#x6C92;&#x6709;&#x771F;&#x6B63;&#x7D50;&#x675F;&#xFF0C;&#x5728;&#x5C0F;&#x7BC0;<code class="highlighter-rouge">2.uncaughtException</code>&#x4E2D;&#x5728;<code class="highlighter-rouge">finnally</code>&#x8A9E;&#x53E5;&#x584A;&#x9084;&#x6709;&#x4E00;&#x500B;&#x6BBA;&#x9032;&#x7A0B;&#x7684;&#x52D5;&#x4F5C;&#x3002;</p>
 
 <h3 id="11-killprocess">11. killProcess<a class="anchorjs-link " href="#11-killprocess" aria-label="Anchor link for: 11 killprocess" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
 
@@ -23055,41 +23100,41 @@ boolean resumeTopActivitiesLocked(ActivityStack targetStack, ActivityRecord targ
 System.exit(10);
 </code></pre></div></div>
 
-<p>&#x901A;&#x8FC7;finnally&#x8BED;&#x53E5;&#x5757;&#x4FDD;&#x8BC1;&#x80FD;&#x6267;&#x884C;&#x5E76;&#x5F7B;&#x5E95;&#x6740;&#x6389;Crash&#x8FDB;&#x7A0B;&#xFF0C;&#x5173;&#x4E8E;&#x6740;&#x8FDB;&#x7A0B;&#x7684;&#x8FC7;&#x7A0B;&#x89C1;&#x6211;&#x7684;&#x53E6;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;<a href="http://gityuan.com/2016/04/16/kill-signal/" target="_blank">&#x7406;&#x89E3;&#x6740;&#x8FDB;&#x7A0B;&#x7684;&#x5B9E;&#x73B0;&#x539F;&#x7406;</a>.&#x3002;&#x5F53;Crash&#x8FDB;&#x7A0B;&#x88AB;&#x6740;&#x540E;&#xFF0C;&#x5E76;&#x6CA1;&#x6709;&#x5B8C;&#x5168;&#x7ED3;&#x675F;&#xFF0C;&#x8FD8;&#x6709;Binder&#x6B7B;&#x4EA1;&#x901A;&#x77E5;&#x7684;&#x6D41;&#x7A0B;&#x8FD8;&#x6CA1;&#x6709;&#x5904;&#x7406;&#x5B8C;&#x6210;&#x3002;</p>
+<p>&#x901A;&#x904E;finnally&#x8A9E;&#x53E5;&#x584A;&#x4FDD;&#x8B49;&#x80FD;&#x57F7;&#x884C;&#x4E26;&#x5FB9;&#x5E95;&#x6BBA;&#x6389;Crash&#x9032;&#x7A0B;&#xFF0C;&#x95DC;&#x65BC;&#x6BBA;&#x9032;&#x7A0B;&#x7684;&#x904E;&#x7A0B;&#x898B;&#x6211;&#x7684;&#x53E6;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;<a href="http://gityuan.com/2016/04/16/kill-signal/" target="_blank">&#x7406;&#x89E3;&#x6BBA;&#x9032;&#x7A0B;&#x7684;&#x5BE6;&#x73FE;&#x539F;&#x7406;</a>.&#x3002;&#x7576;Crash&#x9032;&#x7A0B;&#x88AB;&#x6BBA;&#x5F8C;&#xFF0C;&#x4E26;&#x6C92;&#x6709;&#x5B8C;&#x5168;&#x7D50;&#x675F;&#xFF0C;&#x9084;&#x6709;Binder&#x6B7B;&#x4EA1;&#x901A;&#x77E5;&#x7684;&#x6D41;&#x7A0B;&#x9084;&#x6C92;&#x6709;&#x8655;&#x7406;&#x5B8C;&#x6210;&#x3002;</p>
 
-<h3 id="12-&#x5C0F;&#x7ED3;">12. &#x5C0F;&#x7ED3;<a class="anchorjs-link " href="#12-&#x5C0F;&#x7ED3;" aria-label="Anchor link for: 12 &#x5C0F;&#x7ED3;" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
+<h3 id="12-&#x5C0F;&#x7D50;">12. &#x5C0F;&#x7D50;<a class="anchorjs-link " href="#12-&#x5C0F;&#x7D50;" aria-label="Anchor link for: 12 &#x5C0F;&#x7D50;" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
 
-<p>&#x5F53;&#x8FDB;&#x7A0B;&#x629B;&#x51FA;&#x672A;&#x6355;&#x83B7;&#x5F02;&#x5E38;&#x65F6;&#xFF0C;&#x5219;&#x7CFB;&#x7EDF;&#x4F1A;&#x5904;&#x7406;&#x8BE5;&#x5F02;&#x5E38;&#x5E76;&#x8FDB;&#x5165;crash&#x5904;&#x7406;&#x6D41;&#x7A0B;&#x3002;</p>
+<p>&#x7576;&#x9032;&#x7A0B;&#x62CB;&#x51FA;&#x672A;&#x6355;&#x7372;&#x7570;&#x5E38;&#x6642;&#xFF0C;&#x5247;&#x7CFB;&#x7D71;&#x6703;&#x8655;&#x7406;&#x8A72;&#x7570;&#x5E38;&#x4E26;&#x9032;&#x5165;crash&#x8655;&#x7406;&#x6D41;&#x7A0B;&#x3002;</p>
 
 <p><img src="images/app_crash.jpg" alt="app_crash"></p>
 
-<p>&#x5176;&#x4E2D;&#x6700;&#x4E3A;&#x6838;&#x5FC3;&#x7684;&#x5DE5;&#x4F5C;&#x56FE;&#x4E2D;&#x7EA2;&#x8272;&#x90E8;&#x5206;<code class="highlighter-rouge">AMS.handleAppCrashLocked</code>&#x7684;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#xFF1A;</p>
+<p>&#x5176;&#x4E2D;&#x6700;&#x70BA;&#x6838;&#x5FC3;&#x7684;&#x5DE5;&#x4F5C;&#x5716;&#x4E2D;&#x7D05;&#x8272;&#x90E8;&#x5206;<code class="highlighter-rouge">AMS.handleAppCrashLocked</code>&#x7684;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#xFF1A;</p>
 
 <ol>
-  <li>&#x5F53;&#x540C;&#x4E00;&#x8FDB;&#x7A0B;1&#x5206;&#x949F;&#x4E4B;&#x5185;&#x8FDE;&#x7EED;&#x4E24;&#x6B21;crash&#xFF0C;&#x5219;&#x6267;&#x884C;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF1A;
+  <li>&#x7576;&#x540C;&#x4E00;&#x9032;&#x7A0B;1&#x5206;&#x9418;&#x4E4B;&#x5167;&#x9023;&#x7E8C;&#x5169;&#x6B21;crash&#xFF0C;&#x5247;&#x57F7;&#x884C;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF1A;
     <ul>
-      <li>&#x5BF9;&#x4E8E;&#x975E;persistent&#x8FDB;&#x7A0B;&#xFF1A;
+      <li>&#x5C0D;&#x65BC;&#x975E;persistent&#x9032;&#x7A0B;&#xFF1A;
         <ul>
-          <li>ASS.handleAppCrashLocked, &#x76F4;&#x63A5;&#x7ED3;&#x675F;&#x8BE5;&#x5E94;&#x7528;&#x6240;&#x6709;activity</li>
-          <li>AMS.removeProcessLocked&#xFF0C;&#x6740;&#x6B7B;&#x8BE5;&#x8FDB;&#x7A0B;&#x4EE5;&#x53CA;&#x540C;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#x7EC4;&#x4E0B;&#x7684;&#x6240;&#x6709;&#x8FDB;</li>
-          <li>ASS.resumeTopActivitiesLocked&#xFF0C;&#x6062;&#x590D;&#x6808;&#x9876;&#x7B2C;&#x4E00;&#x4E2A;&#x975E;finishing&#x72B6;&#x6001;&#x7684;activity</li>
+          <li>ASS.handleAppCrashLocked, &#x76F4;&#x63A5;&#x7D50;&#x675F;&#x8A72;&#x61C9;&#x7528;&#x6240;&#x6709;activity</li>
+          <li>AMS.removeProcessLocked&#xFF0C;&#x6BBA;&#x6B7B;&#x8A72;&#x9032;&#x7A0B;&#x4EE5;&#x53CA;&#x540C;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x7D44;&#x4E0B;&#x7684;&#x6240;&#x6709;&#x9032;</li>
+          <li>ASS.resumeTopActivitiesLocked&#xFF0C;&#x6062;&#x5FA9;&#x68E7;&#x9802;&#x7B2C;&#x4E00;&#x500B;&#x975E;finishing&#x72C0;&#x614B;&#x7684;activity</li>
         </ul>
       </li>
-      <li>&#x5BF9;&#x4E8E;persistent&#x8FDB;&#x7A0B;&#xFF0C;&#x5219;&#x53EA;&#x6267;&#x884C;
+      <li>&#x5C0D;&#x65BC;persistent&#x9032;&#x7A0B;&#xFF0C;&#x5247;&#x53EA;&#x57F7;&#x884C;
         <ul>
-          <li>ASS.resumeTopActivitiesLocked&#xFF0C;&#x6062;&#x590D;&#x6808;&#x9876;&#x7B2C;&#x4E00;&#x4E2A;&#x975E;finishing&#x72B6;&#x6001;&#x7684;activity</li>
+          <li>ASS.resumeTopActivitiesLocked&#xFF0C;&#x6062;&#x5FA9;&#x68E7;&#x9802;&#x7B2C;&#x4E00;&#x500B;&#x975E;finishing&#x72C0;&#x614B;&#x7684;activity</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>&#x5426;&#x5219;&#xFF0C;&#x5F53;&#x8FDB;&#x7A0B;&#x6CA1;&#x8FDE;&#x7EED;&#x9891;&#x7E41;crash
+  <li>&#x5426;&#x5247;&#xFF0C;&#x7576;&#x9032;&#x7A0B;&#x6C92;&#x9023;&#x7E8C;&#x983B;&#x7E41;crash
     <ul>
-      <li>ASS.finishTopRunningActivityLocked&#xFF0C;&#x6267;&#x884C;&#x7ED3;&#x675F;&#x6808;&#x9876;&#x6B63;&#x5728;&#x8FD0;&#x884C;activity</li>
+      <li>ASS.finishTopRunningActivityLocked&#xFF0C;&#x57F7;&#x884C;&#x7D50;&#x675F;&#x68E7;&#x9802;&#x6B63;&#x5728;&#x904B;&#x884C;activity</li>
     </ul>
   </li>
 </ol>
 
-<p>&#x53E6;&#x5916;&#xFF0C;<code class="highlighter-rouge">AMS.handleAppCrashLocked</code>&#xFF0C;&#x8BE5;&#x65B9;&#x6CD5;&#x5185;&#x90E8;&#x4E3B;&#x8981;&#x8C03;&#x7528;&#x94FE;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>&#x53E6;&#x5916;&#xFF0C;<code class="highlighter-rouge">AMS.handleAppCrashLocked</code>&#xFF0C;&#x8A72;&#x65B9;&#x6CD5;&#x5167;&#x90E8;&#x4E3B;&#x8981;&#x8ABF;&#x7528;&#x93C8;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A;</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs css">AMS.handleAppCrashLocked
    ASS.handleAppCrashLocked
@@ -23113,14 +23158,14 @@ System.exit(10);
 
 <h2 id="&#x4E09;binder&#x6B7B;&#x4EA1;&#x901A;&#x77E5;">&#x4E09;&#x3001;Binder&#x6B7B;&#x4EA1;&#x901A;&#x77E5;<a class="anchorjs-link " href="#&#x4E09;binder&#x6B7B;&#x4EA1;&#x901A;&#x77E5;" aria-label="Anchor link for: &#x4E09;binder&#x6B7B;&#x4EA1;&#x901A;&#x77E5;" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h2>
 
-<p>&#x8FDB;&#x7A0B;&#x88AB;&#x6740;&#xFF0C;&#x5982;&#x679C;&#x8FD8;&#x8BB0;&#x5F97;Binder&#x7684;&#x6B7B;&#x4EA1;&#x56DE;&#x8C03;&#x673A;&#x5236;&#xFF0C;&#x5728;&#x5E94;&#x7528;&#x8FDB;&#x7A0B;&#x521B;&#x5EFA;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x6709;&#x4E00;&#x4E2A;<code class="highlighter-rouge">attachApplicationLocked</code>&#x65B9;&#x6CD5;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x4FBF;&#x4F1A;&#x521B;&#x5EFA;&#x6B7B;&#x4EA1;&#x901A;&#x77E5;&#x3002;</p>
+<p>&#x9032;&#x7A0B;&#x88AB;&#x6BBA;&#xFF0C;&#x5982;&#x679C;&#x9084;&#x8A18;&#x5F97;Binder&#x7684;&#x6B7B;&#x4EA1;&#x56DE;&#x8ABF;&#x6A5F;&#x5236;&#xFF0C;&#x5728;&#x61C9;&#x7528;&#x9032;&#x7A0B;&#x5275;&#x5EFA;&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#x6709;&#x4E00;&#x500B;<code class="highlighter-rouge">attachApplicationLocked</code>&#x65B9;&#x6CD5;&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#x4FBF;&#x6703;&#x5275;&#x5EFA;&#x6B7B;&#x4EA1;&#x901A;&#x77E5;&#x3002;</p>
 
 <p>[-&gt; ActivityManagerService.java]</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">private final boolean attachApplicationLocked(IApplicationThread thread,
             int pid) {
     try {
-        //&#x521B;&#x5EFA;binder&#x6B7B;&#x4EA1;&#x901A;&#x77E5;
+        //&#x5275;&#x5EFA;binder&#x6B7B;&#x4EA1;&#x901A;&#x77E5;
         AppDeathRecipient adr = new AppDeathRecipient(
                 app, pid, thread);
         thread.asBinder().linkToDeath(adr, 0);
@@ -23134,7 +23179,7 @@ System.exit(10);
 }
 </code></pre></div></div>
 
-<p>&#x5F53;binder&#x670D;&#x52A1;&#x7AEF;&#x6302;&#x4E86;&#x4E4B;&#x540E;&#xFF0C;&#x4FBF;&#x4F1A;&#x901A;&#x8FC7;binder&#x7684;DeathRecipient&#x6765;&#x901A;&#x77E5;AMS&#x8FDB;&#x884C;&#x76F8;&#x5E94;&#x7684;&#x6E05;&#x7406;&#x6536;&#x5C3E;&#x5DE5;&#x4F5C;&#x3002;&#x524D;&#x9762;&#x5DF2;&#x7ECF;&#x964D;&#x5230;crash&#x7684;&#x8FDB;&#x7A0B;&#x4F1A;&#x88AB;kill&#x6389;&#xFF0C;&#x90A3;&#x4E48;&#x5F53;&#x8BE5;&#x8FDB;&#x7A0B;&#x4F1A;&#x6740;&#xFF0C;&#x5219;&#x4F1A;&#x56DE;&#x8C03;&#x5230;binderDied()&#x65B9;&#x6CD5;&#x3002;</p>
+<p>&#x7576;binder&#x670D;&#x52D9;&#x7AEF;&#x639B;&#x4E86;&#x4E4B;&#x5F8C;&#xFF0C;&#x4FBF;&#x6703;&#x901A;&#x904E;binder&#x7684;DeathRecipient&#x4F86;&#x901A;&#x77E5;AMS&#x9032;&#x884C;&#x76F8;&#x61C9;&#x7684;&#x6E05;&#x7406;&#x6536;&#x5C3E;&#x5DE5;&#x4F5C;&#x3002;&#x524D;&#x9762;&#x5DF2;&#x7D93;&#x964D;&#x5230;crash&#x7684;&#x9032;&#x7A0B;&#x6703;&#x88AB;kill&#x6389;&#xFF0C;&#x90A3;&#x9EBC;&#x7576;&#x8A72;&#x9032;&#x7A0B;&#x6703;&#x6BBA;&#xFF0C;&#x5247;&#x6703;&#x56DE;&#x8ABF;&#x5230;binderDied()&#x65B9;&#x6CD5;&#x3002;</p>
 
 <h3 id="1-binderdied">1. binderDied<a class="anchorjs-link " href="#1-binderdied" aria-label="Anchor link for: 1 binderdied" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
 
@@ -23143,7 +23188,7 @@ System.exit(10);
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">private final class AppDeathRecipient implements IBinder.DeathRecipient {
     public void binderDied() {
         synchronized(ActivityManagerService.this) {
-            appDiedLocked(mApp, mPid, mAppThread, true);//&#x3010;&#x89C1;&#x5C0F;&#x8282;2&#x3011;
+            appDiedLocked(mApp, mPid, mAppThread, true);//&#x3010;&#x898B;&#x5C0F;&#x7BC0;2&#x3011;
         }
     }
 }
@@ -23173,7 +23218,7 @@ System.exit(10);
             mAllowLowerMemLevel = false;
             doLowMem = false;
         }
-        //&#x3010;&#x89C1;&#x5C0F;&#x8282;3&#x3011;
+        //&#x3010;&#x898B;&#x5C0F;&#x7BC0;3&#x3011;
         handleAppDiedLocked(app, false, true);
 
         if (doOomAdj) {
@@ -23194,7 +23239,7 @@ System.exit(10);
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">private final void handleAppDiedLocked(ProcessRecord app,
         boolean restarting, boolean allowRestart) {
     int pid = app.pid;
-    //&#x6E05;&#x7406;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;service, BroadcastReceiver, ContentProvider&#x76F8;&#x5173;&#x4FE1;&#x606F;&#x3010;&#x89C1;&#x5C0F;&#x8282;4&#x3011;
+    //&#x6E05;&#x7406;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;service, BroadcastReceiver, ContentProvider&#x76F8;&#x95DC;&#x4FE1;&#x606F;&#x3010;&#x898B;&#x5C0F;&#x7BC0;4&#x3011;
     boolean kept = cleanUpApplicationRecordLocked(app, restarting, allowRestart, -1);
 
     if (!kept &amp;&amp; !restarting) {
@@ -23204,11 +23249,11 @@ System.exit(10);
         }
     }
 
-    //&#x6E05;&#x7406;activity&#x76F8;&#x5173;&#x4FE1;&#x606F;
+    //&#x6E05;&#x7406;activity&#x76F8;&#x95DC;&#x4FE1;&#x606F;
     boolean hasVisibleActivities = mStackSupervisor.handleAppDiedLocked(app);
     app.activities.clear();
     ...
-    //&#x6062;&#x590D;&#x6808;&#x9876;&#x7B2C;&#x4E00;&#x4E2A;&#x975E;finish&#x7684;activity
+    //&#x6062;&#x5FA9;&#x68E7;&#x9802;&#x7B2C;&#x4E00;&#x500B;&#x975E;finish&#x7684;activity
     if (!restarting &amp;&amp; hasVisibleActivities &amp;&amp; !mStackSupervisor.resumeTopActivitiesLocked()) {
        mStackSupervisor.ensureActivitiesVisibleLocked(null, 0);
    }
@@ -23217,11 +23262,11 @@ System.exit(10);
 
 <h3 id="4-cleanupapplicationrecordlocked">4 cleanUpApplicationRecordLocked<a class="anchorjs-link " href="#4-cleanupapplicationrecordlocked" aria-label="Anchor link for: 4 cleanupapplicationrecordlocked" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
 
-<p>&#x8BE5;&#x65B9;&#x6CD5;&#x6E05;&#x7406;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;service, BroadcastReceiver, ContentProvider&#xFF0C;process&#x76F8;&#x5173;&#x4FE1;&#x606F;&#xFF0C;&#x4E3A;&#x4E86;&#x4FBF;&#x4E8E;&#x8BF4;&#x660E;&#x5C06;&#x8BE5;&#x65B9;&#x6CD5;&#x5212;&#x5206;&#x4E3A;4&#x4E2A;&#x90E8;&#x5206;&#x8BB2;&#x89E3;</p>
+<p>&#x8A72;&#x65B9;&#x6CD5;&#x6E05;&#x7406;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;service, BroadcastReceiver, ContentProvider&#xFF0C;process&#x76F8;&#x95DC;&#x4FE1;&#x606F;&#xFF0C;&#x70BA;&#x4E86;&#x4FBF;&#x65BC;&#x8AAA;&#x660E;&#x5C07;&#x8A72;&#x65B9;&#x6CD5;&#x5283;&#x5206;&#x70BA;4&#x500B;&#x90E8;&#x5206;&#x8B1B;&#x89E3;</p>
 
 <h4 id="41-&#x6E05;&#x7406;service">4.1 &#x6E05;&#x7406;service<a class="anchorjs-link " href="#41-&#x6E05;&#x7406;service" aria-label="Anchor link for: 41 &#x6E05;&#x7406;service" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h4>
 
-<p>&#x53C2;&#x6570;restarting = false,  allowRestart =true,  index =-1</p>
+<p>&#x53C3;&#x6578;restarting = false,  allowRestart =true,  index =-1</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">private final boolean cleanUpApplicationRecordLocked(ProcessRecord app,
         boolean restarting, boolean allowRestart, int index) {
@@ -23229,7 +23274,7 @@ System.exit(10);
     mProcessesToGc.remove(app);
     mPendingPssProcesses.remove(app);
 
-    //&#x5982;&#x679C;&#x5B58;&#x5728;&#xFF0C;&#x5219;&#x6E05;&#x9664;crash/anr/wait&#x5BF9;&#x8BDD;&#x6846;
+    //&#x5982;&#x679C;&#x5B58;&#x5728;&#xFF0C;&#x5247;&#x6E05;&#x9664;crash/anr/wait&#x5C0D;&#x8A71;&#x6846;
     if (app.crashDialog != null &amp;&amp; !app.forceCrashReport) {
         app.crashDialog.dismiss();
         app.crashDialog = null;
@@ -23251,22 +23296,22 @@ System.exit(10);
     app.makeInactive(mProcessStats);
     app.waitingToKill = null;
     app.forcingToForeground = null;
-    //&#x5C06;app&#x79FB;&#x9664;&#x524D;&#x53F0;&#x8FDB;&#x7A0B;
+    //&#x5C07;app&#x79FB;&#x9664;&#x524D;&#x81FA;&#x9032;&#x7A0B;
     updateProcessForegroundLocked(app, false, false);
     app.foregroundActivities = false;
     app.hasShownUi = false;
     app.treatLikeActivity = false;
     app.hasAboveClient = false;
     app.hasClientActivities = false;
-    //&#x6E05;&#x7406;service&#x4FE1;&#x606F;&#xFF0C;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x4E5F;&#x6BD4;&#x8F83;&#x590D;&#x6742;&#xFF0C;&#x540E;&#x7EED;&#x518D;&#x5C55;&#x5F00;
+    //&#x6E05;&#x7406;service&#x4FE1;&#x606F;&#xFF0C;&#x9019;&#x500B;&#x904E;&#x7A0B;&#x4E5F;&#x6BD4;&#x8F03;&#x8907;&#x96DC;&#xFF0C;&#x5F8C;&#x7E8C;&#x518D;&#x5C55;&#x958B;
     mServices.killServicesLocked(app, allowRestart);
     boolean restart = false;
 }
 </code></pre></div></div>
 
 <ul>
-  <li>mProcessesToGc&#xFF1A;&#x8BB0;&#x5F55;&#x7740;&#x9700;&#x8981;&#x5C3D;&#x5FEB;&#x6267;&#x884C;gc&#x7684;&#x8FDB;&#x7A0B;&#x5217;&#x8868;</li>
-  <li>mPendingPssProcesses&#xFF1A;&#x8BB0;&#x5F55;&#x7740;&#x9700;&#x8981;&#x6536;&#x96C6;&#x5185;&#x5B58;&#x4FE1;&#x606F;&#x7684;&#x8FDB;&#x7A0B;&#x5217;&#x8868;</li>
+  <li>mProcessesToGc&#xFF1A;&#x8A18;&#x9304;&#x8457;&#x9700;&#x8981;&#x5118;&#x5FEB;&#x57F7;&#x884C;gc&#x7684;&#x9032;&#x7A0B;&#x5217;&#x8868;</li>
+  <li>mPendingPssProcesses&#xFF1A;&#x8A18;&#x9304;&#x8457;&#x9700;&#x8981;&#x6536;&#x96C6;&#x5167;&#x5B58;&#x4FE1;&#x606F;&#x7684;&#x9032;&#x7A0B;&#x5217;&#x8868;</li>
 </ul>
 
 <h4 id="42-&#x6E05;&#x7406;contentprovider">4.2 &#x6E05;&#x7406;ContentProvider<a class="anchorjs-link " href="#42-&#x6E05;&#x7406;contentprovider" aria-label="Anchor link for: 42 &#x6E05;&#x7406;contentprovider" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h4>
@@ -23274,13 +23319,13 @@ System.exit(10);
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">private final boolean cleanUpApplicationRecordLocked(...) {
     ...
     for (int i = app.pubProviders.size() - 1; i &gt;= 0; i--) {
-        //&#x83B7;&#x53D6;&#x8BE5;&#x8FDB;&#x7A0B;&#x5DF2;&#x53D1;&#x8868;&#x7684;ContentProvider
+        //&#x7372;&#x53D6;&#x8A72;&#x9032;&#x7A0B;&#x5DF2;&#x767C;&#x8868;&#x7684;ContentProvider
         ContentProviderRecord cpr = app.pubProviders.valueAt(i);
         final boolean always = app.bad || !allowRestart;
-        //ContentProvider&#x670D;&#x52A1;&#x7AEF;&#x88AB;&#x6740;&#xFF0C;&#x5219;client&#x7AEF;&#x8FDB;&#x7A0B;&#x4E5F;&#x4F1A;&#x88AB;&#x6740;
+        //ContentProvider&#x670D;&#x52D9;&#x7AEF;&#x88AB;&#x6BBA;&#xFF0C;&#x5247;client&#x7AEF;&#x9032;&#x7A0B;&#x4E5F;&#x6703;&#x88AB;&#x6BBA;
         boolean inLaunching = removeDyingProviderLocked(app, cpr, always);
         if ((inLaunching || always) &amp;&amp; cpr.hasConnectionOrHandle()) {
-            restart = true; //&#x9700;&#x8981;&#x91CD;&#x542F;
+            restart = true; //&#x9700;&#x8981;&#x91CD;&#x555F;
         }
 
         cpr.provider = null;
@@ -23288,12 +23333,12 @@ System.exit(10);
     }
     app.pubProviders.clear();
 
-    //&#x5904;&#x7406;&#x6B63;&#x5728;&#x542F;&#x52A8;&#x5E76;&#x4E14;&#x662F;&#x6709;client&#x7AEF;&#x6B63;&#x5728;&#x7B49;&#x5F85;&#x7684;ContentProvider
+    //&#x8655;&#x7406;&#x6B63;&#x5728;&#x555F;&#x52D5;&#x4E26;&#x4E14;&#x662F;&#x6709;client&#x7AEF;&#x6B63;&#x5728;&#x7B49;&#x5F85;&#x7684;ContentProvider
     if (cleanupAppInLaunchingProvidersLocked(app, false)) {
         restart = true;
     }
 
-    //&#x53D6;&#x6D88;&#x5DF2;&#x8FDE;&#x63A5;&#x7684;ContentProvider&#x7684;&#x6CE8;&#x518C;
+    //&#x53D6;&#x6D88;&#x5DF2;&#x9023;&#x63A5;&#x7684;ContentProvider&#x7684;&#x8A3B;&#x518A;
     if (!app.conProviders.isEmpty()) {
         for (int i = app.conProviders.size() - 1; i &gt;= 0; i--) {
             ContentProviderConnection conn = app.conProviders.get(i);
@@ -23312,7 +23357,7 @@ System.exit(10);
     ...
     skipCurrentReceiverLocked(app);
 
-    // &#x53D6;&#x6D88;&#x6CE8;&#x518C;&#x7684;&#x5E7F;&#x64AD;&#x63A5;&#x6536;&#x8005;
+    // &#x53D6;&#x6D88;&#x8A3B;&#x518A;&#x7684;&#x5EE3;&#x64AD;&#x63A5;&#x6536;&#x8005;
     for (int i = app.receivers.size() - 1; i &gt;= 0; i--) {
         removeReceiverLocked(app.receivers.valueAt(i));
     }
@@ -23324,7 +23369,7 @@ System.exit(10);
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code class="hljs java">private final boolean cleanUpApplicationRecordLocked(...) {
     ...
-    //&#x5F53;app&#x6B63;&#x5728;&#x5907;&#x4EFD;&#x65F6;&#x7684;&#x5904;&#x7406;&#x65B9;&#x5F0F;
+    //&#x7576;app&#x6B63;&#x5728;&#x5099;&#x4EFD;&#x6642;&#x7684;&#x8655;&#x7406;&#x65B9;&#x5F0F;
     if (mBackupTarget != null &amp;&amp; app.pid == mBackupTarget.app.pid) {
         ...
         IBackupManager bm = IBackupManager.Stub.asInterface(
@@ -23349,15 +23394,15 @@ System.exit(10);
             mHeavyWeightProcess = null;
         }
     } else if (!app.removed) {
-        //&#x5BF9;&#x4E8E;persistent&#x5E94;&#x7528;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x91CD;&#x542F;
+        //&#x5C0D;&#x65BC;persistent&#x61C9;&#x7528;&#xFF0C;&#x5247;&#x9700;&#x8981;&#x91CD;&#x555F;
         if (mPersistentStartingProcesses.indexOf(app) &lt; 0) {
             mPersistentStartingProcesses.add(app);
             restart = true;
         }
     }
 
-    //mProcessesOnHold&#xFF1A;&#x8BB0;&#x5F55;&#x7740;&#x8BD5;&#x56FE;&#x5728;&#x7CFB;&#x7EDF;ready&#x4E4B;&#x524D;&#x5C31;&#x542F;&#x52A8;&#x7684;&#x8FDB;&#x7A0B;&#x3002;
-    //&#x5728;&#x90A3;&#x65F6;&#x5E76;&#x4E0D;&#x542F;&#x52A8;&#x8FD9;&#x4E9B;&#x8FDB;&#x7A0B;&#xFF0C;&#x5148;&#x8BB0;&#x5F55;&#x4E0B;&#x6765;,&#x7B49;&#x7CFB;&#x7EDF;&#x542F;&#x52A8;&#x5B8C;&#x6210;&#x5219;&#x542F;&#x52A8;&#x8FD9;&#x4E9B;&#x8FDB;&#x7A0B;&#x3002;
+    //mProcessesOnHold&#xFF1A;&#x8A18;&#x9304;&#x8457;&#x8A66;&#x5716;&#x5728;&#x7CFB;&#x7D71;ready&#x4E4B;&#x524D;&#x5C31;&#x555F;&#x52D5;&#x7684;&#x9032;&#x7A0B;&#x3002;
+    //&#x5728;&#x90A3;&#x6642;&#x4E26;&#x4E0D;&#x555F;&#x52D5;&#x9019;&#x4E9B;&#x9032;&#x7A0B;&#xFF0C;&#x5148;&#x8A18;&#x9304;&#x4E0B;&#x4F86;,&#x7B49;&#x7CFB;&#x7D71;&#x555F;&#x52D5;&#x5B8C;&#x6210;&#x5247;&#x555F;&#x52D5;&#x9019;&#x4E9B;&#x9032;&#x7A0B;&#x3002;
     mProcessesOnHold.remove(app);
 
     if (app == mHomeProcess) {
@@ -23368,7 +23413,7 @@ System.exit(10);
     }
 
     if (restart &amp;&amp; !app.isolated) {
-        //&#x4ECD;&#x6709;&#x7EC4;&#x4EF6;&#x9700;&#x8981;&#x8FD0;&#x884C;&#x5728;&#x8BE5;&#x8FDB;&#x7A0B;&#x4E2D;&#xFF0C;&#x56E0;&#x6B64;&#x91CD;&#x542F;&#x8BE5;&#x8FDB;&#x7A0B;
+        //&#x4ECD;&#x6709;&#x7D44;&#x4EF6;&#x9700;&#x8981;&#x904B;&#x884C;&#x5728;&#x8A72;&#x9032;&#x7A0B;&#x4E2D;&#xFF0C;&#x56E0;&#x6B64;&#x91CD;&#x555F;&#x8A72;&#x9032;&#x7A0B;
         if (index &lt; 0) {
             ProcessList.remove(app.pid);
         }
@@ -23376,7 +23421,7 @@ System.exit(10);
         startProcessLocked(app, &quot;restart&quot;, app.processName);
         return true;
     } else if (app.pid &gt; 0 &amp;&amp; app.pid != MY_PID) {
-        //&#x79FB;&#x9664;&#x8BE5;&#x8FDB;&#x7A0B;&#x76F8;&#x5173;&#x4FE1;&#x606F;
+        //&#x79FB;&#x9664;&#x8A72;&#x9032;&#x7A0B;&#x76F8;&#x95DC;&#x4FE1;&#x606F;
         boolean removed;
         synchronized (mPidsSelfLocked) {
             mPidsSelfLocked.remove(app.pid);
@@ -23388,52 +23433,52 @@ System.exit(10);
 }
 </code></pre></div></div>
 
-<p>&#x5BF9;&#x4E8E;&#x9700;&#x8981;&#x91CD;&#x542F;&#x8FDB;&#x7A0B;&#x7684;&#x60C5;&#x5F62;&#x6709;&#xFF1A;</p>
+<p>&#x5C0D;&#x65BC;&#x9700;&#x8981;&#x91CD;&#x555F;&#x9032;&#x7A0B;&#x7684;&#x60C5;&#x5F62;&#x6709;&#xFF1A;</p>
 
 <ul>
-  <li><code class="highlighter-rouge">mLaunchingProviders</code>&#xFF1A;&#x8BB0;&#x5F55;&#x7740;&#x5B58;&#x5728;client&#x7AEF;&#x7B49;&#x5F85;&#x7684;ContentProvider&#x3002;&#x5E94;&#x7528;&#x5F53;&#x524D;&#x6B63;&#x5728;&#x542F;&#x52A8;&#x4E2D;&#xFF0C;&#x5F53;ContentProvider&#x4E00;&#x65E6;&#x53D1;&#x5E03;&#x5219;&#x5C06;&#x8BE5;ContentProvider&#x5C06;&#x4ECE;&#x8BE5;list&#x53BB;&#x9664;&#x3002;&#x5F53;&#x8FDB;&#x7A0B;&#x5305;&#x542B;&#x8FD9;&#x6837;&#x7684;ContentProvider&#xFF0C;&#x5219;&#x9700;&#x8981;&#x91CD;&#x542F;&#x8FDB;&#x7A0B;&#x3002;</li>
-  <li><code class="highlighter-rouge">mPersistentStartingProcesses</code>&#xFF1A;&#x8BB0;&#x5F55;&#x7740;&#x8BD5;&#x56FE;&#x5728;&#x7CFB;&#x7EDF;ready&#x4E4B;&#x524D;&#x5C31;&#x542F;&#x52A8;&#x7684;&#x8FDB;&#x7A0B;&#x3002;&#x5728;&#x90A3;&#x65F6;&#x5E76;&#x4E0D;&#x542F;&#x52A8;&#x8FD9;&#x4E9B;&#x8FDB;&#x7A0B;&#xFF0C;&#x5148;&#x8BB0;&#x5F55;&#x4E0B;&#x6765;,&#x7B49;&#x7CFB;&#x7EDF;&#x542F;&#x52A8;&#x5B8C;&#x6210;&#x5219;&#x542F;&#x52A8;&#x8FD9;&#x4E9B;&#x8FDB;&#x7A0B;&#x3002;&#x5F53;&#x8FDB;&#x7A0B;&#x5C5E;&#x4E8E;&#x8FD9;&#x79CD;&#x7C7B;&#x578B;&#x4E5F;&#x9700;&#x8981;&#x91CD;&#x542F;&#x3002;</li>
+  <li><code class="highlighter-rouge">mLaunchingProviders</code>&#xFF1A;&#x8A18;&#x9304;&#x8457;&#x5B58;&#x5728;client&#x7AEF;&#x7B49;&#x5F85;&#x7684;ContentProvider&#x3002;&#x61C9;&#x7528;&#x7576;&#x524D;&#x6B63;&#x5728;&#x555F;&#x52D5;&#x4E2D;&#xFF0C;&#x7576;ContentProvider&#x4E00;&#x65E6;&#x767C;&#x4F48;&#x5247;&#x5C07;&#x8A72;ContentProvider&#x5C07;&#x5F9E;&#x8A72;list&#x53BB;&#x9664;&#x3002;&#x7576;&#x9032;&#x7A0B;&#x5305;&#x542B;&#x9019;&#x6A23;&#x7684;ContentProvider&#xFF0C;&#x5247;&#x9700;&#x8981;&#x91CD;&#x555F;&#x9032;&#x7A0B;&#x3002;</li>
+  <li><code class="highlighter-rouge">mPersistentStartingProcesses</code>&#xFF1A;&#x8A18;&#x9304;&#x8457;&#x8A66;&#x5716;&#x5728;&#x7CFB;&#x7D71;ready&#x4E4B;&#x524D;&#x5C31;&#x555F;&#x52D5;&#x7684;&#x9032;&#x7A0B;&#x3002;&#x5728;&#x90A3;&#x6642;&#x4E26;&#x4E0D;&#x555F;&#x52D5;&#x9019;&#x4E9B;&#x9032;&#x7A0B;&#xFF0C;&#x5148;&#x8A18;&#x9304;&#x4E0B;&#x4F86;,&#x7B49;&#x7CFB;&#x7D71;&#x555F;&#x52D5;&#x5B8C;&#x6210;&#x5247;&#x555F;&#x52D5;&#x9019;&#x4E9B;&#x9032;&#x7A0B;&#x3002;&#x7576;&#x9032;&#x7A0B;&#x5C6C;&#x65BC;&#x9019;&#x7A2E;&#x985E;&#x578B;&#x4E5F;&#x9700;&#x8981;&#x91CD;&#x555F;&#x3002;</li>
 </ul>
 
-<h3 id="5-&#x5C0F;&#x7ED3;">5. &#x5C0F;&#x7ED3;<a class="anchorjs-link " href="#5-&#x5C0F;&#x7ED3;" aria-label="Anchor link for: 5 &#x5C0F;&#x7ED3;" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
+<h3 id="5-&#x5C0F;&#x7D50;">5. &#x5C0F;&#x7D50;<a class="anchorjs-link " href="#5-&#x5C0F;&#x7D50;" aria-label="Anchor link for: 5 &#x5C0F;&#x7D50;" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
 
-<p>&#x5F53;crash&#x8FDB;&#x7A0B;&#x6267;&#x884C;kill&#x64CD;&#x4F5C;&#x540E;&#xFF0C;&#x8FDB;&#x7A0B;&#x88AB;&#x6740;&#x3002;&#x6B64;&#x65F6;&#x9700;&#x8981;&#x638C;&#x63E1;binder &#x6B7B;&#x4EA1;&#x901A;&#x77E5;&#x539F;&#x7406;&#xFF0C;&#x7531;&#x4E8E;Crash&#x8FDB;&#x7A0B;&#x4E2D;&#x62E5;&#x6709;&#x4E00;&#x4E2A;Binder&#x670D;&#x52A1;&#x7AEF;<code class="highlighter-rouge">ApplicationThread</code>&#xFF0C;&#x800C;&#x5E94;&#x7528;&#x8FDB;&#x7A0B;&#x5728;&#x521B;&#x5EFA;&#x8FC7;&#x7A0B;&#x8C03;&#x7528;attachApplicationLocked()&#xFF0C;&#x4ECE;&#x800C;attach&#x5230;system_server&#x8FDB;&#x7A0B;&#xFF0C;&#x5728;system_server&#x8FDB;&#x7A0B;&#x5185;&#x6709;&#x4E00;&#x4E2A;<code class="highlighter-rouge">ApplicationThreadProxy</code>&#xFF0C;&#x8FD9;&#x662F;&#x76F8;&#x5BF9;&#x5E94;&#x7684;Binder&#x5BA2;&#x6237;&#x7AEF;&#x3002;&#x5F53;Binder&#x670D;&#x52A1;&#x7AEF;<code class="highlighter-rouge">ApplicationThread</code>&#x6240;&#x5728;&#x8FDB;&#x7A0B;(&#x5373;Crash&#x8FDB;&#x7A0B;)&#x6302;&#x6389;&#x540E;&#xFF0C;&#x5219;Binder&#x5BA2;&#x6237;&#x7AEF;&#x80FD;&#x6536;&#x5230;&#x76F8;&#x5E94;&#x7684;&#x6B7B;&#x4EA1;&#x901A;&#x77E5;&#xFF0C;&#x4ECE;&#x800C;&#x8FDB;&#x5165;binderDied&#x6D41;&#x7A0B;&#x3002;&#x66F4;&#x591A;&#x5173;&#x4E8E;bInder&#x539F;&#x7406;&#xFF0C;&#x8FD9;&#x91CC;&#x5C31;&#x4E0D;&#x7EC6;&#x8BF4;&#xFF0C;&#x535A;&#x5BA2;&#x4E2D;&#x6709;&#x5173;&#x4E8E;binder&#x7CFB;&#x5217;&#x7684;&#x4E13;&#x9898;&#x3002;</p>
+<p>&#x7576;crash&#x9032;&#x7A0B;&#x57F7;&#x884C;kill&#x64CD;&#x4F5C;&#x5F8C;&#xFF0C;&#x9032;&#x7A0B;&#x88AB;&#x6BBA;&#x3002;&#x6B64;&#x6642;&#x9700;&#x8981;&#x638C;&#x63E1;binder &#x6B7B;&#x4EA1;&#x901A;&#x77E5;&#x539F;&#x7406;&#xFF0C;&#x7531;&#x65BC;Crash&#x9032;&#x7A0B;&#x4E2D;&#x64C1;&#x6709;&#x4E00;&#x500B;Binder&#x670D;&#x52D9;&#x7AEF;<code class="highlighter-rouge">ApplicationThread</code>&#xFF0C;&#x800C;&#x61C9;&#x7528;&#x9032;&#x7A0B;&#x5728;&#x5275;&#x5EFA;&#x904E;&#x7A0B;&#x8ABF;&#x7528;attachApplicationLocked()&#xFF0C;&#x5F9E;&#x800C;attach&#x5230;system_server&#x9032;&#x7A0B;&#xFF0C;&#x5728;system_server&#x9032;&#x7A0B;&#x5167;&#x6709;&#x4E00;&#x500B;<code class="highlighter-rouge">ApplicationThreadProxy</code>&#xFF0C;&#x9019;&#x662F;&#x76F8;&#x5C0D;&#x61C9;&#x7684;Binder&#x5BA2;&#x6236;&#x7AEF;&#x3002;&#x7576;Binder&#x670D;&#x52D9;&#x7AEF;<code class="highlighter-rouge">ApplicationThread</code>&#x6240;&#x5728;&#x9032;&#x7A0B;(&#x5373;Crash&#x9032;&#x7A0B;)&#x639B;&#x6389;&#x5F8C;&#xFF0C;&#x5247;Binder&#x5BA2;&#x6236;&#x7AEF;&#x80FD;&#x6536;&#x5230;&#x76F8;&#x61C9;&#x7684;&#x6B7B;&#x4EA1;&#x901A;&#x77E5;&#xFF0C;&#x5F9E;&#x800C;&#x9032;&#x5165;binderDied&#x6D41;&#x7A0B;&#x3002;&#x66F4;&#x591A;&#x95DC;&#x65BC;bInder&#x539F;&#x7406;&#xFF0C;&#x9019;&#x88E1;&#x5C31;&#x4E0D;&#x7D30;&#x8AAA;&#xFF0C;&#x535A;&#x5BA2;&#x4E2D;&#x6709;&#x95DC;&#x65BC;binder&#x7CFB;&#x5217;&#x7684;&#x5C08;&#x984C;&#x3002;</p>
 
 <p><img src="images/binder_died.jpg" alt="binder_died"></p>
 
-<h2 id="&#x56DB;-&#x603B;&#x7ED3;">&#x56DB;&#x3001; &#x603B;&#x7ED3;<a class="anchorjs-link " href="#&#x56DB;-&#x603B;&#x7ED3;" aria-label="Anchor link for: &#x56DB; &#x603B;&#x7ED3;" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h2>
+<h2 id="&#x56DB;-&#x7E3D;&#x7D50;">&#x56DB;&#x3001; &#x7E3D;&#x7D50;<a class="anchorjs-link " href="#&#x56DB;-&#x7E3D;&#x7D50;" aria-label="Anchor link for: &#x56DB; &#x7E3D;&#x7D50;" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h2>
 
-<p>&#x672C;&#x6587;&#x4E3B;&#x8981;&#x4EE5;&#x6E90;&#x7801;&#x7684;&#x89C6;&#x89D2;&#xFF0C;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;&#x4E86;&#x5230;&#x5E94;&#x7528;crash&#x540E;&#x7CFB;&#x7EDF;&#x7684;&#x5904;&#x7406;&#x6D41;&#x7A0B;&#xFF1A;</p>
+<p>&#x672C;&#x6587;&#x4E3B;&#x8981;&#x4EE5;&#x6E90;&#x78BC;&#x7684;&#x8996;&#x89D2;&#xFF0C;&#x8A73;&#x7D30;&#x4ECB;&#x7D39;&#x4E86;&#x5230;&#x61C9;&#x7528;crash&#x5F8C;&#x7CFB;&#x7D71;&#x7684;&#x8655;&#x7406;&#x6D41;&#x7A0B;&#xFF1A;</p>
 
 <ol>
-  <li>&#x9996;&#x5148;&#x53D1;&#x751F;crash&#x6240;&#x5728;&#x8FDB;&#x7A0B;&#xFF0C;&#x5728;&#x521B;&#x5EFA;&#x4E4B;&#x521D;&#x4FBF;&#x51C6;&#x5907;&#x597D;&#x4E86;defaultUncaughtHandler&#xFF0C;&#x7528;&#x6765;&#x6765;&#x5904;&#x7406;Uncaught Exception&#xFF0C;&#x5E76;&#x8F93;&#x51FA;&#x5F53;&#x524D;crash&#x57FA;&#x672C;&#x4FE1;&#x606F;&#xFF1B;</li>
-  <li>&#x8C03;&#x7528;&#x5F53;&#x524D;&#x8FDB;&#x7A0B;&#x4E2D;&#x7684;AMP.handleApplicationCrash&#xFF1B;&#x7ECF;&#x8FC7;binder ipc&#x673A;&#x5236;&#xFF0C;&#x4F20;&#x9012;&#x5230;system_server&#x8FDB;&#x7A0B;&#xFF1B;</li>
-  <li>&#x63A5;&#x4E0B;&#x6765;&#xFF0C;&#x8FDB;&#x5165;system_server&#x8FDB;&#x7A0B;&#xFF0C;&#x8C03;&#x7528;binder&#x670D;&#x52A1;&#x7AEF;&#x6267;&#x884C;AMS.handleApplicationCrash&#xFF1B;</li>
-  <li>&#x4ECE;<code class="highlighter-rouge">mProcessNames</code>&#x67E5;&#x627E;&#x5230;&#x76EE;&#x6807;&#x8FDB;&#x7A0B;&#x7684;ProcessRecord&#x5BF9;&#x8C61;&#xFF1B;&#x5E76;&#x5C06;&#x8FDB;&#x7A0B;crash&#x4FE1;&#x606F;&#x8F93;&#x51FA;&#x5230;&#x76EE;&#x5F55;<code class="highlighter-rouge">/data/system/dropbox</code>&#xFF1B;</li>
-  <li>&#x6267;&#x884C;makeAppCrashingLocked
+  <li>&#x9996;&#x5148;&#x767C;&#x751F;crash&#x6240;&#x5728;&#x9032;&#x7A0B;&#xFF0C;&#x5728;&#x5275;&#x5EFA;&#x4E4B;&#x521D;&#x4FBF;&#x6E96;&#x5099;&#x597D;&#x4E86;defaultUncaughtHandler&#xFF0C;&#x7528;&#x4F86;&#x4F86;&#x8655;&#x7406;Uncaught Exception&#xFF0C;&#x4E26;&#x8F38;&#x51FA;&#x7576;&#x524D;crash&#x57FA;&#x672C;&#x4FE1;&#x606F;&#xFF1B;</li>
+  <li>&#x8ABF;&#x7528;&#x7576;&#x524D;&#x9032;&#x7A0B;&#x4E2D;&#x7684;AMP.handleApplicationCrash&#xFF1B;&#x7D93;&#x904E;binder ipc&#x6A5F;&#x5236;&#xFF0C;&#x50B3;&#x905E;&#x5230;system_server&#x9032;&#x7A0B;&#xFF1B;</li>
+  <li>&#x63A5;&#x4E0B;&#x4F86;&#xFF0C;&#x9032;&#x5165;system_server&#x9032;&#x7A0B;&#xFF0C;&#x8ABF;&#x7528;binder&#x670D;&#x52D9;&#x7AEF;&#x57F7;&#x884C;AMS.handleApplicationCrash&#xFF1B;</li>
+  <li>&#x5F9E;<code class="highlighter-rouge">mProcessNames</code>&#x67E5;&#x627E;&#x5230;&#x76EE;&#x6A19;&#x9032;&#x7A0B;&#x7684;ProcessRecord&#x5C0D;&#x8C61;&#xFF1B;&#x4E26;&#x5C07;&#x9032;&#x7A0B;crash&#x4FE1;&#x606F;&#x8F38;&#x51FA;&#x5230;&#x76EE;&#x9304;<code class="highlighter-rouge">/data/system/dropbox</code>&#xFF1B;</li>
+  <li>&#x57F7;&#x884C;makeAppCrashingLocked
     <ul>
-      <li>&#x521B;&#x5EFA;&#x5F53;&#x524D;&#x7528;&#x6237;&#x4E0B;&#x7684;crash&#x5E94;&#x7528;&#x7684;error receiver&#xFF0C;&#x5E76;&#x5FFD;&#x7565;&#x5F53;&#x524D;&#x5E94;&#x7528;&#x7684;&#x5E7F;&#x64AD;&#xFF1B;</li>
-      <li>&#x505C;&#x6B62;&#x5F53;&#x524D;&#x8FDB;&#x7A0B;&#x4E2D;&#x6240;&#x6709;activity&#x4E2D;&#x7684;WMS&#x7684;&#x51BB;&#x7ED3;&#x5C4F;&#x5E55;&#x6D88;&#x606F;&#xFF0C;&#x5E76;&#x6267;&#x884C;&#x76F8;&#x5173;&#x4E00;&#x4E9B;&#x5C4F;&#x5E55;&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#xFF1B;</li>
+      <li>&#x5275;&#x5EFA;&#x7576;&#x524D;&#x7528;&#x6236;&#x4E0B;&#x7684;crash&#x61C9;&#x7528;&#x7684;error receiver&#xFF0C;&#x4E26;&#x5FFD;&#x7565;&#x7576;&#x524D;&#x61C9;&#x7528;&#x7684;&#x5EE3;&#x64AD;&#xFF1B;</li>
+      <li>&#x505C;&#x6B62;&#x7576;&#x524D;&#x9032;&#x7A0B;&#x4E2D;&#x6240;&#x6709;activity&#x4E2D;&#x7684;WMS&#x7684;&#x51CD;&#x7D50;&#x5C4F;&#x5E55;&#x6D88;&#x606F;&#xFF0C;&#x4E26;&#x57F7;&#x884C;&#x76F8;&#x95DC;&#x4E00;&#x4E9B;&#x5C4F;&#x5E55;&#x76F8;&#x95DC;&#x64CD;&#x4F5C;&#xFF1B;</li>
     </ul>
   </li>
-  <li>&#x518D;&#x6267;&#x884C;handleAppCrashLocked&#x65B9;&#x6CD5;&#xFF0C;
+  <li>&#x518D;&#x57F7;&#x884C;handleAppCrashLocked&#x65B9;&#x6CD5;&#xFF0C;
     <ul>
-      <li>&#x5F53;1&#x5206;&#x949F;&#x5185;&#x540C;&#x4E00;&#x8FDB;&#x7A0B;<code class="highlighter-rouge">&#x8FDE;&#x7EED;crash&#x4E24;&#x6B21;</code>&#x65F6;&#xFF0C;&#x4E14;<code class="highlighter-rouge">&#x975E;persistent</code>&#x8FDB;&#x7A0B;&#xFF0C;&#x5219;&#x76F4;&#x63A5;&#x7ED3;&#x675F;&#x8BE5;&#x5E94;&#x7528;&#x6240;&#x6709;activity&#xFF0C;&#x5E76;&#x6740;&#x6B7B;&#x8BE5;&#x8FDB;&#x7A0B;&#x4EE5;&#x53CA;&#x540C;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#x7EC4;&#x4E0B;&#x7684;&#x6240;&#x6709;&#x8FDB;&#x7A0B;&#x3002;&#x7136;&#x540E;&#x518D;&#x6062;&#x590D;&#x6808;&#x9876;&#x7B2C;&#x4E00;&#x4E2A;&#x975E;finishing&#x72B6;&#x6001;&#x7684;activity;</li>
-      <li>&#x5F53;1&#x5206;&#x949F;&#x5185;&#x540C;&#x4E00;&#x8FDB;&#x7A0B;<code class="highlighter-rouge">&#x8FDE;&#x7EED;crash&#x4E24;&#x6B21;</code>&#x65F6;&#xFF0C;&#x4E14;<code class="highlighter-rouge">persistent</code>&#x8FDB;&#x7A0B;&#xFF0C;&#xFF0C;&#x5219;&#x53EA;&#x6267;&#x884C;&#x6062;&#x590D;&#x6808;&#x9876;&#x7B2C;&#x4E00;&#x4E2A;&#x975E;finishing&#x72B6;&#x6001;&#x7684;activity;</li>
-      <li>&#x5F53;1&#x5206;&#x949F;&#x5185;&#x540C;&#x4E00;&#x8FDB;&#x7A0B;<code class="highlighter-rouge">&#x672A;&#x53D1;&#x751F;&#x8FDE;&#x7EED;crash&#x4E24;&#x6B21;</code>&#x65F6;&#xFF0C;&#x5219;&#x6267;&#x884C;&#x7ED3;&#x675F;&#x6808;&#x9876;&#x6B63;&#x5728;&#x8FD0;&#x884C;activity&#x7684;&#x6D41;&#x7A0B;&#x3002;</li>
+      <li>&#x7576;1&#x5206;&#x9418;&#x5167;&#x540C;&#x4E00;&#x9032;&#x7A0B;<code class="highlighter-rouge">&#x9023;&#x7E8C;crash&#x5169;&#x6B21;</code>&#x6642;&#xFF0C;&#x4E14;<code class="highlighter-rouge">&#x975E;persistent</code>&#x9032;&#x7A0B;&#xFF0C;&#x5247;&#x76F4;&#x63A5;&#x7D50;&#x675F;&#x8A72;&#x61C9;&#x7528;&#x6240;&#x6709;activity&#xFF0C;&#x4E26;&#x6BBA;&#x6B7B;&#x8A72;&#x9032;&#x7A0B;&#x4EE5;&#x53CA;&#x540C;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x7D44;&#x4E0B;&#x7684;&#x6240;&#x6709;&#x9032;&#x7A0B;&#x3002;&#x7136;&#x5F8C;&#x518D;&#x6062;&#x5FA9;&#x68E7;&#x9802;&#x7B2C;&#x4E00;&#x500B;&#x975E;finishing&#x72C0;&#x614B;&#x7684;activity;</li>
+      <li>&#x7576;1&#x5206;&#x9418;&#x5167;&#x540C;&#x4E00;&#x9032;&#x7A0B;<code class="highlighter-rouge">&#x9023;&#x7E8C;crash&#x5169;&#x6B21;</code>&#x6642;&#xFF0C;&#x4E14;<code class="highlighter-rouge">persistent</code>&#x9032;&#x7A0B;&#xFF0C;&#xFF0C;&#x5247;&#x53EA;&#x57F7;&#x884C;&#x6062;&#x5FA9;&#x68E7;&#x9802;&#x7B2C;&#x4E00;&#x500B;&#x975E;finishing&#x72C0;&#x614B;&#x7684;activity;</li>
+      <li>&#x7576;1&#x5206;&#x9418;&#x5167;&#x540C;&#x4E00;&#x9032;&#x7A0B;<code class="highlighter-rouge">&#x672A;&#x767C;&#x751F;&#x9023;&#x7E8C;crash&#x5169;&#x6B21;</code>&#x6642;&#xFF0C;&#x5247;&#x57F7;&#x884C;&#x7D50;&#x675F;&#x68E7;&#x9802;&#x6B63;&#x5728;&#x904B;&#x884C;activity&#x7684;&#x6D41;&#x7A0B;&#x3002;</li>
     </ul>
   </li>
-  <li>&#x901A;&#x8FC7;mUiHandler&#x53D1;&#x9001;&#x6D88;&#x606F;<code class="highlighter-rouge">SHOW_ERROR_MSG</code>&#xFF0C;&#x5F39;&#x51FA;crash&#x5BF9;&#x8BDD;&#x6846;&#xFF1B;</li>
-  <li>&#x5230;&#x6B64;&#xFF0C;system_server&#x8FDB;&#x7A0B;&#x6267;&#x884C;&#x5B8C;&#x6210;&#x3002;&#x56DE;&#x5230;crash&#x8FDB;&#x7A0B;&#x5F00;&#x59CB;&#x6267;&#x884C;&#x6740;&#x6389;&#x5F53;&#x524D;&#x8FDB;&#x7A0B;&#x7684;&#x64CD;&#x4F5C;&#xFF1B;</li>
-  <li>&#x5F53;crash&#x8FDB;&#x7A0B;&#x88AB;&#x6740;&#xFF0C;&#x901A;&#x8FC7;binder&#x6B7B;&#x4EA1;&#x901A;&#x77E5;&#xFF0C;&#x544A;&#x77E5;system_server&#x8FDB;&#x7A0B;&#x6765;&#x6267;&#x884C;appDiedLocked()&#xFF1B;</li>
-  <li>&#x6700;&#x540E;&#xFF0C;&#x6267;&#x884C;&#x6E05;&#x7406;&#x5E94;&#x7528;&#x76F8;&#x5173;&#x7684;activity/service/ContentProvider/receiver&#x7EC4;&#x4EF6;&#x4FE1;&#x606F;&#x3002;</li>
+  <li>&#x901A;&#x904E;mUiHandler&#x767C;&#x9001;&#x6D88;&#x606F;<code class="highlighter-rouge">SHOW_ERROR_MSG</code>&#xFF0C;&#x5F48;&#x51FA;crash&#x5C0D;&#x8A71;&#x6846;&#xFF1B;</li>
+  <li>&#x5230;&#x6B64;&#xFF0C;system_server&#x9032;&#x7A0B;&#x57F7;&#x884C;&#x5B8C;&#x6210;&#x3002;&#x56DE;&#x5230;crash&#x9032;&#x7A0B;&#x958B;&#x59CB;&#x57F7;&#x884C;&#x6BBA;&#x6389;&#x7576;&#x524D;&#x9032;&#x7A0B;&#x7684;&#x64CD;&#x4F5C;&#xFF1B;</li>
+  <li>&#x7576;crash&#x9032;&#x7A0B;&#x88AB;&#x6BBA;&#xFF0C;&#x901A;&#x904E;binder&#x6B7B;&#x4EA1;&#x901A;&#x77E5;&#xFF0C;&#x544A;&#x77E5;system_server&#x9032;&#x7A0B;&#x4F86;&#x57F7;&#x884C;appDiedLocked()&#xFF1B;</li>
+  <li>&#x6700;&#x5F8C;&#xFF0C;&#x57F7;&#x884C;&#x6E05;&#x7406;&#x61C9;&#x7528;&#x76F8;&#x95DC;&#x7684;activity/service/ContentProvider/receiver&#x7D44;&#x4EF6;&#x4FE1;&#x606F;&#x3002;</li>
 </ol>
 
-<p>&#x8FD9;&#x57FA;&#x672C;&#x5C31;&#x662F;&#x6574;&#x4E2A;&#x5E94;&#x7528;Crash&#x540E;&#x7CFB;&#x7EDF;&#x7684;&#x6267;&#x884C;&#x8FC7;&#x7A0B;&#x3002; &#x6700;&#x540E;&#xFF0C;&#x518D;&#x8BF4;&#x8BF4;&#x5BF9;&#x4E8E;&#x540C;&#x4E00;&#x4E2A;app&#x8FDE;&#x7EED;crash&#x7684;&#x60C5;&#x51B5;&#xFF1A;</p>
+<p>&#x9019;&#x57FA;&#x672C;&#x5C31;&#x662F;&#x6574;&#x500B;&#x61C9;&#x7528;Crash&#x5F8C;&#x7CFB;&#x7D71;&#x7684;&#x57F7;&#x884C;&#x904E;&#x7A0B;&#x3002; &#x6700;&#x5F8C;&#xFF0C;&#x518D;&#x8AAA;&#x8AAA;&#x5C0D;&#x65BC;&#x540C;&#x4E00;&#x500B;app&#x9023;&#x7E8C;crash&#x7684;&#x60C5;&#x6CC1;&#xFF1A;</p>
 
 <ul>
-  <li>&#x5F53;60s&#x5185;&#x8FDE;&#x7EED;crash&#x4E24;&#x6B21;&#x7684;&#x975E;persistent&#x8FDB;&#x7A0B;&#x65F6;&#xFF0C;&#x88AB;&#x8BA4;&#x5B9A;&#x4E3A;bad&#x8FDB;&#x7A0B;&#xFF1A;&#x90A3;&#x4E48;&#x5982;&#x679C;&#x7B2C;3&#x6B21;&#x4ECE;&#x540E;&#x53F0;&#x542F;&#x52A8;&#x8BE5;&#x8FDB;&#x7A0B;(Intent.getFlags&#x6765;&#x5224;&#x65AD;)&#xFF0C;&#x5219;&#x4F1A;&#x62D2;&#x7EDD;&#x521B;&#x5EFA;&#x8FDB;&#x7A0B;&#xFF1B;</li>
-  <li>&#x5F53;crash&#x6B21;&#x6570;&#x8FBE;&#x5230;&#x4E24;&#x6B21;&#x7684;&#x975E;persistent&#x8FDB;&#x7A0B;&#x65F6;&#xFF0C;&#x5219;&#x518D;&#x6B21;&#x6740;&#x8BE5;&#x8FDB;&#x7A0B;&#xFF0C;&#x5373;&#x4FBF;&#x5141;&#x8BB8;&#x81EA;&#x542F;&#x7684;service&#x4E5F;&#x4F1A;&#x5728;&#x88AB;&#x6740;&#x540E;&#x62D2;&#x7EDD;&#x518D;&#x6B21;&#x542F;&#x52A8;&#x3002;</li>
+  <li>&#x7576;60s&#x5167;&#x9023;&#x7E8C;crash&#x5169;&#x6B21;&#x7684;&#x975E;persistent&#x9032;&#x7A0B;&#x6642;&#xFF0C;&#x88AB;&#x8A8D;&#x5B9A;&#x70BA;bad&#x9032;&#x7A0B;&#xFF1A;&#x90A3;&#x9EBC;&#x5982;&#x679C;&#x7B2C;3&#x6B21;&#x5F9E;&#x5F8C;&#x81FA;&#x555F;&#x52D5;&#x8A72;&#x9032;&#x7A0B;(Intent.getFlags&#x4F86;&#x5224;&#x65B7;)&#xFF0C;&#x5247;&#x6703;&#x62D2;&#x7D55;&#x5275;&#x5EFA;&#x9032;&#x7A0B;&#xFF1B;</li>
+  <li>&#x7576;crash&#x6B21;&#x6578;&#x9054;&#x5230;&#x5169;&#x6B21;&#x7684;&#x975E;persistent&#x9032;&#x7A0B;&#x6642;&#xFF0C;&#x5247;&#x518D;&#x6B21;&#x6BBA;&#x8A72;&#x9032;&#x7A0B;&#xFF0C;&#x5373;&#x4FBF;&#x5141;&#x8A31;&#x81EA;&#x555F;&#x7684;service&#x4E5F;&#x6703;&#x5728;&#x88AB;&#x6BBA;&#x5F8C;&#x62D2;&#x7D55;&#x518D;&#x6B21;&#x555F;&#x52D5;&#x3002;</li>
 </ul>
 </div>
                     
@@ -23445,10 +23490,10 @@ System.exit(10);
         </div>
 
         
-        <a href="../android_note/androiddiao_shi_ji_5de728_4e0029.html" class="navigation navigation-prev " aria-label="Previous page: Android调试技巧(一)"><i class="fa fa-angle-left"></i></a>
+        <a href="../android_note/androiddiao_shi_ji_5de728_4e0029.html" class="navigation navigation-prev " aria-label="Previous page: Android調試技巧(一)"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../android_note/gdbzai_xian_diao_shi_android_framework_native_c__c.html" class="navigation navigation-next " aria-label="Next page: GDB在線調試Android Framework Native C/C++代碼"><i class="fa fa-angle-right"></i></a>
+        <a href="../android_note/li_jie_native_crash_chu_li_liu_cheng.html" class="navigation navigation-next " aria-label="Next page: 理解Native Crash處理流程"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -1138,7 +1138,7 @@
 
 <p>当进程抛出未捕获异常时，则系统会处理该异常并进入crash处理流程。</p>
 
-<p><img src="/images/stability/app_crash.jpg" alt="app_crash"></p>
+<p><img src="./images/app_crash.jpg" alt="app_crash"></p>
 
 <p>其中最为核心的工作图中红色部分<code class="highlighter-rouge">AMS.handleAppCrashLocked</code>的主要功能：</p>
 
@@ -1476,7 +1476,7 @@
 
 <p>当crash进程执行kill操作后，进程被杀。此时需要掌握binder 死亡通知原理，由于Crash进程中拥有一个Binder服务端<code class="highlighter-rouge">ApplicationThread</code>，而应用进程在创建过程调用attachApplicationLocked()，从而attach到system_server进程，在system_server进程内有一个<code class="highlighter-rouge">ApplicationThreadProxy</code>，这是相对应的Binder客户端。当Binder服务端<code class="highlighter-rouge">ApplicationThread</code>所在进程(即Crash进程)挂掉后，则Binder客户端能收到相应的死亡通知，从而进入binderDied流程。更多关于bInder原理，这里就不细说，博客中有关于binder系列的专题。</p>
 
-<p><img src="/images/stability/binder_died.jpg" alt="binder_died"></p>
+<p><img src="./images/binder_died.jpg" alt="binder_died"></p>
 
 <h2 id="四-总结">四、 总结<a class="anchorjs-link " href="#四-总结" aria-label="Anchor link for: 四 总结" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h2>
 

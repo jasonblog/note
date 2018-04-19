@@ -276,3 +276,35 @@ void update(int32_t ignoreDepth=1, int32_t maxDepth=MAX_DEPTH);
 // Dump a stack trace to the log
 void dump(const char* prefix = 0) const;
 ```
+
+
+---
+
+
+在Android里解Bug时，有时候需要分析函数的调用情况，此时需要打印出堆栈信息来辅助了解函数的调用过程。
+
+下面是常用的打堆栈的方法：
+
+##1.JAVA代码
+
+在需要打印的位置添加语句new 
+
+Exception().printStackTrace();，然后在logcat里就可以看到调用堆栈信息了。
+
+##2.Kernel
+
+在需要打印函数调用栈的地方添加语句`WARN_ON(1);`，然后在串口或cat /proc/kmsg里可查看到相应信息。
+
+##3.C/C++代码
+
+在需要打印的地方添加如下代码：
+
+```cpp
+if (need_print) {
+   ALOGD(“xinu, start print function call stack==============”);
+   android::CallStack stack;
+   stack.update();
+   stack.log(“xinu”);
+   ALOGD(“xinu, print done========================”);
+}
+```

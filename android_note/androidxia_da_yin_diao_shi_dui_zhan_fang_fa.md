@@ -242,4 +242,37 @@ D/SchedPolicy( 1350): #08  pc 0000e3d8  /system/lib/libc.so (__thread_entry+72)
 D/SchedPolicy( 1350): #09  pc 0000dac4  /system/lib/libc.so (pthread_create+160)  
 ```
 
-6. 其它堆栈信息查询
+##6. native 层
+
+
+可以利用 android 的 CallStack 来打印：
+
+
+```cpp
+CallStack stack;
+stack.update();
+stack.dump("SurfaceFlinger"); 
+// 4.4 的接口变了 dump 是用来把 log 保存到文件里面去的
+// 单纯的打印用这个: statck.log("SurfaceFlinger")
+```
+
+要调用这个类的方法先插入 CallStack 头文件，然后在 Android.mk 中链接 utils 库就可以：
+
+
+```sh
+#include <utils/CallStack.h>
+LOCAL_SHARED_LIBRARIES := libutils
+```
+
+这个可以自己去看 CallStack.h 的头文件（frameworks/base/native/include/utils/CallStack.h），方法的定义:
+
+
+```sh
+// 第一个参数没去研究啥作用，用默认的1吧，
+// 第二个参数好像是设置追踪的最大调用堆栈深度，默认是 31
+void update(int32_t ignoreDepth=1, int32_t maxDepth=MAX_DEPTH);
+// 这个就是把调用堆栈信息输出到 android 的 log 里面，
+// 那个参数是 log 前面的前缀
+// Dump a stack trace to the log
+void dump(const char* prefix = 0) const;
+```

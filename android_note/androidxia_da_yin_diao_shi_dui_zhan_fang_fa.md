@@ -1,38 +1,38 @@
-# Android下打印调试堆栈方法
+# Android下打印調試堆棧方法
 
 
-打印堆栈是调试的常用方法，一般在系统异常时，我们可以将异常情况下的堆栈打印出来，这样十分方便错误查找。实际上还有另外一个非常有用的功能：分析代码的行为。android代码太过庞大复杂了，完全的静态分析经常是无从下手，因此通过打印堆栈的动态分析也十分必要。
+打印堆棧是調試的常用方法，一般在系統異常時，我們可以將異常情況下的堆棧打印出來，這樣十分方便錯誤查找。實際上還有另外一個非常有用的功能：分析代碼的行為。android代碼太過龐大複雜了，完全的靜態分析經常是無從下手，因此通過打印堆棧的動態分析也十分必要。
 
 
 
-Android打印堆栈的方法，简单归类一下 
+Android打印堆棧的方法，簡單歸類一下 
 
-##1. zygote的堆栈dump
+##1. zygote的堆棧dump
 
-实际上这个可以同时dump java线程及native线程的堆栈，对于java线程，java堆栈和native堆栈都可以得到。
+實際上這個可以同時dump java線程及native線程的堆棧，對於java線程，java堆棧和native堆棧都可以得到。
 
-使用方法很简单，直接在adb shell或串口中输入：
+使用方法很簡單，直接在adb shell或串口中輸入：
 
 
 ```sh
 kill -3 <pid>  
 ```
 
-输出的trace会保存在 /data/anr/traces.txt文件中。这个需要注意，如果没有 /data/anr/这个目录或/data/anr/traces.txt这个文件，需要手工创建一下，并设置好读写权限。
-如果需要在代码中，更容易控制堆栈的输出时机，可以用以下命令获取zygote的core dump:
+輸出的trace會保存在 /data/anr/traces.txt文件中。這個需要注意，如果沒有 /data/anr/這個目錄或/data/anr/traces.txt這個文件，需要手工創建一下，並設置好讀寫權限。
+如果需要在代碼中，更容易控制堆棧的輸出時機，可以用以下命令獲取zygote的core dump:
 
 
 ```sh
 Process.sendSignal(pid, Process.SIGNAL_QUIT);  
 ```
 
-原理和命令行是一样的。
+原理和命令行是一樣的。
 
-不过需要注意两点：
+不過需要注意兩點：
 
 
-- adb shell可能会没有权限，需要root。
-- android 4.2中关闭了native thread的堆栈打印，详见 dalvik/vm/Thread.cpp的dumpNativeThread方法：
+- adb shell可能會沒有權限，需要root。
+- android 4.2中關閉了native thread的堆棧打印，詳見 dalvik/vm/Thread.cpp的dumpNativeThread方法：
 
 
 ```sh
@@ -47,27 +47,27 @@ dumpSchedStat(target, tid);
 ```
 
 
-##2. debuggerd的堆栈dump
+##2. debuggerd的堆棧dump
 
-debuggerd是android的一个daemon进程，负责在进程异常出错时，将进程的运行时信息dump出来供分析。debuggerd生成的coredump数据是以文本形式呈现，被保存在 /data/tombstone/ 目录下(名字取的也很形象，tombstone是墓碑的意思)，共可保存10个文件，当超过10个时，会覆盖重写最早生成的文件。从4.2版本开始，debuggerd同时也是一个实用工具：可以在不中断进程执行的情况下打印当前进程的native堆栈。使用方法是:
+debuggerd是android的一個daemon進程，負責在進程異常出錯時，將進程的運行時信息dump出來供分析。debuggerd生成的coredump數據是以文本形式呈現，被保存在 /data/tombstone/ 目錄下(名字取的也很形象，tombstone是墓碑的意思)，共可保存10個文件，當超過10個時，會覆蓋重寫最早生成的文件。從4.2版本開始，debuggerd同時也是一個實用工具：可以在不中斷進程執行的情況下打印當前進程的native堆棧。使用方法是:
 
 
 ```sh
 debuggerd -b <pid>  
 ```
 
-这可以协助我们分析进程执行行为，但最最有用的地方是：它可以非常简单的定位到native进程中锁死或错误逻辑引起的死循环的代码位置。
+這可以協助我們分析進程執行行為，但最最有用的地方是：它可以非常簡單的定位到native進程中鎖死或錯誤邏輯引起的死循環的代碼位置。
 
-##3. java代码中打印堆栈
+##3. java代碼中打印堆棧
 
-Java代码打印堆栈比较简单， 堆栈信息获取和输出，都可以通过Throwable类的方法实现。目前通用的做法是在java进程出现需要注意的异常时，打印堆栈，然后再决定退出或挽救。通常的方法是使用exception的printStackTrace()方法：
+Java代碼打印堆棧比較簡單， 堆棧信息獲取和輸出，都可以通過Throwable類的方法實現。目前通用的做法是在java進程出現需要注意的異常時，打印堆棧，然後再決定退出或挽救。通常的方法是使用exception的printStackTrace()方法：
 
 
 ```java
 /**
- * 打印函数的调用栈
+ * 打印函數的調用棧
  *
- * @return 调用栈
+ * @return 調用棧
  */
 public String getStackTrace() {
 	StringBuilder sb = new StringBuilder("");
@@ -89,16 +89,16 @@ try {
 }  
 ```
 
-当然也可以只打印堆栈不退出，这样就比较方便分析代码的动态运行情况。Java代码中插入堆栈打印的方法如下：
+當然也可以只打印堆棧不退出，這樣就比較方便分析代碼的動態運行情況。Java代碼中插入堆棧打印的方法如下：
 
 
 ```java
 Log.d(TAG,Log.getStackTraceString(new Throwable()));  
 ```
 
-##4. C++代码中打印堆栈
+##4. C++代碼中打印堆棧
 
-C++也是支持异常处理的，异常处理库中，已经包含了获取backtrace的接口，Android也是利用这个接口来打印堆栈信息的。在Android的C++中，已经集成了一个工具类CallStack，在libutils.so中。使用方法：
+C++也是支持異常處理的，異常處理庫中，已經包含了獲取backtrace的接口，Android也是利用這個接口來打印堆棧信息的。在Android的C++中，已經集成了一個工具類CallStack，在libutils.so中。使用方法：
 
 ```cpp
 #include <utils/CallStack.h>  
@@ -108,13 +108,13 @@ stack.update();
 stack.dump();  
 ```
 
-使用方式比较简单。目前Andoid4.2版本已经将相关信息解析的很到位，符号表查找，demangle，偏移位置校正都做好了。
+使用方式比較簡單。目前Andoid4.2版本已經將相關信息解析的很到位，符號表查找，demangle，偏移位置校正都做好了。
 
-##5. C代码中打印堆栈
+##5. C代碼中打印堆棧
 
-C代码，尤其是底层C库，想要看到调用的堆栈信息，还是比较麻烦的。 CallStack肯定是不能用，一是因为其实C++写的，需要重新封装才能在C中使用，二是底层库反调上层库的函数，会造成链接器循环依赖而无法链接。不过也不是没有办法，可以通过android工具类CallStack实现中使用的unwind调用及符号解析函数来处理。
+C代碼，尤其是底層C庫，想要看到調用的堆棧信息，還是比較麻煩的。 CallStack肯定是不能用，一是因為其實C++寫的，需要重新封裝才能在C中使用，二是底層庫反調上層庫的函數，會造成鏈接器循環依賴而無法鏈接。不過也不是沒有辦法，可以通過android工具類CallStack實現中使用的unwind調用及符號解析函數來處理。
 
-这里需要注意的是，为解决链接问题，最好使用dlopen方式，查找需要用到的接口再直接调用，这样会比较简单。如下为相关的实现代码，只需要在要打印的文件中插入此部分代码，然后调用getCallStack()即可，无需包含太多的头文件和修改Android.mk文件：
+這裡需要注意的是，為解決鏈接問題，最好使用dlopen方式，查找需要用到的接口再直接調用，這樣會比較簡單。如下為相關的實現代碼，只需要在要打印的文件中插入此部分代碼，然後調用getCallStack()即可，無需包含太多的頭文件和修改Android.mk文件：
 
 
 ```cpp
@@ -205,7 +205,7 @@ static int getCallStack(void)
 
 ```
 
-对sched_policy.c的堆栈调用分析如下,注意具体是否要打印，在哪里打印，还可以通过pid、uid、property等来控制一下，这样就不会被淹死在trace的汪洋大海中。
+對sched_policy.c的堆棧調用分析如下,注意具體是否要打印，在哪裡打印，還可以通過pid、uid、property等來控制一下，這樣就不會被淹死在trace的汪洋大海中。
 
 
 ```sh
@@ -242,21 +242,21 @@ D/SchedPolicy( 1350): #08  pc 0000e3d8  /system/lib/libc.so (__thread_entry+72)
 D/SchedPolicy( 1350): #09  pc 0000dac4  /system/lib/libc.so (pthread_create+160)  
 ```
 
-##6. native 层
+##6. native 層
 
 
-可以利用 android 的 CallStack 来打印：
+可以利用 android 的 CallStack 來打印：
 
 
 ```cpp
 CallStack stack;
 stack.update();
 stack.dump("SurfaceFlinger"); 
-// 4.4 的接口变了 dump 是用来把 log 保存到文件里面去的
-// 单纯的打印用这个: statck.log("SurfaceFlinger")
+// 4.4 的接口變了 dump 是用來把 log 保存到文件裡面去的
+// 單純的打印用這個: statck.log("SurfaceFlinger")
 ```
 
-要调用这个类的方法先插入 CallStack 头文件，然后在 Android.mk 中链接 utils 库就可以：
+要調用這個類的方法先插入 CallStack 頭文件，然後在 Android.mk 中鏈接 utils 庫就可以：
 
 
 ```sh
@@ -264,15 +264,15 @@ stack.dump("SurfaceFlinger");
 LOCAL_SHARED_LIBRARIES := libutils
 ```
 
-这个可以自己去看 CallStack.h 的头文件（frameworks/base/native/include/utils/CallStack.h），方法的定义:
+這個可以自己去看 CallStack.h 的頭文件（frameworks/base/native/include/utils/CallStack.h），方法的定義:
 
 
 ```sh
-// 第一个参数没去研究啥作用，用默认的1吧，
-// 第二个参数好像是设置追踪的最大调用堆栈深度，默认是 31
+// 第一個參數沒去研究啥作用，用默認的1吧，
+// 第二個參數好像是設置追蹤的最大調用堆棧深度，默認是 31
 void update(int32_t ignoreDepth=1, int32_t maxDepth=MAX_DEPTH);
-// 这个就是把调用堆栈信息输出到 android 的 log 里面，
-// 那个参数是 log 前面的前缀
+// 這個就是把調用堆棧信息輸出到 android 的 log 裡面，
+// 那個參數是 log 前面的前綴
 // Dump a stack trace to the log
 void dump(const char* prefix = 0) const;
 ```
@@ -281,23 +281,23 @@ void dump(const char* prefix = 0) const;
 ---
 
 
-在Android里解Bug时，有时候需要分析函数的调用情况，此时需要打印出堆栈信息来辅助了解函数的调用过程。
+在Android裡解Bug時，有時候需要分析函數的調用情況，此時需要打印出堆棧信息來輔助瞭解函數的調用過程。
 
-下面是常用的打堆栈的方法：
+下面是常用的打堆棧的方法：
 
-##1.JAVA代码
+##1.JAVA代碼
 
-在需要打印的位置添加语句new 
+在需要打印的位置添加語句new 
 
-Exception().printStackTrace();，然后在logcat里就可以看到调用堆栈信息了。
+Exception().printStackTrace();，然後在logcat裡就可以看到調用堆棧信息了。
 
 ##2.Kernel
 
-在需要打印函数调用栈的地方添加语句`WARN_ON(1);`，然后在串口或cat /proc/kmsg里可查看到相应信息。
+在需要打印函數調用棧的地方添加語句`WARN_ON(1);`，然後在串口或cat /proc/kmsg裡可查看到相應信息。
 
-##3.C/C++代码
+##3.C/C++代碼
 
-在需要打印的地方添加如下代码：
+在需要打印的地方添加如下代碼：
 
 ```cpp
 if (need_print) {

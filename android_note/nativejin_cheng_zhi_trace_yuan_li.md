@@ -1,25 +1,25 @@
-# Native进程之Trace原理
+# Native進程之Trace原理
 
 ##一. 概述
-当发生ANR(Application Not Response，对于`Java进程可通过kill -3` 向目标进程发送信号SIGNAL_QUIT, 输出相应的traces信息保存到目录/data/anr/traces.txt；而对于`Native进程可通过 debuggerd` 输出traces信息。
+當發生ANR(Application Not Response，對於`Java進程可通過kill -3` 向目標進程發送信號SIGNAL_QUIT, 輸出相應的traces信息保存到目錄/data/anr/traces.txt；而對於`Native進程可通過 debuggerd` 輸出traces信息。
 
-可通过一条命令来获取指定Native进程的traces信息，例如输出pid=17529进程信息：
+可通過一條命令來獲取指定Native進程的traces信息，例如輸出pid=17529進程信息：
 
 
 ```sh
-adb shell debuggerd -b 17529 //可指定进程pid
+adb shell debuggerd -b 17529 //可指定進程pid
 ```
 
-执行完该命令后直接输出traces信息到屏幕，如下：
+執行完該命令後直接輸出traces信息到屏幕，如下：
 
 
 ```sh
-//【见小节2.2】
+//【見小節2.2】
 ----- pid 17529 at 2016-11-12 22:22:22 -----
 Cmd line: /system/bin/mediaserver
 ABI: 'arm'
 
-//【见小节2.4】
+//【見小節2.4】
 "mediaserver" sysTid=17529
   #00 pc 00042dac /system/lib/libc.so (__ioctl+8)
   #01 pc 000498ad /system/lib/libc.so (ioctl+14)
@@ -40,18 +40,18 @@ ABI: 'arm'
   #06 pc 00010115 /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
   #07 pc 00041843 /system/lib/libc.so (_ZL15__pthread_startPv+30)
   #08 pc 000192a5 /system/lib/libc.so (__start_thread+6)
-... //此处省略剩余的N个线程.
+... //此處省略剩餘的N個線程.
 ----- end 17529 -----
 ```
-接下来说说debuggerd是如何输出Native进程的trace.
+接下來說說debuggerd是如何輸出Native進程的trace.
 
 ##二. Debuggerd
-文章debuggerd守护进程详细介绍了Debuggerd的工作原理，此处当执行`debuggerd -b`命令后：
+文章debuggerd守護進程詳細介紹了Debuggerd的工作原理，此處當執行`debuggerd -b`命令後：
 
-- Client进程调用send_request()方法向debuggerd服务端发出`DEBUGGER_ACTION_DUMP_BACKTRACE`命令；
-- Debugggerd进程收到该命令，fork子进程中再执行worker_process()过程；
-- 子进程通过perform_dump()方法来根据命令`DEBUGGER_ACTION_DUMP_BACKTRACE`，会调用到dump_backtrace()方法输出backtrace.
-接下来，从dump_backtrace()方法讲起：
+- Client進程調用send_request()方法向debuggerd服務端發出`DEBUGGER_ACTION_DUMP_BACKTRACE`命令；
+- Debugggerd進程收到該命令，fork子進程中再執行worker_process()過程；
+- 子進程通過perform_dump()方法來根據命令`DEBUGGER_ACTION_DUMP_BACKTRACE`，會調用到dump_backtrace()方法輸出backtrace.
+接下來，從dump_backtrace()方法講起：
 
 ### 2.1 dump_backtrace
 
@@ -66,14 +66,14 @@ void dump_backtrace(int fd, BacktraceMap* map, pid_t pid, pid_t tid,
     log.tfd = fd;
     log.amfd_data = amfd_data;
 
-    dump_process_header(&log, pid); //【见小节2.2】
-    dump_thread(&log, map, pid, tid);//【见小节2.3】
+    dump_process_header(&log, pid); //【見小節2.2】
+    dump_thread(&log, map, pid, tid);//【見小節2.3】
 
     for (pid_t sibling : siblings) {
-        dump_thread(&log, map, pid, sibling);//【见小节2.3】
+        dump_thread(&log, map, pid, sibling);//【見小節2.3】
     }
 
-    dump_process_footer(&log, pid);//【见小节2.4】
+    dump_process_footer(&log, pid);//【見小節2.4】
 }
 ```
 
@@ -89,7 +89,7 @@ static void dump_process_header(log_t* log, pid_t pid)
     char* procname = NULL;
     FILE* fp;
 
-    //获取/proc/<pid>/cmdline节点的进程名
+    //獲取/proc/<pid>/cmdline節點的進程名
     snprintf(path, sizeof(path), "/proc/%d/cmdline", pid);
 
     if ((fp = fopen(path, "r"))) {
@@ -133,7 +133,7 @@ static void dump_thread(log_t* log, BacktraceMap* map, pid_t pid, pid_t tid)
     char* threadname = NULL;
     FILE* fp;
 
-    //获取/proc/<tid>/comm节点的线程名
+    //獲取/proc/<tid>/comm節點的線程名
     snprintf(path, sizeof(path), "/proc/%d/comm", tid);
 
     if ((fp = fopen(path, "r"))) {
@@ -155,7 +155,7 @@ static void dump_thread(log_t* log, BacktraceMap* map, pid_t pid, pid_t tid)
     std::unique_ptr<Backtrace> backtrace(Backtrace::Create(pid, tid, map));
 
     if (backtrace->Unwind(0)) {
-        //【见小节2.4】
+        //【見小節2.4】
         dump_backtrace_to_log(backtrace.get(), log, " ");
     }
 }
@@ -170,16 +170,16 @@ static void dump_thread(log_t* log, BacktraceMap* map, pid_t pid, pid_t tid)
 void dump_backtrace_to_log(Backtrace* backtrace, log_t* log,
                            const char* prefix)
 {
-    //NumFrames是backtrace中的栈帧数
+    //NumFrames是backtrace中的棧幀數
     for (size_t i = 0; i < backtrace->NumFrames(); i++) {
-        //【见小节2.5】
+        //【見小節2.5】
         _LOG(log, logtype::BACKTRACE, "%s%s\n", prefix,
              backtrace->FormatFrameData(i).c_str());
     }
 }
 ```
 
-通过循环遍历输出整个backtrace中的每一栈帧FormatFrameData的信息.
+通過循環遍歷輸出整個backtrace中的每一棧幀FormatFrameData的信息.
 
 
 ### 2.5 FormatFrameData
@@ -209,7 +209,7 @@ std::string Backtrace::FormatFrameData(const backtrace_frame_data_t* frame)
 
     uintptr_t relative_pc = BacktraceMap::GetRelativePc(frame->map, frame->pc);
 
-    //这是backtrace每一行的信息
+    //這是backtrace每一行的信息
     std::string line(StringPrintf("#%02zu pc %" PRIPTR " %s",
                                   frame->num, relative_pc, map_name));
 
@@ -218,7 +218,7 @@ std::string Backtrace::FormatFrameData(const backtrace_frame_data_t* frame)
     }
 
     if (!frame->func_name.empty()) {
-        //函数名，偏移量
+        //函數名，偏移量
         line += " (" + frame->func_name;
 
         if (frame->func_offset) {
@@ -231,7 +231,7 @@ std::string Backtrace::FormatFrameData(const backtrace_frame_data_t* frame)
     return line;
 }
 ```
-例如：(这些map信息是由/proc/%d/maps解析出来的)
+例如：(這些map信息是由/proc/%d/maps解析出來的)
 
 ```sh
 #01 pc 000000000001cca4 /system/lib64/libc.so (epoll_pwait+32)
@@ -239,10 +239,10 @@ std::string Backtrace::FormatFrameData(const backtrace_frame_data_t* frame)
 
 <tbody>
     <tr>
-      <td>帧号</td>
-      <td>pc指针</td>
+      <td>幀號</td>
+      <td>pc指針</td>
       <td>map_name</td>
-      <td>(函数名+偏移量)</td>
+      <td>(函數名+偏移量)</td>
     </tr>
     <tr>
       <td>#01</td>
@@ -268,6 +268,6 @@ static void dump_process_footer(log_t* log, pid_t pid)
 例如：----- end 1789 -----
 
 
-## 三. 总结
+## 三. 總結
 
-通过debuggerd -b [pid]，可输出Native进程的调用栈，这些信息是通过解析`/proc/[pid]/maps`而来的。
+通過debuggerd -b [pid]，可輸出Native進程的調用棧，這些信息是通過解析`/proc/[pid]/maps`而來的。

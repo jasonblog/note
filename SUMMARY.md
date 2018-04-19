@@ -564,6 +564,7 @@
    * [valgrind + gdb](gdb/valgrind_+_gdb.md)
    * [調試技巧備忘](gdb/diao_shi_ji_qiao_bei_wang.md)
    * [Trace Function Calls Using GDB Revisited](gdb/trace_function_calls_using_gdb_revisited.md)
+   * [GDB] 除錯 python 程式 thread 間互相等待 mutex，造成 deadlock 的問題
 * [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
    * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
    * [基於mykernel的一個簡單的時間片輪轉多道程序內核代碼分析](mooc_linux_kernel/192.md)

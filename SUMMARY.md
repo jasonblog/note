@@ -73,6 +73,7 @@
        * [理解Android Crash处理流程](android_note/li_jie_android_crash_chu_li_liu_cheng.md)
        * [理解Native Crash处理流程](android_note/li_jie_native_crash_chu_li_liu_cheng.md)
        * [Native进程之Trace原理](android_note/nativejin_cheng_zhi_trace_yuan_li.md)
+       * debuggerd守护进程
    * [GDB在線調試Android Framework Native C/C++代碼](android_note/gdbzai_xian_diao_shi_android_framework_native_c__c.md)
    * [什麼時候用startService，什麼時候用bindService](android_note/startservice_bindservice.md)
    * [android的消息處理機制（圖+源碼分析）——Looper,Handler,Message](android_note/handler_looper_message_runnable.md)

@@ -57,7 +57,7 @@
         data-chapter-title="Android調試技巧(一)"
         data-filepath="android_note/androiddiao_shi_ji_5de728_4e0029.md"
         data-basepath=".."
-        data-revision="Thu Apr 19 2018 23:52:52 GMT+0800 (CST)"
+        data-revision="Sat Apr 21 2018 23:14:59 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -13685,6 +13685,21 @@
             
         </li>
     
+        <li class="chapter " data-level="27.37" data-path="python/selenium.html">
+            
+                
+                    <a href="../python/selenium.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>27.37.</b>
+                        
+                        Selenium
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -22200,6 +22215,111 @@ Kernel    WD.dumpKernelStackTraces()    cat /proc/[tid]/stack
 <pre><code class="lang-sh">./aarch64-linux-android-addr2line <span class="hljs-operator">-f</span> -C <span class="hljs-operator">-e</span> vmlinux [&#x76EE;&#x6A19;&#x5730;&#x5740;]
 </code></pre>
 <p>&#x6CE8;&#x610F;:&#x5C0D;&#x65BC;kernel&#x8ABF;&#x7528;&#x68E7;&#x7FFB;&#x8B6F;&#x904E;&#x7A0B;&#x90FD;&#x662F;&#x901A;&#x904E;vmlinux&#x4F86;&#x7372;&#x53D6;&#x7684;</p>
+<hr>
+<h2 id="&#x4E09;&#x3001;java&#x5C64;&#x5806;&#x68E7;&#x5217;&#x5370;">&#x4E09;&#x3001;JAVA&#x5C64;&#x5806;&#x68E7;&#x5217;&#x5370;</h2>
+<h3 id="1-&#x5728;&#x6307;&#x5B9A;&#x7684;&#x51FD;&#x6578;&#x5167;&#x5217;&#x5370;&#x76F8;&#x95DC;java&#x8ABF;&#x7528;">1. &#x5728;&#x6307;&#x5B9A;&#x7684;&#x51FD;&#x6578;&#x5167;&#x5217;&#x5370;&#x76F8;&#x95DC;java&#x8ABF;&#x7528;</h3>
+<pre><code class="lang-java">Log.d(TAG,Log.getStackTraceString(<span class="hljs-keyword">new</span> Throwable()));
+</code></pre>
+<h3 id="2-&#x666E;&#x901A;java&#x9032;&#x7A0B;&#x5806;&#x68E7;">2. &#x666E;&#x901A;JAVA&#x9032;&#x7A0B;&#x5806;&#x68E7;</h3>
+<pre><code class="lang-java">ActivityManagerService.dumpStackTraces
+</code></pre>
+<p>&#x4FDD;&#x5B58;&#x5728;&#x7CFB;&#x7D71;&#x8A2D;&#x7F6E;dalvik.vm.stack-trace-file&#x6307;&#x5B9A;&#x7684;&#x6587;&#x4EF6;data/anr/traces.txt&#x4E2D;&#x3002;&#x53EF;&#x4EE5;&#x5305;&#x542B;&#x591A;&#x500B;&#x9032;&#x7A0B;&#x5806;&#x68E7;&#x8CC7;&#x8A0A;&#x3002;</p>
+<h3 id="3-&#x5167;&#x6838;&#x9032;&#x7A0B;&#x5806;&#x68E7;">3. &#x5167;&#x6838;&#x9032;&#x7A0B;&#x5806;&#x68E7;</h3>
+<pre><code class="lang-java">dumpKernelStackTraces&#xFF0C;&#x8A72;&#x51FD;&#x6578;&#x70BA;&#x79C1;&#x6709;&#x51FD;&#x6578;&#xFF0C;&#x4E0D;&#x53EF;&#x8ABF;&#x7528;&#x3002;
+</code></pre>
+<p>&#x4EE3;&#x78BC;&#x5728;frameworks/base/services/java/com/android/server/Watchdog.java</p>
+<p>&#x4FDD;&#x5B58;&#x5728;&#x7CFB;&#x7D71;&#x8A2D;&#x7F6E;dalvik.vm.stack-trace-file&#x6307;&#x5B9A;&#x7684;&#x6587;&#x4EF6;data/anr/traces.txt&#x4E2D;&#x3002;</p>
+<h3 id="4-&#x51FA;&#x7570;&#x5E38;&#x6642;&#x5217;&#x5370;&#x7576;&#x524D;&#x5806;&#x68E7;">4. &#x51FA;&#x7570;&#x5E38;&#x6642;&#x5217;&#x5370;&#x7576;&#x524D;&#x5806;&#x68E7;</h3>
+<pre><code class="lang-java">Exception::printStackTrace()
+
+
+<span class="hljs-keyword">try</span> {
+ ...
+} <span class="hljs-keyword">catch</span> (RemoteException e) {
+  e.printStackTrace();
+  ...
+}
+</code></pre>
+<h3 id="5-&#x8F38;&#x51FA;&#x6307;&#x5B9A;&#x9032;&#x7A0B;&#x7684;&#x5806;&#x68E7;">5. &#x8F38;&#x51FA;&#x6307;&#x5B9A;&#x9032;&#x7A0B;&#x7684;&#x5806;&#x68E7;</h3>
+<pre><code class="lang-java">Process.sendSignal(pid, Process.SIGNAL_QUIT)
+</code></pre>
+<p>&#x4FDD;&#x5B58;&#x5728;data/anr/traces.txt&#x3002;</p>
+<p>&#x9019;&#x500B;&#x53EA;&#x5C0D;java&#x9032;&#x7A0B;&#x6709;&#x6548;&#xFF0C;&#x7531;dalvikvm&#x7684;SignalCatcher.c&#x8655;&#x7406;&#x3002;</p>
+<h2 id="&#x56DB;&#x3001;native&#x5C64;&#x5806;&#x68E7;&#x5217;&#x5370;">&#x56DB;&#x3001;Native&#x5C64;&#x5806;&#x68E7;&#x5217;&#x5370;</h2>
+<h3 id="1-callstack">1. CallStack</h3>
+<p>&#x4F7F;&#x7528;&#x65B9;&#x5F0F;:</p>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;utils/CallStack.h&gt;</span></span>
+...
+CallStack <span class="hljs-built_in">stack</span>;
+<span class="hljs-built_in">stack</span>.update();
+<span class="hljs-built_in">stack</span>.dump(<span class="hljs-string">&quot;&quot;</span>);  <span class="hljs-comment">// the parameter is prefix of dump</span>
+</code></pre>
+<p>&#x5728;&#x4F7F;&#x7528;&#x4E4B;&#x524D;&#x9700;&#x8981;&#x4FEE;&#x6539;system/core/include/arch/linux-arm/AndroidConfig.h</p>
+<p>&#x5728;&#x4F7F;&#x7528;&#x4E4B;&#x524D;&#x9700;&#x8981;&#x4FEE;&#x6539;system/core/include/arch/linux-arm/AndroidConfig.h</p>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> HAVE_DLADDR <span class="hljs-number">1</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> HAVE_CXXABI <span class="hljs-number">1</span></span>
+</code></pre>
+<p>&#x4E26;&#x5728;&#x6587;&#x4EF6;frameworks/base/libs/utils/Android.mk&#x4E2D;&#x5927;&#x7D04;105&#x884C;&#xFF08;LOCAL_SHARED_LIBRARIES&#xFF09;&#x5F8C;&#x6DFB;&#x52A0;</p>
+<pre><code class="lang-cpp">ifeq ($(TARGET_OS),linux)
+  LOCAL_SHARED_LIBRARIES += libdl
+endif
+</code></pre>
+<p>&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#xFF0C;push&#x751F;&#x6210;&#x7684;libutils.so&#x5230;/system/lib/&#x76EE;&#x9304;&#x4E0B;&#xFF0C;&#x91CD;&#x555F;&#x8A2D;&#x5099;&#x3002;</p>
+<h2 id="&#x4E94;&#x3001;java&#x7570;&#x5E38;&#x5206;&#x6790;">&#x4E94;&#x3001;JAVA&#x7570;&#x5E38;&#x5206;&#x6790;</h2>
+<p>&#x9019;&#x500B;android&#x6703;&#x8F38;&#x51FA;&#x8CC7;&#x8A0A;&#x5230;logcat&#x3002;&#x5BB9;&#x6613;&#x5206;&#x6790;&#x3002;</p>
+<h2 id="&#x516D;&#x3001;natvie&#x7570;&#x5E38;&#x5206;&#x6790;">&#x516D;&#x3001;Natvie&#x7570;&#x5E38;&#x5206;&#x6790;</h2>
+<p>native&#x9032;&#x7A0B;&#x7570;&#x5E38;&#x6703;&#x5C0E;&#x81F4;</p>
+<p>debuggerd&#x6703;&#x8F38;&#x51FA;&#x8CC7;&#x8A0A;&#x5230;logcat&#x4E26;&#x4FDD;&#x5B58;&#x5230;/data/tombstones&#x3002;</p>
+<p>&#x53EF;&#x4EE5;&#x4FEE;&#x6539;system/core/debuggerd/debuggerd.c&#x4E2D;dump_stack_and_code&#x7684;&#x4EE3;&#x78BC;&#x6EFF;&#x8DB3;&#x66F4;&#x6DF1;&#x7684;&#x8ABF;&#x8A66;&#x8CC7;&#x8A0A;&#x9700;&#x6C42;&#x3002;</p>
+<p>Natvie&#x7570;&#x5E38;&#x5206;&#x6790;(dalvik&#x65B9;&#x5F0F;&#xFF09;
+&#x7528;&#x6B64;&#x65B9;&#x6CD5;&#x8ABF;&#x8A66;&#x7531;&#x65BC;GC&#x5C0E;&#x81F4;&#x7684;native&#x7570;&#x5E38;&#x3002;</p>
+<pre><code class="lang-cpp">&#x4FEE;&#x6539;vm/interp/Stack.c&#x7D04;<span class="hljs-number">456</span>&#x884C;&#x7684;dvmCallMethodV&#x51FD;&#x6578;&#xFF0C;&#x6DFB;&#x52A0;&#x4EE5;&#x4E0B;&#x5E7E;&#x884C;&#x3002;
+
+LOGD(<span class="hljs-string">&quot; YINGMINGBO class:%s\n&quot;</span>, clazz-&gt;descriptor);
+LOGD(<span class="hljs-string">&quot; YINGMINGBO name:%s\n&quot;</span>, method-&gt;name);
+LOGD(<span class="hljs-string">&quot; YINGMINGBO desc:%s\n&quot;</span>, desc);
+</code></pre>
+<h2 id="&#x4E03;&#x3001;&#x65E5;&#x8A8C;log&#x7CFB;&#x7D71;">&#x4E03;&#x3001;&#x65E5;&#x8A8C;Log&#x7CFB;&#x7D71;</h2>
+<p>&#x5728;java&#x4E2D;&#x4F7F;&#x7528;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">import</span> android.util.Log;
+...
+Log.d(TAG,<span class="hljs-string">&quot;log info&quot;</span>);
+</code></pre>
+<p>&#x5728;Native&#x4EE3;&#x78BC;&#x4E2D;&#x4F7F;&#x7528;</p>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> LOG_TAG <span class="hljs-string">&quot;YOUR_LOGTAG&quot;</span></span>
+...
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;utils/Log.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> LOG_NDEBUG <span class="hljs-number">0</span></span>
+...
+LOGD(<span class="hljs-string">&quot;log info&quot;</span>);
+</code></pre>
+<p>&#x6216;&#x8005;</p>
+<pre><code class="lang-cpp">Log.d(LOG_TAG,&#x201C;<span class="hljs-built_in">log</span> info&#x201D;);
+</code></pre>
+<p>&#x4F7F;&#x7528;adb logcat&#x6642;&#x53EF;&#x4EE5;&#x53EA;&#x986F;&#x793A;&#x7279;&#x5B9A;&#x985E;&#x5225;&#x7684;LOG&#xFF0C;&#x9084;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x53C3;&#x6578; -v threadtime &#x986F;&#x793A;&#x7DDA;&#x7A0B;&#x865F;&#x53CA;&#x6642;&#x9593;&#x8CC7;&#x8A0A;&#x3002;</p>
+<p>&#x666E;&#x901A;&#x6A19;&#x6E96;&#x8F38;&#x51FA;&#x8F49;&#x70BA;Logcat</p>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#system/bin/logwrapper &#x9032;&#x7A0B;&#x540D;</span>
+</code></pre>
+<h2 id="&#x516B;&#x3001;&#x5176;&#x4ED6;&#x8ABF;&#x8A66;&#x624B;&#x6BB5;&#xFF08;&#x547D;&#x4EE4;&#x884C;&#xFF09;">&#x516B;&#x3001;&#x5176;&#x4ED6;&#x8ABF;&#x8A66;&#x624B;&#x6BB5;&#xFF08;&#x547D;&#x4EE4;&#x884C;&#xFF09;</h2>
+<h3 id="1-&#x5217;&#x5370;&#x6307;&#x5B9A;java&#x9032;&#x7A0B;&#x7684;&#x5806;&#x68E7;&#x5230;&#x6587;&#x4EF6;&#x4E2D;">1. &#x5217;&#x5370;&#x6307;&#x5B9A;JAVA&#x9032;&#x7A0B;&#x7684;&#x5806;&#x68E7;&#x5230;&#x6587;&#x4EF6;&#x4E2D;</h3>
+<pre><code class="lang-sh"><span class="hljs-comment">#kill -3 pid</span>
+</code></pre>
+<p>&#x9019;&#x88E1;&#x7684;3&#x5C31;&#x662F;3.5&#x7BC0;&#x7684;Process.SIGNAL_QUIT&#x3002;</p>
+<p>&#x8F38;&#x51FA;&#x5728;<code>data/anr/traces.txt</code>&#x6587;&#x4EF6;&#x4E2D;&#x3002;</p>
+<p>&#x9019;&#x500B;<code>&#x53EA;&#x5C0D;java&#x9032;&#x7A0B;&#x6709;&#x6548;&#xFF0C;&#x7531;dalvikvm&#x8655;&#x7406;</code>&#x3002;</p>
+<h3 id="2-&#x5217;&#x5370;&#x6307;&#x5B9A;&#x9032;&#x7A0B;&#x7684;&#x5806;&#x68E7;&#x5230;logcat">2. &#x5217;&#x5370;&#x6307;&#x5B9A;&#x9032;&#x7A0B;&#x7684;&#x5806;&#x68E7;&#x5230;Logcat</h3>
+<pre><code class="lang-sh"><span class="hljs-comment">#kill -11 pid</span>
+&#x6216;&#x8005;
+<span class="hljs-comment">#kill -7 pid</span>
+</code></pre>
+<p>&#x9019;&#x500B;&#x6709;&#x6642;&#x6709;&#x6548;&#x3002;&#x5176;&#x539F;&#x7406;&#x662F;&#x5229;&#x7528;&#x4E86;&#xFF08;&#x516D;&#xFF09;&#x7BC0;&#x7684;&#x6A5F;&#x5236;&#x3002;</p>
+<p>&#x53EF;&#x4EE5;&#x7528;adb logcat&#x770B;&#x5806;&#x68E7;&#x8ABF;&#x7528;&#x8F38;&#x51FA;&#x3002;</p>
+<h3 id="3-&#x5217;&#x5370;&#x6307;&#x5B9A;&#x9032;&#x7A0B;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;">3. &#x5217;&#x5370;&#x6307;&#x5B9A;&#x9032;&#x7A0B;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;</h3>
+<pre><code class="lang-sh"><span class="hljs-comment">#strace -f -p pid -o output</span>
+</code></pre>
+<p>&#x4E3B;&#x8981;&#x8F38;&#x51FA;&#x6587;&#x4EF6;&#x3001;SOCKET&#x3001;&#x9396;&#x7B49;&#x7CFB;&#x7D71;&#x64CD;&#x4F5C;&#x7684;&#x8CC7;&#x8A0A;&#x3002;</p>
+<p>-f&#x8868;&#x793A;&#x8DDF;&#x8E64;&#x6240;&#x6709;&#x5B50;&#x9032;&#x7A0B;.</p>
+<p>-o&#x8F38;&#x51FA;log&#x5230;&#x6307;&#x5B9A;&#x6587;&#x4EF6;&#xFF0C;&#x53EF;&#x4E0D;&#x7528;&#x3002;</p>
 
                     
                     </section>

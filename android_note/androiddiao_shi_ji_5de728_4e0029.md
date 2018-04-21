@@ -317,3 +317,184 @@ Step 2: 執行addr2line命令
 ```
 
 注意:對於kernel調用棧翻譯過程都是通過vmlinux來獲取的
+
+
+---
+
+
+##三、JAVA層堆棧列印
+###1. 在指定的函數內列印相關java調用
+
+```java
+Log.d(TAG,Log.getStackTraceString(new Throwable()));
+```
+
+###2. 普通JAVA進程堆棧
+
+```java
+ActivityManagerService.dumpStackTraces
+```
+
+保存在系統設置dalvik.vm.stack-trace-file指定的文件data/anr/traces.txt中。可以包含多個進程堆棧資訊。
+
+###3. 內核進程堆棧
+
+```java
+dumpKernelStackTraces，該函數為私有函數，不可調用。
+```
+
+代碼在frameworks/base/services/java/com/android/server/Watchdog.java
+
+保存在系統設置dalvik.vm.stack-trace-file指定的文件data/anr/traces.txt中。
+
+###4. 出異常時列印當前堆棧
+
+```java
+Exception::printStackTrace()
+
+
+try {
+ ...
+} catch (RemoteException e) {
+  e.printStackTrace();
+  ...
+}
+```
+
+###5. 輸出指定進程的堆棧
+
+```java
+Process.sendSignal(pid, Process.SIGNAL_QUIT)
+```
+
+保存在data/anr/traces.txt。
+
+這個只對java進程有效，由dalvikvm的SignalCatcher.c處理。
+
+## 四、Native層堆棧列印
+
+###1. CallStack
+使用方式:
+
+```cpp
+#include <utils/CallStack.h>
+...
+CallStack stack;
+stack.update();
+stack.dump("");  // the parameter is prefix of dump
+```
+
+在使用之前需要修改system/core/include/arch/linux-arm/AndroidConfig.h
+
+
+
+在使用之前需要修改system/core/include/arch/linux-arm/AndroidConfig.h
+
+```cpp
+#define HAVE_DLADDR 1
+#define HAVE_CXXABI 1
+```
+
+并在文件frameworks/base/libs/utils/Android.mk中大約105行（LOCAL_SHARED_LIBRARIES）后添加
+
+
+```cpp
+ifeq ($(TARGET_OS),linux)
+  LOCAL_SHARED_LIBRARIES += libdl
+endif
+```
+
+重新編譯，push生成的libutils.so到/system/lib/目錄下，重啟設備。
+
+
+##五、JAVA異常分析
+這個android會輸出資訊到logcat。容易分析。
+
+##六、Natvie異常分析
+native進程異常會導致
+
+debuggerd會輸出資訊到logcat并保存到/data/tombstones。
+
+可以修改system/core/debuggerd/debuggerd.c中dump_stack_and_code的代碼滿足更深的調試資訊需求。
+
+Natvie異常分析(dalvik方式）
+用此方法調試由于GC導致的native異常。
+
+```cpp
+修改vm/interp/Stack.c約456行的dvmCallMethodV函數，添加以下幾行。
+
+LOGD(" YINGMINGBO class:%s\n", clazz->descriptor);
+LOGD(" YINGMINGBO name:%s\n", method->name);
+LOGD(" YINGMINGBO desc:%s\n", desc);
+```
+
+
+##七、日志Log系統
+在java中使用
+```java
+import android.util.Log;
+...
+Log.d(TAG,"log info");
+```
+
+在Native代碼中使用
+
+```cpp
+#define LOG_TAG "YOUR_LOGTAG"
+...
+#include <utils/Log.h>
+#define LOG_NDEBUG 0
+...
+LOGD("log info");
+```
+
+或者
+
+```cpp
+Log.d(LOG_TAG,“log info”);
+```
+
+使用adb logcat時可以只顯示特定類別的LOG，還可以通過參數 -v threadtime 顯示線程號及時間資訊。
+
+普通標準輸出轉為Logcat
+
+```cpp
+#system/bin/logwrapper 進程名
+```
+
+##八、其他調試手段（命令行）
+###1. 列印指定JAVA進程的堆棧到文件中
+
+```sh
+#kill -3 pid
+```
+
+這里的3就是3.5節的Process.SIGNAL_QUIT。
+
+輸出在`data/anr/traces.txt`文件中。
+
+這個`只對java進程有效，由dalvikvm處理`。
+
+###2. 列印指定進程的堆棧到Logcat
+
+```sh
+#kill -11 pid
+或者
+#kill -7 pid
+```
+
+這個有時有效。其原理是利用了（六）節的機制。
+
+可以用adb logcat看堆棧調用輸出。
+
+###3. 列印指定進程的系統調用
+
+```sh
+#strace -f -p pid -o output
+```
+
+主要輸出文件、SOCKET、鎖等系統操作的資訊。
+
+-f表示跟蹤所有子進程.
+
+-o輸出log到指定文件，可不用。

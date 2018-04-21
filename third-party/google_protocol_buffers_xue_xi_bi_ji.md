@@ -1,22 +1,22 @@
-# Google Protocol Buffers 学习笔记
+# Google Protocol Buffers 學習筆記
 
 
 
-Protocol Buffers（PB）是一个用于序列化结构化数据的机制，是谷歌的一个开源项目，在github上有源代码，也有发行版。PB跟XML相似，XML序列化的时候速度是可以接受的，但是XML解析数据的时候非常慢。然而Protocol Buffers则是非常轻量，速度也很快。
+Protocol Buffers（PB）是一個用於序列化結構化數據的機制，是谷歌的一個開源項目，在github上有源代碼，也有發行版。PB跟XML相似，XML序列化的時候速度是可以接受的，但是XML解析數據的時候非常慢。然而Protocol Buffers則是非常輕量，速度也很快。
 
 
-我们学习Protocol Buffers，直接通过实现一个Protocol Buffers小项目来实验，得出其源代码，再分析编码技术。
+我們學習Protocol Buffers，直接通過實現一個Protocol Buffers小項目來實驗，得出其源代碼，再分析編碼技術。
 
-安装完Protocol Buffers之后（安装过程略去，我们选择的是Github上面的源代码c++版，而不是发行版，有利于我们学习编码技术），我们开始正式实验。
+安裝完Protocol Buffers之後（安裝過程略去，我們選擇的是Github上面的源代碼c++版，而不是發行版，有利於我們學習編碼技術），我們開始正式實驗。
 
  
 
-##关于PB的编码
+##關於PB的編碼
 
 
-由官方文档，PB先用variant编码整形数据，然后再进行操作
+由官方文檔，PB先用variant編碼整形數據，然後再進行操作
 
-我们打开编译好的源代码我们找到了这样一条在序列化的时候所调用的函数
+我們打開編譯好的源代碼我們找到了這樣一條在序列化的時候所調用的函數
 
 
 ```cpp
@@ -25,13 +25,13 @@ if (has_sid()) {
 }
 ```
 
-使用gdb调试，尝试进入函数体内部，发现其调用：
+使用gdb調試，嘗試進入函數體內部，發現其調用：
 
-src/google/protobuf/message.cc:174 的一个函数
+src/google/protobuf/message.cc:174 的一個函數
 
 bool Message::SerializeToOstream(ostream* output) const
 
-最后找到了编码的函数：
+最後找到了編碼的函數：
 
 src/google/protobuf/coded_stream.cc
 
@@ -73,11 +73,11 @@ inline uint8* CodedOutputStream::WriteVarint32FallbackToArrayInline(
 }
 ```
 
-在variant编码中第一个字节的高位msb为1表示下一个字节还有有效数据，msb为0表示该字节中的后7为是最后一组有效数字。踢掉最高位后的有效位组成真正的数字。
+在variant編碼中第一個字節的高位msb為1表示下一個字節還有有效數據，msb為0表示該字節中的後7為是最後一組有效數字。踢掉最高位後的有效位組成真正的數字。
 
  
 
-如数据value = 123456 运行上述程序的过程：
+如數據value = 123456 運行上述程序的過程：
 
 12345D = 3039H
 
@@ -94,18 +94,18 @@ target[1] &= 0x7F   60H
 
 
 
-结果应该是：B961H = 1011 1001 0110 0000 B
+結果應該是：B961H = 1011 1001 0110 0000 B
 
 
-低位是的元数据位是1，表示后面还有8位的数据，依次下去
+低位是的元數據位是1，表示後面還有8位的數據，依次下去
 
-按照规则解析过来，刚好就是12345D
+按照規則解析過來，剛好就是12345D
 
-int32的编码
+int32的編碼
 
-用上述方法使用gdb调试程序，得到函数入口
+用上述方法使用gdb調試程序，得到函數入口
 
-1、 计算长度1 + Int32Size(value);
+1、 計算長度1 + Int32Size(value);
 
 ```sh
 (gdb) 
@@ -115,7 +115,7 @@ google::protobuf::io::CodedOutputStream::VarintSize32 (value=？)
 at /usr/local/include/google/protobuf/io/coded_stream.h:1108
 ```
 
-2、 调用这个函数，将值写入新的空间之中去
+2、 調用這個函數，將值寫入新的空間之中去
 
 ```sh
 (gdb) step
@@ -124,22 +124,22 @@ google::protobuf::internal::WireFormatLite::Int32Size (value=？)
 
 at /usr/local/include/google/protobuf/wire_format_lite_inl.h:797
 ```
-存储的时候分为tag和value两块。tag部分由公式field_number << 3 | WITETYPE_VARIANT给出，
+存儲的時候分為tag和value兩塊。tag部分由公式field_number << 3 | WITETYPE_VARIANT給出，
 
-value部分则由用户给的值的variant编码构成
+value部分則由用戶給的值的variant編碼構成
 
 
-### String类型的编码
+### String類型的編碼
 
-同样需要使用variant编码,string的要求是UTF8的编码的。
+同樣需要使用variant編碼,string的要求是UTF8的編碼的。
 
-先计算计算长度公式 1 + variant(stringLength)+stringLength
+先計算計算長度公式 1 + variant(stringLength)+stringLength
 
-编码后的格式为tag+length(variant int)+value
+編碼後的格式為tag+length(variant int)+value
 
-tage为公式field_number << 3 | WITETYPE_VARIANT给出，length则是长度的variant编码,value为用户字符串内容
+tage為公式field_number << 3 | WITETYPE_VARIANT給出，length則是長度的variant編碼,value為用戶字符串內容
 
-函数：
+函數：
 
 
 ```sh
@@ -157,11 +157,11 @@ at google/protobuf/wire_format.cc:1089
 ```
 
 
-下面进行实操：
+下面進行實操：
 
  
 
-定义一个Protocol Buffers
+定義一個Protocol Buffers
 
 
 ```sh
@@ -181,10 +181,10 @@ optional string email = 6;
 }
 ```
 
-然后使用protoc将其编译为c++类
+然後使用protoc將其編譯為c++類
 
 
- 写一个简单的脚本测试这个类
+ 寫一個簡單的腳本測試這個類
  
  
  ```cpp
@@ -309,7 +309,7 @@ male
 
 18819473230
 
-使用如下命令来进行编译，为了方便，定义一个makefile:
+使用如下命令來進行編譯，為了方便，定義一個makefile:
 
 
 ```sh
@@ -326,27 +326,27 @@ rm -f *.pb.cc
 rm -f *.txt
 ```
 
-运行结果如下
+運行結果如下
 
-然后我们用vim 的二进制方式打开存储的文件，分析其中部分的结构
+然後我們用vim 的二進制方式打開存儲的文件，分析其中部分的結構
 
-开始的前两位OA是protobuf存储文件时候预定义的两位，结束时候也是
-
- 
-
-字符串：“ye jiaqi” : 08则是 由tag = 1 的预定义的name 和protobuf枚举类型中的2得到， 1 << 3 | 2 = 08 H, 后面的是utf8编码的字符串内容，可以被vim识别
+開始的前兩位OA是protobuf存儲文件時候預定義的兩位，結束時候也是
 
  
 
-INT32 “13331314”: 按照我们之前的编码方式
+字符串：“ye jiaqi” : 08則是 由tag = 1 的預定義的name 和protobuf枚舉類型中的2得到， 1 << 3 | 2 = 08 H, 後面的是utf8編碼的字符串內容，可以被vim識別
+
+ 
+
+INT32 “13331314”: 按照我們之前的編碼方式
 
 2 >> 3 | 0 = 10H
 
-13331314（CD6B72H）使用variant方式编码得到的是F2D6AD06H, 跟我们的编码方式完全一致
+13331314（CD6B72H）使用variant方式編碼得到的是F2D6AD06H, 跟我們的編碼方式完全一致
 
 
-##总结
+##總結
 
-protobuf是一个很好的轻量级的编码方式，比XML要好。然而json也是一种轻量级的数据传输协议。查了一下资料，json在许多报文方面还是不太行，protobuf不为一种很好的选择。可是protobuf文件的可读性约等于0，这个缺点实在有些。
+protobuf是一個很好的輕量級的編碼方式，比XML要好。然而json也是一種輕量級的數據傳輸協議。查了一下資料，json在許多報文方面還是不太行，protobuf不為一種很好的選擇。可是protobuf文件的可讀性約等於0，這個缺點實在有些。
 
 

@@ -7,7 +7,7 @@ Copyright (**慣C**) 2018 [宅色夫](http://wiki.csie.ncku.edu.tw/User/jserv)
 
 ## 資料處理流程
 
-![](https://i.imgur.com/tb1ak2D.png)
+![](./images/tb1ak2D.png)
 data flow for the standard input (0), output (1), and error (2) streams
 [ [source](http://www.rozmichelle.com/pipes-forks-dups/) ]
 
@@ -22,7 +22,7 @@ data flow for the standard input (0), output (1), and error (2) streams
 ## 有沒有 C++ 標準幫 Apple 背書的八卦
 
 C++ 標準函式庫竟然有 [ios::good](http://www.cplusplus.com/reference/ios/ios/good/)
-![](https://i.imgur.com/erYYXIq.png)
+![](./images/erYYXIq.png)
 「iOS 真棒！」
 
 

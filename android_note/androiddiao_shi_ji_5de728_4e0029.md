@@ -395,7 +395,7 @@ stack.dump("");  // the parameter is prefix of dump
 #define HAVE_CXXABI 1
 ```
 
-并在文件frameworks/base/libs/utils/Android.mk中大約105行（LOCAL_SHARED_LIBRARIES）后添加
+並在文件frameworks/base/libs/utils/Android.mk中大約105行（LOCAL_SHARED_LIBRARIES）後添加
 
 
 ```cpp
@@ -413,12 +413,12 @@ endif
 ##六、Natvie異常分析
 native進程異常會導致
 
-debuggerd會輸出資訊到logcat并保存到/data/tombstones。
+debuggerd會輸出資訊到logcat並保存到/data/tombstones。
 
 可以修改system/core/debuggerd/debuggerd.c中dump_stack_and_code的代碼滿足更深的調試資訊需求。
 
 Natvie異常分析(dalvik方式）
-用此方法調試由于GC導致的native異常。
+用此方法調試由於GC導致的native異常。
 
 ```cpp
 修改vm/interp/Stack.c約456行的dvmCallMethodV函數，添加以下幾行。
@@ -429,7 +429,7 @@ LOGD(" YINGMINGBO desc:%s\n", desc);
 ```
 
 
-##七、日志Log系統
+##七、日誌Log系統
 在java中使用
 ```java
 import android.util.Log;
@@ -469,7 +469,7 @@ Log.d(LOG_TAG,“log info”);
 #kill -3 pid
 ```
 
-這里的3就是3.5節的Process.SIGNAL_QUIT。
+這裡的3就是3.5節的Process.SIGNAL_QUIT。
 
 輸出在`data/anr/traces.txt`文件中。
 

@@ -879,6 +879,7 @@
    * [practice](python/practice.md)
    * [Selenium](python/selenium.md)
    * [区块链](python/qu_kuai_lian.md)
+       * 50 行 Python 代码构建一个区块链
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
    * [編譯vim8並添加對lua,python,ruby的支持](vim/bian_yi_vim8_bing_tian_jia_dui_lua_,_python_,_ruby.md)

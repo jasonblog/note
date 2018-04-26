@@ -15,6 +15,68 @@
 
 在本文，我将会通过不到 50 行的 Python 代码构建一个简单的区块链原型（原文代码为 Python 2，分为多个部分托管于 gist。译者已将其改为 Python 3，并将源码放到了 GitHub 上，点击 这里 查看。)，就叫 SnakeCoin 吧。
 
+
+```py
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import hashlib as hasher
+import datetime as date
+
+
+class Block:
+    def __init__(self, index, timestamp, data, previous_hash):
+        self.index = index
+        self.timestamp = timestamp
+        self.data = data
+        self.previous_hash = previous_hash
+        self.hash = self.hash_block()
+
+    def hash_block(self):
+        sha = hasher.sha256()
+        sha.update(
+            bytes(
+                str(self.index) + str(self.timestamp) + str(self.data) + str(
+                    self.previous_hash), 'utf-8'))
+        return sha.hexdigest()
+
+
+def create_genesis_block():
+    #  Manually construct a block with index 0 and arbitrary previous hash
+    return Block(0, date.datetime.now(), "Genesis Block", "0")
+
+
+def next_block(last_block):
+    this_index = last_block.index + 1
+    this_timestamp = date.datetime.now()
+    this_data = "Hey! I'm block " + str(this_index)
+    this_hash = last_block.hash
+    return Block(this_index, this_timestamp, this_data, this_hash)
+
+
+def main():
+    #  Create the blockchain and add the genesis block
+    blockchain = [create_genesis_block()]
+    previous_block = blockchain[0]
+
+    #  How many blocks should we add to the chain after the genesis block
+    num_of_blocks_to_add = 20
+
+    for i in range(0, num_of_blocks_to_add):
+        block_to_add = next_block(previous_block)
+        blockchain.append(block_to_add)
+        previous_block = block_to_add
+        #  Tell everyone about it!
+        print("Block #{} has been added to the"
+              "blockchain!".format(block_to_add.index))
+        print("Hash: {}\n".format(block_to_add.hash))
+
+
+if __name__ == "__main__":
+    main()
+```
+
+
 首先，来定义我们的区块大概是什么样。在区块链中，每个区块都需要一个时间戳 (timestamp) 和一个可选的索引 (index)。在 SnakeCoin 中，我们会同时存储这两项。为了确保区块链的完整性，每个区块都需要有一个能够识别自身身份的哈希 (hash)。在比特币中，每个区块的哈希对区块索引、时间戳、数据和前一区块哈希所有内容的一个加密哈希。此外，数据可以是任何你想要存储的任何内容。
 
 ```py

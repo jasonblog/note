@@ -291,6 +291,29 @@ sudo apt-get install npm
 sudo npm install gitbook -g
 ```
 
+
+如果遇到：
+
+```sh
+Error loading version latest: Error: Cannot find module 'internal/util/types'
+```
+
+`将node版本降低:`
+
+```sh
+// 1.安装node管理 n
+sudo npm install -g n 
+// 2. 降低版本，更新npm
+sudo n 6
+
+sudo npm install npm -g
+// 3.此时运行gitbook2.6.7的命令即可。
+gitbook build --gitbook=2.6.7
+// 4. 待转换完成后，将npm版本（例如9.10.0）切回来即可,以免影响其他模块
+sudo n 9.10.0
+```
+
+
 - 下載最近版本的npm , 目前可以解決下面說的情況
 
 ```
@@ -905,6 +928,13 @@ sudo apt-get remove linux-image-extra-4.4.0-59-generic
 ```
 
 如提示有未卸載幹凈的可以執行sudo apt-get remove來卸載。
+
+
+`使用 sudp dpkg -P  可以乾淨移除`
+
+```
+sudp dpkg -P linux-image-4.4.0-57-generic
+```
 
 ###總結
 

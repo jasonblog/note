@@ -298,18 +298,18 @@ sudo npm install gitbook -g
 Error loading version latest: Error: Cannot find module 'internal/util/types'
 ```
 
-`将node版本降低:`
+`將node版本降低:`
 
 ```sh
-// 1.安装node管理 n
+// 1.安裝node管理 n
 sudo npm install -g n 
 // 2. 降低版本，更新npm
 sudo n 6
 
 sudo npm install npm -g
-// 3.此时运行gitbook2.6.7的命令即可。
+// 3.此時運行gitbook2.6.7的命令即可。
 gitbook build --gitbook=2.6.7
-// 4. 待转换完成后，将npm版本（例如9.10.0）切回来即可,以免影响其他模块
+// 4. 待轉換完成後，將npm版本（例如9.10.0）切回來即可,以免影響其他模塊
 sudo n 9.10.0
 ```
 

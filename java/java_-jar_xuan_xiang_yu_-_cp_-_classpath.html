@@ -57,7 +57,7 @@
         data-chapter-title="Java -jar 選項與 -cp/-classpath"
         data-filepath="java/java_-jar_xuan_xiang_yu_-_cp_-_classpath.md"
         data-basepath=".."
-        data-revision="Mon Apr 30 2018 02:31:38 GMT+0800 (CST)"
+        data-revision="Mon Apr 30 2018 03:40:31 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -22088,6 +22088,48 @@
 java -cp ./out/ c0.singleton.SingletonTest
 </code></pre>
 <pre><code class="lang-sh">javac <span class="hljs-operator">-d</span> out/ -cp /usr/share/java/junit4-<span class="hljs-number">4.12</span>.jar ../../../src/c01/simpleFactory/village/*.java *.java
+</code></pre>
+<hr>
+<h2 id="&#x4F7F;&#x7528;junit&#x6D4B;&#x8BD5;java&#x7A0B;&#x5E8F;&#x65B9;&#x6CD5;">&#x4F7F;&#x7528;junit&#x6D4B;&#x8BD5;java&#x7A0B;&#x5E8F;&#x65B9;&#x6CD5;</h2>
+<p>java -classpath .:/usr/share/java/junit4-4.12.jar org.junit.runner.JUnitCore HelloWorldTest</p>
+<pre><code class="lang-java"><span class="hljs-comment">// HelloWorld.java</span>
+<span class="hljs-keyword">import</span> java.util.*;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloWorld</span>
+</span>{
+    <span class="hljs-keyword">private</span> String str;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span>
+    </span>{
+        HelloWorld  hw = <span class="hljs-keyword">new</span> HelloWorld();
+        hw.hello();
+        System.out.println(hw.str);
+    }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">hello</span><span class="hljs-params">()</span>
+    </span>{
+        str = <span class="hljs-string">&quot;Hello World!&quot;</span>;
+    }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getStr</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> str;
+    }
+}
+</code></pre>
+<pre><code class="lang-java"><span class="hljs-comment">// HelloWorldTes.java</span>
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.junit.Assert.*;
+<span class="hljs-keyword">import</span> org.junit.Test;
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloWorldTest</span>
+</span>{
+    <span class="hljs-keyword">public</span> HelloWorld helloworld = <span class="hljs-keyword">new</span> HelloWorld();
+    <span class="hljs-annotation">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testHello</span><span class="hljs-params">()</span>
+    </span>{
+        helloworld.hello();
+        assertEquals(<span class="hljs-string">&quot;Hello World!&quot;</span>,  helloworld.getStr());
+    }
+}
+</code></pre>
+<pre><code class="lang-sh">javac <span class="hljs-operator">-d</span> . -cp /usr/share/java/junit4-<span class="hljs-number">4.12</span>.jar *.java
+
+java -classpath .:/usr/share/java/junit4-<span class="hljs-number">4.12</span>.jar org.junit.runner.JUnitCore HelloWorldTest
 </code></pre>
 
                     

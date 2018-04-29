@@ -80,6 +80,7 @@ https://github.com/vim/vim.git
 --enable-largefile \
 --disable-netbeans \
 --with-compiledby="Jason" \
+--enable-gtk3-check \
 --enable-fail-if-missing
 ```
 

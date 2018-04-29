@@ -57,7 +57,7 @@
         data-chapter-title="Vim"
         data-filepath="vim/vim.md"
         data-basepath=".."
-        data-revision="Sat Apr 28 2018 20:15:31 GMT+0800 (CST)"
+        data-revision="Sun Apr 29 2018 17:28:58 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -22078,6 +22078,15 @@
                      libatk1.<span class="hljs-number">0</span>-dev libbonoboui2-dev libcairo2-dev \
                      libx11-dev libxpm-dev libxt-dev python-dev \
                      python3-dev git
+
+
+
+sudo apt-get install lua5.<span class="hljs-number">1</span> liblua5.<span class="hljs-number">1</span>-dev \
+                     luajit libluajit-<span class="hljs-number">5.1</span> \
+                     python-dev python3-dev ruby-dev \
+                     libperl-dev libncurses5-dev \
+                     libatk1.<span class="hljs-number">0</span>-dev libx11-dev \
+                     libxpm-dev libxt-dev
 </code></pre>
 <ul>
 <li>--with-python3-config-dir &#x9808;&#x6309;&#x7167;&#x7CFB;&#x7D71;&#x74B0;&#x5883;&#x8DEF;&#x5F91;&#x8A2D;&#x5B9A;</li>
@@ -22111,25 +22120,28 @@
 <h2 id="&#x7DE8;&#x8B6F;vim">&#x7DE8;&#x8B6F;vim</h2>
 <pre><code class="lang-sh">https://github.com/vim/vim.git
 </code></pre>
-<pre><code class="lang-sh">./configure  --prefix=/home/shihyu/.mybin/vim \
+<pre><code class="lang-sh">./configure \
+--prefix=/home/shihyu/.mybin/vim \
 --enable-multibyte \
---enable-fontset \
---enable-xim  \
---enable-gui=auto \
---enable-pythoninterp=dynamic \
---enable-pythoninterp \
---enable-python3interp=dynamic \
+--enable-perlinterp=dynamic \
 --enable-rubyinterp=dynamic \
---enable-rubyinterp \
---enable-perlinterp \
---enable-cscope \
---enable-sniff \
---with-x  \
---with-compiledby=erocpil  \
---with-features=huge \
---enable-luainterp=dynamic  \
+--with-ruby-command=/usr/bin/ruby \
+--enable-pythoninterp=dynamic \
 --with-python-config-dir=/usr/lib/python2.<span class="hljs-number">7</span>/config-x86_64-linux-gnu \
---with-python3-config-dir=/usr/lib/python3.<span class="hljs-number">5</span>/config-<span class="hljs-number">3.5</span>m-x86_64-linux-gnu
+--enable-python3interp \
+--with-python3-config-dir=/usr/lib/python3.<span class="hljs-number">6</span>/config-<span class="hljs-number">3.6</span>m-x86_64-linux-gnu \
+--enable-luainterp \
+--with-luajit \
+--enable-cscope \
+--enable-gui=auto \
+--with-features=huge \
+--with-x \
+--enable-fontset \
+--enable-largefile \
+--disable-netbeans \
+--with-compiledby=<span class="hljs-string">&quot;Jason&quot;</span> \
+--enable-gtk3-check \
+--enable-fail-if-missing
 </code></pre>
 <pre><code class="lang-sh">make &amp;&amp; make install
 </code></pre>

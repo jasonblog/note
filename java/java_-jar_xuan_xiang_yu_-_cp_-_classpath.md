@@ -38,3 +38,60 @@ java -cp ./out/ c0.singleton.SingletonTest
 ```sh
 javac -d out/ -cp /usr/share/java/junit4-4.12.jar ../../../src/c01/simpleFactory/village/*.java *.java
 ```
+
+
+---
+
+## 使用junit测试java程序方法
+
+java -classpath .:/usr/share/java/junit4-4.12.jar org.junit.runner.JUnitCore HelloWorldTest
+
+
+```java
+// HelloWorld.java
+import java.util.*;
+public final class HelloWorld
+{
+    private String str;
+    public static void main(String[] args)
+    {
+        HelloWorld  hw = new HelloWorld();
+        hw.hello();
+        System.out.println(hw.str);
+    }
+    public void hello()
+    {
+        str = "Hello World!";
+    }
+    public String getStr()
+    {
+        return str;
+    }
+}
+```
+
+
+```java
+// HelloWorldTes.java
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class HelloWorldTest
+{
+    public HelloWorld helloworld = new HelloWorld();
+    @Test
+    public void testHello()
+    {
+        helloworld.hello();
+        assertEquals("Hello World!",  helloworld.getStr());
+    }
+}
+```
+
+```sh
+javac -d . -cp /usr/share/java/junit4-4.12.jar *.java
+
+java -classpath .:/usr/share/java/junit4-4.12.jar org.junit.runner.JUnitCore HelloWorldTest
+```
+
+
+

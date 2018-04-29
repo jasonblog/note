@@ -9,6 +9,17 @@ sudo apt-get install libncurses5-dev \
                      libatk1.0-dev libbonoboui2-dev libcairo2-dev \
                      libx11-dev libxpm-dev libxt-dev python-dev \
                      python3-dev git
+                     
+                     
+
+sudo apt-get install lua5.1 liblua5.1-dev \
+                     luajit libluajit-5.1 \
+                     python-dev python3-dev ruby-dev \
+                     libperl-dev libncurses5-dev \
+                     libatk1.0-dev libx11-dev \
+                     libxpm-dev libxt-dev
+
+
 ```
 
 -  --with-python3-config-dir 須按照系統環境路徑設定
@@ -49,25 +60,27 @@ https://github.com/vim/vim.git
 ```
 
 ```sh
-./configure  --prefix=/home/shihyu/.mybin/vim \
+./configure \
+--prefix=/home/shihyu/.mybin/vim \
 --enable-multibyte \
---enable-fontset \
---enable-xim  \
---enable-gui=auto \
---enable-pythoninterp=dynamic \
---enable-pythoninterp \
---enable-python3interp=dynamic \
+--enable-perlinterp=dynamic \
 --enable-rubyinterp=dynamic \
---enable-rubyinterp \
---enable-perlinterp \
---enable-cscope \
---enable-sniff \
---with-x  \
---with-compiledby=erocpil  \
---with-features=huge \
---enable-luainterp=dynamic  \
+--with-ruby-command=/usr/bin/ruby \
+--enable-pythoninterp=dynamic \
 --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu \
---with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu
+--enable-python3interp \
+--with-python3-config-dir=/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu \
+--enable-luainterp \
+--with-luajit \
+--enable-cscope \
+--enable-gui=auto \
+--with-features=huge \
+--with-x \
+--enable-fontset \
+--enable-largefile \
+--disable-netbeans \
+--with-compiledby="Jason" \
+--enable-fail-if-missing
 ```
 
 ```sh

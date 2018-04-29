@@ -4,22 +4,10 @@
 
 ### Requirement package
 ```sh
-sudo apt-get install libncurses5-dev \
-                     libgnome2-dev libgnomeui-dev libgtk2.0-dev \
-                     libatk1.0-dev libbonoboui2-dev libcairo2-dev \
-                     libx11-dev libxpm-dev libxt-dev python-dev \
-                     python3-dev git
-                     
-                     
-
-sudo apt-get install lua5.1 liblua5.1-dev \
-                     luajit libluajit-5.1 \
-                     python-dev python3-dev ruby-dev \
-                     libperl-dev libncurses5-dev \
-                     libatk1.0-dev libx11-dev \
-                     libxpm-dev libxt-dev
-
-
+sudo apt-get install libacl1-dev libgpmg1-dev libgtk-3-dev libgtk2.0-dev \
+liblua5.2-dev libperl-dev libselinux1-dev libtinfo-dev \
+libxaw7-dev libxpm-dev libxt-dev lua5.2 python3-dev \
+ruby ruby-dev tcl-dev
 ```
 
 -  --with-python3-config-dir 須按照系統環境路徑設定
@@ -53,7 +41,7 @@ sudo apt-get install lua5.1 liblua5.1-dev \
 ```
 
 
-## 編譯vim
+## 編譯vim support GTK3
 
 ```sh
 https://github.com/vim/vim.git
@@ -80,8 +68,8 @@ https://github.com/vim/vim.git
 --enable-largefile \
 --disable-netbeans \
 --with-compiledby="Jason" \
---enable-gtk3-check \
---enable-fail-if-missing
+--enable-fail-if-missing \
+--enable-gui=gtk3
 ```
 
 ```sh

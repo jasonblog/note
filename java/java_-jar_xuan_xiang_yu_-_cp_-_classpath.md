@@ -25,3 +25,16 @@ Class-Path: myplace/myjar.jar myplace/other.jar jardir/
 ```
    
 另外說明一點，這個問題可能有些人遇不到，因為Java的版本不同的原因，我在Sun的JDK和IBM 1.5的JDK都遇到了這個問題，但是對於 IBM 1.4的JDK卻沒有類似問題。
+
+
+---
+
+
+```sh
+javac -d out/ ../../../src/c0/singleton/*.java SingletonTest.java
+java -cp ./out/ c0.singleton.SingletonTest
+```
+
+```sh
+javac -d out/ -cp /usr/share/java/junit4-4.12.jar ../../../src/c01/simpleFactory/village/*.java *.java
+```

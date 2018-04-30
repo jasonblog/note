@@ -18,7 +18,7 @@ autogen cutecom hexedit ccache clang \
 pbzip2 smplayer ghex build-essential \
 git-core cconv terminator curl dos2unix \
 hexedit ccache ruby subversion htop \
-libncurses5-dev quicksynergy xdot \
+libncurses5-dev quicksynergy xdot liblzma-dev \
 python-pycallgraph exuberant-ctags cscope \
 gitk libncurses5-dev binutils-dev \
 python-virtualenv  gtkterm python-dev \

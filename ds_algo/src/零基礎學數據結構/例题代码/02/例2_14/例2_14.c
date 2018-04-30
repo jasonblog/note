@@ -1,6 +1,6 @@
-#include <stdio.h>          /*°üº¬ÊäÈëÊä³öº¯Êı*/
+#include <stdio.h>          /*åŒ…å«è¾“å…¥è¾“å‡ºå‡½æ•°*/
 #define N 10
-/*½á¹¹ÌåÀàĞÍ¼°±äÁ¿¶¨Òå¡¢³õÊ¼»¯*/
+/*ç»“æ„ä½“ç±»å‹åŠå˜é‡å®šä¹‰ã€åˆå§‹åŒ–*/
 struct student {
     char* number;
     char* name;
@@ -14,10 +14,10 @@ struct student {
 void main()
 {
     struct student* p;
-    printf("Ñ§Éú»ù±¾Çé¿ö±í:\n");
-    printf("±àºÅ          ĞÕÃû       ĞÔ±ğ    ÄêÁä   ³É¼¨\n");
+    printf("å­¦ç”ŸåŸºæœ¬æƒ…å†µè¡¨:\n");
+    printf("ç¼–å·          å§“å       æ€§åˆ«    å¹´é¾„   æˆç»©\n");
 
-    for (p = stu; p < stu + 3; p++) {   /*Í¨¹ıÖ¸Ïò½á¹¹ÌåµÄÖ¸ÕëÊä³öÑ§ÉúĞÅÏ¢*/
+    for (p = stu; p < stu + 3; p++) {   /*é€šè¿‡æŒ‡å‘ç»“æ„ä½“çš„æŒ‡é’ˆè¾“å‡ºå­¦ç”Ÿä¿¡æ¯*/
         printf("%-8s%12s%8c%8d%6d\n", p->number, p->name, p->sex, p->age, p->score);
     }
 }

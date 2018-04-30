@@ -1,8 +1,8 @@
-/*°üº¬Í·ÎÄ¼þ*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdlib.h>
 #include<stdio.h>
 #include<malloc.h>
-/*Ï¡Êè¾ØÕóÀàÐÍ¶¨Òå*/
+/*ç¨€ç–çŸ©é˜µç±»åž‹å®šä¹‰*/
 typedef int DataType;
 typedef struct OLNode {
     int i, j;
@@ -24,23 +24,23 @@ void main()
     int row, col;
     DataType value;
     OLink p;
-    InitMatrix(&M);     /*³õÊ¼»¯Ï¡Êè¾ØÕó*/
-    CreateMatrix(&M);   /*´´½¨Ï¡Êè¾ØÕó*/
-    printf("¾ØÕóM£º\n");
-    PrintMatrix(M);     /*ÒÔ¾ØÕóµÄÐÎÊ½Êä³öÏ¡Êè¾ØÕó*/
+    InitMatrix(&M);     /*åˆå§‹åŒ–ç¨€ç–çŸ©é˜µ*/
+    CreateMatrix(&M);   /*åˆ›å»ºç¨€ç–çŸ©é˜µ*/
+    printf("çŸ©é˜µMï¼š\n");
+    PrintMatrix(M);     /*ä»¥çŸ©é˜µçš„å½¢å¼è¾“å‡ºç¨€ç–çŸ©é˜µ*/
 
-    InitMatrix(&N);     /*³õÊ¼»¯Ï¡Êè¾ØÕó*/
-    CreateMatrix(&N);   /*´´½¨Ï¡Êè¾ØÕó*/
-    printf("¾ØÕóN£º\n");
-    PrintMatrix(N); /*ÒÔ¾ØÕóµÄÐÎÊ½Êä³öÏ¡Êè¾ØÕó*/
-    /*Á½¸ö¾ØÕóµÄÏà³Ë*/
+    InitMatrix(&N);     /*åˆå§‹åŒ–ç¨€ç–çŸ©é˜µ*/
+    CreateMatrix(&N);   /*åˆ›å»ºç¨€ç–çŸ©é˜µ*/
+    printf("çŸ©é˜µNï¼š\n");
+    PrintMatrix(N); /*ä»¥çŸ©é˜µçš„å½¢å¼è¾“å‡ºç¨€ç–çŸ©é˜µ*/
+    /*ä¸¤ä¸ªçŸ©é˜µçš„ç›¸ä¹˜*/
     MultMatrix(M, N, &Q);
-    printf("Á½¸öÏ¡Êè¾ØÕóÏà³Ë½á¹û£ºM+N=\n");
+    printf("ä¸¤ä¸ªç¨€ç–çŸ©é˜µç›¸ä¹˜ç»“æžœï¼šM+N=\n");
     PrintMatrix(Q);
 }
 
 void MultMatrix(CrossList M, CrossList N, CrossList* Q)
-/*ÇóÏ¡Êè¾ØÕóMºÍNµÄµÄ³Ë»ýQ=M¡ÁN*/
+/*æ±‚ç¨€ç–çŸ©é˜µMå’ŒNçš„çš„ä¹˜ç§¯Q=MÃ—N*/
 {
     int i, j, e;
     OLink pq, pm, pn;
@@ -48,28 +48,28 @@ void MultMatrix(CrossList M, CrossList N, CrossList* Q)
     Q->m = M.m;
     Q->n = N.n;
     Q->len = 0;
-    /*³õÊ¼»¯QµÄ±íÍ·Ö¸ÕëÏòÁ¿*/
-    Q->rowhead = (OLink*)malloc(Q->m * sizeof(OLink)); /*Éú³ÉÐÐ±íÍ·Ö¸ÕëÏòÁ¿*/
+    /*åˆå§‹åŒ–Qçš„è¡¨å¤´æŒ‡é’ˆå‘é‡*/
+    Q->rowhead = (OLink*)malloc(Q->m * sizeof(OLink)); /*ç”Ÿæˆè¡Œè¡¨å¤´æŒ‡é’ˆå‘é‡*/
 
     if (!M.rowhead) {
         exit(-1);
     }
 
-    Q->colhead = (OLink*)malloc(Q->n * sizeof(OLink)); /*Éú³ÉÁÐ±íÍ·Ö¸ÕëÏòÁ¿*/
+    Q->colhead = (OLink*)malloc(Q->n * sizeof(OLink)); /*ç”Ÿæˆåˆ—è¡¨å¤´æŒ‡é’ˆå‘é‡*/
 
     if (!M.colhead) {
         exit(-1);
     }
 
-    for (i = 0; i < Q->m; i++) { /*³õÊ¼»¯¾ØÕóQµÄÐÐ±íÍ·Ö¸ÕëÏòÁ¿£¬½«¸÷ÐÐÁ´±íÎª¿Õ*/
+    for (i = 0; i < Q->m; i++) { /*åˆå§‹åŒ–çŸ©é˜µQçš„è¡Œè¡¨å¤´æŒ‡é’ˆå‘é‡ï¼Œå°†å„è¡Œé“¾è¡¨ä¸ºç©º*/
         Q->rowhead[i] = NULL;
     }
 
-    for (i = 0; i < Q->n; i++) { /*³õÊ¼»¯¾ØÕóQµÄÁÐ±íÍ·Ö¸ÕëÏòÁ¿£¬½«¸÷ÁÐÁ´±íÎª¿Õ*/
+    for (i = 0; i < Q->n; i++) { /*åˆå§‹åŒ–çŸ©é˜µQçš„åˆ—è¡¨å¤´æŒ‡é’ˆå‘é‡ï¼Œå°†å„åˆ—é“¾è¡¨ä¸ºç©º*/
         Q->colhead[i] = NULL;
     }
 
-    /*Á½¸ö¾ØÕóµÄÏà³Ë*/
+    /*ä¸¤ä¸ªçŸ©é˜µçš„ç›¸ä¹˜*/
     for (i = 0; i < Q->m; i++)
         for (j = 0; j < Q->n; j++) {
             pm = M.rowhead[i];
@@ -79,20 +79,20 @@ void MultMatrix(CrossList M, CrossList N, CrossList* Q)
             while (pm && pn)
                 switch (CompareElement(pn->i, pm->j)) {
                 case -1:
-                    pn = pn->down; /*ÁÐÖ¸ÕëºóÒÆ*/
+                    pn = pn->down; /*åˆ—æŒ‡é’ˆåŽç§»*/
                     break;
 
                 case 0:
                     e += pm->e * pn->e;
-                    pn = pn->down; /*ÐÐÁÐÖ¸Õë¾ùºóÒÆ*/
+                    pn = pn->down; /*è¡Œåˆ—æŒ‡é’ˆå‡åŽç§»*/
                     pm = pm->right;
                     break;
 
                 case 1:
-                    pm = pm->right; /*ÐÐÖ¸ÕëºóÒÆ*/
+                    pm = pm->right; /*è¡ŒæŒ‡é’ˆåŽç§»*/
                 }
 
-            if (e) {             /*Èç¹ûÏà³Ë½á¹û²»Îª0£¬Ôò½«¸ÃÖµ²åÈëµ½QÖÐ*/
+            if (e) {             /*å¦‚æžœç›¸ä¹˜ç»“æžœä¸ä¸º0ï¼Œåˆ™å°†è¯¥å€¼æ’å…¥åˆ°Qä¸­*/
                 pq = (OLink)malloc(sizeof(OLNode));
 
                 if (!pq) {
@@ -102,16 +102,16 @@ void MultMatrix(CrossList M, CrossList N, CrossList* Q)
                 pq->i = i;
                 pq->j = j;
                 pq->e = e;
-                InsertMatrix(Q, pq); /*½«½áµãpq°´ÐÐÁÐÖµÉýÐò²åµ½¾ØÕóQÖÐ*/
+                InsertMatrix(Q, pq); /*å°†ç»“ç‚¹pqæŒ‰è¡Œåˆ—å€¼å‡åºæ’åˆ°çŸ©é˜µQä¸­*/
             }
         }
 
-    if (Q->len == 0) {       /*Èç¹ûQ¾ØÕóÔªËØ¸öÊýÎª0£¬ÔòÏú»Ù¾ØÕó*/
+    if (Q->len == 0) {       /*å¦‚æžœQçŸ©é˜µå…ƒç´ ä¸ªæ•°ä¸º0ï¼Œåˆ™é”€æ¯çŸ©é˜µ*/
         DestroyMatrix(Q);
     }
 }
 int CompareElement(int a, int b)
-/*±È½ÏÁ½¸öÔªËØÖµµÄ´óÐ¡¡£Èç¹ûa>b£¬·µ»Ø1£¬a=b£¬Ôò·µ»Ø0£¬a<b£¬Ôò·µ»Ø-1*/
+/*æ¯”è¾ƒä¸¤ä¸ªå…ƒç´ å€¼çš„å¤§å°ã€‚å¦‚æžœa>bï¼Œè¿”å›ž1ï¼Œa=bï¼Œåˆ™è¿”å›ž0ï¼Œa<bï¼Œåˆ™è¿”å›ž-1*/
 {
     if (a < b) {
         return -1;

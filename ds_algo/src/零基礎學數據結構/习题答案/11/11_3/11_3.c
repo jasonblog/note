@@ -1,22 +1,22 @@
 #include<stdio.h>
 #include<malloc.h>
 #define MaxSize 20
-typedef struct Node {   /*¹şÏ£±í½áµãÀàĞÍ¶¨Òå*/
+typedef struct Node {   /*å“ˆå¸Œè¡¨ç»“ç‚¹ç±»å‹å®šä¹‰*/
     int key;
     struct Node* next;
 } HashNode;
 
 void CreateHash(int a[], int n, int m, HashNode hash[])
-/*Ê¹ÓÃÁ´µØÖ··¨´´½¨¹şÏ£±í*/
+/*ä½¿ç”¨é“¾åœ°å€æ³•åˆ›å»ºå“ˆå¸Œè¡¨*/
 {
     int i, j;
     HashNode* p;
 
-    for (i = 0; i < m; i++) { /*³õÊ¼»¯Ê±£¬½«±íÍ·µÄnextÓòÖÃÎª¿Õ*/
+    for (i = 0; i < m; i++) { /*åˆå§‹åŒ–æ—¶ï¼Œå°†è¡¨å¤´çš„nextåŸŸç½®ä¸ºç©º*/
         hash[i].next = NULL;
     }
 
-    for (i = 0; i < n; i++) { /*¼ÆËãÔªËØµÄÎ»ÖÃ£¬²¢²åÈëµ½¶ÔÓ¦Á´±íÖĞ*/
+    for (i = 0; i < n; i++) { /*è®¡ç®—å…ƒç´ çš„ä½ç½®ï¼Œå¹¶æ’å…¥åˆ°å¯¹åº”é“¾è¡¨ä¸­*/
         p = (HashNode*)malloc(sizeof(HashNode));
         p->key = a[i];
         j = (3 * a[i]) % m;
@@ -25,19 +25,19 @@ void CreateHash(int a[], int n, int m, HashNode hash[])
     }
 }
 void DispHash(HashNode hash[], int n, int m)
-/*Êä³ö¹şÏ£±í*/
+/*è¾“å‡ºå“ˆå¸Œè¡¨*/
 {
     int asl = 0, asl1;
     HashNode* p;
     int i, j;
-    printf("¹şÏ£±íÎª:\n");
+    printf("å“ˆå¸Œè¡¨ä¸º:\n");
 
     for (i = 0; i < m; i++) {
         printf(" %2d: ", i);
         p = hash[i].next;
         asl1 = j = 0;
 
-        while (p != NULL) { /*Êä³ö¹şÏ£±íÖĞµÄÔªËØ²¢¼ÆËã²éÕÒ³É¹¦Ê±µÄÆ½¾ù²éÕÒ³¤¶È*/
+        while (p != NULL) { /*è¾“å‡ºå“ˆå¸Œè¡¨ä¸­çš„å…ƒç´ å¹¶è®¡ç®—æŸ¥æ‰¾æˆåŠŸæ—¶çš„å¹³å‡æŸ¥æ‰¾é•¿åº¦*/
             j++;
             asl1 = asl1 + j;
             printf("%4d", p->key);
@@ -48,7 +48,7 @@ void DispHash(HashNode hash[], int n, int m)
         printf("\n");
     }
 
-    printf("²éÕÒ³É¹¦Ê±µÄÆ½¾ù²éÕÒ³¤¶ÈÎª:%2.3f\n", asl * 1.0 / n);
+    printf("æŸ¥æ‰¾æˆåŠŸæ—¶çš„å¹³å‡æŸ¥æ‰¾é•¿åº¦ä¸º:%2.3f\n", asl * 1.0 / n);
 }
 
 void main()

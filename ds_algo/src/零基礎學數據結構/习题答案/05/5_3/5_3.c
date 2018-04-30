@@ -2,72 +2,72 @@
 #include<stdlib.h>
 #include<malloc.h>
 typedef int DataType;
-typedef struct QNode { /*¶ÓÁĞÖĞ½áµã¶¨Òå*/
+typedef struct QNode { /*é˜Ÿåˆ—ä¸­ç»“ç‚¹å®šä¹‰*/
     DataType data;
     struct QNode* next;
 } LQNode, *QueuePtr;
-typedef struct { /*Á´Ê½¶ÓÁĞµÄ¶¨Òå*/
-    QueuePtr rear;/*rearÖ¸Ïò¶ÓÁĞÖĞ¶ÓÎ²½áµã*/
+typedef struct { /*é“¾å¼é˜Ÿåˆ—çš„å®šä¹‰*/
+    QueuePtr rear;/*rearæŒ‡å‘é˜Ÿåˆ—ä¸­é˜Ÿå°¾ç»“ç‚¹*/
 } LinkQueue;
 
 
 void InitQueue(LinkQueue* LQ)
-/*Á´Ê½Ñ­»·¶ÓÁĞµÄ³õÊ¼»¯*/
+/*é“¾å¼å¾ªç¯é˜Ÿåˆ—çš„åˆå§‹åŒ–*/
 {
     if ((LQ->rear = (LQNode*)malloc(sizeof(LQNode))) ==
-        NULL) { /*Èç¹ûÉêÇë½áµã¿Õ¼äÊ§°ÜÍË³ö*/
+        NULL) { /*å¦‚æœç”³è¯·ç»“ç‚¹ç©ºé—´å¤±è´¥é€€å‡º*/
         exit(-1);
     } else {
-        LQ->rear->next = LQ->rear;    /*¶ÓÎ²Ö¸ÕëÖ¸ÏòÍ·½áµã*/
+        LQ->rear->next = LQ->rear;    /*é˜Ÿå°¾æŒ‡é’ˆæŒ‡å‘å¤´ç»“ç‚¹*/
     }
 }
 int QueueEmpty(LinkQueue LQ)
-/*ÅĞ¶ÏÁ´Ê½¶ÓÁĞÊÇ·ñÎª¿Õ£¬¶ÓÁĞÎª¿Õ·µ»Ø1£¬·ñÔò·µ»Ø0*/
+/*åˆ¤æ–­é“¾å¼é˜Ÿåˆ—æ˜¯å¦ä¸ºç©ºï¼Œé˜Ÿåˆ—ä¸ºç©ºè¿”å›1ï¼Œå¦åˆ™è¿”å›0*/
 {
-    if (LQ.rear == LQ.rear->next) { /*µ±Á´Ê½¶ÓÁĞÎª¿ÕÊ±£¬·µ»Ø1£¬·ñÔò·µ»Ø0*/
+    if (LQ.rear == LQ.rear->next) { /*å½“é“¾å¼é˜Ÿåˆ—ä¸ºç©ºæ—¶ï¼Œè¿”å›1ï¼Œå¦åˆ™è¿”å›0*/
         return 1;
     } else {
         return 0;
     }
 }
 int EnterQueue(LinkQueue* LQ, DataType e)
-/*½«ÔªËØe²åÈëµ½Á´Ê½¶ÓÁĞLQÖĞ£¬²åÈë³É¹¦·µ»Ø1*/
+/*å°†å…ƒç´ eæ’å…¥åˆ°é“¾å¼é˜Ÿåˆ—LQä¸­ï¼Œæ’å…¥æˆåŠŸè¿”å›1*/
 {
     LQNode* s;
-    s = (LQNode*)malloc(sizeof(LQNode)); /*Îª½«ÒªÈë¶ÓµÄÔªËØÉêÇëÒ»¸ö½áµãµÄ¿Õ¼ä*/
+    s = (LQNode*)malloc(sizeof(LQNode)); /*ä¸ºå°†è¦å…¥é˜Ÿçš„å…ƒç´ ç”³è¯·ä¸€ä¸ªç»“ç‚¹çš„ç©ºé—´*/
 
     if (!s) {
-        exit(-1);    /*Èç¹ûÉêÇë¿Õ¼äÊ§°Ü£¬ÔòÍË³ö²¢·µ»Ø²ÎÊı-1*/
+        exit(-1);    /*å¦‚æœç”³è¯·ç©ºé—´å¤±è´¥ï¼Œåˆ™é€€å‡ºå¹¶è¿”å›å‚æ•°-1*/
     }
 
-    s->data = e;                        /*½«ÔªËØÖµ¸³Öµ¸ø½áµãµÄÊı¾İÓò*/
-    s->next = LQ->rear->next;           /*½«½áµã*s²åÈëµ½¶ÓÁĞÖĞ*/
+    s->data = e;                        /*å°†å…ƒç´ å€¼èµ‹å€¼ç»™ç»“ç‚¹çš„æ•°æ®åŸŸ*/
+    s->next = LQ->rear->next;           /*å°†ç»“ç‚¹*sæ’å…¥åˆ°é˜Ÿåˆ—ä¸­*/
     LQ->rear->next = s;
-    LQ->rear = s;                       /*Ê¹s³ÆÎªĞÂµÄ¶ÓÎ²*/
+    LQ->rear = s;                       /*ä½¿sç§°ä¸ºæ–°çš„é˜Ÿå°¾*/
     return 1;
 }
 
 int DeleteQueue(LinkQueue* LQ, DataType* e)
-/*³ö¶Ó²Ù×÷*/
+/*å‡ºé˜Ÿæ“ä½œ*/
 {
     LQNode* f, *p;
 
     if (LQ->rear ==
-        LQ->rear->next) { /*ÔÚÉ¾³ı¶ÓÍ·ÔªËØ¼´³ö¶ÓÁĞÖ®Ç°£¬ÅĞ¶ÏÁ´Ê½¶ÓÁĞÊÇ·ñÎª¿Õ*/
+        LQ->rear->next) { /*åœ¨åˆ é™¤é˜Ÿå¤´å…ƒç´ å³å‡ºé˜Ÿåˆ—ä¹‹å‰ï¼Œåˆ¤æ–­é“¾å¼é˜Ÿåˆ—æ˜¯å¦ä¸ºç©º*/
         return 0;
     } else {
-        f = LQ->rear->next;         /*Ê¹Ö¸ÕëfÖ¸ÏòÍ·½áµã*/
-        p = f->next;                /*Ê¹Ö¸ÕëpÖ¸ÏòÒªÉ¾³ıµÄ½áµã*/
+        f = LQ->rear->next;         /*ä½¿æŒ‡é’ˆfæŒ‡å‘å¤´ç»“ç‚¹*/
+        p = f->next;                /*ä½¿æŒ‡é’ˆpæŒ‡å‘è¦åˆ é™¤çš„ç»“ç‚¹*/
 
-        if (p == LQ->rear) {        /*´¦Àí¶ÓÁĞÖĞÖ»ÓĞÒ»¸ö½áµãµÄÇé¿ö*/
-            LQ->rear = LQ->rear->next;  /*Ê¹Ö¸ÕërearÖ¸ÏòÍ·½áµã*/
+        if (p == LQ->rear) {        /*å¤„ç†é˜Ÿåˆ—ä¸­åªæœ‰ä¸€ä¸ªç»“ç‚¹çš„æƒ…å†µ*/
+            LQ->rear = LQ->rear->next;  /*ä½¿æŒ‡é’ˆrearæŒ‡å‘å¤´ç»“ç‚¹*/
             LQ->rear->next = LQ->rear;
         } else {
-            f->next = p->next;    /*Ê¹Í·½áµãÖ¸ÏòÒª³ö¶ÓÁĞµÄÏÂÒ»¸ö½áµã*/
+            f->next = p->next;    /*ä½¿å¤´ç»“ç‚¹æŒ‡å‘è¦å‡ºé˜Ÿåˆ—çš„ä¸‹ä¸€ä¸ªç»“ç‚¹*/
         }
 
-        *e = p->data;               /*°Ñ¶ÓÍ·ÔªËØÖµ¸³Öµ¸øe*/
-        free(p);                    /*ÊÍ·ÅÖ¸ÕëpÖ¸ÏòµÄ½áµã*/
+        *e = p->data;               /*æŠŠé˜Ÿå¤´å…ƒç´ å€¼èµ‹å€¼ç»™e*/
+        free(p);                    /*é‡Šæ”¾æŒ‡é’ˆpæŒ‡å‘çš„ç»“ç‚¹*/
         return 1;
     }
 }
@@ -83,7 +83,7 @@ void main()
         EnterQueue(&Q, a[i]);
     }
 
-    printf("ÒÀ´ÎÉ¾³ı¶ÓÁĞÖĞµÄÔªËØ£º");
+    printf("ä¾æ¬¡åˆ é™¤é˜Ÿåˆ—ä¸­çš„å…ƒç´ ï¼š");
 
     while (!QueueEmpty(Q)) {
         DeleteQueue(&Q, &e);

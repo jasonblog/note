@@ -1,10 +1,10 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<malloc.h>
 #include<stdlib.h>
 
-typedef int DataType;   /*ÔªËØÀàĞÍ¶¨ÒåÎªÕûĞÍ*/
-typedef struct Node {   /*µ¥Á´±íÀàĞÍ¶¨Òå*/
+typedef int DataType;   /*å…ƒç´ ç±»å‹å®šä¹‰ä¸ºæ•´å‹*/
+typedef struct Node {   /*å•é“¾è¡¨ç±»å‹å®šä¹‰*/
     DataType data;
     struct Node* next;
 } ListNode, *LinkList;
@@ -12,7 +12,7 @@ typedef struct Node {   /*µ¥Á´±íÀàĞÍ¶¨Òå*/
 void InsertSort(LinkList L);
 void CreateList(LinkList L, DataType a[], int n);
 void CreateList(LinkList L, DataType a[], int n)
-/*´´½¨µ¥Á´±í*/
+/*åˆ›å»ºå•é“¾è¡¨*/
 {
     int i;
 
@@ -27,7 +27,7 @@ void main()
     DataType a[] = {87, 34, 22, 93, 102, 56, 39, 21};
     InitList(&L);
     CreateList(L, a, n);
-    printf("ÅÅĞòÇ°£º\n");
+    printf("æ’åºå‰ï¼š\n");
 
     for (p = L->next; p != NULL; p = p->next) {
         printf("%d ", p->data);
@@ -35,7 +35,7 @@ void main()
 
     printf("\n");
     InsertSort(L);
-    printf("ÅÅĞòºó£º\n");
+    printf("æ’åºåï¼š\n");
 
     for (p = L->next; p != NULL; p = p->next) {
         printf("%d ", p->data);
@@ -45,30 +45,30 @@ void main()
 }
 
 void InsertSort(LinkList L)
-/*Á´±íµÄ²åÈëÅÅĞò*/
+/*é“¾è¡¨çš„æ’å…¥æ’åº*/
 {
     ListNode* p = L->next, *pre, *q;
-    L->next = NULL;         /*³õÊ¼Ê±£¬ÒÑÅÅĞòÁ´±íÎª¿Õ*/
+    L->next = NULL;         /*åˆå§‹æ—¶ï¼Œå·²æ’åºé“¾è¡¨ä¸ºç©º*/
 
-    while (p != NULL) {     /*pÊÇÖ¸Ïò´ıÅÅĞòµÄ½áµã*/
+    while (p != NULL) {     /*pæ˜¯æŒ‡å‘å¾…æ’åºçš„ç»“ç‚¹*/
         if (L->next ==
-            NULL) { /*Èç¹û*pÊÇµÚÒ»¸ö½áµã£¬Ôò²åÈëµ½L£¬²¢ÁîÒÑÅÅĞòµÄ×îºóÒ»¸ö½áµãµÄÖ¸ÕëÓòÎª¿Õ*/
+            NULL) { /*å¦‚æœ*pæ˜¯ç¬¬ä¸€ä¸ªç»“ç‚¹ï¼Œåˆ™æ’å…¥åˆ°Lï¼Œå¹¶ä»¤å·²æ’åºçš„æœ€åä¸€ä¸ªç»“ç‚¹çš„æŒ‡é’ˆåŸŸä¸ºç©º*/
             L->next = p;
             p = p->next;
             L->next->next = NULL;
-        } else {            /*pÖ¸Ïò´ıÅÅĞòµÄ½áµã£¬ÔÚLÖ¸ÏòµÄÒÑ¾­ÅÅºÃĞòµÄÁ´±íÖĞ²éÕÒ²åÈëÎ»ÖÃ*/
+        } else {            /*pæŒ‡å‘å¾…æ’åºçš„ç»“ç‚¹ï¼Œåœ¨LæŒ‡å‘çš„å·²ç»æ’å¥½åºçš„é“¾è¡¨ä¸­æŸ¥æ‰¾æ’å…¥ä½ç½®*/
             pre = L;
             q = L->next;
 
-            while (q != NULL && q->data < p->data) { /*ÔÚqÖ¸ÏòµÄÓĞĞò±íÖĞÑ°ÕÒ²åÈëÎ»ÖÃ*/
+            while (q != NULL && q->data < p->data) { /*åœ¨qæŒ‡å‘çš„æœ‰åºè¡¨ä¸­å¯»æ‰¾æ’å…¥ä½ç½®*/
                 pre = q;
                 q = q->next;
             }
 
-            q = p->next;                    /*qÖ¸ÏòpµÄÏÂÒ»¸ö½áµã£¬±£´æ´ıÅÅĞòµÄÖ¸ÕëÎ»ÖÃ*/
-            p->next = pre->next;            /*½«½áµã*p²åÈëµ½½áµã*preµÄºóÃæ*/
+            q = p->next;                    /*qæŒ‡å‘pçš„ä¸‹ä¸€ä¸ªç»“ç‚¹ï¼Œä¿å­˜å¾…æ’åºçš„æŒ‡é’ˆä½ç½®*/
+            p->next = pre->next;            /*å°†ç»“ç‚¹*pæ’å…¥åˆ°ç»“ç‚¹*preçš„åé¢*/
             pre->next = p;
-            p = q;                          /*pÖ¸ÏòÏÂÒ»¸ö´ıÅÅĞòµÄ½áµã*/
+            p = q;                          /*pæŒ‡å‘ä¸‹ä¸€ä¸ªå¾…æ’åºçš„ç»“ç‚¹*/
         }
     }
 }

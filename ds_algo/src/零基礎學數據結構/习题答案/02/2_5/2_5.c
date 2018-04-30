@@ -5,18 +5,18 @@
 void CopyString(char** dest, char* source, int m);
 
 void CopyString(char** dest, char* source, int m)
-/*½«×Ö·û´®sourceÖĞµÄµÚm¸öÒÔºóµÄ×Ö·û¸´ÖÆµ½destÖĞ*/
+/*å°†å­—ç¬¦ä¸²sourceä¸­çš„ç¬¬mä¸ªä»¥åçš„å­—ç¬¦å¤åˆ¶åˆ°destä¸­*/
 {
     int i, n;
-    n = strlen(source);     /*½«×Ö·û´®sourceµÄ³¤¶È*/
-    *dest = (char*)malloc(sizeof(n - m + 2)); /*Îª×Ö·û´®dest·ÖÅäÄÚ´æ¿Õ¼ä*/
+    n = strlen(source);     /*å°†å­—ç¬¦ä¸²sourceçš„é•¿åº¦*/
+    *dest = (char*)malloc(sizeof(n - m + 2)); /*ä¸ºå­—ç¬¦ä¸²deståˆ†é…å†…å­˜ç©ºé—´*/
 
     for (i = m - 1; source[i] != '\0';
-         i++) { /*½«×Ö·û´®sourceµÄµÚm¸öÒÔºóµÄ×Ö·û¸´ÖÆµ½destÖĞ*/
+         i++) { /*å°†å­—ç¬¦ä¸²sourceçš„ç¬¬mä¸ªä»¥åçš„å­—ç¬¦å¤åˆ¶åˆ°destä¸­*/
         ((*dest)[i - m + 1]) = source[i];
     }
 
-    *(*dest + n - m + 2) = '\0'; /*ÔÚ×Ö·û´®destµÄ×îºóÌí¼Ó½áÊø±ê¼Ç*/
+    *(*dest + n - m + 2) = '\0'; /*åœ¨å­—ç¬¦ä¸²destçš„æœ€åæ·»åŠ ç»“æŸæ ‡è®°*/
 
 }
 
@@ -25,8 +25,8 @@ void main()
     int m = 3, a[N];
     char* source = "Hello DataSructure!", *dest;
     CopyString(&dest, source, m);
-    printf("×Ö·û´®sourceÖĞµÄµÄÄÚÈİÊÇ:%s\n", source);
-    printf("½«sourceÖĞµÄµÚ%d¸öÒÔºóµÄ×Ö·û¸´ÖÆµ½destºó£¬destµÄÄÚÈİÊÇ:\n", m);
+    printf("å­—ç¬¦ä¸²sourceä¸­çš„çš„å†…å®¹æ˜¯:%s\n", source);
+    printf("å°†sourceä¸­çš„ç¬¬%dä¸ªä»¥åçš„å­—ç¬¦å¤åˆ¶åˆ°deståï¼Œdestçš„å†…å®¹æ˜¯:\n", m);
     printf("%s", dest);
     printf("\n");
 }

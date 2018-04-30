@@ -1,13 +1,13 @@
 
-typedef struct Node {           /*¶ş²æÁ´±í´æ´¢½á¹¹ÀàĞÍ¶¨Òå*/
-    DataType data;              /*Êı¾İÓò*/
-    struct Node* lchild;            /*Ö¸Ïò×óº¢×Ó½áµã*/
-    struct Node* rchild;            /*Ö¸ÏòÓÒº¢×Ó½áµã*/
+typedef struct Node {           /*äºŒå‰é“¾è¡¨å­˜å‚¨ç»“æ„ç±»å‹å®šä¹‰*/
+    DataType data;              /*æ•°æ®åŸŸ*/
+    struct Node* lchild;            /*æŒ‡å‘å·¦å­©å­ç»“ç‚¹*/
+    struct Node* rchild;            /*æŒ‡å‘å³å­©å­ç»“ç‚¹*/
 }* BiTree, BitNode;
 
 
 void InitBitTree(BiTree* T)
-/*¶ş²æÊ÷µÄ³õÊ¼»¯²Ù×÷*/
+/*äºŒå‰æ ‘çš„åˆå§‹åŒ–æ“ä½œ*/
 {
     *T = NULL;
 }
@@ -19,7 +19,7 @@ void InitBitTree(BiTree* T)
 //     BiTree b;
 //     ch = getchar();
 //
-//     if(ch == '@')     //±íÊ¾¸Ã½áµãÎª¿Õ½áµã
+//     if(ch == '@')     //è¡¨ç¤ºè¯¥ç»“ç‚¹ä¸ºç©ºç»“ç‚¹
 //     {
 //          b = NULL;
 //     }
@@ -41,9 +41,9 @@ void InitBitTree(BiTree* T)
 
 
 void DestroyBitTree(BiTree* T)
-/*Ïú»Ù¶ş²æÊ÷²Ù×÷*/
+/*é”€æ¯äºŒå‰æ ‘æ“ä½œ*/
 {
-    if (*T) {                       /*Èç¹ûÊÇ·Ç¿Õ¶ş²æÊ÷*/
+    if (*T) {                       /*å¦‚æœæ˜¯éç©ºäºŒå‰æ ‘*/
         if ((*T)->lchild) {
             DestroyBitTree(&((*T)->lchild));
         }
@@ -57,7 +57,7 @@ void DestroyBitTree(BiTree* T)
     }
 }
 void CreateBitTree(BiTree* T)
-/*µİ¹é´´½¨¶ş²æÊ÷*/
+/*é€’å½’åˆ›å»ºäºŒå‰æ ‘*/
 {
     DataType ch;
     scanf("%c", &ch);
@@ -65,65 +65,65 @@ void CreateBitTree(BiTree* T)
     if (ch == '#') {
         *T = NULL;
     } else {
-        *T = (BiTree)malloc(sizeof(BitNode));       /*Éú³É¸ù½áµã*/
+        *T = (BiTree)malloc(sizeof(BitNode));       /*ç”Ÿæˆæ ¹ç»“ç‚¹*/
 
         if (!(*T)) {
             exit(-1);
         }
 
         (*T)->data = ch;
-        CreateBitTree(&((*T)->lchild));             /*¹¹Ôì×ó×ÓÊ÷*/
-        CreateBitTree(&((*T)->rchild));             /*¹¹ÔìÓÒ×ÓÊ÷*/
+        CreateBitTree(&((*T)->lchild));             /*æ„é€ å·¦å­æ ‘*/
+        CreateBitTree(&((*T)->rchild));             /*æ„é€ å³å­æ ‘*/
     }
 }
 int InsertLeftChild(BiTree p, BiTree c)
-/*¶ş²æÊ÷µÄ×ó²åÈë²Ù×÷*/
+/*äºŒå‰æ ‘çš„å·¦æ’å…¥æ“ä½œ*/
 {
-    if (p) {                                /*Èç¹ûÖ¸Õëp²»¿Õ*/
-        c->rchild = p->lchild;                  /*pµÄÔ­À´µÄ×ó×ÓÊ÷³ÉÎªcµÄÓÒ×ÓÊ÷*/
-        p->lchild = c;                      /*×ÓÊ÷c×÷ÎªpµÄ×ó×ÓÊ÷*/
+    if (p) {                                /*å¦‚æœæŒ‡é’ˆpä¸ç©º*/
+        c->rchild = p->lchild;                  /*pçš„åŸæ¥çš„å·¦å­æ ‘æˆä¸ºcçš„å³å­æ ‘*/
+        p->lchild = c;                      /*å­æ ‘cä½œä¸ºpçš„å·¦å­æ ‘*/
         return 1;
     }
 
     return 0;
 }
 int InsertRightChild(BiTree p, BiTree c)
-/*¶ş²æÊ÷µÄÓÒ²åÈë²Ù×÷*/
+/*äºŒå‰æ ‘çš„å³æ’å…¥æ“ä½œ*/
 {
-    if (p) {                                /*Èç¹ûÖ¸Õëp²»¿Õ*/
-        c->rchild = p->rchild;                  /*pµÄÔ­À´µÄÓÒ×ÓÊ÷×÷ÎªcµÄÓÒ×ÓÊ÷*/
-        p->rchild = c;                      /*×ÓÊ÷c×÷ÎªpµÄÓÒ×ÓÊ÷*/
+    if (p) {                                /*å¦‚æœæŒ‡é’ˆpä¸ç©º*/
+        c->rchild = p->rchild;                  /*pçš„åŸæ¥çš„å³å­æ ‘ä½œä¸ºcçš„å³å­æ ‘*/
+        p->rchild = c;                      /*å­æ ‘cä½œä¸ºpçš„å³å­æ ‘*/
         return 1;
     }
 
     return 0;
 }
 BiTree Point(BiTree T, DataType e)
-/*²éÕÒÔªËØÖµÎªeµÄ½áµãµÄÖ¸Õë*/
+/*æŸ¥æ‰¾å…ƒç´ å€¼ä¸ºeçš„ç»“ç‚¹çš„æŒ‡é’ˆ*/
 {
-    BiTree Q[MaxSize];          /*¶¨ÒåÒ»¸ö¶ÓÁĞ£¬ÓÃÓÚ´æ·Å¶ş²æÊ÷ÖĞ½áµãµÄÖ¸Õë*/
-    int front = 0, rear = 0;        /*³õÊ¼»¯¶ÓÁĞ*/
+    BiTree Q[MaxSize];          /*å®šä¹‰ä¸€ä¸ªé˜Ÿåˆ—ï¼Œç”¨äºå­˜æ”¾äºŒå‰æ ‘ä¸­ç»“ç‚¹çš„æŒ‡é’ˆ*/
+    int front = 0, rear = 0;        /*åˆå§‹åŒ–é˜Ÿåˆ—*/
     BitNode* p;
 
-    if (T) {                    /*Èç¹û¶ş²æÊ÷·Ç¿Õ*/
+    if (T) {                    /*å¦‚æœäºŒå‰æ ‘éç©º*/
         Q[rear] = T;
         rear++;
 
-        while (front != rear) { /*Èç¹û¶ÓÁĞ·Ç¿Õ*/
-            p = Q[front];           /*È¡³ö¶ÓÍ·Ö¸Õë*/
-            front++;            /*½«¶ÓÍ·Ö¸Õë³ö¶Ó*/
+        while (front != rear) { /*å¦‚æœé˜Ÿåˆ—éç©º*/
+            p = Q[front];           /*å–å‡ºé˜Ÿå¤´æŒ‡é’ˆ*/
+            front++;            /*å°†é˜Ÿå¤´æŒ‡é’ˆå‡ºé˜Ÿ*/
 
             if (p->data == e) {
                 return p;
             }
 
-            if (p->lchild) {        /*Èç¹û×óº¢×Ó½áµã´æÔÚ£¬½«×óº¢×ÓÖ¸ÕëÈë¶Ó*/
-                Q[rear] = p->lchild; /*×óº¢×Ó½áµãµÄÖ¸ÕëÈë¶Ó*/
+            if (p->lchild) {        /*å¦‚æœå·¦å­©å­ç»“ç‚¹å­˜åœ¨ï¼Œå°†å·¦å­©å­æŒ‡é’ˆå…¥é˜Ÿ*/
+                Q[rear] = p->lchild; /*å·¦å­©å­ç»“ç‚¹çš„æŒ‡é’ˆå…¥é˜Ÿ*/
                 rear++;
             }
 
-            if (p->rchild) {        /*Èç¹ûÓÒº¢×Ó½áµã´æÔÚ£¬½«ÓÒº¢×ÓÖ¸ÕëÈë¶Ó*/
-                Q[rear] = p->rchild; /*ÓÒº¢×Ó½áµãµÄÖ¸ÕëÈë¶Ó*/
+            if (p->rchild) {        /*å¦‚æœå³å­©å­ç»“ç‚¹å­˜åœ¨ï¼Œå°†å³å­©å­æŒ‡é’ˆå…¥é˜Ÿ*/
+                Q[rear] = p->rchild; /*å³å­©å­ç»“ç‚¹çš„æŒ‡é’ˆå…¥é˜Ÿ*/
                 rear++;
             }
         }
@@ -132,50 +132,50 @@ BiTree Point(BiTree T, DataType e)
     return NULL;
 }
 DataType LeftChild(BiTree T, DataType e)
-/*·µ»Ø¶ş²æÊ÷µÄ×óº¢×Ó½áµãÔªËØÖµ²Ù×÷*/
+/*è¿”å›äºŒå‰æ ‘çš„å·¦å­©å­ç»“ç‚¹å…ƒç´ å€¼æ“ä½œ*/
 {
     BiTree p;
 
-    if (T) {                                    /*Èç¹û¶ş²æÊ÷²»¿Õ*/
-        p = Point(T, e);                        /*pÊÇÔªËØÖµeµÄ½áµãµÄÖ¸Õë*/
+    if (T) {                                    /*å¦‚æœäºŒå‰æ ‘ä¸ç©º*/
+        p = Point(T, e);                        /*pæ˜¯å…ƒç´ å€¼eçš„ç»“ç‚¹çš„æŒ‡é’ˆ*/
 
-        if (p && p->lchild) {                       /*Èç¹ûp²»Îª¿ÕÇÒpµÄ×óº¢×Ó½áµã´æÔÚ*/
-            return p->lchild->data;    /*·µ»ØpµÄ×óº¢×Ó½áµãµÄÔªËØÖµ*/
+        if (p && p->lchild) {                       /*å¦‚æœpä¸ä¸ºç©ºä¸”pçš„å·¦å­©å­ç»“ç‚¹å­˜åœ¨*/
+            return p->lchild->data;    /*è¿”å›pçš„å·¦å­©å­ç»“ç‚¹çš„å…ƒç´ å€¼*/
         }
     }
 
     return;
 }
 DataType RightChild(BiTree T, DataType e)
-/*·µ»Ø¶ş²æÊ÷µÄÓÒº¢×Ó½áµãÔªËØÖµ²Ù×÷*/
+/*è¿”å›äºŒå‰æ ‘çš„å³å­©å­ç»“ç‚¹å…ƒç´ å€¼æ“ä½œ*/
 {
     BiTree p;
 
-    if (T) {                                    /*Èç¹û¶ş²æÊ÷²»¿Õ*/
-        p = Point(T, e);                        /*pÊÇÔªËØÖµeµÄ½áµãµÄÖ¸Õë*/
+    if (T) {                                    /*å¦‚æœäºŒå‰æ ‘ä¸ç©º*/
+        p = Point(T, e);                        /*pæ˜¯å…ƒç´ å€¼eçš„ç»“ç‚¹çš„æŒ‡é’ˆ*/
 
-        if (p && p->rchild) {                       /*Èç¹ûp²»Îª¿ÕÇÒpµÄÓÒº¢×Ó½áµã´æÔÚ*/
-            return p->rchild->data;    /*·µ»ØpµÄÓÒº¢×Ó½áµãµÄÔªËØÖµ*/
+        if (p && p->rchild) {                       /*å¦‚æœpä¸ä¸ºç©ºä¸”pçš„å³å­©å­ç»“ç‚¹å­˜åœ¨*/
+            return p->rchild->data;    /*è¿”å›pçš„å³å­©å­ç»“ç‚¹çš„å…ƒç´ å€¼*/
         }
     }
 
     return;
 }
 int DeleteLeftChild(BiTree p)
-/*¶ş²æÊ÷µÄ×óÉ¾³ı²Ù×÷*/
+/*äºŒå‰æ ‘çš„å·¦åˆ é™¤æ“ä½œ*/
 {
-    if (p) {                                    /*Èç¹ûp²»¿Õ*/
-        DestroyBitTree(&(p->lchild));               /*É¾³ı×ó×ÓÊ÷*/
+    if (p) {                                    /*å¦‚æœpä¸ç©º*/
+        DestroyBitTree(&(p->lchild));               /*åˆ é™¤å·¦å­æ ‘*/
         return 1;
     }
 
     return 0;
 }
 int DeleteRightChild(BiTree p)
-/*¶ş²æÊ÷µÄ×óÉ¾³ı²Ù×÷*/
+/*äºŒå‰æ ‘çš„å·¦åˆ é™¤æ“ä½œ*/
 {
-    if (p) {                                    /*Èç¹ûp²»¿Õ*/
-        DestroyBitTree(&(p->rchild));               /*É¾³ıÓÒ×ÓÊ÷*/
+    if (p) {                                    /*å¦‚æœpä¸ç©º*/
+        DestroyBitTree(&(p->rchild));               /*åˆ é™¤å³å­æ ‘*/
         return 1;
     }
 

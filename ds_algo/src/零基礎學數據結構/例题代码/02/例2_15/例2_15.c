@@ -1,23 +1,23 @@
-/*----------------°üº¬Í·ÎÄ¼ş²¿·Ö------------------------*/
+/*----------------åŒ…å«å¤´æ–‡ä»¶éƒ¨åˆ†------------------------*/
 #include<stdio.h>
 #include<stdlib.h>
 #include<malloc.h>
-/*----------------½á¹¹Ìå¶¨Òå²¿·Ö-------------------------*/
+/*----------------ç»“æ„ä½“å®šä¹‰éƒ¨åˆ†-------------------------*/
 struct Node {
     char name[10];
     int score;
     struct Node* next;
 };
 typedef struct Node ListNode;
-/*--------------------º¯ÊıÉùÃ÷²¿·Ö--------------------------*/
+/*--------------------å‡½æ•°å£°æ˜éƒ¨åˆ†--------------------------*/
 ListNode* CreateList(int n);
 void InsertList(ListNode* h, int i, char name[], int score, int n);
 void DeleteList(ListNode* h, int i, int n);
 void PrintList(ListNode* h);
-/*----------------º¯ÊıÊµÏÖ²¿·Ö------------------------*/
-/*----------------´´½¨Á´±í------------------------*/
+/*----------------å‡½æ•°å®ç°éƒ¨åˆ†------------------------*/
+/*----------------åˆ›å»ºé“¾è¡¨------------------------*/
 ListNode* CreateList(int n)
-/*ÔÚÁ´±íµÄÄ©¶Ë²åÈëĞÂµÄ½áµã£¬½¨Á¢Á´±í*/
+/*åœ¨é“¾è¡¨çš„æœ«ç«¯æ’å…¥æ–°çš„ç»“ç‚¹ï¼Œå»ºç«‹é“¾è¡¨*/
 {
     ListNode* head;
     ListNode* p, *pre;
@@ -28,18 +28,18 @@ ListNode* CreateList(int n)
 
     for (i = 1; i <= n; i++) {
         printf("input name of the %d student:", i);
-        p = (ListNode*)malloc(sizeof(ListNode));    /*ÎªÒª²åÈëµÄ½áµã·ÖÅäÄÚ´æ¿Õ¼ä*/
+        p = (ListNode*)malloc(sizeof(ListNode));    /*ä¸ºè¦æ’å…¥çš„ç»“ç‚¹åˆ†é…å†…å­˜ç©ºé—´*/
         scanf("%s", &p->name);
         printf("input score of the %d student:", i);
         scanf("%d", &p->score);
-        pre->next = p;                              /*½«pÖ¸ÏòµÄĞÂ½áµã²åÈëÁ´±í*/
+        pre->next = p;                              /*å°†pæŒ‡å‘çš„æ–°ç»“ç‚¹æ’å…¥é“¾è¡¨*/
         pre = p;
     }
 
     p->next = NULL;
     return head;
 }
-/*--------------------Êä³öÁ´±íÔªËØ------------------*/
+/*--------------------è¾“å‡ºé“¾è¡¨å…ƒç´ ------------------*/
 void PrintList(ListNode* h)
 {
     ListNode* p;
@@ -51,7 +51,7 @@ void PrintList(ListNode* h)
         printf("\n");
     }
 }
-/*--------------------Ö÷º¯Êı------------------*/
+/*--------------------ä¸»å‡½æ•°------------------*/
 void main()
 {
     ListNode* h;
@@ -59,32 +59,32 @@ void main()
     char name[10];
 
     while (i) {
-        /*ÊäÈëÌáÊ¾ĞÅÏ¢*/
-        printf("1--½¨Á¢ĞÂµÄÁ´±í\n");
-        printf("2--Ìí¼ÓÔªËØ\n");
-        printf("3--É¾³ıÔªËØ\n");
-        printf("4--Êä³öµ±Ç°±íÖĞµÄÔªËØ\n");
-        printf("0--ÍË³ö\n");
+        /*è¾“å…¥æç¤ºä¿¡æ¯*/
+        printf("1--å»ºç«‹æ–°çš„é“¾è¡¨\n");
+        printf("2--æ·»åŠ å…ƒç´ \n");
+        printf("3--åˆ é™¤å…ƒç´ \n");
+        printf("4--è¾“å‡ºå½“å‰è¡¨ä¸­çš„å…ƒç´ \n");
+        printf("0--é€€å‡º\n");
 
         scanf("%d", &i);
 
         switch (i) {
         case 1:
-            printf("intput the number of elements.");                   /*ÊäÈë´´½¨Á´±í½áµãµÄ¸öÊı*/
+            printf("intput the number of elements.");                   /*è¾“å…¥åˆ›å»ºé“¾è¡¨ç»“ç‚¹çš„ä¸ªæ•°*/
             scanf("%d", &n);
-            h = CreateList(n);              /*´´½¨Á´±í*/
+            h = CreateList(n);              /*åˆ›å»ºé“¾è¡¨*/
             printf("list elements is:\n");
-            PrintList(h);                   /*Êä³öÁ´±íÔªËØ*/
+            PrintList(h);                   /*è¾“å‡ºé“¾è¡¨å…ƒç´ */
             break;
 
         case 2:
             printf("input the position. of insert element:");
-            scanf("%d", &i);                /*ÔÚÁ´±íµÄµÚi¸öÎ»ÖÃ²åÈë*/
+            scanf("%d", &i);                /*åœ¨é“¾è¡¨çš„ç¬¬iä¸ªä½ç½®æ’å…¥*/
             printf("input name of the student:");
             scanf("%s", name);
             printf("input score of the student:");
             scanf("%d", &score);
-            InsertList(h, i, name, score, n); /*²åÈë½áµã*/
+            InsertList(h, i, name, score, n); /*æ’å…¥ç»“ç‚¹*/
             printf("list elements is:\n");
             PrintList(h);
             break;
@@ -92,7 +92,7 @@ void main()
         case 3:
             printf("input the position. of delete element:");
             scanf("%d", &i);
-            DeleteList(h, i, n);            /*É¾³ıÁ´±íµÄµÚi¸ö½áµã*/
+            DeleteList(h, i, n);            /*åˆ é™¤é“¾è¡¨çš„ç¬¬iä¸ªç»“ç‚¹*/
             printf("list elements is:\n");
             PrintList(h);
             break;
@@ -112,7 +112,7 @@ void main()
     }
 
 }
-/*-----------------²åÈëÁ´±í½áµã--------------------------*/
+/*-----------------æ’å…¥é“¾è¡¨ç»“ç‚¹--------------------------*/
 void InsertList(ListNode* h, int i, char name[], int e, int n)
 {
     ListNode* q, *p;
@@ -129,14 +129,14 @@ void InsertList(ListNode* h, int i, char name[], int e, int n)
             j++;
         }
 
-        q = (ListNode*)malloc(sizeof(ListNode)); /*ÎªÒª²åÈëµÄ½áµã·ÖÅäÄÚ´æ¿Õ¼ä*/
+        q = (ListNode*)malloc(sizeof(ListNode)); /*ä¸ºè¦æ’å…¥çš„ç»“ç‚¹åˆ†é…å†…å­˜ç©ºé—´*/
         strcpy(q->name, name);
         q->score = e;
-        q->next = p->next; /*°ÑĞÂ½áµã²åÈëµ½Á´±íÖĞ*/
+        q->next = p->next; /*æŠŠæ–°ç»“ç‚¹æ’å…¥åˆ°é“¾è¡¨ä¸­*/
         p->next = q;
     }
 }
-/*----------------É¾³ıÁ´±í½áµã------------------*/
+/*----------------åˆ é™¤é“¾è¡¨ç»“ç‚¹------------------*/
 void DeleteList(ListNode* h, int i, int n)
 {
     ListNode* p, *q;
@@ -155,11 +155,11 @@ void DeleteList(ListNode* h, int i, int n)
             j++;
         }
 
-        q = p->next;                            /*qÖ¸ÏòµÄ½áµãÎªÒªÉ¾³ıµÄ½áµã*/
+        q = p->next;                            /*qæŒ‡å‘çš„ç»“ç‚¹ä¸ºè¦åˆ é™¤çš„ç»“ç‚¹*/
         p->next = q->next;
         strcpy(name, q->name);
         score = q->score;
-        free(q);                                /*ÊÍ·ÅqÖ¸ÏòµÄ½áµã*/
+        free(q);                                /*é‡Šæ”¾qæŒ‡å‘çš„ç»“ç‚¹*/
         printf("name=%s,score=%d\n", name, score);
     }
 }

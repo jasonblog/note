@@ -1,16 +1,16 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include"stdio.h"
 #include"stdlib.h"
 #include"string.h"
 #include<conio.h>
 #define MaxSize 100
-/*¶ş²æÊ÷ÀàĞÍ¶¨Òå*/
+/*äºŒå‰æ ‘ç±»å‹å®šä¹‰*/
 typedef struct Node {
     char data;
     struct Node* lchild, *rchild;
 } BitNode, *BiTree;
 
-/*º¯ÊıÉùÃ÷*/
+/*å‡½æ•°å£°æ˜*/
 void CreateBiTree1(BiTree* T, char* pre, char* in, int len);
 void CreateBiTree2(BiTree* T, char* in, char* post, int len);
 void Visit(BiTree T, BiTree pre, char e, int i);
@@ -18,7 +18,7 @@ void PrintLevel(BiTree T);
 void PrintTLR(BiTree T);
 void PrintLRT(BiTree T);
 void PrintLevel(BiTree T)
-/*°´²ã´ÎÊä³ö¶ş²æÊ÷µÄ½áµã*/
+/*æŒ‰å±‚æ¬¡è¾“å‡ºäºŒå‰æ ‘çš„ç»“ç‚¹*/
 {
     BiTree Queue[MaxSize];
     int front, rear;
@@ -27,71 +27,71 @@ void PrintLevel(BiTree T)
         return;
     }
 
-    front = -1;                         /*³õÊ¼»¯»¯¶ÓÁĞ*/
+    front = -1;                         /*åˆå§‹åŒ–åŒ–é˜Ÿåˆ—*/
     rear = 0;
     Queue[rear] = T;
 
-    while (front != rear) {             /*Èç¹û¶ÓÁĞ²»¿Õ*/
-        front++;                        /*½«¶ÓÍ·ÔªËØ³ö¶Ó*/
-        printf("%4c", Queue[front]->data); /*Êä³ö¶ÓÍ·ÔªËØ*/
+    while (front != rear) {             /*å¦‚æœé˜Ÿåˆ—ä¸ç©º*/
+        front++;                        /*å°†é˜Ÿå¤´å…ƒç´ å‡ºé˜Ÿ*/
+        printf("%4c", Queue[front]->data); /*è¾“å‡ºé˜Ÿå¤´å…ƒç´ */
 
         if (Queue[front]->lchild !=
-            NULL) { /*Èç¹û¶ÓÍ·ÔªËØµÄ×óº¢×Ó½áµã²»Îª¿Õ£¬Ôò½«×óº¢×ÓÈë¶Ó*/
+            NULL) { /*å¦‚æœé˜Ÿå¤´å…ƒç´ çš„å·¦å­©å­ç»“ç‚¹ä¸ä¸ºç©ºï¼Œåˆ™å°†å·¦å­©å­å…¥é˜Ÿ*/
             rear++;
             Queue[rear] = Queue[front]->lchild;
         }
 
         if (Queue[front]->rchild !=
-            NULL) { /*Èç¹û¶ÓÍ·ÔªËØµÄÓÒº¢×Ó½áµã²»Îª¿Õ£¬Ôò½«ÓÒº¢×ÓÈë¶Ó*/
+            NULL) { /*å¦‚æœé˜Ÿå¤´å…ƒç´ çš„å³å­©å­ç»“ç‚¹ä¸ä¸ºç©ºï¼Œåˆ™å°†å³å­©å­å…¥é˜Ÿ*/
             rear++;
             Queue[rear] = Queue[front]->rchild;
         }
     }
 }
 void PrintTLR(BiTree T)
-/*ÏÈĞòÊä³ö¶ş²æÊ÷µÄ½áµã*/
+/*å…ˆåºè¾“å‡ºäºŒå‰æ ‘çš„ç»“ç‚¹*/
 {
     if (T != NULL) {
-        printf("%4c ", T->data); /*Êä³ö¸ù½áµã*/
-        PrintTLR(T->lchild);    /*ÏÈĞò±éÀú×ó×ÓÊ÷*/
-        PrintTLR(T->rchild);    /*ÏÈĞò±éÀúÓÒ×ÓÊ÷*/
+        printf("%4c ", T->data); /*è¾“å‡ºæ ¹ç»“ç‚¹*/
+        PrintTLR(T->lchild);    /*å…ˆåºéå†å·¦å­æ ‘*/
+        PrintTLR(T->rchild);    /*å…ˆåºéå†å³å­æ ‘*/
     }
 }
 void PrintLRT(BiTree T)
-/*ºóĞòÊä³ö¶ş²æÊ÷µÄ½áµã*/
+/*ååºè¾“å‡ºäºŒå‰æ ‘çš„ç»“ç‚¹*/
 {
     if (T != NULL) {
-        PrintLRT(T->lchild);    /*ÏÈĞò±éÀú×ó×ÓÊ÷*/
-        PrintLRT(T->rchild);    /*ÏÈĞò±éÀúÓÒ×ÓÊ÷*/
-        printf("%4c", T->data); /*Êä³ö¸ù½áµã*/
+        PrintLRT(T->lchild);    /*å…ˆåºéå†å·¦å­æ ‘*/
+        PrintLRT(T->rchild);    /*å…ˆåºéå†å³å­æ ‘*/
+        printf("%4c", T->data); /*è¾“å‡ºæ ¹ç»“ç‚¹*/
     }
 }
 
 void Visit(BiTree T, BiTree pre, char e, int i)
-/*·ÃÎÊ½áµãe*/
+/*è®¿é—®ç»“ç‚¹e*/
 {
     if (T == NULL && pre == NULL) {
-        printf("\n¶Ô²»Æğ£¡Äã»¹Ã»ÓĞ½¨Á¢¶ş²æÊ÷£¬ÏÈ½¨Á¢ÔÙ½øĞĞ·ÃÎÊ£¡\n");
+        printf("\nå¯¹ä¸èµ·ï¼ä½ è¿˜æ²¡æœ‰å»ºç«‹äºŒå‰æ ‘ï¼Œå…ˆå»ºç«‹å†è¿›è¡Œè®¿é—®ï¼\n");
         return;
     }
 
     if (T == NULL) {
         return;
-    } else if (T->data == e) {      /*Èç¹ûÕÒµ½½áµãe£¬ÔòÊä³ö½áµãµÄË«Ç×½áµã*/
+    } else if (T->data == e) {      /*å¦‚æœæ‰¾åˆ°ç»“ç‚¹eï¼Œåˆ™è¾“å‡ºç»“ç‚¹çš„åŒäº²ç»“ç‚¹*/
         if (pre != NULL) {
-            printf("%2cµÄË«Ç×½áµãÊÇÊÇ:%2c\n", e, pre->data);
-            printf("%2c½áµãÔÚ%2d²ãÉÏ\n", e, i);
+            printf("%2cçš„åŒäº²ç»“ç‚¹æ˜¯æ˜¯:%2c\n", e, pre->data);
+            printf("%2cç»“ç‚¹åœ¨%2då±‚ä¸Š\n", e, i);
         } else {
-            printf("%2cÎ»ÓÚµÚ1²ã£¬ÎŞË«Ç×½áµã£¡\n", e);
+            printf("%2cä½äºç¬¬1å±‚ï¼Œæ— åŒäº²ç»“ç‚¹ï¼\n", e);
         }
     } else {
-        Visit(T->lchild, T, e, i + 1); /*±éÀú×ó×ÓÊ÷*/
-        Visit(T->rchild, T, e, i + 1); /*±éÀúÓÒ×ÓÊ÷*/
+        Visit(T->lchild, T, e, i + 1); /*éå†å·¦å­æ ‘*/
+        Visit(T->rchild, T, e, i + 1); /*éå†å³å­æ ‘*/
     }
 }
 
 void CreateBiTree1(BiTree* T, char* pre, char* in, int len)
-/*ÓÉÏÈĞòĞòÁĞºÍÖĞĞòĞòÁĞ¹¹Ôì¶ş²æÊ÷*/
+/*ç”±å…ˆåºåºåˆ—å’Œä¸­åºåºåˆ—æ„é€ äºŒå‰æ ‘*/
 {
     int k;
     char* temp;
@@ -101,21 +101,21 @@ void CreateBiTree1(BiTree* T, char* pre, char* in, int len)
         return;
     }
 
-    *T = (BitNode*)malloc(sizeof(BitNode)); /*Éú³É¸ù½áµã*/
+    *T = (BitNode*)malloc(sizeof(BitNode)); /*ç”Ÿæˆæ ¹ç»“ç‚¹*/
     (*T)->data = *pre;
 
-    for (temp = in; temp < in + len; temp++) /*ÔÚÖĞĞòĞòÁĞinÖĞÕÒµ½¸ù½áµãËùÔÚµÄÎ»ÖÃ*/
+    for (temp = in; temp < in + len; temp++) /*åœ¨ä¸­åºåºåˆ—inä¸­æ‰¾åˆ°æ ¹ç»“ç‚¹æ‰€åœ¨çš„ä½ç½®*/
         if (*pre == *temp) {
             break;
         }
 
-    k = temp - in;                      /*×ó×ÓÊ÷µÄ³¤¶È*/
-    CreateBiTree1(&((*T)->lchild), pre + 1, in, k); /*½¨Á¢×ó×ÓÊ÷*/
+    k = temp - in;                      /*å·¦å­æ ‘çš„é•¿åº¦*/
+    CreateBiTree1(&((*T)->lchild), pre + 1, in, k); /*å»ºç«‹å·¦å­æ ‘*/
     CreateBiTree1(&((*T)->rchild), pre + 1 + k, temp + 1,
-                  len - 1 - k); /*½¨Á¢ÓÒ×ÓÊ÷*/
+                  len - 1 - k); /*å»ºç«‹å³å­æ ‘*/
 }
 void CreateBiTree2(BiTree* T, char* in, char* post, int len)
-/*ÓÉÖĞĞòĞòÁĞºÍºóĞòĞòÁĞ¹¹Ôì¶ş²æÊ÷*/
+/*ç”±ä¸­åºåºåˆ—å’Œååºåºåˆ—æ„é€ äºŒå‰æ ‘*/
 {
 
     int k;
@@ -126,17 +126,17 @@ void CreateBiTree2(BiTree* T, char* in, char* post, int len)
         return;
     }
 
-    for (temp = in; temp < in + len; temp++) /*ÔÚÖĞĞòĞòÁĞinÖĞÕÒµ½¸ù½áµãËùÔÚµÄÎ»ÖÃ*/
+    for (temp = in; temp < in + len; temp++) /*åœ¨ä¸­åºåºåˆ—inä¸­æ‰¾åˆ°æ ¹ç»“ç‚¹æ‰€åœ¨çš„ä½ç½®*/
         if (*(post + len - 1) == *temp) {
-            k = temp - in;          /*×ó×ÓÊ÷µÄ³¤¶È*/
+            k = temp - in;          /*å·¦å­æ ‘çš„é•¿åº¦*/
             (*T) = (BitNode*)malloc(sizeof(BitNode));
             (*T)->data = *temp;
             break;
         }
 
-    CreateBiTree2(&((*T)->lchild), in, post, k);            /*½¨Á¢×ó×ÓÊ÷*/
+    CreateBiTree2(&((*T)->lchild), in, post, k);            /*å»ºç«‹å·¦å­æ ‘*/
     CreateBiTree2(&((*T)->rchild), in + k + 1, post + k,
-                  len - k - 1); /*½¨Á¢ÓÒ×ÓÊ÷*/
+                  len - k - 1); /*å»ºç«‹å³å­æ ‘*/
 }
 
 
@@ -147,39 +147,39 @@ void main()
     int len;
     char pre[MaxSize], in[MaxSize], post[MaxSize];
     T = NULL;
-    /*ÓÉÖĞĞòĞòÁĞºÍºóĞòĞòÁĞ¹¹Ôì¶ş²æÊ÷*/
-    printf("ÓÉÏÈĞòĞòÁĞºÍÖĞĞòĞòÁĞ¹¹Ôì¶ş²æÊ÷£º\n");
-    printf("ÇëÄãÊäÈëÏÈĞòµÄ×Ö·û´®ĞòÁĞ£º");
+    /*ç”±ä¸­åºåºåˆ—å’Œååºåºåˆ—æ„é€ äºŒå‰æ ‘*/
+    printf("ç”±å…ˆåºåºåˆ—å’Œä¸­åºåºåˆ—æ„é€ äºŒå‰æ ‘ï¼š\n");
+    printf("è¯·ä½ è¾“å…¥å…ˆåºçš„å­—ç¬¦ä¸²åºåˆ—ï¼š");
     gets(pre);
-    printf("ÇëÄãÊäÈëÖĞĞòµÄ×Ö·û´®ĞòÁĞ£º");
+    printf("è¯·ä½ è¾“å…¥ä¸­åºçš„å­—ç¬¦ä¸²åºåˆ—ï¼š");
     gets(in);
     len = strlen(pre);
     CreateBiTree1(&T, pre, in, len);
-    /*ºóĞòºÍ²ã´ÎÊä³ö¶ş²æÊ÷µÄ½áµã*/
-    printf("Äã½¨Á¢µÄ¶ş²æÊ÷ºóĞò±éÀú½á¹ûÊÇ£º\n");
+    /*ååºå’Œå±‚æ¬¡è¾“å‡ºäºŒå‰æ ‘çš„ç»“ç‚¹*/
+    printf("ä½ å»ºç«‹çš„äºŒå‰æ ‘ååºéå†ç»“æœæ˜¯ï¼š\n");
     PrintLRT(T);
-    printf("\nÄã½¨Á¢µÄ¶ş²æÊ÷²ã´Î±éÀú½á¹ûÊÇ£º\n");
+    printf("\nä½ å»ºç«‹çš„äºŒå‰æ ‘å±‚æ¬¡éå†ç»“æœæ˜¯ï¼š\n");
     PrintLevel(T);
     printf("\n");
-    printf("ÇëÄãÊäÈëÄãÒª·ÃÎÊµÄ½áµã£º");
+    printf("è¯·ä½ è¾“å…¥ä½ è¦è®¿é—®çš„ç»“ç‚¹ï¼š");
     ch = getchar();
     getchar();
     Visit(T, ptr, ch, 1);
-    /*ÓÉÖĞĞòĞòÁĞºÍºóĞòĞòÁĞ¹¹Ôì¶ş²æÊ÷*/
-    printf("ÓÉÏÈĞòĞòÁĞºÍÖĞĞòĞòÁĞ¹¹Ôì¶ş²æÊ÷£º\n");
-    printf("ÇëÄãÊäÈëÖĞĞòµÄ×Ö·û´®ĞòÁĞ£º");
+    /*ç”±ä¸­åºåºåˆ—å’Œååºåºåˆ—æ„é€ äºŒå‰æ ‘*/
+    printf("ç”±å…ˆåºåºåˆ—å’Œä¸­åºåºåˆ—æ„é€ äºŒå‰æ ‘ï¼š\n");
+    printf("è¯·ä½ è¾“å…¥ä¸­åºçš„å­—ç¬¦ä¸²åºåˆ—ï¼š");
     gets(in);
-    printf("ÇëÄãÊäÈëºóĞòµÄ×Ö·û´®ĞòÁĞ£º");
+    printf("è¯·ä½ è¾“å…¥ååºçš„å­—ç¬¦ä¸²åºåˆ—ï¼š");
     gets(post);
     len = strlen(post);
     CreateBiTree2(&T, in, post, len);
-    /*ÏÈĞòºÍ²ã´ÎÊä³ö¶ş²æÊ÷µÄ½áµã*/
-    printf("\nÄã½¨Á¢µÄ¶ş²æÊ÷ÏÈĞò±éÀú½á¹ûÊÇ£º\n");
+    /*å…ˆåºå’Œå±‚æ¬¡è¾“å‡ºäºŒå‰æ ‘çš„ç»“ç‚¹*/
+    printf("\nä½ å»ºç«‹çš„äºŒå‰æ ‘å…ˆåºéå†ç»“æœæ˜¯ï¼š\n");
     PrintTLR(T);
-    printf("\nÄã½¨Á¢µÄ¶ş²æÊ÷²ã´Î±éÀú½á¹ûÊÇ£º\n");
+    printf("\nä½ å»ºç«‹çš„äºŒå‰æ ‘å±‚æ¬¡éå†ç»“æœæ˜¯ï¼š\n");
     PrintLevel(T);
     printf("\n");
-    printf("ÇëÄãÊäÈëÄãÒª·ÃÎÊµÄ½áµã£º");
+    printf("è¯·ä½ è¾“å…¥ä½ è¦è®¿é—®çš„ç»“ç‚¹ï¼š");
     ch = getchar();
     getchar();
     Visit(T, ptr, ch, 1);

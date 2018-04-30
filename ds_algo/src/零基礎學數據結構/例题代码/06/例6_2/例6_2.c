@@ -1,45 +1,45 @@
-/*°üº¬Í·ÎÄ¼şºÍ´®µÄÊµÏÖÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶å’Œä¸²çš„å®ç°æ–‡ä»¶*/
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
 #include"HeapString.h"
-void StrPrint(HeapString S);    /*´®µÄÊä³öº¯ÊıÉùÃ÷*/
+void StrPrint(HeapString S);    /*ä¸²çš„è¾“å‡ºå‡½æ•°å£°æ˜*/
 void main()
 {
     HeapString S1, S2, Sub;
     char* p;
     char ch[50];
-    /*³õÊ¼»¯´®S1£¬S2ºÍSub*/
+    /*åˆå§‹åŒ–ä¸²S1ï¼ŒS2å’ŒSub*/
     InitString(&S1);
     InitString(&S2);
     InitString(&Sub);
-    printf("ÇëÊäÈëµÚÒ»¸ö×Ö·û´®£º");
+    printf("è¯·è¾“å…¥ç¬¬ä¸€ä¸ªå­—ç¬¦ä¸²ï¼š");
     gets(ch);
-    StrAssign(&S1, ch);             /*Í¨¹ıÊäÈë½«´®S1¸³Öµ*/
-    printf("¾­¹ı¸³Öµ²Ù×÷ºóµÄ´®S1£º\n");
+    StrAssign(&S1, ch);             /*é€šè¿‡è¾“å…¥å°†ä¸²S1èµ‹å€¼*/
+    printf("ç»è¿‡èµ‹å€¼æ“ä½œåçš„ä¸²S1ï¼š\n");
     StrPrint(S1);
-    printf("ÇëÊäÈëµÚ¶ş¸ö×Ö·û´®£º");
+    printf("è¯·è¾“å…¥ç¬¬äºŒä¸ªå­—ç¬¦ä¸²ï¼š");
     gets(ch);
-    StrAssign(&S2, ch);             /*Í¨¹ıÊäÈë½«´®S2¸³Öµ*/
-    printf("¾­¹ı¸³Öµ²Ù×÷ºóµÄ´®S2£º\n");
+    StrAssign(&S2, ch);             /*é€šè¿‡è¾“å…¥å°†ä¸²S2èµ‹å€¼*/
+    printf("ç»è¿‡èµ‹å€¼æ“ä½œåçš„ä¸²S2ï¼š\n");
     StrPrint(S2);
-    printf("°Ñ´®S2Á¬½ÓÔÚ´®S1µÄÄ©Î²£¬S1´®Îª£º\n");
-    StrCat(&S1, S2);                /*½«´®S2Á¬½ÓÔÚ´®S1µÄÄ©Î²*/
+    printf("æŠŠä¸²S2è¿æ¥åœ¨ä¸²S1çš„æœ«å°¾ï¼ŒS1ä¸²ä¸ºï¼š\n");
+    StrCat(&S1, S2);                /*å°†ä¸²S2è¿æ¥åœ¨ä¸²S1çš„æœ«å°¾*/
     StrPrint(S1);
-    printf("¾­¹ı¸³Öµ²Ù×÷ºóµÄ´®Sub£º\n");
-    StrAssign(&Sub, "Everyone");    /*½«´®Sub¸³Öµ*/
+    printf("ç»è¿‡èµ‹å€¼æ“ä½œåçš„ä¸²Subï¼š\n");
+    StrAssign(&Sub, "Everyone");    /*å°†ä¸²Subèµ‹å€¼*/
     StrPrint(Sub);
-    printf("½«´®S2²åÈëµ½´®S1µÄµÚÒ»Î»ÖÃ£º\n");
-    StrInsert(&S1, 1, Sub);         /*½«´®Sub²åÈëµ½´®S1µÄµÚÒ»Î»ÖÃ*/
+    printf("å°†ä¸²S2æ’å…¥åˆ°ä¸²S1çš„ç¬¬ä¸€ä½ç½®ï¼š\n");
+    StrInsert(&S1, 1, Sub);         /*å°†ä¸²Subæ’å…¥åˆ°ä¸²S1çš„ç¬¬ä¸€ä½ç½®*/
     StrPrint(S1);
-    printf("°Ñ´®S1µÄµÚ1¸öÎ»ÖÃÖ®ºóµÄ8¸ö×Ö·ûÉ¾³ı£º\n");
-    StrDelete(&S1, 1, 8);           /*½«´®S1µÄµÚÒ»Î»ÖÃºóµÄ8¸ö×Ö·ûÉ¾³ı*/
+    printf("æŠŠä¸²S1çš„ç¬¬1ä¸ªä½ç½®ä¹‹åçš„8ä¸ªå­—ç¬¦åˆ é™¤ï¼š\n");
+    StrDelete(&S1, 1, 8);           /*å°†ä¸²S1çš„ç¬¬ä¸€ä½ç½®åçš„8ä¸ªå­—ç¬¦åˆ é™¤*/
     StrPrint(S1);
-    printf("½«´®S1ÖĞµÄS2ÖÃ»»ÎªSub£º\n");
-    StrAssign(&Sub, "Xi'an");       /*½«´®SubÖØĞÂ¸³Öµ*/
-    StrReplace(&S1, S2, Sub);       /*ÓÃ´®SubÈ¡´ú´®S1ÖĞµÄS2*/
+    printf("å°†ä¸²S1ä¸­çš„S2ç½®æ¢ä¸ºSubï¼š\n");
+    StrAssign(&Sub, "Xi'an");       /*å°†ä¸²Subé‡æ–°èµ‹å€¼*/
+    StrReplace(&S1, S2, Sub);       /*ç”¨ä¸²Subå–ä»£ä¸²S1ä¸­çš„S2*/
     StrPrint(S1);
-    /*½«´®S1£¬S2ºÍSubµÄÄÚ´æµ¥ÔªÊÍ·Å*/
+    /*å°†ä¸²S1ï¼ŒS2å’ŒSubçš„å†…å­˜å•å…ƒé‡Šæ”¾*/
     StrDestroy(&S1);
     StrDestroy(&S2);
     StrDestroy(&Sub);

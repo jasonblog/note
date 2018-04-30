@@ -1,45 +1,45 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdlib.h>
 #include<stdio.h>
 #include<malloc.h>
 typedef int KeyType;
-typedef struct {    /*ÔªËØÀàĞÍ¶¨Òå*/
-    KeyType key;    /*¹Ø¼ü×Ö*/
-    int hi;         /*³åÍ»´ÎÊı*/
+typedef struct {    /*å…ƒç´ ç±»å‹å®šä¹‰*/
+    KeyType key;    /*å…³é”®å­—*/
+    int hi;         /*å†²çªæ¬¡æ•°*/
 } DataType;
-typedef struct {    /*¹şÏ£±íÀàĞÍ¶¨Òå*/
+typedef struct {    /*å“ˆå¸Œè¡¨ç±»å‹å®šä¹‰*/
     DataType* data;
-    int tableSize;  /*¹şÏ£±íµÄ³¤¶È*/
-    int curSize;    /*±íÖĞ¹Ø¼ü×Ö¸öÊı*/
+    int tableSize;  /*å“ˆå¸Œè¡¨çš„é•¿åº¦*/
+    int curSize;    /*è¡¨ä¸­å…³é”®å­—ä¸ªæ•°*/
 } HashTable;
 void CreateHashTable(HashTable* H, int m, int p, int hash[], int n);
 int SearchHash(HashTable H, KeyType k);
 void DisplayHash(HashTable H, int m);
 void HashASL(HashTable H, int m);
 void CreateHashTable(HashTable* H, int m, int p, int hash[], int n)
-/*¹¹ÔìÒ»¸ö¿ÕµÄ¹şÏ£±í£¬²¢´¦Àí³åÍ»*/
+/*æ„é€ ä¸€ä¸ªç©ºçš„å“ˆå¸Œè¡¨ï¼Œå¹¶å¤„ç†å†²çª*/
 {
     int i, sum, addr, di, k = 1;
-    (*H).data = (DataType*)malloc(m * sizeof(DataType)); /*Îª¹şÏ£±í·ÖÅä´æ´¢¿Õ¼ä*/
+    (*H).data = (DataType*)malloc(m * sizeof(DataType)); /*ä¸ºå“ˆå¸Œè¡¨åˆ†é…å­˜å‚¨ç©ºé—´*/
 
     if (!(*H).data) {
         exit(-1);
     }
 
-    for (i = 0; i < m; i++) { /*³õÊ¼»¯¹şÏ£±í*/
+    for (i = 0; i < m; i++) { /*åˆå§‹åŒ–å“ˆå¸Œè¡¨*/
         (*H).data[i].key = -1;
         (*H).data[i].hi = 0;
     }
 
-    for (i = 0; i < n; i++) { /*Çó¹şÏ£º¯ÊıµØÖ·²¢´¦Àí³åÍ»*/
-        sum = 0;        /*³åÍ»µÄ´ÎÊı*/
-        addr = hash[i] % p; /*ÀûÓÃ³ıÁôÓàÊı·¨Çó¹şÏ£º¯ÊıµØÖ·*/
+    for (i = 0; i < n; i++) { /*æ±‚å“ˆå¸Œå‡½æ•°åœ°å€å¹¶å¤„ç†å†²çª*/
+        sum = 0;        /*å†²çªçš„æ¬¡æ•°*/
+        addr = hash[i] % p; /*åˆ©ç”¨é™¤ç•™ä½™æ•°æ³•æ±‚å“ˆå¸Œå‡½æ•°åœ°å€*/
         di = addr;
 
-        if ((*H).data[addr].key == -1) { /*Èç¹û²»³åÍ»Ôò½«ÔªËØ´æ´¢ÔÚ±íÖĞ*/
+        if ((*H).data[addr].key == -1) { /*å¦‚æœä¸å†²çªåˆ™å°†å…ƒç´ å­˜å‚¨åœ¨è¡¨ä¸­*/
             (*H).data[addr].key = hash[i];
             (*H).data[addr].hi = 1;
-        } else {                    /*ÓÃÏßĞÔÌ½²âÔÙÉ¢ÁĞ·¨´¦Àí³åÍ»*/
+        } else {                    /*ç”¨çº¿æ€§æ¢æµ‹å†æ•£åˆ—æ³•å¤„ç†å†²çª*/
             do {
                 di = (di + k) % m;
                 sum += 1;
@@ -50,49 +50,49 @@ void CreateHashTable(HashTable* H, int m, int p, int hash[], int n)
         }
     }
 
-    (*H).curSize = n;       /*¹şÏ£±íÖĞ¹Ø¼ü×Ö¸öÊıÎªn*/
-    (*H).tableSize = m;     /*¹şÏ£±íµÄ³¤¶È*/
+    (*H).curSize = n;       /*å“ˆå¸Œè¡¨ä¸­å…³é”®å­—ä¸ªæ•°ä¸ºn*/
+    (*H).tableSize = m;     /*å“ˆå¸Œè¡¨çš„é•¿åº¦*/
 }
 int SearchHash(HashTable H, KeyType k)
-/*ÔÚ¹şÏ£±íHÖĞ²éÕÒ¹Ø¼ü×ÖkµÄÔªËØ*/
+/*åœ¨å“ˆå¸Œè¡¨Hä¸­æŸ¥æ‰¾å…³é”®å­—kçš„å…ƒç´ */
 {
     int d, d1, m;
     m = H.tableSize;
-    d = d1 = k % m;         /*ÇókµÄ¹şÏ£µØÖ·*/
+    d = d1 = k % m;         /*æ±‚kçš„å“ˆå¸Œåœ°å€*/
 
     while (H.data[d].key != -1) {
-        if (H.data[d].key == k) { /*Èç¹ûÊÇÒª²éÕÒµÄ¹Ø¼ü×Ök£¬Ôò·µ»ØkµÄÎ»ÖÃ*/
+        if (H.data[d].key == k) { /*å¦‚æœæ˜¯è¦æŸ¥æ‰¾çš„å…³é”®å­—kï¼Œåˆ™è¿”å›kçš„ä½ç½®*/
             return d;
-        } else {            /*¼ÌĞøÍùºó²éÕÒ*/
+        } else {            /*ç»§ç»­å¾€åæŸ¥æ‰¾*/
             d = (d + 1) % m;
         }
 
-        if (d == d1) {      /*Èç¹û²éÕÒÁË¹şÏ£±íÖĞµÄËùÓĞÎ»ÖÃ£¬Ã»ÓĞÕÒµ½·µ»Ø0*/
+        if (d == d1) {      /*å¦‚æœæŸ¥æ‰¾äº†å“ˆå¸Œè¡¨ä¸­çš„æ‰€æœ‰ä½ç½®ï¼Œæ²¡æœ‰æ‰¾åˆ°è¿”å›0*/
             return 0;
         }
     }
 
-    return 0;               /*¸ÃÎ»ÖÃ²»´æÔÚ¹Ø¼ü×Ök*/
+    return 0;               /*è¯¥ä½ç½®ä¸å­˜åœ¨å…³é”®å­—k*/
 }
 void DisplayHash(HashTable H, int m)
-/*Êä³ö¹şÏ£±í*/
+/*è¾“å‡ºå“ˆå¸Œè¡¨*/
 {
     int i;
-    printf("¹şÏ£±íµØÖ·£º");
+    printf("å“ˆå¸Œè¡¨åœ°å€ï¼š");
 
     for (i = 0; i < m; i++) {
         printf("%-5d", i);
     }
 
     printf("\n");
-    printf("¹Ø¼ü×Ökey:  ");
+    printf("å…³é”®å­—key:  ");
 
     for (i = 0; i < m; i++) {
         printf("%-5d", H.data[i].key);
     }
 
     printf("\n");
-    printf("³åÍ»´ÎÊı£º  ");
+    printf("å†²çªæ¬¡æ•°ï¼š  ");
 
     for (i = 0; i < m; i++) {
         printf("%-5d", H.data[i].hi);
@@ -102,7 +102,7 @@ void DisplayHash(HashTable H, int m)
 
 }
 void HashASL(HashTable H, int m)
-/*Çó¹şÏ£±íµÄÆ½¾ù²éÕÒ³¤¶È*/
+/*æ±‚å“ˆå¸Œè¡¨çš„å¹³å‡æŸ¥æ‰¾é•¿åº¦*/
 {
     float average = 0;
     int i;
@@ -112,7 +112,7 @@ void HashASL(HashTable H, int m)
     }
 
     average = average / H.curSize;
-    printf("Æ½¾ù²éÕÒ³¤¶ÈASL=%.2f", average);
+    printf("å¹³å‡æŸ¥æ‰¾é•¿åº¦ASL=%.2f", average);
     printf("\n");
 }
 
@@ -126,7 +126,7 @@ void main()
     DisplayHash(H, m);
     k = 123;
     pos = SearchHash(H, k);
-    printf("¹Ø¼ü×Ö%dÔÚ¹şÏ£±íÖĞµÄÎ»ÖÃÎª£º%d\n", k, pos);
+    printf("å…³é”®å­—%dåœ¨å“ˆå¸Œè¡¨ä¸­çš„ä½ç½®ä¸ºï¼š%d\n", k, pos);
     HashASL(H, m);
 }
 

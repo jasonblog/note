@@ -1,11 +1,11 @@
 #define ChunkSize 4
 #define stuff '#'
-/*´®µÄ½áµãÀàĞÍ¶¨Òå*/
+/*ä¸²çš„ç»“ç‚¹ç±»å‹å®šä¹‰*/
 typedef struct Chunk {
     char ch[ChunkSize];
     struct Chunk* next;
 } Chunk;
-/*Á´´®µÄÀàĞÍ¶¨Òå*/
+/*é“¾ä¸²çš„ç±»å‹å®šä¹‰*/
 typedef struct {
     Chunk* head;
     Chunk* tail;
@@ -13,53 +13,53 @@ typedef struct {
 } LinkString;
 
 void InitString(LinkString* S)
-/*³õÊ¼»¯×Ö·û´®S*/
+/*åˆå§‹åŒ–å­—ç¬¦ä¸²S*/
 {
-    S->length = 0;          /*½«´®µÄ³¤¶ÈÖÃÎª0*/
-    S->head = S->tail = NULL; /*½«´®µÄÍ·Ö¸ÕëºÍÎ²Ö¸ÕëÖÃÎª¿Õ*/
+    S->length = 0;          /*å°†ä¸²çš„é•¿åº¦ç½®ä¸º0*/
+    S->head = S->tail = NULL; /*å°†ä¸²çš„å¤´æŒ‡é’ˆå’Œå°¾æŒ‡é’ˆç½®ä¸ºç©º*/
 }
 int StrAssign(LinkString* S, char* cstr)
-/*Éú³ÉÒ»¸öÆäÖµµÈÓÚcstrµÄ´®S¡£³É¹¦·µ»Ø1£¬·ñÔò·µ»Ø0*/
+/*ç”Ÿæˆä¸€ä¸ªå…¶å€¼ç­‰äºcstrçš„ä¸²Sã€‚æˆåŠŸè¿”å›1ï¼Œå¦åˆ™è¿”å›0*/
 {
     int i, j, k, len;
     Chunk* p, *q;
-    len = strlen(cstr);                 /*lenÎªÁ´´®µÄ³¤¶È */
+    len = strlen(cstr);                 /*lenä¸ºé“¾ä¸²çš„é•¿åº¦ */
 
     if (!len) {
         return 0;
     }
 
     S->length = len;
-    j = len / ChunkSize;            /*jÎªÁ´´®µÄ½áµãÊı */
+    j = len / ChunkSize;            /*jä¸ºé“¾ä¸²çš„ç»“ç‚¹æ•° */
 
     if (len % ChunkSize) {
         j++;
     }
 
     for (i = 0; i < j; i++) {
-        p = (Chunk*)malloc(sizeof(Chunk));  /*¶¯Ì¬Éú³ÉÒ»¸ö½áµã*/
+        p = (Chunk*)malloc(sizeof(Chunk));  /*åŠ¨æ€ç”Ÿæˆä¸€ä¸ªç»“ç‚¹*/
 
         if (!p) {
             return 0;
         }
 
         for (k = 0; k < ChunkSize &&
-             *cstr; k++) { /*½«×Ö·û´®ctrsÖĞµÄ×Ö·û¸³Öµ¸øÁ´´®µÄÊı¾İÓò*/
+             *cstr; k++) { /*å°†å­—ç¬¦ä¸²ctrsä¸­çš„å­—ç¬¦èµ‹å€¼ç»™é“¾ä¸²çš„æ•°æ®åŸŸ*/
             *(p->ch + k) = *cstr++;
         }
 
-        if (i == 0) {                   /*Èç¹ûÊÇµÚÒ»¸ö½áµã*/
-            S->head = q = p;    /*Í·Ö¸ÕëÖ¸ÏòµÚÒ»¸ö½áµã*/
+        if (i == 0) {                   /*å¦‚æœæ˜¯ç¬¬ä¸€ä¸ªç»“ç‚¹*/
+            S->head = q = p;    /*å¤´æŒ‡é’ˆæŒ‡å‘ç¬¬ä¸€ä¸ªç»“ç‚¹*/
         } else {
             q->next = p;
             q = p;
         }
 
-        if (!*cstr) {                   /*Èç¹ûÊÇ×îºóÒ»¸öÁ´½áµã*/
-            S->tail = q;                /*½«Î²Ö¸ÕëÖ¸Ïò×îºóÒ»¸ö½áµã*/
-            q->next = NULL;             /*½«Î²Ö¸ÕëµÄÖ¸ÕëÓòÖÃÎª¿Õ*/
+        if (!*cstr) {                   /*å¦‚æœæ˜¯æœ€åä¸€ä¸ªé“¾ç»“ç‚¹*/
+            S->tail = q;                /*å°†å°¾æŒ‡é’ˆæŒ‡å‘æœ€åä¸€ä¸ªç»“ç‚¹*/
+            q->next = NULL;             /*å°†å°¾æŒ‡é’ˆçš„æŒ‡é’ˆåŸŸç½®ä¸ºç©º*/
 
-            for (; k < ChunkSize; k++) { /*½«×îºóÒ»¸ö½áµãÓÃ'#'Ìî³ä*/
+            for (; k < ChunkSize; k++) { /*å°†æœ€åä¸€ä¸ªç»“ç‚¹ç”¨'#'å¡«å……*/
                 *(q->ch + k) = stuff;
             }
         }
@@ -68,37 +68,37 @@ int StrAssign(LinkString* S, char* cstr)
     return 1;
 }
 int StrEmpty(LinkString S)
-/*ÅĞ¶Ï´®ÊÇ·ñÎª¿Õ¡£Èç¹ûSÎª¿Õ´®£¬Ôò·µ»Ø1£¬·ñÔò·µ»Ø0*/
+/*åˆ¤æ–­ä¸²æ˜¯å¦ä¸ºç©ºã€‚å¦‚æœSä¸ºç©ºä¸²ï¼Œåˆ™è¿”å›1ï¼Œå¦åˆ™è¿”å›0*/
 {
-    if (S.length == 0) {                 /*Èç¹û´®Îª¿Õ£¬·µ»Ø1 */
+    if (S.length == 0) {                 /*å¦‚æœä¸²ä¸ºç©ºï¼Œè¿”å›1 */
         return 1;
-    } else {                         /*Èç¹û´®·Ç¿Õ£¬·µ»Ø0 */
+    } else {                         /*å¦‚æœä¸²éç©ºï¼Œè¿”å›0 */
         return 0;
     }
 }
 int StrLength(LinkString S)
-/*Çó´®µÄ³¤¶È */
+/*æ±‚ä¸²çš„é•¿åº¦ */
 {
     return S.length;
 }
 int StrCopy(LinkString* T, LinkString S)
-/*´®µÄ¸´ÖÆ²Ù×÷*/
+/*ä¸²çš„å¤åˆ¶æ“ä½œ*/
 {
     char* str;
     int flag;
 
-    if (!ToChars(S, &str)) {    /*½«´®SÖĞµÄ×Ö·û¿½±´µ½×Ö·û´®strÖĞ*/
+    if (!ToChars(S, &str)) {    /*å°†ä¸²Sä¸­çš„å­—ç¬¦æ‹·è´åˆ°å­—ç¬¦ä¸²strä¸­*/
         return 0;
     }
 
-    flag = StrAssign(T, str);   /*½«×Ö·û´®strµÄ×Ö·û¸³Öµµ½´®TÖĞ*/
-    free(str);              /*ÊÍ·ÅstrµÄ¿Õ¼ä */
+    flag = StrAssign(T, str);   /*å°†å­—ç¬¦ä¸²strçš„å­—ç¬¦èµ‹å€¼åˆ°ä¸²Tä¸­*/
+    free(str);              /*é‡Šæ”¾strçš„ç©ºé—´ */
     return flag;
 }
 int ToChars(LinkString S, char** cstr)
-/*´®µÄ×ª»»²Ù×÷¡£½«´®SµÄÄÚÈİ×ª»»Îª×Ö·û´®£¬½«´®SÖĞµÄ×Ö·û¿½±´µ½cstr¡£³É¹¦·µ»Ø1£¬·ñÔò·µ»Ø0*/
+/*ä¸²çš„è½¬æ¢æ“ä½œã€‚å°†ä¸²Sçš„å†…å®¹è½¬æ¢ä¸ºå­—ç¬¦ä¸²ï¼Œå°†ä¸²Sä¸­çš„å­—ç¬¦æ‹·è´åˆ°cstrã€‚æˆåŠŸè¿”å›1ï¼Œå¦åˆ™è¿”å›0*/
 {
-    Chunk* p = S.head;          /*½«pÖ¸Ïò´®SÖĞµÄµÚ1¸ö½áµã*/
+    Chunk* p = S.head;          /*å°†pæŒ‡å‘ä¸²Sä¸­çš„ç¬¬1ä¸ªç»“ç‚¹*/
     int i;
     char* q;
     *cstr = (char*)malloc((S.length + 1) * sizeof(char));
@@ -107,32 +107,32 @@ int ToChars(LinkString S, char** cstr)
         return 0;
     }
 
-    q = *cstr;                  /*½«qÖ¸Ïòcstr */
+    q = *cstr;                  /*å°†qæŒ‡å‘cstr */
 
-    while (p) { /*¿éÁ´Ã»½áÊø */
+    while (p) { /*å—é“¾æ²¡ç»“æŸ */
         for (i = 0; i < ChunkSize; i++)
             if (p->ch[i] !=
-                stuff) { /*Èç¹ûµ±Ç°×Ö·û²»ÊÇÌî³äµÄÌØÊâ×Ö·û'#'£¬Ôò½«SÖĞ×Ö·û¸³Öµ¸øq*/
+                stuff) { /*å¦‚æœå½“å‰å­—ç¬¦ä¸æ˜¯å¡«å……çš„ç‰¹æ®Šå­—ç¬¦'#'ï¼Œåˆ™å°†Sä¸­å­—ç¬¦èµ‹å€¼ç»™q*/
                 *q++ = (p->ch[i]);
             }
 
         p = p->next;
     }
 
-    (*cstr)[S.length] = 0;           /*ÔÚ×Ö·û´®µÄÄ©Î²Ìí¼Ó½áÊø±êÖ¾*/
+    (*cstr)[S.length] = 0;           /*åœ¨å­—ç¬¦ä¸²çš„æœ«å°¾æ·»åŠ ç»“æŸæ ‡å¿—*/
     return 1;
 }
 int StrCompare(LinkString S, LinkString T)
-/*´®µÄ±È½Ï²Ù×÷¡£ÈôSµÄÖµ´óÓÚT£¬Ôò·µ»ØÕıÖµ£»ÈôSµÄÖµµÈÓÚT£¬Ôò·µ»Ø0£»ÈôSµÄÖµĞ¡ÓÚT£¬Ôò·µ»Ø¸ºÖµ*/
+/*ä¸²çš„æ¯”è¾ƒæ“ä½œã€‚è‹¥Sçš„å€¼å¤§äºTï¼Œåˆ™è¿”å›æ­£å€¼ï¼›è‹¥Sçš„å€¼ç­‰äºTï¼Œåˆ™è¿”å›0ï¼›è‹¥Sçš„å€¼å°äºTï¼Œåˆ™è¿”å›è´Ÿå€¼*/
 {
     char* p, *q;
     int flag;
 
-    if (!ToChars(S, &p)) {      /*½«´®S×ª»»Îª×Ö·û´®p*/
+    if (!ToChars(S, &p)) {      /*å°†ä¸²Sè½¬æ¢ä¸ºå­—ç¬¦ä¸²p*/
         return 0;
     }
 
-    if (!ToChars(T, &q)) {      /*½«´®T×ª»»Îª×Ö·û´®q*/
+    if (!ToChars(T, &q)) {      /*å°†ä¸²Tè½¬æ¢ä¸ºå­—ç¬¦ä¸²q*/
         return 0;
     }
 
@@ -144,8 +144,8 @@ int StrCompare(LinkString S, LinkString T)
             flag = *p - *q;
         }
 
-    free(p);                    /*ÊÍ·ÅpµÄ¿Õ¼ä */
-    free(q);                    /*ÊÍ·ÅqµÄ¿Õ¼ä*/
+    free(p);                    /*é‡Šæ”¾pçš„ç©ºé—´ */
+    free(q);                    /*é‡Šæ”¾qçš„ç©ºé—´*/
 
     if (*p == '\0' || *q == '\0') {
         return S.length - T.length;
@@ -154,111 +154,111 @@ int StrCompare(LinkString S, LinkString T)
     }
 }
 int StrConcat(LinkString* T, LinkString S)
-/*´®µÄÁ´½Ó²Ù×÷¡£½«´®SÁ¬½ÓÔÚ´®TµÄÎ²²¿*/
+/*ä¸²çš„é“¾æ¥æ“ä½œã€‚å°†ä¸²Sè¿æ¥åœ¨ä¸²Tçš„å°¾éƒ¨*/
 {
     int flag1, flag2;
     LinkString S1, S2;
     InitString(&S1);
     InitString(&S2);
-    flag1 = StrCopy(&S1, *T);       /*½«´®TµÄÄÚÈİ¿½±´µ½S1ÖĞ*/
-    flag2 = StrCopy(&S2, S);            /*½«´®SµÄÄÚÈİ¿½±´µ½S2ÖĞ*/
+    flag1 = StrCopy(&S1, *T);       /*å°†ä¸²Tçš„å†…å®¹æ‹·è´åˆ°S1ä¸­*/
+    flag2 = StrCopy(&S2, S);            /*å°†ä¸²Sçš„å†…å®¹æ‹·è´åˆ°S2ä¸­*/
 
-    if (flag1 == 0 || flag2 == 0) { /*Èç¹ûÓĞÒ»¸ö´®¿½±´²»³É¹¦£¬Ôò·µ»Ø0*/
+    if (flag1 == 0 || flag2 == 0) { /*å¦‚æœæœ‰ä¸€ä¸ªä¸²æ‹·è´ä¸æˆåŠŸï¼Œåˆ™è¿”å›0*/
         return 0;
     }
 
-    T->head = S1.head;              /*ĞŞ¸Ä´®TµÄÍ·Ö¸Õë*/
-    S1.tail->next = S2.head;        /*½«´®S1ºÍS2Ê×Î²ÏàÁ¬*/
-    T->tail = S2.tail;                  /*ĞŞ¸Ä´®TµÄÎ²Ö¸Õë*/
-    T->length = S.length + T->length;   /*ĞŞ¸Ä´®TµÄ³¤¶È*/
+    T->head = S1.head;              /*ä¿®æ”¹ä¸²Tçš„å¤´æŒ‡é’ˆ*/
+    S1.tail->next = S2.head;        /*å°†ä¸²S1å’ŒS2é¦–å°¾ç›¸è¿*/
+    T->tail = S2.tail;                  /*ä¿®æ”¹ä¸²Tçš„å°¾æŒ‡é’ˆ*/
+    T->length = S.length + T->length;   /*ä¿®æ”¹ä¸²Tçš„é•¿åº¦*/
     return 1;
 }
 int StrInsert(LinkString* S, int pos, LinkString T)
-/*´®µÄ²åÈë²Ù×÷¡£ÔÚ´®SµÄµÚpos¸öÎ»ÖÃ²åÈë´®T*/
+/*ä¸²çš„æ’å…¥æ“ä½œã€‚åœ¨ä¸²Sçš„ç¬¬posä¸ªä½ç½®æ’å…¥ä¸²T*/
 {
     char* t1, *s1;
     int i, j;
     int flag;
 
-    if (pos < 1 || pos > S->length + 1) { /*Èç¹û²åÈëÎ»ÖÃ²»ºÏ·¨*/
+    if (pos < 1 || pos > S->length + 1) { /*å¦‚æœæ’å…¥ä½ç½®ä¸åˆæ³•*/
         return 0;
     }
 
-    if (!ToChars(*S, &s1)) {            /*½«´®S×ª»»Îª×Ö·û´®s1*/
+    if (!ToChars(*S, &s1)) {            /*å°†ä¸²Sè½¬æ¢ä¸ºå­—ç¬¦ä¸²s1*/
         return 0;
     }
 
-    if (!ToChars(T, &t1)) {         /*½«´®T×ª»»Îª×Ö·û´®t1*/
+    if (!ToChars(T, &t1)) {         /*å°†ä¸²Tè½¬æ¢ä¸ºå­—ç¬¦ä¸²t1*/
         return 0;
     }
 
-    j = strlen(s1);                 /*jÎª×Ö·û´®s1µÄ³¤¶È*/
+    j = strlen(s1);                 /*jä¸ºå­—ç¬¦ä¸²s1çš„é•¿åº¦*/
     s1 = (char*)realloc(s1, (j + strlen(t1) + 1) * sizeof(
-                            char)); /*Îªs1ÖØĞÂ·ÖÅä¿Õ¼ä*/
+                            char)); /*ä¸ºs1é‡æ–°åˆ†é…ç©ºé—´*/
 
     for (i = j; i >= pos - 1; i--) {
         s1[i + strlen(t1)] =
-            s1[i];    /*½«×Ö·û´®s1ÖĞµÄµÚposÒÔºóµÄ×Ö·ûÏòºóÒÆ¶¯strlen(t1)¸öÎ»ÖÃ*/
+            s1[i];    /*å°†å­—ç¬¦ä¸²s1ä¸­çš„ç¬¬posä»¥åçš„å­—ç¬¦å‘åç§»åŠ¨strlen(t1)ä¸ªä½ç½®*/
     }
 
-    for (i = 0; i < (int)strlen(t1); i++) { /*ÔÚ×Ö·û´®s1ÖĞ²åÈët1*/
+    for (i = 0; i < (int)strlen(t1); i++) { /*åœ¨å­—ç¬¦ä¸²s1ä¸­æ’å…¥t1*/
         s1[pos + i - 1] = t1[i];
     }
 
-    InitString(S);                  /*ÊÍ·ÅSµÄÔ­ÓĞ´æ´¢¿Õ¼ä*/
-    flag = StrAssign(S, s1);        /*ÓÉs1Éú³É´®S*/
+    InitString(S);                  /*é‡Šæ”¾Sçš„åŸæœ‰å­˜å‚¨ç©ºé—´*/
+    flag = StrAssign(S, s1);        /*ç”±s1ç”Ÿæˆä¸²S*/
     free(t1);
     free(s1);
     return flag;
 }
 int StrDelete(LinkString* S, int pos, int len)
-/*´®µÄÉ¾³ı²Ù×÷¡£½«´®SÖĞµÄµÚpos¸ö×Ö·ûÆğ³¤¶ÈÎªlenµÄ×Ó´®É¾³ı*/
+/*ä¸²çš„åˆ é™¤æ“ä½œã€‚å°†ä¸²Sä¸­çš„ç¬¬posä¸ªå­—ç¬¦èµ·é•¿åº¦ä¸ºlençš„å­ä¸²åˆ é™¤*/
 {
     char* str;
     int i;
     int flag;
 
-    if (pos < 1 || pos > S->length - len + 1 || len < 0) { /*²ÎÊı²»ºÏ·¨*/
+    if (pos < 1 || pos > S->length - len + 1 || len < 0) { /*å‚æ•°ä¸åˆæ³•*/
         return 0;
     }
 
-    if (!ToChars(*S, &str)) {               /*½«´®S×ª»»Îª×Ö·û´®str*/
+    if (!ToChars(*S, &str)) {               /*å°†ä¸²Sè½¬æ¢ä¸ºå­—ç¬¦ä¸²str*/
         return 0;
     }
 
     for (i = pos + len - 1; i <= (int)strlen(str);
-         i++) { /*½«×Ö·û´®ÖĞµÚpos¸ö×Ö·ûÆğµÄ³¤¶ÈÎªlenµÄ×Ó´®É¾³ı*/
+         i++) { /*å°†å­—ç¬¦ä¸²ä¸­ç¬¬posä¸ªå­—ç¬¦èµ·çš„é•¿åº¦ä¸ºlençš„å­ä¸²åˆ é™¤*/
         str[i - len] = str[i];
     }
 
-    InitString(S);                      /*ÊÍ·ÅSµÄÔ­ÓĞ´æ´¢¿Õ¼ä*/
-    flag = StrAssign(S, str);                /*½«×Ö·û´®str×ª»»Îª´®S*/
+    InitString(S);                      /*é‡Šæ”¾Sçš„åŸæœ‰å­˜å‚¨ç©ºé—´*/
+    flag = StrAssign(S, str);                /*å°†å­—ç¬¦ä¸²strè½¬æ¢ä¸ºä¸²S*/
     free(str);
     return flag;
 }
 int SubString(LinkString* Sub, LinkString S, int pos, int len)
-/*È¡×Ó´®²Ù×÷¡£ÓÃSub·µ»Ø´®SµÄµÚpos¸ö×Ö·ûÆğ³¤¶ÈÎªlenµÄ×Ó´®¡£*/
+/*å–å­ä¸²æ“ä½œã€‚ç”¨Subè¿”å›ä¸²Sçš„ç¬¬posä¸ªå­—ç¬¦èµ·é•¿åº¦ä¸ºlençš„å­ä¸²ã€‚*/
 {
     char* t, *str;
     int flag;
 
     if (pos < 1 || pos > S.length || len < 0 ||
-        len > S.length - pos + 1) { /*²ÎÊı²»ºÏ·¨*/
+        len > S.length - pos + 1) { /*å‚æ•°ä¸åˆæ³•*/
         return 0;
     }
 
-    if (!ToChars(S, &str)) {        /*½«´®S×ª»»Îª×Ö·û´®str*/
+    if (!ToChars(S, &str)) {        /*å°†ä¸²Sè½¬æ¢ä¸ºå­—ç¬¦ä¸²str*/
         return 0;
     }
 
-    t = str + pos - 1;          /*tÖ¸Ïò×Ö·û´®strÖĞµÄpos¸ö×Ö·û*/
-    t[len] = '\0';                  /* ½«Sub½áÊø´¦ÖÃÎª'\0'*/
-    flag = StrAssign(Sub, t);   /*½«×Ö·û´®t×ª»»ÎªSub */
+    t = str + pos - 1;          /*tæŒ‡å‘å­—ç¬¦ä¸²strä¸­çš„posä¸ªå­—ç¬¦*/
+    t[len] = '\0';                  /* å°†Subç»“æŸå¤„ç½®ä¸º'\0'*/
+    flag = StrAssign(Sub, t);   /*å°†å­—ç¬¦ä¸²tè½¬æ¢ä¸ºSub */
     free(str);
     return flag;
 }
 void ClearString(LinkString* S)
-/*Çå¿Õ´®²Ù×÷¡£½«´®µÄ¿Õ¼äÊÍ·Å*/
+/*æ¸…ç©ºä¸²æ“ä½œã€‚å°†ä¸²çš„ç©ºé—´é‡Šæ”¾*/
 {
     Chunk* p, *q;
     p = S->head;

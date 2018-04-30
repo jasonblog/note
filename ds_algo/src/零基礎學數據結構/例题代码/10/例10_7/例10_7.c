@@ -1,4 +1,4 @@
-/*°üº¬Í·ÎÄ¼ş¼°Í¼µÄÀàĞÍ¶¨Òå*/
+/*åŒ…å«å¤´æ–‡ä»¶åŠå›¾çš„ç±»å‹å®šä¹‰*/
 #include<stdio.h>
 #include<string.h>
 #include<malloc.h>
@@ -6,24 +6,24 @@
 typedef char VertexType[4];
 typedef char InfoPtr;
 typedef int VRType;
-#define INFINITY 100000         /*¶¨ÒåÒ»¸öÎŞÏŞ´óµÄÖµ*/
-#define MaxSize 50              /*×î´ó¶¥µã¸öÊı*/
+#define INFINITY 100000         /*å®šä¹‰ä¸€ä¸ªæ— é™å¤§çš„å€¼*/
+#define MaxSize 50              /*æœ€å¤§é¡¶ç‚¹ä¸ªæ•°*/
 typedef int
-PathMatrix[MaxSize][MaxSize][MaxSize];      /*´æ´¢Í¼¸÷¸ö¶¥µãµÄ×î¶ÌÂ·¾¶*/
+PathMatrix[MaxSize][MaxSize][MaxSize];      /*å­˜å‚¨å›¾å„ä¸ªé¡¶ç‚¹çš„æœ€çŸ­è·¯å¾„*/
 typedef int
-ShortPathLength[MaxSize][MaxSize];  /*´æ´¢Í¼ÖĞ¸÷¸ö¶¥µãµÄ×î¶ÌÂ·¾¶³¤¶È*/
-typedef enum {DG, DN, UG, UN} GraphKind; /*Í¼µÄÀàĞÍ£ºÓĞÏòÍ¼¡¢ÓĞÏòÍø¡¢ÎŞÏòÍ¼ºÍÎŞÏòÍø*/
+ShortPathLength[MaxSize][MaxSize];  /*å­˜å‚¨å›¾ä¸­å„ä¸ªé¡¶ç‚¹çš„æœ€çŸ­è·¯å¾„é•¿åº¦*/
+typedef enum {DG, DN, UG, UN} GraphKind; /*å›¾çš„ç±»å‹ï¼šæœ‰å‘å›¾ã€æœ‰å‘ç½‘ã€æ— å‘å›¾å’Œæ— å‘ç½‘*/
 typedef struct {
-    VRType adj;             /*¶ÔÓÚÎŞÈ¨Í¼£¬ÓÃ1±íÊ¾ÏàÁÚ£¬0±íÊ¾²»ÏàÁÚ£»¶ÔÓÚ´øÈ¨Í¼£¬´æ´¢È¨Öµ*/
-    InfoPtr* info;              /*Óë»¡»ò±ßµÄÏà¹ØĞÅÏ¢*/
+    VRType adj;             /*å¯¹äºæ— æƒå›¾ï¼Œç”¨1è¡¨ç¤ºç›¸é‚»ï¼Œ0è¡¨ç¤ºä¸ç›¸é‚»ï¼›å¯¹äºå¸¦æƒå›¾ï¼Œå­˜å‚¨æƒå€¼*/
+    InfoPtr* info;              /*ä¸å¼§æˆ–è¾¹çš„ç›¸å…³ä¿¡æ¯*/
 } ArcNode, AdjMatrix[MaxSize][MaxSize];
-typedef struct {                /*Í¼µÄÀàĞÍ¶¨Òå*/
-    VertexType vex[MaxSize];    /*ÓÃÓÚ´æ´¢¶¥µã*/
-    AdjMatrix arc;              /*ÁÚ½Ó¾ØÕó£¬´æ´¢±ß»ò»¡µÄĞÅÏ¢*/
-    int vexnum, arcnum;         /*¶¥µãÊıºÍ±ß£¨»¡£©µÄÊıÄ¿*/
-    GraphKind kind;             /*Í¼µÄÀàĞÍ*/
+typedef struct {                /*å›¾çš„ç±»å‹å®šä¹‰*/
+    VertexType vex[MaxSize];    /*ç”¨äºå­˜å‚¨é¡¶ç‚¹*/
+    AdjMatrix arc;              /*é‚»æ¥çŸ©é˜µï¼Œå­˜å‚¨è¾¹æˆ–å¼§çš„ä¿¡æ¯*/
+    int vexnum, arcnum;         /*é¡¶ç‚¹æ•°å’Œè¾¹ï¼ˆå¼§ï¼‰çš„æ•°ç›®*/
+    GraphKind kind;             /*å›¾çš„ç±»å‹*/
 } MGraph;
-typedef struct {                /*Ìí¼ÓÒ»¸ö´æ´¢ÍøµÄĞĞ¡¢ÁĞºÍÈ¨ÖµµÄÀàĞÍ¶¨Òå*/
+typedef struct {                /*æ·»åŠ ä¸€ä¸ªå­˜å‚¨ç½‘çš„è¡Œã€åˆ—å’Œæƒå€¼çš„ç±»å‹å®šä¹‰*/
     int row;
     int col;
     int weight;
@@ -33,21 +33,21 @@ void DisplayGraph(MGraph N);
 void Floyd(MGraph N, PathMatrix path, ShortPathLength dist);
 
 void Floyd(MGraph N, PathMatrix path, ShortPathLength dist)
-/*ÓÃFloydËã·¨ÇóÓĞÏòÍøNµÄ¸÷¶¥µãvºÍwÖ®¼äµÄ×î¶ÌÂ·¾¶£¬ÆäÖĞpath[v][w][u]±íÊ¾uÊÇ´Óvµ½wµ±Ç°ÇóµÃ×î¶ÌÂ·¾¶ÉÏµÄ¶¥µã*/
+/*ç”¨Floydç®—æ³•æ±‚æœ‰å‘ç½‘Nçš„å„é¡¶ç‚¹vå’Œwä¹‹é—´çš„æœ€çŸ­è·¯å¾„ï¼Œå…¶ä¸­path[v][w][u]è¡¨ç¤ºuæ˜¯ä»våˆ°wå½“å‰æ±‚å¾—æœ€çŸ­è·¯å¾„ä¸Šçš„é¡¶ç‚¹*/
 {
 
     int u, v, w, i;
 
-    for (v = 0; v < N.vexnum; v++)          /*³õÊ¼»¯Êı×épathºÍdist*/
+    for (v = 0; v < N.vexnum; v++)          /*åˆå§‹åŒ–æ•°ç»„pathå’Œdist*/
         for (w = 0; w < N.vexnum; w++) {
             dist[v][w] =
-                N.arc[v][w].adj;   /*³õÊ¼Ê±£¬¶¥µãvµ½¶¥µãwµÄ×î¶ÌÂ·¾¶Îªvµ½wµÄ»¡µÄÈ¨Öµ*/
+                N.arc[v][w].adj;   /*åˆå§‹æ—¶ï¼Œé¡¶ç‚¹våˆ°é¡¶ç‚¹wçš„æœ€çŸ­è·¯å¾„ä¸ºvåˆ°wçš„å¼§çš„æƒå€¼*/
 
             for (u = 0; u < N.vexnum; u++) {
-                path[v][w][u] = 0;    /*Â·¾¶¾ØÕó³õÊ¼»¯ÎªÁã*/
+                path[v][w][u] = 0;    /*è·¯å¾„çŸ©é˜µåˆå§‹åŒ–ä¸ºé›¶*/
             }
 
-            if (dist[v][w] < INFINITY) {    /*Èç¹ûvµ½wÓĞÂ·¾¶,ÔòÓÉvµ½wµÄÂ·¾¶¾­¹ıvºÍwÁ½µã*/
+            if (dist[v][w] < INFINITY) {    /*å¦‚æœvåˆ°wæœ‰è·¯å¾„,åˆ™ç”±våˆ°wçš„è·¯å¾„ç»è¿‡vå’Œwä¸¤ç‚¹*/
                 path[v][w][v] = 1;
                 path[v][w][w] = 1;
             }
@@ -58,12 +58,12 @@ void Floyd(MGraph N, PathMatrix path, ShortPathLength dist)
             for (w = 0; w < N.vexnum; w++)
                 if (dist[v][u] < INFINITY && dist[u][w] < INFINITY &&
                     dist[v][u] + dist[u][w] < dist[v][w])
-                    /*´Óv¾­uµ½wµÄÒ»ÌõÂ·¾¶Îªµ±Ç°×î¶ÌµÄÂ·¾¶*/
+                    /*ä»vç»uåˆ°wçš„ä¸€æ¡è·¯å¾„ä¸ºå½“å‰æœ€çŸ­çš„è·¯å¾„*/
                 {
-                    dist[v][w] = dist[v][u] + dist[u][w]; /*¸üĞÂvµ½wµÄ×î¶ÌÂ·¾¶*/
+                    dist[v][w] = dist[v][u] + dist[u][w]; /*æ›´æ–°våˆ°wçš„æœ€çŸ­è·¯å¾„*/
 
                     for (i = 0; i < N.vexnum;
-                         i++) {    /*´Óvµ½wµÄÂ·¾¶¾­¹ı´Óvµ½uºÍ´Óuµ½wµÄËùÓĞÂ·¾¶*/
+                         i++) {    /*ä»våˆ°wçš„è·¯å¾„ç»è¿‡ä»våˆ°uå’Œä»uåˆ°wçš„æ‰€æœ‰è·¯å¾„*/
                         path[v][w][i] = path[v][u][i] || path[u][w][i];
                     }
                 }
@@ -76,18 +76,18 @@ void main()
     MGraph N;
     GNode value[] = {{0, 1, 5}, {1, 0, 10}, {1, 2, 6}, {2, 0, 9}};
     VertexType ch[] = {"v0", "v1", "v2"};
-    PathMatrix path;                        /*ÓÃ¶şÎ¬Êı×é´æ·Å×î¶ÌÂ·¾¶Ëù¾­¹ıµÄ¶¥µã*/
-    ShortPathLength dist;                   /*ÓÃÒ»Î¬Êı×é´æ·Å×î¶ÌÂ·¾¶³¤¶È*/
-    CreateGraph(&N, value, vnum, arcnum, ch); /*´´½¨ÓĞÏòÍøN*/
+    PathMatrix path;                        /*ç”¨äºŒç»´æ•°ç»„å­˜æ”¾æœ€çŸ­è·¯å¾„æ‰€ç»è¿‡çš„é¡¶ç‚¹*/
+    ShortPathLength dist;                   /*ç”¨ä¸€ç»´æ•°ç»„å­˜æ”¾æœ€çŸ­è·¯å¾„é•¿åº¦*/
+    CreateGraph(&N, value, vnum, arcnum, ch); /*åˆ›å»ºæœ‰å‘ç½‘N*/
 
     for (v = 0; v < N.vexnum; v++) {
         N.arc[v][v].adj =
-            0;    /*¸¥ÂåÒÁµÂËã·¨ÒªÇó¶Ô½ÇÔªËØÖµÎª0£¬ÒòÎªÁ½µãÏàÍ¬£¬Æä¾àÀëÎª0 */
+            0;    /*å¼—æ´›ä¼Šå¾·ç®—æ³•è¦æ±‚å¯¹è§’å…ƒç´ å€¼ä¸º0ï¼Œå› ä¸ºä¸¤ç‚¹ç›¸åŒï¼Œå…¶è·ç¦»ä¸º0 */
     }
 
-    DisplayGraph(N);                    /*Êä³öÓĞÏòÍøN*/
+    DisplayGraph(N);                    /*è¾“å‡ºæœ‰å‘ç½‘N*/
     Floyd(N, path, dist);
-    printf("¶¥µãÖ®¼äµÄ×î¶ÌÂ·¾¶³¤¶È¾ØÕódist:\n");
+    printf("é¡¶ç‚¹ä¹‹é—´çš„æœ€çŸ­è·¯å¾„é•¿åº¦çŸ©é˜µdist:\n");
 
     for (u = 0; u < N.vexnum; u++) {
         for (v = 0; v < N.vexnum; v++) {
@@ -100,15 +100,15 @@ void main()
     for (u = 0; u < N.vexnum; u++)
         for (v = 0; v < N.vexnum; v++)
             if (u != v) {
-                printf("%sµ½%sµÄ×î¶Ì¾àÀëÎª%d\n", N.vex[u], N.vex[v], dist[u][v]);
+                printf("%såˆ°%sçš„æœ€çŸ­è·ç¦»ä¸º%d\n", N.vex[u], N.vex[v], dist[u][v]);
             }
 
-    printf("¸÷¶¥µãÖ®¼äµÄ×î¶ÌÂ·¾¶Ëù¾­¹ıµÄ¶¥µã£º\n");
+    printf("å„é¡¶ç‚¹ä¹‹é—´çš„æœ€çŸ­è·¯å¾„æ‰€ç»è¿‡çš„é¡¶ç‚¹ï¼š\n");
 
     for (u = 0; u < N.vexnum; u++)
         for (v = 0; v < N.vexnum; v++)
             if (u != v) {
-                printf("ÓÉ%sµ½%s¾­¹ı£º", N.vex[u], N.vex[v]);
+                printf("ç”±%såˆ°%sç»è¿‡ï¼š", N.vex[u], N.vex[v]);
 
                 for (w = 0; w < N.vexnum; w++)
                     if (path[u][v][w] == 1) {
@@ -120,7 +120,7 @@ void main()
 }
 
 void CreateGraph(MGraph* N, GNode* value, int vnum, int arcnum, VertexType* ch)
-/*²ÉÓÃÁÚ½Ó¾ØÕó±íÊ¾·¨´´½¨ÓĞÏòÍøN*/
+/*é‡‡ç”¨é‚»æ¥çŸ©é˜µè¡¨ç¤ºæ³•åˆ›å»ºæœ‰å‘ç½‘N*/
 {
     int i, j, k, w, InfoFlag, len;
     char s[MaxSize];
@@ -132,10 +132,10 @@ void CreateGraph(MGraph* N, GNode* value, int vnum, int arcnum, VertexType* ch)
         strcpy(N->vex[i], ch[i]);
     }
 
-    for (i = 0; i < N->vexnum; i++) /*³õÊ¼»¯ÁÚ½Ó¾ØÕó*/
+    for (i = 0; i < N->vexnum; i++) /*åˆå§‹åŒ–é‚»æ¥çŸ©é˜µ*/
         for (j = 0; j < N->vexnum; j++) {
             N->arc[i][j].adj = INFINITY;
-            N->arc[i][j].info = NULL; /*»¡µÄĞÅÏ¢³õÊ¼»¯Îª¿Õ*/
+            N->arc[i][j].info = NULL; /*å¼§çš„ä¿¡æ¯åˆå§‹åŒ–ä¸ºç©º*/
         }
 
     for (k = 0; k < arcnum; k++) {
@@ -144,20 +144,20 @@ void CreateGraph(MGraph* N, GNode* value, int vnum, int arcnum, VertexType* ch)
         N->arc[i][j].adj = value[k].weight;
     }
 
-    N->kind = DN;                   /*Í¼µÄÀàĞÍÎªÓĞÏòÍø*/
+    N->kind = DN;                   /*å›¾çš„ç±»å‹ä¸ºæœ‰å‘ç½‘*/
 }
 void DisplayGraph(MGraph N)
-/*Êä³öÁÚ½Ó¾ØÕó´æ´¢±íÊ¾µÄÍ¼N*/
+/*è¾“å‡ºé‚»æ¥çŸ©é˜µå­˜å‚¨è¡¨ç¤ºçš„å›¾N*/
 {
     int i, j;
-    printf("ÓĞÏòÍø¾ßÓĞ%d¸ö¶¥µã%dÌõ»¡£¬¶¥µãÒÀ´ÎÊÇ: ", N.vexnum, N.arcnum);
+    printf("æœ‰å‘ç½‘å…·æœ‰%dä¸ªé¡¶ç‚¹%dæ¡å¼§ï¼Œé¡¶ç‚¹ä¾æ¬¡æ˜¯: ", N.vexnum, N.arcnum);
 
-    for (i = 0; i < N.vexnum; ++i) {    /*Êä³öÍøµÄ¶¥µã*/
+    for (i = 0; i < N.vexnum; ++i) {    /*è¾“å‡ºç½‘çš„é¡¶ç‚¹*/
         printf("%s ", N.vex[i]);
     }
 
-    printf("\nÓĞÏòÍøNµÄ:\n");           /*Êä³öÍøNµÄ»¡*/
-    printf("ĞòºÅi=");
+    printf("\næœ‰å‘ç½‘Nçš„:\n");           /*è¾“å‡ºç½‘Nçš„å¼§*/
+    printf("åºå·i=");
 
     for (i = 0; i < N.vexnum; i++) {
         printf("%11d", i);

@@ -14,11 +14,11 @@ void main()
 {
     int n;
     int i = 1;
-    printf("ÇëÊäÈëÒÆ¶¯Ô²ÅÌµÄ¸öÊı:");
+    printf("è¯·è¾“å…¥ç§»åŠ¨åœ†ç›˜çš„ä¸ªæ•°:");
     scanf("%d", &n);
-    printf("ººÅµËşµÄµİ¹éÊµÏÖ:\n");
+    printf("æ±‰è¯ºå¡”çš„é€’å½’å®ç°:\n");
     Hanoi1(n, 'X', 'Y', 'Z');
-    printf("ººÅµËşµÄ·Çµİ¹éÊµÏÖ:\n");
+    printf("æ±‰è¯ºå¡”çš„éé€’å½’å®ç°:\n");
     Hanoi2(n, 'X', 'Y', 'Z');
 }
 
@@ -85,5 +85,5 @@ void Hanoi2(int n, char x, char y, char z)
 }
 void PrintHanoi(int no, char from, char to)
 {
-    printf("½«µÚ%d¸öÔ²ÅÌ´ÓËş×ù%cÒÆ¶¯µ½%c\n", no, from, to);
+    printf("å°†ç¬¬%dä¸ªåœ†ç›˜ä»å¡”åº§%cç§»åŠ¨åˆ°%c\n", no, from, to);
 }

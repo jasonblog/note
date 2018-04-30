@@ -1,60 +1,60 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<malloc.h>
 
-/*ºê¶¨ÒåºÍµ¥Á´±íÀàĞÍ¶¨Òå*/
+/*å®å®šä¹‰å’Œå•é“¾è¡¨ç±»å‹å®šä¹‰*/
 #define ListSize 100
 typedef int DataType;
 typedef struct Node {
     DataType data;
     struct Node* next;
 } ListNode, *LinkList;
-/*º¯ÊıÉùÃ÷*/
-LinkList CreateCycList(int n);              /*´´½¨Ò»¸öÑ­»·µ¥Á´±íµÄº¯ÊıÉùÃ÷*/
-void DisplayCycList();                      /*ÏÔÊ¾Êä³öÑ­»·µ¥Á´±íµÄº¯ÊıÉùÃ÷*/
-LinkList Link(LinkList head1, LinkList head2); /*½«Á½¸öÁ´±íÁ¬½ÓÒ»ÆğµÄº¯ÊıÉùÃ÷*/
+/*å‡½æ•°å£°æ˜*/
+LinkList CreateCycList(int n);              /*åˆ›å»ºä¸€ä¸ªå¾ªç¯å•é“¾è¡¨çš„å‡½æ•°å£°æ˜*/
+void DisplayCycList();                      /*æ˜¾ç¤ºè¾“å‡ºå¾ªç¯å•é“¾è¡¨çš„å‡½æ•°å£°æ˜*/
+LinkList Link(LinkList head1, LinkList head2); /*å°†ä¸¤ä¸ªé“¾è¡¨è¿æ¥ä¸€èµ·çš„å‡½æ•°å£°æ˜*/
 void main()
 {
     LinkList h1, h2;
     int n;
-    printf("´´½¨Ò»¸öÑ­»·µ¥Á´±íh1£º\n");
-    printf("ÇëÊäÈëÔªËØ¸öÊı£º\n");
+    printf("åˆ›å»ºä¸€ä¸ªå¾ªç¯å•é“¾è¡¨h1ï¼š\n");
+    printf("è¯·è¾“å…¥å…ƒç´ ä¸ªæ•°ï¼š\n");
     scanf("%d", &n);
     h1 = CreateCycList(n);
-    printf("´´½¨Ò»¸öÑ­»·µ¥Á´±íh2£º\n");
-    printf("ÇëÊäÈëÔªËØ¸öÊı£º\n");
+    printf("åˆ›å»ºä¸€ä¸ªå¾ªç¯å•é“¾è¡¨h2ï¼š\n");
+    printf("è¯·è¾“å…¥å…ƒç´ ä¸ªæ•°ï¼š\n");
     scanf("%d", &n);
     h2 = CreateCycList(n);
-    printf("Êä³öÑ­»·µ¥Á´±íh1\n");
+    printf("è¾“å‡ºå¾ªç¯å•é“¾è¡¨h1\n");
     DisplayCycList(h1);
-    printf("Êä³öÑ­»·µ¥Á´±íh2\n");
+    printf("è¾“å‡ºå¾ªç¯å•é“¾è¡¨h2\n");
     DisplayCycList(h2);
     h1 = Link(h1, h2);
-    printf("Êä³öÁ¬½ÓºóµÄÑ­»·µ¥Á´±íh1+h2\n");
+    printf("è¾“å‡ºè¿æ¥åçš„å¾ªç¯å•é“¾è¡¨h1+h2\n");
     DisplayCycList(h1);
 }
 LinkList Link(LinkList head1, LinkList head2)
-/*½«Á½¸öÁ´±íhead1ºÍhead2Á¬½ÓÔÚÒ»ÆğĞÎ³ÉÒ»¸öÑ­»·Á´±í*/
+/*å°†ä¸¤ä¸ªé“¾è¡¨head1å’Œhead2è¿æ¥åœ¨ä¸€èµ·å½¢æˆä¸€ä¸ªå¾ªç¯é“¾è¡¨*/
 {
     ListNode* p, *q;
     p = head1;
 
-    while (p->next != head1) { /*Ö¸ÕëpÖ¸ÏòÁ´±íµÄ×îºóÒ»¸ö½áµã*/
+    while (p->next != head1) { /*æŒ‡é’ˆpæŒ‡å‘é“¾è¡¨çš„æœ€åä¸€ä¸ªç»“ç‚¹*/
         p = p->next;
     }
 
     q = head2;
 
-    while (q->next != head2) { /*Ö¸ÕëqÖ¸ÏòÁ´±íµÄ×îºóÒ»¸ö½áµã*/
+    while (q->next != head2) { /*æŒ‡é’ˆqæŒ‡å‘é“¾è¡¨çš„æœ€åä¸€ä¸ªç»“ç‚¹*/
         q = q->next;
     }
 
-    p->next = head2;    /*½«µÚÒ»¸öÁ´±íµÄÎ²¶ËÁ¬½Óµ½µÚ¶ş¸öÁ´±íµÄµÚÒ»¸ö½áµã*/
-    q->next = head1;    /*½«µÚ¶ş¸öÁ´±íµÄÎ²¶ËÁ¬½Óµ½µÚÒ»¸öÁ´±íµÄµÚÒ»¸ö½áµã*/
+    p->next = head2;    /*å°†ç¬¬ä¸€ä¸ªé“¾è¡¨çš„å°¾ç«¯è¿æ¥åˆ°ç¬¬äºŒä¸ªé“¾è¡¨çš„ç¬¬ä¸€ä¸ªç»“ç‚¹*/
+    q->next = head1;    /*å°†ç¬¬äºŒä¸ªé“¾è¡¨çš„å°¾ç«¯è¿æ¥åˆ°ç¬¬ä¸€ä¸ªé“¾è¡¨çš„ç¬¬ä¸€ä¸ªç»“ç‚¹*/
     return head1;
 }
 LinkList CreateCycList(int n)
-/*´´½¨Ò»¸ö²»´øÍ·½áµãµÄÑ­»·µ¥Á´±í*/
+/*åˆ›å»ºä¸€ä¸ªä¸å¸¦å¤´ç»“ç‚¹çš„å¾ªç¯å•é“¾è¡¨*/
 {
     DataType e;
     LinkList head = NULL;
@@ -64,46 +64,46 @@ LinkList CreateCycList(int n)
     q = NULL;
 
     while (i <= n) {
-        printf("ÇëÊäÈëµÚ%d¸öÔªËØ.", i);
+        printf("è¯·è¾“å…¥ç¬¬%dä¸ªå…ƒç´ .", i);
         scanf("%d", &e);
 
-        if (i == 1) {       /*´´½¨µÚÒ»¸ö½áµã*/
+        if (i == 1) {       /*åˆ›å»ºç¬¬ä¸€ä¸ªç»“ç‚¹*/
             head = (LinkList)malloc(sizeof(ListNode));
             head->data = e;
             head->next = NULL;
-            q = head;       /*Ö¸ÕëqÖ¸ÏòÁ´±íµÄ×îºóÒ»¸ö½áµã*/
+            q = head;       /*æŒ‡é’ˆqæŒ‡å‘é“¾è¡¨çš„æœ€åä¸€ä¸ªç»“ç‚¹*/
         } else {
             p = (ListNode*)malloc(sizeof(ListNode));
             p->data = e;
             p->next = NULL;
-            q->next = p;    /*½«ĞÂ½áµãÁ¬½Óµ½Á´±íÖĞ*/
-            q = p;          /*qÊ¼ÖÕÖ¸Ïò×îºóÒ»¸ö½áµã*/
+            q->next = p;    /*å°†æ–°ç»“ç‚¹è¿æ¥åˆ°é“¾è¡¨ä¸­*/
+            q = p;          /*qå§‹ç»ˆæŒ‡å‘æœ€åä¸€ä¸ªç»“ç‚¹*/
         }
 
         i++;
     }
 
     if (q != NULL) {
-        q->next = head;    /*½«×îºóÒ»¸ö½áµãµÄÖ¸ÕëÖ¸ÏòÍ·Ö¸Õë£¬Ê¹ÆäĞÎ³ÉÒ»¸öÑ­»·Á´±í*/
+        q->next = head;    /*å°†æœ€åä¸€ä¸ªç»“ç‚¹çš„æŒ‡é’ˆæŒ‡å‘å¤´æŒ‡é’ˆï¼Œä½¿å…¶å½¢æˆä¸€ä¸ªå¾ªç¯é“¾è¡¨*/
     }
 
     return head;
 }
 void DisplayCycList(LinkList head)
-/*Êä³öÑ­»·Á´±íµÄÃ¿Ò»¸öÔªËØ*/
+/*è¾“å‡ºå¾ªç¯é“¾è¡¨çš„æ¯ä¸€ä¸ªå…ƒç´ */
 {
     ListNode* p;
     p = head;
 
     if (p == NULL) {
-        printf("¸ÃÁ´±íÊÇ¿Õ±í");
+        printf("è¯¥é“¾è¡¨æ˜¯ç©ºè¡¨");
         return;
     }
 
-    while (p->next != head) { /*Èç¹û²»ÊÇ×îºóÒ»¸ö½áµã£¬Êä³ö¸Ã½áµã*/
+    while (p->next != head) { /*å¦‚æœä¸æ˜¯æœ€åä¸€ä¸ªç»“ç‚¹ï¼Œè¾“å‡ºè¯¥ç»“ç‚¹*/
         printf("%4d", p->data);
         p = p->next;
     }
 
-    printf("%4d\n", p->data); /*Êä³ö×îºóÒ»¸ö½áµã*/
+    printf("%4d\n", p->data); /*è¾“å‡ºæœ€åä¸€ä¸ªç»“ç‚¹*/
 }

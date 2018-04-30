@@ -1,59 +1,59 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<stdlib.h>
-/*ÀàĞÍ¶¨Òå*/
+/*ç±»å‹å®šä¹‰*/
 #define StackSize 100
 typedef char DataType;
-#include "SSeqStack.h"      /*°üº¬Õ»µÄ»ù±¾ÀàĞÍ¶¨ÒåºÍ»ù±¾²Ù×÷ÊµÏÖ*/
+#include "SSeqStack.h"      /*åŒ…å«æ ˆçš„åŸºæœ¬ç±»å‹å®šä¹‰å’ŒåŸºæœ¬æ“ä½œå®ç°*/
 int GetTop(SSeqStack S, DataType* e, int flag);
 int StackEmpty(SSeqStack S, int flag);
 void main()
 {
-    SSeqStack S1, S2;           /*¶¨ÒåÒ»¸öÕ»*/
+    SSeqStack S1, S2;           /*å®šä¹‰ä¸€ä¸ªæ ˆ*/
     int i;
     DataType a[] = {'a', 'b', 'c', 'd', 'e'};
     DataType b[] = {'x', 'y', 'z', 'r'};
     DataType e1, e2;
-    InitStack(&S1);                 /*³õÊ¼»¯Õ»*/
+    InitStack(&S1);                 /*åˆå§‹åŒ–æ ˆ*/
     InitStack(&S2);
 
-    for (i = 0; i < sizeof(a) / sizeof(a[0]); i++) { /*½«Êı×éaÖĞÔªËØÒÀ´Î½øÕ»*/
+    for (i = 0; i < sizeof(a) / sizeof(a[0]); i++) { /*å°†æ•°ç»„aä¸­å…ƒç´ ä¾æ¬¡è¿›æ ˆ*/
         if (PushStack(&S1, a[i], 0) == 0) {
-            printf("Õ»ÒÑÂú£¬²»ÄÜ½øÕ»£¡");
+            printf("æ ˆå·²æ»¡ï¼Œä¸èƒ½è¿›æ ˆï¼");
             return;
         }
     }
 
-    for (i = 0; i < sizeof(b) / sizeof(b[0]); i++) { /*½«Êı×éaÖĞÔªËØÒÀ´Î½øÕ»*/
+    for (i = 0; i < sizeof(b) / sizeof(b[0]); i++) { /*å°†æ•°ç»„aä¸­å…ƒç´ ä¾æ¬¡è¿›æ ˆ*/
         if (PushStack(&S2, b[i], 1) == 0) {
-            printf("Õ»ÒÑÂú£¬²»ÄÜ½øÕ»£¡");
+            printf("æ ˆå·²æ»¡ï¼Œä¸èƒ½è¿›æ ˆï¼");
             return;
         }
     }
 
     if (GetTop(S1, &e1, 0) == 0) {
-        printf("Õ»ÒÑ¿Õ");
+        printf("æ ˆå·²ç©º");
         return;
     }
 
     if (GetTop(S2, &e2, 1) == 0) {
-        printf("Õ»ÒÑ¿Õ");
+        printf("æ ˆå·²ç©º");
         return;
     }
 
-    printf("Õ»S1µÄÕ»¶¥ÔªËØÊÇ£º%c£¬Õ»S2µÄÕ»¶¥ÔªËØÊÇ:%c\n", e1, e2);
-    printf("S1³öÕ»µÄÔªËØ´ÎĞòÊÇ£º");
+    printf("æ ˆS1çš„æ ˆé¡¶å…ƒç´ æ˜¯ï¼š%cï¼Œæ ˆS2çš„æ ˆé¡¶å…ƒç´ æ˜¯:%c\n", e1, e2);
+    printf("S1å‡ºæ ˆçš„å…ƒç´ æ¬¡åºæ˜¯ï¼š");
     i = 0;
 
-    while (!StackEmpty(S1, 0)) { /*½«Êı×éaÖĞÔªËØÒÀ´Î½øÕ»*/
+    while (!StackEmpty(S1, 0)) { /*å°†æ•°ç»„aä¸­å…ƒç´ ä¾æ¬¡è¿›æ ˆ*/
         PopStack(&S1, &e1, 0);
         printf("%4c", e1);
     }
 
     printf("\n");
-    printf("S2³öÕ»µÄÔªËØ´ÎĞòÊÇ£º");
+    printf("S2å‡ºæ ˆçš„å…ƒç´ æ¬¡åºæ˜¯ï¼š");
 
-    while (!StackEmpty(S2, 1)) { /*½«Êı×éaÖĞÔªËØÒÀ´Î½øÕ»*/
+    while (!StackEmpty(S2, 1)) { /*å°†æ•°ç»„aä¸­å…ƒç´ ä¾æ¬¡è¿›æ ˆ*/
         PopStack(&S2, &e2, 1);
         printf("%4c", e2);
     }
@@ -61,7 +61,7 @@ void main()
     printf("\n");
 }
 int GetTop(SSeqStack S, DataType* e, int flag)
-/*È¡Õ»¶¥ÔªËØ¡£½«Õ»¶¥ÔªËØÖµ·µ»Ø¸øe£¬²¢·µ»Ø1±íÊ¾³É¹¦£»·ñÔò·µ»Ø0±íÊ¾Ê§°Ü¡£*/
+/*å–æ ˆé¡¶å…ƒç´ ã€‚å°†æ ˆé¡¶å…ƒç´ å€¼è¿”å›ç»™eï¼Œå¹¶è¿”å›1è¡¨ç¤ºæˆåŠŸï¼›å¦åˆ™è¿”å›0è¡¨ç¤ºå¤±è´¥ã€‚*/
 {
     switch (flag) {
     case 0:

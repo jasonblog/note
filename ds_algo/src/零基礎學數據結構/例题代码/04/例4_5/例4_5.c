@@ -1,11 +1,11 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<malloc.h>
 #include<stdlib.h>
 #include "string.h"
-/*ºê¶¨ÒåºÍÁ´Õ»ÀàĞÍ¶¨Òå*/
+/*å®å®šä¹‰å’Œé“¾æ ˆç±»å‹å®šä¹‰*/
 typedef char DataType;
-#include"SeqStack.h"                    /*°üº¬Á´Õ»ÊµÏÖÎÄ¼ş*/
+#include"SeqStack.h"                    /*åŒ…å«é“¾æ ˆå®ç°æ–‡ä»¶*/
 void LineEdit();
 void LineEdit()
 {
@@ -15,7 +15,7 @@ void LineEdit()
     DataType a[50];
     int i, j = 0;
     InitStack(&S);
-    printf("ÊäÈë×Ö·ûĞòÁĞ(#±íÊ¾Ç°Ò»¸ö×Ö·ûÎŞĞ§£¬@±íÊ¾µ±Ç°ĞĞ×Ö·ûÎŞĞ§).\n");
+    printf("è¾“å…¥å­—ç¬¦åºåˆ—(#è¡¨ç¤ºå‰ä¸€ä¸ªå­—ç¬¦æ— æ•ˆï¼Œ@è¡¨ç¤ºå½“å‰è¡Œå­—ç¬¦æ— æ•ˆ).\n");
     ch = getchar();
 
     while (ch != '\n') {

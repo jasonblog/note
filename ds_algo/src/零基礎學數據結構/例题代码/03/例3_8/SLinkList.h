@@ -1,5 +1,5 @@
 void InitSList(SLinkList* L)
-/*¾²Ì¬Á´±í³õÊ¼»¯¡£*/
+/*é™æ€é“¾è¡¨åˆå§‹åŒ–ã€‚*/
 {
     int i;
 
@@ -11,7 +11,7 @@ void InitSList(SLinkList* L)
     (*L).av = 1;
 }
 int AssignNode(SLinkList L)
-/*´Ó±¸ÓÃÁ´±íÖĞÈ¡ÏÂÒ»¸ö½áµã¿Õ¼ä£¬·ÖÅä¸øÒª²åÈëÁ´±íÖĞµÄÔªËØ*/
+/*ä»å¤‡ç”¨é“¾è¡¨ä¸­å–ä¸‹ä¸€ä¸ªç»“ç‚¹ç©ºé—´ï¼Œåˆ†é…ç»™è¦æ’å…¥é“¾è¡¨ä¸­çš„å…ƒç´ */
 {
     int i;
     i = L.av;
@@ -19,13 +19,13 @@ int AssignNode(SLinkList L)
     return i;
 }
 void FreeNode(SLinkList L, int pos)
-/*Ê¹¿ÕÏĞ½áµã³ÉÎª±¸ÓÃÁ´±íÖĞµÄ½áµã*/
+/*ä½¿ç©ºé—²ç»“ç‚¹æˆä¸ºå¤‡ç”¨é“¾è¡¨ä¸­çš„ç»“ç‚¹*/
 {
     L.list[pos].cur = L.av;
     L.av = pos;
 }
 void InsertSList(SLinkList* L, int i, DataType e)
-/*²åÈë²Ù×÷*/
+/*æ’å…¥æ“ä½œ*/
 {
     int j, k, x;
     k = (*L).av;
@@ -41,7 +41,7 @@ void InsertSList(SLinkList* L, int i, DataType e)
     (*L).list[j].cur = k;
 }
 void DeleteSList(SLinkList* L, int i, DataType* e)
-/*É¾³ı²Ù×÷*/
+/*åˆ é™¤æ“ä½œ*/
 {
     int j, k, x;
     j = (*L).list[0].cur;

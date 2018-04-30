@@ -1,9 +1,9 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include"SeqString.h"
-/*º¯ÊıµÄÉùÃ÷*/
+/*å‡½æ•°çš„å£°æ˜*/
 int B_FIndex(SeqString S, int pos, SeqString T, int* count);
 int KMP_Index(SeqString S, int pos, SeqString T, int next[], int* count);
 int GetNext(SeqString T, int next[]);
@@ -15,71 +15,71 @@ void main()
     int count1 = 0, count2 = 0, count3 = 0, find;
     int next[40], nextval[40];
 
-    StrAssign(&S, "abaababaddecab");    /*¸øÖ÷´®S¸³Öµ*/
-    StrAssign(&T, "abad");              /*¸øÄ£Ê½´®T¸³Öµ*/
-    GetNext(T, next);                   /*½«nextº¯ÊıÖµ±£´æÔÚnextÊı×é*/
-    GetNextVal(T, nextval);             /*½«¸Ä½øºóµÄnextº¯ÊıÖµ±£´æÔÚnextvalÊı×é*/
-    printf("Ä£Ê½´®TµÄnextºÍ¸Ä½øºóµÄnextÖµ:\n");
-    PrintArray(T, next, nextval, StrLength(T)); /*Êä³öÄ£Ê½´®TµÄnextÖµÓënextvalÖµ*/
-    find = B_FIndex(S, 1, T, &count1);          /*´«Í³µÄÄ£Ê½´®Æ¥Åä*/
+    StrAssign(&S, "abaababaddecab");    /*ç»™ä¸»ä¸²Sèµ‹å€¼*/
+    StrAssign(&T, "abad");              /*ç»™æ¨¡å¼ä¸²Tèµ‹å€¼*/
+    GetNext(T, next);                   /*å°†nextå‡½æ•°å€¼ä¿å­˜åœ¨nextæ•°ç»„*/
+    GetNextVal(T, nextval);             /*å°†æ”¹è¿›åçš„nextå‡½æ•°å€¼ä¿å­˜åœ¨nextvalæ•°ç»„*/
+    printf("æ¨¡å¼ä¸²Tçš„nextå’Œæ”¹è¿›åçš„nextå€¼:\n");
+    PrintArray(T, next, nextval, StrLength(T)); /*è¾“å‡ºæ¨¡å¼ä¸²Tçš„nextå€¼ä¸nextvalå€¼*/
+    find = B_FIndex(S, 1, T, &count1);          /*ä¼ ç»Ÿçš„æ¨¡å¼ä¸²åŒ¹é…*/
 
     if (find > 0) {
-        printf("Brute-ForceËã·¨µÄ±È½Ï´ÎÊıÎª:%2d\n", count1);
+        printf("Brute-Forceç®—æ³•çš„æ¯”è¾ƒæ¬¡æ•°ä¸º:%2d\n", count1);
     }
 
     find = KMP_Index(S, 1, T, next, &count2);
 
     if (find > 0) {
-        printf("ÀûÓÃnextµÄKMPËã·¨µÄ±È½Ï´ÎÊıÎª:%2d\n", count2);
+        printf("åˆ©ç”¨nextçš„KMPç®—æ³•çš„æ¯”è¾ƒæ¬¡æ•°ä¸º:%2d\n", count2);
     }
 
     find = KMP_Index(S, 1, T, nextval, &count3);
 
     if (find > 0) {
-        printf("ÀûÓÃnextvalµÄKMPÆ¥ÅäËã·¨µÄ±È½Ï´ÎÊıÎª:%2d\n", count3);
+        printf("åˆ©ç”¨nextvalçš„KMPåŒ¹é…ç®—æ³•çš„æ¯”è¾ƒæ¬¡æ•°ä¸º:%2d\n", count3);
     }
 
-    StrAssign(&S, "cbccccbcacbccbacbccbcbcbc"); /*¸øÖ÷´®S¸³Öµ*/
-    StrAssign(&T, "cbccbcbc");                  /*¸øÄ£Ê½´®T¸³Öµ*/
-    GetNext(T, next);                           /*½«nextº¯ÊıÖµ±£´æÔÚnextÊı×é*/
+    StrAssign(&S, "cbccccbcacbccbacbccbcbcbc"); /*ç»™ä¸»ä¸²Sèµ‹å€¼*/
+    StrAssign(&T, "cbccbcbc");                  /*ç»™æ¨¡å¼ä¸²Tèµ‹å€¼*/
+    GetNext(T, next);                           /*å°†nextå‡½æ•°å€¼ä¿å­˜åœ¨nextæ•°ç»„*/
     GetNextVal(T,
-               nextval);                     /*½«¸Ä½øºóµÄnextº¯ÊıÖµ±£´æÔÚnextvalÊı×é*/
-    printf("Ä£Ê½´®TµÄnextºÍ¸Ä½øºóµÄnextÖµ:\n");
-    PrintArray(T, next, nextval, StrLength(T)); /*Êä³öÄ£Ê½´®TµÄnextÖµÓònextvalÖµ*/
-    find = B_FIndex(S, 1, T, &count1);          /*´«Í³µÄÄ£Ê½´®Æ¥Åä*/
+               nextval);                     /*å°†æ”¹è¿›åçš„nextå‡½æ•°å€¼ä¿å­˜åœ¨nextvalæ•°ç»„*/
+    printf("æ¨¡å¼ä¸²Tçš„nextå’Œæ”¹è¿›åçš„nextå€¼:\n");
+    PrintArray(T, next, nextval, StrLength(T)); /*è¾“å‡ºæ¨¡å¼ä¸²Tçš„nextå€¼åŸŸnextvalå€¼*/
+    find = B_FIndex(S, 1, T, &count1);          /*ä¼ ç»Ÿçš„æ¨¡å¼ä¸²åŒ¹é…*/
 
     if (find > 0) {
-        printf("Brute-ForceËã·¨µÄ±È½Ï´ÎÊıÎª:%2d\n", count1);
+        printf("Brute-Forceç®—æ³•çš„æ¯”è¾ƒæ¬¡æ•°ä¸º:%2d\n", count1);
     }
 
     find = KMP_Index(S, 1, T, next, &count2);
 
     if (find > 0) {
-        printf("ÀûÓÃnextµÄKMPËã·¨µÄ±È½Ï´ÎÊıÎª:%2d\n", count2);
+        printf("åˆ©ç”¨nextçš„KMPç®—æ³•çš„æ¯”è¾ƒæ¬¡æ•°ä¸º:%2d\n", count2);
     }
 
     find = KMP_Index(S, 1, T, nextval, &count3);
 
     if (find > 0) {
-        printf("ÀûÓÃnextvalµÄKMPÆ¥ÅäËã·¨µÄ±È½Ï´ÎÊıÎª:%2d\n", count3);
+        printf("åˆ©ç”¨nextvalçš„KMPåŒ¹é…ç®—æ³•çš„æ¯”è¾ƒæ¬¡æ•°ä¸º:%2d\n", count3);
     }
 }
 
 
 int B_FIndex(SeqString S, int pos, SeqString T, int* count)
-/*ÔÚÖ÷´®SÖĞµÄµÚpos¸öÎ»ÖÃ¿ªÊ¼²éÕÒ×Ó´®T£¬Èç¹ûÕÒµ½·µ»Ø×Ó´®ÔÚÖ÷´®µÄÎ»ÖÃ£»·ñÔò£¬·µ»Ø-1*/
+/*åœ¨ä¸»ä¸²Sä¸­çš„ç¬¬posä¸ªä½ç½®å¼€å§‹æŸ¥æ‰¾å­ä¸²Tï¼Œå¦‚æœæ‰¾åˆ°è¿”å›å­ä¸²åœ¨ä¸»ä¸²çš„ä½ç½®ï¼›å¦åˆ™ï¼Œè¿”å›-1*/
 {
     int i, j;
     i = pos - 1;
     j = 0;
-    *count = 0;                     /*count±£´æÖ÷´®ÓëÄ£Ê½´®µÄ±È½Ï´ÎÊı*/
+    *count = 0;                     /*countä¿å­˜ä¸»ä¸²ä¸æ¨¡å¼ä¸²çš„æ¯”è¾ƒæ¬¡æ•°*/
 
     while (i < S.length && j < T.length) {
         if (S.str[i] ==
-            T.str[j]) { /*Èç¹û´®SºÍ´®TÖĞ¶ÔÓ¦Î»ÖÃ×Ö·ûÏàµÈ£¬Ôò¼ÌĞø±È½ÏÏÂÒ»¸ö×Ö·û*/
+            T.str[j]) { /*å¦‚æœä¸²Så’Œä¸²Tä¸­å¯¹åº”ä½ç½®å­—ç¬¦ç›¸ç­‰ï¼Œåˆ™ç»§ç»­æ¯”è¾ƒä¸‹ä¸€ä¸ªå­—ç¬¦*/
             i++;
             j++;
-        } else {                /*Èç¹ûµ±Ç°¶ÔÓ¦Î»ÖÃµÄ×Ö·û²»ÏàµÈ£¬Ôò´Ó´®SµÄÏÂÒ»¸ö×Ö·û¿ªÊ¼£¬TµÄµÚ0¸ö×Ö·û¿ªÊ¼±È½Ï*/
+        } else {                /*å¦‚æœå½“å‰å¯¹åº”ä½ç½®çš„å­—ç¬¦ä¸ç›¸ç­‰ï¼Œåˆ™ä»ä¸²Sçš„ä¸‹ä¸€ä¸ªå­—ç¬¦å¼€å§‹ï¼ŒTçš„ç¬¬0ä¸ªå­—ç¬¦å¼€å§‹æ¯”è¾ƒ*/
             i = i - j + 1;
             j = 0;
         }
@@ -87,40 +87,40 @@ int B_FIndex(SeqString S, int pos, SeqString T, int* count)
         (*count)++;
     }
 
-    if (j >= T.length) {            /*Èç¹ûÔÚSÖĞÕÒµ½´®T£¬Ôò·µ»Ø×Ó´®TÔÚÖ÷´®SµÄÎ»ÖÃ*/
+    if (j >= T.length) {            /*å¦‚æœåœ¨Sä¸­æ‰¾åˆ°ä¸²Tï¼Œåˆ™è¿”å›å­ä¸²Tåœ¨ä¸»ä¸²Sçš„ä½ç½®*/
         return i - j + 1;
     } else {
         return -1;
     }
 }
 int KMP_Index(SeqString S, int pos, SeqString T, int next[], int* count)
-/*KMPÄ£Ê½Æ¥ÅäËã·¨¡£ÀûÓÃÄ£Ê½´®TµÄnextº¯ÊıÔÚÖ÷´®SÖĞµÄµÚpos¸öÎ»ÖÃ¿ªÊ¼²éÕÒ×Ó´®T£¬Èç¹ûÕÒµ½·µ»Ø×Ó´®ÔÚÖ÷´®µÄÎ»ÖÃ£»·ñÔò£¬·µ»Ø-1*/
+/*KMPæ¨¡å¼åŒ¹é…ç®—æ³•ã€‚åˆ©ç”¨æ¨¡å¼ä¸²Tçš„nextå‡½æ•°åœ¨ä¸»ä¸²Sä¸­çš„ç¬¬posä¸ªä½ç½®å¼€å§‹æŸ¥æ‰¾å­ä¸²Tï¼Œå¦‚æœæ‰¾åˆ°è¿”å›å­ä¸²åœ¨ä¸»ä¸²çš„ä½ç½®ï¼›å¦åˆ™ï¼Œè¿”å›-1*/
 {
     int i, j;
     i = pos - 1;
     j = 0;
-    *count = 0;                             /*count±£´æÖ÷´®ÓëÄ£Ê½´®µÄ±È½Ï´ÎÊı*/
+    *count = 0;                             /*countä¿å­˜ä¸»ä¸²ä¸æ¨¡å¼ä¸²çš„æ¯”è¾ƒæ¬¡æ•°*/
 
     while (i < S.length && j < T.length) {
         if (j == -1 ||
-            S.str[i] == T.str[j]) { /*Èç¹ûj=-1»òµ±Ç°×Ö·ûÏàµÈ£¬Ôò¼ÌĞø±È½ÏºóÃæµÄ×Ö·û*/
+            S.str[i] == T.str[j]) { /*å¦‚æœj=-1æˆ–å½“å‰å­—ç¬¦ç›¸ç­‰ï¼Œåˆ™ç»§ç»­æ¯”è¾ƒåé¢çš„å­—ç¬¦*/
             i++;
             j++;
-        } else {                    /*Èç¹ûµ±Ç°×Ö·û²»ÏàµÈ£¬Ôò½«Ä£Ê½´®ÏòÓÒÒÆ¶¯*/
+        } else {                    /*å¦‚æœå½“å‰å­—ç¬¦ä¸ç›¸ç­‰ï¼Œåˆ™å°†æ¨¡å¼ä¸²å‘å³ç§»åŠ¨*/
             j = next[j];
         }
 
         (*count)++;
     }
 
-    if (j >= T.length) {                /*Æ¥Åä³É¹¦£¬·µ»Ø×Ó´®ÔÚÖ÷´®ÖĞµÄÎ»ÖÃ¡£·ñÔò·µ»Ø-1*/
+    if (j >= T.length) {                /*åŒ¹é…æˆåŠŸï¼Œè¿”å›å­ä¸²åœ¨ä¸»ä¸²ä¸­çš„ä½ç½®ã€‚å¦åˆ™è¿”å›-1*/
         return i - T.length + 1;
     } else {
         return -1;
     }
 }
 int GetNext(SeqString T, int next[])
-/*ÇóÄ£Ê½´®TµÄnextº¯ÊıÖµ²¢´æÈëÊı×énext*/
+/*æ±‚æ¨¡å¼ä¸²Tçš„nextå‡½æ•°å€¼å¹¶å­˜å…¥æ•°ç»„next*/
 {
     int j, k;
     j = 0;
@@ -130,17 +130,17 @@ int GetNext(SeqString T, int next[])
     while (j < T.length) {
         if (k == -1 ||
             T.str[j] ==
-            T.str[k]) { /*Èç¹ûk=-1»òµ±Ç°×Ö·ûÏàµÈ£¬Ôò¼ÌĞø±È½ÏºóÃæµÄ×Ö·û²¢½«º¯ÊıÖµ´æÈëµ½nextÊı×é*/
+            T.str[k]) { /*å¦‚æœk=-1æˆ–å½“å‰å­—ç¬¦ç›¸ç­‰ï¼Œåˆ™ç»§ç»­æ¯”è¾ƒåé¢çš„å­—ç¬¦å¹¶å°†å‡½æ•°å€¼å­˜å…¥åˆ°nextæ•°ç»„*/
             j++;
             k++;
             next[j] = k;
-        } else {                    /*Èç¹ûµ±Ç°×Ö·û²»ÏàµÈ£¬Ôò½«Ä£Ê½´®ÏòÓÒÒÆ¶¯¼ÌĞø±È½Ï*/
+        } else {                    /*å¦‚æœå½“å‰å­—ç¬¦ä¸ç›¸ç­‰ï¼Œåˆ™å°†æ¨¡å¼ä¸²å‘å³ç§»åŠ¨ç»§ç»­æ¯”è¾ƒ*/
             k = next[k];
         }
     }
 }
 int GetNextVal(SeqString T, int nextval[])
-/*ÇóÄ£Ê½´®TµÄnextº¯ÊıÖµµÄĞŞÕıÖµ²¢´æÈëÊı×énext*/
+/*æ±‚æ¨¡å¼ä¸²Tçš„nextå‡½æ•°å€¼çš„ä¿®æ­£å€¼å¹¶å­˜å…¥æ•°ç»„next*/
 {
     int j, k;
     j = 0;
@@ -150,23 +150,23 @@ int GetNextVal(SeqString T, int nextval[])
     while (j < T.length) {
         if (k == -1 ||
             T.str[j] ==
-            T.str[k]) { /*Èç¹ûk=-1»òµ±Ç°×Ö·ûÏàµÈ£¬Ôò¼ÌĞø±È½ÏºóÃæµÄ×Ö·û²¢½«º¯ÊıÖµ´æÈëµ½nextvalÊı×é*/
+            T.str[k]) { /*å¦‚æœk=-1æˆ–å½“å‰å­—ç¬¦ç›¸ç­‰ï¼Œåˆ™ç»§ç»­æ¯”è¾ƒåé¢çš„å­—ç¬¦å¹¶å°†å‡½æ•°å€¼å­˜å…¥åˆ°nextvalæ•°ç»„*/
             j++;
             k++;
 
             if (T.str[j] !=
-                T.str[k]) {     /*Èç¹ûËùÇóµÄnextval[j]ÓëÒÑÓĞµÄnextval[k]²»ÏàµÈ£¬Ôò½«k´æ·ÅÔÚnextvalÖĞ*/
+                T.str[k]) {     /*å¦‚æœæ‰€æ±‚çš„nextval[j]ä¸å·²æœ‰çš„nextval[k]ä¸ç›¸ç­‰ï¼Œåˆ™å°†kå­˜æ”¾åœ¨nextvalä¸­*/
                 nextval[j] = k;
             } else {
                 nextval[j] = nextval[k];
             }
-        } else {                            /*Èç¹ûµ±Ç°×Ö·û²»ÏàµÈ£¬Ôò½«Ä£Ê½´®ÏòÓÒÒÆ¶¯¼ÌĞø±È½Ï*/
+        } else {                            /*å¦‚æœå½“å‰å­—ç¬¦ä¸ç›¸ç­‰ï¼Œåˆ™å°†æ¨¡å¼ä¸²å‘å³ç§»åŠ¨ç»§ç»­æ¯”è¾ƒ*/
             k = nextval[k];
         }
     }
 }
 void PrintArray(SeqString T, int next[], int nextval[], int length)
-/*Ä£Ê½´®TµÄnextÖµÓënextvalÖµÊä³öº¯Êı*/
+/*æ¨¡å¼ä¸²Tçš„nextå€¼ä¸nextvalå€¼è¾“å‡ºå‡½æ•°*/
 {
     int j;
     printf("j:\t\t");
@@ -176,7 +176,7 @@ void PrintArray(SeqString T, int next[], int nextval[], int length)
     }
 
     printf("\n");
-    printf("Ä£Ê½´®:\t\t");
+    printf("æ¨¡å¼ä¸²:\t\t");
 
     for (j = 0; j < length; j++) {
         printf("%3c", T.str[j]);

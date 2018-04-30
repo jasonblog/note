@@ -3,7 +3,7 @@
 typedef char DataType;
 #include"SeqStack.h"
 #define MaxSize 50
-typedef struct { /*²Ù×÷ÊýÕ»µÄÀàÐÍ¶¨Òå*/
+typedef struct { /*æ“ä½œæ•°æ ˆçš„ç±»åž‹å®šä¹‰*/
     float data[MaxSize];
     int top;
 } OpStack;
@@ -13,16 +13,16 @@ void main()
 {
     char a[MaxSize], b[MaxSize];
     float f;
-    printf("ÇëÊäÈëÒ»¸öËãÊõ±í´ïÊ½£º\n");
+    printf("è¯·è¾“å…¥ä¸€ä¸ªç®—æœ¯è¡¨è¾¾å¼ï¼š\n");
     gets(a);
-    printf("ÖÐ×º±í´ïÊ½Îª£º%s\n", a);
+    printf("ä¸­ç¼€è¡¨è¾¾å¼ä¸ºï¼š%s\n", a);
     TranslateExpress(a, b);
-    printf("ºó×º±í´ïÊ½Îª£º%s\n", b);
+    printf("åŽç¼€è¡¨è¾¾å¼ä¸ºï¼š%s\n", b);
     f = ComputeExpress(b);
-    printf("¼ÆËã½á¹û£º%f\n", f);
+    printf("è®¡ç®—ç»“æžœï¼š%f\n", f);
 }
 float ComputeExpress(char a[])
-/*¼ÆËãºó×º±í´ïÊ½µÄÖµ*/
+/*è®¡ç®—åŽç¼€è¡¨è¾¾å¼çš„å€¼*/
 {
     OpStack S;
     int i = 0, value;
@@ -32,7 +32,7 @@ float ComputeExpress(char a[])
 
     while (a[i] != '\0') {
         if (a[i] != ' ' && a[i] >= '0' &&
-            a[i] <= '9') { /*Èç¹ûµ±Ç°×Ö·ûÊÇÊý×Ö×Ö·û£¬Ôò½«Æä×ª»»ÎªÊý×Ö²¢´æÈëÕ»ÖÐ*/
+            a[i] <= '9') { /*å¦‚æžœå½“å‰å­—ç¬¦æ˜¯æ•°å­—å­—ç¬¦ï¼Œåˆ™å°†å…¶è½¬æ¢ä¸ºæ•°å­—å¹¶å­˜å…¥æ ˆä¸­*/
             value = 0;
 
             while (a[i] != ' ') {
@@ -42,7 +42,7 @@ float ComputeExpress(char a[])
 
             S.top++;
             S.data[S.top] = value;
-        } else {        /*Èç¹ûµ±Ç°×Ö·ûÊÇÔËËã·û£¬Ôò¶ÔÕ»ÖÐµÄÊý¾Ý½øÐÐÇóÖµ£¬²¢½«½á¹û±£´æµ½Õ»ÖÐ*/
+        } else {        /*å¦‚æžœå½“å‰å­—ç¬¦æ˜¯è¿ç®—ç¬¦ï¼Œåˆ™å¯¹æ ˆä¸­çš„æ•°æ®è¿›è¡Œæ±‚å€¼ï¼Œå¹¶å°†ç»“æžœä¿å­˜åˆ°æ ˆä¸­*/
             switch (a[i]) {
 
             case '+':
@@ -97,13 +97,13 @@ float ComputeExpress(char a[])
         if (S.top == -1) {
             return result;
         } else {
-            printf("±í´ïÊ½´íÎó");
+            printf("è¡¨è¾¾å¼é”™è¯¯");
             exit(-1);
         }
     }
 }
 void TranslateExpress(char str[], char exp[])
-/*½«ÖÐ×º±í´ïÊ½×ª»»Îªºó×º±í´ïÊ½*/
+/*å°†ä¸­ç¼€è¡¨è¾¾å¼è½¬æ¢ä¸ºåŽç¼€è¡¨è¾¾å¼*/
 {
     SeqStack S;
     char ch;
@@ -115,48 +115,48 @@ void TranslateExpress(char str[], char exp[])
 
     while (ch != '\0') {
         switch (ch) {
-        case'(':    /*×óÀ¨ºÅÈëÕ»*/
+        case'(':    /*å·¦æ‹¬å·å…¥æ ˆ*/
             PushStack(&S, ch);
             break;
 
-        case')':    /*Èç¹ûµ±Ç°×Ö·ûÊÇÓÒÀ¨ºÅ£¬Ôò½«Õ»ÖÐµÄ×Ö·û³öÕ»£¬Ö±µ½Õ»ÖÐµÄÒ»¸ö×óÀ¨ºÅ³öÕ»ÎªÖ¹*/
+        case')':    /*å¦‚æžœå½“å‰å­—ç¬¦æ˜¯å³æ‹¬å·ï¼Œåˆ™å°†æ ˆä¸­çš„å­—ç¬¦å‡ºæ ˆï¼Œç›´åˆ°æ ˆä¸­çš„ä¸€ä¸ªå·¦æ‹¬å·å‡ºæ ˆä¸ºæ­¢*/
             while (GetTop(S, &e) && e != '(') {
                 PopStack(&S, &e);
                 exp[j] = e;
                 j++;
             }
 
-            PopStack(&S, &e); /*×óÀ¨ºÅ³öÕ»*/
+            PopStack(&S, &e); /*å·¦æ‹¬å·å‡ºæ ˆ*/
             break;
 
         case'+':
         case'-':
             while (!StackEmpty(S) && GetTop(S, &e) &&
-                   e != '(') { /*Èç¹ûµ±Ç°×Ö·ûÊÇ+ºÅ»ò-ºÅ£¬Ôò½«Õ»ÖÐ×Ö·û³öÕ»£¬Ö±µ½Óöµ½×óÀ¨ºÅÎªÖ¹*/
+                   e != '(') { /*å¦‚æžœå½“å‰å­—ç¬¦æ˜¯+å·æˆ–-å·ï¼Œåˆ™å°†æ ˆä¸­å­—ç¬¦å‡ºæ ˆï¼Œç›´åˆ°é‡åˆ°å·¦æ‹¬å·ä¸ºæ­¢*/
                 PopStack(&S, &e);
                 exp[j] = e;
                 j++;
             }
 
-            PushStack(&S, ch); /*½«µ±Ç°×Ö·ûÈëÕ»*/
+            PushStack(&S, ch); /*å°†å½“å‰å­—ç¬¦å…¥æ ˆ*/
             break;
 
         case'*':
         case'/':
             while (!StackEmpty(S) && GetTop(S, &e) && e == '/' ||
-                   e == '*') { /*Èç¹ûµ±Ç°×Ö·ûÊÇ*ºÅ»òÕßÊÇ/ºÅ£¬Ôò½«Õ»ÖÐ×Ö·û³öÕ»*/
+                   e == '*') { /*å¦‚æžœå½“å‰å­—ç¬¦æ˜¯*å·æˆ–è€…æ˜¯/å·ï¼Œåˆ™å°†æ ˆä¸­å­—ç¬¦å‡ºæ ˆ*/
                 PopStack(&S, &e);
                 exp[j] = e;
                 j++;
             }
 
-            PushStack(&S, ch);  /*µ±Ç°×Ö·ûÈëÕ»*/
+            PushStack(&S, ch);  /*å½“å‰å­—ç¬¦å…¥æ ˆ*/
             break;
 
         case' ':
             break;
 
-        default:                /*´¦ÀíÊý×Ö×Ö·û*/
+        default:                /*å¤„ç†æ•°å­—å­—ç¬¦*/
             while (ch >= '0' && ch <= '9') {
                 exp[j] = ch;
                 j++;

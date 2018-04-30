@@ -3,13 +3,13 @@
 #include<malloc.h>
 
 typedef struct polyn {
-    float coef;      /*´æ·ÅÒ»Ôª¶àÏîÊ½µÄÏµÊý*/
-    int expn;        /*´æ·ÅÒ»Ôª¶àÏîÊ½µÄÖ¸Êý*/
+    float coef;      /*å­˜æ”¾ä¸€å…ƒå¤šé¡¹å¼çš„ç³»æ•°*/
+    int expn;        /*å­˜æ”¾ä¸€å…ƒå¤šé¡¹å¼çš„æŒ‡æ•°*/
     struct polyn* next;
 } PolyNode, *PolyNomial;
 
 PolyNomial CreatePolyn()
-/*´´½¨Ò»Ôª¶àÏîÊ½*/
+/*åˆ›å»ºä¸€å…ƒå¤šé¡¹å¼*/
 {
 
     PolyNode* p, *q, *s;
@@ -27,9 +27,9 @@ PolyNomial CreatePolyn()
     head->next = NULL;
 
     do {
-        printf("ÊäÈëÏµÊýcoef");
+        printf("è¾“å…¥ç³»æ•°coef");
         scanf("%f", &coef2);
-        printf("ÊäÈëÖ¸Êýexp(ÊäÈë0 0 ½áÊø)");
+        printf("è¾“å…¥æŒ‡æ•°exp(è¾“å…¥0 0 ç»“æŸ)");
         scanf("%d", &expn2);
 
         if ((long)coef2 == 0 && expn2 == 0) {
@@ -47,7 +47,7 @@ PolyNomial CreatePolyn()
         q = head->next;
         p = head;
 
-        /*´´½¨Ò»¸ö¶àÏîÊ½£¬Ê¹¶àÏîÊ½°´ÕÕÏµÊýµÝ¼õÅÅÁÐ*/
+        /*åˆ›å»ºä¸€ä¸ªå¤šé¡¹å¼ï¼Œä½¿å¤šé¡¹å¼æŒ‰ç…§ç³»æ•°é€’å‡æŽ’åˆ—*/
         while (q && expn2 < q->expn) {
             p = q;
             q = q->next;
@@ -56,7 +56,7 @@ PolyNomial CreatePolyn()
         if (q == NULL || expn2 > q->expn) {
             p->next = s;
             s->next = q;
-        } else {            /*Èç¹ûÖ¸ÊýÏàÍ¬£¬ºÏ²¢Í¬ÀàÏî*/
+        } else {            /*å¦‚æžœæŒ‡æ•°ç›¸åŒï¼Œåˆå¹¶åŒç±»é¡¹*/
             q->coef += coef2;
         }
     } while (1);
@@ -64,7 +64,7 @@ PolyNomial CreatePolyn()
     return head;
 }
 PolyNode* Reverse(PolyNomial head)
-/*ÄæÖÃÁ´±í*/
+/*é€†ç½®é“¾è¡¨*/
 {
     PolyNode* q, *r, *p = NULL;
     q = head->next;
@@ -81,7 +81,7 @@ PolyNode* Reverse(PolyNomial head)
 }
 
 PolyNode* MultiplyPolyn(PolyNomial A, PolyNomial B)
-/*Ò»Ôª¶àÏîÊ½µÄÏà³Ë*/
+/*ä¸€å…ƒå¤šé¡¹å¼çš„ç›¸ä¹˜*/
 {
     PolyNode* pa, *Pb, *Pc, *u, *head;
     int k, maxExp;
@@ -96,14 +96,14 @@ PolyNode* MultiplyPolyn(PolyNomial A, PolyNomial B)
     head->expn = 0;
     head->next = NULL;
 
-    if (A->next != NULL && B->next != NULL) { /*Çó³öÁ½¸ö¶àÏîÊ½³Ë»ý×î´óµÄÖ¸ÊýÏî*/
+    if (A->next != NULL && B->next != NULL) { /*æ±‚å‡ºä¸¤ä¸ªå¤šé¡¹å¼ä¹˜ç§¯æœ€å¤§çš„æŒ‡æ•°é¡¹*/
         maxExp = A->next->expn + B->next->expn;
     } else {
         return head;
     }
 
     Pc = head;
-    B = Reverse(B);                     /*½«¶àÏîÊ½BÄæÖÃ*/
+    B = Reverse(B);                     /*å°†å¤šé¡¹å¼Bé€†ç½®*/
 
     for (k = maxExp; k >= 0; k--) {
         pa = A->next;
@@ -126,7 +126,7 @@ PolyNode* MultiplyPolyn(PolyNomial A, PolyNomial B)
                 coef += pa->coef * Pb->coef;
                 pa = pa->next;
                 Pb = Pb->next;
-            } else if (pa->expn + Pb->expn > k) { /*ËµÃ÷³Ë»ýÃ»ÓÐµÈÓÚkµÄÖ¸ÊýÏî*/
+            } else if (pa->expn + Pb->expn > k) { /*è¯´æ˜Žä¹˜ç§¯æ²¡æœ‰ç­‰äºŽkçš„æŒ‡æ•°é¡¹*/
                 pa = pa->next;
             } else {
                 Pb = Pb->next;
@@ -147,7 +147,7 @@ PolyNode* MultiplyPolyn(PolyNomial A, PolyNomial B)
     return head;
 }
 void OutPut(PolyNomial head)
-/*Êä³öÒ»Ôª¶àÏîÊ½*/
+/*è¾“å‡ºä¸€å…ƒå¤šé¡¹å¼*/
 {
     PolyNode* p = head->next;
 

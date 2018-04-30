@@ -2,30 +2,30 @@
 #define N 20
 
 void PrintMatrix(int a[N][N], int n)
-/*打印螺旋矩阵*/
+/*鎵撳嵃铻烘棆鐭╅樀*/
 {
     int i, j, k, m;
     k = 1;
 
     for (i = 0; i < n / 2; i++) {
-        for (j = i; j < n - i; j++) { /*打印上面的行*/
+        for (j = i; j < n - i; j++) { /*鎵撳嵃涓婇潰鐨勮*/
             a[i][j] = k++;
         }
 
-        for (j = i + 1; j < n - i; j++) { /*打印右边的列*/
+        for (j = i + 1; j < n - i; j++) { /*鎵撳嵃鍙宠竟鐨勫垪*/
             a[j][n - i - 1] = k++;
         }
 
-        for (j = n - i - 2; j >= i; j--) { /*打印下面的行*/
+        for (j = n - i - 2; j >= i; j--) { /*鎵撳嵃涓嬮潰鐨勮*/
             a[n - i - 1][j] = k++;
         }
 
-        for (j = n - i - 2; j >= i + 1; j--) { /*打印左边的列*/
+        for (j = n - i - 2; j >= i + 1; j--) { /*鎵撳嵃宸﹁竟鐨勫垪*/
             a[j][i] = k++;
         }
     }
 
-    if (n % 2 != 0) {           /*如果n是奇数，则将最后一个数存入*/
+    if (n % 2 != 0) {           /*濡傛灉n鏄鏁帮紝鍒欏皢鏈�鍚庝竴涓暟瀛樺叆*/
         a[n / 2][n / 2] = k;
     }
 }

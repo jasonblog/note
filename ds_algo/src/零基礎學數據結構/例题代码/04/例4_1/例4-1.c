@@ -12,12 +12,12 @@ void main()
 
     for (i = 0; i < sizeof(a) / sizeof(a[0]); i++) {
         if (PushStack(&S, a[i]) == 0) {
-            printf("Õ»ÒÑÂú£¬²»ÄÜ½øÕ»£¡");
+            printf("æ ˆå·²æ»¡ï¼Œä¸èƒ½è¿›æ ˆï¼");
             return;
         }
     }
 
-    printf("³öÕ»µÄÔªËØÊÇ£º");
+    printf("å‡ºæ ˆçš„å…ƒç´ æ˜¯ï¼š");
 
     if (PopStack(&S, &e) == 1) {
         printf("%4c", e);
@@ -28,27 +28,27 @@ void main()
     }
 
     printf("\n");
-    printf("µ±Ç°Õ»¶¥µÄÔªËØÊÇ£º");
+    printf("å½“å‰æ ˆé¡¶çš„å…ƒç´ æ˜¯ï¼š");
 
     if (GetTop(S, &e) == 0) {
-        printf("Õ»ÒÑ¿Õ£¡");
+        printf("æ ˆå·²ç©ºï¼");
         return;
     } else {
         printf("%4c\n", e);
     }
 
     if (PushStack(&S, 'f') == 0) {
-        printf("Õ»ÒÑÂú£¬²»ÄÜ½øÕ»£¡");
+        printf("æ ˆå·²æ»¡ï¼Œä¸èƒ½è¿›æ ˆï¼");
         return;
     }
 
     if (PushStack(&S, 'g') == 0) {
-        printf("Õ»ÒÑÂú£¬²»ÄÜ½øÕ»£¡");
+        printf("æ ˆå·²æ»¡ï¼Œä¸èƒ½è¿›æ ˆï¼");
         return;
     }
 
-    printf("µ±Ç°Õ»ÖÐµÄÔªËØ¸öÊýÊÇ£º%d\n", StackLength(S));
-    printf("ÔªËØ³öÕ»µÄÐòÁÐÊÇ£º");
+    printf("å½“å‰æ ˆä¸­çš„å…ƒç´ ä¸ªæ•°æ˜¯ï¼š%d\n", StackLength(S));
+    printf("å…ƒç´ å‡ºæ ˆçš„åºåˆ—æ˜¯ï¼š");
 
     while (!StackEmpty(S)) {
         PopStack(&S, &e);

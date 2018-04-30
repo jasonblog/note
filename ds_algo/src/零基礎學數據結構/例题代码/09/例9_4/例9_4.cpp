@@ -2,54 +2,54 @@
 using namespace std;
 typedef char type;
 
-//±êÖ¾ÓòµÄÖµ,link±íÊ¾Ö¸Õë£¬thread±íÊ¾ÏßË÷
+//æ ‡å¿—åŸŸçš„å€¼,linkè¡¨ç¤ºæŒ‡é’ˆï¼Œthreadè¡¨ç¤ºçº¿ç´¢
 typedef enum {link, thread} tag;
 
-//¶ş²æÊ÷µÄ¶ş²æÏßË÷´æ´¢±íÊ¾
+//äºŒå‰æ ‘çš„äºŒå‰çº¿ç´¢å­˜å‚¨è¡¨ç¤º
 
 typedef struct bin {
     type data;
-    struct bin* lchild;  //×óº¢×ÓÖ¸Õë
-    struct bin* rchild; //ÓÒº¢×ÓÖ¸Õë
-    tag ltag;              //×ó±êÖ¾Î»
-    tag rtag;             //ÓÒ±êÖ¾Î»
+    struct bin* lchild;  //å·¦å­©å­æŒ‡é’ˆ
+    struct bin* rchild; //å³å­©å­æŒ‡é’ˆ
+    tag ltag;              //å·¦æ ‡å¿—ä½
+    tag rtag;             //å³æ ‡å¿—ä½
 } bin_thr_node, *bin_thr_tree;
 
-//¶¨ÒåÈ«¾Ö±äÁ¿preÀ´¼ÇÂ¼¸Õ¸Õ·ÃÎÊ¹ıµÄ½Úµã
+//å®šä¹‰å…¨å±€å˜é‡preæ¥è®°å½•åˆšåˆšè®¿é—®è¿‡çš„èŠ‚ç‚¹
 bin_thr_tree pre;
 
-//µİ¹éÏßË÷»¯¶ş²æÊ÷
+//é€’å½’çº¿ç´¢åŒ–äºŒå‰æ ‘
 
 void in_threading(bin_thr_tree tree)
 {
     if (tree) {
-        in_threading(tree->lchild);    //×ó×ÓÊ÷ÏßË÷»¯
+        in_threading(tree->lchild);    //å·¦å­æ ‘çº¿ç´¢åŒ–
 
-        if (!tree->lchild) { //Ê÷µÄ×ó×ÓÊ÷Îª¿Õ£¬ÔòÖ¸ÏòÇ°Çı
+        if (!tree->lchild) { //æ ‘çš„å·¦å­æ ‘ä¸ºç©ºï¼Œåˆ™æŒ‡å‘å‰é©±
             tree->ltag = thread;
             tree->lchild = pre;
         }
 
-        if (!pre->rchild) { //Ç°ÇıµÄÓÒ×ÓÊ÷Îª¿Õ£¬ÔòÆäÓÒ×ÓÊ÷Ö¸Ïòµ±Ç°½áµã
+        if (!pre->rchild) { //å‰é©±çš„å³å­æ ‘ä¸ºç©ºï¼Œåˆ™å…¶å³å­æ ‘æŒ‡å‘å½“å‰ç»“ç‚¹
             pre->rtag = thread;
             pre->rchild = tree;
         }
 
-        pre = tree;                            //±£³ÖpreÖ¸ÏòtreeµÄÇ°Çı
-        in_threading(tree->rchild);   //ÓÒ×ÓÊ÷ÏßË÷»¯
+        pre = tree;                            //ä¿æŒpreæŒ‡å‘treeçš„å‰é©±
+        in_threading(tree->rchild);   //å³å­æ ‘çº¿ç´¢åŒ–
     }
 }
 
-//ÏßË÷»¯¶ş²æÊ÷
+//çº¿ç´¢åŒ–äºŒå‰æ ‘
 int inorder_thr(bin_thr_tree& thr, bin_thr_tree t)
 {
     thr = new bin_thr_node;
     thr->data = 0;
     thr->ltag = link;
     thr->rtag = thread;
-    thr->rchild = thr;  //ÓÒº¢×Ó»ØÖ¸
+    thr->rchild = thr;  //å³å­©å­å›æŒ‡
 
-    if (!t) {           //¼ÙÈçtÎª¿Õ£¬ÔòthrµÄ×óº¢×Ó»ØÖ¸
+    if (!t) {           //å‡å¦‚tä¸ºç©ºï¼Œåˆ™thrçš„å·¦å­©å­å›æŒ‡
         thr->lchild = thr;
     } else {
         thr->lchild = t;
@@ -63,9 +63,9 @@ int inorder_thr(bin_thr_tree& thr, bin_thr_tree t)
     return 1;
 }
 
-//ÏÈĞò´´½¨¶ş²æÊ÷.
+//å…ˆåºåˆ›å»ºäºŒå‰æ ‘.
 
-//°´ÏÈĞò´ÎĞòÊäÈë¶ş²æÊ÷ÖĞ½áµãµÄÖµ(Ò»¸ö×Ö·û)£¬ ×Ö·û'#'±íÊ¾¿ÕÊ÷¡£
+//æŒ‰å…ˆåºæ¬¡åºè¾“å…¥äºŒå‰æ ‘ä¸­ç»“ç‚¹çš„å€¼(ä¸€ä¸ªå­—ç¬¦)ï¼Œ å­—ç¬¦'#'è¡¨ç¤ºç©ºæ ‘ã€‚
 
 void pre_create_tree(bin_thr_tree& t)
 {
@@ -84,7 +84,7 @@ void pre_create_tree(bin_thr_tree& t)
     }
 }
 
-//  ±éÀúÖĞĞòÏß¹ı¶ş²æÊ÷
+//  éå†ä¸­åºçº¿è¿‡äºŒå‰æ ‘
 
 void in_order_traverse(bin_thr_tree t)
 {
@@ -96,17 +96,17 @@ void in_order_traverse(bin_thr_tree t)
             point = point->lchild;
         }
 
-        //·ÃÎÊ×î×ó¶ËµÄº¢×Ó
+        //è®¿é—®æœ€å·¦ç«¯çš„å­©å­
         printf("%c", point->data);
 
-        //·ÃÎÊºó¼Ì½áµã
+        //è®¿é—®åç»§ç»“ç‚¹
         while (thread == point->rtag &&
-               point->rchild != t) { //¼Ç×¡ÊÇpoint->rchild != t;
+               point->rchild != t) { //è®°ä½æ˜¯point->rchild != t;
             point = point->rchild;
             printf("%c", point->data);
         }
 
-        //·ÃÎÊ×îºó¼Ì½áµãµÄÓÒº¢×Ó(×îºó¼ÌµÄ½áµãµÄ×óº¢×Ó±ØÎªÆäÇ°Çı£¬¹Ê±Ø·ÃÎÊ¹ı£¬ÎŞĞèÔÙ·ÃÎÊ)
+        //è®¿é—®æœ€åç»§ç»“ç‚¹çš„å³å­©å­(æœ€åç»§çš„ç»“ç‚¹çš„å·¦å­©å­å¿…ä¸ºå…¶å‰é©±ï¼Œæ•…å¿…è®¿é—®è¿‡ï¼Œæ— éœ€å†è®¿é—®)
         point = point->rchild;
     }
 }
@@ -117,13 +117,13 @@ int main()
 {
     bin_thr_tree t, thr;
 
-    //ÏÈĞò´´½¨¶ş²æÊ÷
+    //å…ˆåºåˆ›å»ºäºŒå‰æ ‘
     pre_create_tree(t);
 
-    //ÏßË÷»¯¶ş²æÊ÷
+    //çº¿ç´¢åŒ–äºŒå‰æ ‘
     inorder_thr(thr, t);
 
-    //±éÀúÏßË÷¶ş²æÊ÷
+    //éå†çº¿ç´¢äºŒå‰æ ‘
     in_order_traverse(thr);
     printf("\n");
     return 0;

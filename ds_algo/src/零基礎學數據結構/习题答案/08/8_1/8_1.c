@@ -1,4 +1,4 @@
-/*°üº¬Í·ÎÄ¼şºÍ¹ãÒå±í¡¢´®µÄ»ù±¾²Ù×÷µÄÊµÏÖÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶å’Œå¹¿ä¹‰è¡¨ã€ä¸²çš„åŸºæœ¬æ“ä½œçš„å®ç°æ–‡ä»¶*/
 #include <stdio.h>
 #include<malloc.h>
 #include<stdlib.h>
@@ -6,7 +6,7 @@
 typedef char AtomType;
 #include"GList.h"
 #include"SeqString.h"
-/*º¯ÊıÉùÃ÷*/
+/*å‡½æ•°å£°æ˜*/
 void CreateList(GList* L, SeqString S);
 void DistributeString(SeqString* Str, SeqString* HeadStr);
 void PrintGList(GList L);
@@ -14,69 +14,69 @@ void main()
 {
     GList L;
     SeqString S;
-    StrAssign(&S, "(a,(b),(a,(b,c),d))");   /*½«×Ö·û´®¸³Öµ¸ø´®S*/
-    CreateList(&L, S);                      /*ÓÉ´®´´½¨¹ãÒå±íL*/
-    printf("ÒÔ¹ãÒå±íµÄĞÎÊ½Êä³öL:\n");
-    PrintGList(L);                          /*Êä³ö¹ãÒå±íÖĞµÄÔªËØ*/
+    StrAssign(&S, "(a,(b),(a,(b,c),d))");   /*å°†å­—ç¬¦ä¸²èµ‹å€¼ç»™ä¸²S*/
+    CreateList(&L, S);                      /*ç”±ä¸²åˆ›å»ºå¹¿ä¹‰è¡¨L*/
+    printf("ä»¥å¹¿ä¹‰è¡¨çš„å½¢å¼è¾“å‡ºL:\n");
+    PrintGList(L);                          /*è¾“å‡ºå¹¿ä¹‰è¡¨ä¸­çš„å…ƒç´ */
     printf("\n");
 }
 
 
 void PrintGList(GList L)
-/*ÒÔ¹ãÒå±íĞÎÊ½Êä³ö¡£²ÉÓÃÍ·Î²Á´±í±íÊ¾*/
+/*ä»¥å¹¿ä¹‰è¡¨å½¢å¼è¾“å‡ºã€‚é‡‡ç”¨å¤´å°¾é“¾è¡¨è¡¨ç¤º*/
 {
-    if (!L) {               /*Èç¹û¹ãÒå±í»ò×Ó±íÎª¿Õ£¬ÔòÖ±½ÓÊä³öÒ»¶ÔÀ¨ºÅ(×óÀ¨ºÅºÍÓÒÀ¨ºÅ)*/
+    if (!L) {               /*å¦‚æœå¹¿ä¹‰è¡¨æˆ–å­è¡¨ä¸ºç©ºï¼Œåˆ™ç›´æ¥è¾“å‡ºä¸€å¯¹æ‹¬å·(å·¦æ‹¬å·å’Œå³æ‹¬å·)*/
         printf("()");
         return;
-    } else if (L->tag == ATOM) { /*Èç¹ûÊÇÔ­×Ó£¬ÔòÖ±½ÓÊä³öÔ­×ÓÔªËØ*/
+    } else if (L->tag == ATOM) { /*å¦‚æœæ˜¯åŸå­ï¼Œåˆ™ç›´æ¥è¾“å‡ºåŸå­å…ƒç´ */
         printf("%c", L->atom);
         return;
-    } else {                /*Èç¹ûÊÇ×Ó±í£¬ÏÈÊä³öÒ»¸ö×óÀ¨ºÅ*/
+    } else {                /*å¦‚æœæ˜¯å­è¡¨ï¼Œå…ˆè¾“å‡ºä¸€ä¸ªå·¦æ‹¬å·*/
         printf("(");
     }
 
     for (; L; L = L->ptr.tp) {
-        PrintGList(L->ptr.hp);  /*µİ¹éµ÷ÓÃÊä³ö×Ó±í*/
+        PrintGList(L->ptr.hp);  /*é€’å½’è°ƒç”¨è¾“å‡ºå­è¡¨*/
 
-        if (L->ptr.tp) {        /*Èç¹û±íÎ²»¹ÓĞÔªËØ£¬ÔòÊä³öÒ»¸ö¶ººÅ*/
+        if (L->ptr.tp) {        /*å¦‚æœè¡¨å°¾è¿˜æœ‰å…ƒç´ ï¼Œåˆ™è¾“å‡ºä¸€ä¸ªé€—å·*/
             printf(",");
         }
 
     }
 
-    printf(")");                /*Èç¹û×Ó±í½áÊø£¬×îºóÊä³öÒ»¸öÓÒÀ¨ºÅ*/
+    printf(")");                /*å¦‚æœå­è¡¨ç»“æŸï¼Œæœ€åè¾“å‡ºä¸€ä¸ªå³æ‹¬å·*/
 }
 void CreateList(GList* L, SeqString S)
-/*²ÉÓÃÍ·Î²Á´±í´´½¨¹ãÒå±í*/
+/*é‡‡ç”¨å¤´å°¾é“¾è¡¨åˆ›å»ºå¹¿ä¹‰è¡¨*/
 {
     SeqString Sub, HeadSub, Empty;
     GList p, q;
     StrAssign(&Empty, "()");
 
-    if (!StrCompare(S, Empty)) {        /*Èç¹ûÊäÈëµÄ´®ÊÇ¿Õ´®Ôò´´½¨Ò»¸ö¿ÕµÄ¹ãÒå±í*/
+    if (!StrCompare(S, Empty)) {        /*å¦‚æœè¾“å…¥çš„ä¸²æ˜¯ç©ºä¸²åˆ™åˆ›å»ºä¸€ä¸ªç©ºçš„å¹¿ä¹‰è¡¨*/
         *L = NULL;
     } else {
-        if (!(*L = (GList)malloc(sizeof(GLNode)))) { /*Îª¹ãÒå±íÉú³ÉÒ»¸ö½áµã*/
+        if (!(*L = (GList)malloc(sizeof(GLNode)))) { /*ä¸ºå¹¿ä¹‰è¡¨ç”Ÿæˆä¸€ä¸ªç»“ç‚¹*/
             exit(-1);
         }
 
         if (StrLength(S) ==
-            1) {                    /*¹ãÒå±íÊÇÔ­×Ó£¬Ôò½«Ô­×ÓµÄÖµ¸³Öµ¸ø¹ãÒå±í½áµã*/
+            1) {                    /*å¹¿ä¹‰è¡¨æ˜¯åŸå­ï¼Œåˆ™å°†åŸå­çš„å€¼èµ‹å€¼ç»™å¹¿ä¹‰è¡¨ç»“ç‚¹*/
             (*L)->tag = ATOM;
             (*L)->atom = S.str[0];
-        } else {                                    /*Èç¹ûÊÇ×Ó±í*/
+        } else {                                    /*å¦‚æœæ˜¯å­è¡¨*/
             (*L)->tag = LIST;
             p = *L;
-            SubString(&Sub, S, 2, StrLength(S) - 2); /*½«SÈ¥³ı×îÍâ²ãµÄÀ¨ºÅ£¬È»ºó¸³Öµ¸øSub*/
+            SubString(&Sub, S, 2, StrLength(S) - 2); /*å°†Så»é™¤æœ€å¤–å±‚çš„æ‹¬å·ï¼Œç„¶åèµ‹å€¼ç»™Sub*/
 
             do {
                 DistributeString(&Sub,
-                                 &HeadSub);   /*½«Sub·ÖÀë³ö±íÍ·ºÍ±íÎ²·Ö±ğ¸³Öµ¸øHeadSubºÍSub*/
-                CreateList(&(p->ptr.hp), HeadSub);  /*µİ¹éµ÷ÓÃÉú³É¹ãÒå±í*/
+                                 &HeadSub);   /*å°†Subåˆ†ç¦»å‡ºè¡¨å¤´å’Œè¡¨å°¾åˆ†åˆ«èµ‹å€¼ç»™HeadSubå’ŒSub*/
+                CreateList(&(p->ptr.hp), HeadSub);  /*é€’å½’è°ƒç”¨ç”Ÿæˆå¹¿ä¹‰è¡¨*/
                 q = p;
 
                 if (!StrEmpty(
-                        Sub)) {               /*Èç¹û±íÎ²²»¿Õ£¬ÔòÉú³É½áµãp£¬²¢½«Î²Ö¸ÕëÓòÖ¸Ïòp*/
+                        Sub)) {               /*å¦‚æœè¡¨å°¾ä¸ç©ºï¼Œåˆ™ç”Ÿæˆç»“ç‚¹pï¼Œå¹¶å°†å°¾æŒ‡é’ˆåŸŸæŒ‡å‘p*/
                     if (!(p = (GLNode*)malloc(sizeof(GLNode)))) {
                         exit(-1);
                     }
@@ -91,32 +91,32 @@ void CreateList(GList* L, SeqString S)
     }
 }
 void DistributeString(SeqString* Str, SeqString* HeadStr)
-/*½«´®Str·ÖÀë³ÉÁ½¸ö²¿·Ö£¬HeadStrÎªµÚÒ»¸ö¶ººÅÖ®Ç°µÄ×Ó´®£¬StrÎª¶ººÅºóµÄ×Ó´®*/
+/*å°†ä¸²Stråˆ†ç¦»æˆä¸¤ä¸ªéƒ¨åˆ†ï¼ŒHeadSträ¸ºç¬¬ä¸€ä¸ªé€—å·ä¹‹å‰çš„å­ä¸²ï¼ŒSträ¸ºé€—å·åçš„å­ä¸²*/
 {
     int len, i, k;
     SeqString Ch, Ch1, Ch2, Ch3;
-    len = StrLength(*Str);              /*lenÎªStrµÄ³¤¶È*/
-    StrAssign(&Ch1, ",");               /*½«×Ö·û','¡¢'('ºÍ')'·Ö±ğ¸³¸øCh1,Ch2ºÍCh3*/
+    len = StrLength(*Str);              /*lenä¸ºStrçš„é•¿åº¦*/
+    StrAssign(&Ch1, ",");               /*å°†å­—ç¬¦','ã€'('å’Œ')'åˆ†åˆ«èµ‹ç»™Ch1,Ch2å’ŒCh3*/
     StrAssign(&Ch2, "(");
     StrAssign(&Ch3, ")");
-    SubString(&Ch, *Str, 1, 1);         /*Ch±£´æStrµÄµÚÒ»¸ö×Ö·û*/
+    SubString(&Ch, *Str, 1, 1);         /*Chä¿å­˜Strçš„ç¬¬ä¸€ä¸ªå­—ç¬¦*/
 
     for (i = 1, k = 0; i <= len && StrCompare(Ch, Ch1) ||
-         k != 0; i++) { /*ËÑË÷Str×îÍâ²ãµÄµÚÒ»¸öÀ¨ºÅ*/
-        SubString(&Ch, *Str, i, 1);     /*È¡³öStrµÄµÚÒ»¸ö×Ö·û*/
+         k != 0; i++) { /*æœç´¢Stræœ€å¤–å±‚çš„ç¬¬ä¸€ä¸ªæ‹¬å·*/
+        SubString(&Ch, *Str, i, 1);     /*å–å‡ºStrçš„ç¬¬ä¸€ä¸ªå­—ç¬¦*/
 
-        if (!StrCompare(Ch, Ch2)) {     /*Èç¹ûµÚÒ»¸ö×Ö·ûÊÇ'('£¬ÔòÁîk¼Ó1*/
+        if (!StrCompare(Ch, Ch2)) {     /*å¦‚æœç¬¬ä¸€ä¸ªå­—ç¬¦æ˜¯'('ï¼Œåˆ™ä»¤kåŠ 1*/
             k++;
-        } else if (!StrCompare(Ch, Ch3)) { /*Èç¹ûµ±Ç°×Ö·ûÊÇ')'£¬ÔòÁîk¼õÈ¥1*/
+        } else if (!StrCompare(Ch, Ch3)) { /*å¦‚æœå½“å‰å­—ç¬¦æ˜¯')'ï¼Œåˆ™ä»¤kå‡å»1*/
             k--;
         }
     }
 
-    if (i <= len) {                     /*´®StrÖĞ´æÔÚ','£¬ËüÊÇµÚi-1¸ö×Ö·û*/
-        SubString(HeadStr, *Str, 1, i - 2); /*HeadStr±£´æ´®Str','Ç°µÄ×Ö·û*/
-        SubString(Str, *Str, i, len - i + 1); /*Str±£´æ´®Str','ºóµÄ×Ö·û*/
-    } else {                            /*´®StrÖĞ²»´æÔÚ','*/
-        StrCopy(HeadStr, *Str);         /*½«´®StrµÄÄÚÈİ¸´ÖÆµ½´®HeadStr*/
-        StrClear(Str);                  /*Çå¿Õ´®Str*/
+    if (i <= len) {                     /*ä¸²Strä¸­å­˜åœ¨','ï¼Œå®ƒæ˜¯ç¬¬i-1ä¸ªå­—ç¬¦*/
+        SubString(HeadStr, *Str, 1, i - 2); /*HeadSträ¿å­˜ä¸²Str','å‰çš„å­—ç¬¦*/
+        SubString(Str, *Str, i, len - i + 1); /*Strä¿å­˜ä¸²Str','åçš„å­—ç¬¦*/
+    } else {                            /*ä¸²Strä¸­ä¸å­˜åœ¨','*/
+        StrCopy(HeadStr, *Str);         /*å°†ä¸²Strçš„å†…å®¹å¤åˆ¶åˆ°ä¸²HeadStr*/
+        StrClear(Str);                  /*æ¸…ç©ºä¸²Str*/
     }
 }

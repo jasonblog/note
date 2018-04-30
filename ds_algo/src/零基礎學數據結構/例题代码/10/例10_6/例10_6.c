@@ -1,4 +1,4 @@
-/*°üº¬Í·ÎÄ¼ş¼°Í¼µÄÀàĞÍ¶¨Òå*/
+/*åŒ…å«å¤´æ–‡ä»¶åŠå›¾çš„ç±»å‹å®šä¹‰*/
 #include<stdio.h>
 #include<string.h>
 #include<malloc.h>
@@ -6,23 +6,23 @@
 typedef char VertexType[4];
 typedef char InfoPtr;
 typedef int VRType;
-#define INFINITY 100000         /*¶¨ÒåÒ»¸öÎŞÏŞ´óµÄÖµ*/
-#define MaxSize 50              /*×î´ó¶¥µã¸öÊı*/
-typedef int PathMatrix[MaxSize][MaxSize];   /*¶¨ÒåÒ»¸ö±£´æ×î¶ÌÂ·¾¶µÄ¶şÎ¬Êı×é*/
+#define INFINITY 100000         /*å®šä¹‰ä¸€ä¸ªæ— é™å¤§çš„å€¼*/
+#define MaxSize 50              /*æœ€å¤§é¡¶ç‚¹ä¸ªæ•°*/
+typedef int PathMatrix[MaxSize][MaxSize];   /*å®šä¹‰ä¸€ä¸ªä¿å­˜æœ€çŸ­è·¯å¾„çš„äºŒç»´æ•°ç»„*/
 typedef int
-ShortPathLength[MaxSize];       /*¶¨ÒåÒ»¸ö±£´æ´Ó¶¥µãv0µ½¶¥µãvµÄ×î¶Ì¾àÀëµÄÊı×é*/
-typedef enum {DG, DN, UG, UN} GraphKind; /*Í¼µÄÀàĞÍ£ºÓĞÏòÍ¼¡¢ÓĞÏòÍø¡¢ÎŞÏòÍ¼ºÍÎŞÏòÍø*/
+ShortPathLength[MaxSize];       /*å®šä¹‰ä¸€ä¸ªä¿å­˜ä»é¡¶ç‚¹v0åˆ°é¡¶ç‚¹vçš„æœ€çŸ­è·ç¦»çš„æ•°ç»„*/
+typedef enum {DG, DN, UG, UN} GraphKind; /*å›¾çš„ç±»å‹ï¼šæœ‰å‘å›¾ã€æœ‰å‘ç½‘ã€æ— å‘å›¾å’Œæ— å‘ç½‘*/
 typedef struct {
-    VRType adj;             /*¶ÔÓÚÎŞÈ¨Í¼£¬ÓÃ1±íÊ¾ÏàÁÚ£¬0±íÊ¾²»ÏàÁÚ£»¶ÔÓÚ´øÈ¨Í¼£¬´æ´¢È¨Öµ*/
-    InfoPtr* info;              /*Óë»¡»ò±ßµÄÏà¹ØĞÅÏ¢*/
+    VRType adj;             /*å¯¹äºæ— æƒå›¾ï¼Œç”¨1è¡¨ç¤ºç›¸é‚»ï¼Œ0è¡¨ç¤ºä¸ç›¸é‚»ï¼›å¯¹äºå¸¦æƒå›¾ï¼Œå­˜å‚¨æƒå€¼*/
+    InfoPtr* info;              /*ä¸å¼§æˆ–è¾¹çš„ç›¸å…³ä¿¡æ¯*/
 } ArcNode, AdjMatrix[MaxSize][MaxSize];
-typedef struct {                /*Í¼µÄÀàĞÍ¶¨Òå*/
-    VertexType vex[MaxSize];    /*ÓÃÓÚ´æ´¢¶¥µã*/
-    AdjMatrix arc;              /*ÁÚ½Ó¾ØÕó£¬´æ´¢±ß»ò»¡µÄĞÅÏ¢*/
-    int vexnum, arcnum;         /*¶¥µãÊıºÍ±ß£¨»¡£©µÄÊıÄ¿*/
-    GraphKind kind;             /*Í¼µÄÀàĞÍ*/
+typedef struct {                /*å›¾çš„ç±»å‹å®šä¹‰*/
+    VertexType vex[MaxSize];    /*ç”¨äºå­˜å‚¨é¡¶ç‚¹*/
+    AdjMatrix arc;              /*é‚»æ¥çŸ©é˜µï¼Œå­˜å‚¨è¾¹æˆ–å¼§çš„ä¿¡æ¯*/
+    int vexnum, arcnum;         /*é¡¶ç‚¹æ•°å’Œè¾¹ï¼ˆå¼§ï¼‰çš„æ•°ç›®*/
+    GraphKind kind;             /*å›¾çš„ç±»å‹*/
 } MGraph;
-typedef struct {                /*Ìí¼ÓÒ»¸ö´æ´¢ÍøµÄĞĞ¡¢ÁĞºÍÈ¨ÖµµÄÀàĞÍ¶¨Òå*/
+typedef struct {                /*æ·»åŠ ä¸€ä¸ªå­˜å‚¨ç½‘çš„è¡Œã€åˆ—å’Œæƒå€¼çš„ç±»å‹å®šä¹‰*/
     int row;
     int col;
     int weight;
@@ -32,14 +32,14 @@ void DisplayGraph(MGraph N);
 void Dijkstra(MGraph N, int v0, PathMatrix path, ShortPathLength dist);
 
 void Dijkstra(MGraph N, int v0, PathMatrix path, ShortPathLength dist)
-/*ÓÃDijkstraËã·¨ÇóÓĞÏòÍøNµÄv0¶¥µãµ½ÆäÓà¸÷¶¥µãvµÄ×î¶ÌÂ·¾¶P[v]¼°´øÈ¨³¤¶ÈD[v]*/
-/*final[v]Îª1±íÊ¾v¡ÊS£¬¼´ÒÑ¾­Çó³ö´Óv0µ½vµÄ×î¶ÌÂ·¾¶*/
+/*ç”¨Dijkstraç®—æ³•æ±‚æœ‰å‘ç½‘Nçš„v0é¡¶ç‚¹åˆ°å…¶ä½™å„é¡¶ç‚¹vçš„æœ€çŸ­è·¯å¾„P[v]åŠå¸¦æƒé•¿åº¦D[v]*/
+/*final[v]ä¸º1è¡¨ç¤ºvâˆˆSï¼Œå³å·²ç»æ±‚å‡ºä»v0åˆ°vçš„æœ€çŸ­è·¯å¾„*/
 {
     int v, w, i, k, min;
-    int final[MaxSize];         /*¼ÇÂ¼v0µ½¸Ã¶¥µãµÄ×î¶ÌÂ·¾¶ÊÇ·ñÒÑÇó³ö*/
+    int final[MaxSize];         /*è®°å½•v0åˆ°è¯¥é¡¶ç‚¹çš„æœ€çŸ­è·¯å¾„æ˜¯å¦å·²æ±‚å‡º*/
 
     for (v = 0; v < N.vexnum;
-         v++) { /*Êı×édist´æ´¢v0µ½vµÄ×î¶Ì¾àÀë£¬³õÊ¼»¯Îªv0µ½vµÄ»¡µÄ¾àÀë*/
+         v++) { /*æ•°ç»„distå­˜å‚¨v0åˆ°vçš„æœ€çŸ­è·ç¦»ï¼Œåˆå§‹åŒ–ä¸ºv0åˆ°vçš„å¼§çš„è·ç¦»*/
         final[v] = 0;
         dist[v] = N.arc[v0][v].adj;
 
@@ -47,29 +47,29 @@ void Dijkstra(MGraph N, int v0, PathMatrix path, ShortPathLength dist)
             path[v][w] = 0;
         }
 
-        if (dist[v] < INFINITY) { /*Èç¹û´Óv0µ½vÓĞÖ±½ÓÂ·¾¶£¬Ôò³õÊ¼»¯Â·¾¶Êı×é*/
+        if (dist[v] < INFINITY) { /*å¦‚æœä»v0åˆ°væœ‰ç›´æ¥è·¯å¾„ï¼Œåˆ™åˆå§‹åŒ–è·¯å¾„æ•°ç»„*/
             path[v][v0] = 1;
             path[v][v] = 1;
         }
     }
 
-    dist[v0] = 0;                   /*v0µ½v0µÄÂ·¾¶Îª0*/
-    final[v0] = 1;                  /*v0¶¥µã²¢Èë¼¯ºÏS*/
+    dist[v0] = 0;                   /*v0åˆ°v0çš„è·¯å¾„ä¸º0*/
+    final[v0] = 1;                  /*v0é¡¶ç‚¹å¹¶å…¥é›†åˆS*/
 
-    /*´Óv0µ½ÆäÓàG.vexnum-1¸ö¶¥µãµÄ×î¶ÌÂ·¾¶£¬²¢½«¸Ã¶¥µã²¢Èë¼¯ºÏS*/
+    /*ä»v0åˆ°å…¶ä½™G.vexnum-1ä¸ªé¡¶ç‚¹çš„æœ€çŸ­è·¯å¾„ï¼Œå¹¶å°†è¯¥é¡¶ç‚¹å¹¶å…¥é›†åˆS*/
     for (i = 1; i < N.vexnum; i++) {
         min = INFINITY;
 
         for (w = 0; w < N.vexnum; w++)
-            if (!final[w] && dist[w] < min) { /*ÔÚ²»ÊôÓÚ¼¯ºÏSµÄ¶¥µãÖĞÕÒµ½Àëv0×î½üµÄ¶¥µã*/
-                v = w;                  /*½«ÆäÀëv0×î½üµÄ¶¥µãw¸³¸øv£¬Æä¾àÀë¸³¸ømin*/
+            if (!final[w] && dist[w] < min) { /*åœ¨ä¸å±äºé›†åˆSçš„é¡¶ç‚¹ä¸­æ‰¾åˆ°ç¦»v0æœ€è¿‘çš„é¡¶ç‚¹*/
+                v = w;                  /*å°†å…¶ç¦»v0æœ€è¿‘çš„é¡¶ç‚¹wèµ‹ç»™vï¼Œå…¶è·ç¦»èµ‹ç»™min*/
                 min = dist[w];
             }
 
-        final[v] = 1;               /*½«v²¢Èë¼¯ºÏS*/
+        final[v] = 1;               /*å°†vå¹¶å…¥é›†åˆS*/
 
         for (w = 0; w < N.vexnum;
-             w++) /*ÀûÓÃĞÂ²¢Èë¼¯ºÏSµÄ¶¥µã£¬¸üĞÂv0µ½²»ÊôÓÚ¼¯ºÏSµÄ¶¥µãµÄ×î¶ÌÂ·¾¶³¤¶ÈºÍ×î¶ÌÂ·¾¶Êı×é*/
+             w++) /*åˆ©ç”¨æ–°å¹¶å…¥é›†åˆSçš„é¡¶ç‚¹ï¼Œæ›´æ–°v0åˆ°ä¸å±äºé›†åˆSçš„é¡¶ç‚¹çš„æœ€çŸ­è·¯å¾„é•¿åº¦å’Œæœ€çŸ­è·¯å¾„æ•°ç»„*/
             if (!final[w] && min < INFINITY && N.arc[v][w].adj < INFINITY &&
                 (min + N.arc[v][w].adj < dist[w])) {
                 dist[w] = min + N.arc[v][w].adj;
@@ -91,12 +91,12 @@ void main()
         {1, 2, 40}, {1, 3, 100}, {2, 3, 50}, {3, 4, 30}, {4, 5, 10}
     };
     VertexType ch[] = {"v0", "v1", "v2", "v3", "v4", "v5"};
-    PathMatrix path;                     /*ÓÃ¶şÎ¬Êı×é´æ·Å×î¶ÌÂ·¾¶Ëù¾­¹ıµÄ¶¥µã*/
-    ShortPathLength disc;                /*ÓÃÒ»Î¬Êı×é´æ·Å×î¶ÌÂ·¾¶³¤¶È*/
-    CreateGraph(&N, value, vnum, arcnum, ch); /*´´½¨ÓĞÏòÍøN*/
-    DisplayGraph(N);                     /*Êä³öÓĞÏòÍøN*/
+    PathMatrix path;                     /*ç”¨äºŒç»´æ•°ç»„å­˜æ”¾æœ€çŸ­è·¯å¾„æ‰€ç»è¿‡çš„é¡¶ç‚¹*/
+    ShortPathLength disc;                /*ç”¨ä¸€ç»´æ•°ç»„å­˜æ”¾æœ€çŸ­è·¯å¾„é•¿åº¦*/
+    CreateGraph(&N, value, vnum, arcnum, ch); /*åˆ›å»ºæœ‰å‘ç½‘N*/
+    DisplayGraph(N);                     /*è¾“å‡ºæœ‰å‘ç½‘N*/
     Dijkstra(N, 0, path, disc);
-    printf("%sµ½¸÷¶¥µãµÄ×î¶ÌÂ·¾¶³¤¶ÈÎª£º\n", N.vex[0]);
+    printf("%såˆ°å„é¡¶ç‚¹çš„æœ€çŸ­è·¯å¾„é•¿åº¦ä¸ºï¼š\n", N.vex[0]);
 
     for (i = 0; i < N.vexnum; ++i)
         if (i != 0) {
@@ -105,7 +105,7 @@ void main()
 }
 
 void CreateGraph(MGraph* N, GNode* value, int vnum, int arcnum, VertexType* ch)
-/*²ÉÓÃÁÚ½Ó¾ØÕó±íÊ¾·¨´´½¨ÓĞÏòÍøN*/
+/*é‡‡ç”¨é‚»æ¥çŸ©é˜µè¡¨ç¤ºæ³•åˆ›å»ºæœ‰å‘ç½‘N*/
 {
     int i, j, k, w, InfoFlag, len;
     char s[MaxSize];
@@ -117,10 +117,10 @@ void CreateGraph(MGraph* N, GNode* value, int vnum, int arcnum, VertexType* ch)
         strcpy(N->vex[i], ch[i]);
     }
 
-    for (i = 0; i < N->vexnum; i++) /*³õÊ¼»¯ÁÚ½Ó¾ØÕó*/
+    for (i = 0; i < N->vexnum; i++) /*åˆå§‹åŒ–é‚»æ¥çŸ©é˜µ*/
         for (j = 0; j < N->vexnum; j++) {
             N->arc[i][j].adj = INFINITY;
-            N->arc[i][j].info = NULL; /*»¡µÄĞÅÏ¢³õÊ¼»¯Îª¿Õ*/
+            N->arc[i][j].info = NULL; /*å¼§çš„ä¿¡æ¯åˆå§‹åŒ–ä¸ºç©º*/
         }
 
     for (k = 0; k < arcnum; k++) {
@@ -129,20 +129,20 @@ void CreateGraph(MGraph* N, GNode* value, int vnum, int arcnum, VertexType* ch)
         N->arc[i][j].adj = value[k].weight;
     }
 
-    N->kind = DN;                   /*Í¼µÄÀàĞÍÎªÓĞÏòÍø*/
+    N->kind = DN;                   /*å›¾çš„ç±»å‹ä¸ºæœ‰å‘ç½‘*/
 }
 void DisplayGraph(MGraph N)
-/*Êä³öÁÚ½Ó¾ØÕó´æ´¢±íÊ¾µÄÍ¼N*/
+/*è¾“å‡ºé‚»æ¥çŸ©é˜µå­˜å‚¨è¡¨ç¤ºçš„å›¾N*/
 {
     int i, j;
-    printf("ÓĞÏòÍø¾ßÓĞ%d¸ö¶¥µã%dÌõ»¡£¬¶¥µãÒÀ´ÎÊÇ: ", N.vexnum, N.arcnum);
+    printf("æœ‰å‘ç½‘å…·æœ‰%dä¸ªé¡¶ç‚¹%dæ¡å¼§ï¼Œé¡¶ç‚¹ä¾æ¬¡æ˜¯: ", N.vexnum, N.arcnum);
 
-    for (i = 0; i < N.vexnum; ++i) {    /*Êä³öÍøµÄ¶¥µã*/
+    for (i = 0; i < N.vexnum; ++i) {    /*è¾“å‡ºç½‘çš„é¡¶ç‚¹*/
         printf("%s ", N.vex[i]);
     }
 
-    printf("\nÓĞÏòÍøNµÄ:\n");           /*Êä³öÍøNµÄ»¡*/
-    printf("ĞòºÅi=");
+    printf("\næœ‰å‘ç½‘Nçš„:\n");           /*è¾“å‡ºç½‘Nçš„å¼§*/
+    printf("åºå·i=");
 
     for (i = 0; i < N.vexnum; i++) {
         printf("%8d", i);

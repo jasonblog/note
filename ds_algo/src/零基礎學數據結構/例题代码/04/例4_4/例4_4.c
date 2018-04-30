@@ -1,11 +1,11 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<malloc.h>
 #include<stdlib.h>
 #include "string.h"
-/*ºê¶¨ÒåºÍÁ´Õ»ÀàĞÍ¶¨Òå*/
+/*å®å®šä¹‰å’Œé“¾æ ˆç±»å‹å®šä¹‰*/
 typedef char DataType;
-#include"LinkStack.h"                   /*°üº¬Á´Õ»ÊµÏÖÎÄ¼ş*/
+#include"LinkStack.h"                   /*åŒ…å«é“¾æ ˆå®ç°æ–‡ä»¶*/
 int Match(DataType e, DataType ch);
 void main()
 {
@@ -13,8 +13,8 @@ void main()
     char* p;
     DataType e;
     DataType ch[60];
-    InitStack(&S);                  /*³õÊ¼»¯Á´Õ»*/
-    printf("ÇëÊäÈë´øÀ¨ºÅµÄ±í´ïÊ½('{}','[]','()').\n");
+    InitStack(&S);                  /*åˆå§‹åŒ–é“¾æ ˆ*/
+    printf("è¯·è¾“å…¥å¸¦æ‹¬å·çš„è¡¨è¾¾å¼('{}','[]','()').\n");
     gets(ch);
     p = ch;
 
@@ -30,7 +30,7 @@ void main()
         case ']':
         case '}':
             if (StackEmpty(S)) {
-                printf("È±ÉÙ×óÀ¨ºÅ.\n");
+                printf("ç¼ºå°‘å·¦æ‹¬å·.\n");
                 return;
             } else {
                 GetTop(S, &e);
@@ -38,7 +38,7 @@ void main()
                 if (Match(e, *p)) {
                     PopStack(S, &e);
                 } else {
-                    printf("×óÓÒÀ¨ºÅ²»Åä¶Ô.\n");
+                    printf("å·¦å³æ‹¬å·ä¸é…å¯¹.\n");
                     return;
                 }
             }
@@ -49,9 +49,9 @@ void main()
     }
 
     if (StackEmpty(S)) {
-        printf("À¨ºÅÆ¥Åä.\n");
+        printf("æ‹¬å·åŒ¹é….\n");
     } else {
-        printf("È±ÉÙÓÒÀ¨ºÅ.\n");
+        printf("ç¼ºå°‘å³æ‹¬å·.\n");
     }
 }
 

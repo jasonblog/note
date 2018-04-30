@@ -1,14 +1,14 @@
 
 
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<stdlib.h>
 #define MaxSize 50
 typedef int KeyType;
-typedef struct { /*Êı¾İÔªËØÀàĞÍ¶¨Òå*/
-    KeyType key;/*¹Ø¼ü×Ö*/
+typedef struct { /*æ•°æ®å…ƒç´ ç±»å‹å®šä¹‰*/
+    KeyType key;/*å…³é”®å­—*/
 } DataType;
-typedef struct { /*Ë³Ğò±íÀàĞÍ¶¨Òå*/
+typedef struct { /*é¡ºåºè¡¨ç±»å‹å®šä¹‰*/
     DataType data[MaxSize];
     int length;
 } SqList;
@@ -19,16 +19,16 @@ void DispList3(SqList L, int count);
 void HeapSort(SqList* H);
 void BubbleSort(SqList* L, int n);
 void BubbleSort(SqList* L, int n)
-/*Ã°ÅİÅÅĞò*/
+/*å†’æ³¡æ’åº*/
 {
     int i, j, flag;
     DataType t;
     static int count = 1;
 
-    for (i = 1; i <= n - 1 && flag; i++) { /*ĞèÒª½øĞĞn-1ÌËÅÅĞò*/
+    for (i = 1; i <= n - 1 && flag; i++) { /*éœ€è¦è¿›è¡Œn-1è¶Ÿæ’åº*/
         flag = 0;
 
-        for (j = 1; j <= n - i; j++) /*Ã¿Ò»ÌËÅÅĞòĞèÒª±È½Ïn-i´Î*/
+        for (j = 1; j <= n - i; j++) /*æ¯ä¸€è¶Ÿæ’åºéœ€è¦æ¯”è¾ƒn-iæ¬¡*/
             if (L->data[j].key > L->data[j + 1].key) {
                 t = L->data[j];
                 L->data[j] = L->data[j + 1];
@@ -41,66 +41,66 @@ void BubbleSort(SqList* L, int n)
     }
 }
 void QSort(SqList* L, int low, int high)
-/*¶ÔË³Ğò±íL½øĞĞ¿ìËÙÅÅĞò*/
+/*å¯¹é¡ºåºè¡¨Lè¿›è¡Œå¿«é€Ÿæ’åº*/
 {
     int pivot;
     static count = 1;
 
-    if (low < high) {                       /*Èç¹ûÔªËØĞòÁĞµÄ³¤¶È´óÓÚ1*/
-        pivot = Partition(L, low, high);    /*½«´ıÅÅĞòĞòÁĞL.r[low..high]»®·ÖÎªÁ½²¿·Ö*/
-        DispList2(*L, pivot, count);        /*Êä³öÃ¿´Î»®·ÖµÄ½á¹û*/
+    if (low < high) {                       /*å¦‚æœå…ƒç´ åºåˆ—çš„é•¿åº¦å¤§äº1*/
+        pivot = Partition(L, low, high);    /*å°†å¾…æ’åºåºåˆ—L.r[low..high]åˆ’åˆ†ä¸ºä¸¤éƒ¨åˆ†*/
+        DispList2(*L, pivot, count);        /*è¾“å‡ºæ¯æ¬¡åˆ’åˆ†çš„ç»“æœ*/
         count++;
         QSort(L, low, pivot -
-              1);           /*¶Ô×ó±ßµÄ×Ó±í½øĞĞµİ¹éÅÅĞò£¬pivotÊÇÊàÖáÎ»ÖÃ*/
-        QSort(L, pivot + 1, high);          /*¶ÔÓÒ±ßµÄ×Ó±í½øĞĞµİ¹éÅÅĞò */
+              1);           /*å¯¹å·¦è¾¹çš„å­è¡¨è¿›è¡Œé€’å½’æ’åºï¼Œpivotæ˜¯æ¢è½´ä½ç½®*/
+        QSort(L, pivot + 1, high);          /*å¯¹å³è¾¹çš„å­è¡¨è¿›è¡Œé€’å½’æ’åº */
     }
 }
 
 void QuickSort(SqList* L)
-/* ¶ÔË³Ğò±íL×÷¿ìËÙÅÅĞò*/
+/* å¯¹é¡ºåºè¡¨Lä½œå¿«é€Ÿæ’åº*/
 {
     QSort(L, 1, (*L).length);
 }
 
 int Partition(SqList* L, int low, int high)
-/*¶ÔË³Ğò±íL.r[low..high]µÄÔªËØ½øĞĞÒ»ÌËÅÅĞò£¬Ê¹ÊàÖáÇ°ÃæµÄÔªËØ¹Ø¼ü×ÖĞ¡ÓÚ
-ÊàÖáÔªËØµÄ¹Ø¼ü×Ö£¬ÊàÖáºóÃæµÄÔªËØ¹Ø¼ü×Ö´óÓÚµÈÓÚÊàÖáÔªËØµÄ¹Ø¼ü×Ö£¬²¢·µ»ØÊàÖáÎ»ÖÃ*/
+/*å¯¹é¡ºåºè¡¨L.r[low..high]çš„å…ƒç´ è¿›è¡Œä¸€è¶Ÿæ’åºï¼Œä½¿æ¢è½´å‰é¢çš„å…ƒç´ å…³é”®å­—å°äº
+æ¢è½´å…ƒç´ çš„å…³é”®å­—ï¼Œæ¢è½´åé¢çš„å…ƒç´ å…³é”®å­—å¤§äºç­‰äºæ¢è½´å…ƒç´ çš„å…³é”®å­—ï¼Œå¹¶è¿”å›æ¢è½´ä½ç½®*/
 {
     DataType t;
     KeyType pivotkey;
-    pivotkey = (*L).data[low].key;  /*½«±íµÄµÚÒ»¸öÔªËØ×÷ÎªÊàÖáÔªËØ*/
+    pivotkey = (*L).data[low].key;  /*å°†è¡¨çš„ç¬¬ä¸€ä¸ªå…ƒç´ ä½œä¸ºæ¢è½´å…ƒç´ */
     t = (*L).data[low];
 
-    while (low < high) {            /*´Ó±íµÄÁ½¶Ë½»ÌæµØÏòÖĞ¼äÉ¨Ãè*/
-        while (low < high && (*L).data[high].key >= pivotkey) { /*´Ó±íµÄÄ©¶ËÏòÇ°É¨Ãè*/
+    while (low < high) {            /*ä»è¡¨çš„ä¸¤ç«¯äº¤æ›¿åœ°å‘ä¸­é—´æ‰«æ*/
+        while (low < high && (*L).data[high].key >= pivotkey) { /*ä»è¡¨çš„æœ«ç«¯å‘å‰æ‰«æ*/
             high--;
         }
 
-        if (low < high) {           /*½«µ±Ç°highÖ¸ÏòµÄÔªËØ±£´æÔÚlowÎ»ÖÃ*/
+        if (low < high) {           /*å°†å½“å‰highæŒ‡å‘çš„å…ƒç´ ä¿å­˜åœ¨lowä½ç½®*/
             (*L).data[low] = (*L).data[high];
             low++;
         }
 
-        while (low < high && (*L).data[low].key <= pivotkey) { /*´Ó±íµÄÊ¼¶ËÏòºóÉ¨Ãè*/
+        while (low < high && (*L).data[low].key <= pivotkey) { /*ä»è¡¨çš„å§‹ç«¯å‘åæ‰«æ*/
             low++;
         }
 
-        if (low < high) {           /*½«µ±Ç°lowÖ¸ÏòµÄÔªËØ±£´æÔÚhighÎ»ÖÃ*/
+        if (low < high) {           /*å°†å½“å‰lowæŒ‡å‘çš„å…ƒç´ ä¿å­˜åœ¨highä½ç½®*/
             (*L).data[high] = (*L).data[low];
             high--;
         }
 
-        (*L).data[low] = t;         /*½«ÊàÖáÔªËØ±£´æÔÚlow=highµÄÎ»ÖÃ*/
+        (*L).data[low] = t;         /*å°†æ¢è½´å…ƒç´ ä¿å­˜åœ¨low=highçš„ä½ç½®*/
 
     }
 
-    return low;                     /*·µ»ØÊàÖáËùÔÚÎ»ÖÃ*/
+    return low;                     /*è¿”å›æ¢è½´æ‰€åœ¨ä½ç½®*/
 }
 
 void DispList2(SqList L, int pivot, int count)
 {
     int i;
-    printf("µÚ%dÌËÅÅĞò½á¹û:[", count);
+    printf("ç¬¬%dè¶Ÿæ’åºç»“æœ:[", count);
 
     for (i = 1; i < pivot; i++) {
         printf("%-4d", L.data[i].key);
@@ -119,10 +119,10 @@ void DispList2(SqList L, int pivot, int count)
 
 }
 void DispList3(SqList L, int count)
-/*Êä³ö±íÖĞµÄÔªËØ*/
+/*è¾“å‡ºè¡¨ä¸­çš„å…ƒç´ */
 {
     int i;
-    printf("µÚ%dÌËÅÅĞò½á¹û:", count);
+    printf("ç¬¬%dè¶Ÿæ’åºç»“æœ:", count);
 
     for (i = 1; i <= L.length; i++) {
         printf("%4d", L.data[i].key);
@@ -135,23 +135,23 @@ void main()
     DataType a[] = {37, 22, 43, 32, 19, 12, 89, 26, 48, 92};
     int i, n = 10;
     SqList L;
-    /*Ã°ÅİÅÅĞò*/
+    /*å†’æ³¡æ’åº*/
     InitSeqList(&L, a, n);
-    printf("Ã°ÅİÅÅĞòÇ°£º");
+    printf("å†’æ³¡æ’åºå‰ï¼š");
     DispList(L);
     BubbleSort(&L, n);
-    printf("Ã°ÅİÅÅĞò½á¹û£º");
+    printf("å†’æ³¡æ’åºç»“æœï¼š");
     DispList(L, n);
-    /*¿ìËÙÅÅĞò*/
+    /*å¿«é€Ÿæ’åº*/
     InitSeqList(&L, a, n);
-    printf("¿ìËÙÅÅĞòÇ°£º");
+    printf("å¿«é€Ÿæ’åºå‰ï¼š");
     DispList(L, n);
     QuickSort(&L, n);
-    printf("¿ìËÙÅÅĞò½á¹û£º");
+    printf("å¿«é€Ÿæ’åºç»“æœï¼š");
     DispList(L);
 }
 void InitSeqList(SqList* L, DataType a[], int n)
-/*Ë³Ğò±íµÄ³õÊ¼»¯*/
+/*é¡ºåºè¡¨çš„åˆå§‹åŒ–*/
 {
     int i;
 
@@ -163,7 +163,7 @@ void InitSeqList(SqList* L, DataType a[], int n)
 
 }
 void DispList(SqList L)
-/*Êä³ö±íÖĞµÄÔªËØ*/
+/*è¾“å‡ºè¡¨ä¸­çš„å…ƒç´ */
 {
     int i;
 

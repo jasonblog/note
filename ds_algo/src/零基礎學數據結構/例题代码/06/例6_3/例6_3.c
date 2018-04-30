@@ -1,4 +1,4 @@
-/*°üº¬Í·ÎÄ¼ş¼°Á´´®µÄ»ù±¾²Ù×÷ÊµÏÖÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶åŠé“¾ä¸²çš„åŸºæœ¬æ“ä½œå®ç°æ–‡ä»¶*/
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
@@ -12,54 +12,54 @@ void main()
     char* str1 = "Welcome to";
     char* str2 = " Data Structure";
     char* str3 = "Computer Architecture";
-    printf("´®µÄ³õÊ¼»¯ºÍ¸³Öµ²Ù×÷:\n");
-    InitString(&S1);                    /*´®S1£¬S2£¬S3µÄ³õÊ¼»¯*/
+    printf("ä¸²çš„åˆå§‹åŒ–å’Œèµ‹å€¼æ“ä½œ:\n");
+    InitString(&S1);                    /*ä¸²S1ï¼ŒS2ï¼ŒS3çš„åˆå§‹åŒ–*/
     InitString(&S2);
     InitString(&S3);
     InitString(&Sub);
-    StrAssign(&S1, str1);               /*´®S1£¬S2£¬S3µÄ¸³Öµ²Ù×÷*/
+    StrAssign(&S1, str1);               /*ä¸²S1ï¼ŒS2ï¼ŒS3çš„èµ‹å€¼æ“ä½œ*/
     StrAssign(&S2, str2);
     StrAssign(&S3, str3);
-    printf("´®S1µÄÖµÊÇ:");
+    printf("ä¸²S1çš„å€¼æ˜¯:");
     StrPrint(S1);
-    printf("´®S2µÄÖµÊÇ:");
+    printf("ä¸²S2çš„å€¼æ˜¯:");
     StrPrint(S2);
-    printf("´®S3µÄÖµÊÇ:");
+    printf("ä¸²S3çš„å€¼æ˜¯:");
     StrPrint(S3);
-    printf("½«´®S2Á¬½ÓÔÚ´®S1µÄÄ©Î²:\n");
-    StrConcat(&S1, S2);                 /*½«´®S2Á¬½ÓÔÚ´®S1µÄÄ©Î²*/
-    printf("S1ÊÇ:");
+    printf("å°†ä¸²S2è¿æ¥åœ¨ä¸²S1çš„æœ«å°¾:\n");
+    StrConcat(&S1, S2);                 /*å°†ä¸²S2è¿æ¥åœ¨ä¸²S1çš„æœ«å°¾*/
+    printf("S1æ˜¯:");
     StrPrint(S1);
-    printf("½«´®S1µÄµÚ12¸öÎ»ÖÃºóµÄ14¸ö×Ö·ûÉ¾³ı:\n");
-    StrDelete(&S1, 12, 14);             /*½«´®S1ÖĞµÄµÚ12¸öÎ»ÖÃºóµÄ14¸ö×Ö·ûÉ¾³ı*/
-    printf("S1ÊÇ:");
+    printf("å°†ä¸²S1çš„ç¬¬12ä¸ªä½ç½®åçš„14ä¸ªå­—ç¬¦åˆ é™¤:\n");
+    StrDelete(&S1, 12, 14);             /*å°†ä¸²S1ä¸­çš„ç¬¬12ä¸ªä½ç½®åçš„14ä¸ªå­—ç¬¦åˆ é™¤*/
+    printf("S1æ˜¯:");
     StrPrint(S1);
-    printf("½«´®S2²åÈëµ½´®S1ÖĞµÄµÚ12¸ö×Ö·ûºó:\n");
-    StrInsert(&S1, 12, S3);             /*½«´®S3²åÈëµ½´®S1µÄµÚ12¸ö×Ö·ûºó*/
-    printf("S1ÊÇ:");
+    printf("å°†ä¸²S2æ’å…¥åˆ°ä¸²S1ä¸­çš„ç¬¬12ä¸ªå­—ç¬¦å:\n");
+    StrInsert(&S1, 12, S3);             /*å°†ä¸²S3æ’å…¥åˆ°ä¸²S1çš„ç¬¬12ä¸ªå­—ç¬¦å*/
+    printf("S1æ˜¯:");
     StrPrint(S1);
-    printf("½«´®S1ÖĞµÄµÚ12¸ö×Ö·ûºóµÄ8¸ö×Ö·ûÈ¡³ö²¢¸³Öµ¸ø´®Sub:\n");
+    printf("å°†ä¸²S1ä¸­çš„ç¬¬12ä¸ªå­—ç¬¦åçš„8ä¸ªå­—ç¬¦å–å‡ºå¹¶èµ‹å€¼ç»™ä¸²Sub:\n");
     SubString(&Sub, S1, 12,
-              8);         /*½«´®S1ÖĞµÄµÚ12¸öÎ»ÖÃºóµÄ8¸ö×Ö·ûÈ¡³ö¸³Öµ¸øSub*/
-    printf("SubÊÇ:");
+              8);         /*å°†ä¸²S1ä¸­çš„ç¬¬12ä¸ªä½ç½®åçš„8ä¸ªå­—ç¬¦å–å‡ºèµ‹å€¼ç»™Sub*/
+    printf("Subæ˜¯:");
     StrPrint(Sub);
 }
 
 void StrPrint(LinkString S)
-/*Á´´®µÄÊä³ö*/
+/*é“¾ä¸²çš„è¾“å‡º*/
 {
     int i = 0, j;
     Chunk* h;
-    h = S.head;                     /*hÖ¸ÏòµÚÒ»¸ö½áµã*/
+    h = S.head;                     /*hæŒ‡å‘ç¬¬ä¸€ä¸ªç»“ç‚¹*/
 
     while (i < S.length) {
-        for (j = 0; j < ChunkSize; j++) /*Êä³ö¿éÖĞµÄÃ¿Ò»¸ö×Ö·û*/
+        for (j = 0; j < ChunkSize; j++) /*è¾“å‡ºå—ä¸­çš„æ¯ä¸€ä¸ªå­—ç¬¦*/
             if (*(h->ch + j) != stuff) {
                 printf("%c", *(h->ch + j));
                 i++;
             }
 
-        h = h->next;            /*hÖ¸ÏòÏÂÒ»¸ö½áµã*/
+        h = h->next;            /*hæŒ‡å‘ä¸‹ä¸€ä¸ªç»“ç‚¹*/
     }
 
     printf("\n");

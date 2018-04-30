@@ -1,12 +1,12 @@
-#include<stdio.h>                       /*°üº¬ÊäÈëÊä³ö*/
+#include<stdio.h>                       /*åŒ…å«è¾“å…¥è¾“å‡º*/
 void main()
 {
     int a[3][4] = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};
-    int (*p)[4];                        /*Êý×éÖ¸ÕëÖ¸Õë±äÁ¿ÉùÃ÷*/
+    int (*p)[4];                        /*æ•°ç»„æŒ‡é’ˆæŒ‡é’ˆå˜é‡å£°æ˜Ž*/
     int row, col;
-    p = a;                              /*Ö¸ÕëpÖ¸ÏòÊý×éÔªËØÎª4µÄÊý×é*/
+    p = a;                              /*æŒ‡é’ˆpæŒ‡å‘æ•°ç»„å…ƒç´ ä¸º4çš„æ•°ç»„*/
 
-    /*´òÓ¡Êä³öÊý×éÖ¸ÕëpÖ¸ÏòµÄÊý×éµÄÖµ*/
+    /*æ‰“å°è¾“å‡ºæ•°ç»„æŒ‡é’ˆpæŒ‡å‘çš„æ•°ç»„çš„å€¼*/
     for (row = 0; row < 3; row++) {
         for (col = 0; col < 4; col++) {
             printf("a[%d,%d]=%-4d", row, col, *(*(p + row) + col));
@@ -15,7 +15,7 @@ void main()
         printf("\n");
     }
 
-    /*Í¨¹ý¸Ä±äÖ¸ÕëpÐÞ¸ÄÊý×éaµÄÐÐµØÖ·£¬¸Ä±äcolµÄÖµÐÞ¸ÄÊý×éaµÄÁÐµØÖ·*/
+    /*é€šè¿‡æ”¹å˜æŒ‡é’ˆpä¿®æ”¹æ•°ç»„açš„è¡Œåœ°å€ï¼Œæ”¹å˜colçš„å€¼ä¿®æ”¹æ•°ç»„açš„åˆ—åœ°å€*/
     for (p = a, row = 0; p < a + 3; p++, row++) {
         for (col = 0; col < 4; col++) {
             printf("(*p[%d])[%d]=%p", row, col, ((*p) + col));

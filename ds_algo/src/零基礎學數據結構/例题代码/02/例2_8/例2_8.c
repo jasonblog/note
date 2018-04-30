@@ -1,34 +1,34 @@
-#include<stdio.h>               /*°üº¬ÊäÈëÊä³öº¯Êı*/
-#define N 10                    /*Êı×éÔªËØ¸öÊı*/
-int Ascending(int a, int b);    /*ÊÇ·ñ½øĞĞÉıĞòÅÅÁĞ*/
-int Descending(int a, int b);   /*ÊÇ·ñ½øĞĞ½µĞòÅÅÁĞ*/
-void swap(int*, int*);          /*½»»»Êı¾İ*/
+#include<stdio.h>               /*åŒ…å«è¾“å…¥è¾“å‡ºå‡½æ•°*/
+#define N 10                    /*æ•°ç»„å…ƒç´ ä¸ªæ•°*/
+int Ascending(int a, int b);    /*æ˜¯å¦è¿›è¡Œå‡åºæ’åˆ—*/
+int Descending(int a, int b);   /*æ˜¯å¦è¿›è¡Œé™åºæ’åˆ—*/
+void swap(int*, int*);          /*äº¤æ¢æ•°æ®*/
 void BubbleSort(int a[], int n, int (*compare)(int,
-                int)); /*ÅÅĞò£¬Í¨¹ıº¯ÊıÖ¸Õë×÷Îª²ÎÊıµ÷ÓÃ*/
-void Display(int a[], int n);   /*Êä³öÊı×éÔªËØ*/
+                int)); /*æ’åºï¼Œé€šè¿‡å‡½æ•°æŒ‡é’ˆä½œä¸ºå‚æ•°è°ƒç”¨*/
+void Display(int a[], int n);   /*è¾“å‡ºæ•°ç»„å…ƒç´ */
 void main()
 {
     int a[N] = {12, 34, 21, 46, 89, 54, 26, 8, 6, 17};
     int flag;
 
     while (1) {
-        printf("ÊäÈë1:´ÓĞ¡µ½´óÅÅĞò.\nÇëÊäÈë2:´Ó´óµ½Ğ¡ÅÅÁĞ.\nÊäÈë3:ÍË³ö!\n");
+        printf("è¾“å…¥1:ä»å°åˆ°å¤§æ’åº.\nè¯·è¾“å…¥2:ä»å¤§åˆ°å°æ’åˆ—.\nè¾“å…¥3:é€€å‡º!\n");
         scanf("%d", &flag);
 
         switch (flag) {
         case 1:
-            printf("ÅÅĞòÇ°µÄÊı¾İÎª:");
+            printf("æ’åºå‰çš„æ•°æ®ä¸º:");
             Display(a, N);
-            BubbleSort(a, N, Ascending);                /*´ÓĞ¡µ½´óÅÅĞò£¬½«º¯Êı×÷Îª²ÎÊı´«µİ*/
-            printf("´ÓĞ¡µ½´óÅÅÁĞºóµÄÊı¾İÎª:");
+            BubbleSort(a, N, Ascending);                /*ä»å°åˆ°å¤§æ’åºï¼Œå°†å‡½æ•°ä½œä¸ºå‚æ•°ä¼ é€’*/
+            printf("ä»å°åˆ°å¤§æ’åˆ—åçš„æ•°æ®ä¸º:");
             Display(a, N);
             break;
 
         case 2:
-            printf("ÅÅĞòÇ°µÄÊı¾İÎª:");
+            printf("æ’åºå‰çš„æ•°æ®ä¸º:");
             Display(a, N);
-            BubbleSort(a, N, Descending);               /*´Ó´óµ½Ğ¡ÅÅĞò£¬½«º¯Êı×÷Îª²ÎÊı´«µİ*/
-            printf("´Ó´óµ½Ğ¡ÅÅÁĞºóµÄÊı¾İÎª:");
+            BubbleSort(a, N, Descending);               /*ä»å¤§åˆ°å°æ’åºï¼Œå°†å‡½æ•°ä½œä¸ºå‚æ•°ä¼ é€’*/
+            printf("ä»å¤§åˆ°å°æ’åˆ—åçš„æ•°æ®ä¸º:");
             Display(a, N);
             break;
 
@@ -37,13 +37,13 @@ void main()
             break;
 
         default:
-            printf("ÊäÈëÊı¾İ²»ºÏ·¨£¬ÇëÖØĞÂÊäÈë.\n");
+            printf("è¾“å…¥æ•°æ®ä¸åˆæ³•ï¼Œè¯·é‡æ–°è¾“å…¥.\n");
             break;
         }
     }
 
 }
-/*Ã°ÅİÅÅĞò£¬½«º¯Êı×÷Îª²ÎÊı´«µİ£¬ÅĞ¶ÏÊÇ´ÓĞ¡µ½´ó»¹ÊÇ´Ó´óµ½Ğ¡ÅÅĞò*/
+/*å†’æ³¡æ’åºï¼Œå°†å‡½æ•°ä½œä¸ºå‚æ•°ä¼ é€’ï¼Œåˆ¤æ–­æ˜¯ä»å°åˆ°å¤§è¿˜æ˜¯ä»å¤§åˆ°å°æ’åº*/
 void BubbleSort(int a[], int n, int(*compare)(int, int))
 {
     int i, j;
@@ -55,7 +55,7 @@ void BubbleSort(int a[], int n, int(*compare)(int, int))
             }
 
 }
-/*½»»»Êı×éµÄÔªËØ*/
+/*äº¤æ¢æ•°ç»„çš„å…ƒç´ */
 void swap(int* a, int* b)
 {
     int t;
@@ -63,7 +63,7 @@ void swap(int* a, int* b)
     *a = *b;
     *b = t;
 }
-/*ÅĞ¶ÏÏàÁÚÊı¾İ´óĞ¡£¬Èç¹ûÇ°Õß´ó£¬ÉıĞòÅÅÁĞĞèÒª½»»»*/
+/*åˆ¤æ–­ç›¸é‚»æ•°æ®å¤§å°ï¼Œå¦‚æœå‰è€…å¤§ï¼Œå‡åºæ’åˆ—éœ€è¦äº¤æ¢*/
 int Ascending(int a, int b)
 {
     if (a > b) {
@@ -73,7 +73,7 @@ int Ascending(int a, int b)
     }
 
 }
-/*ÅĞ¶ÏÏàÁÚÊı¾İ´óĞ¡£¬Èç¹ûÇ°Õß´ó£¬½µĞòÅÅÁĞĞèÒª½»»»*/
+/*åˆ¤æ–­ç›¸é‚»æ•°æ®å¤§å°ï¼Œå¦‚æœå‰è€…å¤§ï¼Œé™åºæ’åˆ—éœ€è¦äº¤æ¢*/
 int Descending(int a, int b)
 {
     if (a < b) {
@@ -82,7 +82,7 @@ int Descending(int a, int b)
         return 0;
     }
 }
-/*Êä³öÊı×éÔªËØ*/
+/*è¾“å‡ºæ•°ç»„å…ƒç´ */
 void Display(int a[], int n)
 {
     int i;

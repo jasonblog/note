@@ -1,8 +1,8 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<conio.h>
 #include<stdlib.h>
-/*ÀàĞÍ¶¨Òå*/
+/*ç±»å‹å®šä¹‰*/
 typedef int DataType;
 
 typedef struct node {
@@ -22,23 +22,23 @@ void main()
     int pos;
     char e;
     InitDList(&A);
-    printf("ÇëÊäÈëÁ´±íAµÄÔªËØ¸öÊı£º");
+    printf("è¯·è¾“å…¥é“¾è¡¨Açš„å…ƒç´ ä¸ªæ•°ï¼š");
     scanf("%d", &n);
     CreateDList(A, n);
-    printf("Á´±íAÖĞµÄÔªËØ£º");
+    printf("é“¾è¡¨Aä¸­çš„å…ƒç´ ï¼š");
     PrintDList(A);
     InitDList(&B);
-    printf("ÇëÊäÈëÁ´±íBµÄÔªËØ¸öÊı£º");
+    printf("è¯·è¾“å…¥é“¾è¡¨Bçš„å…ƒç´ ä¸ªæ•°ï¼š");
     scanf("%d", &n);
     CreateDList(B, n);
-    printf("Á´±íBÖĞµÄÔªËØ£º");
+    printf("é“¾è¡¨Bä¸­çš„å…ƒç´ ï¼š");
     PrintDList(B);
     MergeDLink(A, B);
-    printf("Á´±íAºÍBºÏ²¢ºóµÄÔªËØ£º");
+    printf("é“¾è¡¨Aå’ŒBåˆå¹¶åçš„å…ƒç´ ï¼š");
     PrintDList(A);
 }
 void PrintDList(DLinkList head)
-/*Êä³öË«ÏòÑ­»·Á´±íÖĞµÄÃ¿Ò»¸öÔªËØ*/
+/*è¾“å‡ºåŒå‘å¾ªç¯é“¾è¡¨ä¸­çš„æ¯ä¸€ä¸ªå…ƒç´ */
 {
     DListNode* p;
     p = head->next;
@@ -90,9 +90,9 @@ void MergeDLink(DLinkList A, DLinkList B)
 
     free(B);
 }
-/*º¯ÊıÊµÏÖ*/
+/*å‡½æ•°å®ç°*/
 int InitDList(DLinkList* head)
-/*³õÊ¼»¯Ë«ÏòÑ­»·Á´±í*/
+/*åˆå§‹åŒ–åŒå‘å¾ªç¯é“¾è¡¨*/
 {
     *head = (DLinkList)malloc(sizeof(DListNode));
 
@@ -100,12 +100,12 @@ int InitDList(DLinkList* head)
         return -1;
     }
 
-    (*head)->next = *head;          /*Ê¹Í·½áµãµÄpriorÖ¸ÕëºÍnextÖ¸ÕëÖ¸Ïò×Ô¼º*/
+    (*head)->next = *head;          /*ä½¿å¤´ç»“ç‚¹çš„prioræŒ‡é’ˆå’ŒnextæŒ‡é’ˆæŒ‡å‘è‡ªå·±*/
     (*head)->prior = *head;
     return 1;
 }
 int CreateDList(DLinkList head, int n)
-/*´´½¨Ë«ÏòÑ­»·Á´±í*/
+/*åˆ›å»ºåŒå‘å¾ªç¯é“¾è¡¨*/
 {
     DListNode* s, *q;
     int i;
@@ -113,25 +113,25 @@ int CreateDList(DLinkList head, int n)
     q = head;
 
     for (i = 1; i <= n; i++) {
-        printf("ÊäÈëµÚ%d¸öÔªËØ", i);
+        printf("è¾“å…¥ç¬¬%dä¸ªå…ƒç´ ", i);
         scanf("%d", &e);
         s = (DListNode*)malloc(sizeof(DListNode));
         s->data = e;
-        /*½«ĞÂÉú³ÉµÄ½áµã²åÈëµ½Ë«ÏòÑ­»·Á´±í*/
+        /*å°†æ–°ç”Ÿæˆçš„ç»“ç‚¹æ’å…¥åˆ°åŒå‘å¾ªç¯é“¾è¡¨*/
         s->next = q->next;
         q->next = s;
         s->prior = q;
-        head->prior = s;            /*ÕâÀïÒª×¢ÒâÍ·½áµãµÄpriorÖ¸ÏòĞÂ²åÈëµÄ½áµã*/
-        q = s;                      /*qÊ¼ÖÕÖ¸Ïò×îºóÒ»¸ö½áµã*/
+        head->prior = s;            /*è¿™é‡Œè¦æ³¨æ„å¤´ç»“ç‚¹çš„prioræŒ‡å‘æ–°æ’å…¥çš„ç»“ç‚¹*/
+        q = s;                      /*qå§‹ç»ˆæŒ‡å‘æœ€åä¸€ä¸ªç»“ç‚¹*/
     }
 
     return 1;
 }
 int InsertDList(DLinkList head, int i, DataType e)
-/*ÔÚË«ÏòÑ­»·Á´±íµÄµÚi¸öÎ»ÖÃ²åÈëÔªËØe¡£²åÈë³É¹¦·µ»Ø1£¬·ñÔò·µ»Ø0*/
+/*åœ¨åŒå‘å¾ªç¯é“¾è¡¨çš„ç¬¬iä¸ªä½ç½®æ’å…¥å…ƒç´ eã€‚æ’å…¥æˆåŠŸè¿”å›1ï¼Œå¦åˆ™è¿”å›0*/
 {
     DListNode* p, *s;
-    p = GetElem(head, i);           /*²éÕÒÁ´±íÖĞµÚi¸ö½áµã*/
+    p = GetElem(head, i);           /*æŸ¥æ‰¾é“¾è¡¨ä¸­ç¬¬iä¸ªç»“ç‚¹*/
 
     if (!p) {
         return 0;
@@ -144,7 +144,7 @@ int InsertDList(DLinkList head, int i, DataType e)
     }
 
     s->data = e;
-    /*½«s½áµã²åÈëµ½Ë«ÏòÑ­»·Á´±í*/
+    /*å°†sç»“ç‚¹æ’å…¥åˆ°åŒå‘å¾ªç¯é“¾è¡¨*/
     s->prior = p->prior;
     p->prior->next = s;
     s->next = p;
@@ -152,7 +152,7 @@ int InsertDList(DLinkList head, int i, DataType e)
     return 1;
 }
 DListNode* GetElem(DLinkList head, int i)
-/*²éÕÒ²åÈëµÄÎ»ÖÃ£¬ÕÒµ½·µ»Ø¸Ã½áµãµÄÖ¸Õë£¬·ñÔò·µ»ØNULL*/
+/*æŸ¥æ‰¾æ’å…¥çš„ä½ç½®ï¼Œæ‰¾åˆ°è¿”å›è¯¥ç»“ç‚¹çš„æŒ‡é’ˆï¼Œå¦åˆ™è¿”å›NULL*/
 {
     DListNode* p;
     int j;
@@ -164,7 +164,7 @@ DListNode* GetElem(DLinkList head, int i)
         j++;
     }
 
-    if (p == head || j > i) {       /*Èç¹ûÒªÎ»ÖÃ²»ÕıÈ·£¬·µ»ØNULL*/
+    if (p == head || j > i) {       /*å¦‚æœè¦ä½ç½®ä¸æ­£ç¡®ï¼Œè¿”å›NULL*/
         return NULL;
     }
 

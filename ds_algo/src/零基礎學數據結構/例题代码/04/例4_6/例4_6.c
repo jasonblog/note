@@ -5,13 +5,13 @@ int fact2(int n);
 void main()
 {
     int f, n;
-    printf("ÇëÊäÈëÒ»¸öÕıÕûÊı(n<15)£º");
+    printf("è¯·è¾“å…¥ä¸€ä¸ªæ­£æ•´æ•°(n<15)ï¼š");
     scanf("%d", &n);
-    printf("µİ¹éÊµÏÖnµÄ½×³Ë:");
+    printf("é€’å½’å®ç°nçš„é˜¶ä¹˜:");
     f = fact1(n);
     printf("n!=%4d\n", f);
     f = fact2(n);
-    printf("ÀûÓÃÕ»·Çµİ¹éÊµÏÖnµÄ½×³Ë:");
+    printf("åˆ©ç”¨æ ˆéé€’å½’å®ç°nçš„é˜¶ä¹˜:");
     printf("n!=%4d\n", f);
 }
 int fact1(int n)

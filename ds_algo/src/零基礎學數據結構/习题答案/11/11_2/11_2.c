@@ -1,38 +1,38 @@
-/*°üº¬Í·ÎÄ¼şºÍË³Ğò±íµÄÀàĞÍ¶¨Òå*/
+/*åŒ…å«å¤´æ–‡ä»¶å’Œé¡ºåºè¡¨çš„ç±»å‹å®šä¹‰*/
 #include<stdio.h>
 #include<stdlib.h>
 #define MaxSize 100
 #define IndexSize 20
 typedef int KeyType;
-typedef struct { /*ÔªËØµÄ¶¨Òå*/
+typedef struct { /*å…ƒç´ çš„å®šä¹‰*/
     KeyType key;
 } DataType;
-typedef struct { /*Ë÷Òı±íµÄÀàĞÍ¶¨Òå*/
+typedef struct { /*ç´¢å¼•è¡¨çš„ç±»å‹å®šä¹‰*/
     KeyType maxkey;
     int index;
 } IndexTable[IndexSize];
-typedef struct { /*Ë³Ğò±íµÄÀàĞÍ¶¨Òå*/
+typedef struct { /*é¡ºåºè¡¨çš„ç±»å‹å®šä¹‰*/
     DataType list[MaxSize];
     int length;
 } SSTable;
 int SeqIndexSearch(SSTable S, IndexTable T, int m, DataType x);
 int SeqIndexSearch(SSTable S, IndexTable T, int m, DataType x)
-/*ÔÚÖ÷±íSÖĞ²éÕÒ¹Ø¼ü×ÖÎªxµÄÔªËØ£¬TÎªË÷Òı±í¡£Èç¹ûÕÒµ½·µ»Ø¸ÃÔªËØÔÚ±íÖĞµÄÎ»ÖÃ£¬·ñÔò·µ»Ø0*/
+/*åœ¨ä¸»è¡¨Sä¸­æŸ¥æ‰¾å…³é”®å­—ä¸ºxçš„å…ƒç´ ï¼ŒTä¸ºç´¢å¼•è¡¨ã€‚å¦‚æœæ‰¾åˆ°è¿”å›è¯¥å…ƒç´ åœ¨è¡¨ä¸­çš„ä½ç½®ï¼Œå¦åˆ™è¿”å›0*/
 {
     int i, j, bl;
 
-    for (i = 0; i < m; i++) /*Í¨¹ıË÷Òı±íÈ·¶¨Òª²éÕÒÔªËØËùÔÚµÄµ¥Ôª*/
+    for (i = 0; i < m; i++) /*é€šè¿‡ç´¢å¼•è¡¨ç¡®å®šè¦æŸ¥æ‰¾å…ƒç´ æ‰€åœ¨çš„å•å…ƒ*/
         if (T[i].maxkey >= x.key) {
             break;
         }
 
-    if (i >= m) {       /*Èç¹ûÒª²éÕÒµÄÔªËØ²»ÔÚË÷ÒıË³Ğò±íÖĞ£¬Ôò·µ»Ø0*/
+    if (i >= m) {       /*å¦‚æœè¦æŸ¥æ‰¾çš„å…ƒç´ ä¸åœ¨ç´¢å¼•é¡ºåºè¡¨ä¸­ï¼Œåˆ™è¿”å›0*/
         return 0;
     }
 
-    j = T[i].index;     /*Òª²éÕÒµÄÔªËØÔÚµÄÖ÷±íµÄµÚjµ¥Ôª*/
+    j = T[i].index;     /*è¦æŸ¥æ‰¾çš„å…ƒç´ åœ¨çš„ä¸»è¡¨çš„ç¬¬jå•å…ƒ*/
 
-    if (i < m - 1) {    /*blÎªµÚjµ¥ÔªµÄ³¤¶È*/
+    if (i < m - 1) {    /*blä¸ºç¬¬jå•å…ƒçš„é•¿åº¦*/
         bl = T[i + 1].index - T[i].index;
     } else {
         bl = S.length - T[i].index;
@@ -40,7 +40,7 @@ int SeqIndexSearch(SSTable S, IndexTable T, int m, DataType x)
 
     while (j < T[i].index + bl)
         if (S.list[j].key ==
-            x.key) { /*Èç¹ûÕÒµ½¹Ø¼ü×Ö£¬Ôò·µ»Ø¸Ã¹Ø¼ü×ÖÔÚÖ÷±íÖĞËùÔÚµÄÎ»ÖÃ*/
+            x.key) { /*å¦‚æœæ‰¾åˆ°å…³é”®å­—ï¼Œåˆ™è¿”å›è¯¥å…³é”®å­—åœ¨ä¸»è¡¨ä¸­æ‰€åœ¨çš„ä½ç½®*/
             return j + 1;
         } else {
             j++;
@@ -51,7 +51,7 @@ int SeqIndexSearch(SSTable S, IndexTable T, int m, DataType x)
 
 }
 void DispList(SSTable S)
-/*Êä³ö±íSÖĞµÄÔªËØ*/
+/*è¾“å‡ºè¡¨Sä¸­çš„å…ƒç´ */
 {
     int i;
 
@@ -67,13 +67,13 @@ void main()
     IndexTable T = {{25, 0}, {41, 5}, {59, 10}, {89, 15}};
     DataType x = {52};
     int pos;
-    printf("±íÖĞµÄÔªËØÎª:\n");
+    printf("è¡¨ä¸­çš„å…ƒç´ ä¸º:\n");
     DispList(S);
 
     if ((pos = SeqIndexSearch(S, T, 4, x)) != 0) {
-        printf("Ë÷ÒıË³Ğò±íµÄ²éÕÒ£º¹Ø¼ü×Ö52ÔÚÖ÷±íÖĞµÄÎ»ÖÃÊÇ£º%2d\n", pos);
+        printf("ç´¢å¼•é¡ºåºè¡¨çš„æŸ¥æ‰¾ï¼šå…³é”®å­—52åœ¨ä¸»è¡¨ä¸­çš„ä½ç½®æ˜¯ï¼š%2d\n", pos);
     } else {
-        printf("²éÕÒÊ§°Ü£¡\n");
+        printf("æŸ¥æ‰¾å¤±è´¥ï¼\n");
     }
 
 }

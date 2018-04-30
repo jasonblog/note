@@ -1,12 +1,12 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<stdlib.h>
 #define MaxSize 50
 typedef int KeyType;
-typedef struct { /*Êı¾İÔªËØÀàĞÍ¶¨Òå*/
-    KeyType key;/*¹Ø¼ü×Ö*/
+typedef struct { /*æ•°æ®å…ƒç´ ç±»å‹å®šä¹‰*/
+    KeyType key;/*å…³é”®å­—*/
 } DataType;
-typedef struct { /*Ë³Ğò±íÀàĞÍ¶¨Òå*/
+typedef struct { /*é¡ºåºè¡¨ç±»å‹å®šä¹‰*/
     DataType data[MaxSize];
     int length;
 } SqList;
@@ -18,21 +18,21 @@ void HeapSort(SqList* H);
 void SelectSort(SqList* L, int n);
 
 void SelectSort(SqList* L, int n)
-/*¼òµ¥Ñ¡ÔñÅÅĞò*/
+/*ç®€å•é€‰æ‹©æ’åº*/
 {
     int i, j, k;
     DataType t;
 
-    /*½«µÚi¸öÔªËØµÄ¹Ø¼ü×ÖÓëºóÃæ[i+1...n]¸öÔªËØµÄ¹Ø¼ü×Ö±È½Ï£¬½«¹Ø¼ü×Ö×îĞ¡µÄµÄÔªËØ·ÅÔÚµÚi¸öÎ»ÖÃ*/
+    /*å°†ç¬¬iä¸ªå…ƒç´ çš„å…³é”®å­—ä¸åé¢[i+1...n]ä¸ªå…ƒç´ çš„å…³é”®å­—æ¯”è¾ƒï¼Œå°†å…³é”®å­—æœ€å°çš„çš„å…ƒç´ æ”¾åœ¨ç¬¬iä¸ªä½ç½®*/
     for (i = 1; i <= n - 1; i++) {
         j = i;
 
-        for (k = i + 1; k <= n; k++) /*¹Ø¼ü×Ö×îĞ¡µÄÔªËØµÄĞòºÅÎªj*/
+        for (k = i + 1; k <= n; k++) /*å…³é”®å­—æœ€å°çš„å…ƒç´ çš„åºå·ä¸ºj*/
             if (L->data[k].key < L->data[j].key) {
                 j = k;
             }
 
-        if (j != i) {       /*Èç¹ûĞòºÅi²»µÈÓÚj£¬ÔòĞèÒª½«ĞòºÅiºÍĞòºÅjµÄÔªËØ½»»»*/
+        if (j != i) {       /*å¦‚æœåºå·iä¸ç­‰äºjï¼Œåˆ™éœ€è¦å°†åºå·iå’Œåºå·jçš„å…ƒç´ äº¤æ¢*/
             t = L->data[i];
             L->data[i] = L->data[j];
             L->data[j] = t;
@@ -40,29 +40,29 @@ void SelectSort(SqList* L, int n)
     }
 }
 void CreateHeap(SqList* H, int n)
-/*½¨Á¢´ó¶¥¶Ñ*/
+/*å»ºç«‹å¤§é¡¶å †*/
 {
     int i;
 
-    for (i = n / 2; i >= 1; i--) { /*´ÓĞòºÅn/2¿ªÊ¼½¨Á¢´ó¶¥¶Ñ*/
+    for (i = n / 2; i >= 1; i--) { /*ä»åºå·n/2å¼€å§‹å»ºç«‹å¤§é¡¶å †*/
         AdjustHeap(H, i, n);
     }
 }
 void AdjustHeap(SqList* H, int s, int m)
-/*µ÷ÕûH.data[s...m]µÄ¹Ø¼ü×Ö£¬Ê¹Æä³ÉÎªÒ»¸ö´ó¶¥¶Ñ*/
+/*è°ƒæ•´H.data[s...m]çš„å…³é”®å­—ï¼Œä½¿å…¶æˆä¸ºä¸€ä¸ªå¤§é¡¶å †*/
 {
     DataType t;
     int j;
-    t = (*H).data[s];                       /*½«¸ù½áµãÔİÊ±±£´æÔÚtÖĞ*/
+    t = (*H).data[s];                       /*å°†æ ¹ç»“ç‚¹æš‚æ—¶ä¿å­˜åœ¨tä¸­*/
 
     for (j = 2 * s; j <= m; j *= 2) {
         if (j < m &&
-            (*H).data[j].key < (*H).data[j + 1].key) { /*ÑØ¹Ø¼ü×Ö½Ï´óµÄº¢×Ó½áµãÏòÏÂÉ¸Ñ¡*/
-            j++;    /*jÎª¹Ø¼ü×Ö½Ï´óµÄ½áµãµÄÏÂ±ê*/
+            (*H).data[j].key < (*H).data[j + 1].key) { /*æ²¿å…³é”®å­—è¾ƒå¤§çš„å­©å­ç»“ç‚¹å‘ä¸‹ç­›é€‰*/
+            j++;    /*jä¸ºå…³é”®å­—è¾ƒå¤§çš„ç»“ç‚¹çš„ä¸‹æ ‡*/
         }
 
         if (t.key >
-            (*H).data[j].key) { /*Èç¹ûº¢×Ó½áµãµÄÖµĞ¡ÓÚ¸ù½áµãµÄÖµ£¬Ôò²»½øĞĞ½»»»*/
+            (*H).data[j].key) { /*å¦‚æœå­©å­ç»“ç‚¹çš„å€¼å°äºæ ¹ç»“ç‚¹çš„å€¼ï¼Œåˆ™ä¸è¿›è¡Œäº¤æ¢*/
             break;
         }
 
@@ -70,21 +70,21 @@ void AdjustHeap(SqList* H, int s, int m)
         s = j;
     }
 
-    (*H).data[s] = t;                               /*½«¸ù½áµã²åÈëµ½ÕıÈ·Î»ÖÃ*/
+    (*H).data[s] = t;                               /*å°†æ ¹ç»“ç‚¹æ’å…¥åˆ°æ­£ç¡®ä½ç½®*/
 }
 
 void HeapSort(SqList* H)
-/*¶ÔË³Ğò±íH½øĞĞ¶ÑÅÅĞò*/
+/*å¯¹é¡ºåºè¡¨Hè¿›è¡Œå †æ’åº*/
 {
     DataType t;
     int i;
-    CreateHeap(H, H->length);   /*´´½¨¶Ñ*/
+    CreateHeap(H, H->length);   /*åˆ›å»ºå †*/
 
-    for (i = (*H).length; i > 1; i--) { /*½«¶Ñ¶¥ÔªËØÓë×îºóÒ»¸öÔªËØ½»»»£¬ÖØĞÂµ÷Õû¶Ñ*/
+    for (i = (*H).length; i > 1; i--) { /*å°†å †é¡¶å…ƒç´ ä¸æœ€åä¸€ä¸ªå…ƒç´ äº¤æ¢ï¼Œé‡æ–°è°ƒæ•´å †*/
         t = (*H).data[1];
         (*H).data[1] = (*H).data[i];
         (*H).data[i] = t;
-        AdjustHeap(H, 1, i - 1); /*½«(*H).data[1..i-1]µ÷ÕûÎª´ó¶¥¶Ñ*/
+        AdjustHeap(H, 1, i - 1); /*å°†(*H).data[1..i-1]è°ƒæ•´ä¸ºå¤§é¡¶å †*/
     }
 }
 
@@ -94,23 +94,23 @@ void main()
     int delta[] = {5, 3, 1};
     int i, n = 10, m = 3;
     SqList L;
-    /*¼òµ¥Ñ¡ÔñÅÅĞò*/
+    /*ç®€å•é€‰æ‹©æ’åº*/
     InitSeqList(&L, a, n);
-    printf("ÅÅĞòÇ°£º");
+    printf("æ’åºå‰ï¼š");
     DispList(L, n);
     SelectSort(&L, n);
-    printf("¼òµ¥Ñ¡ÔñÅÅĞò½á¹û£º");
+    printf("ç®€å•é€‰æ‹©æ’åºç»“æœï¼š");
     DispList(L, n);
-    /*¶ÑÅÅĞò*/
+    /*å †æ’åº*/
     InitSeqList(&L, a, n);
-    printf("ÅÅĞòÇ°£º");
+    printf("æ’åºå‰ï¼š");
     DispList(L, n);
     HeapSort(&L, n);
-    printf("¶ÑÅÅĞò½á¹û£º");
+    printf("å †æ’åºç»“æœï¼š");
     DispList(L, n);
 }
 void InitSeqList(SqList* L, DataType a[], int n)
-/*Ë³Ğò±íµÄ³õÊ¼»¯*/
+/*é¡ºåºè¡¨çš„åˆå§‹åŒ–*/
 {
     int i;
 
@@ -122,7 +122,7 @@ void InitSeqList(SqList* L, DataType a[], int n)
 
 }
 void DispList(SqList L, int n)
-/*Êä³ö±íÖĞµÄÔªËØ*/
+/*è¾“å‡ºè¡¨ä¸­çš„å…ƒç´ */
 {
     int i;
 

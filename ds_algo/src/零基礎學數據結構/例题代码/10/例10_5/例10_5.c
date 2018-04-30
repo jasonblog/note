@@ -1,29 +1,29 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdlib.h>
 #include<stdio.h>
 #include<malloc.h>
 #include<string.h>
-typedef int DataType;           /*Õ»ÔªËØÀàĞÍ¶¨Òå*/
+typedef int DataType;           /*æ ˆå…ƒç´ ç±»å‹å®šä¹‰*/
 #include"SeqStack.h"
-/*Í¼µÄÁÚ½Ó±íÀàĞÍ¶¨Òå*/
+/*å›¾çš„é‚»æ¥è¡¨ç±»å‹å®šä¹‰*/
 typedef char VertexType[4];
-typedef int InfoPtr;            /*¶¨ÒåÎªÕûĞÍ£¬ÎªÁË´æ·ÅÈ¨Öµ*/
+typedef int InfoPtr;            /*å®šä¹‰ä¸ºæ•´å‹ï¼Œä¸ºäº†å­˜æ”¾æƒå€¼*/
 typedef int VRType;
-#define MaxSize 50              /*×î´ó¶¥µã¸öÊı*/
-typedef enum {DG, DN, UG, UN} GraphKind; /*Í¼µÄÀàĞÍ£ºÓĞÏòÍ¼¡¢ÓĞÏòÍø¡¢ÎŞÏòÍ¼ºÍÎŞÏòÍø*/
-typedef struct ArcNode {        /*±ß½áµãµÄÀàĞÍ¶¨Òå*/
-    int adjvex;                 /*»¡Ö¸ÏòµÄ¶¥µãµÄÎ»ÖÃ*/
-    InfoPtr* info;              /*»¡µÄÈ¨Öµ*/
-    struct ArcNode* nextarc;    /*Ö¸Ê¾ÏÂÒ»¸öÓë¸Ã¶¥µãÏàÁÚ½ÓµÄ¶¥µã*/
+#define MaxSize 50              /*æœ€å¤§é¡¶ç‚¹ä¸ªæ•°*/
+typedef enum {DG, DN, UG, UN} GraphKind; /*å›¾çš„ç±»å‹ï¼šæœ‰å‘å›¾ã€æœ‰å‘ç½‘ã€æ— å‘å›¾å’Œæ— å‘ç½‘*/
+typedef struct ArcNode {        /*è¾¹ç»“ç‚¹çš„ç±»å‹å®šä¹‰*/
+    int adjvex;                 /*å¼§æŒ‡å‘çš„é¡¶ç‚¹çš„ä½ç½®*/
+    InfoPtr* info;              /*å¼§çš„æƒå€¼*/
+    struct ArcNode* nextarc;    /*æŒ‡ç¤ºä¸‹ä¸€ä¸ªä¸è¯¥é¡¶ç‚¹ç›¸é‚»æ¥çš„é¡¶ç‚¹*/
 } ArcNode;
-typedef struct VNode {          /*Í·½áµãµÄÀàĞÍ¶¨Òå*/
-    VertexType data;            /*ÓÃÓÚ´æ´¢¶¥µã*/
-    ArcNode* firstarc;          /*Ö¸Ê¾µÚÒ»¸öÓë¸Ã¶¥µãÁÚ½ÓµÄ¶¥µã*/
+typedef struct VNode {          /*å¤´ç»“ç‚¹çš„ç±»å‹å®šä¹‰*/
+    VertexType data;            /*ç”¨äºå­˜å‚¨é¡¶ç‚¹*/
+    ArcNode* firstarc;          /*æŒ‡ç¤ºç¬¬ä¸€ä¸ªä¸è¯¥é¡¶ç‚¹é‚»æ¥çš„é¡¶ç‚¹*/
 } VNode, AdjList[MaxSize];
-typedef struct {                /*Í¼µÄÀàĞÍ¶¨Òå*/
+typedef struct {                /*å›¾çš„ç±»å‹å®šä¹‰*/
     AdjList vertex;
-    int vexnum, arcnum;         /*Í¼µÄ¶¥µãÊıÄ¿Óë»¡µÄÊıÄ¿*/
-    GraphKind kind;             /*Í¼µÄÀàĞÍ*/
+    int vexnum, arcnum;         /*å›¾çš„é¡¶ç‚¹æ•°ç›®ä¸å¼§çš„æ•°ç›®*/
+    GraphKind kind;             /*å›¾çš„ç±»å‹*/
 } AdjGraph;
 int LocateVertex(AdjGraph N, VertexType v);
 void CreateGraph(AdjGraph* N);
@@ -31,19 +31,19 @@ void DisplayGraph(AdjGraph N);
 void DestroyGraph(AdjGraph* N);
 int TopologicalOrder(AdjGraph N, SeqStack* T);
 int CriticalPath(AdjGraph N);
-int ve[MaxSize];                /*ve´æ·ÅÊÂ¼ş×îÔç·¢ÉúÊ±¼ä*/
+int ve[MaxSize];                /*veå­˜æ”¾äº‹ä»¶æœ€æ—©å‘ç”Ÿæ—¶é—´*/
 
 int TopologicalOrder(AdjGraph N, SeqStack* T)
-/*²ÉÓÃÁÚ½Ó±í´æ´¢½á¹¹µÄÓĞÏòÍøNµÄÍØÆËÅÅĞò£¬²¢Çó¸÷¶¥µã¶ÔÓ¦ÊÂ¼şµÄ×îÔç·¢ÉúÊ±¼äve*/
-/*Èç¹ûNÎŞ»ØÂ·£¬ÔòÓÃÓÃÕ»T·µ»ØNµÄÒ»¸öÍØÆËĞòÁĞ,²¢·µ»Ø1,·ñÔòÎª0*/
+/*é‡‡ç”¨é‚»æ¥è¡¨å­˜å‚¨ç»“æ„çš„æœ‰å‘ç½‘Nçš„æ‹“æ‰‘æ’åºï¼Œå¹¶æ±‚å„é¡¶ç‚¹å¯¹åº”äº‹ä»¶çš„æœ€æ—©å‘ç”Ÿæ—¶é—´ve*/
+/*å¦‚æœNæ— å›è·¯ï¼Œåˆ™ç”¨ç”¨æ ˆTè¿”å›Nçš„ä¸€ä¸ªæ‹“æ‰‘åºåˆ—,å¹¶è¿”å›1,å¦åˆ™ä¸º0*/
 {
     int i, k, count = 0;
-    int indegree[MaxSize];      /*Êı×éindegree´æ´¢¸÷¶¥µãµÄÈë¶È*/
+    int indegree[MaxSize];      /*æ•°ç»„indegreeå­˜å‚¨å„é¡¶ç‚¹çš„å…¥åº¦*/
     SeqStack S;
     ArcNode* p;
 
-    /*½«Í¼ÖĞ¸÷¶¥µãµÄÈë¶È±£´æÔÚÊı×éindegreeÖĞ*/
-    for (i = 0; i < N.vexnum; i++) { /*½«Êı×éindegree¸³³õÖµ*/
+    /*å°†å›¾ä¸­å„é¡¶ç‚¹çš„å…¥åº¦ä¿å­˜åœ¨æ•°ç»„indegreeä¸­*/
+    for (i = 0; i < N.vexnum; i++) { /*å°†æ•°ç»„indegreeèµ‹åˆå€¼*/
         indegree[i] = 0;
     }
 
@@ -57,42 +57,42 @@ int TopologicalOrder(AdjGraph N, SeqStack* T)
         }
     }
 
-    InitStack(&S);              /*³õÊ¼»¯Õ»S*/
-    printf("ÍØÆËĞòÁĞ£º");
+    InitStack(&S);              /*åˆå§‹åŒ–æ ˆS*/
+    printf("æ‹“æ‰‘åºåˆ—ï¼š");
 
     for (i = 0; i < N.vexnum; i++)
-        if (!indegree[i]) {     /*½«Èë¶ÈÎªÁãµÄ¶¥µãÈëÕ»*/
+        if (!indegree[i]) {     /*å°†å…¥åº¦ä¸ºé›¶çš„é¡¶ç‚¹å…¥æ ˆ*/
             PushStack(&S, i);
         }
 
-    InitStack(T);           /*³õÊ¼»¯ÍØÆËĞòÁĞ¶¥µãÕ»*/
+    InitStack(T);           /*åˆå§‹åŒ–æ‹“æ‰‘åºåˆ—é¡¶ç‚¹æ ˆ*/
 
-    for (i = 0; i < N.vexnum; i++) { /*³õÊ¼»¯ve*/
+    for (i = 0; i < N.vexnum; i++) { /*åˆå§‹åŒ–ve*/
         ve[i] = 0;
     }
 
-    while (!StackEmpty(S)) { /*Èç¹ûÕ»S²»Îª¿Õ*/
-        PopStack(&S, &i);   /*´ÓÕ»S½«ÒÑÍØÆËÅÅĞòµÄ¶¥µãjµ¯³ö*/
+    while (!StackEmpty(S)) { /*å¦‚æœæ ˆSä¸ä¸ºç©º*/
+        PopStack(&S, &i);   /*ä»æ ˆSå°†å·²æ‹“æ‰‘æ’åºçš„é¡¶ç‚¹jå¼¹å‡º*/
         printf("%s ", N.vertex[i].data);
-        PushStack(T, i);    /*jºÅ¶¥µãÈëÄæÍØÆËÅÅĞòÕ»T*/
-        count++;            /*¶ÔÈëÕ»TµÄ¶¥µã¼ÆÊı*/
+        PushStack(T, i);    /*jå·é¡¶ç‚¹å…¥é€†æ‹“æ‰‘æ’åºæ ˆT*/
+        count++;            /*å¯¹å…¥æ ˆTçš„é¡¶ç‚¹è®¡æ•°*/
 
         for (p = N.vertex[i].firstarc; p;
-             p = p->nextarc) { /*´¦Àí±àºÅÎªiµÄ¶¥µãµÄÃ¿¸öÁÚ½Óµã*/
-            k = p->adjvex;          /*¶¥µãĞòºÅÎªk*/
+             p = p->nextarc) { /*å¤„ç†ç¼–å·ä¸ºiçš„é¡¶ç‚¹çš„æ¯ä¸ªé‚»æ¥ç‚¹*/
+            k = p->adjvex;          /*é¡¶ç‚¹åºå·ä¸ºk*/
 
-            if (--indegree[k] == 0) { /*Èç¹ûkµÄÈë¶È¼õ1ºó±äÎª0£¬Ôò½«kÈëÕ»S*/
+            if (--indegree[k] == 0) { /*å¦‚æœkçš„å…¥åº¦å‡1åå˜ä¸º0ï¼Œåˆ™å°†kå…¥æ ˆS*/
                 PushStack(&S, k);
             }
 
-            if (ve[i] + * (p->info) > ve[k]) { /*¼ÆËã¶¥µãk¶ÔÓ¦µÄÊÂ¼şµÄ×îÔç·¢ÉúÊ±¼ä*/
+            if (ve[i] + * (p->info) > ve[k]) { /*è®¡ç®—é¡¶ç‚¹kå¯¹åº”çš„äº‹ä»¶çš„æœ€æ—©å‘ç”Ÿæ—¶é—´*/
                 ve[k] = ve[i] + *(p->info);
             }
         }
     }
 
     if (count < N.vexnum) {
-        printf("¸ÃÓĞÏòÍøÓĞ»ØÂ·\n");
+        printf("è¯¥æœ‰å‘ç½‘æœ‰å›è·¯\n");
         return 0;
     } else {
         return 1;
@@ -100,14 +100,14 @@ int TopologicalOrder(AdjGraph N, SeqStack* T)
 }
 
 int CriticalPath(AdjGraph N)
-/*Êä³öNµÄ¹Ø¼üÂ·¾¶*/
+/*è¾“å‡ºNçš„å…³é”®è·¯å¾„*/
 {
-    int vl[MaxSize];                /*ÊÂ¼ş×îÍí·¢ÉúÊ±¼ä*/
+    int vl[MaxSize];                /*äº‹ä»¶æœ€æ™šå‘ç”Ÿæ—¶é—´*/
     SeqStack T;
     int i, j, k, e, l, dut, value, count, e1[MaxSize], e2[MaxSize];
     ArcNode* p;
 
-    if (!TopologicalOrder(N, &T)) { /*Èç¹ûÓĞ»·´æÔÚ£¬Ôò·µ»Ø0*/
+    if (!TopologicalOrder(N, &T)) { /*å¦‚æœæœ‰ç¯å­˜åœ¨ï¼Œåˆ™è¿”å›0*/
         return 0;
     }
 
@@ -115,64 +115,64 @@ int CriticalPath(AdjGraph N)
 
     for (i = 1; i < N.vexnum; i++)
         if (ve[i] > value) {
-            value = ve[i];    /*valueÎªÊÂ¼şµÄ×îÔç·¢ÉúÊ±¼äµÄ×î´óÖµ*/
+            value = ve[i];    /*valueä¸ºäº‹ä»¶çš„æœ€æ—©å‘ç”Ÿæ—¶é—´çš„æœ€å¤§å€¼*/
         }
 
-    for (i = 0; i < N.vexnum; i++) { /*½«¶¥µãÊÂ¼şµÄ×îÍí·¢ÉúÊ±¼ä³õÊ¼»¯*/
+    for (i = 0; i < N.vexnum; i++) { /*å°†é¡¶ç‚¹äº‹ä»¶çš„æœ€æ™šå‘ç”Ÿæ—¶é—´åˆå§‹åŒ–*/
         vl[i] = value;
     }
 
-    while (!StackEmpty(T))      /*°´ÄæÍØÆËÅÅĞòÇó¸÷¶¥µãµÄvlÖµ*/
+    while (!StackEmpty(T))      /*æŒ‰é€†æ‹“æ‰‘æ’åºæ±‚å„é¡¶ç‚¹çš„vlå€¼*/
         for (PopStack(&T, &j), p = N.vertex[j].firstarc; p; p = p->nextarc)
-            /*µ¯³öÕ»TµÄÔªËØ,¸³¸øj,pÖ¸ÏòjµÄºó¼ÌÊÂ¼şk*/
+            /*å¼¹å‡ºæ ˆTçš„å…ƒç´ ,èµ‹ç»™j,pæŒ‡å‘jçš„åç»§äº‹ä»¶k*/
         {
             k = p->adjvex;
-            dut = *(p->info);   /*dutÎª»¡<j,k>µÄÈ¨Öµ*/
+            dut = *(p->info);   /*dutä¸ºå¼§<j,k>çš„æƒå€¼*/
 
-            if (vl[k] - dut < vl[j]) { /*¼ÆËãÊÂ¼şjµÄ×î³Ù·¢ÉúÊ±¼ä*/
+            if (vl[k] - dut < vl[j]) { /*è®¡ç®—äº‹ä»¶jçš„æœ€è¿Ÿå‘ç”Ÿæ—¶é—´*/
                 vl[j] = vl[k] - dut;
             }
         }
 
-    printf("\nÊÂ¼şµÄ×îÔç·¢ÉúÊ±¼äºÍ×îÍí·¢ÉúÊ±¼ä\ni ve[i] vl[i]\n");
+    printf("\näº‹ä»¶çš„æœ€æ—©å‘ç”Ÿæ—¶é—´å’Œæœ€æ™šå‘ç”Ÿæ—¶é—´\ni ve[i] vl[i]\n");
 
     for (i = 0; i < N.vexnum;
-         i++) { /*Êä³ö¶¥µã¶ÔÓ¦µÄÊÂ¼şµÄ×îÔç·¢ÉúÊ±¼ä×îÍí·¢ÉúÊ±¼ä*/
+         i++) { /*è¾“å‡ºé¡¶ç‚¹å¯¹åº”çš„äº‹ä»¶çš„æœ€æ—©å‘ç”Ÿæ—¶é—´æœ€æ™šå‘ç”Ÿæ—¶é—´*/
         printf("%d   %d     %d\n", i, ve[i], vl[i]);
     }
 
-    printf("¹Ø¼üÂ·¾¶Îª£º(");
+    printf("å…³é”®è·¯å¾„ä¸ºï¼š(");
 
-    for (i = 0; i < N.vexnum; i++) /*Êä³ö¹Ø¼üÂ·¾¶¾­¹ıµÄ¶¥µã*/
+    for (i = 0; i < N.vexnum; i++) /*è¾“å‡ºå…³é”®è·¯å¾„ç»è¿‡çš„é¡¶ç‚¹*/
         if (ve[i] == vl[i]) {
             printf("%s ", N.vertex[i].data);
         }
 
     printf(")\n");
     count = 0;
-    printf("»î¶¯×îÔç¿ªÊ¼Ê±¼äºÍ×îÍí¿ªÊ¼Ê±¼ä\n   »¡    e   l   l-e\n");
+    printf("æ´»åŠ¨æœ€æ—©å¼€å§‹æ—¶é—´å’Œæœ€æ™šå¼€å§‹æ—¶é—´\n   å¼§    e   l   l-e\n");
 
-    for (j = 0; j < N.vexnum; j++) /*Çó»î¶¯µÄ×îÔç¿ªÊ¼Ê±¼äeºÍ×îÍí¿ªÊ¼Ê±¼äl*/
+    for (j = 0; j < N.vexnum; j++) /*æ±‚æ´»åŠ¨çš„æœ€æ—©å¼€å§‹æ—¶é—´eå’Œæœ€æ™šå¼€å§‹æ—¶é—´l*/
         for (p = N.vertex[j].firstarc; p; p = p->nextarc) {
             k = p->adjvex;
-            dut = *(p->info);   /*dutÎª»¡<j,k>µÄÈ¨Öµ*/
-            e = ve[j];          /*e¾ÍÊÇ»î¶¯<j,k>µÄ×îÔç¿ªÊ¼Ê±¼ä*/
-            l = vl[k] - dut;    /*l¾ÍÊÇ»î¶¯<j,k>µÄ×îÍí¿ªÊ¼Ê±¼ä*/
-            printf("%s¡ú%s %3d %3d %3d\n", N.vertex[j].data, N.vertex[k].data, e, l, l - e);
+            dut = *(p->info);   /*dutä¸ºå¼§<j,k>çš„æƒå€¼*/
+            e = ve[j];          /*eå°±æ˜¯æ´»åŠ¨<j,k>çš„æœ€æ—©å¼€å§‹æ—¶é—´*/
+            l = vl[k] - dut;    /*lå°±æ˜¯æ´»åŠ¨<j,k>çš„æœ€æ™šå¼€å§‹æ—¶é—´*/
+            printf("%sâ†’%s %3d %3d %3d\n", N.vertex[j].data, N.vertex[k].data, e, l, l - e);
 
-            if (e == l) {       /*½«¹Ø¼ü»î¶¯±£´æÔÚÊı×éÖĞ*/
+            if (e == l) {       /*å°†å…³é”®æ´»åŠ¨ä¿å­˜åœ¨æ•°ç»„ä¸­*/
                 e1[count] = j;
                 e2[count] = k;
                 count++;
             }
         }
 
-    printf("¹Ø¼ü»î¶¯Îª£º");
+    printf("å…³é”®æ´»åŠ¨ä¸ºï¼š");
 
-    for (k = 0; k < count; k++) { /*Êä³ö¹Ø¼üÂ·¾¶*/
+    for (k = 0; k < count; k++) { /*è¾“å‡ºå…³é”®è·¯å¾„*/
         i = e1[k];
         j = e2[k];
-        printf("(%s¡ú%s) ", N.vertex[i].data, N.vertex[j].data);
+        printf("(%sâ†’%s) ", N.vertex[i].data, N.vertex[j].data);
     }
 
     printf("\n");
@@ -181,13 +181,13 @@ int CriticalPath(AdjGraph N)
 void main()
 {
     AdjGraph N;
-    CreateGraph(&N);        /*²ÉÓÃÁÚ½Ó±í´æ´¢½á¹¹´´½¨ÓĞÏòÍøN*/
-    DisplayGraph(N);        /*Êä³öÓĞÏòÍøN*/
-    CriticalPath(N);        /*ÇóÍøNµÄ¹Ø¼üÂ·¾¶*/
-    DestroyGraph(&N);       /*Ïú»ÙÍøN*/
+    CreateGraph(&N);        /*é‡‡ç”¨é‚»æ¥è¡¨å­˜å‚¨ç»“æ„åˆ›å»ºæœ‰å‘ç½‘N*/
+    DisplayGraph(N);        /*è¾“å‡ºæœ‰å‘ç½‘N*/
+    CriticalPath(N);        /*æ±‚ç½‘Nçš„å…³é”®è·¯å¾„*/
+    DestroyGraph(&N);       /*é”€æ¯ç½‘N*/
 }
 int LocateVertex(AdjGraph G, VertexType v)
-/*·µ»ØÍ¼ÖĞ¶¥µã¶ÔÓ¦µÄÎ»ÖÃ*/
+/*è¿”å›å›¾ä¸­é¡¶ç‚¹å¯¹åº”çš„ä½ç½®*/
 {
     int i;
 
@@ -199,32 +199,32 @@ int LocateVertex(AdjGraph G, VertexType v)
     return -1;
 }
 void CreateGraph(AdjGraph* N)
-/*²ÉÓÃÁÚ½Ó±í´æ´¢½á¹¹£¬´´½¨ÓĞÏòÍøN*/
+/*é‡‡ç”¨é‚»æ¥è¡¨å­˜å‚¨ç»“æ„ï¼Œåˆ›å»ºæœ‰å‘ç½‘N*/
 {
     int i, j, k, w;
-    VertexType v1, v2;                  /*¶¨ÒåÁ½¸ö»¡v1ºÍv2*/
+    VertexType v1, v2;                  /*å®šä¹‰ä¸¤ä¸ªå¼§v1å’Œv2*/
     ArcNode* p;
-    printf("ÇëÊäÈëÍ¼µÄ¶¥µãÊı,±ßÊı(ÒÔ¶ººÅ·Ö¸ô): ");
+    printf("è¯·è¾“å…¥å›¾çš„é¡¶ç‚¹æ•°,è¾¹æ•°(ä»¥é€—å·åˆ†éš”): ");
     scanf("%d,%d", &(*N).vexnum, &(*N).arcnum);
-    printf("ÇëÊäÈë%d¸ö¶¥µãµÄÖµ:", N->vexnum);
+    printf("è¯·è¾“å…¥%dä¸ªé¡¶ç‚¹çš„å€¼:", N->vexnum);
 
-    for (i = 0; i < N->vexnum; i++) {   /*½«¶¥µã´æ´¢ÔÚÍ·½áµãÖĞ*/
+    for (i = 0; i < N->vexnum; i++) {   /*å°†é¡¶ç‚¹å­˜å‚¨åœ¨å¤´ç»“ç‚¹ä¸­*/
         scanf("%s", N->vertex[i].data);
-        N->vertex[i].firstarc = NULL;   /*½«Ïà¹ØÁªµÄ¶¥µãÖÃÎª¿Õ*/
+        N->vertex[i].firstarc = NULL;   /*å°†ç›¸å…³è”çš„é¡¶ç‚¹ç½®ä¸ºç©º*/
     }
 
-    printf("ÇëÊäÈë»¡Î²¡¢»¡Í·ºÍÈ¨Öµ(ÒÔ¿Õ¸ñ×÷Îª·Ö¸ô):\n");
+    printf("è¯·è¾“å…¥å¼§å°¾ã€å¼§å¤´å’Œæƒå€¼(ä»¥ç©ºæ ¼ä½œä¸ºåˆ†éš”):\n");
 
-    for (k = 0; k < N->arcnum; k++) {   /*½¨Á¢±ßÁ´±í*/
+    for (k = 0; k < N->arcnum; k++) {   /*å»ºç«‹è¾¹é“¾è¡¨*/
         scanf("%s%s%*c%d", v1, v2, &w);
         i = LocateVertex(*N, v1);
         j = LocateVertex(*N, v2);
-        /*jÎª»¡Í·iÎª»¡Î²´´½¨ÁÚ½Ó±í*/
+        /*jä¸ºå¼§å¤´iä¸ºå¼§å°¾åˆ›å»ºé‚»æ¥è¡¨*/
         p = (ArcNode*)malloc(sizeof(ArcNode));
         p->adjvex = j;
         p->info = (InfoPtr*)malloc(sizeof(InfoPtr));
         *(p->info) = w;
-        /*½«pÖ¸ÏòµÄ½áµã²åÈëµ½±ß±íÖĞ*/
+        /*å°†pæŒ‡å‘çš„ç»“ç‚¹æ’å…¥åˆ°è¾¹è¡¨ä¸­*/
         p->nextarc = N->vertex[i].firstarc;
         N->vertex[i].firstarc = p;
     }
@@ -232,36 +232,36 @@ void CreateGraph(AdjGraph* N)
     (*N).kind = DN;
 }
 void DestroyGraph(AdjGraph* N)
-/*Ïú»ÙÎŞÏòÍ¼G*/
+/*é”€æ¯æ— å‘å›¾G*/
 {
     int i;
     ArcNode* p, *q;
 
-    for (i = 0; i < N->vexnum; ++i) { /*ÊÍ·ÅÍøÖĞµÄ±ß±í½áµã*/
-        p = N->vertex[i].firstarc;  /*pÖ¸Ïò±ß±íµÄµÚÒ»¸ö½áµã*/
+    for (i = 0; i < N->vexnum; ++i) { /*é‡Šæ”¾ç½‘ä¸­çš„è¾¹è¡¨ç»“ç‚¹*/
+        p = N->vertex[i].firstarc;  /*pæŒ‡å‘è¾¹è¡¨çš„ç¬¬ä¸€ä¸ªç»“ç‚¹*/
 
-        if (p != NULL) {            /*Èç¹û±ß±í²»Îª¿Õ£¬ÔòÊÍ·Å±ß±íµÄ½áµã*/
+        if (p != NULL) {            /*å¦‚æœè¾¹è¡¨ä¸ä¸ºç©ºï¼Œåˆ™é‡Šæ”¾è¾¹è¡¨çš„ç»“ç‚¹*/
             q = p->nextarc;
             free(p);
             p = q;
         }
     }
 
-    (*N).vexnum = 0;                /*½«¶¥µãÊıÖÃÎª0*/
-    (*N).arcnum = 0;                /*½«±ßµÄÊıÄ¿ÖÃÎª0*/
+    (*N).vexnum = 0;                /*å°†é¡¶ç‚¹æ•°ç½®ä¸º0*/
+    (*N).arcnum = 0;                /*å°†è¾¹çš„æ•°ç›®ç½®ä¸º0*/
 }
 void DisplayGraph(AdjGraph N)
-/*ÍøµÄÁÚ½Ó¾ØÕóNµÄÊä³ö*/
+/*ç½‘çš„é‚»æ¥çŸ©é˜µNçš„è¾“å‡º*/
 {
     int i;
     ArcNode* p;
-    printf("¸ÃÍøÖĞÓĞ%d¸ö¶¥µã£º", N.vexnum);
+    printf("è¯¥ç½‘ä¸­æœ‰%dä¸ªé¡¶ç‚¹ï¼š", N.vexnum);
 
     for (i = 0; i < N.vexnum; i++) {
         printf("%s ", N.vertex[i].data);
     }
 
-    printf("\nÍøÖĞ¹²ÓĞ%dÌõ»¡:\n", N.arcnum);
+    printf("\nç½‘ä¸­å…±æœ‰%dæ¡å¼§:\n", N.arcnum);
 
     for (i = 0; i < N.vexnum; i++) {
         p = N.vertex[i].firstarc;

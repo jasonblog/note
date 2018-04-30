@@ -1,12 +1,12 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<stdlib.h>
 #define MaxSize 50
 typedef int KeyType;
-typedef struct { /*Êı¾İÔªËØÀàĞÍ¶¨Òå*/
-    KeyType key;/*¹Ø¼ü×Ö*/
+typedef struct { /*æ•°æ®å…ƒç´ ç±»å‹å®šä¹‰*/
+    KeyType key;/*å…³é”®å­—*/
 } DataType;
-typedef struct { /*Ë³Ğò±íÀàĞÍ¶¨Òå*/
+typedef struct { /*é¡ºåºè¡¨ç±»å‹å®šä¹‰*/
     DataType data[MaxSize];
     int length;
 } SqList;
@@ -17,36 +17,36 @@ void ShellInsertSort(SqList* L, int delta[], int m);
 void BinInsertSort(SqList* L);
 void DispList(SqList L, int n);
 void InsertSort(SqList* L)
-/*Ö±½Ó²åÈëÅÅĞò*/
+/*ç›´æ¥æ’å…¥æ’åº*/
 {
     int i, j;
     DataType t;
 
     for (i = 1; i < L->length;
-         i++) { /*Ç°i¸öÔªËØÒÑ¾­ÓĞĞò£¬´ÓµÚi+1¸öÔªËØ¿ªÊ¼ÓëÇ°i¸öµÄÓĞĞòµÄ¹Ø¼ü×Ö±È½Ï*/
-        t = L->data[i + 1];         /*È¡³öµ±Ç°´ıÅÅĞòµÄÔªËØ*/
+         i++) { /*å‰iä¸ªå…ƒç´ å·²ç»æœ‰åºï¼Œä»ç¬¬i+1ä¸ªå…ƒç´ å¼€å§‹ä¸å‰iä¸ªçš„æœ‰åºçš„å…³é”®å­—æ¯”è¾ƒ*/
+        t = L->data[i + 1];         /*å–å‡ºå½“å‰å¾…æ’åºçš„å…ƒç´ */
         j = i;
 
-        while (j > -1 && t.key < L->data[j].key) { /*Ñ°ÕÒµ±Ç°ÔªËØµÄºÏÊÊÎ»ÖÃ*/
+        while (j > -1 && t.key < L->data[j].key) { /*å¯»æ‰¾å½“å‰å…ƒç´ çš„åˆé€‚ä½ç½®*/
             L->data[j + 1] = L->data[j];
             j--;
         }
 
-        L->data[j + 1] = t;         /*½«µ±Ç°ÔªËØ²åÈëºÏÊÊµÄÎ»ÖÃ*/
+        L->data[j + 1] = t;         /*å°†å½“å‰å…ƒç´ æ’å…¥åˆé€‚çš„ä½ç½®*/
     }
 }
 void BinInsertSort(SqList* L)
-/*ÕÛ°ë²åÈëÅÅĞò*/
+/*æŠ˜åŠæ’å…¥æ’åº*/
 {
     int i, j, mid, low, high;
     DataType t;
 
     for (i = 1; i < L->length;
-         i++) { /*Ç°i¸öÔªËØÒÑ¾­ÓĞĞò£¬´ÓµÚi+1¸öÔªËØ¿ªÊ¼ÓëÇ°i¸öµÄÓĞĞòµÄ¹Ø¼ü×Ö±È½Ï*/
-        t = L->data[i + 1];         /*È¡³öµÚi+1¸öÔªËØ£¬¼´´ıÅÅĞòµÄÔªËØ*/
+         i++) { /*å‰iä¸ªå…ƒç´ å·²ç»æœ‰åºï¼Œä»ç¬¬i+1ä¸ªå…ƒç´ å¼€å§‹ä¸å‰iä¸ªçš„æœ‰åºçš„å…³é”®å­—æ¯”è¾ƒ*/
+        t = L->data[i + 1];         /*å–å‡ºç¬¬i+1ä¸ªå…ƒç´ ï¼Œå³å¾…æ’åºçš„å…ƒç´ */
         low = 1, high = i;
 
-        while (low <= high) {       /*ÀûÓÃÕÛ°ë²éÕÒË¼ÏëÑ°ÕÒµ±Ç°ÔªËØµÄºÏÊÊÎ»ÖÃ*/
+        while (low <= high) {       /*åˆ©ç”¨æŠ˜åŠæŸ¥æ‰¾æ€æƒ³å¯»æ‰¾å½“å‰å…ƒç´ çš„åˆé€‚ä½ç½®*/
             mid = (low + high) / 2;
 
             if (L->data[mid].key > t.key) {
@@ -56,38 +56,38 @@ void BinInsertSort(SqList* L)
             }
         }
 
-        for (j = i; j >= low; j--) { /*ÒÆ¶¯ÔªËØ£¬¿Õ³öÒª²åÈëµÄÎ»ÖÃ*/
+        for (j = i; j >= low; j--) { /*ç§»åŠ¨å…ƒç´ ï¼Œç©ºå‡ºè¦æ’å…¥çš„ä½ç½®*/
             L->data[j + 1] = L->data[j];
         }
 
-        L->data[low] = t;       /*½«µ±Ç°ÔªËØ²åÈëºÏÊÊµÄÎ»ÖÃ*/
+        L->data[low] = t;       /*å°†å½“å‰å…ƒç´ æ’å…¥åˆé€‚çš„ä½ç½®*/
     }
 }
 void ShellInsert(SqList* L, int c)
-/*¶ÔË³Ğò±íL½øĞĞÒ»´ÎÏ£¶ûÅÅĞò£¬deltaÊÇÔöÁ¿*/
+/*å¯¹é¡ºåºè¡¨Lè¿›è¡Œä¸€æ¬¡å¸Œå°”æ’åºï¼Œdeltaæ˜¯å¢é‡*/
 {
     int i, j;
     DataType t;
 
     for (i = c + 1; i <= L->length;
-         i++) { /*½«¾àÀëÎªdeltaµÄÔªËØ×÷ÎªÒ»¸ö×ÓĞòÁĞ½øĞĞÅÅĞò*/
-        if (L->data[i].key < L->data[i - c].key) { /*Èç¹ûºóÕßĞ¡ÓÚÇ°Õß£¬ÔòĞèÒªÒÆ¶¯ÔªËØ*/
+         i++) { /*å°†è·ç¦»ä¸ºdeltaçš„å…ƒç´ ä½œä¸ºä¸€ä¸ªå­åºåˆ—è¿›è¡Œæ’åº*/
+        if (L->data[i].key < L->data[i - c].key) { /*å¦‚æœåè€…å°äºå‰è€…ï¼Œåˆ™éœ€è¦ç§»åŠ¨å…ƒç´ */
             t = L->data[i];
 
             for (j = i - c; j > 0 && t.key < L->data[j].key; j = j - c) {
                 L->data[j + c] = L->data[j];
             }
 
-            L->data[j + c] = t;             /*ÒÀ´Î½«ÔªËØ²åÈëµ½ÕıÈ·µÄÎ»ÖÃ*/
+            L->data[j + c] = t;             /*ä¾æ¬¡å°†å…ƒç´ æ’å…¥åˆ°æ­£ç¡®çš„ä½ç½®*/
         }
     }
 }
 void ShellInsertSort(SqList* L, int delta[], int m)
-/*Ï£¶ûÅÅĞò£¬Ã¿´Îµ÷ÓÃËã·¨ShellInsert,deltaÊÇ´æ·ÅÔöÁ¿µÄÊı×é*/
+/*å¸Œå°”æ’åºï¼Œæ¯æ¬¡è°ƒç”¨ç®—æ³•ShellInsert,deltaæ˜¯å­˜æ”¾å¢é‡çš„æ•°ç»„*/
 {
     int i;
 
-    for (i = 0; i < m; i++) { /*½øĞĞm´ÎÏ£¶û²åÈëÅÅĞò*/
+    for (i = 0; i < m; i++) { /*è¿›è¡Œmæ¬¡å¸Œå°”æ’å…¥æ’åº*/
         ShellInsert(L, delta[i]);
     }
 }
@@ -97,30 +97,30 @@ void main()
     int delta[] = {5, 3, 1};
     int i, n = 10, m = 3;
     SqList L;
-    /*Ö±½Ó²åÈëÅÅĞò*/
+    /*ç›´æ¥æ’å…¥æ’åº*/
     InitSeqList(&L, a, n);
-    printf("ÅÅĞòÇ°£º");
+    printf("æ’åºå‰ï¼š");
     DispList(L, n);
     InsertSort(&L);
-    printf("Ö±½Ó²åÈëÅÅĞò½á¹û£º");
+    printf("ç›´æ¥æ’å…¥æ’åºç»“æœï¼š");
     DispList(L, n);
-    /*ÕÛ°ë²åÈëÅÅĞò*/
+    /*æŠ˜åŠæ’å…¥æ’åº*/
     InitSeqList(&L, a, n);
-    printf("ÅÅĞòÇ°£º");
+    printf("æ’åºå‰ï¼š");
     DispList(L, n);
     BinInsertSort(&L);
-    printf("ÕÛ°ë²åÈëÅÅĞò½á¹û£º");
+    printf("æŠ˜åŠæ’å…¥æ’åºç»“æœï¼š");
     DispList(L, n);
-    /*Ï£¶ûÅÅĞò*/
+    /*å¸Œå°”æ’åº*/
     InitSeqList(&L, a, n);
-    printf("ÅÅĞòÇ°£º");
+    printf("æ’åºå‰ï¼š");
     DispList(L, n);
     ShellInsertSort(&L, delta, m);
-    printf("Ï£¶ûÅÅĞò½á¹û£º");
+    printf("å¸Œå°”æ’åºç»“æœï¼š");
     DispList(L, n);
 }
 void InitSeqList(SqList* L, DataType a[], int n)
-/*Ë³Ğò±íµÄ³õÊ¼»¯*/
+/*é¡ºåºè¡¨çš„åˆå§‹åŒ–*/
 {
     int i;
 
@@ -132,7 +132,7 @@ void InitSeqList(SqList* L, DataType a[], int n)
 
 }
 void DispList(SqList L, int n)
-/*Êä³ö±íÖĞµÄÔªËØ*/
+/*è¾“å‡ºè¡¨ä¸­çš„å…ƒç´ */
 {
     int i;
 

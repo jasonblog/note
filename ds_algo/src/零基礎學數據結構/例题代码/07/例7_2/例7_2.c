@@ -1,20 +1,20 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdlib.h>
 #include<stdio.h>
 #include<malloc.h>
-/*Ï¡Êè¾ØÕóÀàĞÍ¶¨Òå*/
+/*ç¨€ç–çŸ©é˜µç±»å‹å®šä¹‰*/
 #define MaxSize 200
 typedef int DataType;
-typedef struct {        /*ÈıÔª×éÀàĞÍ¶¨Òå*/
+typedef struct {        /*ä¸‰å…ƒç»„ç±»å‹å®šä¹‰*/
     int i, j;
     DataType e;
 } Triple;
-typedef struct {        /*¾ØÕóÀàĞÍ¶¨Òå*/
+typedef struct {        /*çŸ©é˜µç±»å‹å®šä¹‰*/
     Triple data[MaxSize];
     int rpos[MaxSize];
-    int m, n, len;      /*¾ØÕóµÄĞĞÊı£¬ÁĞÊıºÍ·ÇÁãÔªËØµÄ¸öÊı*/
+    int m, n, len;      /*çŸ©é˜µçš„è¡Œæ•°ï¼Œåˆ—æ•°å’Œéé›¶å…ƒç´ çš„ä¸ªæ•°*/
 } TriSeqMatrix;
-/*º¯ÊıÉùÃ÷*/
+/*å‡½æ•°å£°æ˜*/
 void MultMatrix(TriSeqMatrix A, TriSeqMatrix B, TriSeqMatrix* C);
 void PrintMatrix(TriSeqMatrix M);
 int CreateMatrix(TriSeqMatrix* M);
@@ -26,18 +26,18 @@ void main()
     PrintMatrix(M);
     CreateMatrix(&N);
     PrintMatrix(N);
-    printf("¾ØÕóMºÍNµÄ³Ë»ıÎª:\n");
+    printf("çŸ©é˜µMå’ŒNçš„ä¹˜ç§¯ä¸º:\n");
     MultMatrix(M, N, &Q);
     PrintMatrix(Q);
 }
 
 int CreateMatrix(TriSeqMatrix* M)
-/*´´½¨Ï¡Êè¾ØÕó¡£ÒªÇó°´ÕÕĞĞÓÅÏÈË³ĞòÊäÈë·ÇÁãÔªËØÖµ*/
+/*åˆ›å»ºç¨€ç–çŸ©é˜µã€‚è¦æ±‚æŒ‰ç…§è¡Œä¼˜å…ˆé¡ºåºè¾“å…¥éé›¶å…ƒç´ å€¼*/
 {
     int i, m, n;
     DataType e;
     int flag;
-    printf("ÇëÊäÈëÏ¡Êè¾ØÕóµÄĞĞÊı¡¢ÁĞÊıºÍ·ÇÁãÔªËØÊı£º");
+    printf("è¯·è¾“å…¥ç¨€ç–çŸ©é˜µçš„è¡Œæ•°ã€åˆ—æ•°å’Œéé›¶å…ƒç´ æ•°ï¼š");
     scanf("%d,%d,%d", &M->m, &M->n, &M->len);
 
     if (M->len > MaxSize) {
@@ -46,18 +46,18 @@ int CreateMatrix(TriSeqMatrix* M)
 
     for (i = 0; i < M->len; i++) {
         do {
-            printf("ÇëÒÔĞĞĞòË³ĞòÊäÈëµÚ%d¸ö·ÇÁãÔªËØËùÔÚµÄĞĞ(0¡«%d),ÁĞ(0¡«%d)ÔªËØÖµ:", i,
+            printf("è¯·ä»¥è¡Œåºé¡ºåºè¾“å…¥ç¬¬%dä¸ªéé›¶å…ƒç´ æ‰€åœ¨çš„è¡Œ(0ï½%d),åˆ—(0ï½%d)å…ƒç´ å€¼:", i,
                    M->m - 1, M->n - 1);
             scanf("%d,%d,%d", &m, &n, &e);
-            flag = 0;                       /*³õÊ¼»¯±êÖ¾Î»*/
+            flag = 0;                       /*åˆå§‹åŒ–æ ‡å¿—ä½*/
 
             if (m < 0 || m > M->m || n < 0 ||
-                n > M->n) { /*Èç¹ûĞĞºÅ»òÁĞºÅ²»ÕıÈ·£¬±êÖ¾Î»Îª1*/
+                n > M->n) { /*å¦‚æœè¡Œå·æˆ–åˆ—å·ä¸æ­£ç¡®ï¼Œæ ‡å¿—ä½ä¸º1*/
                 flag = 1;
             }
 
             if (i > 0 && m < M->data[i - 1].i || m == M->data[i - 1].i &&
-                n <= M->data[i - 1].j) { /*Èç¹ûÊäÈëµÄË³Ğò²»ÕıÈ·£¬±êÖ¾Î»Îª1*/
+                n <= M->data[i - 1].j) { /*å¦‚æœè¾“å…¥çš„é¡ºåºä¸æ­£ç¡®ï¼Œæ ‡å¿—ä½ä¸º1*/
                 flag = 1;
             }
         } while (flag);
@@ -70,53 +70,53 @@ int CreateMatrix(TriSeqMatrix* M)
     return 1;
 }
 void PrintMatrix(TriSeqMatrix M)
-/*Ï¡Êè¾ØÕóµÄÊä³ö*/
+/*ç¨€ç–çŸ©é˜µçš„è¾“å‡º*/
 {
     int i;
-    printf("Ï¡Êè¾ØÕóÊÇ%dĞĞ¡Á%dÁĞ£¬¹²%d¸ö·ÇÁãÔªËØ¡£\n", M.m, M.n, M.len);
-    printf("ĞĞ    ÁĞ    ÔªËØÖµ\n");
+    printf("ç¨€ç–çŸ©é˜µæ˜¯%dè¡ŒÃ—%dåˆ—ï¼Œå…±%dä¸ªéé›¶å…ƒç´ ã€‚\n", M.m, M.n, M.len);
+    printf("è¡Œ    åˆ—    å…ƒç´ å€¼\n");
 
     for (i = 0; i < M.len; i++) {
         printf("%2d%6d%8d\n", M.data[i].i, M.data[i].j, M.data[i].e);
     }
 }
 void MultMatrix(TriSeqMatrix A, TriSeqMatrix B, TriSeqMatrix* C)
-/*Ï¡Êè¾ØÕóÏà³Ë*/
+/*ç¨€ç–çŸ©é˜µç›¸ä¹˜*/
 {
     int i, j, k, r, t, p, q, arow, brow, ccol;
-    int temp[MaxSize];      /*ÀÛ¼ÓÆ÷*/
+    int temp[MaxSize];      /*ç´¯åŠ å™¨*/
     int num[MaxSize];
 
-    if (A.n != B.m) {           /*Èç¹û¾ØÕóAµÄÁĞÓëBµÄĞĞ²»ÏàµÈ£¬Ôò·µ»Ø*/
+    if (A.n != B.m) {           /*å¦‚æœçŸ©é˜µAçš„åˆ—ä¸Bçš„è¡Œä¸ç›¸ç­‰ï¼Œåˆ™è¿”å›*/
         return;
     }
 
-    C->m = A.m;                 /*³õÊ¼»¯CµÄĞĞÊı¡¢ÁĞÊıºÍ·ÇÁãÔªËØµÄ¸öÊı*/
+    C->m = A.m;                 /*åˆå§‹åŒ–Cçš„è¡Œæ•°ã€åˆ—æ•°å’Œéé›¶å…ƒç´ çš„ä¸ªæ•°*/
     C->n = B.n;
     C->len = 0;
 
-    if (A.len * B.len == 0) {   /*Ö»ÒªÓĞÒ»¸ö¾ØÕóµÄ³¤¶ÈÎª0£¬Ôò·µ»Ø*/
+    if (A.len * B.len == 0) {   /*åªè¦æœ‰ä¸€ä¸ªçŸ©é˜µçš„é•¿åº¦ä¸º0ï¼Œåˆ™è¿”å›*/
         return;
     }
 
-    /*---------------Çó¾ØÕóBÖĞÃ¿Ò»ĞĞµÚÒ»¸ö·ÇÁãÔªËØµÄÎ»ÖÃ------------*/
-    for (i = 0; i < B.m; i++) { /*³õÊ¼»¯num*/
+    /*---------------æ±‚çŸ©é˜µBä¸­æ¯ä¸€è¡Œç¬¬ä¸€ä¸ªéé›¶å…ƒç´ çš„ä½ç½®------------*/
+    for (i = 0; i < B.m; i++) { /*åˆå§‹åŒ–num*/
         num[i] = 0;
     }
 
-    for (k = 0; k < B.len; k++) { /*num´æ·Å¾ØÕóBÖĞÃ¿Ò»ĞĞ·ÇÁãÔªËØµÄ¸öÊı*/
+    for (k = 0; k < B.len; k++) { /*numå­˜æ”¾çŸ©é˜µBä¸­æ¯ä¸€è¡Œéé›¶å…ƒç´ çš„ä¸ªæ•°*/
         i = B.data[k].i;
         num[i]++;
     }
 
     B.rpos[0] = 0;
 
-    for (i = 1; i < B.m; i++) { /*rpos´æ·Å¾ØÕóBÖĞÃ¿Ò»ĞĞµÚÒ»¸ö·ÇÁãÔªËØµÄÎ»ÖÃ*/
+    for (i = 1; i < B.m; i++) { /*rposå­˜æ”¾çŸ©é˜µBä¸­æ¯ä¸€è¡Œç¬¬ä¸€ä¸ªéé›¶å…ƒç´ çš„ä½ç½®*/
         B.rpos[i] = B.rpos[i - 1] + num[i - 1];
     }
 
-    /*---------------Çó¾ØÕóAÖĞÃ¿Ò»ĞĞµÚÒ»¸ö·ÇÁãÔªËØµÄÎ»ÖÃ--------------*/
-    for (i = 0; i < A.m; i++) { /*³õÊ¼»¯num*/
+    /*---------------æ±‚çŸ©é˜µAä¸­æ¯ä¸€è¡Œç¬¬ä¸€ä¸ªéé›¶å…ƒç´ çš„ä½ç½®--------------*/
+    for (i = 0; i < A.m; i++) { /*åˆå§‹åŒ–num*/
         num[i] = 0;
     }
 
@@ -127,19 +127,19 @@ void MultMatrix(TriSeqMatrix A, TriSeqMatrix B, TriSeqMatrix* C)
 
     A.rpos[0] = 0;
 
-    for (i = 1; i < A.m; i++) { /*rpos´æ·Å¾ØÕóAÖĞÃ¿Ò»ĞĞµÚÒ»¸ö·ÇÁãÔªËØµÄÎ»ÖÃ*/
+    for (i = 1; i < A.m; i++) { /*rposå­˜æ”¾çŸ©é˜µAä¸­æ¯ä¸€è¡Œç¬¬ä¸€ä¸ªéé›¶å…ƒç´ çš„ä½ç½®*/
         A.rpos[i] = A.rpos[i - 1] + num[i - 1];
     }
 
-    /*----------------¼ÆËãÁ½¸ö¾ØÕóµÄ³Ë»ı---------------------------------*/
-    for (arow = 0; arow < A.m; arow++) { /*ÒÀ´ÎÉ¨Ãè¾ØÕóAµÄÃ¿Ò»ĞĞ*/
-        for (i = 0; i < B.n; i++) { /*³õÊ¼»¯ÀÛ¼ÓÆ÷temp*/
+    /*----------------è®¡ç®—ä¸¤ä¸ªçŸ©é˜µçš„ä¹˜ç§¯---------------------------------*/
+    for (arow = 0; arow < A.m; arow++) { /*ä¾æ¬¡æ‰«æçŸ©é˜µAçš„æ¯ä¸€è¡Œ*/
+        for (i = 0; i < B.n; i++) { /*åˆå§‹åŒ–ç´¯åŠ å™¨temp*/
             temp[i] = 0;
         }
 
         C->rpos[arow] = C->len;
 
-        /*¶ÔÃ¿¸ö·Ç0Ôª´¦Àí*/
+        /*å¯¹æ¯ä¸ªé0å…ƒå¤„ç†*/
         if (arow < A.m - 1) {
             t = A.rpos[arow + 1];
         } else {
@@ -147,7 +147,7 @@ void MultMatrix(TriSeqMatrix A, TriSeqMatrix B, TriSeqMatrix* C)
         }
 
         for (p = A.rpos[arow]; p < t; p++) {
-            brow = A.data[p].j;     /*È¡³öAÖĞÔªËØµÄÁĞºÅ*/
+            brow = A.data[p].j;     /*å–å‡ºAä¸­å…ƒç´ çš„åˆ—å·*/
 
             if (brow < B.m - 1) {
                 t = B.rpos[brow + 1];
@@ -155,13 +155,13 @@ void MultMatrix(TriSeqMatrix A, TriSeqMatrix B, TriSeqMatrix* C)
                 t = B.len;
             }
 
-            for (q = B.rpos[brow]; q < t; q++) { /*ÒÀ´ÎÈ¡³öBÖĞµÄµÚbrowĞĞ£¬ÓëAÖĞµÄÔªËØÏà³Ë*/
+            for (q = B.rpos[brow]; q < t; q++) { /*ä¾æ¬¡å–å‡ºBä¸­çš„ç¬¬browè¡Œï¼Œä¸Aä¸­çš„å…ƒç´ ç›¸ä¹˜*/
                 ccol = B.data[q].j;
-                temp[ccol] += A.data[p].e * B.data[q].e; /*°Ñ³Ë»ı´æÈëtempÖĞ*/
+                temp[ccol] += A.data[p].e * B.data[q].e; /*æŠŠä¹˜ç§¯å­˜å…¥tempä¸­*/
             }
         }
 
-        for (ccol = 0; ccol < C->n; ccol++) /*½«tempÖĞÔªËØÒÀ´Î¸³Öµ¸øC*/
+        for (ccol = 0; ccol < C->n; ccol++) /*å°†tempä¸­å…ƒç´ ä¾æ¬¡èµ‹å€¼ç»™C*/
             if (temp[ccol]) {
                 if (++C->len > MaxSize) {
                     return;

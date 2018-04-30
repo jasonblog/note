@@ -1,20 +1,20 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<conio.h>
 #include<stdlib.h>
-/*ÀàĞÍ¶¨Òå*/
+/*ç±»å‹å®šä¹‰*/
 typedef char DataType;
 #define ListSize 10
-typedef struct {    /*¾²Ì¬Á´±í½áµãÀàĞÍ¶¨Òå*/
+typedef struct {    /*é™æ€é“¾è¡¨ç»“ç‚¹ç±»å‹å®šä¹‰*/
     DataType data;
     int cur;
 } SListNode;
-typedef struct {    /*¾²Ì¬Á´±íÀàĞÍ¶¨Òå*/
+typedef struct {    /*é™æ€é“¾è¡¨ç±»å‹å®šä¹‰*/
     SListNode list[ListSize];
     int av;
 } SLinkList;
 #include "SLinkList.h"
-/*º¯ÊıÉùÃ÷*/
+/*å‡½æ•°å£°æ˜*/
 void PrintDList(SLinkList L, int n);
 void main()
 {
@@ -31,28 +31,28 @@ void main()
         InsertSList(&L, i, a[i - 1]);
     }
 
-    printf("¾²Ì¬Á´±íÖĞµÄÔªËØ:");
+    printf("é™æ€é“¾è¡¨ä¸­çš„å…ƒç´ :");
     PrintDList(L, len);
-    printf("ÊäÈëÒª²åÈëµÄÔªËØ¼°Î»ÖÃ:");
+    printf("è¾“å…¥è¦æ’å…¥çš„å…ƒç´ åŠä½ç½®:");
     scanf("%c", &e);
     getchar();
     scanf("%d", &pos);
     getchar();
     InsertSList(&L, pos, e);
-    printf("²åÈëÔªËØºó¾²Ì¬Á´±íÖĞµÄÔªËØ:");
+    printf("æ’å…¥å…ƒç´ åé™æ€é“¾è¡¨ä¸­çš„å…ƒç´ :");
     PrintDList(L, len + 1);
 
-    printf("ÊäÈëÒªÉ¾³ıÔªËØµÄÎ»ÖÃ:");
+    printf("è¾“å…¥è¦åˆ é™¤å…ƒç´ çš„ä½ç½®:");
     scanf("%d", &pos);
     getchar();
     DeleteSList(&L, pos, &e);
-    printf("É¾³ıµÄÔªËØÊÇ:");
+    printf("åˆ é™¤çš„å…ƒç´ æ˜¯:");
     printf("%c\n", e);
-    printf("É¾³ıÔªËØºó¾²Ì¬Á´±íÖĞµÄÔªËØ:");
+    printf("åˆ é™¤å…ƒç´ åé™æ€é“¾è¡¨ä¸­çš„å…ƒç´ :");
     PrintDList(L, len);
 }
 void PrintDList(SLinkList L, int n)
-/*Êä³öË«ÏòÑ­»·Á´±íÖĞµÄÃ¿Ò»¸öÔªËØ*/
+/*è¾“å‡ºåŒå‘å¾ªç¯é“¾è¡¨ä¸­çš„æ¯ä¸€ä¸ªå…ƒç´ */
 {
     int j, k;
     k = L.list[0].cur;

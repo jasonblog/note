@@ -1,73 +1,73 @@
-#define QueueSize 10        /*����˳��ѭ�����е��������*/
-typedef char DataType;      /*����˳��ѭ������Ԫ�ص�����Ϊ�ַ�����*/
-#include<stdio.h>           /*����ͷ�ļ�����Ҫ���������������*/
-typedef struct Squeue {     /*˳��ѭ�����е����Ͷ���*/
+#define QueueSize 10        /*定义顺序循环队列的最大容量*/
+typedef char DataType;      /*定义顺序循环队列元素的类型为字符类型*/
+#include<stdio.h>           /*包含头文件，主要包含输入输出函数*/
+typedef struct Squeue {     /*顺序循环队列的类型定义*/
     DataType queue[QueueSize];
-    int front, rear;    /*��ͷָ��Ͷ�βָ��*/
-    int tag;            /*���пա����ı�־*/
+    int front, rear;    /*队头指针和队尾指针*/
+    int tag;            /*队列空、满的标志*/
 } SCQueue;
 
 void InitQueue(SCQueue* SCQ)
-/*��˳��ѭ�����г�ʼ��Ϊ�ն��У���Ҫ�Ѷ�ͷָ��Ͷ�βָ��ͬʱ��Ϊ0���ұ�־λ��Ϊ0*/
+/*将顺序循环队列初始化为空队列，需要把队头指针和队尾指针同时置为0，且标志位置为0*/
 {
-    SCQ->front = SCQ->rear = 0;     /*��ͷָ��Ͷ�βָ�붼��Ϊ0*/
-    SCQ->tag = 0;               /*��־λ��Ϊ0*/
+    SCQ->front = SCQ->rear = 0;     /*队头指针和队尾指针都置为0*/
+    SCQ->tag = 0;               /*标志位置为0*/
 }
 int QueueEmpty(SCQueue SCQ)
-/*�ж�˳��ѭ�������Ƿ�Ϊ�գ�����Ϊ�շ���1�����򷵻�0*/
+/*判断顺序循环队列是否为空，队列为空返回1，否则返回0*/
 {
     if (SCQ.front == SCQ.rear &&
-        SCQ.tag == 0) { /*��ͷָ��Ͷ�βָ�붼Ϊ0�ұ�־λΪ0��ʾ�����ѿ�*/
+        SCQ.tag == 0) { /*队头指针和队尾指针都为0且标志位为0表示队列已空*/
         return 1;
     } else {
         return 0;
     }
 }
 int EnterQueue(SCQueue* SCQ, DataType e)
-/*��Ԫ��e���뵽˳��ѭ������SQ�У�����ɹ�����1�����򷵻�0*/
+/*将元素e插入到顺序循环队列SQ中，插入成功返回1，否则返回0*/
 {
     if (SCQ->front == SCQ->rear && SCQ->tag == 1)
-        /*�ڲ����µ�Ԫ��֮ǰ���ж��Ƿ��βָ�뵽����������ֵ�����Ƿ�����*/
+        /*在插入新的元素之前，判断是否队尾指针到达数组的最大值，即是否上溢*/
     {
-        printf("˳��ѭ������������������ӣ�");
+        printf("顺序循环队列已满，不能入队！");
         return 1;
     } else {
-        SCQ->queue[SCQ->rear] = e;   /*�ڶ�β����Ԫ��e */
-        SCQ->rear = SCQ->rear + 1;       /*��βָ������ƶ�һ��λ�ã�ָ���µĶ�β*/
-        SCQ->tag = 1;                /*����ɹ�����־λ��Ϊ1 */
+        SCQ->queue[SCQ->rear] = e;   /*在队尾插入元素e */
+        SCQ->rear = SCQ->rear + 1;       /*队尾指针向后移动一个位置，指向新的队尾*/
+        SCQ->tag = 1;                /*插入成功，标志位置为1 */
         return 1;
     }
 }
 int DeleteQueue(SCQueue* SCQ, DataType* e)
-/*ɾ��˳��ѭ�������еĶ�ͷԪ�أ�������Ԫ�ظ�ֵ��e��ɾ���ɹ�����1�����򷵻�0*/
+/*删除顺序循环队列中的队头元素，并将该元素赋值给e，删除成功返回1，否则返回0*/
 {
-    if (QueueEmpty(*SCQ)) {          /*��ɾ��Ԫ��֮ǰ���ж϶����Ƿ�Ϊ��*/
-        printf("˳��ѭ�������Ѿ��ǿն��У������ٽ��г����в�����");
+    if (QueueEmpty(*SCQ)) {          /*在删除元素之前，判断队列是否为空*/
+        printf("顺序循环队列已经是空队列，不能再进行出队列操作！");
         return 0;
     } else {
-        *e = SCQ->queue[SCQ->front];     /*Ҫ�����е�Ԫ��ֵ��ֵ��e */
-        SCQ->front = SCQ->front + 1;     /*��ͷָ������ƶ�һ��λ�ã�ָ���µĶ�ͷԪ��*/
-        SCQ->tag = 0;                /*ɾ���ɹ�����־λ��Ϊ0 */
+        *e = SCQ->queue[SCQ->front];     /*要出队列的元素值赋值给e */
+        SCQ->front = SCQ->front + 1;     /*队头指针向后移动一个位置，指向新的队头元素*/
+        SCQ->tag = 0;                /*删除成功，标志位置为0 */
         return 1;
     }
 }
 void DisplayQueue(SCQueue SCQ)
-/*˳��ѭ�����е���ʾ��������������ж϶����Ƿ�Ϊ�գ����ʱ��Ӧ���Ƕ�ͷָ��Ͷ�βָ��ֵ�Ĵ�С����*/
+/*顺序循环队列的显示输出函数。首先判断队列是否为空，输出时还应考虑队头指针和队尾指针值的大小问题*/
 {
     int i;
 
-    if (QueueEmpty(SCQ)) {          /*�ж�˳��ѭ�������Ƿ�Ϊ��*/
+    if (QueueEmpty(SCQ)) {          /*判断顺序循环队列是否为空*/
         return;
     }
 
     if (SCQ.front < SCQ.rear)
 
-        /*�����ͷָ��ֵС�ڶ�βָ���ֵ����Ѷ�ͷָ�뵽��βָ��ָ���Ԫ���������*/
+        /*如果队头指针值小于队尾指针的值，则把队头指针到队尾指针指向的元素依次输出*/
         for (i = SCQ.front; i <= SCQ.rear; i++) {
             printf("%c", SCQ.queue[i]);
         } else
 
-        /*�����ͷָ��ֵ���ڶ�βָ���ֵ����Ѷ�βָ�뵽��ͷָ��ָ���Ԫ���������*/
+        /*如果队头指针值大于队尾指针的值，则把队尾指针到队头指针指向的元素依次输出*/
         for (i = SCQ.front; i <= SCQ.rear + QueueSize; i++) {
             printf("%c", SCQ.queue[i % QueueSize]);
         }
@@ -76,39 +76,39 @@ void DisplayQueue(SCQueue SCQ)
 }
 void main()
 {
-    SCQueue Q;                      /*����һ��˳��ѭ������*/
-    char e;                         /*����һ���ַ����ͱ��������ڴ�ų����е�Ԫ��*/
-    InitQueue(&Q);                      /*��ʼ��˳��ѭ������*/
-    /*��3��Ԫ��A��B��C���ν���˳��ѭ������*/
-    printf("A���\n");
+    SCQueue Q;                      /*定义一个顺序循环队列*/
+    char e;                         /*定义一个字符类型变量，用于存放出队列的元素*/
+    InitQueue(&Q);                      /*初始化顺序循环队列*/
+    /*将3个元素A，B，C依次进入顺序循环队列*/
+    printf("A入队\n");
     EnterQueue(&Q, 'A');
-    printf("B���\n");
+    printf("B入队\n");
     EnterQueue(&Q, 'B');
-    printf("C���\n");
+    printf("C入队\n");
     EnterQueue(&Q, 'C');
-    /*��˳��ѭ�������е�Ԫ����ʾ���*/
-    printf("������Ԫ�أ�");
+    /*将顺序循环队列中的元素显示输出*/
+    printf("队列中元素：");
     DisplayQueue(Q);
-    /*��˳��ѭ�������еĶ�ͷԪ�س�����*/
-    printf("��ͷԪ�ص�һ�γ���\n");
+    /*将顺序循环队列中的队头元素出队列*/
+    printf("队头元素第一次出队\n");
     DeleteQueue(&Q, &e);
-    printf("���ӵ�Ԫ�أ�");
+    printf("出队的元素：");
     printf("%c\n", e);
-    printf("��ͷԪ�صڶ��γ���\n");
+    printf("队头元素第二次出队\n");
     DeleteQueue(&Q, &e);
-    printf("���ӵ�Ԫ�أ�");
+    printf("出队的元素：");
     printf("%c\n", e);
-    /*��˳��ѭ�������е�Ԫ����ʾ���*/
-    printf("������Ԫ�أ�");
+    /*将顺序循环队列中的元素显示输出*/
+    printf("队列中元素：");
     DisplayQueue(Q);
-    /*��3��Ԫ��D��E��F���ν���˳��ѭ������*/
-    printf("D���\n");
+    /*将3个元素D，E，F依次进入顺序循环队列*/
+    printf("D入队\n");
     EnterQueue(&Q, 'D');
-    printf("E���\n");
+    printf("E入队\n");
     EnterQueue(&Q, 'E');
-    printf("F���\n");
+    printf("F入队\n");
     EnterQueue(&Q, 'F');
-    /*��˳��ѭ�������е�Ԫ����ʾ���*/
-    printf("������Ԫ�أ�");
+    /*将顺序循环队列中的元素显示输出*/
+    printf("队列中元素：");
     DisplayQueue(Q);
 }

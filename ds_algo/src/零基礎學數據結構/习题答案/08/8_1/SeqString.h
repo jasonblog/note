@@ -4,71 +4,71 @@ typedef struct {
     int length;
 } SeqString;
 void StrAssign(SeqString* S, char cstr[])
-/*´®µÄ¸³Öµ²Ù×÷*/
+/*ä¸²çš„èµ‹å€¼æ“ä½œ*/
 {
     int i = 0;
 
-    for (i = 0; cstr[i] != '\0'; i++) { /*½«³£Á¿cstrÖĞµÄ×Ö·û¸³Öµ¸ø´®S*/
+    for (i = 0; cstr[i] != '\0'; i++) { /*å°†å¸¸é‡csträ¸­çš„å­—ç¬¦èµ‹å€¼ç»™ä¸²S*/
         S->str[i] = cstr[i];
     }
 
     S->length = i;
 }
 int StrEmpty(SeqString S)
-/*ÅĞ¶Ï´®ÊÇ·ñÎª¿Õ£¬´®Îª¿Õ·µ»Ø1£¬·ñÔò·µ»Ø0*/
+/*åˆ¤æ–­ä¸²æ˜¯å¦ä¸ºç©ºï¼Œä¸²ä¸ºç©ºè¿”å›1ï¼Œå¦åˆ™è¿”å›0*/
 {
-    if (S.length == 0) {    /*ÅĞ¶Ï´®µÄ³¤¶ÈÊÇ·ñµÈÓÚ0*/
-        return 1;    /*µ±´®Îª¿ÕÊ±£¬·µ»Ø1£»·ñÔò·µ»Ø0*/
+    if (S.length == 0) {    /*åˆ¤æ–­ä¸²çš„é•¿åº¦æ˜¯å¦ç­‰äº0*/
+        return 1;    /*å½“ä¸²ä¸ºç©ºæ—¶ï¼Œè¿”å›1ï¼›å¦åˆ™è¿”å›0*/
     } else {
         return 0;
     }
 }
 int StrLength(SeqString S)
-/*Çó´®µÄ³¤¶È²Ù×÷*/
+/*æ±‚ä¸²çš„é•¿åº¦æ“ä½œ*/
 {
     return S.length;
 }
 void StrCopy(SeqString* T, SeqString S)
-/*´®µÄ¸´ÖÆ²Ù×÷.*/
+/*ä¸²çš„å¤åˆ¶æ“ä½œ.*/
 {
     int i;
 
-    for (i = 0; i < S.length; i++) { /*½«´®SµÄ×Ö·û¸³Öµ¸ø´®T*/
+    for (i = 0; i < S.length; i++) { /*å°†ä¸²Sçš„å­—ç¬¦èµ‹å€¼ç»™ä¸²T*/
         T->str[i] = S.str[i];
     }
 
-    T->length = S.length;       /*½«´®SµÄ³¤¶È¸³Öµ¸ø´®T*/
+    T->length = S.length;       /*å°†ä¸²Sçš„é•¿åº¦èµ‹å€¼ç»™ä¸²T*/
 }
 int StrCompare(SeqString S, SeqString T)
-/*´®µÄ±È½Ï²Ù×÷*/
+/*ä¸²çš„æ¯”è¾ƒæ“ä½œ*/
 {
     int i;
 
-    for (i = 0; i < S.length && i < T.length; i++) /*±È½ÏÁ½¸ö´®ÖĞµÄ×Ö·û*/
-        if (S.str[i] != T.str[i]) {     /*Èç¹û³öÏÖ×Ö·û²»Í¬£¬Ôò·µ»ØÁ½¸ö×Ö·ûµÄ²îÖµ*/
+    for (i = 0; i < S.length && i < T.length; i++) /*æ¯”è¾ƒä¸¤ä¸ªä¸²ä¸­çš„å­—ç¬¦*/
+        if (S.str[i] != T.str[i]) {     /*å¦‚æœå‡ºç°å­—ç¬¦ä¸åŒï¼Œåˆ™è¿”å›ä¸¤ä¸ªå­—ç¬¦çš„å·®å€¼*/
             return (S.str[i] - T.str[i]);
         }
 
-    return (S.length - T.length);           /*Èç¹û±È½ÏÍê±Ï£¬·µ»ØÁ½¸ö´®µÄ³¤¶ÈµÄ²îÖµ*/
+    return (S.length - T.length);           /*å¦‚æœæ¯”è¾ƒå®Œæ¯•ï¼Œè¿”å›ä¸¤ä¸ªä¸²çš„é•¿åº¦çš„å·®å€¼*/
 }
 int StrInsert(SeqString* S, int pos, SeqString T)
-/*´®µÄ²åÈë²Ù×÷¡£ÔÚSÖĞµÚpos¸öÎ»ÖÃ²åÈëT·ÖÎªÈıÖÖÇé¿ö*/
+/*ä¸²çš„æ’å…¥æ“ä½œã€‚åœ¨Sä¸­ç¬¬posä¸ªä½ç½®æ’å…¥Tåˆ†ä¸ºä¸‰ç§æƒ…å†µ*/
 {
     int i;
 
-    if (pos < 0 || pos - 1 > S->length) { /*²åÈëÎ»ÖÃ²»ÕıÈ·£¬·µ»Ø0*/
-        printf("²åÈëÎ»ÖÃ²»ÕıÈ·");
+    if (pos < 0 || pos - 1 > S->length) { /*æ’å…¥ä½ç½®ä¸æ­£ç¡®ï¼Œè¿”å›0*/
+        printf("æ’å…¥ä½ç½®ä¸æ­£ç¡®");
         return 0;
     }
 
     if (S->length + T.length <=
-        MaxLength) {    /*µÚÒ»ÖÖÇé¿ö£¬²åÈë×Ó´®ºó´®³¤¡ÜMaxLength£¬¼´×Ó´®TÍêÕûµØ²åÈëµ½´®SÖĞ*/
-        /*ÔÚ²åÈë×Ó´®TÇ°£¬½«SÖĞposºóµÄ×Ö·ûÏòºóÒÆ¶¯len¸öÎ»ÖÃ*/
+        MaxLength) {    /*ç¬¬ä¸€ç§æƒ…å†µï¼Œæ’å…¥å­ä¸²åä¸²é•¿â‰¤MaxLengthï¼Œå³å­ä¸²Tå®Œæ•´åœ°æ’å…¥åˆ°ä¸²Sä¸­*/
+        /*åœ¨æ’å…¥å­ä¸²Tå‰ï¼Œå°†Sä¸­posåçš„å­—ç¬¦å‘åç§»åŠ¨lenä¸ªä½ç½®*/
         for (i = S->length + T.length - 1; i >= pos + T.length - 1; i--) {
             S->str[i] = S->str[i - T.length];
         }
 
-        /*½«´®²åÈëµ½SÖĞ*/
+        /*å°†ä¸²æ’å…¥åˆ°Sä¸­*/
         for (i = 0; i < T.length; i++) {
             S->str[pos + i - 1] = T.str[i];
         }
@@ -76,24 +76,24 @@ int StrInsert(SeqString* S, int pos, SeqString T)
         S->length = S->length + T.length;
         return 1;
     }
-    /*µÚ¶şÖÖÇé¿ö£¬×Ó´®¿ÉÒÔÍêÈ«²åÈëµ½SÖĞ£¬µ«ÊÇSÖĞµÄ×Ö·û½«»á±»½Øµô*/
+    /*ç¬¬äºŒç§æƒ…å†µï¼Œå­ä¸²å¯ä»¥å®Œå…¨æ’å…¥åˆ°Sä¸­ï¼Œä½†æ˜¯Sä¸­çš„å­—ç¬¦å°†ä¼šè¢«æˆªæ‰*/
     else if (pos + T.length <= MaxLength) {
         for (i = MaxLength - 1; i > T.length + pos - 1;
-             i--) { /*½«SÖĞposÒÔºóµÄ×Ö·ûÕûÌåÒÆ¶¯µ½Êı×éµÄ×îºó*/
+             i--) { /*å°†Sä¸­posä»¥åçš„å­—ç¬¦æ•´ä½“ç§»åŠ¨åˆ°æ•°ç»„çš„æœ€å*/
             S->str[i] = S->str[i - T.length];
         }
 
-        for (i = 0; i < T.length; i++) {        /*½«T²åÈëµ½SÖĞ*/
+        for (i = 0; i < T.length; i++) {        /*å°†Tæ’å…¥åˆ°Sä¸­*/
             S->str[i + pos - 1] = T.str[i];
         }
 
         S->length = MaxLength;
         return 0;
     }
-    /*µÚÈıÖÖÇé¿ö£¬×Ó´®T²»ÄÜ±»ÍêÈ«²åÈëµ½SÖĞ£¬TÖĞ½«»áÓĞ×Ö·û±»ÉáÆú*/
+    /*ç¬¬ä¸‰ç§æƒ…å†µï¼Œå­ä¸²Tä¸èƒ½è¢«å®Œå…¨æ’å…¥åˆ°Sä¸­ï¼ŒTä¸­å°†ä¼šæœ‰å­—ç¬¦è¢«èˆå¼ƒ*/
     else {
         for (i = 0; i < MaxLength - pos;
-             i++) { /*½«TÖ±½Ó²åÈëµ½SÖĞ£¬²åÈëÖ®Ç°²»ĞèÒªÒÆ¶¯SÖĞµÄ×Ö·û*/
+             i++) { /*å°†Tç›´æ¥æ’å…¥åˆ°Sä¸­ï¼Œæ’å…¥ä¹‹å‰ä¸éœ€è¦ç§»åŠ¨Sä¸­çš„å­—ç¬¦*/
             S->str[i + pos - 1] = T.str[i];
         }
 
@@ -102,12 +102,12 @@ int StrInsert(SeqString* S, int pos, SeqString T)
     }
 }
 int StrDelete(SeqString* S, int pos, int len)
-/*ÔÚ´®SÖĞÉ¾³ıpos¿ªÊ¼µÄlen¸ö×Ö·û*/
+/*åœ¨ä¸²Sä¸­åˆ é™¤poså¼€å§‹çš„lenä¸ªå­—ç¬¦*/
 {
     int i;
 
     if (pos < 0 || len < 0 || pos + len - 1 > S->length) {
-        printf("É¾³ıÎ»ÖÃ²»ÕıÈ·£¬²ÎÊılen²»ºÏ·¨");
+        printf("åˆ é™¤ä½ç½®ä¸æ­£ç¡®ï¼Œå‚æ•°lenä¸åˆæ³•");
         return 0;
     } else {
         for (i = pos + len; i <= S->length - 1; i++) {
@@ -145,7 +145,7 @@ int SubString(SeqString* Sub, SeqString S, int pos, int len)
     int i;
 
     if (pos < 0 || len < 0 || pos + len - 1 > S.length) {
-        printf("²ÎÊıposºÍlen²»ºÏ·¨");
+        printf("å‚æ•°poså’Œlenä¸åˆæ³•");
         return 0;
     } else {
         for (i = 0; i < len; i++) {

@@ -1,33 +1,33 @@
-/*°üº¬Í·ÎÄ¼şºÍË³Ğò±íµÄÀàĞÍ¶¨Òå*/
+/*åŒ…å«å¤´æ–‡ä»¶å’Œé¡ºåºè¡¨çš„ç±»å‹å®šä¹‰*/
 #include<stdio.h>
 #include<stdlib.h>
 #define MaxSize 100
 #define IndexSize 20
 typedef int KeyType;
-typedef struct { /*ÔªËØµÄ¶¨Òå*/
+typedef struct { /*å…ƒç´ çš„å®šä¹‰*/
     KeyType key;
 } DataType;
-typedef struct { /*Ë³Ğò±íµÄÀàĞÍ¶¨Òå*/
+typedef struct { /*é¡ºåºè¡¨çš„ç±»å‹å®šä¹‰*/
     DataType list[MaxSize];
     int length;
 } SSTable;
 int BinarySearch(SSTable S, DataType x);
 int BinarySearch(SSTable S, DataType x)
-/*ÔÚÓĞĞòË³Ğò±íÖĞÕÛ°ë²éÕÒ¹Ø¼ü×ÖÎªxµÄÔªËØ£¬Èç¹ûÕÒµ½·µ»Ø¸ÃÔªËØÔÚ±íÖĞµÄÎ»ÖÃ£¬·ñÔò·µ»Ø0*/
+/*åœ¨æœ‰åºé¡ºåºè¡¨ä¸­æŠ˜åŠæŸ¥æ‰¾å…³é”®å­—ä¸ºxçš„å…ƒç´ ï¼Œå¦‚æœæ‰¾åˆ°è¿”å›è¯¥å…ƒç´ åœ¨è¡¨ä¸­çš„ä½ç½®ï¼Œå¦åˆ™è¿”å›0*/
 {
     int low, high, mid;
-    low = 0, high = S.length - 1;   /*ÉèÖÃ´ı²éÕÒÔªËØ·¶Î§µÄÏÂ½çºÍÉÏ½ç*/
+    low = 0, high = S.length - 1;   /*è®¾ç½®å¾…æŸ¥æ‰¾å…ƒç´ èŒƒå›´çš„ä¸‹ç•Œå’Œä¸Šç•Œ*/
 
     while (low <= high) {
         mid = (low + high) / 2;
 
-        if (S.list[mid].key == x.key) { /*Èç¹ûÕÒµ½ÔªËØ£¬Ôò·µ»Ø¸ÃÔªËØËùÔÚµÄÎ»ÖÃ*/
+        if (S.list[mid].key == x.key) { /*å¦‚æœæ‰¾åˆ°å…ƒç´ ï¼Œåˆ™è¿”å›è¯¥å…ƒç´ æ‰€åœ¨çš„ä½ç½®*/
             return mid + 1;
         } else if (S.list[mid].key <
-                   x.key) { /*Èç¹ûmidËùÖ¸Ê¾µÄÔªËØĞ¡ÓÚ¹Ø¼ü×Ö£¬ÔòĞŞ¸ÄlowÖ¸Õë*/
+                   x.key) { /*å¦‚æœmidæ‰€æŒ‡ç¤ºçš„å…ƒç´ å°äºå…³é”®å­—ï¼Œåˆ™ä¿®æ”¹lowæŒ‡é’ˆ*/
             low = mid + 1;
         } else if (S.list[mid].key >
-                   x.key) { /*Èç¹ûmidËùÖ¸Ê¾µÄÔªËØ´óÓÚ¹Ø¼ü×Ö£¬ÔòĞŞ¸ÄhighÖ¸Õë*/
+                   x.key) { /*å¦‚æœmidæ‰€æŒ‡ç¤ºçš„å…ƒç´ å¤§äºå…³é”®å­—ï¼Œåˆ™ä¿®æ”¹highæŒ‡é’ˆ*/
             high = mid - 1;
         }
     }
@@ -35,19 +35,19 @@ int BinarySearch(SSTable S, DataType x)
     return 0;
 }
 int BinarySearch2(SSTable S, int low, int high, DataType x)
-/*µİ¹éÊµÏÖÕÛ°ë²éÕÒ*/
+/*é€’å½’å®ç°æŠ˜åŠæŸ¥æ‰¾*/
 {
     int mid;
 
     if (low < high) {
         mid = (low + high) / 2;
 
-        if (S.list[mid].key == x.key) { /*Èç¹ûÕÒµ½ÔªËØ£¬Ôò·µ»Ø¸ÃÔªËØËùÔÚµÄÎ»ÖÃ*/
+        if (S.list[mid].key == x.key) { /*å¦‚æœæ‰¾åˆ°å…ƒç´ ï¼Œåˆ™è¿”å›è¯¥å…ƒç´ æ‰€åœ¨çš„ä½ç½®*/
             return mid + 1;
         } else if (S.list[mid].key >
-                   x.key) { /*Èç¹ûmidËùÖ¸Ê¾µÄÔªËØĞ¡ÓÚ¹Ø¼ü×Ö£¬ÔòÔÚ±íµÄÉÏ°ë²¿·Ö²éÕÒ*/
+                   x.key) { /*å¦‚æœmidæ‰€æŒ‡ç¤ºçš„å…ƒç´ å°äºå…³é”®å­—ï¼Œåˆ™åœ¨è¡¨çš„ä¸ŠåŠéƒ¨åˆ†æŸ¥æ‰¾*/
             return BinarySearch2(S, low, mid - 1, x);
-        } else {                        /*Èç¹ûmidËùÖ¸Ê¾µÄÔªËØ´óÓÚ¹Ø¼ü×Ö£¬ÔòÔÚ±íµÄÏÂ°ë²¿·Ö²éÕÒ*/
+        } else {                        /*å¦‚æœmidæ‰€æŒ‡ç¤ºçš„å…ƒç´ å¤§äºå…³é”®å­—ï¼Œåˆ™åœ¨è¡¨çš„ä¸‹åŠéƒ¨åˆ†æŸ¥æ‰¾*/
             return BinarySearch2(S, mid + 1, high, x);
         }
     }
@@ -70,19 +70,19 @@ void main()
     SSTable S = {{12, 23, 34, 43, 49, 67, 78, 98}, 8};
     DataType x = {67};
     int pos;
-    printf("±íSÖĞµÄÔªËØÎª£º\n");
+    printf("è¡¨Sä¸­çš„å…ƒç´ ä¸ºï¼š\n");
     DispList(S);
 
     if ((pos = BinarySearch(S, x)) != 0) {
-        printf("·Çµİ¹éÊµÏÖÕÛ°ë²éÕÒ£º¹Ø¼ü×Ö67ÔÚ±íÖĞµÄÎ»ÖÃÊÇ£º%2d\n", pos);
+        printf("éé€’å½’å®ç°æŠ˜åŠæŸ¥æ‰¾ï¼šå…³é”®å­—67åœ¨è¡¨ä¸­çš„ä½ç½®æ˜¯ï¼š%2d\n", pos);
     } else {
-        printf("²éÕÒÊ§°Ü£¡\n");
+        printf("æŸ¥æ‰¾å¤±è´¥ï¼\n");
     }
 
     if ((pos = BinarySearch2(S, 0, 7, x)) != 0) {
-        printf("µİ¹éÊµÏÖÕÛ°ë²éÕÒ£º¹Ø¼ü×Ö67ÔÚ±íÖĞµÄÎ»ÖÃÊÇ£º%2d\n", pos);
+        printf("é€’å½’å®ç°æŠ˜åŠæŸ¥æ‰¾ï¼šå…³é”®å­—67åœ¨è¡¨ä¸­çš„ä½ç½®æ˜¯ï¼š%2d\n", pos);
     } else {
-        printf("²éÕÒÊ§°Ü£¡\n");
+        printf("æŸ¥æ‰¾å¤±è´¥ï¼\n");
     }
 
 }

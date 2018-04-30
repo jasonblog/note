@@ -1,12 +1,12 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<stdlib.h>
 #define MaxSize 50
 typedef int KeyType;
-typedef struct { /*Êı¾İÔªËØÀàĞÍ¶¨Òå*/
-    KeyType key;/*¹Ø¼ü×Ö*/
+typedef struct { /*æ•°æ®å…ƒç´ ç±»å‹å®šä¹‰*/
+    KeyType key;/*å…³é”®å­—*/
 } DataType;
-typedef struct { /*Ë³Ğò±íÀàĞÍ¶¨Òå*/
+typedef struct { /*é¡ºåºè¡¨ç±»å‹å®šä¹‰*/
     DataType data[MaxSize];
     int length;
 } SqList;
@@ -16,12 +16,12 @@ void Merge(DataType s[], DataType t[], int low, int mid, int high);
 void Merge(DataType s[], DataType t[], int low, int mid, int high);
 
 void Merge(DataType s[], DataType t[], int low, int mid, int high)
-/*½«ÓĞĞòµÄs[low...mid]ºÍs[mid+1..high]¹é²¢ÎªÓĞĞòµÄt[low..high]*/
+/*å°†æœ‰åºçš„s[low...mid]å’Œs[mid+1..high]å½’å¹¶ä¸ºæœ‰åºçš„t[low..high]*/
 {
     int i, j, k;
     i = low, j = mid + 1, k = low;
 
-    while (i <= mid && j <= high) { /*½«sÖĞÔªËØÓÉĞ¡µ½´óµØºÏ²¢µ½t*/
+    while (i <= mid && j <= high) { /*å°†sä¸­å…ƒç´ ç”±å°åˆ°å¤§åœ°åˆå¹¶åˆ°t*/
         if (s[i].key <= s[j].key) {
             t[k] = s[i++];
         } else {
@@ -31,17 +31,17 @@ void Merge(DataType s[], DataType t[], int low, int mid, int high)
         k++;
     }
 
-    while (i <= mid) {      /*½«Ê£ÓàµÄs[i..mid]¸´ÖÆµ½t*/
+    while (i <= mid) {      /*å°†å‰©ä½™çš„s[i..mid]å¤åˆ¶åˆ°t*/
         t[k++] = s[i++];
     }
 
-    while (j <= high) {     /*½«Ê£ÓàµÄs[j..high]¸´ÖÆµ½t*/
+    while (j <= high) {     /*å°†å‰©ä½™çš„s[j..high]å¤åˆ¶åˆ°t*/
         t[k++] = s[j++];
     }
 }
 
 void MergeSort(DataType s[], DataType t[], int low, int high)
-/*2Â·¹é²¢ÅÅĞò£¬½«s[low...high]¹é²¢ÅÅĞò²¢´æ´¢µ½t[low...high]ÖĞ*/
+/*2è·¯å½’å¹¶æ’åºï¼Œå°†s[low...high]å½’å¹¶æ’åºå¹¶å­˜å‚¨åˆ°t[low...high]ä¸­*/
 {
     int mid;
     DataType t2[MaxSize];
@@ -50,12 +50,12 @@ void MergeSort(DataType s[], DataType t[], int low, int high)
         t[low] = s[low];
     } else {
         mid = (low + high) /
-              2;     /*½«s[low...high]Æ½·ÖÎªs[low...mid]ºÍs[mid+1...high]*/
-        MergeSort(s, t2, low, mid); /*½«s[low...mid]¹é²¢ÎªÓĞĞòµÄt2[low...mid]*/
+              2;     /*å°†s[low...high]å¹³åˆ†ä¸ºs[low...mid]å’Œs[mid+1...high]*/
+        MergeSort(s, t2, low, mid); /*å°†s[low...mid]å½’å¹¶ä¸ºæœ‰åºçš„t2[low...mid]*/
         MergeSort(s, t2, mid + 1,
-                  high); /*½«s[mid+1...high]¹é²¢ÎªÓĞĞòµÄt2[mid+1...high]*/
+                  high); /*å°†s[mid+1...high]å½’å¹¶ä¸ºæœ‰åºçš„t2[mid+1...high]*/
         Merge(t2, t, low, mid,
-              high); /*½«t2[low...mid]ºÍt2[mid+1..high]¹é²¢µ½t[low...high]*/
+              high); /*å°†t2[low...mid]å’Œt2[mid+1..high]å½’å¹¶åˆ°t[low...high]*/
     }
 }
 
@@ -66,18 +66,18 @@ void main()
     DataType b[MaxSize];
     int i, n = 10;
     SqList L;
-    /*¹é²¢ÅÅĞò*/
-    InitSeqList(&L, a, 0, n); /*½«Êı×éa[0...n-1]³õÊ¼»¯ÎªË³Ğò±íL*/
-    printf("¹é²¢ÅÅĞòÇ°£º");
+    /*å½’å¹¶æ’åº*/
+    InitSeqList(&L, a, 0, n); /*å°†æ•°ç»„a[0...n-1]åˆå§‹åŒ–ä¸ºé¡ºåºè¡¨L*/
+    printf("å½’å¹¶æ’åºå‰ï¼š");
     DispList(L);
     MergeSort(L.data, b, 1, n);
-    InitSeqList(&L, b, 1, n); /*½«Êı×éb[1...n]³õÊ¼»¯ÎªË³Ğò±íL*/
-    printf("¹é²¢ÅÅĞò½á¹û£º");
+    InitSeqList(&L, b, 1, n); /*å°†æ•°ç»„b[1...n]åˆå§‹åŒ–ä¸ºé¡ºåºè¡¨L*/
+    printf("å½’å¹¶æ’åºç»“æœï¼š");
     DispList(L);
 
 }
 void InitSeqList(SqList* L, DataType a[], int start, int n)
-/*Ë³Ğò±íµÄ³õÊ¼»¯*/
+/*é¡ºåºè¡¨çš„åˆå§‹åŒ–*/
 {
     int i, k;
 
@@ -89,7 +89,7 @@ void InitSeqList(SqList* L, DataType a[], int start, int n)
 
 }
 void DispList(SqList L)
-/*Êä³ö±íÖĞµÄÔªËØ*/
+/*è¾“å‡ºè¡¨ä¸­çš„å…ƒç´ */
 {
     int i;
 

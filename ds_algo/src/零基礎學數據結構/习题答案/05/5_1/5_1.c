@@ -1,18 +1,18 @@
-#define QueueSize 20        /*¶¨ÒåË³ĞòÑ­»·¶ÓÁĞµÄ×î´óÈİÁ¿*/
-typedef int DataType;       /*¶¨ÒåË³ĞòÑ­»·¶ÓÁĞÔªËØµÄÀàĞÍÎª×Ö·ûÀàĞÍ*/
+#define QueueSize 20        /*å®šä¹‰é¡ºåºå¾ªç¯é˜Ÿåˆ—çš„æœ€å¤§å®¹é‡*/
+typedef int DataType;       /*å®šä¹‰é¡ºåºå¾ªç¯é˜Ÿåˆ—å…ƒç´ çš„ç±»å‹ä¸ºå­—ç¬¦ç±»å‹*/
 #include<stdio.h>
-typedef struct Squeue {         /*Ë³ĞòÑ­»·¶ÓÁĞµÄÀàĞÍ¶¨Òå*/
+typedef struct Squeue {         /*é¡ºåºå¾ªç¯é˜Ÿåˆ—çš„ç±»å‹å®šä¹‰*/
     DataType sequ[QueueSize];
-    int rear, quelen;       /*¶ÓÎ²Ö¸Õë¡¢¶ÓÖĞÔªËØ¸öÊı*/
+    int rear, quelen;       /*é˜Ÿå°¾æŒ‡é’ˆã€é˜Ÿä¸­å…ƒç´ ä¸ªæ•°*/
 } SCQueue;
 void InitQueue(SCQueue* SCQ)
-/*³õÊ¼»¯Ë³ĞòÑ­»·¶ÓÁĞ*/
+/*åˆå§‹åŒ–é¡ºåºå¾ªç¯é˜Ÿåˆ—*/
 {
-    SCQ ->rear = 0; /*°Ñ¶ÓÎ²Ö¸ÕëÖÃÎª0*/
-    SCQ->quelen = 0; /*³õÊ¼Ê±£¬¶ÓÖĞÔªËØ¸öÊıÎª0*/
+    SCQ ->rear = 0; /*æŠŠé˜Ÿå°¾æŒ‡é’ˆç½®ä¸º0*/
+    SCQ->quelen = 0; /*åˆå§‹æ—¶ï¼Œé˜Ÿä¸­å…ƒç´ ä¸ªæ•°ä¸º0*/
 }
 int QueueEmpty(SCQueue SCQ)
-/*ÅĞ¶ÏË³ĞòÑ­»·¶ÓÁĞÊÇ·ñÎª¿Õ£¬¶ÓÁĞÎª¿Õ·µ»Ø1£¬·ñÔò·µ»Ø0*/
+/*åˆ¤æ–­é¡ºåºå¾ªç¯é˜Ÿåˆ—æ˜¯å¦ä¸ºç©ºï¼Œé˜Ÿåˆ—ä¸ºç©ºè¿”å›1ï¼Œå¦åˆ™è¿”å›0*/
 {
     if (SCQ.quelen == 0) {
         return 1;
@@ -21,33 +21,33 @@ int QueueEmpty(SCQueue SCQ)
     }
 }
 int EnterQueue(SCQueue* SCQ, DataType e)
-/*½«ÔªËØe²åÈëµ½Ë³ĞòÑ­»·¶ÓÁĞSCQÖĞ£¬²åÈë³É¹¦·µ»Ø1£¬·ñÔò·µ»Ø0*/
+/*å°†å…ƒç´ eæ’å…¥åˆ°é¡ºåºå¾ªç¯é˜Ÿåˆ—SCQä¸­ï¼Œæ’å…¥æˆåŠŸè¿”å›1ï¼Œå¦åˆ™è¿”å›0*/
 {
-    if (SCQ->quelen == QueueSize - 1) {      /*ÅĞ¶Ï¶ÓÁĞÊÇ·ñÒÑÂú*/
+    if (SCQ->quelen == QueueSize - 1) {      /*åˆ¤æ–­é˜Ÿåˆ—æ˜¯å¦å·²æ»¡*/
         return 0;
     }
 
-    SCQ->sequ[SCQ->rear] = e;                /*ÔÚ¶ÓÎ²²åÈëÔªËØe */
-    SCQ->rear = (SCQ->rear + 1) % QueueSize; /*¶ÓÎ²Ö¸ÕëÏòºóÒÆ¶¯Ò»¸öÎ»ÖÃ*/
-    SCQ->quelen = SCQ->quelen + 1;           /*ĞŞ¸Ä¶ÓÁĞÔªËØµÄ¸öÊı*/
+    SCQ->sequ[SCQ->rear] = e;                /*åœ¨é˜Ÿå°¾æ’å…¥å…ƒç´ e */
+    SCQ->rear = (SCQ->rear + 1) % QueueSize; /*é˜Ÿå°¾æŒ‡é’ˆå‘åç§»åŠ¨ä¸€ä¸ªä½ç½®*/
+    SCQ->quelen = SCQ->quelen + 1;           /*ä¿®æ”¹é˜Ÿåˆ—å…ƒç´ çš„ä¸ªæ•°*/
     return 1;
 }
 int DeleteQueue(SCQueue* SCQ, DataType* e)
-/*É¾³ıË³ĞòÑ­»·¶ÓÁĞÖĞµÄ¶ÓÍ·ÔªËØ£¬²¢½«¸ÃÔªËØ¸³Öµ¸øe£¬É¾³ı³É¹¦·µ»Ø1£¬·ñÔò·µ»Ø0*/
+/*åˆ é™¤é¡ºåºå¾ªç¯é˜Ÿåˆ—ä¸­çš„é˜Ÿå¤´å…ƒç´ ï¼Œå¹¶å°†è¯¥å…ƒç´ èµ‹å€¼ç»™eï¼Œåˆ é™¤æˆåŠŸè¿”å›1ï¼Œå¦åˆ™è¿”å›0*/
 {
     int front;
 
-    if (SCQ->quelen == 0) { /*ÅĞ¶ÏË³ĞòÑ­»·¶ÓÁĞÊÇ·ñÎª¿Õ*/
+    if (SCQ->quelen == 0) { /*åˆ¤æ–­é¡ºåºå¾ªç¯é˜Ÿåˆ—æ˜¯å¦ä¸ºç©º*/
         return 0;
     } else {
-        front = SCQ->rear - SCQ->quelen; /*Çó³ö¶ÓÍ·ÔªËØËùÔÚµÄÎ»ÖÃ*/
+        front = SCQ->rear - SCQ->quelen; /*æ±‚å‡ºé˜Ÿå¤´å…ƒç´ æ‰€åœ¨çš„ä½ç½®*/
 
         if (front < 0) {
             front = front + QueueSize;
         }
 
-        *e = SCQ->sequ[front];          /*½«¶ÓÍ·µÄÔªËØ¸³Öµ¸øe*/
-        SCQ->quelen = SCQ->quelen - 1;  /*ĞŞ¸Ä¶ÓÁĞÖĞµÄÔªËØ¸öÊı*/
+        *e = SCQ->sequ[front];          /*å°†é˜Ÿå¤´çš„å…ƒç´ èµ‹å€¼ç»™e*/
+        SCQ->quelen = SCQ->quelen - 1;  /*ä¿®æ”¹é˜Ÿåˆ—ä¸­çš„å…ƒç´ ä¸ªæ•°*/
         return 1;
     }
 }
@@ -62,7 +62,7 @@ void main()
         EnterQueue(&Q, a[i]);
     }
 
-    printf("³ö¶ÓÁĞµÄÔªËØÒÀ´ÎÊÇ£º");
+    printf("å‡ºé˜Ÿåˆ—çš„å…ƒç´ ä¾æ¬¡æ˜¯ï¼š");
 
     while (!QueueEmpty(Q)) {
         DeleteQueue(&Q, &e);

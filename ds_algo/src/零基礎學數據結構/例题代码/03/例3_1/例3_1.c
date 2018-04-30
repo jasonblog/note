@@ -1,43 +1,32 @@
-#include<stdio.h>                   /*°üº¬ÊäÈëÊä³öÍ·ÎÄ¼ş*/
-#include"SeqList.h"                 /*°üº¬Ë³Ğò±íÊµÏÖÎÄ¼ş*/
-void DelElem(SeqList* A, SeqList B); /*É¾³ıAÖĞ³öÏÖBµÄÔªËØµÄº¯ÊıÉùÃ÷*/
+#include<stdio.h>                   /*åŒ…å«è¾“å…¥è¾“å‡ºå¤´æ–‡ä»¶*/
+#include"SeqList.h"                 /*åŒ…å«é¡ºåºè¡¨å®ç°æ–‡ä»¶*/
+void DelElem(SeqList* A, SeqList B); /*åˆ é™¤Aä¸­å‡ºç°Bçš„å…ƒç´ çš„å‡½æ•°å£°æ˜*/
 void main()
 {
     int i, j, flag;
     DataType e;
-    SeqList A, B;                   /*ÉùÃ÷Ë³Ğò±íAºÍB*/
-    InitList(&A);                   /*³õÊ¼»¯Ë³Ğò±íA*/
-    InitList(&B);                   /*³õÊ¼»¯Ë³Ğò±íB*/
+    SeqList A, B;                   /*å£°æ˜é¡ºåºè¡¨Aå’ŒB*/
+    InitList(&A);                   /*åˆå§‹åŒ–é¡ºåºè¡¨A*/
+    InitList(&B);                   /*åˆå§‹åŒ–é¡ºåºè¡¨B*/
 
-    for (i = 1; i <= 10; i++) {     /*½«1-10²åÈëµ½Ë³Ğò±íAÖĞ*/
+    for (i = 1; i <= 10; i++) {     /*å°†1-10æ’å…¥åˆ°é¡ºåºè¡¨Aä¸­*/
         if (InsertList(&A, i, i) == 0) {
-            printf("Î»ÖÃ²»ºÏ·¨");
+            printf("ä½ç½®ä¸åˆæ³•");
             return;
         }
     }
 
-    for (i = 1, j = 1; j <= 6; i = i + 2, j++) { /*²åÈëË³Ğò±íBÖĞÁù¸öÊı*/
+    for (i = 1, j = 1; j <= 6; i = i + 2, j++) { /*æ’å…¥é¡ºåºè¡¨Bä¸­å…­ä¸ªæ•°*/
         if (InsertList(&B, j, i * 2) == 0) {
-            printf("Î»ÖÃ²»ºÏ·¨");
+            printf("ä½ç½®ä¸åˆæ³•");
             return;
         }
     }
 
-    printf("Ë³Ğò±íAÖĞµÄÔªËØ£º\n");
+    printf("é¡ºåºè¡¨Aä¸­çš„å…ƒç´ ï¼š\n");
 
-    for (i = 1; i <= A.length; i++) { /*Êä³öË³Ğò±íAÖĞµÄÃ¿¸öÔªËØ*/
-        flag = GetElem(A, i, &e);   /*·µ»ØË³Ğò±íAÖĞµÄÃ¿¸öÔªËØµ½eÖĞ*/
-
-        if (flag == 1) {
-            printf("%4d", e);
-        }
-    }
-
-    printf("\n");
-    printf("Ë³Ğò±íBÖĞµÄÔªËØ£º\n");
-
-    for (i = 1; i <= B.length; i++) { /*Êä³öË³Ğò±íBÖĞµÄÃ¿¸öÔªËØ*/
-        flag = GetElem(B, i, &e);   /*·µ»ØË³Ğò±íBÖĞµÄÃ¿¸öÔªËØµ½eÖĞ*/
+    for (i = 1; i <= A.length; i++) { /*è¾“å‡ºé¡ºåºè¡¨Aä¸­çš„æ¯ä¸ªå…ƒç´ */
+        flag = GetElem(A, i, &e);   /*è¿”å›é¡ºåºè¡¨Aä¸­çš„æ¯ä¸ªå…ƒç´ åˆ°eä¸­*/
 
         if (flag == 1) {
             printf("%4d", e);
@@ -45,10 +34,21 @@ void main()
     }
 
     printf("\n");
-    printf("½«ÔÚAÖĞ³öÏÖBµÄÔªËØÉ¾³ıºóAÖĞµÄÔªËØ£º\n");
-    DelElem(&A, B);                 /*½«ÔÚË³Ğò±íAÖĞ³öÏÖµÄBµÄÔªËØÉ¾³ı*/
+    printf("é¡ºåºè¡¨Bä¸­çš„å…ƒç´ ï¼š\n");
 
-    for (i = 1; i <= A.length; i++) { /*ÏÔÊ¾Êä³öÉ¾³ıºóAÖĞËùÓĞÔªËØ*/
+    for (i = 1; i <= B.length; i++) { /*è¾“å‡ºé¡ºåºè¡¨Bä¸­çš„æ¯ä¸ªå…ƒç´ */
+        flag = GetElem(B, i, &e);   /*è¿”å›é¡ºåºè¡¨Bä¸­çš„æ¯ä¸ªå…ƒç´ åˆ°eä¸­*/
+
+        if (flag == 1) {
+            printf("%4d", e);
+        }
+    }
+
+    printf("\n");
+    printf("å°†åœ¨Aä¸­å‡ºç°Bçš„å…ƒç´ åˆ é™¤åAä¸­çš„å…ƒç´ ï¼š\n");
+    DelElem(&A, B);                 /*å°†åœ¨é¡ºåºè¡¨Aä¸­å‡ºç°çš„Bçš„å…ƒç´ åˆ é™¤*/
+
+    for (i = 1; i <= A.length; i++) { /*æ˜¾ç¤ºè¾“å‡ºåˆ é™¤åAä¸­æ‰€æœ‰å…ƒç´ */
         flag = GetElem(A, i, &e);
 
         if (flag == 1) {
@@ -60,19 +60,19 @@ void main()
 
 }
 void DelElem(SeqList* A, SeqList B)
-/*É¾³ıAÖĞ³öÏÖBµÄÔªËØµÄº¯ÊıÊµÏÖ*/
+/*åˆ é™¤Aä¸­å‡ºç°Bçš„å…ƒç´ çš„å‡½æ•°å®ç°*/
 {
     int i, flag, pos;
     DataType e;
 
     for (i = 0; i <= B.length; i++) {
-        flag = GetElem(B, i, &e);   /*ÒÀ´Î°ÑBÖĞÃ¿¸öÔªËØÈ¡³ö¸øe*/
+        flag = GetElem(B, i, &e);   /*ä¾æ¬¡æŠŠBä¸­æ¯ä¸ªå…ƒç´ å–å‡ºç»™e*/
 
         if (flag == 1) {
-            pos = LocateElem(*A, e); /*ÔÚAÖĞ²éÕÒºÍBÖĞÈ¡³öµÄÔªËØeÏàµÈµÄÔªËØ*/
+            pos = LocateElem(*A, e); /*åœ¨Aä¸­æŸ¥æ‰¾å’ŒBä¸­å–å‡ºçš„å…ƒç´ eç›¸ç­‰çš„å…ƒç´ */
 
             if (pos > 0) {
-                DeleteList(A, pos, &e);    /*Èç¹ûÕÒµ½¸ÃÔªËØ£¬½«Æä´ÓAÖĞÉ¾³ı*/
+                DeleteList(A, pos, &e);    /*å¦‚æœæ‰¾åˆ°è¯¥å…ƒç´ ï¼Œå°†å…¶ä»Aä¸­åˆ é™¤*/
             }
         }
     }

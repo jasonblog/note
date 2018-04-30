@@ -9,7 +9,7 @@ void main()
     LStackNode* s;
     DataType ch[50], e, *p;
     InitStack(&S);
-    printf("ÇëÊäÈë½øÕ»µÄ×Ö·û£º\n");
+    printf("è¯·è¾“å…¥è¿›æ ˆçš„å­—ç¬¦ï¼š\n");
     gets(ch);
     p = &ch[0];
 
@@ -18,17 +18,17 @@ void main()
         p++;
     }
 
-    printf("µ±Ç°Õ»¶¥µÄÔªËØÊÇ£º");
+    printf("å½“å‰æ ˆé¡¶çš„å…ƒç´ æ˜¯ï¼š");
 
     if (GetTop(S, &e) == 0) {
-        printf("Õ»ÒÑ¿Õ£¡");
+        printf("æ ˆå·²ç©ºï¼");
         return;
     } else {
         printf("%4c\n", e);
     }
 
-    printf("µ±Ç°Õ»ÖĞµÄÔªËØ¸öÊıÊÇ£º%d\n", StackLength(S));
-    printf("ÔªËØ³öÕ»µÄĞòÁĞÊÇ£º");
+    printf("å½“å‰æ ˆä¸­çš„å…ƒç´ ä¸ªæ•°æ˜¯ï¼š%d\n", StackLength(S));
+    printf("å…ƒç´ å‡ºæ ˆçš„åºåˆ—æ˜¯ï¼š");
 
     while (!StackEmpty(S)) {
         PopStack(S, &e);

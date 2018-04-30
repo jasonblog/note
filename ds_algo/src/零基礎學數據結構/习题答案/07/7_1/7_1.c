@@ -2,21 +2,21 @@
 #include<stdio.h>
 #define MaxSize 200
 typedef int DataType;
-typedef struct {        /*ÈıÔª×éÀàĞÍ¶¨Òå*/
+typedef struct {        /*ä¸‰å…ƒç»„ç±»å‹å®šä¹‰*/
     int i, j;
     DataType e;
 } Triple;
-typedef struct {        /*¾ØÕóÀàĞÍ¶¨Òå*/
+typedef struct {        /*çŸ©é˜µç±»å‹å®šä¹‰*/
     Triple data[MaxSize];
-    int m, n, len;      /*¾ØÕóµÄĞĞÊı£¬ÁĞÊıºÍ·ÇÁãÔªËØµÄ¸öÊı*/
+    int m, n, len;      /*çŸ©é˜µçš„è¡Œæ•°ï¼Œåˆ—æ•°å’Œéé›¶å…ƒç´ çš„ä¸ªæ•°*/
 } TriSeqMatrix;
 
 void PrintMatrix(TriSeqMatrix M)
-/*Ï¡Êè¾ØÕóµÄÊä³ö*/
+/*ç¨€ç–çŸ©é˜µçš„è¾“å‡º*/
 {
     int n;
-    printf("Ï¡Êè¾ØÕó¹²%dĞĞ%dÁĞ£¬ÓĞ%d¸ö·ÇÁãÔªËØ¡£\n", M.m, M.n, M.len);
-    printf("ĞĞ  ÁĞ  ÔªËØÖµ\n");
+    printf("ç¨€ç–çŸ©é˜µå…±%dè¡Œ%dåˆ—ï¼Œæœ‰%dä¸ªéé›¶å…ƒç´ ã€‚\n", M.m, M.n, M.len);
+    printf("è¡Œ  åˆ—  å…ƒç´ å€¼\n");
 
     for (n = 0; n < M.len; n++) {
         printf("%2d%4d%8d\n", M.data[n].i, M.data[n].j, M.data[n].e);
@@ -25,6 +25,6 @@ void PrintMatrix(TriSeqMatrix M)
 
 void main()
 {
-    TriSeqMatrix M = {{{1, 1, 4}, {2, 3, 4}, {3, 2, 16}, {4, 3, 26}}, 4, 4, 4}; /*Ï¡Êè¾ØÕóµÄ³õÊ¼»¯*/
-    PrintMatrix(M);                                             /*Êä³öÏ¡Êè¾ØÕó*/
+    TriSeqMatrix M = {{{1, 1, 4}, {2, 3, 4}, {3, 2, 16}, {4, 3, 26}}, 4, 4, 4}; /*ç¨€ç–çŸ©é˜µçš„åˆå§‹åŒ–*/
+    PrintMatrix(M);                                             /*è¾“å‡ºç¨€ç–çŸ©é˜µ*/
 }

@@ -1,4 +1,4 @@
-/*°üº¬Í·ÎÄ¼ş¼°Í¼µÄÀàĞÍ¶¨Òå*/
+/*åŒ…å«å¤´æ–‡ä»¶åŠå›¾çš„ç±»å‹å®šä¹‰*/
 #include<stdio.h>
 #include<string.h>
 #include<malloc.h>
@@ -6,22 +6,22 @@
 typedef char VertexType[4];
 typedef char InfoPtr;
 typedef int VRType;
-#define INFINITY 10000          /*¶¨ÒåÒ»¸öÎŞÏŞ´óµÄÖµ*/
-#define MaxSize 50              /*×î´ó¶¥µã¸öÊı*/
-typedef enum {DG, DN, UG, UN} GraphKind; /*Í¼µÄÀàĞÍ£ºÓĞÏòÍ¼¡¢ÓĞÏòÍø¡¢ÎŞÏòÍ¼ºÍÎŞÏòÍø*/
+#define INFINITY 10000          /*å®šä¹‰ä¸€ä¸ªæ— é™å¤§çš„å€¼*/
+#define MaxSize 50              /*æœ€å¤§é¡¶ç‚¹ä¸ªæ•°*/
+typedef enum {DG, DN, UG, UN} GraphKind; /*å›¾çš„ç±»å‹ï¼šæœ‰å‘å›¾ã€æœ‰å‘ç½‘ã€æ— å‘å›¾å’Œæ— å‘ç½‘*/
 typedef struct {
-    VRType adj;                 /*¶ÔÓÚÎŞÈ¨Í¼£¬ÓÃ1±íÊ¾ÏàÁÚ£¬0±íÊ¾²»ÏàÁÚ£»¶ÔÓÚ´øÈ¨Í¼£¬´æ´¢È¨Öµ*/
-    InfoPtr* info;              /*Óë»¡»ò±ßµÄÏà¹ØĞÅÏ¢*/
+    VRType adj;                 /*å¯¹äºæ— æƒå›¾ï¼Œç”¨1è¡¨ç¤ºç›¸é‚»ï¼Œ0è¡¨ç¤ºä¸ç›¸é‚»ï¼›å¯¹äºå¸¦æƒå›¾ï¼Œå­˜å‚¨æƒå€¼*/
+    InfoPtr* info;              /*ä¸å¼§æˆ–è¾¹çš„ç›¸å…³ä¿¡æ¯*/
 } ArcNode, AdjMatrix[MaxSize][MaxSize];
-typedef struct {                /*Í¼µÄÀàĞÍ¶¨Òå*/
-    VertexType vex[MaxSize];    /*ÓÃÓÚ´æ´¢¶¥µã*/
-    AdjMatrix arc;              /*ÁÚ½Ó¾ØÕó£¬´æ´¢±ß»ò»¡µÄĞÅÏ¢*/
-    int vexnum, arcnum;         /*¶¥µãÊıºÍ±ß£¨»¡£©µÄÊıÄ¿*/
-    GraphKind kind;             /*Í¼µÄÀàĞÍ*/
+typedef struct {                /*å›¾çš„ç±»å‹å®šä¹‰*/
+    VertexType vex[MaxSize];    /*ç”¨äºå­˜å‚¨é¡¶ç‚¹*/
+    AdjMatrix arc;              /*é‚»æ¥çŸ©é˜µï¼Œå­˜å‚¨è¾¹æˆ–å¼§çš„ä¿¡æ¯*/
+    int vexnum, arcnum;         /*é¡¶ç‚¹æ•°å’Œè¾¹ï¼ˆå¼§ï¼‰çš„æ•°ç›®*/
+    GraphKind kind;             /*å›¾çš„ç±»å‹*/
 } MGraph;
 
 
-/*¼ÇÂ¼´Ó¶¥µã¼¯ºÏUµ½V-UµÄ´ú¼Û×îĞ¡µÄ±ßµÄÊı×é¶¨Òå*/
+/*è®°å½•ä»é¡¶ç‚¹é›†åˆUåˆ°V-Uçš„ä»£ä»·æœ€å°çš„è¾¹çš„æ•°ç»„å®šä¹‰*/
 typedef struct {
     VertexType adjvex;
     VRType lowcost;
@@ -38,35 +38,35 @@ void main()
 {
 
     MGraph N;
-    printf("´´½¨Ò»¸öÎŞÏòÍø£º\n");
+    printf("åˆ›å»ºä¸€ä¸ªæ— å‘ç½‘ï¼š\n");
     CreateGraph(&N);
     DisplayGraph(N);
     Prim(N, "A");
     DestroyGraph(&N);
 }
 void Prim(MGraph G, VertexType u)
-/*ÀûÓÃÆÕÀïÄ·Ëã·¨Çó´ÓµÚu¸ö¶¥µã³ö·¢¹¹ÔìÍøGµÄ×îĞ¡Éú³ÉÊ÷T*/
+/*åˆ©ç”¨æ™®é‡Œå§†ç®—æ³•æ±‚ä»ç¬¬uä¸ªé¡¶ç‚¹å‡ºå‘æ„é€ ç½‘Gçš„æœ€å°ç”Ÿæˆæ ‘T*/
 {
     int i, j, k;
     closeedge closedge;
-    k = LocateVertex(G, u);     /*kÎª¶¥µãu¶ÔÓ¦µÄĞòºÅ*/
+    k = LocateVertex(G, u);     /*kä¸ºé¡¶ç‚¹uå¯¹åº”çš„åºå·*/
 
-    for (j = 0; j < G.vexnum; ++j) { /*Êı×é³õÊ¼»¯*/
+    for (j = 0; j < G.vexnum; ++j) { /*æ•°ç»„åˆå§‹åŒ–*/
         strcpy(closedge[j].adjvex, u);
         closedge[j].lowcost = G.arc[k][j].adj;
     }
 
-    closedge[k].lowcost = 0;    /*³õÊ¼Ê±¼¯ºÏUÖ»°üÀ¨¶¥µãu*/
-    printf("ÎŞÏòÍøµÄ×îĞ¡Éú³ÉÊ÷µÄ¸÷Ìõ±ß·Ö±ğÊÇ:\n");
+    closedge[k].lowcost = 0;    /*åˆå§‹æ—¶é›†åˆUåªåŒ…æ‹¬é¡¶ç‚¹u*/
+    printf("æ— å‘ç½‘çš„æœ€å°ç”Ÿæˆæ ‘çš„å„æ¡è¾¹åˆ†åˆ«æ˜¯:\n");
 
-    for (i = 1; i < G.vexnum; ++i) { /*Ñ¡ÔñÊ£ÏÂµÄG.vexnum-1¸ö¶¥µã*/
-        k = MiniNum(closedge, G); /*kÎªÓëUÖĞ¶¥µãÏàÁÚ½ÓµÄÏÂÒ»¸ö¶¥µãµÄĞòºÅ*/
-        printf("(%s-%s)\n", closedge[k].adjvex, G.vex[k]); /*Êä³öÉú³ÉÊ÷µÄ±ß*/
-        closedge[k].lowcost = 0; /*µÚk¶¥µã²¢ÈëU¼¯*/
+    for (i = 1; i < G.vexnum; ++i) { /*é€‰æ‹©å‰©ä¸‹çš„G.vexnum-1ä¸ªé¡¶ç‚¹*/
+        k = MiniNum(closedge, G); /*kä¸ºä¸Uä¸­é¡¶ç‚¹ç›¸é‚»æ¥çš„ä¸‹ä¸€ä¸ªé¡¶ç‚¹çš„åºå·*/
+        printf("(%s-%s)\n", closedge[k].adjvex, G.vex[k]); /*è¾“å‡ºç”Ÿæˆæ ‘çš„è¾¹*/
+        closedge[k].lowcost = 0; /*ç¬¬ké¡¶ç‚¹å¹¶å…¥Ué›†*/
 
         for (j = 0; j < G.vexnum; ++j)
             if (G.arc[k][j].adj <
-                closedge[j].lowcost) { /*ĞÂ¶¥µã¼ÓÈëU¼¯ºóÖØĞÂ½«×îĞ¡±ß´æÈëµ½Êı×é*/
+                closedge[j].lowcost) { /*æ–°é¡¶ç‚¹åŠ å…¥Ué›†åé‡æ–°å°†æœ€å°è¾¹å­˜å…¥åˆ°æ•°ç»„*/
                 strcpy(closedge[j].adjvex, G.vex[k]);
                 closedge[j].lowcost = G.arc[k][j].adj;
             }
@@ -75,7 +75,7 @@ void Prim(MGraph G, VertexType u)
 
 
 int MiniNum(closeedge edge, MGraph G)
-/*½«lowcostµÄ×îĞ¡ÖµµÄĞòºÅ·µ»Ø*/
+/*å°†lowcostçš„æœ€å°å€¼çš„åºå·è¿”å›*/
 {
     int i = 0, j, k, min;
 
@@ -83,12 +83,12 @@ int MiniNum(closeedge edge, MGraph G)
         i++;
     }
 
-    min = edge[i].lowcost;  /*µÚÒ»¸ö²»Îª0µÄÖµ*/
+    min = edge[i].lowcost;  /*ç¬¬ä¸€ä¸ªä¸ä¸º0çš„å€¼*/
     k = i;
 
     for (j = i + 1; j < G.vexnum; j++)
         if (edge[j].lowcost > 0 &&
-            edge[j].lowcost < min) { /*½«×îĞ¡Öµ¶ÔÓ¦µÄĞòºÅ¸³Öµ¸øk*/
+            edge[j].lowcost < min) { /*å°†æœ€å°å€¼å¯¹åº”çš„åºå·èµ‹å€¼ç»™k*/
             min = edge[j].lowcost;
             k = j;
         }
@@ -97,49 +97,49 @@ int MiniNum(closeedge edge, MGraph G)
 }
 
 void CreateGraph(MGraph* N)
-/*²ÉÓÃÁÚ½Ó¾ØÕó±íÊ¾·¨´´½¨ÓĞÏòÍøN*/
+/*é‡‡ç”¨é‚»æ¥çŸ©é˜µè¡¨ç¤ºæ³•åˆ›å»ºæœ‰å‘ç½‘N*/
 {
     int i, j, k, w, InfoFlag, len;
     char s[MaxSize];
     VertexType v1, v2;
-    printf("ÇëÊäÈëÎŞÏòÍøNµÄ¶¥µãÊı,»¡Êı,»¡µÄĞÅÏ¢(ÊÇ:1,·ñ:0): ");
+    printf("è¯·è¾“å…¥æ— å‘ç½‘Nçš„é¡¶ç‚¹æ•°,å¼§æ•°,å¼§çš„ä¿¡æ¯(æ˜¯:1,å¦:0): ");
     scanf("%d,%d,%d", &(*N).vexnum, &(*N).arcnum, &InfoFlag);
-    printf("ÇëÊäÈë%d¸ö¶¥µãµÄÖµ(<%d¸ö×Ö·û):\n", N->vexnum, MaxSize);
+    printf("è¯·è¾“å…¥%dä¸ªé¡¶ç‚¹çš„å€¼(<%dä¸ªå­—ç¬¦):\n", N->vexnum, MaxSize);
 
-    for (i = 0; i < N->vexnum; ++i) { /*´´½¨Ò»¸öÊı×é£¬ÓÃÓÚ±£´æÍøµÄ¸÷¸ö¶¥µã*/
+    for (i = 0; i < N->vexnum; ++i) { /*åˆ›å»ºä¸€ä¸ªæ•°ç»„ï¼Œç”¨äºä¿å­˜ç½‘çš„å„ä¸ªé¡¶ç‚¹*/
         scanf("%s", N->vex[i]);
     }
 
-    for (i = 0; i < N->vexnum; i++) /*³õÊ¼»¯ÁÚ½Ó¾ØÕó*/
+    for (i = 0; i < N->vexnum; i++) /*åˆå§‹åŒ–é‚»æ¥çŸ©é˜µ*/
         for (j = 0; j < N->vexnum; j++) {
             N->arc[i][j].adj = INFINITY;
-            N->arc[i][j].info = NULL; /*»¡µÄĞÅÏ¢³õÊ¼»¯Îª¿Õ*/
+            N->arc[i][j].info = NULL; /*å¼§çš„ä¿¡æ¯åˆå§‹åŒ–ä¸ºç©º*/
         }
 
-    printf("ÇëÊäÈë%dÌõ»¡µÄ»¡Î² »¡Í· È¨Öµ(ÒÔ¿Õ¸ñ×÷Îª¼ä¸ô): \n", N->arcnum);
+    printf("è¯·è¾“å…¥%dæ¡å¼§çš„å¼§å°¾ å¼§å¤´ æƒå€¼(ä»¥ç©ºæ ¼ä½œä¸ºé—´éš”): \n", N->arcnum);
 
     for (k = 0; k < N->arcnum; k++) {
-        scanf("%s%s%d", v1, v2, &w); /*ÊäÈëÁ½¸ö¶¥µãºÍ»¡µÄÈ¨Öµ*/
+        scanf("%s%s%d", v1, v2, &w); /*è¾“å…¥ä¸¤ä¸ªé¡¶ç‚¹å’Œå¼§çš„æƒå€¼*/
         i = LocateVertex(*N, v1);
         j = LocateVertex(*N, v2);
         N->arc[i][j].adj = N->arc[j][i].adj = w;
 
-        if (InfoFlag) {             /*Èç¹û»¡°üº¬ÆäËüĞÅÏ¢*/
-            printf("ÇëÊäÈë»¡µÄÏà¹ØĞÅÏ¢: ");
+        if (InfoFlag) {             /*å¦‚æœå¼§åŒ…å«å…¶å®ƒä¿¡æ¯*/
+            printf("è¯·è¾“å…¥å¼§çš„ç›¸å…³ä¿¡æ¯: ");
             gets(s);
             len = strlen(s);
 
             if (len) {
-                N->arc[i][j].info = (char*)malloc((len + 1) * sizeof(char)); /* ÓĞÏò */
+                N->arc[i][j].info = (char*)malloc((len + 1) * sizeof(char)); /* æœ‰å‘ */
                 strcpy(N->arc[i][j].info, s);
             }
         }
     }
 
-    N->kind = DN;                   /*Í¼µÄÀàĞÍÎªÓĞÏòÍø*/
+    N->kind = DN;                   /*å›¾çš„ç±»å‹ä¸ºæœ‰å‘ç½‘*/
 }
 int LocateVertex(MGraph N, VertexType v)
-/*ÔÚ¶¥µãÏòÁ¿ÖĞ²éÕÒ¶¥µãv£¬ÕÒµ½·µ»ØÔÚÏòÁ¿µÄĞòºÅ£¬·ñÔò·µ»Ø-1*/
+/*åœ¨é¡¶ç‚¹å‘é‡ä¸­æŸ¥æ‰¾é¡¶ç‚¹vï¼Œæ‰¾åˆ°è¿”å›åœ¨å‘é‡çš„åºå·ï¼Œå¦åˆ™è¿”å›-1*/
 {
     int i;
 
@@ -152,33 +152,33 @@ int LocateVertex(MGraph N, VertexType v)
 }
 
 void DestroyGraph(MGraph* N)
-/*Ïú»ÙÍøN*/
+/*é”€æ¯ç½‘N*/
 {
     int i, j;
 
-    for (i = 0; i < N->vexnum; i++)         /*ÊÍ·Å»¡µÄÏà¹ØĞÅÏ¢*/
+    for (i = 0; i < N->vexnum; i++)         /*é‡Šæ”¾å¼§çš„ç›¸å…³ä¿¡æ¯*/
         for (j = 0; j < N->vexnum; j++)
-            if (N->arc[i][j].adj != INFINITY) /*Èç¹û´æÔÚ»¡*/
-                if (N->arc[i][j].info != NULL) { /*Èç¹û»¡ÓĞÏà¹ØĞÅÏ¢£¬ÊÍ·Å¸ÃĞÅÏ¢ËùÕ¼ÓÃ¿Õ¼ä*/
+            if (N->arc[i][j].adj != INFINITY) /*å¦‚æœå­˜åœ¨å¼§*/
+                if (N->arc[i][j].info != NULL) { /*å¦‚æœå¼§æœ‰ç›¸å…³ä¿¡æ¯ï¼Œé‡Šæ”¾è¯¥ä¿¡æ¯æ‰€å ç”¨ç©ºé—´*/
                     free(N->arc[i][j].info);
                     N->arc[i][j].info = NULL;
                 }
 
-    N->vexnum = 0; /*½«ÍøµÄ¶¥µãÊıÖÃÎª0*/
-    N->arcnum = 0; /*½«ÍøµÄ»¡µÄÊıÄ¿ÖÃÎª0*/
+    N->vexnum = 0; /*å°†ç½‘çš„é¡¶ç‚¹æ•°ç½®ä¸º0*/
+    N->arcnum = 0; /*å°†ç½‘çš„å¼§çš„æ•°ç›®ç½®ä¸º0*/
 }
 
 void DisplayGraph(MGraph N)
-/*Êä³öÁÚ½Ó¾ØÕó´æ´¢±íÊ¾µÄÍ¼G*/
+/*è¾“å‡ºé‚»æ¥çŸ©é˜µå­˜å‚¨è¡¨ç¤ºçš„å›¾G*/
 {
     int i, j;
-    printf("ÎŞÏòÍø¾ßÓĞ%d¸ö¶¥µã%dÌõ»¡£¬¶¥µãÒÀ´ÎÊÇ: ", N.vexnum, N.arcnum);
+    printf("æ— å‘ç½‘å…·æœ‰%dä¸ªé¡¶ç‚¹%dæ¡å¼§ï¼Œé¡¶ç‚¹ä¾æ¬¡æ˜¯: ", N.vexnum, N.arcnum);
 
-    for (i = 0; i < N.vexnum; ++i) {    /*Êä³öÍøµÄ¶¥µã*/
+    for (i = 0; i < N.vexnum; ++i) {    /*è¾“å‡ºç½‘çš„é¡¶ç‚¹*/
         printf("%s ", N.vex[i]);
     }
 
-    printf("\nĞòºÅi=");
+    printf("\nåºå·i=");
 
     for (i = 0; i < N.vexnum; i++) {
         printf("%8d", i);

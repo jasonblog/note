@@ -6,18 +6,18 @@ void main()
     int row, n = 4;
     int* p;
     int score[3][4] = {{76, 87, 85, 81}, {67, 61, 71, 60}, {81, 89, 82, 78}};
-    printf("ÇëÊäÈëÑ§ÉúµÄ±àºÅ(1»ò2»ò3).ÊäÈë0ÍË³ö³ÌÐò.\n");
+    printf("è¯·è¾“å…¥å­¦ç”Ÿçš„ç¼–å·(1æˆ–2æˆ–3).è¾“å…¥0é€€å‡ºç¨‹åº.\n");
     scanf("%d", &row);
 
     while (row) {
         if (row == 1 || row == 2 || row == 3) {
-            printf("µÚ%d¸öÑ§ÉúµÄ³É¼¨4ÃÅ¿ÎµÄ³É¼¨ÊÇ£º\n", row);
+            printf("ç¬¬%dä¸ªå­¦ç”Ÿçš„æˆç»©4é—¨è¯¾çš„æˆç»©æ˜¯ï¼š\n", row);
             p = Address(score, row - 1);
             Display(score, n, p);
-            printf("ÇëÊäÈëÑ§ÉúµÄ±àºÅ(1»ò2»ò3).ÊäÈë0ÍË³ö³ÌÐò.\n");
+            printf("è¯·è¾“å…¥å­¦ç”Ÿçš„ç¼–å·(1æˆ–2æˆ–3).è¾“å…¥0é€€å‡ºç¨‹åº.\n");
             scanf("%d", &row);
         } else {
-            printf("ÊäÈë²»ºÏ·¨£¬ÖØÐÂÊäÈë(1»ò2»ò3).ÊäÈë0ÍË³ö³ÌÐò.\n");
+            printf("è¾“å…¥ä¸åˆæ³•ï¼Œé‡æ–°è¾“å…¥(1æˆ–2æˆ–3).è¾“å…¥0é€€å‡ºç¨‹åº.\n");
             scanf("%d", &row);
         }
     }

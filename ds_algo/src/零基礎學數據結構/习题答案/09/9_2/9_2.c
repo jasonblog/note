@@ -1,17 +1,17 @@
-/*°üº¬Í·ÎÄ¼þ¼°ºê¶¨Òå*/
+/*åŒ…å«å¤´æ–‡ä»¶åŠå®å®šä¹‰*/
 #include<stdio.h>
 #include<malloc.h>
 #include<stdlib.h>
 typedef char DataType;
-#define MaxSize 100                 /*¶¨ÒåÕ»µÄ×î´óÈÝÁ¿*/
+#define MaxSize 100                 /*å®šä¹‰æ ˆçš„æœ€å¤§å®¹é‡*/
 
-typedef struct Node {           /*¶þ²æÁ´±í´æ´¢½á¹¹ÀàÐÍ¶¨Òå*/
-    DataType data;              /*Êý¾ÝÓò*/
-    struct Node* lchild;            /*Ö¸Ïò×óº¢×Ó½áµã*/
-    struct Node* rchild;            /*Ö¸ÏòÓÒº¢×Ó½áµã*/
+typedef struct Node {           /*äºŒå‰é“¾è¡¨å­˜å‚¨ç»“æž„ç±»åž‹å®šä¹‰*/
+    DataType data;              /*æ•°æ®åŸŸ*/
+    struct Node* lchild;            /*æŒ‡å‘å·¦å­©å­ç»“ç‚¹*/
+    struct Node* rchild;            /*æŒ‡å‘å³å­©å­ç»“ç‚¹*/
 }* BiTree, BitNode;
 
-/*º¯ÊýµÄÉùÃ÷*/
+/*å‡½æ•°çš„å£°æ˜Ž*/
 void CreateBitTree(BiTree* T, char str[]);
 void DestroyBitTree(BiTree* T);
 void TreePrint(BiTree T, int level);
@@ -19,47 +19,47 @@ void main()
 {
     BiTree T;
     int level, flag;
-    printf("¸ù¾ÝÀ¨ºÅÇ¶Ì×(a(b(c,d),e(f,g)))½¨Á¢¶þ²æÊ÷:\n");
+    printf("æ ¹æ®æ‹¬å·åµŒå¥—(a(b(c,d),e(f,g)))å»ºç«‹äºŒå‰æ ‘:\n");
     CreateBitTree(&T, "(a(b(c,d),e(f,g)))");
     level = TreeDepth(T);
-    printf("°´Ê÷×´´òÓ¡¶þ²æÊ÷£º\n");
+    printf("æŒ‰æ ‘çŠ¶æ‰“å°äºŒå‰æ ‘ï¼š\n");
     TreePrint(T, level);
     flag = CompleteTree(T);
 
     if (flag == 1) {
-        printf("¸Ã¶þ²æÊ÷ÊÇÍêÈ«¶þ²æÊ÷.\n");
+        printf("è¯¥äºŒå‰æ ‘æ˜¯å®Œå…¨äºŒå‰æ ‘.\n");
     }
 
     DestroyBitTree(&T);
 }
 int CompleteTree(BiTree T)
-/*ÅÐ¶Ï¶þ²æÊ÷ÊÇ·ñÊÇÍêÈ«¶þ²æÊ÷*/
+/*åˆ¤æ–­äºŒå‰æ ‘æ˜¯å¦æ˜¯å®Œå…¨äºŒå‰æ ‘*/
 {
     BiTree queue[MaxSize], p;
     int front = 0, rear = 0, flag = 1, flag1 = 1;
 
-    if (T == NULL) {            /*Èç¹ûÊÇ¿Õ¶þ²æÊ÷£¬·µ»Ø1*/
+    if (T == NULL) {            /*å¦‚æžœæ˜¯ç©ºäºŒå‰æ ‘ï¼Œè¿”å›ž1*/
         return 1;
     } else {
-        queue[++rear] = T;      /*½«¸ù½áµãÈë¶Ó*/
+        queue[++rear] = T;      /*å°†æ ¹ç»“ç‚¹å…¥é˜Ÿ*/
 
         while (front != rear) {
             p = queue[++front];
 
             if (p->lchild ==
-                NULL) { /*Èç¹û*pµÄ×ó×ÓÊ÷Îª¿Õ£¬ÓÒ×ÓÊ÷²»Îª¿Õ£¬ÔòËµÃ÷²»ÊÇÍêÈ«¶þ²æÊ÷*/
+                NULL) { /*å¦‚æžœ*pçš„å·¦å­æ ‘ä¸ºç©ºï¼Œå³å­æ ‘ä¸ä¸ºç©ºï¼Œåˆ™è¯´æ˜Žä¸æ˜¯å®Œå…¨äºŒå‰æ ‘*/
                 flag1 = 0;
 
                 if (p->rchild != NULL) {
                     flag = 0;
                 }
-            } else {            /*Èç¹û*pµÄ×ó×ÓÊ÷²»Îª¿Õ£¬½«×ó×ÓÊ÷Èë¶Ó¡£*/
+            } else {            /*å¦‚æžœ*pçš„å·¦å­æ ‘ä¸ä¸ºç©ºï¼Œå°†å·¦å­æ ‘å…¥é˜Ÿã€‚*/
                 flag = flag1;
                 queue[++rear] = p->lchild;
 
-                if (p->rchild == NULL) { /*Èç¹û*pµÄÓÒ×ÓÊ÷Îª¿Õ£¬ÔòËµÃ÷²»ÊÇÍêÈ«¶þ²æÊ÷*/
+                if (p->rchild == NULL) { /*å¦‚æžœ*pçš„å³å­æ ‘ä¸ºç©ºï¼Œåˆ™è¯´æ˜Žä¸æ˜¯å®Œå…¨äºŒå‰æ ‘*/
                     flag1 = 0;
-                } else {            /*Èç¹û*pµÄÓÒ×ÓÊ÷²»Îª¿Õ£¬Ôò½«ÓÒ×ÓÊ÷Èë¶Ó*/
+                } else {            /*å¦‚æžœ*pçš„å³å­æ ‘ä¸ä¸ºç©ºï¼Œåˆ™å°†å³å­æ ‘å…¥é˜Ÿ*/
                     queue[++rear] = p->rchild;
                 }
             }
@@ -70,26 +70,26 @@ int CompleteTree(BiTree T)
 }
 
 void TreePrint(BiTree T, int level)
-/*°´Ê÷×´´òÓ¡µÄ¶þ²æÊ÷*/
+/*æŒ‰æ ‘çŠ¶æ‰“å°çš„äºŒå‰æ ‘*/
 {
     int i;
 
-    if (T == NULL) {                            /*Èç¹ûÖ¸ÕëÎª¿Õ£¬·µ»ØÉÏÒ»²ã*/
+    if (T == NULL) {                            /*å¦‚æžœæŒ‡é’ˆä¸ºç©ºï¼Œè¿”å›žä¸Šä¸€å±‚*/
         return;
     }
 
-    TreePrint(T->rchild, level + 1);            /*´òÓ¡ÓÒ×ÓÊ÷£¬²¢½«²ã´Î¼Ó1*/
+    TreePrint(T->rchild, level + 1);            /*æ‰“å°å³å­æ ‘ï¼Œå¹¶å°†å±‚æ¬¡åŠ 1*/
 
-    for (i = 0; i < level; i++) {               /*°´ÕÕµÝ¹éµÄ²ã´Î´òÓ¡¿Õ¸ñ*/
+    for (i = 0; i < level; i++) {               /*æŒ‰ç…§é€’å½’çš„å±‚æ¬¡æ‰“å°ç©ºæ ¼*/
         printf("   ");
     }
 
-    printf("%c\n", T->data);                    /*Êä³ö¸ù½áµã*/
-    TreePrint(T->lchild, level + 1);            /*´òÓ¡×ó×ÓÊ÷£¬²¢½«²ã´Î¼Ó1*/
+    printf("%c\n", T->data);                    /*è¾“å‡ºæ ¹ç»“ç‚¹*/
+    TreePrint(T->lchild, level + 1);            /*æ‰“å°å·¦å­æ ‘ï¼Œå¹¶å°†å±‚æ¬¡åŠ 1*/
 }
 
 int TreeDepth(BiTree T)
-/*¼ÆËã¶þ²æÊ÷µÄÉî¶È*/
+/*è®¡ç®—äºŒå‰æ ‘çš„æ·±åº¦*/
 {
     if (T == NULL) {
         return 0;
@@ -100,17 +100,17 @@ int TreeDepth(BiTree T)
             T->lchild) : 1 + TreeDepth(T->rchild);
 }
 void  CreateBitTree(BiTree* T, char str[])
-/*ÀûÓÃÀ¨ºÅÇ¶Ì×µÄ×Ö·û´®½¨Á¢¶þ²æÁ´±í*/
+/*åˆ©ç”¨æ‹¬å·åµŒå¥—çš„å­—ç¬¦ä¸²å»ºç«‹äºŒå‰é“¾è¡¨*/
 {
     char ch;
-    BiTree stack[MaxSize];          /*¶¨ÒåÕ»£¬ÓÃÓÚ´æ·ÅÖ¸Ïò¶þ²æÊ÷ÖÐ½áµãµÄÖ¸Õë*/
-    int top = -1;                   /*³õÊ¼»¯Õ»¶¥Ö¸Õë*/
+    BiTree stack[MaxSize];          /*å®šä¹‰æ ˆï¼Œç”¨äºŽå­˜æ”¾æŒ‡å‘äºŒå‰æ ‘ä¸­ç»“ç‚¹çš„æŒ‡é’ˆ*/
+    int top = -1;                   /*åˆå§‹åŒ–æ ˆé¡¶æŒ‡é’ˆ*/
     int flag, k;
     BitNode* p;
     *T = NULL, k = 0;
     ch = str[k];
 
-    while (ch != '\0') {            /*Èç¹û×Ö·û´®Ã»ÓÐ½áÊø*/
+    while (ch != '\0') {            /*å¦‚æžœå­—ç¬¦ä¸²æ²¡æœ‰ç»“æŸ*/
         switch (ch) {
         case '(':
             stack[++top] = p;
@@ -131,7 +131,7 @@ void  CreateBitTree(BiTree* T, char str[])
             p->lchild = NULL;
             p->rchild = NULL;
 
-            if (*T == NULL) {   /*Èç¹ûÊÇµÚÒ»¸ö½áµã£¬±íÊ¾ÊÇ¸ù½áµã*/
+            if (*T == NULL) {   /*å¦‚æžœæ˜¯ç¬¬ä¸€ä¸ªç»“ç‚¹ï¼Œè¡¨ç¤ºæ˜¯æ ¹ç»“ç‚¹*/
                 *T = p;
             } else {
                 switch (flag) {
@@ -150,9 +150,9 @@ void  CreateBitTree(BiTree* T, char str[])
     }
 }
 void DestroyBitTree(BiTree* T)
-/*Ïú»Ù¶þ²æÊ÷²Ù×÷*/
+/*é”€æ¯äºŒå‰æ ‘æ“ä½œ*/
 {
-    if (*T) {                       /*Èç¹ûÊÇ·Ç¿Õ¶þ²æÊ÷*/
+    if (*T) {                       /*å¦‚æžœæ˜¯éžç©ºäºŒå‰æ ‘*/
         if ((*T)->lchild) {
             DestroyBitTree(&((*T)->lchild));
         }

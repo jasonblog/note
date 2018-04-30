@@ -4,7 +4,7 @@
 #define MaxLength 60
 
 char* strcpy2(char* strDest, const char* strSrc)
-/*×Ö·û´®¿½±´º¯ÊıµÄÊµÏÖ*/
+/*å­—ç¬¦ä¸²æ‹·è´å‡½æ•°çš„å®ç°*/
 {
     char* strDestCopy;
 
@@ -12,22 +12,22 @@ char* strcpy2(char* strDest, const char* strSrc)
         return;
     }
 
-    strDestCopy = strDest;          /*±£´æ×Ö·û´®µÄÊ×µØÖ·*/
+    strDestCopy = strDest;          /*ä¿å­˜å­—ç¬¦ä¸²çš„é¦–åœ°å€*/
 
     while ((*strDest++ = *strSrc++) != '\0');
 
     return strDestCopy;
 }
 int strcmp2(const char* dest, const char* source)
-/*×Ö·û´®±È½Ïº¯ÊıµÄÊµÏÖ*/
-/*Èç¹ûdestµÄÖµ´óÓÚsource,Ôò·µ»ØÖµ´óÓÚ0£»Èç¹ûdestµÄÖµµÈÓÚsource,Ôò·µ»ØÖµµÈÓÚ0£»Èç¹ûdestµÄÖµĞ¡ÓÚsource ,Ôò·µ»ØÖµĞ¡ÓÚ0*/
+/*å­—ç¬¦ä¸²æ¯”è¾ƒå‡½æ•°çš„å®ç°*/
+/*å¦‚æœdestçš„å€¼å¤§äºsource,åˆ™è¿”å›å€¼å¤§äº0ï¼›å¦‚æœdestçš„å€¼ç­‰äºsource,åˆ™è¿”å›å€¼ç­‰äº0ï¼›å¦‚æœdestçš„å€¼å°äºsource ,åˆ™è¿”å›å€¼å°äº0*/
 {
     if ((dest != NULL) && (source != NULL)) {
         return;
     }
 
     while (*dest != '\0' && *source != '\0' &&
-           (*dest == *source)) { /*Èç¹ûÁ½¸ö×Ö·û´®²»Îª¿ÕÇÒÖµÏàµÈ£¬Ôò¼ÌĞø±È½ÏÏÂÒ»¸ö×Ö·û*/
+           (*dest == *source)) { /*å¦‚æœä¸¤ä¸ªå­—ç¬¦ä¸²ä¸ä¸ºç©ºä¸”å€¼ç›¸ç­‰ï¼Œåˆ™ç»§ç»­æ¯”è¾ƒä¸‹ä¸€ä¸ªå­—ç¬¦*/
         source++;
         dest++;
     }
@@ -40,25 +40,25 @@ void main()
     char strDest[MaxLength];
     char dest[] = "Hello", source[] = "Hello";
     int n, f;
-    /*¿½±´º¯ÊıµÄ²âÊÔ*/
+    /*æ‹·è´å‡½æ•°çš„æµ‹è¯•*/
     strcpy2(strDest, strSrc);
-    printf("strDest×Ö·û´®Îª:", n);
+    printf("strDestå­—ç¬¦ä¸²ä¸º:", n);
     puts(strDest);
     n = strlen(strcpy2(strDest, strSrc));
-    printf("strDestµÄ³¤¶ÈÊÇ:%2d\n", n);
-    /*±È½Ïº¯ÊıµÄ²âÊÔ*/
-    printf("dest×Ö·û´®Îª:");
+    printf("strDestçš„é•¿åº¦æ˜¯:%2d\n", n);
+    /*æ¯”è¾ƒå‡½æ•°çš„æµ‹è¯•*/
+    printf("destå­—ç¬¦ä¸²ä¸º:");
     puts(dest);
-    printf("source×Ö·û´®Îª");
+    printf("sourceå­—ç¬¦ä¸²ä¸º");
     puts(source);
     f = strcmp2(dest, source);
 
     if (f == 0) {
-        printf("destµÄÖµµÈÓÚsource\n");
+        printf("destçš„å€¼ç­‰äºsource\n");
     } else if (f < 0) {
-        printf("destµÄÖµµÈÓÚsource\n");
+        printf("destçš„å€¼ç­‰äºsource\n");
     } else {
-        printf("destµÄÖµµÈÓÚsource\n");
+        printf("destçš„å€¼ç­‰äºsource\n");
     }
 
 }

@@ -1,13 +1,13 @@
-/*°üº¬Í·ÎÄ¼þ¼°ºê¶¨Òå*/
+/*åŒ…å«å¤´æ–‡ä»¶åŠå®å®šä¹‰*/
 #include<stdio.h>
 #include<malloc.h>
 #include<stdlib.h>
 typedef char DataType;
-#define MaxSize 100                 /*¶¨ÒåÕ»µÄ×î´óÈÝÁ¿*/
-#include"LinkBiTree.h"              /*°üº¬¶þ²æÊ÷µÄ¶þ²æÁ´±íµÄ»ù±¾²Ù×÷*/
-/*º¯ÊýµÄÉùÃ÷*/
+#define MaxSize 100                 /*å®šä¹‰æ ˆçš„æœ€å¤§å®¹é‡*/
+#include"LinkBiTree.h"              /*åŒ…å«äºŒå‰æ ‘çš„äºŒå‰é“¾è¡¨çš„åŸºæœ¬æ“ä½œ*/
+/*å‡½æ•°çš„å£°æ˜Ž*/
 void CreateBitTree2(BiTree* T,
-                    char str[]); /*ÀûÓÃÀ¨ºÅÇ¶Ì×µÄ×Ö·û´®½¨Á¢¶þ²æÊ÷µÄº¯ÊýÉùÃ÷*/
+                    char str[]); /*åˆ©ç”¨æ‹¬å·åµŒå¥—çš„å­—ç¬¦ä¸²å»ºç«‹äºŒå‰æ ‘çš„å‡½æ•°å£°æ˜Ž*/
 void LevelPrint(BiTree T);
 void TreePrint(BiTree T, int nLayer);
 int LeafCount(BiTree T);
@@ -17,85 +17,85 @@ void main()
 {
     BiTree T, root;
     int num, depth;
-    printf("¸ù¾ÝÀ¨ºÅÇ¶Ì×(a(b(c,d),e(f(,g),h(i)))½¨Á¢¶þ²æÊ÷:\n");
+    printf("æ ¹æ®æ‹¬å·åµŒå¥—(a(b(c,d),e(f(,g),h(i)))å»ºç«‹äºŒå‰æ ‘:\n");
     CreateBitTree2(&root, "(a(b(c,d),e(f(,g),h(i)))");
     num = LeafCount(root);
-    printf("Ò¶×Ó½áµã¸öÊý=%2d\n", num);
+    printf("å¶å­ç»“ç‚¹ä¸ªæ•°=%2d\n", num);
     num = NotLeafCount(root);
-    printf("·ÇÒ¶×Ó½áµã¸öÊý=%2d\n", num);
+    printf("éžå¶å­ç»“ç‚¹ä¸ªæ•°=%2d\n", num);
     depth = BitTreeDepth(root);
-    printf("¶þ²æÊ÷µÄÉî¶È=%2d\n", depth);
-    printf("¸ù¾ÝÀ¨ºÅÇ¶Ì×(A(B(D(,H(J)),E(,I(K,L))),C(F,G)))½¨Á¢¶þ²æÊ÷:\n");
+    printf("äºŒå‰æ ‘çš„æ·±åº¦=%2d\n", depth);
+    printf("æ ¹æ®æ‹¬å·åµŒå¥—(A(B(D(,H(J)),E(,I(K,L))),C(F,G)))å»ºç«‹äºŒå‰æ ‘:\n");
     CreateBitTree2(&T, "(A(B(D(,H(J)),E(,I(K,L))),C(F,G)))");
     num = LeafCount(T);
-    printf("Ò¶×Ó½áµã¸öÊý=%2d\n", num);
+    printf("å¶å­ç»“ç‚¹ä¸ªæ•°=%2d\n", num);
     num = NotLeafCount(T);
-    printf("·ÇÒ¶×Ó½áµã¸öÊý=%2d\n", num);
+    printf("éžå¶å­ç»“ç‚¹ä¸ªæ•°=%2d\n", num);
     depth = BitTreeDepth(T);
-    printf("¶þ²æÊ÷µÄÉî¶È=%2d\n", depth);
+    printf("äºŒå‰æ ‘çš„æ·±åº¦=%2d\n", depth);
     DestroyBitTree(&T);
     DestroyBitTree(&root);
 }
 
 void LevelPrint(BiTree T)
-/*°´²ã´Î´òÓ¡¶þ²æÊ÷ÖÐµÄ½áµã*/
+/*æŒ‰å±‚æ¬¡æ‰“å°äºŒå‰æ ‘ä¸­çš„ç»“ç‚¹*/
 {
-    BiTree queue[MaxSize];                      /*¶¨ÒåÒ»¸ö¶ÓÁÐ£¬ÓÃÓÚ´æ·Å½áµãµÄÖ¸Õë*/
+    BiTree queue[MaxSize];                      /*å®šä¹‰ä¸€ä¸ªé˜Ÿåˆ—ï¼Œç”¨äºŽå­˜æ”¾ç»“ç‚¹çš„æŒ‡é’ˆ*/
     BitNode* p;
-    int front, rear;                            /*¶¨Òå¶ÓÁÐµÄ¶ÓÍ·Ö¸ÕëºÍ¶ÓÎ²Ö¸Õë*/
-    front = rear = -1;                          /*¶ÓÁÐ³õÊ¼»¯Îª¿Õ*/
-    rear++;                                     /*¶ÓÎ²Ö¸Õë¼Ó1*/
-    queue[rear] = T;                            /*½«¸ù½áµãÖ¸ÕëÈë¶Ó*/
+    int front, rear;                            /*å®šä¹‰é˜Ÿåˆ—çš„é˜Ÿå¤´æŒ‡é’ˆå’Œé˜Ÿå°¾æŒ‡é’ˆ*/
+    front = rear = -1;                          /*é˜Ÿåˆ—åˆå§‹åŒ–ä¸ºç©º*/
+    rear++;                                     /*é˜Ÿå°¾æŒ‡é’ˆåŠ 1*/
+    queue[rear] = T;                            /*å°†æ ¹ç»“ç‚¹æŒ‡é’ˆå…¥é˜Ÿ*/
 
-    while (front != rear) {                     /*Èç¹û¶ÓÁÐ²»Îª¿Õ*/
+    while (front != rear) {                     /*å¦‚æžœé˜Ÿåˆ—ä¸ä¸ºç©º*/
         front = (front + 1) % MaxSize;
-        p = queue[front];                       /*È¡³ö¶ÓÍ·ÔªËØ*/
-        printf("%c ", p->data);                 /*Êä³ö¸ù½áµã*/
+        p = queue[front];                       /*å–å‡ºé˜Ÿå¤´å…ƒç´ */
+        printf("%c ", p->data);                 /*è¾“å‡ºæ ¹ç»“ç‚¹*/
 
         if (p->lchild !=
-            NULL) {                /*Èç¹û×óº¢×Ó²»Îª¿Õ£¬½«×óº¢×Ó½áµãÖ¸ÕëÈë¶Ó*/
+            NULL) {                /*å¦‚æžœå·¦å­©å­ä¸ä¸ºç©ºï¼Œå°†å·¦å­©å­ç»“ç‚¹æŒ‡é’ˆå…¥é˜Ÿ*/
             rear = (rear + 1) % MaxSize;
             queue[rear] = p->lchild;
         }
 
         if (p->rchild !=
-            NULL) {                /*Èç¹ûÓÒº¢×Ó²»Îª¿Õ£¬½«ÓÒº¢×Ó½áµãÖ¸ÕëÈë¶Ó*/
+            NULL) {                /*å¦‚æžœå³å­©å­ä¸ä¸ºç©ºï¼Œå°†å³å­©å­ç»“ç‚¹æŒ‡é’ˆå…¥é˜Ÿ*/
             rear = (rear + 1) % MaxSize;
             queue[rear] = p->rchild;
         }
     }
 }
 void TreePrint(BiTree T, int level)
-/*°´Ê÷×´´òÓ¡µÄ¶þ²æÊ÷*/
+/*æŒ‰æ ‘çŠ¶æ‰“å°çš„äºŒå‰æ ‘*/
 {
     int i;
 
-    if (T == NULL) {                            /*Èç¹ûÖ¸ÕëÎª¿Õ£¬·µ»ØÉÏÒ»²ã*/
+    if (T == NULL) {                            /*å¦‚æžœæŒ‡é’ˆä¸ºç©ºï¼Œè¿”å›žä¸Šä¸€å±‚*/
         return;
     }
 
-    TreePrint(T->rchild, level + 1);            /*´òÓ¡ÓÒ×ÓÊ÷£¬²¢½«²ã´Î¼Ó1*/
+    TreePrint(T->rchild, level + 1);            /*æ‰“å°å³å­æ ‘ï¼Œå¹¶å°†å±‚æ¬¡åŠ 1*/
 
-    for (i = 0; i < level; i++) {               /*°´ÕÕµÝ¹éµÄ²ã´Î´òÓ¡¿Õ¸ñ*/
+    for (i = 0; i < level; i++) {               /*æŒ‰ç…§é€’å½’çš„å±‚æ¬¡æ‰“å°ç©ºæ ¼*/
         printf("   ");
     }
 
-    printf("%c\n", T->data);                    /*Êä³ö¸ù½áµã*/
-    TreePrint(T->lchild, level + 1);            /*´òÓ¡×ó×ÓÊ÷£¬²¢½«²ã´Î¼Ó1*/
+    printf("%c\n", T->data);                    /*è¾“å‡ºæ ¹ç»“ç‚¹*/
+    TreePrint(T->lchild, level + 1);            /*æ‰“å°å·¦å­æ ‘ï¼Œå¹¶å°†å±‚æ¬¡åŠ 1*/
 }
 
 void  CreateBitTree2(BiTree* T, char str[])
-/*ÀûÓÃÀ¨ºÅÇ¶Ì×µÄ×Ö·û´®½¨Á¢¶þ²æÁ´±í*/
+/*åˆ©ç”¨æ‹¬å·åµŒå¥—çš„å­—ç¬¦ä¸²å»ºç«‹äºŒå‰é“¾è¡¨*/
 {
     char ch;
-    BiTree stack[MaxSize];          /*¶¨ÒåÕ»£¬ÓÃÓÚ´æ·ÅÖ¸Ïò¶þ²æÊ÷ÖÐ½áµãµÄÖ¸Õë*/
-    int top = -1;                   /*³õÊ¼»¯Õ»¶¥Ö¸Õë*/
+    BiTree stack[MaxSize];          /*å®šä¹‰æ ˆï¼Œç”¨äºŽå­˜æ”¾æŒ‡å‘äºŒå‰æ ‘ä¸­ç»“ç‚¹çš„æŒ‡é’ˆ*/
+    int top = -1;                   /*åˆå§‹åŒ–æ ˆé¡¶æŒ‡é’ˆ*/
     int flag, k;
     BitNode* p;
     *T = NULL, k = 0;
     ch = str[k];
 
-    while (ch != '\0') {            /*Èç¹û×Ö·û´®Ã»ÓÐ½áÊø*/
+    while (ch != '\0') {            /*å¦‚æžœå­—ç¬¦ä¸²æ²¡æœ‰ç»“æŸ*/
         switch (ch) {
         case '(':
             stack[++top] = p;
@@ -116,7 +116,7 @@ void  CreateBitTree2(BiTree* T, char str[])
             p->lchild = NULL;
             p->rchild = NULL;
 
-            if (*T == NULL) {   /*Èç¹ûÊÇµÚÒ»¸ö½áµã£¬±íÊ¾ÊÇ¸ù½áµã*/
+            if (*T == NULL) {   /*å¦‚æžœæ˜¯ç¬¬ä¸€ä¸ªç»“ç‚¹ï¼Œè¡¨ç¤ºæ˜¯æ ¹ç»“ç‚¹*/
                 *T = p;
             } else {
                 switch (flag) {
@@ -137,32 +137,32 @@ void  CreateBitTree2(BiTree* T, char str[])
 }
 
 int LeafCount(BiTree T)
-/*Í³¼Æ¶þ²æÊ÷ÖÐÒ¶×Ó½áµãÊýÄ¿*/
+/*ç»Ÿè®¡äºŒå‰æ ‘ä¸­å¶å­ç»“ç‚¹æ•°ç›®*/
 {
-    if (!T) {                               /*Èç¹ûÊÇ¿Õ¶þ²æÊ÷£¬·µ»Ø0*/
+    if (!T) {                               /*å¦‚æžœæ˜¯ç©ºäºŒå‰æ ‘ï¼Œè¿”å›ž0*/
         return 0;
-    } else if (!T->lchild && !T->rchild) {    /*Èç¹û×ó×ÓÊ÷ºÍÓÒ×ÓÊ÷¶¼Îª¿Õ£¬·µ»Ø1*/
+    } else if (!T->lchild && !T->rchild) {    /*å¦‚æžœå·¦å­æ ‘å’Œå³å­æ ‘éƒ½ä¸ºç©ºï¼Œè¿”å›ž1*/
         return 1;
     } else {
         return LeafCount(T->lchild) + LeafCount(
-                   T->rchild);    /*½«×ó×ÓÊ÷Ò¶×Ó½áµã¸öÊýÓëÓÒ×ÓÊ÷Ò¶×Ó½áµã¸öÊýÏà¼Ó*/
+                   T->rchild);    /*å°†å·¦å­æ ‘å¶å­ç»“ç‚¹ä¸ªæ•°ä¸Žå³å­æ ‘å¶å­ç»“ç‚¹ä¸ªæ•°ç›¸åŠ */
     }
 }
 int NotLeafCount(BiTree T)
-/*Í³¼Æ¶þ²æÊ÷ÖÐ·ÇÒ¶×Ó½áµãÊýÄ¿*/
+/*ç»Ÿè®¡äºŒå‰æ ‘ä¸­éžå¶å­ç»“ç‚¹æ•°ç›®*/
 {
-    if (!T) {                               /*Èç¹ûÊÇ¿Õ¶þ²æÊ÷£¬·µ»Ø0*/
+    if (!T) {                               /*å¦‚æžœæ˜¯ç©ºäºŒå‰æ ‘ï¼Œè¿”å›ž0*/
         return 0;
-    } else if (!T->lchild && !T->rchild) {  /*Èç¹ûÊÇÒ¶×Ó½áµã£¬·µ»Ø0*/
+    } else if (!T->lchild && !T->rchild) {  /*å¦‚æžœæ˜¯å¶å­ç»“ç‚¹ï¼Œè¿”å›ž0*/
         return 0;
     } else {
         return NotLeafCount(T->lchild) + NotLeafCount(T->rchild) +
-               1;    /*×óÓÒ×ÓÊ÷µÄ·ÇÒ¶×Ó½áµãÊýÄ¿¼ÓÉÏ¸ù½áµãµÄ¸öÊý*/
+               1;    /*å·¦å³å­æ ‘çš„éžå¶å­ç»“ç‚¹æ•°ç›®åŠ ä¸Šæ ¹ç»“ç‚¹çš„ä¸ªæ•°*/
     }
 }
 
 int BitTreeDepth(BiTree T)
-/*¼ÆËã¶þ²æÊ÷µÄÉî¶È*/
+/*è®¡ç®—äºŒå‰æ ‘çš„æ·±åº¦*/
 {
     if (T == NULL) {
         return 0;

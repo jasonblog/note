@@ -1,38 +1,38 @@
 #include<stdio.h>
 #define MaxLength 60
-typedef struct { /*´®µÄ¶¨Òå*/
+typedef struct { /*ä¸²çš„å®šä¹‰*/
     char str[MaxLength];
     int length;
 } SeqString;
 
 
 void StrAssign(SeqString* S, char* cstr)
-/*´®µÄ¸³Öµ²Ù×÷*/
+/*ä¸²çš„èµ‹å€¼æ“ä½œ*/
 {
     int i = 0;
 
-    for (i = 0; cstr[i] != '\0'; i++) { /*½«³£Á¿cstrÖĞµÄ×Ö·û¸³Öµ¸ø´®S*/
+    for (i = 0; cstr[i] != '\0'; i++) { /*å°†å¸¸é‡csträ¸­çš„å­—ç¬¦èµ‹å€¼ç»™ä¸²S*/
         S->str[i] = cstr[i];
     }
 
     S->length = i;
 }
 int StrEmpty(SeqString S)
-/*ÅĞ¶Ï´®ÊÇ·ñÎª¿Õ£¬´®Îª¿Õ·µ»Ø1£¬·ñÔò·µ»Ø0*/
+/*åˆ¤æ–­ä¸²æ˜¯å¦ä¸ºç©ºï¼Œä¸²ä¸ºç©ºè¿”å›1ï¼Œå¦åˆ™è¿”å›0*/
 {
-    if (S.length == 0) {    /*ÅĞ¶Ï´®µÄ³¤¶ÈÊÇ·ñµÈÓÚ0*/
-        return 1;    /*µ±´®Îª¿ÕÊ±£¬·µ»Ø1£»·ñÔò·µ»Ø0*/
+    if (S.length == 0) {    /*åˆ¤æ–­ä¸²çš„é•¿åº¦æ˜¯å¦ç­‰äº0*/
+        return 1;    /*å½“ä¸²ä¸ºç©ºæ—¶ï¼Œè¿”å›1ï¼›å¦åˆ™è¿”å›0*/
     } else {
         return 0;
     }
 }
 
 int StrIndex(SeqString S, int pos, SeqString T)
-/*ÔÚÖ÷´®SÖĞµÄµÚpos¸öÎ»ÖÃ¿ªÊ¼²éÕÒ×Ó´®T£¬Èç¹ûÕÒµ½·µ»Ø×Ó´®ÔÚÖ÷´®µÄÎ»ÖÃ£»·ñÔò£¬·µ»Ø-1*/
+/*åœ¨ä¸»ä¸²Sä¸­çš„ç¬¬posä¸ªä½ç½®å¼€å§‹æŸ¥æ‰¾å­ä¸²Tï¼Œå¦‚æœæ‰¾åˆ°è¿”å›å­ä¸²åœ¨ä¸»ä¸²çš„ä½ç½®ï¼›å¦åˆ™ï¼Œè¿”å›-1*/
 {
     int i, j;
 
-    if (StrEmpty(T)) {              /*Èç¹û´®TÎª¿Õ£¬Ôò·µ»Ø0*/
+    if (StrEmpty(T)) {              /*å¦‚æœä¸²Tä¸ºç©ºï¼Œåˆ™è¿”å›0*/
         return 0;
     }
 
@@ -41,16 +41,16 @@ int StrIndex(SeqString S, int pos, SeqString T)
 
     while (i < S.length && j < T.length) {
         if (S.str[i] ==
-            T.str[j]) { /*Èç¹û´®SºÍ´®TÖĞ¶ÔÓ¦Î»ÖÃ×Ö·ûÏàµÈ£¬Ôò¼ÌĞø±È½ÏÏÂÒ»¸ö×Ö·û*/
+            T.str[j]) { /*å¦‚æœä¸²Så’Œä¸²Tä¸­å¯¹åº”ä½ç½®å­—ç¬¦ç›¸ç­‰ï¼Œåˆ™ç»§ç»­æ¯”è¾ƒä¸‹ä¸€ä¸ªå­—ç¬¦*/
             i++;
             j++;
-        } else {                /*Èç¹ûµ±Ç°¶ÔÓ¦Î»ÖÃµÄ×Ö·û²»ÏàµÈ£¬Ôò´Ó´®SµÄÏÂÒ»¸ö×Ö·û¿ªÊ¼£¬TµÄµÚ0¸ö×Ö·û¿ªÊ¼±È½Ï*/
+        } else {                /*å¦‚æœå½“å‰å¯¹åº”ä½ç½®çš„å­—ç¬¦ä¸ç›¸ç­‰ï¼Œåˆ™ä»ä¸²Sçš„ä¸‹ä¸€ä¸ªå­—ç¬¦å¼€å§‹ï¼ŒTçš„ç¬¬0ä¸ªå­—ç¬¦å¼€å§‹æ¯”è¾ƒ*/
             i = i - j + 1;
             j = 0;
         }
     }
 
-    if (j >= T.length) {            /*Èç¹ûÔÚSÖĞÕÒµ½´®T£¬Ôò·µ»Ø×Ó´®TÔÚÖ÷´®SµÄÎ»ÖÃ*/
+    if (j >= T.length) {            /*å¦‚æœåœ¨Sä¸­æ‰¾åˆ°ä¸²Tï¼Œåˆ™è¿”å›å­ä¸²Tåœ¨ä¸»ä¸²Sçš„ä½ç½®*/
         return i - j + 1;
     } else {
         return -1;
@@ -58,26 +58,26 @@ int StrIndex(SeqString S, int pos, SeqString T)
 }
 
 int DelString(SeqString* S, int pos, int len)
-/*ÔÚ´®SÖĞÉ¾³ıpos¿ªÊ¼µÄlen¸ö×Ö·û*/
+/*åœ¨ä¸²Sä¸­åˆ é™¤poså¼€å§‹çš„lenä¸ªå­—ç¬¦*/
 {
     int i;
 
     if (pos < 0 || len < 0 ||
-        pos + len - 1 > S->length) { /*Èç¹û²ÎÊı²»ºÏ·¨£¬Ôò·µ»Ø0*/
-        printf("É¾³ıÎ»ÖÃ²»ÕıÈ·£¬²ÎÊılen²»ºÏ·¨");
+        pos + len - 1 > S->length) { /*å¦‚æœå‚æ•°ä¸åˆæ³•ï¼Œåˆ™è¿”å›0*/
+        printf("åˆ é™¤ä½ç½®ä¸æ­£ç¡®ï¼Œå‚æ•°lenä¸åˆæ³•");
         return 0;
     } else {
         for (i = pos + len; i <= S->length - 1;
-             i++) { /*½«´®SµÄµÚpos¸öÎ»ÖÃÒÔºóµÄlen¸ö×Ö·û¸²¸Çµô*/
+             i++) { /*å°†ä¸²Sçš„ç¬¬posä¸ªä½ç½®ä»¥åçš„lenä¸ªå­—ç¬¦è¦†ç›–æ‰*/
             S->str[i - len] = S->str[i];
         }
 
-        S->length = S->length - len;            /*ĞŞ¸Ä´®SµÄ³¤¶È*/
+        S->length = S->length - len;            /*ä¿®æ”¹ä¸²Sçš„é•¿åº¦*/
         return 1;
     }
 }
 void StrPrint(SeqString S)
-/*´®SµÄÊä³ö*/
+/*ä¸²Sçš„è¾“å‡º*/
 {
     int i;
 
@@ -88,16 +88,16 @@ void StrPrint(SeqString S)
     printf("\n");
 }
 int Count(SeqString S1, SeqString S2)
-/*Í³¼Æ´®S2ÔÚ´®S1ÖĞ³öÏÖµÄ´ÎÊı*/
+/*ç»Ÿè®¡ä¸²S2åœ¨ä¸²S1ä¸­å‡ºç°çš„æ¬¡æ•°*/
 {
     int n = 1, f = 1, count = 0;
 
     while (f != -1) {
-        f = StrIndex(S1, n, S2);    /*ÔÚ´®S1ÖĞ²éÕÒ´®S2µÄÎ»ÖÃ*/
+        f = StrIndex(S1, n, S2);    /*åœ¨ä¸²S1ä¸­æŸ¥æ‰¾ä¸²S2çš„ä½ç½®*/
         n = f;
         n++;
 
-        if (f != -1) {              /*Èç¹ûS2ÔÚS1ÖĞ³öÏÖÒ»´Î£¬Ôòcount¼Ó1*/
+        if (f != -1) {              /*å¦‚æœS2åœ¨S1ä¸­å‡ºç°ä¸€æ¬¡ï¼Œåˆ™countåŠ 1*/
             count++;
         }
     }
@@ -110,14 +110,14 @@ void main()
     char ch1[] = "abcaabcbcacaabccaabcca";
     char ch2[] = "caabc";
     int n;
-    StrAssign(&S1, ch1);            /*½«×Ö·û´®¸³Öµ¸øS1*/
-    printf("µÚÒ»¸ö´®s1:");
+    StrAssign(&S1, ch1);            /*å°†å­—ç¬¦ä¸²èµ‹å€¼ç»™S1*/
+    printf("ç¬¬ä¸€ä¸ªä¸²s1:");
     StrPrint(S1);
-    StrAssign(&S2, ch2);            /*½«×Ö·û´®¸³Öµ¸øS2*/
-    printf("µÚ¶ş¸ö´®s2:");
+    StrAssign(&S2, ch2);            /*å°†å­—ç¬¦ä¸²èµ‹å€¼ç»™S2*/
+    printf("ç¬¬äºŒä¸ªä¸²s2:");
     StrPrint(S2);
-    n = Count(S1, S2);      /*Í³¼Æ´®S2ÔÚ´®S1ÖĞ³öÏÖµÄ´ÎÊı*/
-    printf("´®S2ÔÚ´®S1³öÏÖµÄ´ÎÊıÊÇ:%2d\n", n);
+    n = Count(S1, S2);      /*ç»Ÿè®¡ä¸²S2åœ¨ä¸²S1ä¸­å‡ºç°çš„æ¬¡æ•°*/
+    printf("ä¸²S2åœ¨ä¸²S1å‡ºç°çš„æ¬¡æ•°æ˜¯:%2d\n", n);
     StrPrint(S1);
 }
 

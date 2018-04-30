@@ -5,28 +5,28 @@ void main()
 {
     SeqString S1, S2, Sub;
     char ch[MaxLength];
-    printf("ÇëÊäÈëµÚÒ»¸ö×Ö·û´®:\n");
+    printf("è¯·è¾“å…¥ç¬¬ä¸€ä¸ªå­—ç¬¦ä¸²:\n");
     gets(ch);
     StrAssign(&S1, ch);
-    printf("Êä³ö´®S1£º");
+    printf("è¾“å‡ºä¸²S1ï¼š");
     StrPrint(S1);
-    printf("ÇëÊäÈëµÚ¶ş¸ö×Ö·û´®:\n");
+    printf("è¯·è¾“å…¥ç¬¬äºŒä¸ªå­—ç¬¦ä¸²:\n");
     gets(ch);
     StrAssign(&S2, ch);
-    printf("Êä³ö´®S2£º");
+    printf("è¾“å‡ºä¸²S2ï¼š");
     StrPrint(S2);
-    printf("½«´®S2²åÈëµ½S1µÄµÚ13¸öÎ»ÖÃ:\n");
+    printf("å°†ä¸²S2æ’å…¥åˆ°S1çš„ç¬¬13ä¸ªä½ç½®:\n");
     StrInsert(&S1, 13, S2);
     StrPrint(S1);
-    printf("½«´®S1ÖĞµÄµÚ22¸öÎ»ÖÃÆğµÄ7¸ö×Ö·ûÉ¾³ı:\n");
+    printf("å°†ä¸²S1ä¸­çš„ç¬¬22ä¸ªä½ç½®èµ·çš„7ä¸ªå­—ç¬¦åˆ é™¤:\n");
     StrDelete(&S1, 22, 7);
     StrPrint(S1);
-    printf("½«´®S2ÖĞµÄµÚ6¸öÎ»ÖÃÆğµÄ4×Ö·ûÈ¡³ö·ÅÈëSubÖĞ:\n");
+    printf("å°†ä¸²S2ä¸­çš„ç¬¬6ä¸ªä½ç½®èµ·çš„4å­—ç¬¦å–å‡ºæ”¾å…¥Subä¸­:\n");
     SubString(&Sub, S2, 6, 4);
     StrPrint(Sub);
-    printf("½«´®Sub¸³ÖµÎªAmerica:\n");
+    printf("å°†ä¸²Subèµ‹å€¼ä¸ºAmerica:\n");
     StrAssign(&Sub, "America");
-    printf("½«´®S1ÖĞµÄ´®S2ÓÃSubÈ¡´ú:\n");
+    printf("å°†ä¸²S1ä¸­çš„ä¸²S2ç”¨Subå–ä»£:\n");
     StrReplace(&S1, S2, Sub);
     StrPrint(S1);
 }

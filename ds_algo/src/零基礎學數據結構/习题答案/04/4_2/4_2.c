@@ -7,51 +7,51 @@ typedef struct Node {
     struct Node* next;
 } LStackNode, *LinkStack;
 void InitStack(LinkStack* top)
-/*½«Á´Õ»³õÊ¼»¯Îª¿Õ¡£¶¯Ì¬Éú³ÉÍ·½áµã£¬²¢½«Í·½áµãµÄÖ¸ÕëÓòÖÃÎª¿Õ¡£*/
+/*å°†é“¾æ ˆåˆå§‹åŒ–ä¸ºç©ºã€‚åŠ¨æ€ç”Ÿæˆå¤´ç»“ç‚¹ï¼Œå¹¶å°†å¤´ç»“ç‚¹çš„æŒ‡é’ˆåŸŸç½®ä¸ºç©ºã€‚*/
 {
     if ((*top = (LinkStack)malloc(sizeof(LStackNode))) ==
-        NULL) { /*ÎªÍ·½áµã·ÖÅäÒ»¸ö´æ´¢¿Õ¼ä*/
+        NULL) { /*ä¸ºå¤´ç»“ç‚¹åˆ†é…ä¸€ä¸ªå­˜å‚¨ç©ºé—´*/
         exit(-1);
     }
 
-    (*top)->next = NULL;            /*½«Á´Õ»µÄÍ·½áµãÖ¸ÕëÓòÖÃÎª¿Õ*/
+    (*top)->next = NULL;            /*å°†é“¾æ ˆçš„å¤´ç»“ç‚¹æŒ‡é’ˆåŸŸç½®ä¸ºç©º*/
 }
 
 int PushStack(LinkStack top, DataType e)
-/*½øÕ»²Ù×÷¾ÍÊÇÒªÔÚÁ´±íµÄµÚÒ»¸ö½áµãÇ°²åÈëÒ»¸öÐÂ½áµã£¬½øÕ»³É¹¦·µ»Ø1*/
+/*è¿›æ ˆæ“ä½œå°±æ˜¯è¦åœ¨é“¾è¡¨çš„ç¬¬ä¸€ä¸ªç»“ç‚¹å‰æ’å…¥ä¸€ä¸ªæ–°ç»“ç‚¹ï¼Œè¿›æ ˆæˆåŠŸè¿”å›ž1*/
 {
     LStackNode*
-    p;      /*¶¨ÒåÖ¸ÏòµÚi¸öÔªËØµÄÇ°Çý½áµãÖ¸Õëpre£¬Ö¸ÕëpÖ¸ÏòÐÂÉú³ÉµÄ½áµã*/
+    p;      /*å®šä¹‰æŒ‡å‘ç¬¬iä¸ªå…ƒç´ çš„å‰é©±ç»“ç‚¹æŒ‡é’ˆpreï¼ŒæŒ‡é’ˆpæŒ‡å‘æ–°ç”Ÿæˆçš„ç»“ç‚¹*/
 
     if ((p = (LStackNode*)malloc(sizeof(LStackNode))) == NULL) {
-        printf("ÄÚ´æ·ÖÅäÊ§°Ü!");
+        printf("å†…å­˜åˆ†é…å¤±è´¥!");
         exit(-1);
     }
 
-    p->data = e;        /*Ö¸ÕëpÖ¸ÏòÍ·½áµã*/
+    p->data = e;        /*æŒ‡é’ˆpæŒ‡å‘å¤´ç»“ç‚¹*/
     p->next = top->next;
     top->next = p;
     return 1;
 }
 int PopStack(LinkStack top, DataType* e)
-/*É¾³ýµ¥Á´±íÖÐµÄµÚi¸öÎ»ÖÃµÄ½áµã¡£É¾³ý³É¹¦·µ»Ø1£¬Ê§°Ü·µ»Ø0*/
+/*åˆ é™¤å•é“¾è¡¨ä¸­çš„ç¬¬iä¸ªä½ç½®çš„ç»“ç‚¹ã€‚åˆ é™¤æˆåŠŸè¿”å›ž1ï¼Œå¤±è´¥è¿”å›ž0*/
 {
     LStackNode* p;
     p = top->next;
 
-    if (!p) {                       /*ÅÐ¶ÏÁ´Õ»ÊÇ·ñÎª¿Õ*/
-        printf("Õ»ÒÑ¿Õ");
+    if (!p) {                       /*åˆ¤æ–­é“¾æ ˆæ˜¯å¦ä¸ºç©º*/
+        printf("æ ˆå·²ç©º");
         return 0;
     }
 
-    top->next = p->next;            /*½«Õ»¶¥½áµãÓëÁ´±í¶Ï¿ª£¬¼´³öÕ»*/
-    *e = p->data;                   /*½«³öÕ»ÔªËØ¸³Öµ¸øe*/
-    free(p);                        /*ÊÍ·ÅpÖ¸ÏòµÄ½áµã*/
+    top->next = p->next;            /*å°†æ ˆé¡¶ç»“ç‚¹ä¸Žé“¾è¡¨æ–­å¼€ï¼Œå³å‡ºæ ˆ*/
+    *e = p->data;                   /*å°†å‡ºæ ˆå…ƒç´ èµ‹å€¼ç»™e*/
+    free(p);                        /*é‡Šæ”¾pæŒ‡å‘çš„ç»“ç‚¹*/
     return 1;
 }
 
 void DestroyStack(LinkStack top)
-/*Ïú»ÙÕ»*/
+/*é”€æ¯æ ˆ*/
 {
     LStackNode* p, *q;
     p = top;
@@ -63,17 +63,17 @@ void DestroyStack(LinkStack top)
     }
 }
 int GetTop(LinkStack top, DataType* e)
-/*È¡Õ»¶¥ÔªËØ*/
+/*å–æ ˆé¡¶å…ƒç´ */
 {
     LStackNode* p;
     p = top->next;
 
-    if (!p) {                       /*ÅÐ¶ÏÁ´Õ»ÊÇ·ñÎª¿Õ*/
-        printf("Õ»ÒÑ¿Õ");
+    if (!p) {                       /*åˆ¤æ–­é“¾æ ˆæ˜¯å¦ä¸ºç©º*/
+        printf("æ ˆå·²ç©º");
         return 0;
     }
 
-    *e = p->data;               /*½«³öÕ»ÔªËØ¸³Öµ¸øe*/
+    *e = p->data;               /*å°†å‡ºæ ˆå…ƒç´ èµ‹å€¼ç»™e*/
     return 1;
 }
 void main()
@@ -83,17 +83,17 @@ void main()
     LinkStack S;
     int i;
     InitStack(&S);
-    printf("ÇëÊäÈë×Ö·û´®£º");
+    printf("è¯·è¾“å…¥å­—ç¬¦ä¸²ï¼š");
     gets(str);
 
     for (i = 0; i < strlen(str); i++) {
         PushStack(S, str[i]);
     }
 
-    printf("Õ»¶¥ÔªËØÊÇ£º");
+    printf("æ ˆé¡¶å…ƒç´ æ˜¯ï¼š");
     GetTop(S, &e);
     printf("%c\n", e);
-    printf("½øÐÐ³öÕ»²Ù×÷£¬³öÕ»µÄÔªËØÒÀ´ÎÊÇ£º");
+    printf("è¿›è¡Œå‡ºæ ˆæ“ä½œï¼Œå‡ºæ ˆçš„å…ƒç´ ä¾æ¬¡æ˜¯ï¼š");
 
     for (i = 0; i < strlen(str); i++) {
         PopStack(S, &e);

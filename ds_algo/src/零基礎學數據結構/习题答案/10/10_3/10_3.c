@@ -1,37 +1,37 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdlib.h>
 #include<stdio.h>
 #include<malloc.h>
 #include<string.h>
-/*Í¼µÄÁÚ½Ó±íÀàĞÍ¶¨Òå*/
+/*å›¾çš„é‚»æ¥è¡¨ç±»å‹å®šä¹‰*/
 typedef char VertexType[4];
 typedef char InfoPtr;
 typedef int VRType;
-#define MaxSize 50              /*×î´ó¶¥µã¸öÊı*/
-typedef enum {DG, DN, UG, UN} GraphKind; /*Í¼µÄÀàĞÍ£ºÓĞÏòÍ¼¡¢ÓĞÏòÍø¡¢ÎŞÏòÍ¼ºÍÎŞÏòÍø*/
-typedef struct ArcNode {        /*±ß½áµãµÄÀàĞÍ¶¨Òå*/
-    int adjvex;                 /*»¡Ö¸ÏòµÄ¶¥µãµÄÎ»ÖÃ*/
-    InfoPtr* info;              /*Óë»¡Ïà¹ØµÄĞÅÏ¢*/
-    struct ArcNode* nextarc;    /*Ö¸Ê¾ÏÂÒ»¸öÓë¸Ã¶¥µãÏàÁÚ½ÓµÄ¶¥µã*/
+#define MaxSize 50              /*æœ€å¤§é¡¶ç‚¹ä¸ªæ•°*/
+typedef enum {DG, DN, UG, UN} GraphKind; /*å›¾çš„ç±»å‹ï¼šæœ‰å‘å›¾ã€æœ‰å‘ç½‘ã€æ— å‘å›¾å’Œæ— å‘ç½‘*/
+typedef struct ArcNode {        /*è¾¹ç»“ç‚¹çš„ç±»å‹å®šä¹‰*/
+    int adjvex;                 /*å¼§æŒ‡å‘çš„é¡¶ç‚¹çš„ä½ç½®*/
+    InfoPtr* info;              /*ä¸å¼§ç›¸å…³çš„ä¿¡æ¯*/
+    struct ArcNode* nextarc;    /*æŒ‡ç¤ºä¸‹ä¸€ä¸ªä¸è¯¥é¡¶ç‚¹ç›¸é‚»æ¥çš„é¡¶ç‚¹*/
 } ArcNode;
-typedef struct VNode {          /*Í·½áµãµÄÀàĞÍ¶¨Òå*/
-    VertexType data;            /*ÓÃÓÚ´æ´¢¶¥µã*/
-    ArcNode* firstarc;          /*Ö¸Ê¾µÚÒ»¸öÓë¸Ã¶¥µãÁÚ½ÓµÄ¶¥µã*/
+typedef struct VNode {          /*å¤´ç»“ç‚¹çš„ç±»å‹å®šä¹‰*/
+    VertexType data;            /*ç”¨äºå­˜å‚¨é¡¶ç‚¹*/
+    ArcNode* firstarc;          /*æŒ‡ç¤ºç¬¬ä¸€ä¸ªä¸è¯¥é¡¶ç‚¹é‚»æ¥çš„é¡¶ç‚¹*/
 } VNode, AdjList[MaxSize];
-typedef struct {                /*Í¼µÄÀàĞÍ¶¨Òå*/
+typedef struct {                /*å›¾çš„ç±»å‹å®šä¹‰*/
     AdjList vertex;
-    int vexnum, arcnum;         /*Í¼µÄ¶¥µãÊıÄ¿Óë»¡µÄÊıÄ¿*/
-    GraphKind kind;             /*Í¼µÄÀàĞÍ*/
+    int vexnum, arcnum;         /*å›¾çš„é¡¶ç‚¹æ•°ç›®ä¸å¼§çš„æ•°ç›®*/
+    GraphKind kind;             /*å›¾çš„ç±»å‹*/
 } AdjGraph;
 int visited[MaxSize];
-/*º¯ÊıÉùÃ÷*/
+/*å‡½æ•°å£°æ˜*/
 int LocateVertex(AdjGraph G, VertexType v);
 void CreateGraph(AdjGraph* G);
 void DisplayGraph(AdjGraph G);
 void DestroyGraph(AdjGraph* G);
 void Dfs(AdjGraph G, int v);
 int LocateVertex(AdjGraph G, VertexType v)
-/*·µ»ØÍ¼ÖĞ¶¥µã¶ÔÓ¦µÄÎ»ÖÃ*/
+/*è¿”å›å›¾ä¸­é¡¶ç‚¹å¯¹åº”çš„ä½ç½®*/
 {
     int i;
 
@@ -43,33 +43,33 @@ int LocateVertex(AdjGraph G, VertexType v)
     return -1;
 }
 void CreateGraph(AdjGraph* G)
-/*²ÉÓÃÁÚ½Ó±í´æ´¢½á¹¹£¬´´½¨ÎŞÏòÍ¼G*/
+/*é‡‡ç”¨é‚»æ¥è¡¨å­˜å‚¨ç»“æ„ï¼Œåˆ›å»ºæ— å‘å›¾G*/
 {
     int i, j, k;
-    VertexType v1, v2;              /*¶¨ÒåÁ½¸ö¶¥µãv1ºÍv2*/
+    VertexType v1, v2;              /*å®šä¹‰ä¸¤ä¸ªé¡¶ç‚¹v1å’Œv2*/
     ArcNode* p;
-    printf("ÇëÊäÈëÍ¼µÄ¶¥µãÊı,±ßÊı(¶ººÅ·Ö¸ô): ");
+    printf("è¯·è¾“å…¥å›¾çš„é¡¶ç‚¹æ•°,è¾¹æ•°(é€—å·åˆ†éš”): ");
     scanf("%d,%d", &(*G).vexnum, &(*G).arcnum);
-    printf("ÇëÊäÈë%d¸ö¶¥µãµÄÖµ:\n", G->vexnum);
+    printf("è¯·è¾“å…¥%dä¸ªé¡¶ç‚¹çš„å€¼:\n", G->vexnum);
 
-    for (i = 0; i < G->vexnum; i++) {   /*½«¶¥µã´æ´¢ÔÚÍ·½áµãÖĞ*/
+    for (i = 0; i < G->vexnum; i++) {   /*å°†é¡¶ç‚¹å­˜å‚¨åœ¨å¤´ç»“ç‚¹ä¸­*/
         scanf("%s", G->vertex[i].data);
-        G->vertex[i].firstarc = NULL; /*½«Ïà¹ØÁªµÄ¶¥µãÖÃÎª¿Õ*/
+        G->vertex[i].firstarc = NULL; /*å°†ç›¸å…³è”çš„é¡¶ç‚¹ç½®ä¸ºç©º*/
     }
 
-    printf("ÇëÊäÈë»¡Î²ºÍ»¡Í·(ÒÔ¿Õ¸ñ×÷Îª¼ä¸ô):\n");
+    printf("è¯·è¾“å…¥å¼§å°¾å’Œå¼§å¤´(ä»¥ç©ºæ ¼ä½œä¸ºé—´éš”):\n");
 
-    for (k = 0; k < G->arcnum; k++) {   /*½¨Á¢±ßÁ´±í*/
+    for (k = 0; k < G->arcnum; k++) {   /*å»ºç«‹è¾¹é“¾è¡¨*/
         scanf("%s%s", v1, v2);
         i = LocateVertex(*G, v1);
         j = LocateVertex(*G, v2);
-        /*jÎª»¡Í·iÎª»¡Î²´´½¨ÁÚ½Ó±í*/
+        /*jä¸ºå¼§å¤´iä¸ºå¼§å°¾åˆ›å»ºé‚»æ¥è¡¨*/
         p = (ArcNode*)malloc(sizeof(ArcNode));
         p->adjvex = j;
         p->info = NULL;
         p->nextarc = G->vertex[i].firstarc;
         G->vertex[i].firstarc = p;
-        /*iÎª»¡Í·jÎª»¡Î²´´½¨ÁÚ½Ó±í*/
+        /*iä¸ºå¼§å¤´jä¸ºå¼§å°¾åˆ›å»ºé‚»æ¥è¡¨*/
         p = (ArcNode*)malloc(sizeof(ArcNode));
         p->adjvex = i;
         p->info = NULL;
@@ -81,43 +81,43 @@ void CreateGraph(AdjGraph* G)
 }
 
 void DestroyGraph(AdjGraph* G)
-/*Ïú»ÙÎŞÏòÍ¼G*/
+/*é”€æ¯æ— å‘å›¾G*/
 {
     int i;
     ArcNode* p, *q;
 
-    for (i = 0; i < (*G).vexnum; ++i) { /*ÊÍ·ÅÍ¼ÖĞµÄ±ß±í½áµã*/
-        p = G->vertex[i].firstarc;      /*pÖ¸Ïò±ß±íµÄµÚÒ»¸ö½áµã*/
+    for (i = 0; i < (*G).vexnum; ++i) { /*é‡Šæ”¾å›¾ä¸­çš„è¾¹è¡¨ç»“ç‚¹*/
+        p = G->vertex[i].firstarc;      /*pæŒ‡å‘è¾¹è¡¨çš„ç¬¬ä¸€ä¸ªç»“ç‚¹*/
 
-        if (p != NULL) {            /*Èç¹û±ß±í²»Îª¿Õ£¬ÔòÊÍ·Å±ß±íµÄ½áµã*/
+        if (p != NULL) {            /*å¦‚æœè¾¹è¡¨ä¸ä¸ºç©ºï¼Œåˆ™é‡Šæ”¾è¾¹è¡¨çš„ç»“ç‚¹*/
             q = p->nextarc;
             free(p);
             p = q;
         }
     }
 
-    (*G).vexnum = 0;                /*½«¶¥µãÊıÖÃÎª0*/
-    (*G).arcnum = 0;                /*½«±ßµÄÊıÄ¿ÖÃÎª0*/
+    (*G).vexnum = 0;                /*å°†é¡¶ç‚¹æ•°ç½®ä¸º0*/
+    (*G).arcnum = 0;                /*å°†è¾¹çš„æ•°ç›®ç½®ä¸º0*/
 }
 
 void DisplayGraph(AdjGraph G)
-/*Êä³öÍ¼µÄÁÚ½Ó¾ØÕóG*/
+/*è¾“å‡ºå›¾çš„é‚»æ¥çŸ©é˜µG*/
 {
     int i;
     ArcNode* p;
-    printf("%d¸ö¶¥µã£º\n", G.vexnum);
+    printf("%dä¸ªé¡¶ç‚¹ï¼š\n", G.vexnum);
 
     for (i = 0; i < G.vexnum; i++) {
         printf("%s ", G.vertex[i].data);
     }
 
-    printf("\n%dÌõ±ß:\n", 2 * G.arcnum);
+    printf("\n%dæ¡è¾¹:\n", 2 * G.arcnum);
 
     for (i = 0; i < G.vexnum; i++) {
         p = G.vertex[i].firstarc;
 
         while (p) {
-            printf("%s¡ú%s ", G.vertex[i].data, G.vertex[p->adjvex].data);
+            printf("%sâ†’%s ", G.vertex[i].data, G.vertex[p->adjvex].data);
             p = p->nextarc;
         }
 
@@ -125,18 +125,18 @@ void DisplayGraph(AdjGraph G)
     }
 }
 int IsConnect(AdjGraph G)
-/*ÅĞ¶ÏÎŞÏòÍ¼GÊÇ·ñÁ¬Í¨*/
+/*åˆ¤æ–­æ— å‘å›¾Gæ˜¯å¦è¿é€š*/
 {
     int i, flag = 1;
 
-    for (i = 0; i < G.vexnum; i++) { /*³õÊ¼Ê±£¬ËùÓĞ½áµã¶¼±êÖ¾ÎªÎ´·ÃÎÊ*/
+    for (i = 0; i < G.vexnum; i++) { /*åˆå§‹æ—¶ï¼Œæ‰€æœ‰ç»“ç‚¹éƒ½æ ‡å¿—ä¸ºæœªè®¿é—®*/
         visited[i] = 0;
     }
 
-    Dfs(G, 0);                  /*Éî¶È±éÀúÍ¼G*/
+    Dfs(G, 0);                  /*æ·±åº¦éå†å›¾G*/
 
     for (i = 0; i < G.vexnum;
-         i++) /*¼ì²éÃ¿Ò»¸ö¶¥µãÊÇ·ñ±»·ÃÎÊ¹ı£¬Èç¹ûÓĞÃ»ÓĞ±»·ÃÎÊµÄ¶¥µã£¬ÔòËµÃ÷¸ÃÍ¼²»ÊÇÁ¬Í¨µÄ*/
+         i++) /*æ£€æŸ¥æ¯ä¸€ä¸ªé¡¶ç‚¹æ˜¯å¦è¢«è®¿é—®è¿‡ï¼Œå¦‚æœæœ‰æ²¡æœ‰è¢«è®¿é—®çš„é¡¶ç‚¹ï¼Œåˆ™è¯´æ˜è¯¥å›¾ä¸æ˜¯è¿é€šçš„*/
         if (visited[i] == 0) {
             flag = 0;
             break;
@@ -146,14 +146,14 @@ int IsConnect(AdjGraph G)
 
 }
 void Dfs(AdjGraph G, int v)
-/*Éî¶È±éÀúÍ¼G£¬²¢Í³¼Æ·ÃÎÊµ½µÄ¶¥µãÊıÄ¿ºÍ±ßµÄÊıÄ¿*/
+/*æ·±åº¦éå†å›¾Gï¼Œå¹¶ç»Ÿè®¡è®¿é—®åˆ°çš„é¡¶ç‚¹æ•°ç›®å’Œè¾¹çš„æ•°ç›®*/
 {
     ArcNode* p;
-    visited[v] = 1;         /*·ÃÎÊ¶¥µãv*/
-    p = G.vertex[v].firstarc; /*´ÓvµÄÁÚ½Ó¶¥µã¿ªÊ¼±éÀúÊ÷*/
+    visited[v] = 1;         /*è®¿é—®é¡¶ç‚¹v*/
+    p = G.vertex[v].firstarc; /*ä»vçš„é‚»æ¥é¡¶ç‚¹å¼€å§‹éå†æ ‘*/
 
     while (p != NULL) {
-        if (visited[p->adjvex] == 0) { /*Èç¹û¶¥µã*p»¹Î´±»·ÃÎÊ£¬ÔòÉî¶È±éÀú*/
+        if (visited[p->adjvex] == 0) { /*å¦‚æœé¡¶ç‚¹*pè¿˜æœªè¢«è®¿é—®ï¼Œåˆ™æ·±åº¦éå†*/
             Dfs(G, p->adjvex);
         }
 
@@ -164,16 +164,16 @@ void main()
 {
     AdjGraph G;
     int flag;
-    printf("²ÉÓÃÁÚ½Ó¾ØÕó´´½¨ÎŞÏòÍ¼G£º\n");
+    printf("é‡‡ç”¨é‚»æ¥çŸ©é˜µåˆ›å»ºæ— å‘å›¾Gï¼š\n");
     CreateGraph(&G);
-    printf("Êä³öÎŞÏòÍ¼G£º");
+    printf("è¾“å‡ºæ— å‘å›¾Gï¼š");
     DisplayGraph(G);
     flag = IsConnect(G);
 
     if (flag == 1) {
-        printf("¸ÃÎŞÏòÍ¼ÊÇÁ¬Í¨µÄ!\n");
+        printf("è¯¥æ— å‘å›¾æ˜¯è¿é€šçš„!\n");
     } else {
-        printf("¸ÃÎŞÏòÍ¼²»ÊÇÁ¬Í¨µÄ!\n");
+        printf("è¯¥æ— å‘å›¾ä¸æ˜¯è¿é€šçš„!\n");
     }
 
     DestroyGraph(&G);

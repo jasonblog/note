@@ -1,9 +1,9 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
 #include<malloc.h>
-/*Ê÷µÄº¢×ÓĞÖµÜÁ´±í¶¨Òå*/
+/*æ ‘çš„å­©å­å…„å¼Ÿé“¾è¡¨å®šä¹‰*/
 typedef int DataType;
 typedef struct CSNode {
     struct CSNode* firstchild, *nextsibling;
@@ -17,58 +17,58 @@ int PreTraverseCSTree(CSTree T, void(*visit)(DataType* e));
 int PostTraverseCSTree(CSTree T, void(*visit)(DataType* e));
 void DisplayCSTree(DataType* e);
 void InitCSTree(CSTree* T)
-/*Ê÷µÄ³õÊ¼»¯*/
+/*æ ‘çš„åˆå§‹åŒ–*/
 {
     *T = 0;
 }
 void DestroyCSTree(CSTree* T)
-/*Ê÷µÄÏú»Ù²Ù×÷*/
+/*æ ‘çš„é”€æ¯æ“ä½œ*/
 {
     CSTree p = *T;
 
     if (p) {
-        DestroyCSTree(&(p->firstchild));/*Ïú»ÙµÚÒ»¸öº¢×Ó½áµã*/
-        DestroyCSTree(&(p->nextsibling));/*Ïú»ÙĞÖµÜ½áµã*/
+        DestroyCSTree(&(p->firstchild));/*é”€æ¯ç¬¬ä¸€ä¸ªå­©å­ç»“ç‚¹*/
+        DestroyCSTree(&(p->nextsibling));/*é”€æ¯å…„å¼Ÿç»“ç‚¹*/
         free(p);
         *T = 0;
     }
 }
 void CreateCSTree(CSTree* T, DataType* e, int* index)
-/*´´½¨Ê÷²Ù×÷*/
+/*åˆ›å»ºæ ‘æ“ä½œ*/
 {
     if (e[*index] == 0) {
         *T = 0;
         (*index)++;
     } else {
-        *T = (CSTree)malloc(sizeof(CSNode)); /*Éú³É½áµã*/
+        *T = (CSTree)malloc(sizeof(CSNode)); /*ç”Ÿæˆç»“ç‚¹*/
         (*T)->data = e[*index];
         (*index)++;
-        CreateCSTree(&((*T)->firstchild), e, index); /*´´½¨µÚÒ»¸öº¢×Ó½áµã*/
-        CreateCSTree(&((*T)->nextsibling), e, index); /*´´½¨ĞÖµÜ½áµã*/
+        CreateCSTree(&((*T)->firstchild), e, index); /*åˆ›å»ºç¬¬ä¸€ä¸ªå­©å­ç»“ç‚¹*/
+        CreateCSTree(&((*T)->nextsibling), e, index); /*åˆ›å»ºå…„å¼Ÿç»“ç‚¹*/
         return;
     }
 }
 
 int DepCSTree(CSTree T)
-/*ÇóÊ÷µÄÉî¶È*/
+/*æ±‚æ ‘çš„æ·±åº¦*/
 {
     CSNode* p;
     int k, d = 0;
 
-    if (T == NULL) {        /*Èç¹ûÊÇ¿ÕÊ÷£¬·µ»Ø0*/
+    if (T == NULL) {        /*å¦‚æœæ˜¯ç©ºæ ‘ï¼Œè¿”å›0*/
         return 0;
     }
 
-    p = T->firstchild;      /*pÖ¸ÏòÊ÷µÄµÚÒ»º¢×Ó½áµã*/
+    p = T->firstchild;      /*pæŒ‡å‘æ ‘çš„ç¬¬ä¸€å­©å­ç»“ç‚¹*/
 
     while (p != NULL) {
-        k = DepCSTree(p);   /*Çó×ÓpÊ÷µÄÉî¶È*/
+        k = DepCSTree(p);   /*æ±‚å­pæ ‘çš„æ·±åº¦*/
 
         if (d < k) {
-            d = k;    /*d±£´æÊ÷µÄ×î´óÉî¶È*/
+            d = k;    /*dä¿å­˜æ ‘çš„æœ€å¤§æ·±åº¦*/
         }
 
-        p = p->nextsibling; /*½øÈëpµÄÏÂÒ»¸ö½áµã*/
+        p = p->nextsibling; /*è¿›å…¥pçš„ä¸‹ä¸€ä¸ªç»“ç‚¹*/
     }
 
     return d + 1;
@@ -76,7 +76,7 @@ int DepCSTree(CSTree T)
 }
 
 int PreTraverseCSTree(CSTree T, void(*visit)(DataType* e))
-/*Ê÷µÄÏÈ¸ù±éÀú*/
+/*æ ‘çš„å…ˆæ ¹éå†*/
 {
     if (T) {
         (*visit)(&T->data);
@@ -85,7 +85,7 @@ int PreTraverseCSTree(CSTree T, void(*visit)(DataType* e))
     }
 }
 int PostTraverseCSTree(CSTree T, void(*visit)(DataType* e))
-/*Ê÷µÄºó¸ù±éÀú*/
+/*æ ‘çš„åæ ¹éå†*/
 {
     if (T) {
         PostTraverseCSTree(T->firstchild, visit);
@@ -95,7 +95,7 @@ int PostTraverseCSTree(CSTree T, void(*visit)(DataType* e))
 }
 
 void DisplayCSTree(DataType* e)
-/*Êä³öÊ÷µÄ½áµã*/
+/*è¾“å‡ºæ ‘çš„ç»“ç‚¹*/
 {
     printf("%2c", *e);
 }
@@ -108,13 +108,13 @@ main()
     CSTree T;
     InitCSTree(&T);
     CreateCSTree(&T, test, &h);
-    printf("Ê÷µÄÏÈ¸ù±éÀú½á¹ûÊÇ:\n");
+    printf("æ ‘çš„å…ˆæ ¹éå†ç»“æœæ˜¯:\n");
     PreTraverseCSTree(T, DisplayCSTree);
     printf("\n");
-    printf("Ê÷µÄºó¸ù±éÀú½á¹ûÊÇ:\n");
+    printf("æ ‘çš„åæ ¹éå†ç»“æœæ˜¯:\n");
     PostTraverseCSTree(T, DisplayCSTree);
     printf("\n");
-    printf("Ê÷µÄÉî¶ÈÊÇ:%2d", DepCSTree(T));
+    printf("æ ‘çš„æ·±åº¦æ˜¯:%2d", DepCSTree(T));
     printf("\n");
     DestroyCSTree(&T);
 

@@ -1,50 +1,50 @@
 #define MaxArraySize 2
 typedef struct {
-    DataType* base;     /*Êı×éÔªËØµÄ»ùµØÖ·*/
-    int dim;            /*Êı×éµÄÎ¬Êı*/
-    int* bounds;        /*Êı×éµÄÃ¿Ò»Î¬Ö®¼äµÄ½çÏŞµÄµØÖ·*/
-    int* constants;     /*Êı×é´æ´¢Ó³Ïñ³£Á¿»ùµØÖ·*/
+    DataType* base;     /*æ•°ç»„å…ƒç´ çš„åŸºåœ°å€*/
+    int dim;            /*æ•°ç»„çš„ç»´æ•°*/
+    int* bounds;        /*æ•°ç»„çš„æ¯ä¸€ç»´ä¹‹é—´çš„ç•Œé™çš„åœ°å€*/
+    int* constants;     /*æ•°ç»„å­˜å‚¨æ˜ åƒå¸¸é‡åŸºåœ°å€*/
 } Array;
 
 int InitArray(Array* A, int dim, ...)
-/*Êı×éµÄ³õÊ¼»¯²Ù×÷*/
+/*æ•°ç»„çš„åˆå§‹åŒ–æ“ä½œ*/
 {
-    int elemtotal = 1, i;               /*elemtotalÊÇÊı×éÔªËØ×ÜÊı£¬³õÖµÎª1*/
+    int elemtotal = 1, i;               /*elemtotalæ˜¯æ•°ç»„å…ƒç´ æ€»æ•°ï¼Œåˆå€¼ä¸º1*/
     va_list ap;
 
-    if (dim < 1 || dim > MaxArraySize) { /*Èç¹ûÎ¬Êı²»ºÏ·¨£¬·µ»Ø0*/
+    if (dim < 1 || dim > MaxArraySize) { /*å¦‚æœç»´æ•°ä¸åˆæ³•ï¼Œè¿”å›0*/
         return 0;
     }
 
     A->dim = dim;
-    A->bounds = (int*)malloc(dim * sizeof(int)); /*·ÖÅäÒ»¸ödim´óĞ¡µÄÄÚ´æµ¥Ôª*/
+    A->bounds = (int*)malloc(dim * sizeof(int)); /*åˆ†é…ä¸€ä¸ªdimå¤§å°çš„å†…å­˜å•å…ƒ*/
 
     if (!A->bounds) {
         exit(-1);
     }
 
     va_start(ap,
-             dim);                  /*dimÊÇÒ»¸ö¹Ì¶¨²ÎÊı£¬¼´¿É±ä²ÎÊıµÄÇ°Ò»¸ö²ÎÊı*/
+             dim);                  /*dimæ˜¯ä¸€ä¸ªå›ºå®šå‚æ•°ï¼Œå³å¯å˜å‚æ•°çš„å‰ä¸€ä¸ªå‚æ•°*/
 
     for (i = 0; i < dim; ++i) {
-        A->bounds[i] = va_arg(ap, int);     /*ÒÀ´ÎÈ¡µÃ¿É±ä²ÎÊı£¬¼´¸÷Î¬µÄ³¤¶È*/
+        A->bounds[i] = va_arg(ap, int);     /*ä¾æ¬¡å–å¾—å¯å˜å‚æ•°ï¼Œå³å„ç»´çš„é•¿åº¦*/
 
         if (A->bounds[i] < 0) {
-            return -1;    // ÔÚmath.hÖĞ¶¨ÒåÎª4
+            return -1;    // åœ¨math.hä¸­å®šä¹‰ä¸º4
         }
 
-        elemtotal *= A->bounds[i];          /*µÃµ½Êı×éÖĞÔªËØ×ÜµÄ¸öÊı*/
+        elemtotal *= A->bounds[i];          /*å¾—åˆ°æ•°ç»„ä¸­å…ƒç´ æ€»çš„ä¸ªæ•°*/
     }
 
     va_end(ap);
     A->base = (DataType*)malloc(elemtotal * sizeof(
-                                    DataType)); /*ÎªÊı×é·ÖÅäËùÓĞÔªËØ·ÖÅäÄÚ´æ¿Õ¼ä*/
+                                    DataType)); /*ä¸ºæ•°ç»„åˆ†é…æ‰€æœ‰å…ƒç´ åˆ†é…å†…å­˜ç©ºé—´*/
 
     if (!A->base) {
         exit(-1);
     }
 
-    A->constants = (int*)malloc(dim * sizeof(int)); /*ÎªÊı×éµÄ³£Á¿»ùÖ··ÖÅäÄÚ´æµ¥Ôª*/
+    A->constants = (int*)malloc(dim * sizeof(int)); /*ä¸ºæ•°ç»„çš„å¸¸é‡åŸºå€åˆ†é…å†…å­˜å•å…ƒ*/
 
     if (!A->constants) {
         exit(-1);
@@ -59,7 +59,7 @@ int InitArray(Array* A, int dim, ...)
     return 1;
 }
 void DestroyArray(Array* A)
-/*Ïú»ÙÊı×é¡£½«¶¯Ì¬ÉêÇëµÄÄÚ´æµ¥ÔªÊÍ·Å*/
+/*é”€æ¯æ•°ç»„ã€‚å°†åŠ¨æ€ç”³è¯·çš„å†…å­˜å•å…ƒé‡Šæ”¾*/
 {
     if (A->base) {
         free(A->base);
@@ -73,41 +73,41 @@ void DestroyArray(Array* A)
         free(A->constants);
     }
 
-    A->base = A->bounds = A->constants = NULL;  /*½«¸÷¸öÖ¸ÕëÖ¸Ïò¿Õ*/
+    A->base = A->bounds = A->constants = NULL;  /*å°†å„ä¸ªæŒ‡é’ˆæŒ‡å‘ç©º*/
     A->dim = 0;
 }
 int GetValue(DataType* e, Array A, ...)
-/*·µ»ØÊı×éÖĞÖ¸¶¨µÄÔªËØ£¬½«Ö¸¶¨µÄÊı×éµÄÏÂ±êµÄÔªËØ¸³Öµ¸øe*/
+/*è¿”å›æ•°ç»„ä¸­æŒ‡å®šçš„å…ƒç´ ï¼Œå°†æŒ‡å®šçš„æ•°ç»„çš„ä¸‹æ ‡çš„å…ƒç´ èµ‹å€¼ç»™e*/
 {
     va_list ap;
     int offset;
     va_start(ap, A);
 
-    if (LocateArray(A, ap, &offset) == 0) { /*ÕÒµ½ÔªËØÔÚÊı×éÖĞµÄÏà¶ÔÎ»ÖÃ*/
+    if (LocateArray(A, ap, &offset) == 0) { /*æ‰¾åˆ°å…ƒç´ åœ¨æ•°ç»„ä¸­çš„ç›¸å¯¹ä½ç½®*/
         return 0;
     }
 
     va_end(ap);
-    *e = *(A.base + offset);        /*½«ÔªËØÖµ¸³Öµ¸øe*/
+    *e = *(A.base + offset);        /*å°†å…ƒç´ å€¼èµ‹å€¼ç»™e*/
     return 1;
 }
 int AssignValue(Array A, DataType e, ...)
-/*Êı×éµÄ¸³Öµ²Ù×÷¡£½«eµÄÖµ¸³¸øµÄÖ¸¶¨µÄÊı×éÔªËØ*/
+/*æ•°ç»„çš„èµ‹å€¼æ“ä½œã€‚å°†eçš„å€¼èµ‹ç»™çš„æŒ‡å®šçš„æ•°ç»„å…ƒç´ */
 {
     va_list ap;
     int offset;
     va_start(ap, e);
 
-    if (LocateArray(A, ap, &offset) == 0) { /*ÕÒµ½ÔªËØÔÚÊı×éÖĞµÄÏà¶ÔÎ»ÖÃ*/
+    if (LocateArray(A, ap, &offset) == 0) { /*æ‰¾åˆ°å…ƒç´ åœ¨æ•°ç»„ä¸­çš„ç›¸å¯¹ä½ç½®*/
         return 0;
     }
 
     va_end(ap);
-    *(A.base + offset) = e;         /*½«e¸³Öµ¸ø¸ÃÔªËØ*/
+    *(A.base + offset) = e;         /*å°†eèµ‹å€¼ç»™è¯¥å…ƒç´ */
     return 1;
 }
 int LocateArray(Array A, va_list ap, int* offset)
-/*¸ù¾İÊı×éÖĞÔªËØµÄÏÂ±ê£¬Çó³ö¸ÃÔªËØÔÚAÖĞµÄÏà¶ÔµØÖ·offset*/
+/*æ ¹æ®æ•°ç»„ä¸­å…ƒç´ çš„ä¸‹æ ‡ï¼Œæ±‚å‡ºè¯¥å…ƒç´ åœ¨Aä¸­çš„ç›¸å¯¹åœ°å€offset*/
 {
     int i, instand;
     *offset = 0;

@@ -1,12 +1,12 @@
-/*°üº¬Í·ÎÄ¼þ*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<malloc.h>
 #include<stdlib.h>
 typedef int KeyType;
-typedef struct { /*Êý¾ÝÔªËØÀàÐÍ¶¨Òå*/
-    KeyType key;/*¹Ø¼ü×Ö*/
+typedef struct { /*æ•°æ®å…ƒç´ ç±»åž‹å®šä¹‰*/
+    KeyType key;/*å…³é”®å­—*/
 } DataType;
-typedef struct Node {   /*µ¥Á´±íÀàÐÍ¶¨Òå*/
+typedef struct Node {   /*å•é“¾è¡¨ç±»åž‹å®šä¹‰*/
     DataType data;
     struct Node* next;
 } ListNode, *LinkList;
@@ -15,7 +15,7 @@ void SelectSort(LinkList L);
 void CreateList(LinkList L, DataType a[], int n);
 void BubbleSort(LinkList L);
 void CreateList(LinkList L, DataType a[], int n)
-/*´´½¨µ¥Á´±í*/
+/*åˆ›å»ºå•é“¾è¡¨*/
 {
     int i;
 
@@ -24,42 +24,42 @@ void CreateList(LinkList L, DataType a[], int n)
     }
 }
 void InitList(LinkList* head)
-/*½«µ¥Á´±í³õÊ¼»¯Îª¿Õ¡£¶¯Ì¬Éú³ÉÒ»¸öÍ·½áµã£¬²¢½«Í·½áµãµÄÖ¸ÕëÓòÖÃÎª¿Õ¡£*/
+/*å°†å•é“¾è¡¨åˆå§‹åŒ–ä¸ºç©ºã€‚åŠ¨æ€ç”Ÿæˆä¸€ä¸ªå¤´ç»“ç‚¹ï¼Œå¹¶å°†å¤´ç»“ç‚¹çš„æŒ‡é’ˆåŸŸç½®ä¸ºç©ºã€‚*/
 {
     if ((*head = (LinkList)malloc(sizeof(ListNode))) ==
-        NULL) { /*ÎªÍ·½áµã·ÖÅäÒ»¸ö´æ´¢¿Õ¼ä*/
+        NULL) { /*ä¸ºå¤´ç»“ç‚¹åˆ†é…ä¸€ä¸ªå­˜å‚¨ç©ºé—´*/
         exit(-1);
     }
 
-    (*head)->next = NULL;           /*½«µ¥Á´±íµÄÍ·½áµãÖ¸ÕëÓòÖÃÎª¿Õ*/
+    (*head)->next = NULL;           /*å°†å•é“¾è¡¨çš„å¤´ç»“ç‚¹æŒ‡é’ˆåŸŸç½®ä¸ºç©º*/
 }
 int InsertList(LinkList head, int i, DataType e)
-/*ÔÚµ¥Á´±íÖÐµÚi¸öÎ»ÖÃ²åÈëÒ»¸ö½áµã£¬½áµãµÄÔªËØÖµÎªe¡£²åÈë³É¹¦·µ»Ø1£¬Ê§°Ü·µ»Ø0*/
+/*åœ¨å•é“¾è¡¨ä¸­ç¬¬iä¸ªä½ç½®æ’å…¥ä¸€ä¸ªç»“ç‚¹ï¼Œç»“ç‚¹çš„å…ƒç´ å€¼ä¸ºeã€‚æ’å…¥æˆåŠŸè¿”å›ž1ï¼Œå¤±è´¥è¿”å›ž0*/
 {
     ListNode* p,
-              *pre;  /*¶¨ÒåÖ¸ÏòµÚi¸öÔªËØµÄÇ°Çý½áµãÖ¸Õëpre£¬Ö¸ÕëpÖ¸ÏòÐÂÉú³ÉµÄ½áµã*/
+              *pre;  /*å®šä¹‰æŒ‡å‘ç¬¬iä¸ªå…ƒç´ çš„å‰é©±ç»“ç‚¹æŒ‡é’ˆpreï¼ŒæŒ‡é’ˆpæŒ‡å‘æ–°ç”Ÿæˆçš„ç»“ç‚¹*/
     int j;
-    pre = head;         /*Ö¸ÕëpÖ¸ÏòÍ·½áµã*/
+    pre = head;         /*æŒ‡é’ˆpæŒ‡å‘å¤´ç»“ç‚¹*/
     j = 0;
 
     while (pre->next != NULL &&
-           j < i - 1) { /*ÕÒµ½µÚi£­1¸ö½áµã£¬¼´µÚi¸ö½áµãµÄÇ°Çý½áµã*/
+           j < i - 1) { /*æ‰¾åˆ°ç¬¬iï¼1ä¸ªç»“ç‚¹ï¼Œå³ç¬¬iä¸ªç»“ç‚¹çš„å‰é©±ç»“ç‚¹*/
         pre = pre->next;
         j++;
     }
 
-    if (!pre) {                 /*Èç¹ûÃ»ÕÒµ½£¬ËµÃ÷²åÈëÎ»ÖÃ´íÎó*/
-        printf("²åÈëÎ»ÖÃ´í");
+    if (!pre) {                 /*å¦‚æžœæ²¡æ‰¾åˆ°ï¼Œè¯´æ˜Žæ’å…¥ä½ç½®é”™è¯¯*/
+        printf("æ’å…¥ä½ç½®é”™");
         return 0;
     }
 
-    /*ÐÂÉú³ÉÒ»¸ö½áµã£¬²¢½«e¸³Öµ¸ø¸Ã½áµãµÄÊý¾ÝÓò*/
+    /*æ–°ç”Ÿæˆä¸€ä¸ªç»“ç‚¹ï¼Œå¹¶å°†eèµ‹å€¼ç»™è¯¥ç»“ç‚¹çš„æ•°æ®åŸŸ*/
     if ((p = (ListNode*)malloc(sizeof(ListNode))) == NULL) {
         exit(-1);
     }
 
     p->data = e;
-    /*²åÈë½áµã²Ù×÷*/
+    /*æ’å…¥ç»“ç‚¹æ“ä½œ*/
     p->next = pre->next;
     pre->next = p;
     return 1;
@@ -71,7 +71,7 @@ void main()
     DataType a[] = {45, 67, 21, 98, 12, 39, 81, 53};
     InitList(&L);
     CreateList(L, a, n);
-    printf("ÅÅÐòÇ°£º\n");
+    printf("æŽ’åºå‰ï¼š\n");
 
     for (p = L->next; p != NULL; p = p->next) {
         printf("%d ", p->data);
@@ -79,7 +79,7 @@ void main()
 
     printf("\n");
     BubbleSort(L);
-    printf("Ã°ÅÝÅÅÐòºó£º\n");
+    printf("å†’æ³¡æŽ’åºåŽï¼š\n");
 
     for (p = L->next; p != NULL; p = p->next) {
         printf("%d ", p->data);
@@ -89,17 +89,17 @@ void main()
 }
 
 void BubbleSort(LinkList L)
-/*ÓÃÁ´±í´æ´¢½á¹¹ÊµÏÖÃ°ÅÝÅÅÐò*/
+/*ç”¨é“¾è¡¨å­˜å‚¨ç»“æž„å®žçŽ°å†’æ³¡æŽ’åº*/
 {
     ListNode* p, *q, *s;
-    s = NULL;               /*Ö¸ÕësÖ¸ÏòÒÑ¾­ÅÅºÃÐòµÄµÚÒ»¸ö½áµã*/
+    s = NULL;               /*æŒ‡é’ˆsæŒ‡å‘å·²ç»æŽ’å¥½åºçš„ç¬¬ä¸€ä¸ªç»“ç‚¹*/
 
-    while (s != L->next) {  /*Èç¹û»¹ÓÐ´ýÅÅÐòÔªËØ£¬Ôò¼ÌÐø±È½Ï*/
+    while (s != L->next) {  /*å¦‚æžœè¿˜æœ‰å¾…æŽ’åºå…ƒç´ ï¼Œåˆ™ç»§ç»­æ¯”è¾ƒ*/
         q = L;
-        p = q->next;        /*½áµã*pÎª´ýÅÅÐòÁ´±íÖÐµÄµÚÒ»¸ö½áµã*/
+        p = q->next;        /*ç»“ç‚¹*pä¸ºå¾…æŽ’åºé“¾è¡¨ä¸­çš„ç¬¬ä¸€ä¸ªç»“ç‚¹*/
 
-        while (p->next != s) { /*Èç¹ûÔÚ¸ÃÌËÅÅÐòÖÐ£¬»¹ÓÐÔªËØÐèÒª±È½Ï*/
-            if (p->data.key > p->next->data.key) { /*½»»»Á½¸ö½áµãµÄÎ»ÖÃ*/
+        while (p->next != s) { /*å¦‚æžœåœ¨è¯¥è¶ŸæŽ’åºä¸­ï¼Œè¿˜æœ‰å…ƒç´ éœ€è¦æ¯”è¾ƒ*/
+            if (p->data.key > p->next->data.key) { /*äº¤æ¢ä¸¤ä¸ªç»“ç‚¹çš„ä½ç½®*/
                 q->next = p->next;
                 p->next = q->next->next;
                 q->next->next = p;
@@ -109,6 +109,6 @@ void BubbleSort(LinkList L)
             p = q->next;
         }
 
-        s = p;              /*sÖ¸ÏòÒÑ¾­ÅÅºÃÐòµÄÁ´±íµÄµÚÒ»¸ö½áµã*/
+        s = p;              /*sæŒ‡å‘å·²ç»æŽ’å¥½åºçš„é“¾è¡¨çš„ç¬¬ä¸€ä¸ªç»“ç‚¹*/
     }
 }

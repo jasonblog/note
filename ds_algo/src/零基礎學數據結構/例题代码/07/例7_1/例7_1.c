@@ -1,8 +1,8 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<malloc.h>
 #include<stdlib.h>
-#include<stdarg.h>  /*±ê×¼Í·ÎÄ¼ş£¬°üº¬va_start¡¢va-arg¡¢va_endºê¶¨Òå*/
+#include<stdarg.h>  /*æ ‡å‡†å¤´æ–‡ä»¶ï¼ŒåŒ…å«va_startã€va-argã€va_endå®å®šä¹‰*/
 typedef int DataType;
 #include"SeqArray.h"
 void main()
@@ -10,37 +10,37 @@ void main()
     Array A;
     DataType B[4][3] = {{5, 6, 7}, {23, 45, 67}, {35, 2, 34}, {12, 36, 90}};
     int i, j;
-    int dim = 2, bound1 = 4, bound2 = 3;    /*³õÊ¼»¯Êı×éµÄÎ¬ÊıºÍ¸÷Î¬µÄ³¤¶È*/
+    int dim = 2, bound1 = 4, bound2 = 3;    /*åˆå§‹åŒ–æ•°ç»„çš„ç»´æ•°å’Œå„ç»´çš„é•¿åº¦*/
     DataType e;
-    InitArray(&A, dim, bound1, bound2);     /*¹¹ÔìÒ»¸ö4¡Á3µÄ¶şÎ¬Êı×éA*/
-    printf("Êı×éAµÄ¸÷Î¬µÄ³¤¶ÈÊÇ:");
+    InitArray(&A, dim, bound1, bound2);     /*æ„é€ ä¸€ä¸ª4Ã—3çš„äºŒç»´æ•°ç»„A*/
+    printf("æ•°ç»„Açš„å„ç»´çš„é•¿åº¦æ˜¯:");
 
-    for (i = 0; i < dim; i++) {             /*Êä³öÊı×éAµÄ¸÷Î¬µÄ³¤¶È*/
+    for (i = 0; i < dim; i++) {             /*è¾“å‡ºæ•°ç»„Açš„å„ç»´çš„é•¿åº¦*/
         printf("%3d", A.bounds[i]);
     }
 
-    printf("\nÊı×éAµÄ³£Á¿»ùÖ·ÊÇ:");
+    printf("\næ•°ç»„Açš„å¸¸é‡åŸºå€æ˜¯:");
 
-    for (i = 0; i < dim; i++) {             /*Êä³öÊı×éAµÄ³£Á¿»ùÖ·*/
+    for (i = 0; i < dim; i++) {             /*è¾“å‡ºæ•°ç»„Açš„å¸¸é‡åŸºå€*/
         printf("%3d", A.constants[i]);
     }
 
-    printf("\n%dĞĞ%dÁĞµÄ¾ØÕóÔªËØÈçÏÂ:\n", bound1, bound2);
+    printf("\n%dè¡Œ%dåˆ—çš„çŸ©é˜µå…ƒç´ å¦‚ä¸‹:\n", bound1, bound2);
 
     for (i = 0; i < bound1; i++) {
         for (j = 0; j < bound2; j++) {
-            AssignValue(A, B[i][j], i, j);  /*½«Êı×éBµÄÔªËØ¸³Öµ¸øA*/
-            GetValue(&e, A, i, j);          /*½«Êı×éAÖĞµÄÔªËØ¸³Öµ¸øe*/
-            printf("A[%d][%d]=%3d\t", i, j, e); /*Êä³öÊı×éAÖĞµÄÔªËØ*/
+            AssignValue(A, B[i][j], i, j);  /*å°†æ•°ç»„Bçš„å…ƒç´ èµ‹å€¼ç»™A*/
+            GetValue(&e, A, i, j);          /*å°†æ•°ç»„Aä¸­çš„å…ƒç´ èµ‹å€¼ç»™e*/
+            printf("A[%d][%d]=%3d\t", i, j, e); /*è¾“å‡ºæ•°ç»„Aä¸­çš„å…ƒç´ */
         }
 
         printf("\n");
     }
 
-    printf("°´ÕÕÊı×éµÄÏßĞÔĞòÁĞÊä³öÔªËØ,¼´ÀûÓÃ»ùµØÖ·Êä³öÔªËØ:\n");
+    printf("æŒ‰ç…§æ•°ç»„çš„çº¿æ€§åºåˆ—è¾“å‡ºå…ƒç´ ,å³åˆ©ç”¨åŸºåœ°å€è¾“å‡ºå…ƒç´ :\n");
 
-    for (i = 0; i < bound1 * bound2; i++) { /*°´ÕÕÏßĞÔĞòÁĞÊä³öÊı×éAÖĞµÄÔªËØ*/
-        printf("µÚ%d¸öÔªËØ=%3d\t", i + 1, A.base[i]);
+    for (i = 0; i < bound1 * bound2; i++) { /*æŒ‰ç…§çº¿æ€§åºåˆ—è¾“å‡ºæ•°ç»„Aä¸­çš„å…ƒç´ */
+        printf("ç¬¬%dä¸ªå…ƒç´ =%3d\t", i + 1, A.base[i]);
 
         if ((i + 1) % bound2 == 0) {
             printf("\n");

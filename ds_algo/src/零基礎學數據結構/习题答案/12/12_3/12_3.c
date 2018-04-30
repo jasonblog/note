@@ -1,12 +1,12 @@
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include<stdio.h>
 #include<stdlib.h>
 #define MaxSize 50
 typedef int KeyType;
-typedef struct { /*Êı¾İÔªËØÀàĞÍ¶¨Òå*/
-    KeyType key;/*¹Ø¼ü×Ö*/
+typedef struct { /*æ•°æ®å…ƒç´ ç±»å‹å®šä¹‰*/
+    KeyType key;/*å…³é”®å­—*/
 } DataType;
-typedef struct { /*Ë³Ğò±íÀàĞÍ¶¨Òå*/
+typedef struct { /*é¡ºåºè¡¨ç±»å‹å®šä¹‰*/
     DataType data[MaxSize];
     int length;
 } SqList;
@@ -14,7 +14,7 @@ void InitSeqList(SqList* L, DataType a[], int n);
 void DispList(SqList L);
 void Split(SqList* L, int low, int high, int* i);
 void QuickSort(SqList* L)
-/*ÀûÓÃÕ»ÊµÏÖ¿ìËÙÅÅĞò(·Çµİ¹é)*/
+/*åˆ©ç”¨æ ˆå®ç°å¿«é€Ÿæ’åº(éé€’å½’)*/
 {
     int i = 1, j = 1, k = 1;
     int stack[MaxSize][2], top = -1;
@@ -24,12 +24,12 @@ void QuickSort(SqList* L)
     stack[top][1] = high;
 
     while (top >= 0) {
-        low = stack[top][0];    /*½«±íµÄÆğÊ¼Î»ÖÃ³öÕ»£¬È»ºó½«µ±Ç°±í½øĞĞ·Ö¸îÎªÁ½¸ö¸üĞ¡µÄ×Ó±í*/
+        low = stack[top][0];    /*å°†è¡¨çš„èµ·å§‹ä½ç½®å‡ºæ ˆï¼Œç„¶åå°†å½“å‰è¡¨è¿›è¡Œåˆ†å‰²ä¸ºä¸¤ä¸ªæ›´å°çš„å­è¡¨*/
         high = stack[top][1];
         top--;
-        Split(L, low, high, &i); /*½«±í·Ö¸îÎªÁ½¸ö²¿·Ö(ÅÅĞò)£¬²¢½«·Ö¸îµã·µ»Ø*/
+        Split(L, low, high, &i); /*å°†è¡¨åˆ†å‰²ä¸ºä¸¤ä¸ªéƒ¨åˆ†(æ’åº)ï¼Œå¹¶å°†åˆ†å‰²ç‚¹è¿”å›*/
 
-        if (low < high) {       /*½«±íµÄÆğÊ¼Î»ÖÃ±£´æµ½Õ»ÖĞ*/
+        if (low < high) {       /*å°†è¡¨çš„èµ·å§‹ä½ç½®ä¿å­˜åˆ°æ ˆä¸­*/
             top++;
             stack[top][0] = low;
             stack[top][1] = i - 1;
@@ -40,7 +40,7 @@ void QuickSort(SqList* L)
     }
 }
 void Split(SqList* L, int low, int high, int* i)
-/*¶ÔË³Ğò±íL.r[low..high]µÄÔªËØ½øĞĞÒ»ÌËÅÅĞò,ÒÔL->data[i].key½«±í·Ö¸îÎªÁ½¸ö²¿·Ö*/
+/*å¯¹é¡ºåºè¡¨L.r[low..high]çš„å…ƒç´ è¿›è¡Œä¸€è¶Ÿæ’åº,ä»¥L->data[i].keyå°†è¡¨åˆ†å‰²ä¸ºä¸¤ä¸ªéƒ¨åˆ†*/
 {
     DataType t;
     int j;
@@ -48,21 +48,21 @@ void Split(SqList* L, int low, int high, int* i)
     j = high;
     t = (*L).data[*i];
 
-    while (*i < j) {            /*´Ó±íµÄÁ½¶Ë½»ÌæµØÏòÖĞ¼äÉ¨Ãè*/
-        while (*i < j && (*L).data[j].key >= t.key) { /*´Ó±íµÄÄ©¶ËÏòÇ°É¨Ãè*/
+    while (*i < j) {            /*ä»è¡¨çš„ä¸¤ç«¯äº¤æ›¿åœ°å‘ä¸­é—´æ‰«æ*/
+        while (*i < j && (*L).data[j].key >= t.key) { /*ä»è¡¨çš„æœ«ç«¯å‘å‰æ‰«æ*/
             j--;
         }
 
-        if (*i < j) {           /*½«µ±Ç°jÖ¸ÏòµÄÔªËØ±£´æÔÚiÎ»ÖÃ*/
+        if (*i < j) {           /*å°†å½“å‰jæŒ‡å‘çš„å…ƒç´ ä¿å­˜åœ¨iä½ç½®*/
             (*L).data[*i] = (*L).data[j];
             (*i)++;
         }
 
-        while (*i < j && (*L).data[*i].key <= t.key) { /*´Ó±íµÄÊ¼¶ËÏòºóÉ¨Ãè*/
+        while (*i < j && (*L).data[*i].key <= t.key) { /*ä»è¡¨çš„å§‹ç«¯å‘åæ‰«æ*/
             (*i)++;
         }
 
-        if (*i < j) {           /*½«µ±Ç°iÖ¸ÏòµÄÔªËØ±£´æÔÚjÎ»ÖÃ*/
+        if (*i < j) {           /*å°†å½“å‰iæŒ‡å‘çš„å…ƒç´ ä¿å­˜åœ¨jä½ç½®*/
             (*L).data[j] = (*L).data[*i];
             j--;
         }
@@ -78,14 +78,14 @@ void main()
     int n = 10;
     SqList L;
     InitSeqList(&L, a, n);
-    printf("ÅÅĞòÇ°LµÄÔªËØ£º");
+    printf("æ’åºå‰Lçš„å…ƒç´ ï¼š");
     DispList(L);
     QuickSort(&L);
-    printf("·Çµİ¹é¿ìËÙÅÅĞòºóLµÄÔªËØ£º");
+    printf("éé€’å½’å¿«é€Ÿæ’åºåLçš„å…ƒç´ ï¼š");
     DispList(L);
 }
 void InitSeqList(SqList* L, DataType a[], int n)
-/*Ë³Ğò±íµÄ³õÊ¼»¯*/
+/*é¡ºåºè¡¨çš„åˆå§‹åŒ–*/
 {
     int i;
 
@@ -97,7 +97,7 @@ void InitSeqList(SqList* L, DataType a[], int n)
 
 }
 void DispList(SqList L)
-/*Êä³ö±íÖĞµÄÔªËØ*/
+/*è¾“å‡ºè¡¨ä¸­çš„å…ƒç´ */
 {
     int i;
 

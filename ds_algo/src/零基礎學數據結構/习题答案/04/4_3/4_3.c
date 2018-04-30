@@ -1,11 +1,11 @@
-//ÀûÓÃÑ­»·Êä³öÇ°40Ïî
+//åˆ©ç”¨å¾ªç¯è¾“å‡ºå‰40é¡¹
 #include <stdio.h>
 #include<string.h>
 #include <stdio.h>
 #define N 40
 int Fib(int n);
 int Fib2(int x)
-/*fibonacciÊıÁĞµÄ·Çµİ¹éÊµÏÖ*/
+/*fibonacciæ•°åˆ—çš„éé€’å½’å®ç°*/
 {
     int n = 20;
     long f[N] = {0, 1};
@@ -15,7 +15,7 @@ int Fib2(int x)
         f[i] = f[i - 1] + f[i - 2];
     }
 
-    printf("·Çµİ¹éµ÷ÓÃ£ºfibonacciÊıÁĞµÄÇ°%d¸öÊıÊÇ£º", n);
+    printf("éé€’å½’è°ƒç”¨ï¼šfibonacciæ•°åˆ—çš„å‰%dä¸ªæ•°æ˜¯ï¼š", n);
 
     for (i = 0; i < n - 1; i++) {
         printf("F%d==%d,", i + 1, f[i]);
@@ -29,15 +29,15 @@ int Fib2(int x)
 void main()
 {
     int n, x;
-    printf("ÇëÊäÈëÒ»¸öÕıÕûÊın(0<n<20)\n");
+    printf("è¯·è¾“å…¥ä¸€ä¸ªæ­£æ•´æ•°n(0<n<20)\n");
     scanf("%d", &n);
-    printf("µİ¹éµ÷ÓÃ£ºµÚ%d¸öÊıÊÇ£º%d\n", n, Fib(n));
+    printf("é€’å½’è°ƒç”¨ï¼šç¬¬%dä¸ªæ•°æ˜¯ï¼š%d\n", n, Fib(n));
     x = Fib2(n);
-    printf("·Çµİ¹éµ÷ÓÃ£ºµÚ%d¸öÊıÊÇ£º%d\n", n, x);
+    printf("éé€’å½’è°ƒç”¨ï¼šç¬¬%dä¸ªæ•°æ˜¯ï¼š%d\n", n, x);
 
 }
 int Fib(int n)
-/*fibonacciÊıÁĞµÄµİ¹éÊµÏÖ*/
+/*fibonacciæ•°åˆ—çš„é€’å½’å®ç°*/
 {
     if (n == 1) {
         return 0;

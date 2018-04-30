@@ -1,13 +1,13 @@
 #include<stdio.h>
 #include<malloc.h>
 #include<stdlib.h>
-/*ºê¶¨ÒåºÍµ¥Á´±íÀàĞÍ¶¨Òå*/
+/*å®å®šä¹‰å’Œå•é“¾è¡¨ç±»å‹å®šä¹‰*/
 typedef int DataType;
-typedef struct Node { /*Á´±íÀàĞÍ¶¨Òå*/
+typedef struct Node { /*é“¾è¡¨ç±»å‹å®šä¹‰*/
     DataType data;
     struct Node* next;
 } ListNode, *LinkList;
-#include"LinkList.h"                    /*°üº¬µ¥Á´±íÊµÏÖÎÄ¼ş*/
+#include"LinkList.h"                    /*åŒ…å«å•é“¾è¡¨å®ç°æ–‡ä»¶*/
 void DisplayList(LinkList L);
 void ReverseList(LinkList H);
 void main()
@@ -15,31 +15,31 @@ void main()
     int a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     int i;
     LinkList L;
-    InitList(&L);                           /*³õÊ¼»¯µ¥Á´±íL*/
+    InitList(&L);                           /*åˆå§‹åŒ–å•é“¾è¡¨L*/
 
     for (i = 1; i <= sizeof(a) / sizeof(a[0]);
-         i++) { /*½«Êı×éaÖĞÔªËØ²åÈëµ½µ¥Á´±íLÖĞ*/
+         i++) { /*å°†æ•°ç»„aä¸­å…ƒç´ æ’å…¥åˆ°å•é“¾è¡¨Lä¸­*/
         if (InsertList(L, i, a[i - 1]) == 0) {
-            printf("Î»ÖÃ²»ºÏ·¨");
+            printf("ä½ç½®ä¸åˆæ³•");
             return;
         }
     }
 
-    printf("ÄæÖÃÇ°Á´±íÖĞµÄÔªËØ£º\n");
+    printf("é€†ç½®å‰é“¾è¡¨ä¸­çš„å…ƒç´ ï¼š\n");
     DisplayList(L);
     ReverseList(L);
-    printf("ÄæÖÃºóÁ´±íÖĞµÄÔªËØ£º\n");
+    printf("é€†ç½®åé“¾è¡¨ä¸­çš„å…ƒç´ ï¼š\n");
     DisplayList(L);
 
 }
 void ReverseList(LinkList H)
-/*ÄæÖÃÁ´±í*/
+/*é€†ç½®é“¾è¡¨*/
 {
     ListNode* p, *q;
-    p = H->next;    /*pÖ¸ÏòÁ´±íµÄµÚÒ»¸ö½áµã*/
+    p = H->next;    /*pæŒ‡å‘é“¾è¡¨çš„ç¬¬ä¸€ä¸ªç»“ç‚¹*/
     H->next = NULL;
 
-    while (p) {     /*ÀûÓÃÍ·²å·¨½«½áµãÒÀ´Î²åÈëµ½Á´±íµÄÍ·²¿*/
+    while (p) {     /*åˆ©ç”¨å¤´æ’æ³•å°†ç»“ç‚¹ä¾æ¬¡æ’å…¥åˆ°é“¾è¡¨çš„å¤´éƒ¨*/
         q = p->next;
         p->next = H->next;
         H->next = p;
@@ -47,16 +47,16 @@ void ReverseList(LinkList H)
     }
 }
 void DisplayList(LinkList L)
-/*Êä³öÁ´±í*/
+/*è¾“å‡ºé“¾è¡¨*/
 {
     int i;
     ListNode* p;
 
-    for (i = 1; i <= ListLength(L); i++) { /*Êä³öµ¥Á´±íLÖĞµÄÃ¿¸öÔªËØ*/
-        p = Get(L, i);              /*·µ»Øµ¥Á´±íLÖĞµÄÃ¿¸ö½áµãµÄÖ¸Õë*/
+    for (i = 1; i <= ListLength(L); i++) { /*è¾“å‡ºå•é“¾è¡¨Lä¸­çš„æ¯ä¸ªå…ƒç´ */
+        p = Get(L, i);              /*è¿”å›å•é“¾è¡¨Lä¸­çš„æ¯ä¸ªç»“ç‚¹çš„æŒ‡é’ˆ*/
 
         if (p) {
-            printf("%4d", p->data);    /*Êä³öµ¥Á´±íLÖĞµÄÃ¿¸öÔªËØ*/
+            printf("%4d", p->data);    /*è¾“å‡ºå•é“¾è¡¨Lä¸­çš„æ¯ä¸ªå…ƒç´ */
         }
     }
 

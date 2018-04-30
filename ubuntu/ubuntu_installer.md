@@ -6,6 +6,34 @@
 sudo /usr/bin/software-properties-gtk
 ```
 
+- ubuntu 18.04
+
+```sh
+sudo apt-get install autoconf automake \
+linux-headers-`uname -r` vim-gnome \
+libclang-dev p7zip guake p7zip-full \
+filezilla pcmanx-gtk2 gparted meld \
+vim ssh python-pip id-utils cflow \
+autogen cutecom hexedit ccache clang \
+pbzip2 smplayer ghex build-essential \
+git-core cconv terminator curl dos2unix \
+hexedit ccache ruby subversion htop \
+libncurses5-dev quicksynergy xdot \
+python-pycallgraph exuberant-ctags cscope \
+gitk libncurses5-dev binutils-dev \
+python-virtualenv  gtkterm python-dev \
+scons ttf-anonymous-pro catfish ipython gawk \
+i2c-tools sshfs wavesurfer audacity fcitx \
+fcitx-chewing crash tree mscgen krename \
+kernelshark trace-cmd pppoe shutter dcfldd \
+flex bison help2man texinfo texi2html ghp-import \
+autossh samba sdcv cloc geogebra \
+libluajit-5.1-dev libacl1-dev libgpmg1-dev \
+libgtk-3-dev libgtk2.0-dev liblua5.2-dev libperl-dev \
+libselinux1-dev libtinfo-dev libxaw7-dev libxpm-dev \
+libxt-dev lua5.2 python3-dev ruby ruby-dev tcl-dev \
+```
+
 ```
 sudo apt-get install autoconf automake linux-headers-`uname -r` vim-gnome \
                      libclang-dev p7zip guake p7zip-full liblzma-dev \

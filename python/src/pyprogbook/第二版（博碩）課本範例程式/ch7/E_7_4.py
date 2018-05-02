@@ -1,0 +1,5 @@
+#E_7_4.py功能: 文字檔的讀寫方法-read()
+fin = open('./file/oil.txt', 'r')
+data=fin.read()    
+print(data)
+fin.close()

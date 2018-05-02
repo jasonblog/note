@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<p>攝氏華式換算器</p>
+<fieldset><legend>溫度轉換:</legend>
+<input type="radio" name="temp" value="1" id = "Cel_Radio" checked> 攝氏
+<input type="text" id="Celsius" name="攝氏"><br>
+<input type="radio" name="temp" value="2" id = " Fah_Radio"> 華氏
+<input type="text" id="Fahrenheit" name="華氏"><br>
+</fieldset>
+<br><button type="button" onclick="TempTrans()">計算!</button>
+<p>轉換後:<span id="result"></span></p>
+</body>
+<script>
+function TempTrans() {
+	var c = document.getElementById("Celsius").value;
+	var f = document.getElementById("Fahrenheit").value;
+	if (document.getElementById("Cel_Radio").checked) {
+		Ftemp = c * (9/5) +32;
+		document.getElementById("result").innerHTML = "華氐 " + Ftemp + " 度" ;
+	}else {
+		Ctemp = (f - 32) * (5 / 9);
+		document.getElementById("result").innerHTML = "攝氐 " + Ctemp + " 度" ;
+	}
+}
+</script>
+</html>

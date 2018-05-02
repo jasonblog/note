@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+<h3>儲存人生的第一桶金: 利用迴圈撰寫一個程式，小雅想存到人生的第一個100萬(FV)，求：(1)每年存12萬(2)個月存1萬(PV)，存款年利率2%(r)，請問小雅需要多少年才能達成願望？</h3>
+<script>
+var mpv = 10000; var ypv = 120000; var r = 0.02; var target = 1000000; var mfv = 0; var n = 0; var yfv = 0; var m = 0;
+while ( mfv < target) {
+   mfv = (mpv + mfv) * (1 + r/12);
+   n+=1;
+}
+document.write("月存1萬元, 約" + (n/12) + "年可以存到" + Math.round(mfv) + "元" + "</br>");
+while (yfv < target){
+	yfv=(ypv+yfv)*(1+r);
+	m+=1;
+}
+document.write("年存12萬元, 約" + m + "年可以存到" + Math.round(yfv) + "元" + "</br>");
+</script>
+</body>
+</html>

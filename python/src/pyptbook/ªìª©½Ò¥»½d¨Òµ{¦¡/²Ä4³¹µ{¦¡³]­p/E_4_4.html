@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function UnitsCompute() {
+	var items = document.getElementById("sel").selectedIndex;
+	var amount =  parseInt(document.getElementById("amt").value);
+	switch (items) {
+		case 0 : 
+			Units = amount/31.71;
+			break;
+		case 1 : 
+			Units = amount/9.02;	
+			break;		
+		case 2 : 
+			Units = amount/15.09;
+			break;
+	}
+	document.getElementById("result").innerHTML = (Units + "點");
+}	
+</script>		
+</head>
+<body>
+基金選擇:
+<select id = "sel" onchange="UnitsCompute()">
+  <option >貝萊德世界黃金基金</option>
+  <option >安聯收益成長基金</option>
+  <option >聯博-中國時機基金</option>
+</select><br>
+購買金額 = <input type="text" id = "amt" name="amount" value = "10000">
+<br/>換算單位數 = <div id="result" style="display:inline;"></div>
+</body>
+</html>

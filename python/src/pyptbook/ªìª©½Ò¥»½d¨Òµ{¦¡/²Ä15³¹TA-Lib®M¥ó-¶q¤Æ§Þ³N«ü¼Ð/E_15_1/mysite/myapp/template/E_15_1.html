@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script src="http://code.jquery.com/jquery-3.1.1.js"></script>
+        {% load static %}
+        <script src="{% static "E_15_1/E_15_1.js" %}"></script>
+        <script src="{% static "E_14_2/E_14_2.js" %}"></script>
+    </head>
+    <body>
+        <h3>題目：均線糾結</h3>
+        <table border="0">
+             <tr>
+                <td><fieldset>
+                    <legend>新增資料庫資料</legend>
+                    <span>股票代號：</span><input type="text" id="insert_stock"><br><br>
+                    <span>起始日:</span><input type="date" id="start_date" value="2007-10-01">
+                    <span>終止日:</span><input type="date" id="end_date" value="2017-09-30"><br><br>
+                    <input type="button" id="btn_insert" value="新增"> 
+                </fieldset></td>
+                <td><fieldset>
+                    <legend>讀取資料庫資料</legend>
+                    <span>股票代號：</span>
+                    <select id="stock_id">
+                     {% for stock_name in stock_names %}
+              <option value="{{ stock_name }}">{{ stock_name }}</option>
+                     {% endfor %} 
+                    </select><br><br>
+                    <input type="button" id="btn_search" value="回測"> 
+                </fieldset></td>
+            </tr>
+        </table>
+        <span id="result" ></span><br><br>
+    </body>
+</html> 

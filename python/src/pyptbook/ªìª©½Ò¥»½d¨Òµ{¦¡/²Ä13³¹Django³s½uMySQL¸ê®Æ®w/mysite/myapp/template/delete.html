@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<h1>公司簡稱: {{ delete.stockid }}</h1>
+		<h2>詳細資料</h2>
+		<form action="/do_delete/" method="POST">{% csrf_token %}
+			<table>
+				<tr>
+					<td>簡稱</td>
+					<td>{{ delete.abbreviation }}</td>
+				</tr>
+				<tr>
+					<td>網址</td>
+					<td>{{ delete.url }}</td>
+				</tr>
+				<tr>
+					<td>員工人數</td>
+					<td>{{ delete.employees }}</td>
+				</tr>
+				<tr>
+					<td>實收資本額(元)</td>
+					<td>{{ delete.capital }}</td>
+				</tr>
+				<tr>
+					<td>TSE新產業_名稱</td>
+					<td>{{ delete.industryname }}</td>
+				</tr>
+				<tr>
+					<td>設立日期</td>
+					<td>{{ delete.listeddate }}</td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="刪除"></td>
+					<td><input type="hidden" name="stockid" value="{{ delete.stockid }}"></td>
+				</tr>	
+				<tr>
+					<td><a href="/company">返回清單</a></td>
+				</tr>
+			</table>
+		</form>
+	</body>	
+</html>

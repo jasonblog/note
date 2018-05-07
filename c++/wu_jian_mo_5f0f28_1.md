@@ -604,9 +604,9 @@ execute complete
 
 <p>又查了下文档，在 msdn的文档和 C++ dynamic binding.pdf 文档中，都提到 destructor 是不可继承的（看下图）：</p>
 
-<p><img src="http://obi1zst3q.bkt.clouddn.com/blog/cpp/20160810-oop-pure-virtual-destructor.jpg" alt="destructor" title="pic"></p>
+<p><img src="./images20160810-oop-pure-virtual-destructor.jpg" alt="destructor" title="pic"></p>
 
-<p><img src="http://obi1zst3q.bkt.clouddn.com/blog/cpp/20160810_msdn_destructors_override.jpg" alt="destructor" title="msdn"></p>
+<p><img src="./images/20160810_msdn_destructors_override.jpg" alt="destructor" title="msdn"></p>
 
 <p>～Base() 虽然为 virtual 函数，但其不可继承（所以总是被override），因此析构的时候，会先调用 ~Derived(), 然后调用 ~Base()。</p>
 

@@ -42,7 +42,7 @@ javac -d out/ -cp /usr/share/java/junit4-4.12.jar ../../../src/c01/simpleFactory
 
 ---
 
-## 使用junit测试java程序方法
+## 使用junit測試java程序方法
 
 java -classpath .:/usr/share/java/junit4-4.12.jar org.junit.runner.JUnitCore HelloWorldTest
 

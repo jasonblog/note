@@ -621,6 +621,7 @@
    * [改善C++程序的150個建議](c++/gai_shan_c_cheng_xu_de_150_ge_jian_yi.md)
    * [C++物件模型](c++/cwu_jian_mo_xing.md)
        * [物件模式(一)](c++/wu_jian_mo_5f0f28_1.md)
+       * 物件模式(二)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

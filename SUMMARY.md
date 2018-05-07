@@ -620,6 +620,7 @@
    * [是否能讓 C++ template 的標頭檔只含宣告不含實作?](c++/shi_fou_neng_rang_c_++_template_de_biao_tou_dang_z.md)
    * [改善C++程序的150個建議](c++/gai_shan_c_cheng_xu_de_150_ge_jian_yi.md)
    * [C++物件模型](c++/cwu_jian_mo_xing.md)
+       * 物件模式(1)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

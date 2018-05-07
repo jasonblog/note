@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<h1>公司簡稱: {{ update.stockid }}</h1>
+		<h2>修改資料</h2>
+		<form action="/do_update/" method="POST">{% csrf_token %}
+			<table>
+				<tr>
+					<td>簡稱</td>
+					<td><input type="text" name="abbreviation" value="{{ update.abbreviation }}"></td>
+				</tr>
+				<tr>
+					<td>網址</td>
+					<td><input type="text" name="url" value="{{ update.url }}"></td>
+				</tr>
+				<tr>
+					<td>員工人數</td>
+					<td><input type="text" name="employees" value="{{ update.employees }}"></td>
+				</tr>
+				<tr>
+					<td>實收資本額(元)</td>
+					<td><input type="text" name="capital" value="{{ update.capital }}"></td>	
+				</tr>
+				<tr>
+					<td>TSE新產業_名稱</td>
+					<td><input type="text" name="industryname" value="{{ update.industryname }}"></td>
+				</tr>
+				<tr>
+					<td>設立日期</td>
+					<td><input type="text" name="listeddate" value="{{ update.listeddate }}"></td>	
+				</tr>
+				<tr>
+					<td><input type="submit" value="Save"></td>
+					<td><input type="hidden" name="stockid" value="{{ update.stockid }}"></td>
+				</tr>	
+				<tr>
+					<td><a href="/company">返回清單</a></td>
+				</tr>
+			</table>
+		</form>
+	</body>	
+</html>

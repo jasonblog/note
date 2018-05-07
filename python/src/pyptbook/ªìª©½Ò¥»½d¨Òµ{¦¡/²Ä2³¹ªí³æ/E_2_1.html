@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <p>輸入個人基本資料與簡述個人投資經驗:</p>
+  <form action="personaldata.py" method="post">
+    <fieldset>
+      <legend>個人資料:</legend>
+      姓名:
+      <input type="text" name="name">
+      <br> 帳號:
+      <input type="text" name="id">
+      <br> 密碼(至少8碼，含英文大寫與數字):
+      <input type="password" name="pwd"> 加密:
+      <keygen name="security">
+      <br> 性別:
+      <input type="radio" name="gender" value="male" checked> 男性
+      <input type="radio" name="gender" value="female"> 女性
+      <input type="radio" name="gender" value="gender_other"> 其他
+      <br> 學歷:
+      <select>
+        <option value="phd">博士</option>
+        <option value="master">碩士</option>
+        <option value="undergrade">大學</option>
+        <option value="senior">高中職</option>
+        <option value="other">其他</option>
+      </select>
+      <br> 出生年月日(西元):
+      <input type="date" name="bday">
+      <br> E-mail:
+      <input type="email" name="email">
+      <br>
+    </fieldset>
+    <fieldset>
+      <legend>投資經驗:</legend>
+      <input type="checkbox" name="inv_exper" value="house" checked> 房地產
+      <input type="checkbox" name="inv_exper" value="stock"> 股票
+      <input type="checkbox" name="inv_exper" value="fund"> 基金
+      <input type="checkbox" name="inv_exper" value="warrant"> 權證
+      <br>
+      <input type="checkbox" name="inv_exper" value="futureoption"> 期貨選擇權
+      <input type="checkbox" name="inv_exper" value="bond"> 債券
+      <input type="checkbox" name="inv_exper" value="savings"> 定存
+      <br>
+      <label for="writing_exper">個人投資經歷簡述:</label>
+      <br>
+      <textarea name="message" rows="10" cols="30">
+      </textarea>
+    </fieldset>
+    <br>
+    <input type="submit">
+    <button type="button" onclick="alert('Hello HTML 5!')">button送出!</button>
+    <input type="reset">
+  </form>
+</body>
+
+</html>

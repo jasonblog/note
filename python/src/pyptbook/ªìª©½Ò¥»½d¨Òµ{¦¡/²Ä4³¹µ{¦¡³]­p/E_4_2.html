@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function PersonTax() {
+	var income = document.getElementById("Text_NetIncome").value;
+	var level1=540000*0.05
+	var level2=(1210000-540000)*0.12
+	var level3=(2420000-1210000)*0.2
+	var level4=(4530000-2420000)*0.3
+	var level5=(10310000-4530000)*0.4
+	if (income <= 540000) { // #條件1
+		tax = income * 0.05; 
+	}else if (income <= 1210000) { // #條件2
+		tax = level1 + ((income - 540000)*0.12)
+	} else if (income <= 2420000) { // #條件3
+		tax = level1 + level2 + ((income -1210000)*0.2)
+	}else if (income <= 4530000) { // #條件4
+		tax = level1 + level2 + level3 + ((income -2350000)*0.3)
+	}else if (income <= 10310000) {// #條件5 
+		tax = level1 + level2 + level3 + level4 + ((income -4530000)*0.4)
+	}else {
+		tax=level1+level2+level3+level4+level5+((income-10310000)*0.45)
+	}
+	document.getElementById("result").innerHTML = tax + " 元" ;
+}
+</script>
+</head>
+<body>
+<fieldset><legend>簡易個人綜所稅試算:</legend>
+<label for="NetIncome">淨綜所得額: </label>
+<input type="text" id="Text_NetIncome" name="NetIncome"><br>
+</fieldset>
+<br><button type="button" onclick="PersonTax()">計算!</button>
+<p>應繳稅額 = <span id="result"></span></p>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<style type="text/css">
+			a{ text-decoration:none;}
+			a:link {color:#4169e1;} 
+			a:visited {color:#4169e1;}
+			table{ border-collapse: collapse; background-color: #ffdead; }
+		</style>
+	</head>
+	<body>
+		<h1>從Django資料庫抓取資料顯示在網頁上</h1>
+		<p>目前總共有 {{company | length}} 筆資料</p>
+		<a href="insert/">新增資料</a>
+		<table cellpadding="8" border="1">
+			<th>編號</th>
+			<th>{{ stockid }}</th>
+			<th>{{ abbreviation }}</th>
+			<th>{{ url }}</th>
+			<th>{{ industryname }}</th>
+			<th></th>
+		{% for n in company %}
+			<tr>
+				<td>{{ forloop.counter }}</td>
+				<td>{{ n.stockid }}</td>
+				<td>{{ n.abbreviation }}</td>
+				<td>{{ n.url }}</td>
+				<td>{{ n.industryname }}</td>
+				<td>
+					<a href="detail/{{ n.stockid }}/">詳細資訊</a></br>
+					<a href="update/{{ n.stockid }}/">修改資訊</a></br>
+					<a href="delete/{{ n.stockid }}/">刪除此筆</a></br>
+				</td>
+			</tr>
+		{% endfor %}
+		</table>
+	</body>
+</html>

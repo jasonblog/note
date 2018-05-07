@@ -434,7 +434,7 @@ classes、function-like classes。</p>
 
 <p>这里用一张图表示</p>
 
-<p><img src="http://obi1zst3q.bkt.clouddn.com/20160808_C++%20%E6%A0%87%E5%87%86%E5%BA%93%20%E5%85%A8%E5%9B%BE" alt="stl" title="stl"></p>
+<p><img src="./images/20160808_C++%20%E6%A0%87%E5%87%86%E5%BA%93%20%E5%85%A8%E5%9B%BE" alt="stl" title="stl"></p>
 
 <h3 id="variadic-templates-c11">3.2 variadic templates：模板的可变参数列表 (C++11)</h3>
 
@@ -604,7 +604,7 @@ execute complete
 
 <p>又查了下文档，在 msdn的文档和 C++ dynamic binding.pdf 文档中，都提到 destructor 是不可继承的（看下图）：</p>
 
-<p><img src="./images20160810-oop-pure-virtual-destructor.jpg" alt="destructor" title="pic"></p>
+<p><img src="./images/20160810-oop-pure-virtual-destructor.jpg" alt="destructor" title="pic"></p>
 
 <p><img src="./images/20160810_msdn_destructors_override.jpg" alt="destructor" title="msdn"></p>
 

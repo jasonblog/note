@@ -769,6 +769,7 @@
    * [如何正確地寫出單例模式](design_pattern/ru_he_zheng_que_di_xie_chu_dan_li_mo_shi.md)
    * [如何正確地使用設計模式？](design_pattern/ru_he_zheng_que_di_shi_yong_she_ji_mo_shi_ff1f.md)
    * [Design Pattern 與 Double Dispatching](design_pattern/design_pattern_yu_double_dispatching.md)
+   * <总结> 设计模式之 开放封闭原则OCP C++示例
 * [OpenWrt](openwrt/README.md)
    * [OpenWRT 編譯環境搭建](openwrt/281.md)
 * [Python](python/README.md)

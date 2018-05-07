@@ -8,7 +8,7 @@
 
 需要注意的地方：
 
-* Pandas data-reader 裡面關於 Yahoo 的 API 在 2017/05 之後已經無法使用，使用 google 作為 data source 時，無法使用{股票編號}.tw 的方式來讀取台灣股票的歷史股價。替代的方式是使用 quandl 來做存取。這部分請見 quandl 那份 .ipynb 的程式。
+* Pandas data-reader 裡面關於 Yahoo 的 API 在 2017/05 之後已經無法使用，使用 google 作為 data source 時，無法使用{股票編號}.tw 的方式來讀取臺灣股票的歷史股價。替代的方式是使用 quandl 來做存取。這部分請見 quandl 那份 .ipynb 的程式。
 * 頻繁的 request 歷史股價可能會被當作是攻擊，而導致資料存取失敗。
 * 資料可以先讀到資料庫內，方便以後 off-line 的使用。如果是使用 mongoDB，可以參考 [dbtools](https://github.com/victorgau/dbtools)。不過這個也是簡易版。
 * 範例中的策略並沒有考慮股票的 split/merge 或股利的發放等等，對股價造成的改變。實際運用上需要做一些調整，如：

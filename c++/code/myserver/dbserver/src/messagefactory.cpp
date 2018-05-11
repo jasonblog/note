@@ -16,12 +16,9 @@ Message* CMessageFactory::CreateMessage(unsigned int uiMessageID)
 {
     Message* tpMessage = CreateServerMessage(uiMessageID);
 
-    if (tpMessage == NULL)
-    {
+    if (tpMessage == NULL) {
         LOG_ERROR("default", "invalid message id %u.", uiMessageID);
-    }
-    else
-    {
+    } else {
         LOG_DEBUG("default", "create message id %u succeed.", uiMessageID);
     }
 
@@ -31,11 +28,10 @@ Message* CMessageFactory::CreateServerMessage(unsigned int uiMessageID)
 {
     Message* pTmpMessage = NULL;
 
-    switch(uiMessageID)
-    {
-        CASE_NEW_MSG(CMsgExecuteSqlRequest,CMsgExecuteSqlRequest::MsgID);
-        default:
-        {
+    switch (uiMessageID) {
+        CASE_NEW_MSG(CMsgExecuteSqlRequest, CMsgExecuteSqlRequest::MsgID);
+
+    default: {
             break;
         }
     }

@@ -18,16 +18,19 @@
 #include "mindroid/lang/String.h"
 #include <cstdlib>
 
-namespace mindroid {
+namespace mindroid
+{
 
 const sp<Boolean> Boolean::FALSE = new Boolean(false);
 const sp<Boolean> Boolean::TRUE = new Boolean(true);
 
-sp<Boolean> Boolean::valueOf(const char* s) {
+sp<Boolean> Boolean::valueOf(const char* s)
+{
     return new Boolean(strtol(s, nullptr, 10) != 0);
 }
 
-sp<Boolean> Boolean::valueOf(const sp<String>& s) {
+sp<Boolean> Boolean::valueOf(const sp<String>& s)
+{
     return valueOf(s->c_str());
 }
 

@@ -19,39 +19,39 @@
 //掉落配置表
 class DropItem
 {
-    
+
 public:
     DropItem();
     ~DropItem();
     void reset();
-    
-    
+
+
 public:
     int miId;            //ID
     int miNum;           //掉落数量
     int isRepeat;        //是否重复凋落
-    
-    std::map<std::string,std::vector<int>> mmRandomItem; //条件
+
+    std::map<std::string, std::vector<int>> mmRandomItem; //条件
 };
 
 class DropConfig : public ConfigData
 {
 public:
     DropConfig();
-    
+
     ~DropConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     bool check();
-    void drop(int iId,std::map<int,std::vector<int>> & dropResult);
-    
+    void drop(int iId, std::map<int, std::vector<int>>& dropResult);
+
     DropItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, DropItem* > _datas;
 };
 

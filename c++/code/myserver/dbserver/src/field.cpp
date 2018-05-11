@@ -10,63 +10,61 @@ Field::Field() : mValue(NULL), mType(DB_TYPE_UNKNOWN)
 {
 }
 
-Field::Field(Field &f)
+Field::Field(Field& f)
 {
-    const char *value;
+    const char* value;
 
     value = f.GetString();
 
-    if (value && (mValue = new char[strlen(value) + 1]))
+    if (value && (mValue = new char[strlen(value) + 1])) {
         strcpy(mValue, value);
-    else
+    } else {
         mValue = NULL;
+    }
 
     mType = f.GetType();
 }
 
-Field::Field(const char *value, enum Field::DataTypes type) : mType(type)
+Field::Field(const char* value, enum Field::DataTypes type) : mType(type)
 {
-    if (value && (mValue = new char[strlen(value) + 1]))
+    if (value && (mValue = new char[strlen(value) + 1])) {
         strcpy(mValue, value);
-    else
+    } else {
         mValue = NULL;
+    }
 }
 
 Field::~Field()
 {
-    if(mValue)
-    {
+    if (mValue) {
         delete [] mValue;
     }
 }
 
-void Field::SetValue(const char *value)
+void Field::SetValue(const char* value)
 {
-    if(mValue) {
+    if (mValue) {
         delete [] mValue;
     }
 
     if (value) {
         mValue = new char[strlen(value) + 1];
         strcpy(mValue, value);
-    }
-    else{
+    } else {
         mValue = NULL;
     }
 }
 
-void Field::SetValue(const void *value, uint16 value_len)
+void Field::SetValue(const void* value, uint16 value_len)
 {
     delete [] mValue;
-    if (value && value_len > 0)
-    {
-        mValue = new char[value_len+1];
+
+    if (value && value_len > 0) {
+        mValue = new char[value_len + 1];
         mValue[value_len] = 0;
         mValueLen = value_len;
         memcpy(mValue, value, value_len);
-    }
-    else
-    {
+    } else {
         mValueLen = 0;
         mValue = NULL;
     }

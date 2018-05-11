@@ -12,10 +12,9 @@
 #include "object.h"
 
 //下行客户端数据包信息
-struct Package
-{
+struct Package {
 public:
-    Package() 
+    Package()
     {
         Initialize();
     }
@@ -30,21 +29,48 @@ public:
         return 0;
     }
 public:
-    void SetSerial(unsigned short seq) {m_unSerial = seq;}
-    unsigned short  GetSerial(){return m_unSerial;}
-    void SetSeq(unsigned short seq) {m_unSeq = seq;}
-    unsigned short  GetSeq(){return m_unSeq;}
-    void SetCmd(unsigned short cmd) {m_unCmd = cmd; }
-    unsigned short  GetCmd(){return m_unCmd;}
+    void SetSerial(unsigned short seq)
+    {
+        m_unSerial = seq;
+    }
+    unsigned short  GetSerial()
+    {
+        return m_unSerial;
+    }
+    void SetSeq(unsigned short seq)
+    {
+        m_unSeq = seq;
+    }
+    unsigned short  GetSeq()
+    {
+        return m_unSeq;
+    }
+    void SetCmd(unsigned short cmd)
+    {
+        m_unCmd = cmd;
+    }
+    unsigned short  GetCmd()
+    {
+        return m_unCmd;
+    }
 
     // bool GetIsEncrpy() {return m_bIsEncrpy;}
     // void SetIsEncrpy(bool isEncrpy) {m_bIsEncrpy = isEncrpy;}
-    char* GetMessBuff() {return m_acMessageBuff;}
-    bool GetIsDeal() {return m_bIsDeal;}
-    void SetDeal(bool isDeal) {m_bIsDeal = isDeal;}
+    char* GetMessBuff()
+    {
+        return m_acMessageBuff;
+    }
+    bool GetIsDeal()
+    {
+        return m_bIsDeal;
+    }
+    void SetDeal(bool isDeal)
+    {
+        m_bIsDeal = isDeal;
+    }
 private:
     unsigned short m_unSerial;                  //序列码
-    unsigned short m_unSeq;                     //消息应答码    
+    unsigned short m_unSeq;                     //消息应答码
     unsigned short m_unCmd;                     //消息编号
     // bool  m_bIsEncrpy                        //是否加密
     bool  m_bIsDeal;                            //当前消息是否处理完成
@@ -62,10 +88,22 @@ public:
     virtual int Initialize();
 
 public:
-    Package& GetPackage() {return m_oPackage;}
-    CPlayerBase* GetPlayerBase() {return m_spPlayerBase;}
-    CPlayerCity* GetPlayerCity() {return m_spPlayerCity;}
-    const OBJ_ID GetPlayerId() {return get_id();}
+    Package& GetPackage()
+    {
+        return m_oPackage;
+    }
+    CPlayerBase* GetPlayerBase()
+    {
+        return m_spPlayerBase;
+    }
+    CPlayerCity* GetPlayerCity()
+    {
+        return m_spPlayerCity;
+    }
+    const OBJ_ID GetPlayerId()
+    {
+        return get_id();
+    }
 private:
     Package m_oPackage;         //处理消息状态
     CPlayerBase* m_spPlayerBase;    //玩家基础信息

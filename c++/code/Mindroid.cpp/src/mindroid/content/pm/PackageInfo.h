@@ -25,14 +25,16 @@
 #include "mindroid/content/pm/ServiceInfo.h"
 #include "mindroid/util/ArrayList.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Overall information about the contents of a package. This corresponds to all of the information
  * collected from MindroidManifest.xml.
  */
 class PackageInfo :
-        public Object {
+    public Object
+{
 public:
     PackageInfo() = default;
 

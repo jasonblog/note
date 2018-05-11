@@ -22,11 +22,13 @@
 #include "mindroid/util/HashMap.h"
 #include <pthread.h>
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Factory;
 
-class Classes {
+class Classes
+{
 public:
     void put(const sp<String>& name, Factory* factory);
     Factory* get(const sp<String>& name);
@@ -42,9 +44,11 @@ private:
     sp<HashMap<sp<String>, Factory*>> mClasses;
 };
 
-class Factory {
+class Factory
+{
 public:
-    Factory(const char* name) {
+    Factory(const char* name)
+    {
         Classes::getInstance()->put(String::valueOf(name), this);
     }
 
@@ -55,9 +59,11 @@ public:
 
 template<typename T>
 class Class final :
-        public Object {
+    public Object
+{
 public:
-    static bool isInstance(const sp<Object>& o) {
+    static bool isInstance(const sp<Object>& o)
+    {
         if (o != nullptr) {
             sp<T> t = dynamic_cast<T*>(o.getPointer());
             return t != nullptr;
@@ -66,7 +72,8 @@ public:
         }
     }
 
-    static sp<T> cast(const sp<Object>& o) {
+    static sp<T> cast(const sp<Object>& o)
+    {
         if (o != nullptr) {
             sp<T> t = dynamic_cast<T*>(o.getPointer());
             return t;
@@ -75,20 +82,25 @@ public:
         }
     }
 
-    static sp<Class> forName(const char* className) {
+    static sp<Class> forName(const char* className)
+    {
         return forName(String::valueOf(className));
     }
 
-    static sp<Class> forName(const sp<String>& className) {
+    static sp<Class> forName(const sp<String>& className)
+    {
         return new Class(className);
     }
 
-    sp<String> getName() {
+    sp<String> getName()
+    {
         return mName;
     }
 
-    sp<T> newInstance() {
+    sp<T> newInstance()
+    {
         Factory* factory = Classes::getInstance()->get(mName);
+
         if (factory != nullptr) {
             return object_cast<T>(factory->newInstance());
         } else {
@@ -97,23 +109,24 @@ public:
     }
 
 private:
-    Class(const sp<String>& name) : mName(name) {
+    Class(const sp<String>& name) : mName(name)
+    {
     }
 
     sp<String> mName;
 };
 
 #define CLASS(Package, Clazz) \
-class Clazz##Factory : public Factory { \
-public: \
-    Clazz##Factory() : Factory(#Package"::"#Clazz) { \
-    } \
-    \
-    virtual sp<Object> newInstance() { \
-        return new Package::Clazz(); \
-    } \
-}; \
-static volatile Clazz##Factory s##Clazz##Factory;
+    class Clazz##Factory : public Factory { \
+    public: \
+        Clazz##Factory() : Factory(#Package"::"#Clazz) { \
+        } \
+        \
+        virtual sp<Object> newInstance() { \
+            return new Package::Clazz(); \
+        } \
+    }; \
+    static volatile Clazz##Factory s##Clazz##Factory;
 
 } /* namespace mindroid */
 

@@ -29,17 +29,17 @@ public:
 
 class VipConfig : public ConfigData
 {
-    
+
 public:
-    
+
     VipConfig();
-    
+
     ~VipConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     VipCfgInfo* getCfg(int nIndex);
 public:
     std::map<int, VipCfgInfo*> _datas;

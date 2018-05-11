@@ -20,16 +20,19 @@
 #include "mindroid/lang/Object.h"
 #include <functional>
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Runnable :
-        public Object {
+    public Object
+{
 public:
     Runnable(const std::function<void (void)>& func) : mFunc(func) { }
     Runnable(std::function<void (void)>&& func) : mFunc(std::move(func)) { }
 
     virtual ~Runnable() = default;
-    virtual void run() {
+    virtual void run()
+    {
         if (mFunc) {
             mFunc();
         }

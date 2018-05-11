@@ -36,18 +36,20 @@ SmithyConfig::SmithyConfig()
 
 SmithyConfig::~SmithyConfig()
 {
-    for (auto it = _datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
 int SmithyConfig::parse()
 {
     auto obj = m_obj.ToObject();
-    for (auto it=obj.begin(); it!=obj.end(); ++it) {
+
+    for (auto it = obj.begin(); it != obj.end(); ++it) {
         auto item = new SmithyData();
-        
+
         auto item_obj = it->second.ToObject();
         auto oid = item_obj["id"].ToInt();
         auto name = item_obj["name"].ToInt();
@@ -67,61 +69,72 @@ int SmithyConfig::parse()
         item->_name = name;
         item->_expend = expend;
         item->_num = num;
-        for (auto l=forging.begin(); l!=forging.end(); ++l) {
+
+        for (auto l = forging.begin(); l != forging.end(); ++l) {
             auto y = l->ToInt();
             item->_forging.push_back(y);
         }
-        for (auto l=greenType.begin(); l!=greenType.end(); ++l) {
+
+        for (auto l = greenType.begin(); l != greenType.end(); ++l) {
             auto y = l->ToInt();
             item->_greenType.push_back(y);
         }
-        for (auto l=blueType.begin(); l!=blueType.end(); ++l) {
+
+        for (auto l = blueType.begin(); l != blueType.end(); ++l) {
             auto y = l->ToInt();
             item->_blueType.push_back(y);
         }
-        for (auto l=purpleType.begin(); l!=purpleType.end(); ++l) {
+
+        for (auto l = purpleType.begin(); l != purpleType.end(); ++l) {
             auto y = l->ToInt();
             item->_purpleType.push_back(y);
         }
 
-        for (auto l=orangeType.begin(); l!=orangeType.end(); ++l) {
+        for (auto l = orangeType.begin(); l != orangeType.end(); ++l) {
             auto y = l->ToInt();
             item->_orangeType.push_back(y);
         }
-        for (auto l=blueNum.begin(); l!=blueNum.end(); ++l) {
+
+        for (auto l = blueNum.begin(); l != blueNum.end(); ++l) {
             auto y = l->ToInt();
             item->_blueNum.push_back(y);
         }
-        for (auto l=purpleNum.begin(); l!=purpleNum.end(); ++l) {
+
+        for (auto l = purpleNum.begin(); l != purpleNum.end(); ++l) {
             auto y = l->ToInt();
             item->_purpleNum.push_back(y);
         }
-        for (auto l=orangeNum.begin(); l!=orangeNum.end(); ++l) {
+
+        for (auto l = orangeNum.begin(); l != orangeNum.end(); ++l) {
             auto y = l->ToInt();
             item->_orangeNum.push_back(y);
         }
 
         _datas[oid] = item;
-        
+
     }
+
     return 0;
 }
 
 void SmithyConfig::clear()
 {
-    for (auto it = _datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
-    
+
 }
 
 SmithyData* SmithyConfig::item(int key)
 {
     auto it = _datas.find(key);
-    if (it!=_datas.end()) {
+
+    if (it != _datas.end()) {
         return it->second;
     }
+
     return NULL;
-//    throw ERROR::MSG("SmithyConfig::item:{}", key);
+    //    throw ERROR::MSG("SmithyConfig::item:{}", key);
 }

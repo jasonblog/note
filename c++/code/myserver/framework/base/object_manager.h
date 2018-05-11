@@ -6,7 +6,8 @@
 #define SERVER_OBJECTMANAGER_H
 #include "server_tool.h"
 
-class CObjectManager{
+class CObjectManager
+{
 public:
     CObjectManager(EnObjType objType);
     ~CObjectManager();

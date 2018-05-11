@@ -6,38 +6,38 @@
 
 class BuildingAmountItem
 {
-    
+
 public:
-    
+
     BuildingAmountItem();
-    
+
     ~BuildingAmountItem();
-    
+
 public:
-    
+
     int _id;
     std::map<int, int> _buildNum;
 };
 
 class BuildingAmountConfig : public ConfigData
 {
-    
+
 public:
-    
+
     BuildingAmountConfig();
-    
+
     ~BuildingAmountConfig();
-    
+
     virtual int init();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     BuildingAmountItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, BuildingAmountItem*> _datas;
 };
 

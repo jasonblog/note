@@ -8,9 +8,9 @@ class AllianceTechItem
 {
 public:
     AllianceTechItem();
-    
+
     ~AllianceTechItem();
-    
+
 public:
     int     _id;        //  科技ID
     int     _type;      //  科技效果类型
@@ -19,7 +19,7 @@ public:
     int     _point;     //  积分
     int     _time;      //  升级时间
     int     _next;      //  升级之后的ID
-    
+
 };
 
 
@@ -28,17 +28,17 @@ class AllianceTechConfig : public ConfigData
 {
 public:
     AllianceTechConfig();
-    
+
     ~AllianceTechConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     AllianceTechItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, AllianceTechItem* > _datas;
 };
 

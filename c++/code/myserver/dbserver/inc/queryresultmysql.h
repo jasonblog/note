@@ -15,17 +15,17 @@
 class QueryResultMysql: public QueryResult
 {
 public:
-	QueryResultMysql(MYSQL_RES *result, uint64 rowCount, uint32 fieldCount);
+    QueryResultMysql(MYSQL_RES* result, uint64 rowCount, uint32 fieldCount);
 
-	~QueryResultMysql();
+    ~QueryResultMysql();
 
-	bool NextRow();
+    bool NextRow();
 
 private:
-	enum Field::DataTypes ConvertNativeType(enum_field_types mysqlType) const;
-	void EndQuery();
+    enum Field::DataTypes ConvertNativeType(enum_field_types mysqlType) const;
+    void EndQuery();
 
-	MYSQL_RES *mResult;
+    MYSQL_RES* mResult;
 };
 
 #endif //SERVER_QUERYRESULTMYSQL_H

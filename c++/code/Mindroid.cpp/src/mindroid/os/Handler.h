@@ -25,7 +25,8 @@
 #include "mindroid/os/Looper.h"
 #include <functional>
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Looper;
 class MessageQueue;
@@ -67,14 +68,16 @@ class MessageQueue;
  * appropriate.
  */
 class Handler :
-        public Object {
+    public Object
+{
 public:
     /**
      * Callback interface you can use when instantiating a Handler to avoid having to implement your
      * own subclass of Handler.
      */
     class Callback :
-            public Object {
+        public Object
+    {
     public:
         virtual bool handleMessage(const sp<Message>& msg) = 0;
     };
@@ -103,7 +106,8 @@ public:
      */
     Handler(const sp<Looper>& looper, const sp<Callback>& callback);
 
-    virtual ~Handler() {
+    virtual ~Handler()
+    {
     }
 
     Handler(const Handler&) = delete;
@@ -112,7 +116,8 @@ public:
     /**
      * Subclasses must implement this to receive messages.
      */
-    virtual void handleMessage(const sp<Message>& msg) {
+    virtual void handleMessage(const sp<Message>& msg)
+    {
     }
 
     /**
@@ -126,7 +131,8 @@ public:
      * set to this instance (Message.target == this). If you don't want that facility, just call
      * Message.obtain() instead.
      */
-    sp<Message> obtainMessage() {
+    sp<Message> obtainMessage()
+    {
         return Message::obtain(sp<Handler>(this));
     }
 
@@ -137,7 +143,8 @@ public:
      * @param what Value to assign to the returned Message.what field.
      * @return A Message from the global message pool.
      */
-    sp<Message> obtainMessage(int32_t what) {
+    sp<Message> obtainMessage(int32_t what)
+    {
         return Message::obtain(sp<Handler>(this), what);
     }
 
@@ -150,7 +157,8 @@ public:
      * @param obj Value to assign to the returned Message.obj field.
      * @return A Message from the global message pool.
      */
-    sp<Message> obtainMessage(int32_t what, const sp<Object>& obj) {
+    sp<Message> obtainMessage(int32_t what, const sp<Object>& obj)
+    {
         return Message::obtain(sp<Handler>(this), what, obj);
     }
 
@@ -164,7 +172,8 @@ public:
      * @param arg2 Value to assign to the returned Message.arg2 field.
      * @return A Message from the global message pool.
      */
-    sp<Message> obtainMessage(int32_t what, int32_t arg1, int32_t arg2) {
+    sp<Message> obtainMessage(int32_t what, int32_t arg1, int32_t arg2)
+    {
         return Message::obtain(sp<Handler>(this), what, arg1, arg2);
     }
 
@@ -179,15 +188,19 @@ public:
      * @param obj Value to assign to the returned Message.obj field.
      * @return A Message from the global message pool.
      */
-    sp<Message> obtainMessage(int32_t what, int32_t arg1, int32_t arg2, const sp<Object>& obj) {
+    sp<Message> obtainMessage(int32_t what, int32_t arg1, int32_t arg2,
+                              const sp<Object>& obj)
+    {
         return Message::obtain(sp<Handler>(this), what, arg1, arg2, obj);
     }
 
-    sp<Message> obtainMessage(const sp<Runnable>& callback) {
+    sp<Message> obtainMessage(const sp<Runnable>& callback)
+    {
         return Message::obtain(sp<Handler>(this), callback);
     }
 
-    sp<Message> obtainMessage(const std::function<void (void)>& func) {
+    sp<Message> obtainMessage(const std::function<void (void)>& func)
+    {
         return Message::obtain(sp<Handler>(this), new Closure(sp<Handler>(this), func));
     }
 
@@ -200,7 +213,8 @@ public:
      * @return Returns true if the Runnable was successfully placed in to the message queue. Returns
      * false on failure, usually because the looper processing the message queue is exiting.
      */
-    bool post(const sp<Runnable>& runnable) {
+    bool post(const sp<Runnable>& runnable)
+    {
         return sendMessageDelayed(getPostMessage(runnable), 0);
     }
 
@@ -218,7 +232,8 @@ public:
      * that a result of true does not mean the Runnable will be processed -- if the looper is quit
      * before the delivery time of the message occurs then the message will be dropped.
      */
-    bool postAtTime(const sp<Runnable>& runnable, uint64_t uptimeMillis) {
+    bool postAtTime(const sp<Runnable>& runnable, uint64_t uptimeMillis)
+    {
         return sendMessageAtTime(getPostMessage(runnable), uptimeMillis);
     }
 
@@ -238,7 +253,9 @@ public:
      *
      * @see mindroid.os.SystemClock#uptimeMillis
      */
-    bool postAtTime(const sp<Runnable>& runnable, const sp<Object>& token, uint64_t uptimeMillis) {
+    bool postAtTime(const sp<Runnable>& runnable, const sp<Object>& token,
+                    uint64_t uptimeMillis)
+    {
         return sendMessageAtTime(getPostMessage(runnable, token), uptimeMillis);
     }
 
@@ -254,7 +271,8 @@ public:
      * that a result of true does not mean the Runnable will be processed -- if the looper is quit
      * before the delivery time of the message occurs then the message will be dropped.
      */
-    bool postDelayed(const sp<Runnable>& runnable, uint64_t delayMillis) {
+    bool postDelayed(const sp<Runnable>& runnable, uint64_t delayMillis)
+    {
         return sendMessageDelayed(getPostMessage(runnable), delayMillis);
     }
 
@@ -284,8 +302,10 @@ public:
      * that a result of true does not mean the std::function will be processed -- if the looper is quit
      * before the delivery time of the message occurs then the message will be dropped.
      */
-    sp<Closure> postAtTime(const std::function<void (void)>& func, uint64_t uptimeMillis);
-    sp<Closure> postAtTime(std::function<void (void)>&& func, uint64_t uptimeMillis);
+    sp<Closure> postAtTime(const std::function<void (void)>& func,
+                           uint64_t uptimeMillis);
+    sp<Closure> postAtTime(std::function<void (void)>&& func,
+                           uint64_t uptimeMillis);
 
     /**
      * Causes the std::function func to be added to the message queue, to be run after the specified amount
@@ -299,8 +319,10 @@ public:
      * that a result of true does not mean the std::function will be processed -- if the looper is quit
      * before the delivery time of the message occurs then the message will be dropped.
      */
-    sp<Closure> postDelayed(const std::function<void (void)>& func, uint32_t delayMillis);
-    sp<Closure> postDelayed(std::function<void (void)>&& func, uint32_t delayMillis);
+    sp<Closure> postDelayed(const std::function<void (void)>& func,
+                            uint32_t delayMillis);
+    sp<Closure> postDelayed(std::function<void (void)>&& func,
+                            uint32_t delayMillis);
 
     /**
      * Remove any pending posts of Runnable r that are in the message queue.
@@ -321,7 +343,8 @@ public:
      * @return Returns true if the message was successfully placed in to the message queue. Returns
      * false on failure, usually because the looper processing the message queue is exiting.
      */
-    bool sendMessage(const sp<Message>& message) {
+    bool sendMessage(const sp<Message>& message)
+    {
         return sendMessageDelayed(message, 0);
     }
 
@@ -331,7 +354,8 @@ public:
      * @return Returns true if the message was successfully placed in to the message queue. Returns
      * false on failure, usually because the looper processing the message queue is exiting.
      */
-    bool sendEmptyMessage(int32_t what) {
+    bool sendEmptyMessage(int32_t what)
+    {
         return sendEmptyMessageDelayed(what, 0);
     }
 
@@ -344,7 +368,8 @@ public:
      * @return Returns true if the message was successfully placed in to the message queue. Returns
      * false on failure, usually because the looper processing the message queue is exiting.
      */
-    bool sendEmptyMessageDelayed(int32_t what, uint64_t delayMillis) {
+    bool sendEmptyMessageDelayed(int32_t what, uint64_t delayMillis)
+    {
         sp<Message> message = Message::obtain();
         message->what = what;
         return sendMessageDelayed(message, delayMillis);
@@ -358,7 +383,8 @@ public:
      * @return Returns true if the message was successfully placed in to the message queue. Returns
      * false on failure, usually because the looper processing the message queue is exiting.
      */
-    bool sendEmptyMessageAtTime(int32_t what, uint64_t uptimeMillis) {
+    bool sendEmptyMessageAtTime(int32_t what, uint64_t uptimeMillis)
+    {
         sp<Message> message = Message::obtain();
         message->what = what;
         return sendMessageAtTime(message, uptimeMillis);
@@ -374,7 +400,8 @@ public:
      * that a result of true does not mean the message will be processed -- if the looper is quit
      * before the delivery time of the message occurs then the message will be dropped.
      */
-    bool sendMessageDelayed(const sp<Message>& message, uint32_t delayMillis) {
+    bool sendMessageDelayed(const sp<Message>& message, uint32_t delayMillis)
+    {
         return sendMessageAtTime(message, SystemClock::uptimeMillis() + delayMillis);
     }
 
@@ -431,15 +458,18 @@ public:
 
     // If we can get rid of this method, the handler need not remember its loop
     // we could instead export a getMessageQueue() method...
-    sp<Looper> getLooper() {
+    sp<Looper> getLooper()
+    {
         return mLooper;
     }
 
 private:
     sp<Message> getPostMessage(const sp<Runnable>& runnable);
-    sp<Message> getPostMessage(const sp<Runnable>& runnable, const sp<Object>& token);
+    sp<Message> getPostMessage(const sp<Runnable>& runnable,
+                               const sp<Object>& token);
 
-    static void handleCallback(const sp<Message>& message) {
+    static void handleCallback(const sp<Message>& message)
+    {
         message->callback->run();
     }
 

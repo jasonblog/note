@@ -21,7 +21,8 @@
 #include "mindroid/lang/Object.h"
 #include "mindroid/util/concurrent/Awaitable.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Bundle;
 class IInterface;
@@ -39,7 +40,8 @@ class Variant;
  * @see Binder
  */
 class IBinder :
-        public virtual Object {
+    public virtual Object
+{
 public:
     /**
      * Flag to {@link #transact}: this is a one-way call, meaning that the caller returns
@@ -70,12 +72,18 @@ public:
      * for a one-way RPC.
      * @return data to be received from the target. May either contain the result or an exception.
      */
-    virtual void transact(int32_t what, const sp<Awaitable>& result, int32_t flags) = 0;
-    virtual void transact(int32_t what, const sp<Object>& obj, const sp<Awaitable>& result, int32_t flags) = 0;
-    virtual void transact(int32_t what, int32_t arg1, int32_t arg2, const sp<Awaitable>& result, int32_t flags) = 0;
-    virtual void transact(int32_t what, int32_t arg1, int32_t arg2, const sp<Object>& obj, const sp<Awaitable>& result, int32_t flags) = 0;
-    virtual void transact(int32_t what, const sp<Bundle>& data, const sp<Awaitable>& result, int32_t flags) = 0;
-    virtual void transact(int32_t what, int32_t arg1, int32_t arg2, const sp<Bundle>& data, const sp<Awaitable>& result, int32_t flags) = 0;
+    virtual void transact(int32_t what, const sp<Awaitable>& result,
+                          int32_t flags) = 0;
+    virtual void transact(int32_t what, const sp<Object>& obj,
+                          const sp<Awaitable>& result, int32_t flags) = 0;
+    virtual void transact(int32_t what, int32_t arg1, int32_t arg2,
+                          const sp<Awaitable>& result, int32_t flags) = 0;
+    virtual void transact(int32_t what, int32_t arg1, int32_t arg2,
+                          const sp<Object>& obj, const sp<Awaitable>& result, int32_t flags) = 0;
+    virtual void transact(int32_t what, const sp<Bundle>& data,
+                          const sp<Awaitable>& result, int32_t flags) = 0;
+    virtual void transact(int32_t what, int32_t arg1, int32_t arg2,
+                          const sp<Bundle>& data, const sp<Awaitable>& result, int32_t flags) = 0;
 
     virtual bool runsOnSameThread() = 0;
 

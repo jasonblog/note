@@ -21,12 +21,14 @@
 #include "mindroid/util/concurrent/locks/Condition.h"
 #include <pthread.h>
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Lock;
 
 class ConditionImpl :
-        public Condition {
+    public Condition
+{
 public:
     virtual ~ConditionImpl();
     ConditionImpl(const ConditionImpl&) = delete;

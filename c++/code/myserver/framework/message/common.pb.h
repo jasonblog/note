@@ -32,15 +32,17 @@
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 
-namespace protobuf_common_2eproto {
+namespace protobuf_common_2eproto
+{
 // Internal implementation detail -- do not use these members.
 struct TableStruct {
-  static const ::google::protobuf::internal::ParseTableField entries[];
-  static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[9];
-  static const ::google::protobuf::internal::FieldMetadata field_metadata[];
-  static const ::google::protobuf::internal::SerializationTable serialization_table[];
-  static const ::google::protobuf::uint32 offsets[];
+    static const ::google::protobuf::internal::ParseTableField entries[];
+    static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
+    static const ::google::protobuf::internal::ParseTable schema[9];
+    static const ::google::protobuf::internal::FieldMetadata field_metadata[];
+    static const ::google::protobuf::internal::SerializationTable
+    serialization_table[];
+    static const ::google::protobuf::uint32 offsets[];
 };
 void AddDescriptors();
 void InitDefaultsEmptyMessageImpl();
@@ -61,16 +63,17 @@ void InitDefaultsEquipmentDTOImpl();
 void InitDefaultsEquipmentDTO();
 void InitDefaultsVipDTOImpl();
 void InitDefaultsVipDTO();
-inline void InitDefaults() {
-  InitDefaultsEmptyMessage();
-  InitDefaultsErrorMessage();
-  InitDefaultsPositionDTO();
-  InitDefaultsPropertyDTO();
-  InitDefaultsItemDTO();
-  InitDefaultsSoldierDTO();
-  InitDefaultsLevelSoldierDTO();
-  InitDefaultsEquipmentDTO();
-  InitDefaultsVipDTO();
+inline void InitDefaults()
+{
+    InitDefaultsEmptyMessage();
+    InitDefaultsErrorMessage();
+    InitDefaultsPositionDTO();
+    InitDefaultsPropertyDTO();
+    InitDefaultsItemDTO();
+    InitDefaultsSoldierDTO();
+    InitDefaultsLevelSoldierDTO();
+    InitDefaultsEquipmentDTO();
+    InitDefaultsVipDTO();
 }
 }  // namespace protobuf_common_2eproto
 class EmptyMessage;
@@ -102,7 +105,7 @@ class VipDTODefaultTypeInternal;
 extern VipDTODefaultTypeInternal _VipDTO_default_instance_;
 
 enum ErrorCommandId {
-  ERROR_COMMAND_ID = 99
+    ERROR_COMMAND_ID = 99
 };
 bool ErrorCommandId_IsValid(int value);
 const ErrorCommandId ErrorCommandId_MIN = ERROR_COMMAND_ID;
@@ -110,17 +113,19 @@ const ErrorCommandId ErrorCommandId_MAX = ERROR_COMMAND_ID;
 const int ErrorCommandId_ARRAYSIZE = ErrorCommandId_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* ErrorCommandId_descriptor();
-inline const ::std::string& ErrorCommandId_Name(ErrorCommandId value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    ErrorCommandId_descriptor(), value);
+inline const ::std::string& ErrorCommandId_Name(ErrorCommandId value)
+{
+    return ::google::protobuf::internal::NameOfEnum(
+               ErrorCommandId_descriptor(), value);
 }
 inline bool ErrorCommandId_Parse(
-    const ::std::string& name, ErrorCommandId* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<ErrorCommandId>(
-    ErrorCommandId_descriptor(), name, value);
+    const ::std::string& name, ErrorCommandId* value)
+{
+    return ::google::protobuf::internal::ParseNamedEnum<ErrorCommandId>(
+               ErrorCommandId_descriptor(), name, value);
 }
 enum Platform {
-  IN_GAME = 1
+    IN_GAME = 1
 };
 bool Platform_IsValid(int value);
 const Platform Platform_MIN = IN_GAME;
@@ -128,1143 +133,1325 @@ const Platform Platform_MAX = IN_GAME;
 const int Platform_ARRAYSIZE = Platform_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* Platform_descriptor();
-inline const ::std::string& Platform_Name(Platform value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    Platform_descriptor(), value);
+inline const ::std::string& Platform_Name(Platform value)
+{
+    return ::google::protobuf::internal::NameOfEnum(
+               Platform_descriptor(), value);
 }
 inline bool Platform_Parse(
-    const ::std::string& name, Platform* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Platform>(
-    Platform_descriptor(), name, value);
+    const ::std::string& name, Platform* value)
+{
+    return ::google::protobuf::internal::ParseNamedEnum<Platform>(
+               Platform_descriptor(), name, value);
 }
 // ===================================================================
 
-class EmptyMessage : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:EmptyMessage) */ {
- public:
-  EmptyMessage();
-  virtual ~EmptyMessage();
+class EmptyMessage :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:EmptyMessage) */
+{
+public:
+    EmptyMessage();
+    virtual ~EmptyMessage();
 
-  EmptyMessage(const EmptyMessage& from);
+    EmptyMessage(const EmptyMessage& from);
 
-  inline EmptyMessage& operator=(const EmptyMessage& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  EmptyMessage(EmptyMessage&& from) noexcept
-    : EmptyMessage() {
-    *this = ::std::move(from);
-  }
-
-  inline EmptyMessage& operator=(EmptyMessage&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline EmptyMessage& operator=(const EmptyMessage& from)
+    {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
+#if LANG_CXX11
+    EmptyMessage(EmptyMessage&& from) noexcept
+        : EmptyMessage()
+    {
+        *this = ::std::move(from);
+    }
 
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const EmptyMessage& default_instance();
+    inline EmptyMessage& operator=(EmptyMessage&& from) noexcept
+    {
+        if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+            if (this != &from) {
+                InternalSwap(&from);
+            }
+        } else {
+            CopyFrom(from);
+        }
 
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const EmptyMessage* internal_default_instance() {
-    return reinterpret_cast<const EmptyMessage*>(
-               &_EmptyMessage_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    0;
+        return *this;
+    }
+#endif
+    inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+    {
+        return _internal_metadata_.unknown_fields();
+    }
+    inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+    {
+        return _internal_metadata_.mutable_unknown_fields();
+    }
 
-  void Swap(EmptyMessage* other);
-  friend void swap(EmptyMessage& a, EmptyMessage& b) {
-    a.Swap(&b);
-  }
+    static const ::google::protobuf::Descriptor* descriptor();
+    static const EmptyMessage& default_instance();
 
-  // implements Message ----------------------------------------------
+    static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+    static inline const EmptyMessage* internal_default_instance()
+    {
+        return reinterpret_cast<const EmptyMessage*>(
+                   &_EmptyMessage_default_instance_);
+    }
+    static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+        0;
 
-  inline EmptyMessage* New() const PROTOBUF_FINAL { return New(NULL); }
+    void Swap(EmptyMessage* other);
+    friend void swap(EmptyMessage& a, EmptyMessage& b)
+    {
+        a.Swap(&b);
+    }
 
-  EmptyMessage* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const EmptyMessage& from);
-  void MergeFrom(const EmptyMessage& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
+    // implements Message ----------------------------------------------
 
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(EmptyMessage* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
+    inline EmptyMessage* New() const PROTOBUF_FINAL
+    {
+        return New(NULL);
+    }
 
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+    EmptyMessage* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+    void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void CopyFrom(const EmptyMessage& from);
+    void MergeFrom(const EmptyMessage& from);
+    void Clear() PROTOBUF_FINAL;
+    bool IsInitialized() const PROTOBUF_FINAL;
 
-  // nested types ----------------------------------------------------
+    size_t ByteSizeLong() const PROTOBUF_FINAL;
+    bool MergePartialFromCodedStream(
+        ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+    void SerializeWithCachedSizes(
+        ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+    ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+        bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+    int GetCachedSize() const PROTOBUF_FINAL
+    {
+        return _cached_size_;
+    }
+private:
+    void SharedCtor();
+    void SharedDtor();
+    void SetCachedSize(int size) const PROTOBUF_FINAL;
+    void InternalSwap(EmptyMessage* other);
+private:
+    inline ::google::protobuf::Arena* GetArenaNoVirtual() const
+    {
+        return NULL;
+    }
+    inline void* MaybeArenaPtr() const
+    {
+        return NULL;
+    }
+public:
 
-  // accessors -------------------------------------------------------
+    ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
 
-  // @@protoc_insertion_point(class_scope:EmptyMessage)
- private:
+    // nested types ----------------------------------------------------
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  friend struct ::protobuf_common_2eproto::TableStruct;
-  friend void ::protobuf_common_2eproto::InitDefaultsEmptyMessageImpl();
+    // accessors -------------------------------------------------------
+
+    // @@protoc_insertion_point(class_scope:EmptyMessage)
+private:
+
+    ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable int _cached_size_;
+    friend struct ::protobuf_common_2eproto::TableStruct;
+    friend void ::protobuf_common_2eproto::InitDefaultsEmptyMessageImpl();
 };
 // -------------------------------------------------------------------
 
-class ErrorMessage : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ErrorMessage) */ {
- public:
-  ErrorMessage();
-  virtual ~ErrorMessage();
+class ErrorMessage :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ErrorMessage) */
+{
+public:
+    ErrorMessage();
+    virtual ~ErrorMessage();
 
-  ErrorMessage(const ErrorMessage& from);
+    ErrorMessage(const ErrorMessage& from);
 
-  inline ErrorMessage& operator=(const ErrorMessage& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  ErrorMessage(ErrorMessage&& from) noexcept
-    : ErrorMessage() {
-    *this = ::std::move(from);
-  }
-
-  inline ErrorMessage& operator=(ErrorMessage&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline ErrorMessage& operator=(const ErrorMessage& from)
+    {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
+#if LANG_CXX11
+    ErrorMessage(ErrorMessage&& from) noexcept
+        : ErrorMessage()
+    {
+        *this = ::std::move(from);
+    }
 
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const ErrorMessage& default_instance();
+    inline ErrorMessage& operator=(ErrorMessage&& from) noexcept
+    {
+        if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+            if (this != &from) {
+                InternalSwap(&from);
+            }
+        } else {
+            CopyFrom(from);
+        }
 
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ErrorMessage* internal_default_instance() {
-    return reinterpret_cast<const ErrorMessage*>(
-               &_ErrorMessage_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    1;
+        return *this;
+    }
+#endif
+    inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+    {
+        return _internal_metadata_.unknown_fields();
+    }
+    inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+    {
+        return _internal_metadata_.mutable_unknown_fields();
+    }
 
-  void Swap(ErrorMessage* other);
-  friend void swap(ErrorMessage& a, ErrorMessage& b) {
-    a.Swap(&b);
-  }
+    static const ::google::protobuf::Descriptor* descriptor();
+    static const ErrorMessage& default_instance();
 
-  // implements Message ----------------------------------------------
+    static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+    static inline const ErrorMessage* internal_default_instance()
+    {
+        return reinterpret_cast<const ErrorMessage*>(
+                   &_ErrorMessage_default_instance_);
+    }
+    static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+        1;
 
-  inline ErrorMessage* New() const PROTOBUF_FINAL { return New(NULL); }
+    void Swap(ErrorMessage* other);
+    friend void swap(ErrorMessage& a, ErrorMessage& b)
+    {
+        a.Swap(&b);
+    }
 
-  ErrorMessage* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const ErrorMessage& from);
-  void MergeFrom(const ErrorMessage& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
+    // implements Message ----------------------------------------------
 
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(ErrorMessage* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
+    inline ErrorMessage* New() const PROTOBUF_FINAL
+    {
+        return New(NULL);
+    }
 
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+    ErrorMessage* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+    void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void CopyFrom(const ErrorMessage& from);
+    void MergeFrom(const ErrorMessage& from);
+    void Clear() PROTOBUF_FINAL;
+    bool IsInitialized() const PROTOBUF_FINAL;
 
-  // nested types ----------------------------------------------------
+    size_t ByteSizeLong() const PROTOBUF_FINAL;
+    bool MergePartialFromCodedStream(
+        ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+    void SerializeWithCachedSizes(
+        ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+    ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+        bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+    int GetCachedSize() const PROTOBUF_FINAL
+    {
+        return _cached_size_;
+    }
+private:
+    void SharedCtor();
+    void SharedDtor();
+    void SetCachedSize(int size) const PROTOBUF_FINAL;
+    void InternalSwap(ErrorMessage* other);
+private:
+    inline ::google::protobuf::Arena* GetArenaNoVirtual() const
+    {
+        return NULL;
+    }
+    inline void* MaybeArenaPtr() const
+    {
+        return NULL;
+    }
+public:
 
-  // accessors -------------------------------------------------------
+    ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
 
-  // repeated string args = 2;
-  int args_size() const;
-  void clear_args();
-  static const int kArgsFieldNumber = 2;
-  const ::std::string& args(int index) const;
-  ::std::string* mutable_args(int index);
-  void set_args(int index, const ::std::string& value);
-  #if LANG_CXX11
-  void set_args(int index, ::std::string&& value);
-  #endif
-  void set_args(int index, const char* value);
-  void set_args(int index, const char* value, size_t size);
-  ::std::string* add_args();
-  void add_args(const ::std::string& value);
-  #if LANG_CXX11
-  void add_args(::std::string&& value);
-  #endif
-  void add_args(const char* value);
-  void add_args(const char* value, size_t size);
-  const ::google::protobuf::RepeatedPtrField< ::std::string>& args() const;
-  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_args();
+    // nested types ----------------------------------------------------
 
-  // required int32 errorCode = 1;
-  bool has_errorcode() const;
-  void clear_errorcode();
-  static const int kErrorCodeFieldNumber = 1;
-  ::google::protobuf::int32 errorcode() const;
-  void set_errorcode(::google::protobuf::int32 value);
+    // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:ErrorMessage)
- private:
-  void set_has_errorcode();
-  void clear_has_errorcode();
+    // repeated string args = 2;
+    int args_size() const;
+    void clear_args();
+    static const int kArgsFieldNumber = 2;
+    const ::std::string& args(int index) const;
+    ::std::string* mutable_args(int index);
+    void set_args(int index, const ::std::string& value);
+#if LANG_CXX11
+    void set_args(int index, ::std::string&& value);
+#endif
+    void set_args(int index, const char* value);
+    void set_args(int index, const char* value, size_t size);
+    ::std::string* add_args();
+    void add_args(const ::std::string& value);
+#if LANG_CXX11
+    void add_args(::std::string&& value);
+#endif
+    void add_args(const char* value);
+    void add_args(const char* value, size_t size);
+    const ::google::protobuf::RepeatedPtrField< ::std::string>& args() const;
+    ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_args();
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  ::google::protobuf::RepeatedPtrField< ::std::string> args_;
-  ::google::protobuf::int32 errorcode_;
-  friend struct ::protobuf_common_2eproto::TableStruct;
-  friend void ::protobuf_common_2eproto::InitDefaultsErrorMessageImpl();
+    // required int32 errorCode = 1;
+    bool has_errorcode() const;
+    void clear_errorcode();
+    static const int kErrorCodeFieldNumber = 1;
+    ::google::protobuf::int32 errorcode() const;
+    void set_errorcode(::google::protobuf::int32 value);
+
+    // @@protoc_insertion_point(class_scope:ErrorMessage)
+private:
+    void set_has_errorcode();
+    void clear_has_errorcode();
+
+    ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable int _cached_size_;
+    ::google::protobuf::RepeatedPtrField< ::std::string> args_;
+    ::google::protobuf::int32 errorcode_;
+    friend struct ::protobuf_common_2eproto::TableStruct;
+    friend void ::protobuf_common_2eproto::InitDefaultsErrorMessageImpl();
 };
 // -------------------------------------------------------------------
 
-class PositionDTO : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:PositionDTO) */ {
- public:
-  PositionDTO();
-  virtual ~PositionDTO();
+class PositionDTO :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:PositionDTO) */
+{
+public:
+    PositionDTO();
+    virtual ~PositionDTO();
 
-  PositionDTO(const PositionDTO& from);
+    PositionDTO(const PositionDTO& from);
 
-  inline PositionDTO& operator=(const PositionDTO& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  PositionDTO(PositionDTO&& from) noexcept
-    : PositionDTO() {
-    *this = ::std::move(from);
-  }
-
-  inline PositionDTO& operator=(PositionDTO&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline PositionDTO& operator=(const PositionDTO& from)
+    {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
+#if LANG_CXX11
+    PositionDTO(PositionDTO&& from) noexcept
+        : PositionDTO()
+    {
+        *this = ::std::move(from);
+    }
 
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const PositionDTO& default_instance();
+    inline PositionDTO& operator=(PositionDTO&& from) noexcept
+    {
+        if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+            if (this != &from) {
+                InternalSwap(&from);
+            }
+        } else {
+            CopyFrom(from);
+        }
 
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const PositionDTO* internal_default_instance() {
-    return reinterpret_cast<const PositionDTO*>(
-               &_PositionDTO_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    2;
+        return *this;
+    }
+#endif
+    inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+    {
+        return _internal_metadata_.unknown_fields();
+    }
+    inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+    {
+        return _internal_metadata_.mutable_unknown_fields();
+    }
 
-  void Swap(PositionDTO* other);
-  friend void swap(PositionDTO& a, PositionDTO& b) {
-    a.Swap(&b);
-  }
+    static const ::google::protobuf::Descriptor* descriptor();
+    static const PositionDTO& default_instance();
 
-  // implements Message ----------------------------------------------
+    static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+    static inline const PositionDTO* internal_default_instance()
+    {
+        return reinterpret_cast<const PositionDTO*>(
+                   &_PositionDTO_default_instance_);
+    }
+    static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+        2;
 
-  inline PositionDTO* New() const PROTOBUF_FINAL { return New(NULL); }
+    void Swap(PositionDTO* other);
+    friend void swap(PositionDTO& a, PositionDTO& b)
+    {
+        a.Swap(&b);
+    }
 
-  PositionDTO* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const PositionDTO& from);
-  void MergeFrom(const PositionDTO& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
+    // implements Message ----------------------------------------------
 
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(PositionDTO* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
+    inline PositionDTO* New() const PROTOBUF_FINAL
+    {
+        return New(NULL);
+    }
 
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+    PositionDTO* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+    void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void CopyFrom(const PositionDTO& from);
+    void MergeFrom(const PositionDTO& from);
+    void Clear() PROTOBUF_FINAL;
+    bool IsInitialized() const PROTOBUF_FINAL;
 
-  // nested types ----------------------------------------------------
+    size_t ByteSizeLong() const PROTOBUF_FINAL;
+    bool MergePartialFromCodedStream(
+        ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+    void SerializeWithCachedSizes(
+        ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+    ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+        bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+    int GetCachedSize() const PROTOBUF_FINAL
+    {
+        return _cached_size_;
+    }
+private:
+    void SharedCtor();
+    void SharedDtor();
+    void SetCachedSize(int size) const PROTOBUF_FINAL;
+    void InternalSwap(PositionDTO* other);
+private:
+    inline ::google::protobuf::Arena* GetArenaNoVirtual() const
+    {
+        return NULL;
+    }
+    inline void* MaybeArenaPtr() const
+    {
+        return NULL;
+    }
+public:
 
-  // accessors -------------------------------------------------------
+    ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
 
-  // required int32 x = 1;
-  bool has_x() const;
-  void clear_x();
-  static const int kXFieldNumber = 1;
-  ::google::protobuf::int32 x() const;
-  void set_x(::google::protobuf::int32 value);
+    // nested types ----------------------------------------------------
 
-  // required int32 y = 2;
-  bool has_y() const;
-  void clear_y();
-  static const int kYFieldNumber = 2;
-  ::google::protobuf::int32 y() const;
-  void set_y(::google::protobuf::int32 value);
+    // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:PositionDTO)
- private:
-  void set_has_x();
-  void clear_has_x();
-  void set_has_y();
-  void clear_has_y();
+    // required int32 x = 1;
+    bool has_x() const;
+    void clear_x();
+    static const int kXFieldNumber = 1;
+    ::google::protobuf::int32 x() const;
+    void set_x(::google::protobuf::int32 value);
 
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
+    // required int32 y = 2;
+    bool has_y() const;
+    void clear_y();
+    static const int kYFieldNumber = 2;
+    ::google::protobuf::int32 y() const;
+    void set_y(::google::protobuf::int32 value);
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  ::google::protobuf::int32 x_;
-  ::google::protobuf::int32 y_;
-  friend struct ::protobuf_common_2eproto::TableStruct;
-  friend void ::protobuf_common_2eproto::InitDefaultsPositionDTOImpl();
+    // @@protoc_insertion_point(class_scope:PositionDTO)
+private:
+    void set_has_x();
+    void clear_has_x();
+    void set_has_y();
+    void clear_has_y();
+
+    // helper for ByteSizeLong()
+    size_t RequiredFieldsByteSizeFallback() const;
+
+    ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable int _cached_size_;
+    ::google::protobuf::int32 x_;
+    ::google::protobuf::int32 y_;
+    friend struct ::protobuf_common_2eproto::TableStruct;
+    friend void ::protobuf_common_2eproto::InitDefaultsPositionDTOImpl();
 };
 // -------------------------------------------------------------------
 
-class PropertyDTO : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:PropertyDTO) */ {
- public:
-  PropertyDTO();
-  virtual ~PropertyDTO();
+class PropertyDTO :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:PropertyDTO) */
+{
+public:
+    PropertyDTO();
+    virtual ~PropertyDTO();
 
-  PropertyDTO(const PropertyDTO& from);
+    PropertyDTO(const PropertyDTO& from);
 
-  inline PropertyDTO& operator=(const PropertyDTO& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  PropertyDTO(PropertyDTO&& from) noexcept
-    : PropertyDTO() {
-    *this = ::std::move(from);
-  }
-
-  inline PropertyDTO& operator=(PropertyDTO&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline PropertyDTO& operator=(const PropertyDTO& from)
+    {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
+#if LANG_CXX11
+    PropertyDTO(PropertyDTO&& from) noexcept
+        : PropertyDTO()
+    {
+        *this = ::std::move(from);
+    }
 
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const PropertyDTO& default_instance();
+    inline PropertyDTO& operator=(PropertyDTO&& from) noexcept
+    {
+        if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+            if (this != &from) {
+                InternalSwap(&from);
+            }
+        } else {
+            CopyFrom(from);
+        }
 
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const PropertyDTO* internal_default_instance() {
-    return reinterpret_cast<const PropertyDTO*>(
-               &_PropertyDTO_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    3;
+        return *this;
+    }
+#endif
+    inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+    {
+        return _internal_metadata_.unknown_fields();
+    }
+    inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+    {
+        return _internal_metadata_.mutable_unknown_fields();
+    }
 
-  void Swap(PropertyDTO* other);
-  friend void swap(PropertyDTO& a, PropertyDTO& b) {
-    a.Swap(&b);
-  }
+    static const ::google::protobuf::Descriptor* descriptor();
+    static const PropertyDTO& default_instance();
 
-  // implements Message ----------------------------------------------
+    static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+    static inline const PropertyDTO* internal_default_instance()
+    {
+        return reinterpret_cast<const PropertyDTO*>(
+                   &_PropertyDTO_default_instance_);
+    }
+    static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+        3;
 
-  inline PropertyDTO* New() const PROTOBUF_FINAL { return New(NULL); }
+    void Swap(PropertyDTO* other);
+    friend void swap(PropertyDTO& a, PropertyDTO& b)
+    {
+        a.Swap(&b);
+    }
 
-  PropertyDTO* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const PropertyDTO& from);
-  void MergeFrom(const PropertyDTO& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
+    // implements Message ----------------------------------------------
 
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(PropertyDTO* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
+    inline PropertyDTO* New() const PROTOBUF_FINAL
+    {
+        return New(NULL);
+    }
 
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+    PropertyDTO* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+    void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void CopyFrom(const PropertyDTO& from);
+    void MergeFrom(const PropertyDTO& from);
+    void Clear() PROTOBUF_FINAL;
+    bool IsInitialized() const PROTOBUF_FINAL;
 
-  // nested types ----------------------------------------------------
+    size_t ByteSizeLong() const PROTOBUF_FINAL;
+    bool MergePartialFromCodedStream(
+        ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+    void SerializeWithCachedSizes(
+        ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+    ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+        bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+    int GetCachedSize() const PROTOBUF_FINAL
+    {
+        return _cached_size_;
+    }
+private:
+    void SharedCtor();
+    void SharedDtor();
+    void SetCachedSize(int size) const PROTOBUF_FINAL;
+    void InternalSwap(PropertyDTO* other);
+private:
+    inline ::google::protobuf::Arena* GetArenaNoVirtual() const
+    {
+        return NULL;
+    }
+    inline void* MaybeArenaPtr() const
+    {
+        return NULL;
+    }
+public:
 
-  // accessors -------------------------------------------------------
+    ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
 
-  // required int32 type = 1;
-  bool has_type() const;
-  void clear_type();
-  static const int kTypeFieldNumber = 1;
-  ::google::protobuf::int32 type() const;
-  void set_type(::google::protobuf::int32 value);
+    // nested types ----------------------------------------------------
 
-  // required int32 value = 2;
-  bool has_value() const;
-  void clear_value();
-  static const int kValueFieldNumber = 2;
-  ::google::protobuf::int32 value() const;
-  void set_value(::google::protobuf::int32 value);
+    // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:PropertyDTO)
- private:
-  void set_has_type();
-  void clear_has_type();
-  void set_has_value();
-  void clear_has_value();
+    // required int32 type = 1;
+    bool has_type() const;
+    void clear_type();
+    static const int kTypeFieldNumber = 1;
+    ::google::protobuf::int32 type() const;
+    void set_type(::google::protobuf::int32 value);
 
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
+    // required int32 value = 2;
+    bool has_value() const;
+    void clear_value();
+    static const int kValueFieldNumber = 2;
+    ::google::protobuf::int32 value() const;
+    void set_value(::google::protobuf::int32 value);
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  ::google::protobuf::int32 type_;
-  ::google::protobuf::int32 value_;
-  friend struct ::protobuf_common_2eproto::TableStruct;
-  friend void ::protobuf_common_2eproto::InitDefaultsPropertyDTOImpl();
+    // @@protoc_insertion_point(class_scope:PropertyDTO)
+private:
+    void set_has_type();
+    void clear_has_type();
+    void set_has_value();
+    void clear_has_value();
+
+    // helper for ByteSizeLong()
+    size_t RequiredFieldsByteSizeFallback() const;
+
+    ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable int _cached_size_;
+    ::google::protobuf::int32 type_;
+    ::google::protobuf::int32 value_;
+    friend struct ::protobuf_common_2eproto::TableStruct;
+    friend void ::protobuf_common_2eproto::InitDefaultsPropertyDTOImpl();
 };
 // -------------------------------------------------------------------
 
-class ItemDTO : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ItemDTO) */ {
- public:
-  ItemDTO();
-  virtual ~ItemDTO();
+class ItemDTO :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ItemDTO) */
+{
+public:
+    ItemDTO();
+    virtual ~ItemDTO();
 
-  ItemDTO(const ItemDTO& from);
+    ItemDTO(const ItemDTO& from);
 
-  inline ItemDTO& operator=(const ItemDTO& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  ItemDTO(ItemDTO&& from) noexcept
-    : ItemDTO() {
-    *this = ::std::move(from);
-  }
-
-  inline ItemDTO& operator=(ItemDTO&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline ItemDTO& operator=(const ItemDTO& from)
+    {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
+#if LANG_CXX11
+    ItemDTO(ItemDTO&& from) noexcept
+        : ItemDTO()
+    {
+        *this = ::std::move(from);
+    }
 
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const ItemDTO& default_instance();
+    inline ItemDTO& operator=(ItemDTO&& from) noexcept
+    {
+        if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+            if (this != &from) {
+                InternalSwap(&from);
+            }
+        } else {
+            CopyFrom(from);
+        }
 
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ItemDTO* internal_default_instance() {
-    return reinterpret_cast<const ItemDTO*>(
-               &_ItemDTO_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    4;
+        return *this;
+    }
+#endif
+    inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+    {
+        return _internal_metadata_.unknown_fields();
+    }
+    inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+    {
+        return _internal_metadata_.mutable_unknown_fields();
+    }
 
-  void Swap(ItemDTO* other);
-  friend void swap(ItemDTO& a, ItemDTO& b) {
-    a.Swap(&b);
-  }
+    static const ::google::protobuf::Descriptor* descriptor();
+    static const ItemDTO& default_instance();
 
-  // implements Message ----------------------------------------------
+    static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+    static inline const ItemDTO* internal_default_instance()
+    {
+        return reinterpret_cast<const ItemDTO*>(
+                   &_ItemDTO_default_instance_);
+    }
+    static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+        4;
 
-  inline ItemDTO* New() const PROTOBUF_FINAL { return New(NULL); }
+    void Swap(ItemDTO* other);
+    friend void swap(ItemDTO& a, ItemDTO& b)
+    {
+        a.Swap(&b);
+    }
 
-  ItemDTO* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const ItemDTO& from);
-  void MergeFrom(const ItemDTO& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
+    // implements Message ----------------------------------------------
 
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(ItemDTO* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
+    inline ItemDTO* New() const PROTOBUF_FINAL
+    {
+        return New(NULL);
+    }
 
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+    ItemDTO* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+    void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void CopyFrom(const ItemDTO& from);
+    void MergeFrom(const ItemDTO& from);
+    void Clear() PROTOBUF_FINAL;
+    bool IsInitialized() const PROTOBUF_FINAL;
 
-  // nested types ----------------------------------------------------
+    size_t ByteSizeLong() const PROTOBUF_FINAL;
+    bool MergePartialFromCodedStream(
+        ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+    void SerializeWithCachedSizes(
+        ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+    ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+        bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+    int GetCachedSize() const PROTOBUF_FINAL
+    {
+        return _cached_size_;
+    }
+private:
+    void SharedCtor();
+    void SharedDtor();
+    void SetCachedSize(int size) const PROTOBUF_FINAL;
+    void InternalSwap(ItemDTO* other);
+private:
+    inline ::google::protobuf::Arena* GetArenaNoVirtual() const
+    {
+        return NULL;
+    }
+    inline void* MaybeArenaPtr() const
+    {
+        return NULL;
+    }
+public:
 
-  // accessors -------------------------------------------------------
+    ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
 
-  // required int32 itemId = 1;
-  bool has_itemid() const;
-  void clear_itemid();
-  static const int kItemIdFieldNumber = 1;
-  ::google::protobuf::int32 itemid() const;
-  void set_itemid(::google::protobuf::int32 value);
+    // nested types ----------------------------------------------------
 
-  // required int32 count = 2;
-  bool has_count() const;
-  void clear_count();
-  static const int kCountFieldNumber = 2;
-  ::google::protobuf::int32 count() const;
-  void set_count(::google::protobuf::int32 value);
+    // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:ItemDTO)
- private:
-  void set_has_itemid();
-  void clear_has_itemid();
-  void set_has_count();
-  void clear_has_count();
+    // required int32 itemId = 1;
+    bool has_itemid() const;
+    void clear_itemid();
+    static const int kItemIdFieldNumber = 1;
+    ::google::protobuf::int32 itemid() const;
+    void set_itemid(::google::protobuf::int32 value);
 
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
+    // required int32 count = 2;
+    bool has_count() const;
+    void clear_count();
+    static const int kCountFieldNumber = 2;
+    ::google::protobuf::int32 count() const;
+    void set_count(::google::protobuf::int32 value);
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  ::google::protobuf::int32 itemid_;
-  ::google::protobuf::int32 count_;
-  friend struct ::protobuf_common_2eproto::TableStruct;
-  friend void ::protobuf_common_2eproto::InitDefaultsItemDTOImpl();
+    // @@protoc_insertion_point(class_scope:ItemDTO)
+private:
+    void set_has_itemid();
+    void clear_has_itemid();
+    void set_has_count();
+    void clear_has_count();
+
+    // helper for ByteSizeLong()
+    size_t RequiredFieldsByteSizeFallback() const;
+
+    ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable int _cached_size_;
+    ::google::protobuf::int32 itemid_;
+    ::google::protobuf::int32 count_;
+    friend struct ::protobuf_common_2eproto::TableStruct;
+    friend void ::protobuf_common_2eproto::InitDefaultsItemDTOImpl();
 };
 // -------------------------------------------------------------------
 
-class SoldierDTO : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SoldierDTO) */ {
- public:
-  SoldierDTO();
-  virtual ~SoldierDTO();
+class SoldierDTO :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SoldierDTO) */
+{
+public:
+    SoldierDTO();
+    virtual ~SoldierDTO();
 
-  SoldierDTO(const SoldierDTO& from);
+    SoldierDTO(const SoldierDTO& from);
 
-  inline SoldierDTO& operator=(const SoldierDTO& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  SoldierDTO(SoldierDTO&& from) noexcept
-    : SoldierDTO() {
-    *this = ::std::move(from);
-  }
-
-  inline SoldierDTO& operator=(SoldierDTO&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline SoldierDTO& operator=(const SoldierDTO& from)
+    {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
+#if LANG_CXX11
+    SoldierDTO(SoldierDTO&& from) noexcept
+        : SoldierDTO()
+    {
+        *this = ::std::move(from);
+    }
 
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const SoldierDTO& default_instance();
+    inline SoldierDTO& operator=(SoldierDTO&& from) noexcept
+    {
+        if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+            if (this != &from) {
+                InternalSwap(&from);
+            }
+        } else {
+            CopyFrom(from);
+        }
 
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const SoldierDTO* internal_default_instance() {
-    return reinterpret_cast<const SoldierDTO*>(
-               &_SoldierDTO_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    5;
+        return *this;
+    }
+#endif
+    inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+    {
+        return _internal_metadata_.unknown_fields();
+    }
+    inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+    {
+        return _internal_metadata_.mutable_unknown_fields();
+    }
 
-  void Swap(SoldierDTO* other);
-  friend void swap(SoldierDTO& a, SoldierDTO& b) {
-    a.Swap(&b);
-  }
+    static const ::google::protobuf::Descriptor* descriptor();
+    static const SoldierDTO& default_instance();
 
-  // implements Message ----------------------------------------------
+    static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+    static inline const SoldierDTO* internal_default_instance()
+    {
+        return reinterpret_cast<const SoldierDTO*>(
+                   &_SoldierDTO_default_instance_);
+    }
+    static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+        5;
 
-  inline SoldierDTO* New() const PROTOBUF_FINAL { return New(NULL); }
+    void Swap(SoldierDTO* other);
+    friend void swap(SoldierDTO& a, SoldierDTO& b)
+    {
+        a.Swap(&b);
+    }
 
-  SoldierDTO* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const SoldierDTO& from);
-  void MergeFrom(const SoldierDTO& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
+    // implements Message ----------------------------------------------
 
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(SoldierDTO* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
+    inline SoldierDTO* New() const PROTOBUF_FINAL
+    {
+        return New(NULL);
+    }
 
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+    SoldierDTO* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+    void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void CopyFrom(const SoldierDTO& from);
+    void MergeFrom(const SoldierDTO& from);
+    void Clear() PROTOBUF_FINAL;
+    bool IsInitialized() const PROTOBUF_FINAL;
 
-  // nested types ----------------------------------------------------
+    size_t ByteSizeLong() const PROTOBUF_FINAL;
+    bool MergePartialFromCodedStream(
+        ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+    void SerializeWithCachedSizes(
+        ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+    ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+        bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+    int GetCachedSize() const PROTOBUF_FINAL
+    {
+        return _cached_size_;
+    }
+private:
+    void SharedCtor();
+    void SharedDtor();
+    void SetCachedSize(int size) const PROTOBUF_FINAL;
+    void InternalSwap(SoldierDTO* other);
+private:
+    inline ::google::protobuf::Arena* GetArenaNoVirtual() const
+    {
+        return NULL;
+    }
+    inline void* MaybeArenaPtr() const
+    {
+        return NULL;
+    }
+public:
 
-  // accessors -------------------------------------------------------
+    ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
 
-  // required int32 armyType = 1;
-  bool has_armytype() const;
-  void clear_armytype();
-  static const int kArmyTypeFieldNumber = 1;
-  ::google::protobuf::int32 armytype() const;
-  void set_armytype(::google::protobuf::int32 value);
+    // nested types ----------------------------------------------------
 
-  // required int32 armyNum = 2;
-  bool has_armynum() const;
-  void clear_armynum();
-  static const int kArmyNumFieldNumber = 2;
-  ::google::protobuf::int32 armynum() const;
-  void set_armynum(::google::protobuf::int32 value);
+    // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:SoldierDTO)
- private:
-  void set_has_armytype();
-  void clear_has_armytype();
-  void set_has_armynum();
-  void clear_has_armynum();
+    // required int32 armyType = 1;
+    bool has_armytype() const;
+    void clear_armytype();
+    static const int kArmyTypeFieldNumber = 1;
+    ::google::protobuf::int32 armytype() const;
+    void set_armytype(::google::protobuf::int32 value);
 
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
+    // required int32 armyNum = 2;
+    bool has_armynum() const;
+    void clear_armynum();
+    static const int kArmyNumFieldNumber = 2;
+    ::google::protobuf::int32 armynum() const;
+    void set_armynum(::google::protobuf::int32 value);
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  ::google::protobuf::int32 armytype_;
-  ::google::protobuf::int32 armynum_;
-  friend struct ::protobuf_common_2eproto::TableStruct;
-  friend void ::protobuf_common_2eproto::InitDefaultsSoldierDTOImpl();
+    // @@protoc_insertion_point(class_scope:SoldierDTO)
+private:
+    void set_has_armytype();
+    void clear_has_armytype();
+    void set_has_armynum();
+    void clear_has_armynum();
+
+    // helper for ByteSizeLong()
+    size_t RequiredFieldsByteSizeFallback() const;
+
+    ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable int _cached_size_;
+    ::google::protobuf::int32 armytype_;
+    ::google::protobuf::int32 armynum_;
+    friend struct ::protobuf_common_2eproto::TableStruct;
+    friend void ::protobuf_common_2eproto::InitDefaultsSoldierDTOImpl();
 };
 // -------------------------------------------------------------------
 
-class LevelSoldierDTO : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:LevelSoldierDTO) */ {
- public:
-  LevelSoldierDTO();
-  virtual ~LevelSoldierDTO();
+class LevelSoldierDTO :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:LevelSoldierDTO) */
+{
+public:
+    LevelSoldierDTO();
+    virtual ~LevelSoldierDTO();
 
-  LevelSoldierDTO(const LevelSoldierDTO& from);
+    LevelSoldierDTO(const LevelSoldierDTO& from);
 
-  inline LevelSoldierDTO& operator=(const LevelSoldierDTO& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  LevelSoldierDTO(LevelSoldierDTO&& from) noexcept
-    : LevelSoldierDTO() {
-    *this = ::std::move(from);
-  }
-
-  inline LevelSoldierDTO& operator=(LevelSoldierDTO&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline LevelSoldierDTO& operator=(const LevelSoldierDTO& from)
+    {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
+#if LANG_CXX11
+    LevelSoldierDTO(LevelSoldierDTO&& from) noexcept
+        : LevelSoldierDTO()
+    {
+        *this = ::std::move(from);
+    }
 
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const LevelSoldierDTO& default_instance();
+    inline LevelSoldierDTO& operator=(LevelSoldierDTO&& from) noexcept
+    {
+        if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+            if (this != &from) {
+                InternalSwap(&from);
+            }
+        } else {
+            CopyFrom(from);
+        }
 
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const LevelSoldierDTO* internal_default_instance() {
-    return reinterpret_cast<const LevelSoldierDTO*>(
-               &_LevelSoldierDTO_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    6;
+        return *this;
+    }
+#endif
+    inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+    {
+        return _internal_metadata_.unknown_fields();
+    }
+    inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+    {
+        return _internal_metadata_.mutable_unknown_fields();
+    }
 
-  void Swap(LevelSoldierDTO* other);
-  friend void swap(LevelSoldierDTO& a, LevelSoldierDTO& b) {
-    a.Swap(&b);
-  }
+    static const ::google::protobuf::Descriptor* descriptor();
+    static const LevelSoldierDTO& default_instance();
 
-  // implements Message ----------------------------------------------
+    static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+    static inline const LevelSoldierDTO* internal_default_instance()
+    {
+        return reinterpret_cast<const LevelSoldierDTO*>(
+                   &_LevelSoldierDTO_default_instance_);
+    }
+    static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+        6;
 
-  inline LevelSoldierDTO* New() const PROTOBUF_FINAL { return New(NULL); }
+    void Swap(LevelSoldierDTO* other);
+    friend void swap(LevelSoldierDTO& a, LevelSoldierDTO& b)
+    {
+        a.Swap(&b);
+    }
 
-  LevelSoldierDTO* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const LevelSoldierDTO& from);
-  void MergeFrom(const LevelSoldierDTO& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
+    // implements Message ----------------------------------------------
 
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(LevelSoldierDTO* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
+    inline LevelSoldierDTO* New() const PROTOBUF_FINAL
+    {
+        return New(NULL);
+    }
 
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+    LevelSoldierDTO* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+    void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void CopyFrom(const LevelSoldierDTO& from);
+    void MergeFrom(const LevelSoldierDTO& from);
+    void Clear() PROTOBUF_FINAL;
+    bool IsInitialized() const PROTOBUF_FINAL;
 
-  // nested types ----------------------------------------------------
+    size_t ByteSizeLong() const PROTOBUF_FINAL;
+    bool MergePartialFromCodedStream(
+        ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+    void SerializeWithCachedSizes(
+        ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+    ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+        bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+    int GetCachedSize() const PROTOBUF_FINAL
+    {
+        return _cached_size_;
+    }
+private:
+    void SharedCtor();
+    void SharedDtor();
+    void SetCachedSize(int size) const PROTOBUF_FINAL;
+    void InternalSwap(LevelSoldierDTO* other);
+private:
+    inline ::google::protobuf::Arena* GetArenaNoVirtual() const
+    {
+        return NULL;
+    }
+    inline void* MaybeArenaPtr() const
+    {
+        return NULL;
+    }
+public:
 
-  // accessors -------------------------------------------------------
+    ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
 
-  // required .SoldierDTO soldier = 1;
-  bool has_soldier() const;
-  void clear_soldier();
-  static const int kSoldierFieldNumber = 1;
-  const ::SoldierDTO& soldier() const;
-  ::SoldierDTO* release_soldier();
-  ::SoldierDTO* mutable_soldier();
-  void set_allocated_soldier(::SoldierDTO* soldier);
+    // nested types ----------------------------------------------------
 
-  // required int32 level = 2;
-  bool has_level() const;
-  void clear_level();
-  static const int kLevelFieldNumber = 2;
-  ::google::protobuf::int32 level() const;
-  void set_level(::google::protobuf::int32 value);
+    // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:LevelSoldierDTO)
- private:
-  void set_has_soldier();
-  void clear_has_soldier();
-  void set_has_level();
-  void clear_has_level();
+    // required .SoldierDTO soldier = 1;
+    bool has_soldier() const;
+    void clear_soldier();
+    static const int kSoldierFieldNumber = 1;
+    const ::SoldierDTO& soldier() const;
+    ::SoldierDTO* release_soldier();
+    ::SoldierDTO* mutable_soldier();
+    void set_allocated_soldier(::SoldierDTO* soldier);
 
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
+    // required int32 level = 2;
+    bool has_level() const;
+    void clear_level();
+    static const int kLevelFieldNumber = 2;
+    ::google::protobuf::int32 level() const;
+    void set_level(::google::protobuf::int32 value);
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  ::SoldierDTO* soldier_;
-  ::google::protobuf::int32 level_;
-  friend struct ::protobuf_common_2eproto::TableStruct;
-  friend void ::protobuf_common_2eproto::InitDefaultsLevelSoldierDTOImpl();
+    // @@protoc_insertion_point(class_scope:LevelSoldierDTO)
+private:
+    void set_has_soldier();
+    void clear_has_soldier();
+    void set_has_level();
+    void clear_has_level();
+
+    // helper for ByteSizeLong()
+    size_t RequiredFieldsByteSizeFallback() const;
+
+    ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable int _cached_size_;
+    ::SoldierDTO* soldier_;
+    ::google::protobuf::int32 level_;
+    friend struct ::protobuf_common_2eproto::TableStruct;
+    friend void ::protobuf_common_2eproto::InitDefaultsLevelSoldierDTOImpl();
 };
 // -------------------------------------------------------------------
 
-class EquipmentDTO : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:EquipmentDTO) */ {
- public:
-  EquipmentDTO();
-  virtual ~EquipmentDTO();
+class EquipmentDTO :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:EquipmentDTO) */
+{
+public:
+    EquipmentDTO();
+    virtual ~EquipmentDTO();
 
-  EquipmentDTO(const EquipmentDTO& from);
+    EquipmentDTO(const EquipmentDTO& from);
 
-  inline EquipmentDTO& operator=(const EquipmentDTO& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  EquipmentDTO(EquipmentDTO&& from) noexcept
-    : EquipmentDTO() {
-    *this = ::std::move(from);
-  }
-
-  inline EquipmentDTO& operator=(EquipmentDTO&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline EquipmentDTO& operator=(const EquipmentDTO& from)
+    {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
+#if LANG_CXX11
+    EquipmentDTO(EquipmentDTO&& from) noexcept
+        : EquipmentDTO()
+    {
+        *this = ::std::move(from);
+    }
 
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const EquipmentDTO& default_instance();
+    inline EquipmentDTO& operator=(EquipmentDTO&& from) noexcept
+    {
+        if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+            if (this != &from) {
+                InternalSwap(&from);
+            }
+        } else {
+            CopyFrom(from);
+        }
 
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const EquipmentDTO* internal_default_instance() {
-    return reinterpret_cast<const EquipmentDTO*>(
-               &_EquipmentDTO_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    7;
+        return *this;
+    }
+#endif
+    inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+    {
+        return _internal_metadata_.unknown_fields();
+    }
+    inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+    {
+        return _internal_metadata_.mutable_unknown_fields();
+    }
 
-  void Swap(EquipmentDTO* other);
-  friend void swap(EquipmentDTO& a, EquipmentDTO& b) {
-    a.Swap(&b);
-  }
+    static const ::google::protobuf::Descriptor* descriptor();
+    static const EquipmentDTO& default_instance();
 
-  // implements Message ----------------------------------------------
+    static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+    static inline const EquipmentDTO* internal_default_instance()
+    {
+        return reinterpret_cast<const EquipmentDTO*>(
+                   &_EquipmentDTO_default_instance_);
+    }
+    static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+        7;
 
-  inline EquipmentDTO* New() const PROTOBUF_FINAL { return New(NULL); }
+    void Swap(EquipmentDTO* other);
+    friend void swap(EquipmentDTO& a, EquipmentDTO& b)
+    {
+        a.Swap(&b);
+    }
 
-  EquipmentDTO* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const EquipmentDTO& from);
-  void MergeFrom(const EquipmentDTO& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
+    // implements Message ----------------------------------------------
 
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(EquipmentDTO* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
+    inline EquipmentDTO* New() const PROTOBUF_FINAL
+    {
+        return New(NULL);
+    }
 
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+    EquipmentDTO* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+    void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void CopyFrom(const EquipmentDTO& from);
+    void MergeFrom(const EquipmentDTO& from);
+    void Clear() PROTOBUF_FINAL;
+    bool IsInitialized() const PROTOBUF_FINAL;
 
-  // nested types ----------------------------------------------------
+    size_t ByteSizeLong() const PROTOBUF_FINAL;
+    bool MergePartialFromCodedStream(
+        ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+    void SerializeWithCachedSizes(
+        ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+    ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+        bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+    int GetCachedSize() const PROTOBUF_FINAL
+    {
+        return _cached_size_;
+    }
+private:
+    void SharedCtor();
+    void SharedDtor();
+    void SetCachedSize(int size) const PROTOBUF_FINAL;
+    void InternalSwap(EquipmentDTO* other);
+private:
+    inline ::google::protobuf::Arena* GetArenaNoVirtual() const
+    {
+        return NULL;
+    }
+    inline void* MaybeArenaPtr() const
+    {
+        return NULL;
+    }
+public:
 
-  // accessors -------------------------------------------------------
+    ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
 
-  // repeated int32 gemstonelist = 4;
-  int gemstonelist_size() const;
-  void clear_gemstonelist();
-  static const int kGemstonelistFieldNumber = 4;
-  ::google::protobuf::int32 gemstonelist(int index) const;
-  void set_gemstonelist(int index, ::google::protobuf::int32 value);
-  void add_gemstonelist(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      gemstonelist() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-      mutable_gemstonelist();
+    // nested types ----------------------------------------------------
 
-  // required int32 id = 1;
-  bool has_id() const;
-  void clear_id();
-  static const int kIdFieldNumber = 1;
-  ::google::protobuf::int32 id() const;
-  void set_id(::google::protobuf::int32 value);
+    // accessors -------------------------------------------------------
 
-  // required int32 level = 2;
-  bool has_level() const;
-  void clear_level();
-  static const int kLevelFieldNumber = 2;
-  ::google::protobuf::int32 level() const;
-  void set_level(::google::protobuf::int32 value);
+    // repeated int32 gemstonelist = 4;
+    int gemstonelist_size() const;
+    void clear_gemstonelist();
+    static const int kGemstonelistFieldNumber = 4;
+    ::google::protobuf::int32 gemstonelist(int index) const;
+    void set_gemstonelist(int index, ::google::protobuf::int32 value);
+    void add_gemstonelist(::google::protobuf::int32 value);
+    const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+    gemstonelist() const;
+    ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+    mutable_gemstonelist();
 
-  // required int32 exp = 3;
-  bool has_exp() const;
-  void clear_exp();
-  static const int kExpFieldNumber = 3;
-  ::google::protobuf::int32 exp() const;
-  void set_exp(::google::protobuf::int32 value);
+    // required int32 id = 1;
+    bool has_id() const;
+    void clear_id();
+    static const int kIdFieldNumber = 1;
+    ::google::protobuf::int32 id() const;
+    void set_id(::google::protobuf::int32 value);
 
-  // required int32 type = 5;
-  bool has_type() const;
-  void clear_type();
-  static const int kTypeFieldNumber = 5;
-  ::google::protobuf::int32 type() const;
-  void set_type(::google::protobuf::int32 value);
+    // required int32 level = 2;
+    bool has_level() const;
+    void clear_level();
+    static const int kLevelFieldNumber = 2;
+    ::google::protobuf::int32 level() const;
+    void set_level(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:EquipmentDTO)
- private:
-  void set_has_id();
-  void clear_has_id();
-  void set_has_level();
-  void clear_has_level();
-  void set_has_exp();
-  void clear_has_exp();
-  void set_has_type();
-  void clear_has_type();
+    // required int32 exp = 3;
+    bool has_exp() const;
+    void clear_exp();
+    static const int kExpFieldNumber = 3;
+    ::google::protobuf::int32 exp() const;
+    void set_exp(::google::protobuf::int32 value);
 
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
+    // required int32 type = 5;
+    bool has_type() const;
+    void clear_type();
+    static const int kTypeFieldNumber = 5;
+    ::google::protobuf::int32 type() const;
+    void set_type(::google::protobuf::int32 value);
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > gemstonelist_;
-  ::google::protobuf::int32 id_;
-  ::google::protobuf::int32 level_;
-  ::google::protobuf::int32 exp_;
-  ::google::protobuf::int32 type_;
-  friend struct ::protobuf_common_2eproto::TableStruct;
-  friend void ::protobuf_common_2eproto::InitDefaultsEquipmentDTOImpl();
+    // @@protoc_insertion_point(class_scope:EquipmentDTO)
+private:
+    void set_has_id();
+    void clear_has_id();
+    void set_has_level();
+    void clear_has_level();
+    void set_has_exp();
+    void clear_has_exp();
+    void set_has_type();
+    void clear_has_type();
+
+    // helper for ByteSizeLong()
+    size_t RequiredFieldsByteSizeFallback() const;
+
+    ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable int _cached_size_;
+    ::google::protobuf::RepeatedField< ::google::protobuf::int32 > gemstonelist_;
+    ::google::protobuf::int32 id_;
+    ::google::protobuf::int32 level_;
+    ::google::protobuf::int32 exp_;
+    ::google::protobuf::int32 type_;
+    friend struct ::protobuf_common_2eproto::TableStruct;
+    friend void ::protobuf_common_2eproto::InitDefaultsEquipmentDTOImpl();
 };
 // -------------------------------------------------------------------
 
-class VipDTO : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:VipDTO) */ {
- public:
-  VipDTO();
-  virtual ~VipDTO();
+class VipDTO :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:VipDTO) */
+{
+public:
+    VipDTO();
+    virtual ~VipDTO();
 
-  VipDTO(const VipDTO& from);
+    VipDTO(const VipDTO& from);
 
-  inline VipDTO& operator=(const VipDTO& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  VipDTO(VipDTO&& from) noexcept
-    : VipDTO() {
-    *this = ::std::move(from);
-  }
-
-  inline VipDTO& operator=(VipDTO&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline VipDTO& operator=(const VipDTO& from)
+    {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
+#if LANG_CXX11
+    VipDTO(VipDTO&& from) noexcept
+        : VipDTO()
+    {
+        *this = ::std::move(from);
+    }
 
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const VipDTO& default_instance();
+    inline VipDTO& operator=(VipDTO&& from) noexcept
+    {
+        if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+            if (this != &from) {
+                InternalSwap(&from);
+            }
+        } else {
+            CopyFrom(from);
+        }
 
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const VipDTO* internal_default_instance() {
-    return reinterpret_cast<const VipDTO*>(
-               &_VipDTO_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    8;
+        return *this;
+    }
+#endif
+    inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+    {
+        return _internal_metadata_.unknown_fields();
+    }
+    inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+    {
+        return _internal_metadata_.mutable_unknown_fields();
+    }
 
-  void Swap(VipDTO* other);
-  friend void swap(VipDTO& a, VipDTO& b) {
-    a.Swap(&b);
-  }
+    static const ::google::protobuf::Descriptor* descriptor();
+    static const VipDTO& default_instance();
 
-  // implements Message ----------------------------------------------
+    static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+    static inline const VipDTO* internal_default_instance()
+    {
+        return reinterpret_cast<const VipDTO*>(
+                   &_VipDTO_default_instance_);
+    }
+    static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+        8;
 
-  inline VipDTO* New() const PROTOBUF_FINAL { return New(NULL); }
+    void Swap(VipDTO* other);
+    friend void swap(VipDTO& a, VipDTO& b)
+    {
+        a.Swap(&b);
+    }
 
-  VipDTO* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const VipDTO& from);
-  void MergeFrom(const VipDTO& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
+    // implements Message ----------------------------------------------
 
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(VipDTO* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
+    inline VipDTO* New() const PROTOBUF_FINAL
+    {
+        return New(NULL);
+    }
 
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+    VipDTO* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+    void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void CopyFrom(const VipDTO& from);
+    void MergeFrom(const VipDTO& from);
+    void Clear() PROTOBUF_FINAL;
+    bool IsInitialized() const PROTOBUF_FINAL;
 
-  // nested types ----------------------------------------------------
+    size_t ByteSizeLong() const PROTOBUF_FINAL;
+    bool MergePartialFromCodedStream(
+        ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+    void SerializeWithCachedSizes(
+        ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+    ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+        bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+    int GetCachedSize() const PROTOBUF_FINAL
+    {
+        return _cached_size_;
+    }
+private:
+    void SharedCtor();
+    void SharedDtor();
+    void SetCachedSize(int size) const PROTOBUF_FINAL;
+    void InternalSwap(VipDTO* other);
+private:
+    inline ::google::protobuf::Arena* GetArenaNoVirtual() const
+    {
+        return NULL;
+    }
+    inline void* MaybeArenaPtr() const
+    {
+        return NULL;
+    }
+public:
 
-  // accessors -------------------------------------------------------
+    ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
 
-  // required int32 vipLevel = 1;
-  bool has_viplevel() const;
-  void clear_viplevel();
-  static const int kVipLevelFieldNumber = 1;
-  ::google::protobuf::int32 viplevel() const;
-  void set_viplevel(::google::protobuf::int32 value);
+    // nested types ----------------------------------------------------
 
-  // required bool activated = 2;
-  bool has_activated() const;
-  void clear_activated();
-  static const int kActivatedFieldNumber = 2;
-  bool activated() const;
-  void set_activated(bool value);
+    // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:VipDTO)
- private:
-  void set_has_viplevel();
-  void clear_has_viplevel();
-  void set_has_activated();
-  void clear_has_activated();
+    // required int32 vipLevel = 1;
+    bool has_viplevel() const;
+    void clear_viplevel();
+    static const int kVipLevelFieldNumber = 1;
+    ::google::protobuf::int32 viplevel() const;
+    void set_viplevel(::google::protobuf::int32 value);
 
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
+    // required bool activated = 2;
+    bool has_activated() const;
+    void clear_activated();
+    static const int kActivatedFieldNumber = 2;
+    bool activated() const;
+    void set_activated(bool value);
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  ::google::protobuf::int32 viplevel_;
-  bool activated_;
-  friend struct ::protobuf_common_2eproto::TableStruct;
-  friend void ::protobuf_common_2eproto::InitDefaultsVipDTOImpl();
+    // @@protoc_insertion_point(class_scope:VipDTO)
+private:
+    void set_has_viplevel();
+    void clear_has_viplevel();
+    void set_has_activated();
+    void clear_has_activated();
+
+    // helper for ByteSizeLong()
+    size_t RequiredFieldsByteSizeFallback() const;
+
+    ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable int _cached_size_;
+    ::google::protobuf::int32 viplevel_;
+    bool activated_;
+    friend struct ::protobuf_common_2eproto::TableStruct;
+    friend void ::protobuf_common_2eproto::InitDefaultsVipDTOImpl();
 };
 // ===================================================================
 
@@ -1272,8 +1459,8 @@ class VipDTO : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
 // ===================================================================
 
 #ifdef __GNUC__
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
 // EmptyMessage
 
@@ -1282,96 +1469,117 @@ class VipDTO : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
 // ErrorMessage
 
 // required int32 errorCode = 1;
-inline bool ErrorMessage::has_errorcode() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+inline bool ErrorMessage::has_errorcode() const
+{
+    return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void ErrorMessage::set_has_errorcode() {
-  _has_bits_[0] |= 0x00000001u;
+inline void ErrorMessage::set_has_errorcode()
+{
+    _has_bits_[0] |= 0x00000001u;
 }
-inline void ErrorMessage::clear_has_errorcode() {
-  _has_bits_[0] &= ~0x00000001u;
+inline void ErrorMessage::clear_has_errorcode()
+{
+    _has_bits_[0] &= ~0x00000001u;
 }
-inline void ErrorMessage::clear_errorcode() {
-  errorcode_ = 0;
-  clear_has_errorcode();
+inline void ErrorMessage::clear_errorcode()
+{
+    errorcode_ = 0;
+    clear_has_errorcode();
 }
-inline ::google::protobuf::int32 ErrorMessage::errorcode() const {
-  // @@protoc_insertion_point(field_get:ErrorMessage.errorCode)
-  return errorcode_;
+inline ::google::protobuf::int32 ErrorMessage::errorcode() const
+{
+    // @@protoc_insertion_point(field_get:ErrorMessage.errorCode)
+    return errorcode_;
 }
-inline void ErrorMessage::set_errorcode(::google::protobuf::int32 value) {
-  set_has_errorcode();
-  errorcode_ = value;
-  // @@protoc_insertion_point(field_set:ErrorMessage.errorCode)
+inline void ErrorMessage::set_errorcode(::google::protobuf::int32 value)
+{
+    set_has_errorcode();
+    errorcode_ = value;
+    // @@protoc_insertion_point(field_set:ErrorMessage.errorCode)
 }
 
 // repeated string args = 2;
-inline int ErrorMessage::args_size() const {
-  return args_.size();
+inline int ErrorMessage::args_size() const
+{
+    return args_.size();
 }
-inline void ErrorMessage::clear_args() {
-  args_.Clear();
+inline void ErrorMessage::clear_args()
+{
+    args_.Clear();
 }
-inline const ::std::string& ErrorMessage::args(int index) const {
-  // @@protoc_insertion_point(field_get:ErrorMessage.args)
-  return args_.Get(index);
+inline const ::std::string& ErrorMessage::args(int index) const
+{
+    // @@protoc_insertion_point(field_get:ErrorMessage.args)
+    return args_.Get(index);
 }
-inline ::std::string* ErrorMessage::mutable_args(int index) {
-  // @@protoc_insertion_point(field_mutable:ErrorMessage.args)
-  return args_.Mutable(index);
+inline ::std::string* ErrorMessage::mutable_args(int index)
+{
+    // @@protoc_insertion_point(field_mutable:ErrorMessage.args)
+    return args_.Mutable(index);
 }
-inline void ErrorMessage::set_args(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:ErrorMessage.args)
-  args_.Mutable(index)->assign(value);
-}
-#if LANG_CXX11
-inline void ErrorMessage::set_args(int index, ::std::string&& value) {
-  // @@protoc_insertion_point(field_set:ErrorMessage.args)
-  args_.Mutable(index)->assign(std::move(value));
-}
-#endif
-inline void ErrorMessage::set_args(int index, const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  args_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:ErrorMessage.args)
-}
-inline void ErrorMessage::set_args(int index, const char* value, size_t size) {
-  args_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:ErrorMessage.args)
-}
-inline ::std::string* ErrorMessage::add_args() {
-  // @@protoc_insertion_point(field_add_mutable:ErrorMessage.args)
-  return args_.Add();
-}
-inline void ErrorMessage::add_args(const ::std::string& value) {
-  args_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:ErrorMessage.args)
+inline void ErrorMessage::set_args(int index, const ::std::string& value)
+{
+    // @@protoc_insertion_point(field_set:ErrorMessage.args)
+    args_.Mutable(index)->assign(value);
 }
 #if LANG_CXX11
-inline void ErrorMessage::add_args(::std::string&& value) {
-  args_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:ErrorMessage.args)
+inline void ErrorMessage::set_args(int index, ::std::string&& value)
+{
+    // @@protoc_insertion_point(field_set:ErrorMessage.args)
+    args_.Mutable(index)->assign(std::move(value));
 }
 #endif
-inline void ErrorMessage::add_args(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  args_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:ErrorMessage.args)
+inline void ErrorMessage::set_args(int index, const char* value)
+{
+    GOOGLE_DCHECK(value != NULL);
+    args_.Mutable(index)->assign(value);
+    // @@protoc_insertion_point(field_set_char:ErrorMessage.args)
 }
-inline void ErrorMessage::add_args(const char* value, size_t size) {
-  args_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:ErrorMessage.args)
+inline void ErrorMessage::set_args(int index, const char* value, size_t size)
+{
+    args_.Mutable(index)->assign(
+        reinterpret_cast<const char*>(value), size);
+    // @@protoc_insertion_point(field_set_pointer:ErrorMessage.args)
+}
+inline ::std::string* ErrorMessage::add_args()
+{
+    // @@protoc_insertion_point(field_add_mutable:ErrorMessage.args)
+    return args_.Add();
+}
+inline void ErrorMessage::add_args(const ::std::string& value)
+{
+    args_.Add()->assign(value);
+    // @@protoc_insertion_point(field_add:ErrorMessage.args)
+}
+#if LANG_CXX11
+inline void ErrorMessage::add_args(::std::string&& value)
+{
+    args_.Add(std::move(value));
+    // @@protoc_insertion_point(field_add:ErrorMessage.args)
+}
+#endif
+inline void ErrorMessage::add_args(const char* value)
+{
+    GOOGLE_DCHECK(value != NULL);
+    args_.Add()->assign(value);
+    // @@protoc_insertion_point(field_add_char:ErrorMessage.args)
+}
+inline void ErrorMessage::add_args(const char* value, size_t size)
+{
+    args_.Add()->assign(reinterpret_cast<const char*>(value), size);
+    // @@protoc_insertion_point(field_add_pointer:ErrorMessage.args)
 }
 inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
-ErrorMessage::args() const {
-  // @@protoc_insertion_point(field_list:ErrorMessage.args)
-  return args_;
+ErrorMessage::args() const
+{
+    // @@protoc_insertion_point(field_list:ErrorMessage.args)
+    return args_;
 }
 inline ::google::protobuf::RepeatedPtrField< ::std::string>*
-ErrorMessage::mutable_args() {
-  // @@protoc_insertion_point(field_mutable_list:ErrorMessage.args)
-  return &args_;
+ErrorMessage::mutable_args()
+{
+    // @@protoc_insertion_point(field_mutable_list:ErrorMessage.args)
+    return &args_;
 }
 
 // -------------------------------------------------------------------
@@ -1379,51 +1587,63 @@ ErrorMessage::mutable_args() {
 // PositionDTO
 
 // required int32 x = 1;
-inline bool PositionDTO::has_x() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+inline bool PositionDTO::has_x() const
+{
+    return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void PositionDTO::set_has_x() {
-  _has_bits_[0] |= 0x00000001u;
+inline void PositionDTO::set_has_x()
+{
+    _has_bits_[0] |= 0x00000001u;
 }
-inline void PositionDTO::clear_has_x() {
-  _has_bits_[0] &= ~0x00000001u;
+inline void PositionDTO::clear_has_x()
+{
+    _has_bits_[0] &= ~0x00000001u;
 }
-inline void PositionDTO::clear_x() {
-  x_ = 0;
-  clear_has_x();
+inline void PositionDTO::clear_x()
+{
+    x_ = 0;
+    clear_has_x();
 }
-inline ::google::protobuf::int32 PositionDTO::x() const {
-  // @@protoc_insertion_point(field_get:PositionDTO.x)
-  return x_;
+inline ::google::protobuf::int32 PositionDTO::x() const
+{
+    // @@protoc_insertion_point(field_get:PositionDTO.x)
+    return x_;
 }
-inline void PositionDTO::set_x(::google::protobuf::int32 value) {
-  set_has_x();
-  x_ = value;
-  // @@protoc_insertion_point(field_set:PositionDTO.x)
+inline void PositionDTO::set_x(::google::protobuf::int32 value)
+{
+    set_has_x();
+    x_ = value;
+    // @@protoc_insertion_point(field_set:PositionDTO.x)
 }
 
 // required int32 y = 2;
-inline bool PositionDTO::has_y() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+inline bool PositionDTO::has_y() const
+{
+    return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void PositionDTO::set_has_y() {
-  _has_bits_[0] |= 0x00000002u;
+inline void PositionDTO::set_has_y()
+{
+    _has_bits_[0] |= 0x00000002u;
 }
-inline void PositionDTO::clear_has_y() {
-  _has_bits_[0] &= ~0x00000002u;
+inline void PositionDTO::clear_has_y()
+{
+    _has_bits_[0] &= ~0x00000002u;
 }
-inline void PositionDTO::clear_y() {
-  y_ = 0;
-  clear_has_y();
+inline void PositionDTO::clear_y()
+{
+    y_ = 0;
+    clear_has_y();
 }
-inline ::google::protobuf::int32 PositionDTO::y() const {
-  // @@protoc_insertion_point(field_get:PositionDTO.y)
-  return y_;
+inline ::google::protobuf::int32 PositionDTO::y() const
+{
+    // @@protoc_insertion_point(field_get:PositionDTO.y)
+    return y_;
 }
-inline void PositionDTO::set_y(::google::protobuf::int32 value) {
-  set_has_y();
-  y_ = value;
-  // @@protoc_insertion_point(field_set:PositionDTO.y)
+inline void PositionDTO::set_y(::google::protobuf::int32 value)
+{
+    set_has_y();
+    y_ = value;
+    // @@protoc_insertion_point(field_set:PositionDTO.y)
 }
 
 // -------------------------------------------------------------------
@@ -1431,51 +1651,63 @@ inline void PositionDTO::set_y(::google::protobuf::int32 value) {
 // PropertyDTO
 
 // required int32 type = 1;
-inline bool PropertyDTO::has_type() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+inline bool PropertyDTO::has_type() const
+{
+    return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void PropertyDTO::set_has_type() {
-  _has_bits_[0] |= 0x00000001u;
+inline void PropertyDTO::set_has_type()
+{
+    _has_bits_[0] |= 0x00000001u;
 }
-inline void PropertyDTO::clear_has_type() {
-  _has_bits_[0] &= ~0x00000001u;
+inline void PropertyDTO::clear_has_type()
+{
+    _has_bits_[0] &= ~0x00000001u;
 }
-inline void PropertyDTO::clear_type() {
-  type_ = 0;
-  clear_has_type();
+inline void PropertyDTO::clear_type()
+{
+    type_ = 0;
+    clear_has_type();
 }
-inline ::google::protobuf::int32 PropertyDTO::type() const {
-  // @@protoc_insertion_point(field_get:PropertyDTO.type)
-  return type_;
+inline ::google::protobuf::int32 PropertyDTO::type() const
+{
+    // @@protoc_insertion_point(field_get:PropertyDTO.type)
+    return type_;
 }
-inline void PropertyDTO::set_type(::google::protobuf::int32 value) {
-  set_has_type();
-  type_ = value;
-  // @@protoc_insertion_point(field_set:PropertyDTO.type)
+inline void PropertyDTO::set_type(::google::protobuf::int32 value)
+{
+    set_has_type();
+    type_ = value;
+    // @@protoc_insertion_point(field_set:PropertyDTO.type)
 }
 
 // required int32 value = 2;
-inline bool PropertyDTO::has_value() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+inline bool PropertyDTO::has_value() const
+{
+    return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void PropertyDTO::set_has_value() {
-  _has_bits_[0] |= 0x00000002u;
+inline void PropertyDTO::set_has_value()
+{
+    _has_bits_[0] |= 0x00000002u;
 }
-inline void PropertyDTO::clear_has_value() {
-  _has_bits_[0] &= ~0x00000002u;
+inline void PropertyDTO::clear_has_value()
+{
+    _has_bits_[0] &= ~0x00000002u;
 }
-inline void PropertyDTO::clear_value() {
-  value_ = 0;
-  clear_has_value();
+inline void PropertyDTO::clear_value()
+{
+    value_ = 0;
+    clear_has_value();
 }
-inline ::google::protobuf::int32 PropertyDTO::value() const {
-  // @@protoc_insertion_point(field_get:PropertyDTO.value)
-  return value_;
+inline ::google::protobuf::int32 PropertyDTO::value() const
+{
+    // @@protoc_insertion_point(field_get:PropertyDTO.value)
+    return value_;
 }
-inline void PropertyDTO::set_value(::google::protobuf::int32 value) {
-  set_has_value();
-  value_ = value;
-  // @@protoc_insertion_point(field_set:PropertyDTO.value)
+inline void PropertyDTO::set_value(::google::protobuf::int32 value)
+{
+    set_has_value();
+    value_ = value;
+    // @@protoc_insertion_point(field_set:PropertyDTO.value)
 }
 
 // -------------------------------------------------------------------
@@ -1483,51 +1715,63 @@ inline void PropertyDTO::set_value(::google::protobuf::int32 value) {
 // ItemDTO
 
 // required int32 itemId = 1;
-inline bool ItemDTO::has_itemid() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+inline bool ItemDTO::has_itemid() const
+{
+    return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void ItemDTO::set_has_itemid() {
-  _has_bits_[0] |= 0x00000001u;
+inline void ItemDTO::set_has_itemid()
+{
+    _has_bits_[0] |= 0x00000001u;
 }
-inline void ItemDTO::clear_has_itemid() {
-  _has_bits_[0] &= ~0x00000001u;
+inline void ItemDTO::clear_has_itemid()
+{
+    _has_bits_[0] &= ~0x00000001u;
 }
-inline void ItemDTO::clear_itemid() {
-  itemid_ = 0;
-  clear_has_itemid();
+inline void ItemDTO::clear_itemid()
+{
+    itemid_ = 0;
+    clear_has_itemid();
 }
-inline ::google::protobuf::int32 ItemDTO::itemid() const {
-  // @@protoc_insertion_point(field_get:ItemDTO.itemId)
-  return itemid_;
+inline ::google::protobuf::int32 ItemDTO::itemid() const
+{
+    // @@protoc_insertion_point(field_get:ItemDTO.itemId)
+    return itemid_;
 }
-inline void ItemDTO::set_itemid(::google::protobuf::int32 value) {
-  set_has_itemid();
-  itemid_ = value;
-  // @@protoc_insertion_point(field_set:ItemDTO.itemId)
+inline void ItemDTO::set_itemid(::google::protobuf::int32 value)
+{
+    set_has_itemid();
+    itemid_ = value;
+    // @@protoc_insertion_point(field_set:ItemDTO.itemId)
 }
 
 // required int32 count = 2;
-inline bool ItemDTO::has_count() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+inline bool ItemDTO::has_count() const
+{
+    return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void ItemDTO::set_has_count() {
-  _has_bits_[0] |= 0x00000002u;
+inline void ItemDTO::set_has_count()
+{
+    _has_bits_[0] |= 0x00000002u;
 }
-inline void ItemDTO::clear_has_count() {
-  _has_bits_[0] &= ~0x00000002u;
+inline void ItemDTO::clear_has_count()
+{
+    _has_bits_[0] &= ~0x00000002u;
 }
-inline void ItemDTO::clear_count() {
-  count_ = 0;
-  clear_has_count();
+inline void ItemDTO::clear_count()
+{
+    count_ = 0;
+    clear_has_count();
 }
-inline ::google::protobuf::int32 ItemDTO::count() const {
-  // @@protoc_insertion_point(field_get:ItemDTO.count)
-  return count_;
+inline ::google::protobuf::int32 ItemDTO::count() const
+{
+    // @@protoc_insertion_point(field_get:ItemDTO.count)
+    return count_;
 }
-inline void ItemDTO::set_count(::google::protobuf::int32 value) {
-  set_has_count();
-  count_ = value;
-  // @@protoc_insertion_point(field_set:ItemDTO.count)
+inline void ItemDTO::set_count(::google::protobuf::int32 value)
+{
+    set_has_count();
+    count_ = value;
+    // @@protoc_insertion_point(field_set:ItemDTO.count)
 }
 
 // -------------------------------------------------------------------
@@ -1535,51 +1779,63 @@ inline void ItemDTO::set_count(::google::protobuf::int32 value) {
 // SoldierDTO
 
 // required int32 armyType = 1;
-inline bool SoldierDTO::has_armytype() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+inline bool SoldierDTO::has_armytype() const
+{
+    return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void SoldierDTO::set_has_armytype() {
-  _has_bits_[0] |= 0x00000001u;
+inline void SoldierDTO::set_has_armytype()
+{
+    _has_bits_[0] |= 0x00000001u;
 }
-inline void SoldierDTO::clear_has_armytype() {
-  _has_bits_[0] &= ~0x00000001u;
+inline void SoldierDTO::clear_has_armytype()
+{
+    _has_bits_[0] &= ~0x00000001u;
 }
-inline void SoldierDTO::clear_armytype() {
-  armytype_ = 0;
-  clear_has_armytype();
+inline void SoldierDTO::clear_armytype()
+{
+    armytype_ = 0;
+    clear_has_armytype();
 }
-inline ::google::protobuf::int32 SoldierDTO::armytype() const {
-  // @@protoc_insertion_point(field_get:SoldierDTO.armyType)
-  return armytype_;
+inline ::google::protobuf::int32 SoldierDTO::armytype() const
+{
+    // @@protoc_insertion_point(field_get:SoldierDTO.armyType)
+    return armytype_;
 }
-inline void SoldierDTO::set_armytype(::google::protobuf::int32 value) {
-  set_has_armytype();
-  armytype_ = value;
-  // @@protoc_insertion_point(field_set:SoldierDTO.armyType)
+inline void SoldierDTO::set_armytype(::google::protobuf::int32 value)
+{
+    set_has_armytype();
+    armytype_ = value;
+    // @@protoc_insertion_point(field_set:SoldierDTO.armyType)
 }
 
 // required int32 armyNum = 2;
-inline bool SoldierDTO::has_armynum() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+inline bool SoldierDTO::has_armynum() const
+{
+    return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void SoldierDTO::set_has_armynum() {
-  _has_bits_[0] |= 0x00000002u;
+inline void SoldierDTO::set_has_armynum()
+{
+    _has_bits_[0] |= 0x00000002u;
 }
-inline void SoldierDTO::clear_has_armynum() {
-  _has_bits_[0] &= ~0x00000002u;
+inline void SoldierDTO::clear_has_armynum()
+{
+    _has_bits_[0] &= ~0x00000002u;
 }
-inline void SoldierDTO::clear_armynum() {
-  armynum_ = 0;
-  clear_has_armynum();
+inline void SoldierDTO::clear_armynum()
+{
+    armynum_ = 0;
+    clear_has_armynum();
 }
-inline ::google::protobuf::int32 SoldierDTO::armynum() const {
-  // @@protoc_insertion_point(field_get:SoldierDTO.armyNum)
-  return armynum_;
+inline ::google::protobuf::int32 SoldierDTO::armynum() const
+{
+    // @@protoc_insertion_point(field_get:SoldierDTO.armyNum)
+    return armynum_;
 }
-inline void SoldierDTO::set_armynum(::google::protobuf::int32 value) {
-  set_has_armynum();
-  armynum_ = value;
-  // @@protoc_insertion_point(field_set:SoldierDTO.armyNum)
+inline void SoldierDTO::set_armynum(::google::protobuf::int32 value)
+{
+    set_has_armynum();
+    armynum_ = value;
+    // @@protoc_insertion_point(field_set:SoldierDTO.armyNum)
 }
 
 // -------------------------------------------------------------------
@@ -1587,81 +1843,105 @@ inline void SoldierDTO::set_armynum(::google::protobuf::int32 value) {
 // LevelSoldierDTO
 
 // required .SoldierDTO soldier = 1;
-inline bool LevelSoldierDTO::has_soldier() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+inline bool LevelSoldierDTO::has_soldier() const
+{
+    return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void LevelSoldierDTO::set_has_soldier() {
-  _has_bits_[0] |= 0x00000001u;
+inline void LevelSoldierDTO::set_has_soldier()
+{
+    _has_bits_[0] |= 0x00000001u;
 }
-inline void LevelSoldierDTO::clear_has_soldier() {
-  _has_bits_[0] &= ~0x00000001u;
+inline void LevelSoldierDTO::clear_has_soldier()
+{
+    _has_bits_[0] &= ~0x00000001u;
 }
-inline void LevelSoldierDTO::clear_soldier() {
-  if (soldier_ != NULL) soldier_->Clear();
-  clear_has_soldier();
-}
-inline const ::SoldierDTO& LevelSoldierDTO::soldier() const {
-  const ::SoldierDTO* p = soldier_;
-  // @@protoc_insertion_point(field_get:LevelSoldierDTO.soldier)
-  return p != NULL ? *p : *reinterpret_cast<const ::SoldierDTO*>(
-      &::_SoldierDTO_default_instance_);
-}
-inline ::SoldierDTO* LevelSoldierDTO::release_soldier() {
-  // @@protoc_insertion_point(field_release:LevelSoldierDTO.soldier)
-  clear_has_soldier();
-  ::SoldierDTO* temp = soldier_;
-  soldier_ = NULL;
-  return temp;
-}
-inline ::SoldierDTO* LevelSoldierDTO::mutable_soldier() {
-  set_has_soldier();
-  if (soldier_ == NULL) {
-    soldier_ = new ::SoldierDTO;
-  }
-  // @@protoc_insertion_point(field_mutable:LevelSoldierDTO.soldier)
-  return soldier_;
-}
-inline void LevelSoldierDTO::set_allocated_soldier(::SoldierDTO* soldier) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete soldier_;
-  }
-  if (soldier) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      soldier = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, soldier, submessage_arena);
+inline void LevelSoldierDTO::clear_soldier()
+{
+    if (soldier_ != NULL) {
+        soldier_->Clear();
     }
-    set_has_soldier();
-  } else {
+
     clear_has_soldier();
-  }
-  soldier_ = soldier;
-  // @@protoc_insertion_point(field_set_allocated:LevelSoldierDTO.soldier)
+}
+inline const ::SoldierDTO& LevelSoldierDTO::soldier() const
+{
+    const ::SoldierDTO* p = soldier_;
+    // @@protoc_insertion_point(field_get:LevelSoldierDTO.soldier)
+    return p != NULL ? *p : *reinterpret_cast<const ::SoldierDTO*>(
+               &::_SoldierDTO_default_instance_);
+}
+inline ::SoldierDTO* LevelSoldierDTO::release_soldier()
+{
+    // @@protoc_insertion_point(field_release:LevelSoldierDTO.soldier)
+    clear_has_soldier();
+    ::SoldierDTO* temp = soldier_;
+    soldier_ = NULL;
+    return temp;
+}
+inline ::SoldierDTO* LevelSoldierDTO::mutable_soldier()
+{
+    set_has_soldier();
+
+    if (soldier_ == NULL) {
+        soldier_ = new ::SoldierDTO;
+    }
+
+    // @@protoc_insertion_point(field_mutable:LevelSoldierDTO.soldier)
+    return soldier_;
+}
+inline void LevelSoldierDTO::set_allocated_soldier(::SoldierDTO* soldier)
+{
+    ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+
+    if (message_arena == NULL) {
+        delete soldier_;
+    }
+
+    if (soldier) {
+        ::google::protobuf::Arena* submessage_arena = NULL;
+
+        if (message_arena != submessage_arena) {
+            soldier = ::google::protobuf::internal::GetOwnedMessage(
+                          message_arena, soldier, submessage_arena);
+        }
+
+        set_has_soldier();
+    } else {
+        clear_has_soldier();
+    }
+
+    soldier_ = soldier;
+    // @@protoc_insertion_point(field_set_allocated:LevelSoldierDTO.soldier)
 }
 
 // required int32 level = 2;
-inline bool LevelSoldierDTO::has_level() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+inline bool LevelSoldierDTO::has_level() const
+{
+    return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void LevelSoldierDTO::set_has_level() {
-  _has_bits_[0] |= 0x00000002u;
+inline void LevelSoldierDTO::set_has_level()
+{
+    _has_bits_[0] |= 0x00000002u;
 }
-inline void LevelSoldierDTO::clear_has_level() {
-  _has_bits_[0] &= ~0x00000002u;
+inline void LevelSoldierDTO::clear_has_level()
+{
+    _has_bits_[0] &= ~0x00000002u;
 }
-inline void LevelSoldierDTO::clear_level() {
-  level_ = 0;
-  clear_has_level();
+inline void LevelSoldierDTO::clear_level()
+{
+    level_ = 0;
+    clear_has_level();
 }
-inline ::google::protobuf::int32 LevelSoldierDTO::level() const {
-  // @@protoc_insertion_point(field_get:LevelSoldierDTO.level)
-  return level_;
+inline ::google::protobuf::int32 LevelSoldierDTO::level() const
+{
+    // @@protoc_insertion_point(field_get:LevelSoldierDTO.level)
+    return level_;
 }
-inline void LevelSoldierDTO::set_level(::google::protobuf::int32 value) {
-  set_has_level();
-  level_ = value;
-  // @@protoc_insertion_point(field_set:LevelSoldierDTO.level)
+inline void LevelSoldierDTO::set_level(::google::protobuf::int32 value)
+{
+    set_has_level();
+    level_ = value;
+    // @@protoc_insertion_point(field_set:LevelSoldierDTO.level)
 }
 
 // -------------------------------------------------------------------
@@ -1669,129 +1949,161 @@ inline void LevelSoldierDTO::set_level(::google::protobuf::int32 value) {
 // EquipmentDTO
 
 // required int32 id = 1;
-inline bool EquipmentDTO::has_id() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+inline bool EquipmentDTO::has_id() const
+{
+    return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void EquipmentDTO::set_has_id() {
-  _has_bits_[0] |= 0x00000001u;
+inline void EquipmentDTO::set_has_id()
+{
+    _has_bits_[0] |= 0x00000001u;
 }
-inline void EquipmentDTO::clear_has_id() {
-  _has_bits_[0] &= ~0x00000001u;
+inline void EquipmentDTO::clear_has_id()
+{
+    _has_bits_[0] &= ~0x00000001u;
 }
-inline void EquipmentDTO::clear_id() {
-  id_ = 0;
-  clear_has_id();
+inline void EquipmentDTO::clear_id()
+{
+    id_ = 0;
+    clear_has_id();
 }
-inline ::google::protobuf::int32 EquipmentDTO::id() const {
-  // @@protoc_insertion_point(field_get:EquipmentDTO.id)
-  return id_;
+inline ::google::protobuf::int32 EquipmentDTO::id() const
+{
+    // @@protoc_insertion_point(field_get:EquipmentDTO.id)
+    return id_;
 }
-inline void EquipmentDTO::set_id(::google::protobuf::int32 value) {
-  set_has_id();
-  id_ = value;
-  // @@protoc_insertion_point(field_set:EquipmentDTO.id)
+inline void EquipmentDTO::set_id(::google::protobuf::int32 value)
+{
+    set_has_id();
+    id_ = value;
+    // @@protoc_insertion_point(field_set:EquipmentDTO.id)
 }
 
 // required int32 level = 2;
-inline bool EquipmentDTO::has_level() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+inline bool EquipmentDTO::has_level() const
+{
+    return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void EquipmentDTO::set_has_level() {
-  _has_bits_[0] |= 0x00000002u;
+inline void EquipmentDTO::set_has_level()
+{
+    _has_bits_[0] |= 0x00000002u;
 }
-inline void EquipmentDTO::clear_has_level() {
-  _has_bits_[0] &= ~0x00000002u;
+inline void EquipmentDTO::clear_has_level()
+{
+    _has_bits_[0] &= ~0x00000002u;
 }
-inline void EquipmentDTO::clear_level() {
-  level_ = 0;
-  clear_has_level();
+inline void EquipmentDTO::clear_level()
+{
+    level_ = 0;
+    clear_has_level();
 }
-inline ::google::protobuf::int32 EquipmentDTO::level() const {
-  // @@protoc_insertion_point(field_get:EquipmentDTO.level)
-  return level_;
+inline ::google::protobuf::int32 EquipmentDTO::level() const
+{
+    // @@protoc_insertion_point(field_get:EquipmentDTO.level)
+    return level_;
 }
-inline void EquipmentDTO::set_level(::google::protobuf::int32 value) {
-  set_has_level();
-  level_ = value;
-  // @@protoc_insertion_point(field_set:EquipmentDTO.level)
+inline void EquipmentDTO::set_level(::google::protobuf::int32 value)
+{
+    set_has_level();
+    level_ = value;
+    // @@protoc_insertion_point(field_set:EquipmentDTO.level)
 }
 
 // required int32 exp = 3;
-inline bool EquipmentDTO::has_exp() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+inline bool EquipmentDTO::has_exp() const
+{
+    return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void EquipmentDTO::set_has_exp() {
-  _has_bits_[0] |= 0x00000004u;
+inline void EquipmentDTO::set_has_exp()
+{
+    _has_bits_[0] |= 0x00000004u;
 }
-inline void EquipmentDTO::clear_has_exp() {
-  _has_bits_[0] &= ~0x00000004u;
+inline void EquipmentDTO::clear_has_exp()
+{
+    _has_bits_[0] &= ~0x00000004u;
 }
-inline void EquipmentDTO::clear_exp() {
-  exp_ = 0;
-  clear_has_exp();
+inline void EquipmentDTO::clear_exp()
+{
+    exp_ = 0;
+    clear_has_exp();
 }
-inline ::google::protobuf::int32 EquipmentDTO::exp() const {
-  // @@protoc_insertion_point(field_get:EquipmentDTO.exp)
-  return exp_;
+inline ::google::protobuf::int32 EquipmentDTO::exp() const
+{
+    // @@protoc_insertion_point(field_get:EquipmentDTO.exp)
+    return exp_;
 }
-inline void EquipmentDTO::set_exp(::google::protobuf::int32 value) {
-  set_has_exp();
-  exp_ = value;
-  // @@protoc_insertion_point(field_set:EquipmentDTO.exp)
+inline void EquipmentDTO::set_exp(::google::protobuf::int32 value)
+{
+    set_has_exp();
+    exp_ = value;
+    // @@protoc_insertion_point(field_set:EquipmentDTO.exp)
 }
 
 // repeated int32 gemstonelist = 4;
-inline int EquipmentDTO::gemstonelist_size() const {
-  return gemstonelist_.size();
+inline int EquipmentDTO::gemstonelist_size() const
+{
+    return gemstonelist_.size();
 }
-inline void EquipmentDTO::clear_gemstonelist() {
-  gemstonelist_.Clear();
+inline void EquipmentDTO::clear_gemstonelist()
+{
+    gemstonelist_.Clear();
 }
-inline ::google::protobuf::int32 EquipmentDTO::gemstonelist(int index) const {
-  // @@protoc_insertion_point(field_get:EquipmentDTO.gemstonelist)
-  return gemstonelist_.Get(index);
+inline ::google::protobuf::int32 EquipmentDTO::gemstonelist(int index) const
+{
+    // @@protoc_insertion_point(field_get:EquipmentDTO.gemstonelist)
+    return gemstonelist_.Get(index);
 }
-inline void EquipmentDTO::set_gemstonelist(int index, ::google::protobuf::int32 value) {
-  gemstonelist_.Set(index, value);
-  // @@protoc_insertion_point(field_set:EquipmentDTO.gemstonelist)
+inline void EquipmentDTO::set_gemstonelist(int index,
+        ::google::protobuf::int32 value)
+{
+    gemstonelist_.Set(index, value);
+    // @@protoc_insertion_point(field_set:EquipmentDTO.gemstonelist)
 }
-inline void EquipmentDTO::add_gemstonelist(::google::protobuf::int32 value) {
-  gemstonelist_.Add(value);
-  // @@protoc_insertion_point(field_add:EquipmentDTO.gemstonelist)
+inline void EquipmentDTO::add_gemstonelist(::google::protobuf::int32 value)
+{
+    gemstonelist_.Add(value);
+    // @@protoc_insertion_point(field_add:EquipmentDTO.gemstonelist)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-EquipmentDTO::gemstonelist() const {
-  // @@protoc_insertion_point(field_list:EquipmentDTO.gemstonelist)
-  return gemstonelist_;
+EquipmentDTO::gemstonelist() const
+{
+    // @@protoc_insertion_point(field_list:EquipmentDTO.gemstonelist)
+    return gemstonelist_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-EquipmentDTO::mutable_gemstonelist() {
-  // @@protoc_insertion_point(field_mutable_list:EquipmentDTO.gemstonelist)
-  return &gemstonelist_;
+EquipmentDTO::mutable_gemstonelist()
+{
+    // @@protoc_insertion_point(field_mutable_list:EquipmentDTO.gemstonelist)
+    return &gemstonelist_;
 }
 
 // required int32 type = 5;
-inline bool EquipmentDTO::has_type() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+inline bool EquipmentDTO::has_type() const
+{
+    return (_has_bits_[0] & 0x00000008u) != 0;
 }
-inline void EquipmentDTO::set_has_type() {
-  _has_bits_[0] |= 0x00000008u;
+inline void EquipmentDTO::set_has_type()
+{
+    _has_bits_[0] |= 0x00000008u;
 }
-inline void EquipmentDTO::clear_has_type() {
-  _has_bits_[0] &= ~0x00000008u;
+inline void EquipmentDTO::clear_has_type()
+{
+    _has_bits_[0] &= ~0x00000008u;
 }
-inline void EquipmentDTO::clear_type() {
-  type_ = 0;
-  clear_has_type();
+inline void EquipmentDTO::clear_type()
+{
+    type_ = 0;
+    clear_has_type();
 }
-inline ::google::protobuf::int32 EquipmentDTO::type() const {
-  // @@protoc_insertion_point(field_get:EquipmentDTO.type)
-  return type_;
+inline ::google::protobuf::int32 EquipmentDTO::type() const
+{
+    // @@protoc_insertion_point(field_get:EquipmentDTO.type)
+    return type_;
 }
-inline void EquipmentDTO::set_type(::google::protobuf::int32 value) {
-  set_has_type();
-  type_ = value;
-  // @@protoc_insertion_point(field_set:EquipmentDTO.type)
+inline void EquipmentDTO::set_type(::google::protobuf::int32 value)
+{
+    set_has_type();
+    type_ = value;
+    // @@protoc_insertion_point(field_set:EquipmentDTO.type)
 }
 
 // -------------------------------------------------------------------
@@ -1799,55 +2111,67 @@ inline void EquipmentDTO::set_type(::google::protobuf::int32 value) {
 // VipDTO
 
 // required int32 vipLevel = 1;
-inline bool VipDTO::has_viplevel() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+inline bool VipDTO::has_viplevel() const
+{
+    return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void VipDTO::set_has_viplevel() {
-  _has_bits_[0] |= 0x00000001u;
+inline void VipDTO::set_has_viplevel()
+{
+    _has_bits_[0] |= 0x00000001u;
 }
-inline void VipDTO::clear_has_viplevel() {
-  _has_bits_[0] &= ~0x00000001u;
+inline void VipDTO::clear_has_viplevel()
+{
+    _has_bits_[0] &= ~0x00000001u;
 }
-inline void VipDTO::clear_viplevel() {
-  viplevel_ = 0;
-  clear_has_viplevel();
+inline void VipDTO::clear_viplevel()
+{
+    viplevel_ = 0;
+    clear_has_viplevel();
 }
-inline ::google::protobuf::int32 VipDTO::viplevel() const {
-  // @@protoc_insertion_point(field_get:VipDTO.vipLevel)
-  return viplevel_;
+inline ::google::protobuf::int32 VipDTO::viplevel() const
+{
+    // @@protoc_insertion_point(field_get:VipDTO.vipLevel)
+    return viplevel_;
 }
-inline void VipDTO::set_viplevel(::google::protobuf::int32 value) {
-  set_has_viplevel();
-  viplevel_ = value;
-  // @@protoc_insertion_point(field_set:VipDTO.vipLevel)
+inline void VipDTO::set_viplevel(::google::protobuf::int32 value)
+{
+    set_has_viplevel();
+    viplevel_ = value;
+    // @@protoc_insertion_point(field_set:VipDTO.vipLevel)
 }
 
 // required bool activated = 2;
-inline bool VipDTO::has_activated() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+inline bool VipDTO::has_activated() const
+{
+    return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void VipDTO::set_has_activated() {
-  _has_bits_[0] |= 0x00000002u;
+inline void VipDTO::set_has_activated()
+{
+    _has_bits_[0] |= 0x00000002u;
 }
-inline void VipDTO::clear_has_activated() {
-  _has_bits_[0] &= ~0x00000002u;
+inline void VipDTO::clear_has_activated()
+{
+    _has_bits_[0] &= ~0x00000002u;
 }
-inline void VipDTO::clear_activated() {
-  activated_ = false;
-  clear_has_activated();
+inline void VipDTO::clear_activated()
+{
+    activated_ = false;
+    clear_has_activated();
 }
-inline bool VipDTO::activated() const {
-  // @@protoc_insertion_point(field_get:VipDTO.activated)
-  return activated_;
+inline bool VipDTO::activated() const
+{
+    // @@protoc_insertion_point(field_get:VipDTO.activated)
+    return activated_;
 }
-inline void VipDTO::set_activated(bool value) {
-  set_has_activated();
-  activated_ = value;
-  // @@protoc_insertion_point(field_set:VipDTO.activated)
+inline void VipDTO::set_activated(bool value)
+{
+    set_has_activated();
+    activated_ = value;
+    // @@protoc_insertion_point(field_set:VipDTO.activated)
 }
 
 #ifdef __GNUC__
-  #pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
 #endif  // __GNUC__
 // -------------------------------------------------------------------
 
@@ -1869,18 +2193,24 @@ inline void VipDTO::set_activated(bool value) {
 // @@protoc_insertion_point(namespace_scope)
 
 
-namespace google {
-namespace protobuf {
+namespace google
+{
+namespace protobuf
+{
 
-template <> struct is_proto_enum< ::ErrorCommandId> : ::google::protobuf::internal::true_type {};
+template <> struct
+    is_proto_enum< ::ErrorCommandId> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::ErrorCommandId>() {
-  return ::ErrorCommandId_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::ErrorCommandId>()
+{
+    return ::ErrorCommandId_descriptor();
 }
-template <> struct is_proto_enum< ::Platform> : ::google::protobuf::internal::true_type {};
+template <> struct
+    is_proto_enum< ::Platform> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::Platform>() {
-  return ::Platform_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::Platform>()
+{
+    return ::Platform_descriptor();
 }
 
 }  // namespace protobuf

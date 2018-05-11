@@ -19,20 +19,24 @@
 
 #include "mindroid/lang/Exception.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Exception indicating that the result of a future cannot be retrieved because the task was
  * cancelled.
  */
-class CancellationException : public Exception {
+class CancellationException : public Exception
+{
 public:
     CancellationException() = default;
 
-    CancellationException(const char* message) : Exception(message) {
+    CancellationException(const char* message) : Exception(message)
+    {
     }
 
-    CancellationException(const sp<String>& message) : Exception(message) {
+    CancellationException(const sp<String>& message) : Exception(message)
+    {
     }
 };
 

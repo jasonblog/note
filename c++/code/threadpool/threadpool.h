@@ -19,7 +19,8 @@
 
 using namespace std;
 
-class CThreadPool{
+class CThreadPool
+{
 public:
     CThreadPool();
     CThreadPool(size_t);
@@ -30,19 +31,19 @@ public:
     ~CThreadPool();
     //向后添加任务
     template<class F, class... Args>
-    auto PushTaskBack(F&& f, Args&&... args);
+    auto PushTaskBack(F&& f, Args&& ... args);
     //向前添加任务
     template<class F, class... Args>
-    auto PushTaskFront(F&& f, Args&&... args);
+    auto PushTaskFront(F&& f, Args&& ... args);
     bool IsThisThreadIn();
     bool IsThisThreadIn(thread* thrd);
-    
+
 private:
     void ThreadFunc();
 private:
-    std::unordered_map<std::thread::id,std::thread*> m_mWorkers;
+    std::unordered_map<std::thread::id, std::thread*> m_mWorkers;
     std::deque< std::function<void()> > m_qTasks;
-    
+
     std::mutex m_mutex;
     std::condition_variable m_condition;
     bool m_stop;

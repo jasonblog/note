@@ -20,12 +20,14 @@
 #include "mindroid/lang/Object.h"
 #include "mindroid/lang/String.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Socket;
 
 class ServerSocket :
-        public Object {
+    public Object
+{
 public:
     static const int DEFAULT_BACKLOG = 10;
 
@@ -33,7 +35,8 @@ public:
     ServerSocket(uint16_t port);
     ServerSocket(uint16_t port, int backlog);
     ServerSocket(const char* host, uint16_t port, int backlog) :
-            ServerSocket(String::valueOf(host), port, backlog) {
+        ServerSocket(String::valueOf(host), port, backlog)
+    {
     }
     ServerSocket(const sp<String>& host, uint16_t port, int backlog);
     virtual ~ServerSocket();
@@ -41,17 +44,27 @@ public:
     ServerSocket& operator=(const ServerSocket&) = delete;
 
     bool bind(uint16_t port, int backlog = DEFAULT_BACKLOG);
-    bool bind(const char* host, uint16_t port, int backlog = DEFAULT_BACKLOG) {
+    bool bind(const char* host, uint16_t port, int backlog = DEFAULT_BACKLOG)
+    {
         return bind(String::valueOf(host), port, backlog);
     }
     bool bind(const sp<String>& host, uint16_t port, int backlog = DEFAULT_BACKLOG);
 
     sp<Socket> accept();
     void close();
-    bool isBound() const { return mIsBound; }
-    bool isClosed() const { return mIsClosed; }
+    bool isBound() const
+    {
+        return mIsBound;
+    }
+    bool isClosed() const
+    {
+        return mIsClosed;
+    }
     void setReuseAddress(bool reuse);
-    int getId() const { return mSocketId; }
+    int getId() const
+    {
+        return mSocketId;
+    }
 
 private:
     int mSocketId = -1;

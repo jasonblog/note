@@ -24,49 +24,61 @@
 #include "mindroid/util/concurrent/TimeoutException.h"
 #include "mindroid/os/SystemClock.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 template<typename T>
 class Promise :
-        public Future<T> {
+    public Future<T>
+{
 public:
     Promise() :
-            mLock(new ReentrantLock()),
-            mCondition(mLock->newCondition()),
-            mIsDone(false),
-            mIsCancelled(false) {
+        mLock(new ReentrantLock()),
+        mCondition(mLock->newCondition()),
+        mIsDone(false),
+        mIsCancelled(false)
+    {
     }
 
     virtual ~Promise() = default;
 
-    virtual void await() const {
+    virtual void await() const
+    {
         AutoLock autoLock(mLock);
+
         while (!mIsDone) {
             if (mIsCancelled) {
                 throw CancellationException("Cancellation exception");
             }
+
             mCondition->await();
         }
     }
 
-    virtual void await(uint64_t timeout) const {
+    virtual void await(uint64_t timeout) const
+    {
         AutoLock autoLock(mLock);
         uint64_t start = SystemClock::uptimeMillis();
         int64_t duration = timeout;
+
         while (!mIsDone && (duration > 0)) {
             if (mIsCancelled) {
                 throw CancellationException("Cancellation exception");
             }
+
             mCondition->await(duration);
             duration = start + timeout - SystemClock::uptimeMillis();
         }
+
         if (!mIsDone && !mIsCancelled) {
             throw TimeoutException("Future timed out");
         }
     }
 
-    virtual bool cancel() {
+    virtual bool cancel()
+    {
         AutoLock autoLock(mLock);
+
         if (!mIsDone && !mIsCancelled) {
             mIsCancelled = true;
             mCondition->signal();
@@ -76,46 +88,59 @@ public:
         }
     }
 
-    virtual T get() const {
+    virtual T get() const
+    {
         AutoLock autoLock(mLock);
+
         while (!mIsDone) {
             if (mIsCancelled) {
                 throw CancellationException("Cancellation exception");
             }
+
             mCondition->await();
         }
+
         return mResult;
     }
 
-    virtual T get(uint64_t timeout) const {
+    virtual T get(uint64_t timeout) const
+    {
         AutoLock autoLock(mLock);
         uint64_t start = SystemClock::uptimeMillis();
         int64_t duration = timeout;
+
         while (!mIsDone && (duration > 0)) {
             if (mIsCancelled) {
                 throw CancellationException("Cancellation exception");
             }
+
             mCondition->await(duration);
             duration = start + timeout - SystemClock::uptimeMillis();
         }
+
         if (!mIsDone && !mIsCancelled) {
             throw TimeoutException("Future timed out");
         }
+
         return mResult;
     }
 
-    virtual bool isCancelled() const {
+    virtual bool isCancelled() const
+    {
         AutoLock autoLock(mLock);
         return mIsCancelled;
     }
 
-    virtual bool isDone() const {
+    virtual bool isDone() const
+    {
         AutoLock autoLock(mLock);
         return mIsDone;
     }
 
-    bool set(const T& object) {
+    bool set(const T& object)
+    {
         AutoLock autoLock(mLock);
+
         if (!mIsCancelled) {
             mResult = object;
             mIsDone = true;
@@ -135,7 +160,8 @@ private:
 };
 
 template<typename T>
-sp<Promise<T>> asPromise(const T& value) {
+sp<Promise<T>> asPromise(const T& value)
+{
     sp<Promise<T>> promise = new Promise<T>();
     promise->set(value);
     return promise;

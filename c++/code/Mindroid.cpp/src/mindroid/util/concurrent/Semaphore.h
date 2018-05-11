@@ -20,10 +20,12 @@
 #include "mindroid/lang/Object.h"
 #include <semaphore.h>
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Semaphore :
-        public Object {
+    public Object
+{
 public:
     Semaphore(uint32_t value = 0);
     ~Semaphore();

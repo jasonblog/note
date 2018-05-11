@@ -7,16 +7,15 @@
 #include <map>
 #include <vector>
 
-enum TALENT_CONFIG_ID
-{
+enum TALENT_CONFIG_ID {
     TALENT_5_1 = 1080001,
     TALENT_5_2 = 1080002,
     TALENT_5_3 = 1080003,
-    
+
     TALENT_15_1 = 1080004,
     TALENT_15_2 = 1080005,
     TALENT_15_3 = 1080006,
-    
+
     TALENT_25_1 = 1080007,
     TALENT_25_2 = 1080008,
     TALENT_25_3 = 1080009,
@@ -36,15 +35,15 @@ enum TALENT_CONFIG_ID
 
 class PlayerTalent
 {
-    
+
 public:
-    
+
     PlayerTalent();
-    
+
     ~PlayerTalent();
-    
+
 public:
-    
+
     int _id;
     int _unlock;
     std::vector<float> _para;
@@ -52,21 +51,21 @@ public:
 
 class PlayerTalentConfig : public ConfigData
 {
-    
+
 public:
-    
+
     PlayerTalentConfig();
-    
+
     ~PlayerTalentConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     PlayerTalent* item(int key);
-    
+
 public:
-    
+
     std::map<int, PlayerTalent*> _datas;
 };
 

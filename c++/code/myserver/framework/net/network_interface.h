@@ -22,12 +22,11 @@ class CSystemSignal;
 class CListener;
 class IBufferEvent;
 
-enum PipeResult
-{
-	ePR_OK = 0,
-	ePR_Disconnected = -1,
-	ePR_OutPipeBuf = -2,
-	ePR_BufNull = -3,
+enum PipeResult {
+    ePR_OK = 0,
+    ePR_Disconnected = -1,
+    ePR_OutPipeBuf = -2,
+    ePR_BufNull = -3,
 };
 
 /** Interface for IEventReactor
@@ -35,53 +34,54 @@ enum PipeResult
 class IEventReactor
 {
 public:
-	virtual ~IEventReactor() = default;
-	virtual bool Register(IReactorHandler *pHandler) = 0;
-	virtual bool UnRegister(IReactorHandler *pHandler) = 0;
-	virtual event_base *GetEventBase()=0;
-	virtual void DispatchEvents() = 0;
-	virtual void Release() = 0;
+    virtual ~IEventReactor() = default;
+    virtual bool Register(IReactorHandler* pHandler) = 0;
+    virtual bool UnRegister(IReactorHandler* pHandler) = 0;
+    virtual event_base* GetEventBase() = 0;
+    virtual void DispatchEvents() = 0;
+    virtual void Release() = 0;
 };
 
 class IReactorHandler
 {
 public:
-	virtual ~IReactorHandler() = default;
-	virtual bool RegisterToReactor() = 0;
-	virtual bool UnRegisterFromReactor() = 0;
-	virtual IEventReactor *GetReactor() = 0;
+    virtual ~IReactorHandler() = default;
+    virtual bool RegisterToReactor() = 0;
+    virtual bool UnRegisterFromReactor() = 0;
+    virtual IEventReactor* GetReactor() = 0;
 };
 
 /** CallBack for TimerOut
 */
-typedef std::function<void(int, short, void *)> FuncOnTimeOut;
+typedef std::function<void(int, short, void*)> FuncOnTimeOut;
 
 /** CallBack for Signal
 */
-typedef std::function<void(uint32, void *)> FuncOnSignal;
+typedef std::function<void(uint32, void*)> FuncOnSignal;
 
 /** CallBack for IBufferEvent
 */
-typedef std::function<void(IBufferEvent *)> FuncBufferEventOnDataSend;
+typedef std::function<void(IBufferEvent*)> FuncBufferEventOnDataSend;
 
-typedef std::function<void(IBufferEvent *)> FuncBufferEventOnDataRecv;
+typedef std::function<void(IBufferEvent*)> FuncBufferEventOnDataRecv;
 
-typedef std::function<void(IBufferEvent *)> FuncBufferEventOnDisconnected;
+typedef std::function<void(IBufferEvent*)> FuncBufferEventOnDisconnected;
 
 /** CallBack for Accept
 */
-typedef std::function<void(IEventReactor *, SOCKET, sockaddr *sa)> FuncListenerOnAccept;
+typedef std::function<void(IEventReactor*, SOCKET, sockaddr* sa)>
+FuncListenerOnAccept;
 
 /** CallBack for Connector
  */
-typedef std::function<void(CConnector *)> FuncConnectorOnConnectFailed;
+typedef std::function<void(CConnector*)> FuncConnectorOnConnectFailed;
 
-typedef std::function<void(CConnector *)> FuncConnectorOnConnectted;
+typedef std::function<void(CConnector*)> FuncConnectorOnConnectted;
 
-typedef std::function<void(int, short, CConnector *)> FuncConnectorOnPingServer;
+typedef std::function<void(int, short, CConnector*)> FuncConnectorOnPingServer;
 
 /** CallBack for CAcceptor
  */
-typedef std::function<void(uint32, CAcceptor *)> FuncAcceptorOnNew;
+typedef std::function<void(uint32, CAcceptor*)> FuncAcceptorOnNew;
 
 #endif

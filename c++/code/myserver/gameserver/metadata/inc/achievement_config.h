@@ -7,15 +7,15 @@
 
 class AchievementItem
 {
-    
+
 public:
-    
+
     AchievementItem();
-    
+
     ~AchievementItem();
-    
+
 public:
-    
+
     int _id;
     int _starlv;
     int _type;
@@ -25,21 +25,21 @@ public:
 
 class AchievementConfig : public ConfigData
 {
-    
+
 public:
-    
+
     AchievementConfig();
-    
+
     ~AchievementConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     AchievementItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, AchievementItem* > _datas;
 };
 

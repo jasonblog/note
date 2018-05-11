@@ -9,15 +9,15 @@
 
 class AreaLevelMonsterItem
 {
-    
+
 public:
-    
+
     AreaLevelMonsterItem();
-    
+
     ~AreaLevelMonsterItem();
-    
+
 public:
-    
+
     int _id;
     int _week;
     int _level;
@@ -26,24 +26,24 @@ public:
 
 class AreaLevelMonsterConfig : public ConfigData
 {
-    
+
 public:
-    
+
     AreaLevelMonsterConfig();
-    
+
     ~AreaLevelMonsterConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     AreaLevelMonsterItem* item(int key);
-    
+
     AreaLevelMonsterItem* getByLevelAndWeek(int level, int week);
-    std::vector<std::string> getByLevelAndWeek(int level, int week,int iMonsterId);
-    
+    std::vector<std::string> getByLevelAndWeek(int level, int week, int iMonsterId);
+
 public:
-    
+
     std::map<int, AreaLevelMonsterItem* > _datas;
 };
 

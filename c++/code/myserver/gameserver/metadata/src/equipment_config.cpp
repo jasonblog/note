@@ -8,7 +8,7 @@ EquipmentItem::EquipmentItem()
 
 EquipmentItem::~EquipmentItem()
 {
-    
+
 }
 
 EquipmentConfig::EquipmentConfig()
@@ -20,22 +20,23 @@ EquipmentConfig::EquipmentConfig()
 
 EquipmentConfig::~EquipmentConfig()
 {
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
-    
-    if (_colors != NULL)
-    {
-        for(auto it = _colors->begin();it != _colors->end();it++)
-        {
+
+    if (_colors != NULL) {
+        for (auto it = _colors->begin(); it != _colors->end(); it++) {
             auto its = it->second;
-            for (auto itx = its.begin();itx != its.end(); itx++)
-            {
+
+            for (auto itx = its.begin(); itx != its.end(); itx++) {
                 itx->second.clear();
             }
+
             it->second.clear();
         }
+
         _colors->clear();
         delete  _colors;
         _colors = NULL;
@@ -45,11 +46,12 @@ EquipmentConfig::~EquipmentConfig()
 int EquipmentConfig::parse()
 {
     auto obj = m_obj.ToObject();
-    for (auto it=obj.begin(); it!=obj.end(); ++it) {
+
+    for (auto it = obj.begin(); it != obj.end(); ++it) {
         auto item = new EquipmentItem();
-        
+
         auto item_obj = it->second.ToObject();
-        
+
         auto oid = item_obj["id"].ToInt();
         auto equipid = item_obj["equipId"].ToInt();
         auto type = item_obj["type"].ToInt();
@@ -67,7 +69,7 @@ int EquipmentConfig::parse()
         auto flHp = item_obj["flHp"].ToFloat();
         auto fsAtk = item_obj["fsAtk"].ToFloat();
         auto fsHp = item_obj["fsHp"].ToFloat();
-        
+
         auto gold = item_obj["gold"].ToFloat();
         auto wood = item_obj["wood"].ToFloat();
         auto stone = item_obj["stone"].ToFloat();
@@ -75,14 +77,14 @@ int EquipmentConfig::parse()
         auto resource = item_obj["resource"].ToFloat();
         auto atk = item_obj["atk"].ToFloat();
         auto def = item_obj["def"].ToFloat();
-     
+
         auto troop = item_obj["troop"].ToFloat();
         auto hospital = item_obj["hospital"].ToFloat();
         auto load = item_obj["load"].ToFloat();
         auto tspeed = item_obj["tSpeed"].ToFloat();
         auto njAtk = item_obj["njAtk"].ToFloat();
         auto mSpeed = item_obj["mSpeed"].ToFloat();
-//       
+        //
         item->_iId = oid;
         item->_iEquipId = equipid;
         item->_iType = type;
@@ -113,10 +115,11 @@ int EquipmentConfig::parse()
         item->_fTspeed = tspeed;
         item->_fNjatk = njAtk;
         item->_fMspeed = mSpeed;
-     
+
         _datas[oid] = item;
-        
+
     }
+
     getSmithyRewardData();
     return 0;
 }
@@ -124,31 +127,27 @@ int EquipmentConfig::parse()
 
 void EquipmentConfig::getSmithyRewardData()
 {
-    _colors = new std::map<int,std::map<int,std::vector<int> > >;
-    
-    for(auto it = _datas.begin();it!= _datas.end();++it)
-    {
+    _colors = new std::map<int, std::map<int, std::vector<int> > >;
+
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         auto EquipmentConfigJson = item(it->first);
-        if (EquipmentConfigJson != NULL)
-        {
-            if (EquipmentConfigJson->_iLevel == 1)
-            {
+
+        if (EquipmentConfigJson != NULL) {
+            if (EquipmentConfigJson->_iLevel == 1) {
                 auto itcolor = _colors->find(EquipmentConfigJson->_iColor);    //找同品质
-                if (itcolor != _colors->end())
-                {
+
+                if (itcolor != _colors->end()) {
                     auto ittype = itcolor->second.find(EquipmentConfigJson->_iType);
-                    if (ittype != itcolor->second.end())
-                    {
+
+                    if (ittype != itcolor->second.end()) {
                         ittype->second.push_back(EquipmentConfigJson->_iId);
-                    }
-                    else{
+                    } else {
                         std::vector<int> ids;
                         ids.push_back(EquipmentConfigJson->_iId);
                         itcolor->second[EquipmentConfigJson->_iType] = ids;
                     }
-                }
-                else{
-                    std::map<int,std::vector<int>> types;  //找同品质同类型
+                } else {
+                    std::map<int, std::vector<int>> types; //找同品质同类型
                     std::vector<int> ids;
                     ids.push_back(EquipmentConfigJson->_iId);
                     types[EquipmentConfigJson->_iType] = ids;
@@ -161,18 +160,21 @@ void EquipmentConfig::getSmithyRewardData()
 
 void EquipmentConfig::clear()
 {
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
 const EquipmentItem* EquipmentConfig::item(const int key) const
 {
     auto it = _datas.find(key);
-    if (it!=_datas.end()) {
+
+    if (it != _datas.end()) {
         return it->second;
     }
+
     return NULL;
-//    throw ERROR::MSG("EquipmentConfig::item:{}", key);
+    //    throw ERROR::MSG("EquipmentConfig::item:{}", key);
 }

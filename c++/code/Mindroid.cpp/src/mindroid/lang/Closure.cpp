@@ -17,9 +17,11 @@
 #include "mindroid/lang/Closure.h"
 #include "mindroid/os/Handler.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
-void Closure::cancel() {
+void Closure::cancel()
+{
     if (mFunc) {
         mHandler->removeCallbacks(this);
     }

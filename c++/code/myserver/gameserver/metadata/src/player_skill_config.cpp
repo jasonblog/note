@@ -2,12 +2,12 @@
 
 PlayerSkillItem::PlayerSkillItem()
 {
-    
+
 }
 
 PlayerSkillItem::~PlayerSkillItem()
 {
-    
+
 }
 
 PlayerSkillConfig::PlayerSkillConfig()
@@ -17,21 +17,21 @@ PlayerSkillConfig::PlayerSkillConfig()
 
 PlayerSkillConfig::~PlayerSkillConfig()
 {
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it)
-    {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
 int PlayerSkillConfig::parse()
 {
     auto obj = m_obj.ToObject();
-    for (auto it=obj.begin(); it!=obj.end(); ++it)
-    {
+
+    for (auto it = obj.begin(); it != obj.end(); ++it) {
         auto item_obj   = it->second.ToObject();
         auto item = new PlayerSkillItem();
-        
+
         int     id          = item_obj["id"].ToInt();           //  技能ID
         int     unlock      = item_obj["unlock"].ToInt();       //  解锁等级
         int     type        = item_obj["type"].ToInt();         //  类型
@@ -43,7 +43,7 @@ int PlayerSkillConfig::parse()
         int     time        = item_obj["time"].ToInt();         //  升级所需时间
         int     exp         = item_obj["exp"].ToInt();          //  领主经验
         int     next        = item_obj["next"].ToInt();         //  下一等级
-        
+
         item->_id           = id;
         item->_unlock       = unlock;
         item->_type         = type;
@@ -55,30 +55,30 @@ int PlayerSkillConfig::parse()
         item->_time         = time;
         item->_exp          = exp;
         item->_next         = next;
-        
+
         _datas[id] = item;
     }
 
-    
+
     return 0;
 }
 
 void PlayerSkillConfig::clear()
 {
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it)
-    {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
 PlayerSkillItem* PlayerSkillConfig::item(int key)
 {
     auto it = _datas.find(key);
-    if (it!=_datas.end())
-    {
+
+    if (it != _datas.end()) {
         return it->second;
     }
-    
+
     return NULL;
 }

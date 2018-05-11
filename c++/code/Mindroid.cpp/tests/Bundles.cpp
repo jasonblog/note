@@ -10,13 +10,17 @@ class Test :
 public:
     Test(uint32_t value) : mValue(value) { }
     virtual ~Test() { }
-    uint32_t getValue() { return mValue; }
+    uint32_t getValue()
+    {
+        return mValue;
+    }
 
 private:
     uint32_t mValue;
 };
 
-TEST(Mindroid, Bundle) {
+TEST(Mindroid, Bundle)
+{
     sp<Bundle> bundle = new Bundle();
     bundle->putBoolean("1", true);
     ASSERT_EQ(bundle->getBoolean("1", false), true);

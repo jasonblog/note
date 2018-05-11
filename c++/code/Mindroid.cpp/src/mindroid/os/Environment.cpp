@@ -18,20 +18,23 @@
 #include "mindroid/os/Environment.h"
 #include "mindroid/app/SharedPreferencesImpl.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 pthread_mutex_t Environment::sMutex = PTHREAD_MUTEX_INITIALIZER;
 Environment* Environment::sInstance = nullptr;
 
 Environment::Environment() :
-        ROOT_DIRECTORY(new File(".")),
-        APPS_DIRECTORY(new File(ROOT_DIRECTORY, "apps")),
-        DATA_DIRECTORY(new File(ROOT_DIRECTORY, "data")),
-        PREFERENCES_DIRECTORY(new File(ROOT_DIRECTORY, "prefs")),
-        LOG_DIRECTORY(new File(ROOT_DIRECTORY, "logs")) {
+    ROOT_DIRECTORY(new File(".")),
+    APPS_DIRECTORY(new File(ROOT_DIRECTORY, "apps")),
+    DATA_DIRECTORY(new File(ROOT_DIRECTORY, "data")),
+    PREFERENCES_DIRECTORY(new File(ROOT_DIRECTORY, "prefs")),
+    LOG_DIRECTORY(new File(ROOT_DIRECTORY, "logs"))
+{
 }
 
-void Environment::setRootDirectory(const sp<String>& rootDirectory) {
+void Environment::setRootDirectory(const sp<String>& rootDirectory)
+{
     Environment* self = getInstance();
     self->ROOT_DIRECTORY = new File(rootDirectory);
     self->APPS_DIRECTORY = new File(self->ROOT_DIRECTORY, "apps");
@@ -40,30 +43,38 @@ void Environment::setRootDirectory(const sp<String>& rootDirectory) {
     self->LOG_DIRECTORY = new File(self->ROOT_DIRECTORY, "logs");
 }
 
-sp<SharedPreferences> Environment::getSharedPreferences(const sp<File>& sharedPrefsFile, int32_t mode) {
+sp<SharedPreferences> Environment::getSharedPreferences(
+    const sp<File>& sharedPrefsFile, int32_t mode)
+{
     Environment* self = getInstance();
     sp<SharedPreferences> sp;
     AutoLock autoLock(self->mLock);
     sp = self->mSharedPrefs->get(sharedPrefsFile->getAbsolutePath());
+
     if (sp == nullptr) {
         sp = new SharedPreferencesImpl(sharedPrefsFile, mode);
         self->mSharedPrefs->put(sharedPrefsFile->getAbsolutePath(), sp);
         return sp;
     }
+
     return sp;
 }
 
-void Environment::clearSharedPreferences() {
+void Environment::clearSharedPreferences()
+{
     Environment* self = getInstance();
     AutoLock autoLock(self->mLock);
     self->mSharedPrefs->clear();
 }
 
-Environment* Environment::getInstance() {
+Environment* Environment::getInstance()
+{
     pthread_mutex_lock(&sMutex);
+
     if (sInstance == nullptr) {
         sInstance = new Environment();
     }
+
     pthread_mutex_unlock(&sMutex);
     return sInstance;
 }

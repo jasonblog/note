@@ -9,8 +9,7 @@
 #include "config_data.h"
 #include <map>
 
-enum
-{
+enum {
     SignDAys_First = 1,
     SignDAys_Seven = 7,
     SignDAys_Max,
@@ -40,7 +39,7 @@ public:
     int parse();
 
     void clear();
-    
+
     bool check();
 
     SevenDayCfgInfo* getCfg(int iIndex);

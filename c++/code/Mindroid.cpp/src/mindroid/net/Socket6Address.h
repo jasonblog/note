@@ -22,10 +22,12 @@
 #include "mindroid/net/SocketAddress.h"
 #include "mindroid/net/InetAddress.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Socket6Address :
-        public SocketAddress {
+    public SocketAddress
+{
 public:
     virtual ~Socket6Address() = default;
 
@@ -35,7 +37,8 @@ private:
     Socket6Address() = default;
     Socket6Address(uint16_t port);
     Socket6Address(const char* host, uint16_t port) :
-            Socket6Address(String::valueOf(host), port) {
+        Socket6Address(String::valueOf(host), port)
+    {
     }
     Socket6Address(const sp<String>& host, uint16_t port);
 

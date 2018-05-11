@@ -23,27 +23,27 @@
 class CGateCtrl: public CSingleton<CGateCtrl>
 {
 public:
-	//构造函数
-	CGateCtrl();
-	//析构函数
-	~CGateCtrl();
-	//准备run
-	int PrepareToRun();
-	//run
-	int Run();
-	//获取线程池
-	CThreadPool *GetSingleThreadPool();
-	CC2sHandle *GetCC2sHandle();
-	CS2cHandle *GetCS2cHandle();
+    //构造函数
+    CGateCtrl();
+    //析构函数
+    ~CGateCtrl();
+    //准备run
+    int PrepareToRun();
+    //run
+    int Run();
+    //获取线程池
+    CThreadPool* GetSingleThreadPool();
+    CC2sHandle* GetCC2sHandle();
+    CS2cHandle* GetCS2cHandle();
 private:
-	//创建共享内存管道
-	void CreatePipe();
-	//读取配置文件
-	void ReadConfig();
+    //创建共享内存管道
+    void CreatePipe();
+    //读取配置文件
+    void ReadConfig();
 private:
-	CC2sHandle *m_pC2sHandle;
-	CS2cHandle *m_pS2cHandle;
-	CThreadPool *m_pSingleThead;
+    CC2sHandle* m_pC2sHandle;
+    CS2cHandle* m_pS2cHandle;
+    CThreadPool* m_pSingleThead;
 };
 
 #endif

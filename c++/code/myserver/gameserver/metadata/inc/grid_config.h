@@ -9,36 +9,36 @@
 
 class GridItem
 {
-    
+
 public:
-    
+
     GridItem();
-    
+
     ~GridItem();
-    
+
 public:
-    
+
     int _id;
     int _gridType;
 };
 
 class GridConfig : public ConfigData
 {
-    
+
 public:
-    
+
     GridConfig();
-    
+
     ~GridConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     GridItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, GridItem* > _datas;
 };
 

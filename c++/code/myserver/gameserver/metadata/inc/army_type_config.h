@@ -9,15 +9,15 @@
 
 class ArmyTypeItem
 {
-    
+
 public:
-    
+
     ArmyTypeItem();
-    
+
     ~ArmyTypeItem();
-    
+
 public:
-    
+
     int _id;
     std::map<int, float> _damage;
     float _wallRestriction;
@@ -26,21 +26,21 @@ public:
 
 class ArmyTypeConfig : public ConfigData
 {
-    
+
 public:
-    
+
     ArmyTypeConfig();
-    
+
     ~ArmyTypeConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     ArmyTypeItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, ArmyTypeItem* > _datas;
 };
 

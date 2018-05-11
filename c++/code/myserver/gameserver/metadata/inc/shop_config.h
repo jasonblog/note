@@ -8,15 +8,15 @@
 
 class ShopItem
 {
-    
+
 public:
-    
+
     ShopItem();
-    
+
     ~ShopItem();
-    
+
 public:
-    
+
     int _id;
     int _shop;;
     int _rank;
@@ -29,21 +29,21 @@ public:
 
 class ShopConfig : public ConfigData
 {
-    
+
 public:
-    
+
     ShopConfig();
-    
+
     ~ShopConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     ShopItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, ShopItem*> _datas;
 };
 

@@ -8,7 +8,7 @@ ShopQuickItem::ShopQuickItem()
 
 ShopQuickItem::~ShopQuickItem()
 {
-    
+
 
 }
 
@@ -19,18 +19,20 @@ ShopQuickConfig::ShopQuickConfig()
 
 ShopQuickConfig::~ShopQuickConfig()
 {
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
 int ShopQuickConfig::parse()
 {
     auto obj = m_obj.ToObject();
-    for (auto it=obj.begin(); it!=obj.end(); ++it) {
+
+    for (auto it = obj.begin(); it != obj.end(); ++it) {
         auto item = new ShopQuickItem();
-        
+
         auto item_obj = it->second.ToObject();
         auto oid = item_obj["id"].ToInt();
         auto shop = item_obj["shop"].ToInt();
@@ -47,27 +49,31 @@ int ShopQuickConfig::parse()
         item->_iNum = num_;
         item->_iExpend = expend;
         item->_iUse = use;
-        
+
         _datas[oid] = item;
-        
+
     }
+
     return 0;
 }
 
 void ShopQuickConfig::clear()
 {
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
 ShopQuickItem* ShopQuickConfig::item(int key)
 {
     auto it = _datas.find(key);
-    if (it!=_datas.end()) {
+
+    if (it != _datas.end()) {
         return it->second;
     }
+
     return NULL;
-//    throw ERROR::MSG("ShopQuickConfig::item:{}", key);
+    //    throw ERROR::MSG("ShopQuickConfig::item:{}", key);
 }

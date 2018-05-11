@@ -15,35 +15,35 @@
 class CCoreModule: public CLogicModule, public CSingleton<CCoreModule>
 {
 public:
-	CCoreModule();
+    CCoreModule();
 
-	virtual  ~CCoreModule();
+    virtual  ~CCoreModule();
 
-	int Initialize();
+    int Initialize();
 
-	// 启动服务
-	int OnLaunchServer();
+    // 启动服务
+    int OnLaunchServer();
 
-	// 退出服务
-	int OnExitServer();
+    // 退出服务
+    int OnExitServer();
 
-	// 路由消息
-	void OnRouterMessage(CProxyMessage *pMsg);
+    // 路由消息
+    void OnRouterMessage(CProxyMessage* pMsg);
 
-	// 客户端消息
-	void OnClientMessage(CPlayer *pTeam, CMessage *pMsg);
+    // 客户端消息
+    void OnClientMessage(CPlayer* pTeam, CMessage* pMsg);
 
-	// 创建实体
-	int OnCreateEntity(CPlayer *pTeam);
+    // 创建实体
+    int OnCreateEntity(CPlayer* pTeam);
 
-	// 销毁实体
-	void OnDestroyEntity(CPlayer *pTeam);
+    // 销毁实体
+    void OnDestroyEntity(CPlayer* pTeam);
 
 public:
-	// 玩家登陆游戏申请
-	void OnMsgUserLoginRequest(CMessage *pMsg);
-	void OnMsgPlayerLoginRequest(CMessage *pMsg);
-	bool CheckOnlineIsFull();
+    // 玩家登陆游戏申请
+    void OnMsgUserLoginRequest(CMessage* pMsg);
+    void OnMsgPlayerLoginRequest(CMessage* pMsg);
+    bool CheckOnlineIsFull();
 };
 
 #endif //SERVER_COREMODULE_H

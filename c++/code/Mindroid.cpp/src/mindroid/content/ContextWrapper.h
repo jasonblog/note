@@ -27,71 +27,90 @@
 #include "mindroid/os/Looper.h"
 #include "mindroid/io/File.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Proxying implementation of Context that simply delegates all of its calls to another Context. Can
  * be subclassed to modify behavior without changing the original Context.
  */
 class ContextWrapper :
-        public Context {
+    public Context
+{
 public:
-    ContextWrapper(const sp<Context>& baseContext) {
+    ContextWrapper(const sp<Context>& baseContext)
+    {
         mBaseContext = baseContext;
     }
 
     /**
      * @return the base context as set by the constructor or setBaseContext
      */
-    virtual sp<Context> getBaseContext() {
+    virtual sp<Context> getBaseContext()
+    {
         return mBaseContext;
     }
 
-    virtual sp<PackageManager> getPackageManager() {
+    virtual sp<PackageManager> getPackageManager()
+    {
         return mBaseContext->getPackageManager();
     }
 
-    virtual sp<Looper> getMainLooper() {
+    virtual sp<Looper> getMainLooper()
+    {
         return mBaseContext->getMainLooper();
     }
 
-    virtual sp<String> getPackageName() {
+    virtual sp<String> getPackageName()
+    {
         return mBaseContext->getPackageName();
     }
 
-    virtual sp<File> getSharedPrefsFile(const sp<String>& name) {
+    virtual sp<File> getSharedPrefsFile(const sp<String>& name)
+    {
         return mBaseContext->getSharedPrefsFile(name);
     }
 
-    virtual sp<SharedPreferences> getSharedPreferences(const char* name, int32_t mode) {
+    virtual sp<SharedPreferences> getSharedPreferences(const char* name,
+            int32_t mode)
+    {
         return getSharedPreferences(String::valueOf(name), mode);
     }
 
-    virtual sp<SharedPreferences> getSharedPreferences(const sp<String>& name, int32_t mode) {
+    virtual sp<SharedPreferences> getSharedPreferences(const sp<String>& name,
+            int32_t mode)
+    {
         return mBaseContext->getSharedPreferences(name, mode);
     }
 
-    virtual sp<IBinder> getSystemService(const char* name) {
+    virtual sp<IBinder> getSystemService(const char* name)
+    {
         return getSystemService(String::valueOf(name));
     }
 
-    virtual sp<IBinder> getSystemService(const sp<String>& name) {
+    virtual sp<IBinder> getSystemService(const sp<String>& name)
+    {
         return mBaseContext->getSystemService(name);
     }
 
-    virtual sp<ComponentName> startService(const sp<Intent>& service) {
+    virtual sp<ComponentName> startService(const sp<Intent>& service)
+    {
         return mBaseContext->startService(service);
     }
 
-    virtual bool stopService(const sp<Intent>& service) {
+    virtual bool stopService(const sp<Intent>& service)
+    {
         return mBaseContext->stopService(service);
     }
 
-    virtual bool bindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, int flags) {
+    virtual bool bindService(const sp<Intent>& service,
+                             const sp<ServiceConnection>& conn, int flags)
+    {
         return mBaseContext->bindService(service, conn, flags);
     }
 
-    virtual void unbindService(const sp<ServiceConnection>& conn) {
+    virtual void unbindService(const sp<ServiceConnection>& conn)
+    {
         mBaseContext->unbindService(conn);
     }
 

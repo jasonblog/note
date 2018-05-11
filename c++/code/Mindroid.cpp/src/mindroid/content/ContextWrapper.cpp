@@ -19,9 +19,11 @@
 #include "mindroid/content/ContextWrapper.h"
 #include "mindroid/util/Assert.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
-void ContextWrapper::attachBaseContext(const sp<Context> baseContext) {
+void ContextWrapper::attachBaseContext(const sp<Context> baseContext)
+{
     Assert::assertTrue("Base context already set", mBaseContext == nullptr);
     mBaseContext = baseContext;
 }

@@ -19,12 +19,14 @@
 
 #include "mindroid/lang/Object.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class String;
 
 class Byte :
-        public Object {
+    public Object
+{
 public:
     /**
      * The maximum {@code Byte} value, 2<sup>7</sup>-1.
@@ -42,7 +44,8 @@ public:
      */
     static const int32_t SIZE = 8;
 
-    explicit Byte(int8_t value) : mValue(value) {
+    explicit Byte(int8_t value) : mValue(value)
+    {
     }
 
     static sp<Byte> valueOf(const char* s);
@@ -50,11 +53,13 @@ public:
     static sp<Byte> valueOf(const char* s, int32_t radix);
     static sp<Byte> valueOf(const sp<String>& s, int32_t radix);
 
-    int8_t byteValue() const {
+    int8_t byteValue() const
+    {
         return mValue;
     }
 
-    int8_t value() const {
+    int8_t value() const
+    {
         return byteValue();
     }
 

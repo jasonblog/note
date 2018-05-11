@@ -21,14 +21,16 @@
 
 #include "mindroid/lang/Object.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Information you can retrieve about a particular application. This corresponds to information
  * collected from the MindroidManifest.xml's &lt;application&gt; tag.
  */
 class ApplicationInfo :
-        public Object {
+    public Object
+{
 public:
     ApplicationInfo() = default;
 

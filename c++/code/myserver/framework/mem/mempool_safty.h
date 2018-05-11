@@ -14,36 +14,36 @@ class CMemoryPoolSafty: public CMemoryPool<Type>
 {
 private:
 #ifdef _POSIX_MT_
-	std::mutex	m_cs;
+    std::mutex  m_cs;
 #endif
 
 public:
-	virtual bool Create(uint nNumOfElements)
-	{
-		return CMemoryPool<Type>::Create(nNumOfElements);
-	}
+    virtual bool Create(uint nNumOfElements)
+    {
+        return CMemoryPool<Type>::Create(nNumOfElements);
+    }
 
-	virtual void Destroy()
-	{
-		CMemoryPool<Type>::Destroy();
-	}
+    virtual void Destroy()
+    {
+        CMemoryPool<Type>::Destroy();
+    }
 
-	virtual Type *Alloc()
-	{
+    virtual Type* Alloc()
+    {
 #ifdef _POSIX_MT_
-		std::lock_guard<std::mutex> guard(m_cs);
+        std::lock_guard<std::mutex> guard(m_cs);
 #endif
-		Type *pType;
-		pType = CMemoryPool<Type>::Alloc();
-		return pType;
-	}
+        Type* pType;
+        pType = CMemoryPool<Type>::Alloc();
+        return pType;
+    }
 
-	virtual void Free(Type *pElement)
-	{
+    virtual void Free(Type* pElement)
+    {
 #ifdef _POSIX_MT_
-		std::lock_guard<std::mutex> guard(m_cs);
+        std::lock_guard<std::mutex> guard(m_cs);
 #endif        CMemoryPool<Type>::Free( pElement );
-	}
+    }
 
 };
 #endif //SERVER_MEMPOOLSAFTY_H

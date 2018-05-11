@@ -9,15 +9,15 @@
 
 class ArmyItem
 {
-    
+
 public:
-    
+
     ArmyItem();
-    
+
     ~ArmyItem();
-    
+
 public:
-    
+
     int _id;
     int _type;
     int _armyType;
@@ -40,21 +40,21 @@ public:
 
 class ArmyConfig : public ConfigData
 {
-    
+
 public:
-    
+
     ArmyConfig();
-    
+
     ~ArmyConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     ArmyItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, ArmyItem* > _datas;
 };
 

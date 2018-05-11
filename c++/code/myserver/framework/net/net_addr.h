@@ -15,51 +15,51 @@
 class CNetAddr
 {
 public:
-	CNetAddr(void)
-		: m_uPort(0)
-	{
-		memset(m_szAddr, 0, sizeof(m_szAddr));
-	}
+    CNetAddr(void)
+        : m_uPort(0)
+    {
+        memset(m_szAddr, 0, sizeof(m_szAddr));
+    }
 
-	~CNetAddr(void)
-	{
-	}
+    ~CNetAddr(void)
+    {
+    }
 
-	CNetAddr(const char *szAddr, unsigned int uPort)
-		: m_uPort(uPort)
-	{
-		SetAddress(szAddr);
-	}
+    CNetAddr(const char* szAddr, unsigned int uPort)
+        : m_uPort(uPort)
+    {
+        SetAddress(szAddr);
+    }
 
-	void SetAddress(const char *szAddr)
-	{
-		strncpy(m_szAddr, szAddr, 16);
-	}
+    void SetAddress(const char* szAddr)
+    {
+        strncpy(m_szAddr, szAddr, 16);
+    }
 
-	void Copy(const CNetAddr &addr)
-	{
-		SetAddress(addr.m_szAddr);
-		SetPort(addr.m_uPort);
-	}
+    void Copy(const CNetAddr& addr)
+    {
+        SetAddress(addr.m_szAddr);
+        SetPort(addr.m_uPort);
+    }
 
-	const char *GetAddress(void) const
-	{
-		return m_szAddr;
-	}
+    const char* GetAddress(void) const
+    {
+        return m_szAddr;
+    }
 
-	void SetPort(unsigned int uPort)
-	{
-		m_uPort = uPort;
-	}
+    void SetPort(unsigned int uPort)
+    {
+        m_uPort = uPort;
+    }
 
-	unsigned int GetPort(void) const
-	{
-		return m_uPort;
-	}
+    unsigned int GetPort(void) const
+    {
+        return m_uPort;
+    }
 
 private:
-	char m_szAddr[16];
-	unsigned int m_uPort;
+    char m_szAddr[16];
+    unsigned int m_uPort;
 };
 
 #endif

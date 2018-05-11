@@ -22,10 +22,12 @@
 #include "mindroid/util/concurrent/ExecutionException.h"
 #include "mindroid/util/concurrent/TimeoutException.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Awaitable :
-        public Cancellable {
+    public Cancellable
+{
 public:
     virtual ~Awaitable() = default;
 

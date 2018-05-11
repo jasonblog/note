@@ -14,7 +14,8 @@
 #include "../../datamodule/inc/player.h"
 
 
-class CDbModule : public CLogicModule, public CSingleton<CDbModule> {
+class CDbModule : public CLogicModule, public CSingleton<CDbModule>
+{
 public:
     CDbModule();
 
@@ -29,16 +30,16 @@ public:
     int OnExitServer();
 
     // 路由消息
-    void OnRouterMessage(CProxyMessage *pMsg);
+    void OnRouterMessage(CProxyMessage* pMsg);
 
     // 客户端消息
-    void OnClientMessage(CPlayer *pTeam,CMessage *pMsg);
+    void OnClientMessage(CPlayer* pTeam, CMessage* pMsg);
 
     // 创建实体
-    int OnCreateEntity(CPlayer *pTeam);
+    int OnCreateEntity(CPlayer* pTeam);
 
     // 销毁实体
-    void OnDestroyEntity(CPlayer *pTeam);
+    void OnDestroyEntity(CPlayer* pTeam);
 
 private:
     int ExecuteSql(emDBLogicType nLogicType,
@@ -49,7 +50,7 @@ private:
                    int nProduOutNumber,
                    CALLBACK nIsCallBack,
                    MesHead* mesHead,
-                   const char* pSql, ... );
+                   const char* pSql, ...);
 
     int ExecuteSqlForBlob(emDBLogicType nLogicType,
                           unsigned long ulTeamID,
@@ -61,13 +62,15 @@ private:
                           const int iBlobSize,
                           const char* pBlob,
                           const char* pSQLWhere,
-                          MesHead* mesHead, ... );
+                          MesHead* mesHead, ...);
 
     void OnMsgExecuteSqlResponse(CProxyMessage* pMsg);
 public:
     //查找玩家帐号信息没有则创建
-    void FindOrCreateUserRequest(const std::string& platform,const std::string& puid,MesHead* mesHead);
-    void FindOrCreateUserResponse(CSession* pSession, CMsgExecuteSqlResponse* pMsgSql,CProxyHead* mesHead);
+    void FindOrCreateUserRequest(const std::string& platform,
+                                 const std::string& puid, MesHead* mesHead);
+    void FindOrCreateUserResponse(CSession* pSession,
+                                  CMsgExecuteSqlResponse* pMsgSql, CProxyHead* mesHead);
 };
 
 #endif //SERVER_DBMODULE_H

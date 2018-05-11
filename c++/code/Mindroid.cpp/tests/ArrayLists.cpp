@@ -4,7 +4,8 @@
 
 using namespace mindroid;
 
-TEST(Mindroid, ArrayListOfInteger) {
+TEST(Mindroid, ArrayListOfInteger)
+{
     sp<ArrayList<int>> list = new ArrayList<int>();
     list->add(1);
     list->add(2);
@@ -23,28 +24,35 @@ TEST(Mindroid, ArrayListOfInteger) {
 
     size_t i = 0;
     auto itr = list->iterator();
+
     while (itr.hasNext()) {
         switch (i) {
         case 0:
             ASSERT_EQ(itr.next(), 2);
             break;
+
         case 1:
             ASSERT_EQ(itr.next(), 3);
             break;
+
         case 2:
             ASSERT_EQ(itr.next(), 17);
             break;
+
         case 3:
             ASSERT_EQ(itr.next(), 42);
             break;
         }
+
         i++;
         itr.remove();
     }
+
     ASSERT_EQ(list->size(), 0);
 }
 
-TEST(Mindroid, ArrayListOfString) {
+TEST(Mindroid, ArrayListOfString)
+{
     sp<ArrayList<sp<String>>> list = new ArrayList<sp<String>>();
     list->add(new String("ABC"));
     list->add(new String("DEF"));
@@ -66,29 +74,36 @@ TEST(Mindroid, ArrayListOfString) {
 
     size_t i = 0;
     auto itr = list->iterator();
+
     while (itr.hasNext()) {
         switch (i) {
         case 0:
             ASSERT_STREQ(itr.next()->c_str(), "ABC");
             break;
+
         case 1:
             ASSERT_STREQ(itr.next()->c_str(), "DEF");
             break;
+
         case 2:
             ASSERT_STREQ(itr.next()->c_str(), "XYZ");
             break;
         }
+
         i++;
     }
+
     ASSERT_EQ(list->size(), 3);
 
     list->remove(new String("XYZ"));
     ASSERT_EQ(list->size(), 2);
     itr = list->iterator();
+
     while (itr.hasNext()) {
         itr.next();
         itr.remove();
     }
+
     ASSERT_EQ(list->size(), 0);
 
     list->add(0, new String("abc"));
@@ -110,7 +125,8 @@ TEST(Mindroid, ArrayListOfString) {
     ASSERT_EQ(list->size(), 2);
 }
 
-TEST(Mindroid, ArrayListFromCArray) {
+TEST(Mindroid, ArrayListFromCArray)
+{
     const uint8_t data_bytes[] = {0x00, 0xaa, 0xbb, 0xcc, 0xdd, 0xee};
     const size_t size = sizeof(data_bytes) / sizeof(uint8_t);
 

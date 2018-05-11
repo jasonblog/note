@@ -8,13 +8,13 @@
 class SmithyData
 {
 public:
-    
+
     SmithyData();
-    
+
     ~SmithyData();
-    
+
 public:
-    
+
     int _id;
     int _name;
     int _expend;
@@ -33,21 +33,21 @@ public:
 
 class SmithyConfig : public ConfigData
 {
-    
+
 public:
-    
+
     SmithyConfig();
-    
+
     ~SmithyConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     SmithyData* item(int key);
-    
+
 public:
-    
+
     std::map<int, SmithyData*> _datas;
 };
 

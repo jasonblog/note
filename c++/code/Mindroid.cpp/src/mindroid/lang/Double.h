@@ -19,12 +19,14 @@
 
 #include "mindroid/lang/Object.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class String;
 
 class Double :
-        public Object {
+    public Object
+{
 public:
     /**
      * Constant for the maximum {@code double} value, (2 - 2<sup>-52</sup>) *
@@ -44,17 +46,20 @@ public:
      */
     static const int32_t SIZE = 64;
 
-    explicit Double(double value) : mValue(value) {
+    explicit Double(double value) : mValue(value)
+    {
     }
 
     static sp<Double> valueOf(const char* s);
     static sp<Double> valueOf(const sp<String>& s);
 
-    double doubleValue() const {
+    double doubleValue() const
+    {
         return mValue;
     }
 
-    double value() const {
+    double value() const
+    {
         return doubleValue();
     }
 

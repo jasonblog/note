@@ -21,38 +21,48 @@
 #include "mindroid/util/concurrent/locks/ReentrantLock.h"
 #include "mindroid/util/concurrent/locks/Condition.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
-class LogBuffer : public Object {
+class LogBuffer : public Object
+{
 public:
-    class LogRecord : public Object {
+    class LogRecord : public Object
+    {
     public:
-        LogRecord(const int32_t logId, const uint64_t timestamp, const int32_t threadId, const int32_t priority, const sp<String>& tag, const sp<String>& message);
+        LogRecord(const int32_t logId, const uint64_t timestamp, const int32_t threadId,
+                  const int32_t priority, const sp<String>& tag, const sp<String>& message);
 
         sp<String> toShortString();
         sp<String> toString();
 
-        int32_t getLogId() {
+        int32_t getLogId()
+        {
             return mLogId;
         }
 
-        uint64_t getTimestamp() {
+        uint64_t getTimestamp()
+        {
             return mTimestamp;
         }
 
-        int32_t getThreadId() {
+        int32_t getThreadId()
+        {
             return mThreadId;
         }
 
-        int32_t getPriority() {
+        int32_t getPriority()
+        {
             return mPriority;
         }
 
-        sp<String> getTag() {
+        sp<String> getTag()
+        {
             return mTag;
         }
 
-        sp<String> getMessage() {
+        sp<String> getMessage()
+        {
             return mMessage;
         }
 
@@ -67,12 +77,15 @@ public:
 
     LogBuffer(const int32_t id, const size_t size);
 
-    virtual ~LogBuffer() {
+    virtual ~LogBuffer()
+    {
         delete [] mData;
     }
 
-    bool offer(const int32_t priority, const sp<String>& tag, const sp<String>& message);
-    bool offer(const uint64_t timestamp, const int32_t threadId, const int32_t priority, const sp<String>& tag, const sp<String>& message);
+    bool offer(const int32_t priority, const sp<String>& tag,
+               const sp<String>& message);
+    bool offer(const uint64_t timestamp, const int32_t threadId,
+               const int32_t priority, const sp<String>& tag, const sp<String>& message);
     sp<LogRecord> take(const int32_t minPriority);
     sp<LogRecord> poll(const int32_t minPriority);
 

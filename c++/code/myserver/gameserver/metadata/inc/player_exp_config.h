@@ -9,15 +9,15 @@
 
 class PlayerExpItem
 {
-    
+
 public:
-    
+
     PlayerExpItem();
-    
+
     ~PlayerExpItem();
-    
+
 public:
-    
+
     int _id;
     int _exp;
     int _goldSpeed;
@@ -28,10 +28,10 @@ public:
     int _goldRoundle;
     int _woodRoundle;
     int _otherRoundle;
-    
+
     int _spyPrice;
     std::map<std::string, std::vector<int>* > _rewards;
-    
+
     std::map<std::string, std::vector<int>* > _dailyReward20;
     std::map<std::string, std::vector<int>* > _dailyReward40;
     std::map<std::string, std::vector<int>* > _dailyReward60;
@@ -42,23 +42,23 @@ public:
 
 class PlayerExpConfig : public ConfigData
 {
-    
+
 public:
-    
+
     PlayerExpConfig();
-    
+
     ~PlayerExpConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     bool check();
-    
+
     PlayerExpItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, PlayerExpItem*> _datas;
 };
 

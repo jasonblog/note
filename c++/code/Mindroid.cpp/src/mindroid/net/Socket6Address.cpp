@@ -21,10 +21,12 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-namespace mindroid {
+namespace mindroid
+{
 
 Socket6Address::Socket6Address(uint16_t port) :
-        SocketAddress(port) {
+    SocketAddress(port)
+{
     sockaddr_in6 socketAddress;
     ::memset(&socketAddress, 0, sizeof(socketAddress));
     socketAddress.sin6_family = AF_INET6;
@@ -33,7 +35,8 @@ Socket6Address::Socket6Address(uint16_t port) :
     mInetAddress = new InetAddress(socketAddress);
 }
 
-Socket6Address::Socket6Address(const sp<String>& host, uint16_t port) {
+Socket6Address::Socket6Address(const sp<String>& host, uint16_t port)
+{
     struct addrinfo hints, *result;
     int status;
 
@@ -47,17 +50,21 @@ Socket6Address::Socket6Address(const sp<String>& host, uint16_t port) {
         sockaddr_in6 socketAddress;
         ::memset(&socketAddress, 0, sizeof(socketAddress));
         socketAddress.sin6_family = AF_INET6;
-        ::memcpy(&socketAddress.sin6_addr, &((struct sockaddr_in6 *) (result->ai_addr))->sin6_addr, sizeof(((struct sockaddr_in6 *) (result->ai_addr))->sin6_addr));
+        ::memcpy(&socketAddress.sin6_addr,
+                 &((struct sockaddr_in6*)(result->ai_addr))->sin6_addr,
+                 sizeof(((struct sockaddr_in6*)(result->ai_addr))->sin6_addr));
         socketAddress.sin6_port = htons(port);
         mInetAddress = new InetAddress(socketAddress);
         ::freeaddrinfo(result);
     }
 }
 
-uint16_t Socket6Address::getPort() const {
+uint16_t Socket6Address::getPort() const
+{
     if (mInetAddress == nullptr) {
         return 0;
     }
+
     return ntohs(((sockaddr_in6*)mInetAddress->getPointer())->sin6_port);
 }
 

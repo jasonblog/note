@@ -23,7 +23,8 @@
 #include "mindroid/lang/Object.h"
 #include "mindroid/os/Bundle.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * An intent is an abstract description of an operation to be performed. It can be used with
@@ -39,7 +40,8 @@ namespace mindroid {
  *
  */
 class Intent :
-        public Object {
+    public Object
+{
 public:
     /**
      * Create an empty intent.
@@ -57,10 +59,12 @@ public:
      * @param name the extra's name
      * @return true if the given extra is present.
      */
-    bool hasExtra(const char* name) {
+    bool hasExtra(const char* name)
+    {
         return hasExtra(String::valueOf(name));
     }
-    bool hasExtra(const sp<String>& name) {
+    bool hasExtra(const sp<String>& name)
+    {
         return mExtras != nullptr && mExtras->containsKey(name);
     }
 
@@ -76,12 +80,14 @@ public:
      *
      * @see #putExtra(String, boolean)
      */
-    bool getBooleanExtra(const char* name, bool defaultValue) {
+    bool getBooleanExtra(const char* name, bool defaultValue)
+    {
         return getBooleanExtra(String::valueOf(name), defaultValue);
     }
-    bool getBooleanExtra(const sp<String>& name, bool defaultValue) {
+    bool getBooleanExtra(const sp<String>& name, bool defaultValue)
+    {
         return mExtras == nullptr ? defaultValue :
-            mExtras->getBoolean(name, defaultValue);
+               mExtras->getBoolean(name, defaultValue);
     }
 
     /**
@@ -96,12 +102,14 @@ public:
      *
      * @see #putExtra(String, byte)
      */
-    uint8_t getByteExtra(const char* name, uint8_t defaultValue) {
+    uint8_t getByteExtra(const char* name, uint8_t defaultValue)
+    {
         return getByteExtra(String::valueOf(name), defaultValue);
     }
-    uint8_t getByteExtra(const sp<String>& name, uint8_t defaultValue) {
+    uint8_t getByteExtra(const sp<String>& name, uint8_t defaultValue)
+    {
         return mExtras == nullptr ? defaultValue :
-            mExtras->getByte(name, defaultValue);
+               mExtras->getByte(name, defaultValue);
     }
 
     /**
@@ -116,12 +124,14 @@ public:
      *
      * @see #putExtra(String, short)
      */
-    uint16_t getShortExtra(const char* name, uint16_t defaultValue) {
+    uint16_t getShortExtra(const char* name, uint16_t defaultValue)
+    {
         return getShortExtra(String::valueOf(name), defaultValue);
     }
-    uint16_t getShortExtra(const sp<String>& name, uint16_t defaultValue) {
+    uint16_t getShortExtra(const sp<String>& name, uint16_t defaultValue)
+    {
         return mExtras == nullptr ? defaultValue :
-            mExtras->getShort(name, defaultValue);
+               mExtras->getShort(name, defaultValue);
     }
 
     /**
@@ -136,12 +146,14 @@ public:
      *
      * @see #putExtra(String, char)
      */
-    char getCharExtra(const char* name, char defaultValue) {
+    char getCharExtra(const char* name, char defaultValue)
+    {
         return getCharExtra(String::valueOf(name), defaultValue);
     }
-    char getCharExtra(const sp<String>& name, char defaultValue) {
+    char getCharExtra(const sp<String>& name, char defaultValue)
+    {
         return mExtras == nullptr ? defaultValue :
-            mExtras->getChar(name, defaultValue);
+               mExtras->getChar(name, defaultValue);
     }
 
     /**
@@ -156,12 +168,14 @@ public:
      *
      * @see #putExtra(String, int)
      */
-    int32_t getIntExtra(const char* name, int32_t defaultValue) {
+    int32_t getIntExtra(const char* name, int32_t defaultValue)
+    {
         return getIntExtra(String::valueOf(name), defaultValue);
     }
-    int32_t getIntExtra(const sp<String>& name, int32_t defaultValue) {
+    int32_t getIntExtra(const sp<String>& name, int32_t defaultValue)
+    {
         return mExtras == nullptr ? defaultValue :
-            mExtras->getInt(name, defaultValue);
+               mExtras->getInt(name, defaultValue);
     }
 
     /**
@@ -176,12 +190,14 @@ public:
      *
      * @see #putExtra(String, long)
      */
-    int64_t getLongExtra(const char* name, int64_t defaultValue) {
+    int64_t getLongExtra(const char* name, int64_t defaultValue)
+    {
         return getLongExtra(String::valueOf(name), defaultValue);
     }
-    int64_t getLongExtra(const sp<String>& name, int64_t defaultValue) {
+    int64_t getLongExtra(const sp<String>& name, int64_t defaultValue)
+    {
         return mExtras == nullptr ? defaultValue :
-            mExtras->getLong(name, defaultValue);
+               mExtras->getLong(name, defaultValue);
     }
 
     /**
@@ -196,12 +212,14 @@ public:
      *
      * @see #putExtra(String, float)
      */
-    float getFloatExtra(const char* name, float defaultValue) {
+    float getFloatExtra(const char* name, float defaultValue)
+    {
         return getFloatExtra(String::valueOf(name), defaultValue);
     }
-    float getFloatExtra(const sp<String>& name, float defaultValue) {
+    float getFloatExtra(const sp<String>& name, float defaultValue)
+    {
         return mExtras == nullptr ? defaultValue :
-            mExtras->getFloat(name, defaultValue);
+               mExtras->getFloat(name, defaultValue);
     }
 
     /**
@@ -216,12 +234,14 @@ public:
      *
      * @see #putExtra(String, double)
      */
-    double getDoubleExtra(const char* name, double defaultValue) {
+    double getDoubleExtra(const char* name, double defaultValue)
+    {
         return getDoubleExtra(String::valueOf(name), defaultValue);
     }
-    double getDoubleExtra(const sp<String>& name, double defaultValue) {
+    double getDoubleExtra(const sp<String>& name, double defaultValue)
+    {
         return mExtras == nullptr ? defaultValue :
-            mExtras->getDouble(name, defaultValue);
+               mExtras->getDouble(name, defaultValue);
     }
 
     /**
@@ -234,10 +254,12 @@ public:
      *
      * @see #putExtra(String, String)
      */
-    sp<String> getStringExtra(const char* name) {
+    sp<String> getStringExtra(const char* name)
+    {
         return getStringExtra(String::valueOf(name));
     }
-    sp<String> getStringExtra(const sp<String>& name) {
+    sp<String> getStringExtra(const sp<String>& name)
+    {
         return mExtras == nullptr ? nullptr : mExtras->getString(name);
     }
 
@@ -251,10 +273,12 @@ public:
      *
      * @see #putIntegerArrayListExtra(String, ArrayList)
      */
-    sp<ArrayList<int32_t>> getIntegerArrayListExtra(const char* name) {
+    sp<ArrayList<int32_t>> getIntegerArrayListExtra(const char* name)
+    {
         return getIntegerArrayListExtra(String::valueOf(name));
     }
-    sp<ArrayList<int32_t>> getIntegerArrayListExtra(const sp<String>& name) {
+    sp<ArrayList<int32_t>> getIntegerArrayListExtra(const sp<String>& name)
+    {
         return mExtras == nullptr ? nullptr : mExtras->getIntegerArrayList(name);
     }
 
@@ -268,10 +292,12 @@ public:
      *
      * @see #putStringArrayListExtra(String, ArrayList)
      */
-    sp<ArrayList<sp<String>>> getStringArrayListExtra(const char* name) {
+    sp<ArrayList<sp<String>>> getStringArrayListExtra(const char* name)
+    {
         return getStringArrayListExtra(String::valueOf(name));
     }
-    sp<ArrayList<sp<String>>> getStringArrayListExtra(const sp<String>& name) {
+    sp<ArrayList<sp<String>>> getStringArrayListExtra(const sp<String>& name)
+    {
         return mExtras == nullptr ? nullptr : mExtras->getStringArrayList(name);
     }
 
@@ -281,10 +307,11 @@ public:
      * @return the map of all extras previously added with putExtra(), or null if none have been
      * added.
      */
-    sp<Bundle> getExtras() {
+    sp<Bundle> getExtras()
+    {
         return (mExtras != nullptr)
-                ? new Bundle(mExtras)
-                : nullptr;
+               ? new Bundle(mExtras)
+               : nullptr;
     }
 
     /**
@@ -296,7 +323,8 @@ public:
      *
      * @see #setComponent
      */
-    sp<ComponentName> getComponent() {
+    sp<ComponentName> getComponent()
+    {
         return mComponent;
     }
 
@@ -312,7 +340,8 @@ public:
      * @see #removeExtra
      * @see #getBooleanExtra(String, boolean)
      */
-    sp<Intent> putExtra(const char* name, bool value) {
+    sp<Intent> putExtra(const char* name, bool value)
+    {
         return putExtra(String::valueOf(name), value);
     }
     sp<Intent> putExtra(const sp<String>& name, bool value);
@@ -329,7 +358,8 @@ public:
      * @see #removeExtra
      * @see #getByteExtra(String, byte)
      */
-    sp<Intent> putExtra(const char* name, uint8_t value) {
+    sp<Intent> putExtra(const char* name, uint8_t value)
+    {
         return putExtra(String::valueOf(name), value);
     }
     sp<Intent> putExtra(const sp<String>& name, uint8_t value);
@@ -346,7 +376,8 @@ public:
      * @see #removeExtra
      * @see #getCharExtra(String, char)
      */
-    sp<Intent> putExtra(const char* name, char value) {
+    sp<Intent> putExtra(const char* name, char value)
+    {
         return putExtra(String::valueOf(name), value);
     }
     sp<Intent> putExtra(const sp<String>& name, char value);
@@ -363,7 +394,8 @@ public:
      * @see #removeExtra
      * @see #getShortExtra(String, short)
      */
-    sp<Intent> putExtra(const char* name, int16_t value) {
+    sp<Intent> putExtra(const char* name, int16_t value)
+    {
         return putExtra(String::valueOf(name), value);
     }
     sp<Intent> putExtra(const sp<String>& name, int16_t value);
@@ -380,7 +412,8 @@ public:
      * @see #removeExtra
      * @see #getIntExtra(String, int)
      */
-    sp<Intent> putExtra(const char* name, int32_t value) {
+    sp<Intent> putExtra(const char* name, int32_t value)
+    {
         return putExtra(String::valueOf(name), value);
     }
     sp<Intent> putExtra(const sp<String>& name, int32_t value);
@@ -397,7 +430,8 @@ public:
      * @see #removeExtra
      * @see #getLongExtra(String, long)
      */
-    sp<Intent> putExtra(const char* name, int64_t value) {
+    sp<Intent> putExtra(const char* name, int64_t value)
+    {
         return putExtra(String::valueOf(name), value);
     }
     sp<Intent> putExtra(const sp<String>& name, int64_t value);
@@ -414,7 +448,8 @@ public:
      * @see #removeExtra
      * @see #getFloatExtra(String, float)
      */
-    sp<Intent> putExtra(const char* name, float value) {
+    sp<Intent> putExtra(const char* name, float value)
+    {
         return putExtra(String::valueOf(name), value);
     }
     sp<Intent> putExtra(const sp<String>& name, float value);
@@ -431,7 +466,8 @@ public:
      * @see #removeExtra
      * @see #getDoubleExtra(String, double)
      */
-    sp<Intent> putExtra(const char* name, double value) {
+    sp<Intent> putExtra(const char* name, double value)
+    {
         return putExtra(String::valueOf(name), value);
     }
     sp<Intent> putExtra(const sp<String>& name, double value);
@@ -448,10 +484,12 @@ public:
      * @see #removeExtra
      * @see #getStringExtra(String)
      */
-    sp<Intent> putExtra(const char* name, const char* value) {
+    sp<Intent> putExtra(const char* name, const char* value)
+    {
         return putExtra(String::valueOf(name), String::valueOf(value));
     }
-    sp<Intent> putExtra(const char* name, const sp<String>& value) {
+    sp<Intent> putExtra(const char* name, const sp<String>& value)
+    {
         return putExtra(String::valueOf(name), value);
     }
     sp<Intent> putExtra(const sp<String>& name, const sp<String>& value);
@@ -468,10 +506,13 @@ public:
      * @see #removeExtra
      * @see #getIntegerArrayListExtra(String)
      */
-    sp<Intent> putIntegerArrayListExtra(const char* name, sp<ArrayList<int32_t>> value) {
+    sp<Intent> putIntegerArrayListExtra(const char* name,
+                                        sp<ArrayList<int32_t>> value)
+    {
         return putIntegerArrayListExtra(String::valueOf(name), value);
     }
-    sp<Intent> putIntegerArrayListExtra(const sp<String>& name, sp<ArrayList<int32_t>> value);
+    sp<Intent> putIntegerArrayListExtra(const sp<String>& name,
+                                        sp<ArrayList<int32_t>> value);
 
     /**
      * Add extended data to the intent.
@@ -485,10 +526,13 @@ public:
      * @see #removeExtra
      * @see #getStringArrayListExtra(String)
      */
-    sp<Intent> putStringArrayListExtra(const char* name, const sp<ArrayList<sp<String>>>& value) {
+    sp<Intent> putStringArrayListExtra(const char* name,
+                                       const sp<ArrayList<sp<String>>>& value)
+    {
         return putStringArrayListExtra(String::valueOf(name), value);
     }
-    sp<Intent> putStringArrayListExtra(const sp<String>& name, const sp<ArrayList<sp<String>>>& value);
+    sp<Intent> putStringArrayListExtra(const sp<String>& name,
+                                       const sp<ArrayList<sp<String>>>& value);
 
     /**
      * Add a set of extended data to the intent.
@@ -505,7 +549,8 @@ public:
      *
      * @param extras The new set of extras in the Intent, or null to erase all extras.
      */
-    sp<Intent> replaceExtras(const sp<Bundle>& extras) {
+    sp<Intent> replaceExtras(const sp<Bundle>& extras)
+    {
         mExtras = extras != nullptr ? new Bundle(extras) : nullptr;
         return this;
     }
@@ -515,7 +560,8 @@ public:
      *
      * @see #putExtra
      */
-    void removeExtra(const char* name) {
+    void removeExtra(const char* name)
+    {
         removeExtra(String::valueOf(name));
     }
     void removeExtra(const sp<String>& name);
@@ -537,7 +583,8 @@ public:
      * @see #setClassName(String, String)
      * @see #getComponent
      */
-    sp<Intent> setComponent(const sp<ComponentName>& component) {
+    sp<Intent> setComponent(const sp<ComponentName>& component)
+    {
         mComponent = component;
         return this;
     }
@@ -554,7 +601,9 @@ public:
      * @see #setComponent
      * @see #setClass
      */
-    sp<Intent> setClassName(const sp<Context>& packageContext, const sp<String>& className) {
+    sp<Intent> setClassName(const sp<Context>& packageContext,
+                            const sp<String>& className)
+    {
         mComponent = new ComponentName(packageContext, className);
         return this;
     }
@@ -571,10 +620,13 @@ public:
      *
      * @see #setComponent
      */
-    sp<Intent> setClassName(const char* packageName, const char* className) {
+    sp<Intent> setClassName(const char* packageName, const char* className)
+    {
         return setClassName(String::valueOf(packageName), String::valueOf(className));
     }
-    sp<Intent> setClassName(const sp<String>& packageName, const sp<String>& className) {
+    sp<Intent> setClassName(const sp<String>& packageName,
+                            const sp<String>& className)
+    {
         mComponent = new ComponentName(packageName, className);
         return this;
     }

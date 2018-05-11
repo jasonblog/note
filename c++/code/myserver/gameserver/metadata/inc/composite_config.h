@@ -8,15 +8,15 @@
 
 class CompositeItem
 {
-    
+
 public:
-    
+
     CompositeItem();
-    
+
     ~CompositeItem();
-    
+
 public:
-    
+
     int _id;
     std::map<std::string, std::vector<int>* > _material;
     std::map<std::string, std::vector<int>* > _composite;
@@ -24,22 +24,22 @@ public:
 
 class CompositeConfig : public ConfigData
 {
-    
+
 public:
-    
+
     CompositeConfig();
-    
+
     ~CompositeConfig();
-    
-    
+
+
     int parse();
-    
+
     void clear();
-    
+
     CompositeItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, CompositeItem*> _datas;
 };
 

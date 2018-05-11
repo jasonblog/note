@@ -19,16 +19,19 @@
 #include <cstdlib>
 #include <limits>
 
-namespace mindroid {
+namespace mindroid
+{
 
 const double Double::MAX_VALUE = std::numeric_limits<double>::max();
 const double Double::MIN_VALUE = std::numeric_limits<double>::min();
 
-sp<Double> Double::valueOf(const char* s) {
+sp<Double> Double::valueOf(const char* s)
+{
     return new Double(strtod(s, nullptr));
 }
 
-sp<Double> Double::valueOf(const sp<String>& s) {
+sp<Double> Double::valueOf(const sp<String>& s)
+{
     return valueOf(s->c_str());
 }
 

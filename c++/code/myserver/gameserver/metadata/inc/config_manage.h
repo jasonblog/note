@@ -14,17 +14,19 @@
 class ConfigManage
 {
 public:
-    ConfigManage(){};
-    ~ConfigManage(){};
-    
+    ConfigManage() {};
+    ~ConfigManage() {};
+
 public:
     static int load();      //加载所有配置
-    static int reload();    //重新加载配置    有热更配置的就写 没有需要就不写
-    
+    static int
+    reload();    //重新加载配置    有热更配置的就写 没有需要就不写
+
 private:
-    static int check();     //检测配置内容正确性 需要的配置 就写 不需要的就不写
-    
-    
+    static int
+    check();     //检测配置内容正确性 需要的配置 就写 不需要的就不写
+
+
 };
 
 #endif /* config_manage_h */

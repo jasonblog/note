@@ -19,12 +19,14 @@
 
 #include "mindroid/lang/Object.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class String;
 
 class Long :
-        public Object {
+    public Object
+{
 public:
     /**
      * Constant for the maximum {@code long} value, 2<sup>63</sup>-1.
@@ -42,7 +44,8 @@ public:
      */
     static const int32_t SIZE = 64;
 
-    explicit Long(int64_t value) : mValue(value) {
+    explicit Long(int64_t value) : mValue(value)
+    {
     }
 
     static sp<Long> valueOf(const char* s);
@@ -50,11 +53,13 @@ public:
     static sp<Long> valueOf(const char* s, int32_t radix);
     static sp<Long> valueOf(const sp<String>& s, int32_t radix);
 
-    int64_t longValue() const {
+    int64_t longValue() const
+    {
         return mValue;
     }
 
-    int64_t value() const {
+    int64_t value() const
+    {
         return longValue();
     }
 

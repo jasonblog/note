@@ -20,12 +20,14 @@
 #include "mindroid/util/concurrent/Executor.h"
 #include "mindroid/os/HandlerThread.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Handler;
 
 class SerialExecutor :
-        public Executor {
+    public Executor
+{
 public:
     SerialExecutor();
     virtual ~SerialExecutor();

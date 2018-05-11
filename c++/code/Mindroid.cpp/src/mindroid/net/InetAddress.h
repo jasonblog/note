@@ -22,27 +22,41 @@
 
 #include <netinet/in.h>
 
-namespace mindroid {
+namespace mindroid
+{
 
 class InetAddress :
-        public Object {
+    public Object
+{
 public:
-    InetAddress(sockaddr_in& address) {
-       mSize = sizeof(address);
-       memcpy(&mAddress, &address, sizeof(address));
-    }
-
-    InetAddress(sockaddr_in6& address) {
+    InetAddress(sockaddr_in& address)
+    {
         mSize = sizeof(address);
         memcpy(&mAddress, &address, sizeof(address));
     }
 
-    virtual ~InetAddress() {
+    InetAddress(sockaddr_in6& address)
+    {
+        mSize = sizeof(address);
+        memcpy(&mAddress, &address, sizeof(address));
     }
 
-    const sockaddr* getPointer() const { return (const sockaddr*)(&mAddress); }
-    size_t getSize() const { return mSize; }
-    bool isInet6Address() const { return mSize == sizeof(sockaddr_in6); }
+    virtual ~InetAddress()
+    {
+    }
+
+    const sockaddr* getPointer() const
+    {
+        return (const sockaddr*)(&mAddress);
+    }
+    size_t getSize() const
+    {
+        return mSize;
+    }
+    bool isInet6Address() const
+    {
+        return mSize == sizeof(sockaddr_in6);
+    }
 
 private:
     struct sockaddr_in6 mAddress;

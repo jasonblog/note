@@ -14,12 +14,12 @@ protected:
     CMssageQueue();
 public:
     ~CMssageQueue();
-    void* operator new(size_t size);
+    void* operator new (size_t size);
     static CMssageQueue* CreateInstance();
     //添加消息
-    void SendMessage(char *message,int length);
+    void SendMessage(char* message, int length);
     //获取消息
-    int GetMessage(BYTE *pOutCode, int *psOutLength);
+    int GetMessage(BYTE* pOutCode, int* psOutLength);
     //获取消息数据在对象中的开始位置
     BYTE* MessageBeginAddr();
     //消息存储区是否已满

@@ -8,41 +8,41 @@
 
 class ShopQuickItem
 {
-    
+
 public:
-    
+
     ShopQuickItem();
-    
+
     ~ShopQuickItem();
-    
+
 public:
-    
+
     int _iId;
     int _iShop;;
     int _iRrank;
     int _iItem;
     int _iNum;
     int _iExpend;
-    int _iUse;    
+    int _iUse;
 };
 
 class ShopQuickConfig : public ConfigData
 {
-    
+
 public:
-    
+
     ShopQuickConfig();
-    
+
     ~ShopQuickConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     ShopQuickItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, ShopQuickItem*> _datas;
 };
 

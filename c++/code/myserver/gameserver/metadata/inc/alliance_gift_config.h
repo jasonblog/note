@@ -26,33 +26,34 @@ public:
     std::map<int, std::vector<int>> _rewardItem;    //购买人道具奖励
     std::map<int, std::vector<int>> _playerReward;  //成员道具奖励
     int _mail;                                      //邮件id
-    
+
 public:
     AllianceGiftCfgInfo();
     ~AllianceGiftCfgInfo();
-    
+
 };
 
 class AllianceGiftConfig : public ConfigData
 {
-    
+
 public:
-    
+
     AllianceGiftConfig();
-    
+
     ~AllianceGiftConfig();
-    
+
     int parse();
-    
+
     bool check();               //检测配置正确性
-    
+
     void clear();
-    
-    AllianceGiftCfgInfo*    getCfg(int nIndex);                                     //根据配置id 获取配置信息
+
+    AllianceGiftCfgInfo*    getCfg(int
+                                   nIndex);                                     //根据配置id 获取配置信息
 
 private:
     std::map<int, AllianceGiftCfgInfo*>     _datas;             //ID = 配置信息
-    
+
 };
 
 

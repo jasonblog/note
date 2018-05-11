@@ -22,7 +22,7 @@ FestlActivityChildCfg::FestlActivityChildCfg()
 
 FestlActivityChildCfg::~FestlActivityChildCfg()
 {
-    
+
 }
 
 FestlActivityInfo::FestlActivityInfo()
@@ -51,17 +51,16 @@ FestlActivityConfig::FestlActivityConfig()
 
 FestlActivityConfig::~FestlActivityConfig()
 {
-    
+
 }
 
 int FestlActivityConfig::parse()
 {
-    if (mnLoadType == 0)
-    {
+    if (mnLoadType == 0) {
         _base.clear();
         auto obj = m_obj.ToObject();
-        for (auto it=obj.begin(); it!=obj.end(); ++it)
-        {
+
+        for (auto it = obj.begin(); it != obj.end(); ++it) {
             FestlActivityInfo oBase;
             auto item_obj = it->second.ToObject();
             int oid = item_obj["id"].ToInt();
@@ -77,17 +76,15 @@ int FestlActivityConfig::parse()
             splitToIntList(sChild, ",", oBase._child);
             _base[oid] = oBase;
         }
-    }
-    else if(mnLoadType == 1)
-    {
+    } else if (mnLoadType == 1) {
         _child.clear();
         auto obj = m_obj.ToObject();
-        for (auto it=obj.begin(); it!=obj.end(); ++it)
-        {
+
+        for (auto it = obj.begin(); it != obj.end(); ++it) {
             FestlActivityChildCfg oChild;
             auto item_obj = it->second.ToObject();
             int oid = item_obj["id"].ToInt();
-            
+
             oChild._id = oid;
             oChild._type = item_obj["type"].ToInt();
             oChild._drop = item_obj["drop"].ToInt();
@@ -98,7 +95,7 @@ int FestlActivityConfig::parse()
             std::string sReward = item_obj["reward"].ToString();
             oChild._reward.clear();
             fillStrToMap(sReward.c_str(), oChild._reward);
-            
+
             _child[oid] = oChild;
         }
     }
@@ -108,61 +105,57 @@ int FestlActivityConfig::parse()
 
 bool FestlActivityConfig::check()
 {
-    for (auto it = _base.begin(); it != _base.end(); ++it)
-    {
-        for (auto it1 = it->second._child.begin(); it1 != it->second._child.end(); ++it1)
-        {
+    for (auto it = _base.begin(); it != _base.end(); ++it) {
+        for (auto it1 = it->second._child.begin(); it1 != it->second._child.end();
+             ++it1) {
             //检测子活动的合法性
             int nChildID = (*it1);
-            if (nChildID != 0 && NULL == getChildCfg(nChildID))
-            {
-                ERROR_LOG("ERR: activity_config.json find err child id !!! activity id = {}, err child = {}", it->first, nChildID)
+
+            if (nChildID != 0 && NULL == getChildCfg(nChildID)) {
+                ERROR_LOG("ERR: activity_config.json find err child id !!! activity id = {}, err child = {}",
+                          it->first, nChildID)
                 return false;
             }
-            
+
             //检测持续时间的合法性
-            if (it->second._duration < 0)
-            {
-                ERROR_LOG("ERR: activity_config.json find err duration !!! activity id = {}, duration = {}", it->first, it->second._duration)
+            if (it->second._duration < 0) {
+                ERROR_LOG("ERR: activity_config.json find err duration !!! activity id = {}, duration = {}",
+                          it->first, it->second._duration)
                 return false;
             }
         }
     }
-    
-    for (auto it = _child.begin(); it != _child.end(); ++it)
-    {
+
+    for (auto it = _child.begin(); it != _child.end(); ++it) {
         //有奖励道具 就检测是否正确
-        if (!it->second._reward.empty())
-        {
-            if (!checkVectorIsItem(it->second._reward))
-            {
-                ERROR_LOG("ERR: child_activity_config.json find err item id !!! child id = {}", it->first)
+        if (!it->second._reward.empty()) {
+            if (!checkVectorIsItem(it->second._reward)) {
+                ERROR_LOG("ERR: child_activity_config.json find err item id !!! child id = {}",
+                          it->first)
                 return false;
             }
         }
-        
+
         //特殊活动  检测数据
-        if (it->second._type == ACTIVITY_CHILD_EXCHANGE)
-        {
-            if (!checkVectorIsItem(it->second._targetStr))
-            {
-                ERROR_LOG("ERR: child_activity_config.json find err item id for targetStr !!! child id = {}", it->first)
+        if (it->second._type == ACTIVITY_CHILD_EXCHANGE) {
+            if (!checkVectorIsItem(it->second._targetStr)) {
+                ERROR_LOG("ERR: child_activity_config.json find err item id for targetStr !!! child id = {}",
+                          it->first)
                 return false;
             }
         }
-        
+
         //如果有掉落 查看掉落ID 是否合法
-        if (it->second._drop != 0)
-        {
-            if (NULL == g_dropConfig.item(it->second._drop))
-            {
-                ERROR_LOG("ERR: child_activity_config.json find err drop id !!! child id = {}", it->first)
+        if (it->second._drop != 0) {
+            if (NULL == g_dropConfig.item(it->second._drop)) {
+                ERROR_LOG("ERR: child_activity_config.json find err drop id !!! child id = {}",
+                          it->first)
                 return false;
             }
         }
     }
-    
-    
+
+
     return true;
 }
 
@@ -174,35 +167,41 @@ void FestlActivityConfig::clear()
 int FestlActivityConfig::load()
 {
     mnLoadType = 0;
-    if (loadFromFile("activity_config.json") != 0)
-    {
+
+    if (loadFromFile("activity_config.json") != 0) {
         return -1;
     }
+
     mnLoadType = 1;
-    if (loadFromFile("child_activity_config.json") != 0)
-    {
+
+    if (loadFromFile("child_activity_config.json") != 0) {
         return -1;
     }
+
     mnLoadType = 0;
     return 0;
 }
 
 FestlActivityInfo* FestlActivityConfig::getCfg(int nIndex)
 {
-    auto it=_base.find(nIndex);
-    if (it!=_base.end())
+    auto it = _base.find(nIndex);
+
+    if (it != _base.end()) {
         return &it->second;
-    else
+    } else {
         return NULL;
+    }
 }
 
 FestlActivityChildCfg* FestlActivityConfig::getChildCfg(int nChildID)
 {
     auto it = _child.find(nChildID);
-    if (it != _child.end())
+
+    if (it != _child.end()) {
         return &it->second;
-    else
+    } else {
         return NULL;
+    }
 }
 
 

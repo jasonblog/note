@@ -9,7 +9,7 @@ class AllianceBuildingAmountItem
 public:
     AllianceBuildingAmountItem();
     ~AllianceBuildingAmountItem();
-    
+
 public:
     int iId;                            //  编号
     std::map<int, int> mbuildNum;       //  建筑数量
@@ -20,15 +20,15 @@ class AllianceBuildingAmountConfig : public ConfigData
 public:
     AllianceBuildingAmountConfig();
     ~AllianceBuildingAmountConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     AllianceBuildingAmountItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, AllianceBuildingAmountItem* > _datas;
 };
 

@@ -10,13 +10,16 @@ using namespace mindroid;
 static const int SAY_HELLO = 0;
 static const int SAY_WORLD = 1;
 
-class HelloHandler : public Handler {
+class HelloHandler : public Handler
+{
 public:
     HelloHandler(const sp<Handler>& worldHandler) :
-            mWorldHandler(worldHandler) {
+        mWorldHandler(worldHandler)
+    {
     }
 
-    virtual void handleMessage(const sp<Message>& msg) {
+    virtual void handleMessage(const sp<Message>& msg)
+    {
         switch (msg->what) {
         case SAY_HELLO:
             printf("Hello ");
@@ -31,16 +34,20 @@ private:
     sp<Handler> mWorldHandler;
 };
 
-class WorldHandler : public Handler {
+class WorldHandler : public Handler
+{
 public:
-    WorldHandler() {
+    WorldHandler()
+    {
     }
 
-    virtual void handleMessage(const sp<Message>& msg) {
+    virtual void handleMessage(const sp<Message>& msg)
+    {
         switch (msg->what) {
         case SAY_WORLD:
             printf("World!\n");
-            sp<Handler> helloHandler = object_cast<Handler>(msg->getData()->getObject("Handler"));
+            sp<Handler> helloHandler = object_cast<Handler>
+                                       (msg->getData()->getObject("Handler"));
             sp<Message> message = helloHandler->obtainMessage(SAY_HELLO);
             helloHandler->sendMessageDelayed(message, 1000);
             break;
@@ -48,7 +55,8 @@ public:
     }
 };
 
-int main() {
+int main()
+{
     Looper::prepare();
     sp<Handler> worldHandler = new WorldHandler();
     sp<Handler> helloHandler = new HelloHandler(worldHandler);

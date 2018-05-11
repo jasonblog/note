@@ -10,7 +10,7 @@ class AllianceBuildingItem
 public:
     AllianceBuildingItem();
     ~AllianceBuildingItem();
-    
+
 public:
     int iId;                            //  编号
     int iLevel;                         //  等级
@@ -32,15 +32,15 @@ class AllianceBuildingConfig : public ConfigData
 public:
     AllianceBuildingConfig();
     ~AllianceBuildingConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     AllianceBuildingItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, AllianceBuildingItem* > _datas;
 };
 

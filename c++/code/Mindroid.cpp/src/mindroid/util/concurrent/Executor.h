@@ -19,12 +19,14 @@
 
 #include "mindroid/lang/Object.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Runnable;
 
 class Executor :
-        public Object {
+    public Object
+{
 public:
     Executor() = default;
     virtual ~Executor() = default;

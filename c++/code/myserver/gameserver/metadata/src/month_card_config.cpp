@@ -21,7 +21,7 @@ MonthCardCfgInfo::MonthCardCfgInfo()
 
 MonthCardCfgInfo::~MonthCardCfgInfo()
 {
-    
+
 }
 
 MonthCardConfig::MonthCardConfig()
@@ -37,10 +37,10 @@ MonthCardConfig::~MonthCardConfig()
 int MonthCardConfig::parse()
 {
     auto obj = m_obj.ToObject();
-    for (auto it=obj.begin(); it!=obj.end(); ++it)
-    {
+
+    for (auto it = obj.begin(); it != obj.end(); ++it) {
         MonthCardCfgInfo* item = new MonthCardCfgInfo();
-        
+
         auto item_obj = it->second.ToObject();
         int oid = item_obj["id"].ToInt();
         item->_id = oid;
@@ -49,46 +49,49 @@ int MonthCardConfig::parse()
         item->_rewardGem = item_obj["rewardGem"].ToInt();
         item->_dailyReward = item_obj["dailyReward"].ToInt();
         item->_times = item_obj["times"].ToInt();
- 
+
         _datas[oid] = item;
     }
+
     return 0;
 }
 
 bool MonthCardConfig::check()
 {
-    for (auto it = _datas.begin(); it != _datas.end(); ++it)
-    {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         //去充值配置表 查看充值的正确性
-        if (NULL == g_rechargeConfig.item(it->second->_rechargeIOS))
-        {
-            ERROR_LOG("ERR: check AllianceGiftConfig _rechargeIOS is err!!! id = {}, _rechargeIOS = {}", it->first, it->second->_rechargeIOS);
+        if (NULL == g_rechargeConfig.item(it->second->_rechargeIOS)) {
+            ERROR_LOG("ERR: check AllianceGiftConfig _rechargeIOS is err!!! id = {}, _rechargeIOS = {}",
+                      it->first, it->second->_rechargeIOS);
             return false;
         }
-        if (NULL == g_rechargeConfig.item(it->second->_rechargeAndroid))
-        {
-            ERROR_LOG("ERR: check AllianceGiftConfig _rechargeAndroid is err!!! id = {}, _rechargeAndroid = {}", it->first, it->second->_rechargeAndroid);
+
+        if (NULL == g_rechargeConfig.item(it->second->_rechargeAndroid)) {
+            ERROR_LOG("ERR: check AllianceGiftConfig _rechargeAndroid is err!!! id = {}, _rechargeAndroid = {}",
+                      it->first, it->second->_rechargeAndroid);
             return false;
         }
     }
+
     return true;
 }
 
 void MonthCardConfig::clear()
 {
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it)
-    {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
 MonthCardCfgInfo* MonthCardConfig::getCfg(int nIndex)
 {
-    auto it=_datas.find(nIndex);
-    if (it!=_datas.end())
-    {
+    auto it = _datas.find(nIndex);
+
+    if (it != _datas.end()) {
         return it->second;
     }
+
     return NULL;
 }

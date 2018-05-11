@@ -9,11 +9,11 @@
 //  酒吧悬赏任务配置表
 class MissionItem
 {
-    
+
 public:
     MissionItem();
     ~MissionItem();
-    
+
 public:
     int _id;            //  ID
     int _unlock;        //  需要城堡等级
@@ -30,17 +30,17 @@ class MissionConfig : public ConfigData
 {
 public:
     MissionConfig();
-    
+
     ~MissionConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     MissionItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, MissionItem* > _datas;
 };
 

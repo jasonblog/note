@@ -20,12 +20,14 @@
 #include "mindroid/lang/Object.h"
 #include "mindroid/lang/String.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class FilenameFilter;
 
 class File :
-        public Object {
+    public Object
+{
 public:
     /**
      * The system-dependent string used to separate components in search paths (":").
@@ -285,7 +287,8 @@ public:
      *
      * @return a printable representation of this file.
      */
-    sp<String> toString() {
+    sp<String> toString()
+    {
         return mPath;
     }
 

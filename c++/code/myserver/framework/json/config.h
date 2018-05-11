@@ -20,7 +20,7 @@ struct ServerInfo {
     int m_iPort;
 };
 
-class CServerConfig : public CSingleton<CServerConfig>,public MyJson::Json
+class CServerConfig : public CSingleton<CServerConfig>, public MyJson::Json
 {
 public:
     CServerConfig();
@@ -29,18 +29,48 @@ public:
     void Clear();
 
 public:
-//    const std::map<enServerType ,ServerInfo>& GetServerMap() const {return m_mServerMap;}
-    const string GetDbInfo() const {return m_sDblInfo;}
-    const string GetDbIp() const { return m_sDbIp;}
-    const int GetDbSleep() const {return m_iDbSleepTime;}
-    const int GetDbLoop() const { return m_iDbLoop;}
-    const int GetDbLogLevel() const { return m_iDbLogLevel;}
-    const int GetDbRwTimeout() const { return m_iRwTimeOut;}
+    //    const std::map<enServerType ,ServerInfo>& GetServerMap() const {return m_mServerMap;}
+    const string GetDbInfo() const
+    {
+        return m_sDblInfo;
+    }
+    const string GetDbIp() const
+    {
+        return m_sDbIp;
+    }
+    const int GetDbSleep() const
+    {
+        return m_iDbSleepTime;
+    }
+    const int GetDbLoop() const
+    {
+        return m_iDbLoop;
+    }
+    const int GetDbLogLevel() const
+    {
+        return m_iDbLogLevel;
+    }
+    const int GetDbRwTimeout() const
+    {
+        return m_iRwTimeOut;
+    }
 
-    const int GetTcpKeepAlive() const {return m_iTcpKeepAlive;}
-    const int GetServetTick() const {return m_iServerTick;}
-    const int GetCheckTimeOutGap() const {return m_iChecktimeOutGap;}
-    const int GetSocketTimeOut() const {return m_iSokcetTimeout;}
+    const int GetTcpKeepAlive() const
+    {
+        return m_iTcpKeepAlive;
+    }
+    const int GetServetTick() const
+    {
+        return m_iServerTick;
+    }
+    const int GetCheckTimeOutGap() const
+    {
+        return m_iChecktimeOutGap;
+    }
+    const int GetSocketTimeOut() const
+    {
+        return m_iSokcetTimeout;
+    }
 
     ServerInfo* GetServerInfo(enServerType type);
 private:
@@ -56,7 +86,7 @@ private:
     int m_iServerTick;
     int m_iChecktimeOutGap;
     int m_iSokcetTimeout;
-    std::map<enServerType ,ServerInfo> m_mServerMap;
+    std::map<enServerType, ServerInfo> m_mServerMap;
 };
 
 #endif //SERVER_CONFIG_H_H

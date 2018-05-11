@@ -21,14 +21,16 @@
 #include "mindroid/lang/Object.h"
 #include "mindroid/os/IBinder.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Base class for Binder interfaces. When defining a new interface, you must derive it from
  * IInterface.
  */
 class IInterface :
-        public virtual Object {
+    public virtual Object
+{
 public:
     /**
      * Retrieve the Binder object associated with this interface. You must use this instead of a
@@ -39,13 +41,15 @@ public:
     /**
      * Release the unmanaged Binder resources associated with this interface.
      */
-    void dispose() {
+    void dispose()
+    {
         asBinder()->dispose();
     }
 };
 
 template<typename INTERFACE>
-inline sp<INTERFACE> interface_cast(const sp<IInterface>& interface) {
+inline sp<INTERFACE> interface_cast(const sp<IInterface>& interface)
+{
     return static_cast<INTERFACE*>(interface.getPointer());
 }
 

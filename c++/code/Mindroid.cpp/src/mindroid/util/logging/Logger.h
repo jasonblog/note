@@ -23,14 +23,19 @@
 #include "mindroid/util/logging/ConsoleHandler.h"
 #include "mindroid/util/logging/FileHandler.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
-class Logger : public Service {
+class Logger : public Service
+{
 public:
-    class LoggerThread : public Thread {
+    class LoggerThread : public Thread
+    {
     public:
-        LoggerThread(const sp<String>& name, int32_t logBufferId, bool consoleLogging, bool fileLogging, bool timestamps, int32_t priority,
-                const sp<String>& logDirectory, const sp<String>& logFileName, uint32_t logFileSizeLimit, uint32_t logFileCount);
+        LoggerThread(const sp<String>& name, int32_t logBufferId, bool consoleLogging,
+                     bool fileLogging, bool timestamps, int32_t priority,
+                     const sp<String>& logDirectory, const sp<String>& logFileName,
+                     uint32_t logFileSizeLimit, uint32_t logFileCount);
 
         void run() override;
         void open();
@@ -52,7 +57,8 @@ public:
     };
 
     void onCreate() override;
-    int32_t onStartCommand(const sp<Intent>& intent, int32_t flags, int32_t startId) override;
+    int32_t onStartCommand(const sp<Intent>& intent, int32_t flags,
+                           int32_t startId) override;
     void onDestroy() override;
     sp<IBinder> onBind(const sp<Intent>& intent) override;
 

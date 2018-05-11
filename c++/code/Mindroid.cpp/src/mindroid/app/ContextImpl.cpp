@@ -23,20 +23,24 @@
 #include "mindroid/os/Environment.h"
 #include "mindroid/util/Log.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 const char* const ContextImpl::TAG = "ContextImpl";
 
-ContextImpl::ContextImpl(const sp<HandlerThread>& mainThread, const sp<ComponentName>& component) :
-        mServiceConnections(new HashMap<sp<ServiceConnection>, sp<Intent>>()),
-        mServiceConnectionCallbacks(new ArrayList<sp<RemoteCallback>>()) {
+ContextImpl::ContextImpl(const sp<HandlerThread>& mainThread,
+                         const sp<ComponentName>& component) :
+    mServiceConnections(new HashMap<sp<ServiceConnection>, sp<Intent>>()),
+    mServiceConnectionCallbacks(new ArrayList<sp<RemoteCallback>>())
+{
     mServiceManager = ServiceManager::getServiceManager();
     mMainThread = mainThread;
     mHandler = new Handler(mainThread->getLooper());
     mComponent = component;
 }
 
-sp<PackageManager> ContextImpl::getPackageManager() {
+sp<PackageManager> ContextImpl::getPackageManager()
+{
     if (mPackageManager != nullptr) {
         return mPackageManager;
     }
@@ -44,18 +48,23 @@ sp<PackageManager> ContextImpl::getPackageManager() {
     return (mPackageManager = new PackageManager(this));
 }
 
-sp<String> ContextImpl::getPackageName() {
+sp<String> ContextImpl::getPackageName()
+{
     if (mComponent != nullptr) {
         return mComponent->getPackageName();
     }
+
     return String::valueOf("mindroid");
 }
 
-sp<SharedPreferences> ContextImpl::getSharedPreferences(const sp<String>& name, int32_t mode) {
-    return Environment::getSharedPreferences(getSharedPrefsFile(name),mode);
+sp<SharedPreferences> ContextImpl::getSharedPreferences(const sp<String>& name,
+        int32_t mode)
+{
+    return Environment::getSharedPreferences(getSharedPrefsFile(name), mode);
 }
 
-sp<IBinder> ContextImpl::getSystemService(const sp<String>& name) {
+sp<IBinder> ContextImpl::getSystemService(const sp<String>& name)
+{
     if (name != nullptr) {
         return ServiceManager::getSystemService(name);
     } else {
@@ -63,7 +72,8 @@ sp<IBinder> ContextImpl::getSystemService(const sp<String>& name) {
     }
 }
 
-sp<ComponentName> ContextImpl::startService(const sp<Intent>& service) {
+sp<ComponentName> ContextImpl::startService(const sp<Intent>& service)
+{
     if (service != nullptr) {
         try {
             return mServiceManager->startService(service);
@@ -76,7 +86,8 @@ sp<ComponentName> ContextImpl::startService(const sp<Intent>& service) {
     }
 }
 
-bool ContextImpl::stopService(const sp<Intent>& service) {
+bool ContextImpl::stopService(const sp<Intent>& service)
+{
     if (service != nullptr) {
         try {
             return mServiceManager->stopService(service);
@@ -89,31 +100,41 @@ bool ContextImpl::stopService(const sp<Intent>& service) {
     }
 }
 
-bool ContextImpl::bindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, int32_t flags) {
+bool ContextImpl::bindService(const sp<Intent>& service,
+                              const sp<ServiceConnection>& conn, int32_t flags)
+{
     if (service != nullptr && conn != nullptr) {
         if (mServiceConnections->containsKey(conn)) {
             return true;
         }
+
         mServiceConnections->put(conn, service);
 
-        class OnResultListener : public RemoteCallback::OnResultListener {
+        class OnResultListener : public RemoteCallback::OnResultListener
+        {
         public:
-            OnResultListener(const wp<ContextImpl>& context, const sp<Intent>& service, const sp<ServiceConnection>& conn) :
+            OnResultListener(const wp<ContextImpl>& context, const sp<Intent>& service,
+                             const sp<ServiceConnection>& conn) :
                 mContext(context),
                 mService(service),
-                mConn(conn) {
+                mConn(conn)
+            {
             }
 
         protected:
-            void onResult(const sp<Bundle>& data) {
+            void onResult(const sp<Bundle>& data)
+            {
                 sp<ContextImpl> context = mContext.lock();
+
                 if (context != nullptr) {
                     bool result = data->getBoolean("result");
+
                     if (result) {
                         sp<IBinder> binder = data->getBinder("binder");
                         mConn->onServiceConnected(mService->getComponent(), binder);
                     } else {
-                        Log::e(ContextImpl::TAG, "Cannot bind to service %s", mService->getComponent()->toShortString()->c_str());
+                        Log::e(ContextImpl::TAG, "Cannot bind to service %s",
+                               mService->getComponent()->toShortString()->c_str());
                     }
 
                     context->mServiceConnectionCallbacks->remove(getCallback());
@@ -126,10 +147,13 @@ bool ContextImpl::bindService(const sp<Intent>& service, const sp<ServiceConnect
             const sp<ServiceConnection> mConn;
         };
 
-        sp<RemoteCallback> callback = new RemoteCallback(new OnResultListener(this, service, conn), mHandler);
+        sp<RemoteCallback> callback = new RemoteCallback(new OnResultListener(this,
+                service, conn), mHandler);
         mServiceConnectionCallbacks->add(callback);
+
         try {
-            return mServiceManager->bindService(service, conn, flags, callback->asInterface());
+            return mServiceManager->bindService(service, conn, flags,
+                                                callback->asInterface());
         } catch (const RemoteException& e) {
             Assert::fail("System failure");
             return false;
@@ -139,11 +163,13 @@ bool ContextImpl::bindService(const sp<Intent>& service, const sp<ServiceConnect
     }
 }
 
-void ContextImpl::unbindService(const sp<ServiceConnection>& conn) {
+void ContextImpl::unbindService(const sp<ServiceConnection>& conn)
+{
     if (conn != nullptr) {
         if (mServiceConnections->containsKey(conn)) {
             sp<Intent> service = mServiceConnections->get(conn);
             mServiceConnections->remove(conn);
+
             try {
                 mServiceManager->unbindService(service, conn);
             } catch (const RemoteException& e) {
@@ -152,30 +178,39 @@ void ContextImpl::unbindService(const sp<ServiceConnection>& conn) {
     }
 }
 
-sp<File> ContextImpl::getPreferencesDir() {
+sp<File> ContextImpl::getPreferencesDir()
+{
     if (!Environment::getPreferencesDirectory()->exists()) {
         Environment::getPreferencesDirectory()->mkdir();
     }
+
     return Environment::getPreferencesDirectory();
 }
 
-sp<File> ContextImpl::makeFilename(const sp<File>& baseDir, const sp<String>& name) {
+sp<File> ContextImpl::makeFilename(const sp<File>& baseDir,
+                                   const sp<String>& name)
+{
     if (name->indexOf(File::separatorChar) < 0) {
         return new File(baseDir, name);
     }
-    Assert::assertTrue(String::format("File %s contains a path separator", name->c_str())->c_str(), false);
+
+    Assert::assertTrue(String::format("File %s contains a path separator",
+                                      name->c_str())->c_str(), false);
     return nullptr;
 }
 
-void ContextImpl::cleanup() {
+void ContextImpl::cleanup()
+{
     auto itr = mServiceConnections->iterator();
+
     while (itr.hasNext()) {
         auto entry = itr.next();
         sp<ServiceConnection> conn = entry.getKey();
         sp<Intent> service = entry.getValue();
         itr.remove();
         mServiceManager->unbindService(service, conn);
-        Log::w(TAG, "Service %s is leaking a ServiceConnection to %s", mComponent->toString()->c_str(), service->getComponent()->toString()->c_str());
+        Log::w(TAG, "Service %s is leaking a ServiceConnection to %s",
+               mComponent->toString()->c_str(), service->getComponent()->toString()->c_str());
     }
 }
 

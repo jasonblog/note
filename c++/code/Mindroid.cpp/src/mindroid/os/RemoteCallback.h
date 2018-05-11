@@ -23,19 +23,23 @@
 #include "mindroid/os/IRemoteCallback.h"
 #include "mindroid/util/Log.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * @hide
  */
 class RemoteCallback :
-        public Object {
+    public Object
+{
 public:
-    class OnResultListener : public Object {
+    class OnResultListener : public Object
+    {
     public:
         virtual void onResult(const sp<Bundle>& result) = 0;
 
-        sp<RemoteCallback> getCallback() {
+        sp<RemoteCallback> getCallback()
+        {
             return mCallback.lock();
         }
 
@@ -46,28 +50,41 @@ public:
     };
 
     RemoteCallback(const sp<OnResultListener>& listener) :
-            RemoteCallback(listener, nullptr) {
+        RemoteCallback(listener, nullptr)
+    {
     }
 
-    RemoteCallback(const sp<OnResultListener>& listener, const sp<Handler>& handler) {
+    RemoteCallback(const sp<OnResultListener>& listener,
+                   const sp<Handler>& handler)
+    {
         if (listener == nullptr) {
             Assert::assertNotNull("Listener cannot be null", listener);
         }
+
         listener->mCallback = this;
         mCallback = new Stub(listener, handler);
     }
 
-    virtual ~RemoteCallback() {
+    virtual ~RemoteCallback()
+    {
         mCallback->dispose();
     }
 
-    sp<IRemoteCallback> asInterface() {
+    sp<IRemoteCallback> asInterface()
+    {
         return mCallback;
     }
 
-    bool equals(const sp<Object>& other) const override {
-        if (other == nullptr) return false;
-        if (other == this) return true;
+    bool equals(const sp<Object>& other) const override
+    {
+        if (other == nullptr) {
+            return false;
+        }
+
+        if (other == this) {
+            return true;
+        }
+
         if (Class<RemoteCallback>::isInstance(other)) {
             sp<RemoteCallback> o = Class<RemoteCallback>::cast(other);
             return mCallback->asBinder()->equals(o->mCallback->asBinder());
@@ -76,20 +93,24 @@ public:
         }
     }
 
-    size_t hashCode() const override {
+    size_t hashCode() const override
+    {
         return mCallback->asBinder()->hashCode();
     }
 
 private:
-    class Stub : public binder::RemoteCallback::Stub {
+    class Stub : public binder::RemoteCallback::Stub
+    {
     public:
         Stub(const sp<OnResultListener>& listener, const sp<Handler>& handler) :
-                mListener(listener), mHandler(handler) {
+            mListener(listener), mHandler(handler)
+        {
         }
 
-        virtual void sendResult(const sp<Bundle>& result) {
+        virtual void sendResult(const sp<Bundle>& result)
+        {
             if (mHandler != nullptr) {
-                mHandler->post([=] { mListener->onResult(result); });
+                mHandler->post([ = ] { mListener->onResult(result); });
             } else {
                 mListener->onResult(result);
             }

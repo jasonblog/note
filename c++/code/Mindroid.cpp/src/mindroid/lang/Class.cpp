@@ -16,29 +16,35 @@
 
 #include "mindroid/lang/Class.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 pthread_mutex_t Classes::sMutex = PTHREAD_MUTEX_INITIALIZER;
 Classes* Classes::sInstance = nullptr;
 
-void Classes::put(const sp<String>& name, Factory* factory) {
+void Classes::put(const sp<String>& name, Factory* factory)
+{
     pthread_mutex_lock(&sMutex);
     mClasses->put(name, factory);
     pthread_mutex_unlock(&sMutex);
 }
 
-Factory* Classes::get(const sp<String>& name) {
+Factory* Classes::get(const sp<String>& name)
+{
     pthread_mutex_lock(&sMutex);
     Factory* factory = mClasses->get(name);
     pthread_mutex_unlock(&sMutex);
     return factory;
 }
 
-Classes* Classes::getInstance() {
+Classes* Classes::getInstance()
+{
     pthread_mutex_lock(&sMutex);
+
     if (sInstance == nullptr) {
         sInstance = new Classes();
     }
+
     pthread_mutex_unlock(&sMutex);
     return sInstance;
 }

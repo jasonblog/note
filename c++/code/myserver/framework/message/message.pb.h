@@ -32,15 +32,17 @@
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 
-namespace protobuf_message_2eproto {
+namespace protobuf_message_2eproto
+{
 // Internal implementation detail -- do not use these members.
 struct TableStruct {
-  static const ::google::protobuf::internal::ParseTableField entries[];
-  static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[5];
-  static const ::google::protobuf::internal::FieldMetadata field_metadata[];
-  static const ::google::protobuf::internal::SerializationTable serialization_table[];
-  static const ::google::protobuf::uint32 offsets[];
+    static const ::google::protobuf::internal::ParseTableField entries[];
+    static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
+    static const ::google::protobuf::internal::ParseTable schema[5];
+    static const ::google::protobuf::internal::FieldMetadata field_metadata[];
+    static const ::google::protobuf::internal::SerializationTable
+    serialization_table[];
+    static const ::google::protobuf::uint32 offsets[];
 };
 void AddDescriptors();
 void InitDefaultsCSocketInfoImpl();
@@ -53,12 +55,13 @@ void InitDefaultsCProxyHeadImpl();
 void InitDefaultsCProxyHead();
 void InitDefaultsCProxyMessageImpl();
 void InitDefaultsCProxyMessage();
-inline void InitDefaults() {
-  InitDefaultsCSocketInfo();
-  InitDefaultsMesHead();
-  InitDefaultsCMessage();
-  InitDefaultsCProxyHead();
-  InitDefaultsCProxyMessage();
+inline void InitDefaults()
+{
+    InitDefaultsCSocketInfo();
+    InitDefaultsMesHead();
+    InitDefaultsCMessage();
+    InitDefaultsCProxyHead();
+    InitDefaultsCProxyMessage();
 }
 }  // namespace protobuf_message_2eproto
 class CMessage;
@@ -78,19 +81,19 @@ class MesHeadDefaultTypeInternal;
 extern MesHeadDefaultTypeInternal _MesHead_default_instance_;
 
 enum enServerType {
-  FE_TIMER = 0,
-  FE_CLIENT = 1,
-  FE_GAMESERVER = 2,
-  FE_LOGINSERVER = 3,
-  FE_DBSERVER = 4,
-  FE_PROXYSERVER = 5,
-  FE_WORLDSERVER = 6,
-  FE_WEBSERVER = 7,
-  FE_OFFLINESERVER = 8,
-  FE_CHECKSERVER = 9,
-  FE_HALLSERVER = 10,
-  FE_GATESERVER = 11,
-  FE_ROOMSERVER = 12
+    FE_TIMER = 0,
+    FE_CLIENT = 1,
+    FE_GAMESERVER = 2,
+    FE_LOGINSERVER = 3,
+    FE_DBSERVER = 4,
+    FE_PROXYSERVER = 5,
+    FE_WORLDSERVER = 6,
+    FE_WEBSERVER = 7,
+    FE_OFFLINESERVER = 8,
+    FE_CHECKSERVER = 9,
+    FE_HALLSERVER = 10,
+    FE_GATESERVER = 11,
+    FE_ROOMSERVER = 12
 };
 bool enServerType_IsValid(int value);
 const enServerType enServerType_MIN = FE_TIMER;
@@ -98,19 +101,21 @@ const enServerType enServerType_MAX = FE_ROOMSERVER;
 const int enServerType_ARRAYSIZE = enServerType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* enServerType_descriptor();
-inline const ::std::string& enServerType_Name(enServerType value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    enServerType_descriptor(), value);
+inline const ::std::string& enServerType_Name(enServerType value)
+{
+    return ::google::protobuf::internal::NameOfEnum(
+               enServerType_descriptor(), value);
 }
 inline bool enServerType_Parse(
-    const ::std::string& name, enServerType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<enServerType>(
-    enServerType_descriptor(), name, value);
+    const ::std::string& name, enServerType* value)
+{
+    return ::google::protobuf::internal::ParseNamedEnum<enServerType>(
+               enServerType_descriptor(), name, value);
 }
 enum enMessageCmd {
-  MESS_NULL = 0,
-  MESS_REGIST = 1,
-  MESS_KEEPALIVE = 2
+    MESS_NULL = 0,
+    MESS_REGIST = 1,
+    MESS_KEEPALIVE = 2
 };
 bool enMessageCmd_IsValid(int value);
 const enMessageCmd enMessageCmd_MIN = MESS_NULL;
@@ -118,716 +123,818 @@ const enMessageCmd enMessageCmd_MAX = MESS_KEEPALIVE;
 const int enMessageCmd_ARRAYSIZE = enMessageCmd_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* enMessageCmd_descriptor();
-inline const ::std::string& enMessageCmd_Name(enMessageCmd value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    enMessageCmd_descriptor(), value);
+inline const ::std::string& enMessageCmd_Name(enMessageCmd value)
+{
+    return ::google::protobuf::internal::NameOfEnum(
+               enMessageCmd_descriptor(), value);
 }
 inline bool enMessageCmd_Parse(
-    const ::std::string& name, enMessageCmd* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<enMessageCmd>(
-    enMessageCmd_descriptor(), name, value);
+    const ::std::string& name, enMessageCmd* value)
+{
+    return ::google::protobuf::internal::ParseNamedEnum<enMessageCmd>(
+               enMessageCmd_descriptor(), name, value);
 }
 // ===================================================================
 
-class CSocketInfo : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:CSocketInfo) */ {
- public:
-  CSocketInfo();
-  virtual ~CSocketInfo();
+class CSocketInfo :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:CSocketInfo) */
+{
+public:
+    CSocketInfo();
+    virtual ~CSocketInfo();
 
-  CSocketInfo(const CSocketInfo& from);
+    CSocketInfo(const CSocketInfo& from);
 
-  inline CSocketInfo& operator=(const CSocketInfo& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  CSocketInfo(CSocketInfo&& from) noexcept
-    : CSocketInfo() {
-    *this = ::std::move(from);
-  }
-
-  inline CSocketInfo& operator=(CSocketInfo&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline CSocketInfo& operator=(const CSocketInfo& from)
+    {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
+#if LANG_CXX11
+    CSocketInfo(CSocketInfo&& from) noexcept
+        : CSocketInfo()
+    {
+        *this = ::std::move(from);
+    }
 
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const CSocketInfo& default_instance();
+    inline CSocketInfo& operator=(CSocketInfo&& from) noexcept
+    {
+        if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+            if (this != &from) {
+                InternalSwap(&from);
+            }
+        } else {
+            CopyFrom(from);
+        }
 
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const CSocketInfo* internal_default_instance() {
-    return reinterpret_cast<const CSocketInfo*>(
-               &_CSocketInfo_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    0;
+        return *this;
+    }
+#endif
+    inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+    {
+        return _internal_metadata_.unknown_fields();
+    }
+    inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+    {
+        return _internal_metadata_.mutable_unknown_fields();
+    }
 
-  void Swap(CSocketInfo* other);
-  friend void swap(CSocketInfo& a, CSocketInfo& b) {
-    a.Swap(&b);
-  }
+    static const ::google::protobuf::Descriptor* descriptor();
+    static const CSocketInfo& default_instance();
 
-  // implements Message ----------------------------------------------
+    static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+    static inline const CSocketInfo* internal_default_instance()
+    {
+        return reinterpret_cast<const CSocketInfo*>(
+                   &_CSocketInfo_default_instance_);
+    }
+    static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+        0;
 
-  inline CSocketInfo* New() const PROTOBUF_FINAL { return New(NULL); }
+    void Swap(CSocketInfo* other);
+    friend void swap(CSocketInfo& a, CSocketInfo& b)
+    {
+        a.Swap(&b);
+    }
 
-  CSocketInfo* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const CSocketInfo& from);
-  void MergeFrom(const CSocketInfo& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
+    // implements Message ----------------------------------------------
 
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(CSocketInfo* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
+    inline CSocketInfo* New() const PROTOBUF_FINAL
+    {
+        return New(NULL);
+    }
 
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+    CSocketInfo* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+    void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void CopyFrom(const CSocketInfo& from);
+    void MergeFrom(const CSocketInfo& from);
+    void Clear() PROTOBUF_FINAL;
+    bool IsInitialized() const PROTOBUF_FINAL;
 
-  // nested types ----------------------------------------------------
+    size_t ByteSizeLong() const PROTOBUF_FINAL;
+    bool MergePartialFromCodedStream(
+        ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+    void SerializeWithCachedSizes(
+        ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+    ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+        bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+    int GetCachedSize() const PROTOBUF_FINAL
+    {
+        return _cached_size_;
+    }
+private:
+    void SharedCtor();
+    void SharedDtor();
+    void SetCachedSize(int size) const PROTOBUF_FINAL;
+    void InternalSwap(CSocketInfo* other);
+private:
+    inline ::google::protobuf::Arena* GetArenaNoVirtual() const
+    {
+        return NULL;
+    }
+    inline void* MaybeArenaPtr() const
+    {
+        return NULL;
+    }
+public:
 
-  // accessors -------------------------------------------------------
+    ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
 
-  // optional int64 CreateTime = 2;
-  bool has_createtime() const;
-  void clear_createtime();
-  static const int kCreateTimeFieldNumber = 2;
-  ::google::protobuf::int64 createtime() const;
-  void set_createtime(::google::protobuf::int64 value);
+    // nested types ----------------------------------------------------
 
-  // optional int32 SocketID = 1;
-  bool has_socketid() const;
-  void clear_socketid();
-  static const int kSocketIDFieldNumber = 1;
-  ::google::protobuf::int32 socketid() const;
-  void set_socketid(::google::protobuf::int32 value);
+    // accessors -------------------------------------------------------
 
-  // optional int32 State = 3;
-  bool has_state() const;
-  void clear_state();
-  static const int kStateFieldNumber = 3;
-  ::google::protobuf::int32 state() const;
-  void set_state(::google::protobuf::int32 value);
+    // optional int64 CreateTime = 2;
+    bool has_createtime() const;
+    void clear_createtime();
+    static const int kCreateTimeFieldNumber = 2;
+    ::google::protobuf::int64 createtime() const;
+    void set_createtime(::google::protobuf::int64 value);
 
-  // @@protoc_insertion_point(class_scope:CSocketInfo)
- private:
-  void set_has_socketid();
-  void clear_has_socketid();
-  void set_has_createtime();
-  void clear_has_createtime();
-  void set_has_state();
-  void clear_has_state();
+    // optional int32 SocketID = 1;
+    bool has_socketid() const;
+    void clear_socketid();
+    static const int kSocketIDFieldNumber = 1;
+    ::google::protobuf::int32 socketid() const;
+    void set_socketid(::google::protobuf::int32 value);
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  ::google::protobuf::int64 createtime_;
-  ::google::protobuf::int32 socketid_;
-  ::google::protobuf::int32 state_;
-  friend struct ::protobuf_message_2eproto::TableStruct;
-  friend void ::protobuf_message_2eproto::InitDefaultsCSocketInfoImpl();
+    // optional int32 State = 3;
+    bool has_state() const;
+    void clear_state();
+    static const int kStateFieldNumber = 3;
+    ::google::protobuf::int32 state() const;
+    void set_state(::google::protobuf::int32 value);
+
+    // @@protoc_insertion_point(class_scope:CSocketInfo)
+private:
+    void set_has_socketid();
+    void clear_has_socketid();
+    void set_has_createtime();
+    void clear_has_createtime();
+    void set_has_state();
+    void clear_has_state();
+
+    ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable int _cached_size_;
+    ::google::protobuf::int64 createtime_;
+    ::google::protobuf::int32 socketid_;
+    ::google::protobuf::int32 state_;
+    friend struct ::protobuf_message_2eproto::TableStruct;
+    friend void ::protobuf_message_2eproto::InitDefaultsCSocketInfoImpl();
 };
 // -------------------------------------------------------------------
 
-class MesHead : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:MesHead) */ {
- public:
-  MesHead();
-  virtual ~MesHead();
+class MesHead :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:MesHead) */
+{
+public:
+    MesHead();
+    virtual ~MesHead();
 
-  MesHead(const MesHead& from);
+    MesHead(const MesHead& from);
 
-  inline MesHead& operator=(const MesHead& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  MesHead(MesHead&& from) noexcept
-    : MesHead() {
-    *this = ::std::move(from);
-  }
-
-  inline MesHead& operator=(MesHead&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline MesHead& operator=(const MesHead& from)
+    {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
+#if LANG_CXX11
+    MesHead(MesHead&& from) noexcept
+        : MesHead()
+    {
+        *this = ::std::move(from);
+    }
 
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const MesHead& default_instance();
+    inline MesHead& operator=(MesHead&& from) noexcept
+    {
+        if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+            if (this != &from) {
+                InternalSwap(&from);
+            }
+        } else {
+            CopyFrom(from);
+        }
 
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const MesHead* internal_default_instance() {
-    return reinterpret_cast<const MesHead*>(
-               &_MesHead_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    1;
+        return *this;
+    }
+#endif
+    inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+    {
+        return _internal_metadata_.unknown_fields();
+    }
+    inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+    {
+        return _internal_metadata_.mutable_unknown_fields();
+    }
 
-  void Swap(MesHead* other);
-  friend void swap(MesHead& a, MesHead& b) {
-    a.Swap(&b);
-  }
+    static const ::google::protobuf::Descriptor* descriptor();
+    static const MesHead& default_instance();
 
-  // implements Message ----------------------------------------------
+    static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+    static inline const MesHead* internal_default_instance()
+    {
+        return reinterpret_cast<const MesHead*>(
+                   &_MesHead_default_instance_);
+    }
+    static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+        1;
 
-  inline MesHead* New() const PROTOBUF_FINAL { return New(NULL); }
+    void Swap(MesHead* other);
+    friend void swap(MesHead& a, MesHead& b)
+    {
+        a.Swap(&b);
+    }
 
-  MesHead* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const MesHead& from);
-  void MergeFrom(const MesHead& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
+    // implements Message ----------------------------------------------
 
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(MesHead* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
+    inline MesHead* New() const PROTOBUF_FINAL
+    {
+        return New(NULL);
+    }
 
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+    MesHead* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+    void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void CopyFrom(const MesHead& from);
+    void MergeFrom(const MesHead& from);
+    void Clear() PROTOBUF_FINAL;
+    bool IsInitialized() const PROTOBUF_FINAL;
 
-  // nested types ----------------------------------------------------
+    size_t ByteSizeLong() const PROTOBUF_FINAL;
+    bool MergePartialFromCodedStream(
+        ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+    void SerializeWithCachedSizes(
+        ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+    ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+        bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+    int GetCachedSize() const PROTOBUF_FINAL
+    {
+        return _cached_size_;
+    }
+private:
+    void SharedCtor();
+    void SharedDtor();
+    void SetCachedSize(int size) const PROTOBUF_FINAL;
+    void InternalSwap(MesHead* other);
+private:
+    inline ::google::protobuf::Arena* GetArenaNoVirtual() const
+    {
+        return NULL;
+    }
+    inline void* MaybeArenaPtr() const
+    {
+        return NULL;
+    }
+public:
 
-  // accessors -------------------------------------------------------
+    ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
 
-  // repeated .CSocketInfo SocketInfos = 1;
-  int socketinfos_size() const;
-  void clear_socketinfos();
-  static const int kSocketInfosFieldNumber = 1;
-  const ::CSocketInfo& socketinfos(int index) const;
-  ::CSocketInfo* mutable_socketinfos(int index);
-  ::CSocketInfo* add_socketinfos();
-  ::google::protobuf::RepeatedPtrField< ::CSocketInfo >*
-      mutable_socketinfos();
-  const ::google::protobuf::RepeatedPtrField< ::CSocketInfo >&
-      socketinfos() const;
+    // nested types ----------------------------------------------------
 
-  // optional int32 Cmd = 2;
-  bool has_cmd() const;
-  void clear_cmd();
-  static const int kCmdFieldNumber = 2;
-  ::google::protobuf::int32 cmd() const;
-  void set_cmd(::google::protobuf::int32 value);
+    // accessors -------------------------------------------------------
 
-  // optional int32 Serial = 3;
-  bool has_serial() const;
-  void clear_serial();
-  static const int kSerialFieldNumber = 3;
-  ::google::protobuf::int32 serial() const;
-  void set_serial(::google::protobuf::int32 value);
+    // repeated .CSocketInfo SocketInfos = 1;
+    int socketinfos_size() const;
+    void clear_socketinfos();
+    static const int kSocketInfosFieldNumber = 1;
+    const ::CSocketInfo& socketinfos(int index) const;
+    ::CSocketInfo* mutable_socketinfos(int index);
+    ::CSocketInfo* add_socketinfos();
+    ::google::protobuf::RepeatedPtrField< ::CSocketInfo >*
+    mutable_socketinfos();
+    const ::google::protobuf::RepeatedPtrField< ::CSocketInfo >&
+    socketinfos() const;
 
-  // optional int32 Seq = 4;
-  bool has_seq() const;
-  void clear_seq();
-  static const int kSeqFieldNumber = 4;
-  ::google::protobuf::int32 seq() const;
-  void set_seq(::google::protobuf::int32 value);
+    // optional int32 Cmd = 2;
+    bool has_cmd() const;
+    void clear_cmd();
+    static const int kCmdFieldNumber = 2;
+    ::google::protobuf::int32 cmd() const;
+    void set_cmd(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:MesHead)
- private:
-  void set_has_cmd();
-  void clear_has_cmd();
-  void set_has_serial();
-  void clear_has_serial();
-  void set_has_seq();
-  void clear_has_seq();
+    // optional int32 Serial = 3;
+    bool has_serial() const;
+    void clear_serial();
+    static const int kSerialFieldNumber = 3;
+    ::google::protobuf::int32 serial() const;
+    void set_serial(::google::protobuf::int32 value);
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  ::google::protobuf::RepeatedPtrField< ::CSocketInfo > socketinfos_;
-  ::google::protobuf::int32 cmd_;
-  ::google::protobuf::int32 serial_;
-  ::google::protobuf::int32 seq_;
-  friend struct ::protobuf_message_2eproto::TableStruct;
-  friend void ::protobuf_message_2eproto::InitDefaultsMesHeadImpl();
+    // optional int32 Seq = 4;
+    bool has_seq() const;
+    void clear_seq();
+    static const int kSeqFieldNumber = 4;
+    ::google::protobuf::int32 seq() const;
+    void set_seq(::google::protobuf::int32 value);
+
+    // @@protoc_insertion_point(class_scope:MesHead)
+private:
+    void set_has_cmd();
+    void clear_has_cmd();
+    void set_has_serial();
+    void clear_has_serial();
+    void set_has_seq();
+    void clear_has_seq();
+
+    ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable int _cached_size_;
+    ::google::protobuf::RepeatedPtrField< ::CSocketInfo > socketinfos_;
+    ::google::protobuf::int32 cmd_;
+    ::google::protobuf::int32 serial_;
+    ::google::protobuf::int32 seq_;
+    friend struct ::protobuf_message_2eproto::TableStruct;
+    friend void ::protobuf_message_2eproto::InitDefaultsMesHeadImpl();
 };
 // -------------------------------------------------------------------
 
-class CMessage : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:CMessage) */ {
- public:
-  CMessage();
-  virtual ~CMessage();
+class CMessage :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:CMessage) */
+{
+public:
+    CMessage();
+    virtual ~CMessage();
 
-  CMessage(const CMessage& from);
+    CMessage(const CMessage& from);
 
-  inline CMessage& operator=(const CMessage& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  CMessage(CMessage&& from) noexcept
-    : CMessage() {
-    *this = ::std::move(from);
-  }
-
-  inline CMessage& operator=(CMessage&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline CMessage& operator=(const CMessage& from)
+    {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
+#if LANG_CXX11
+    CMessage(CMessage&& from) noexcept
+        : CMessage()
+    {
+        *this = ::std::move(from);
+    }
 
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const CMessage& default_instance();
+    inline CMessage& operator=(CMessage&& from) noexcept
+    {
+        if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+            if (this != &from) {
+                InternalSwap(&from);
+            }
+        } else {
+            CopyFrom(from);
+        }
 
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const CMessage* internal_default_instance() {
-    return reinterpret_cast<const CMessage*>(
-               &_CMessage_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    2;
+        return *this;
+    }
+#endif
+    inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+    {
+        return _internal_metadata_.unknown_fields();
+    }
+    inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+    {
+        return _internal_metadata_.mutable_unknown_fields();
+    }
 
-  void Swap(CMessage* other);
-  friend void swap(CMessage& a, CMessage& b) {
-    a.Swap(&b);
-  }
+    static const ::google::protobuf::Descriptor* descriptor();
+    static const CMessage& default_instance();
 
-  // implements Message ----------------------------------------------
+    static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+    static inline const CMessage* internal_default_instance()
+    {
+        return reinterpret_cast<const CMessage*>(
+                   &_CMessage_default_instance_);
+    }
+    static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+        2;
 
-  inline CMessage* New() const PROTOBUF_FINAL { return New(NULL); }
+    void Swap(CMessage* other);
+    friend void swap(CMessage& a, CMessage& b)
+    {
+        a.Swap(&b);
+    }
 
-  CMessage* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const CMessage& from);
-  void MergeFrom(const CMessage& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
+    // implements Message ----------------------------------------------
 
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(CMessage* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
+    inline CMessage* New() const PROTOBUF_FINAL
+    {
+        return New(NULL);
+    }
 
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+    CMessage* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+    void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void CopyFrom(const CMessage& from);
+    void MergeFrom(const CMessage& from);
+    void Clear() PROTOBUF_FINAL;
+    bool IsInitialized() const PROTOBUF_FINAL;
 
-  // nested types ----------------------------------------------------
+    size_t ByteSizeLong() const PROTOBUF_FINAL;
+    bool MergePartialFromCodedStream(
+        ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+    void SerializeWithCachedSizes(
+        ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+    ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+        bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+    int GetCachedSize() const PROTOBUF_FINAL
+    {
+        return _cached_size_;
+    }
+private:
+    void SharedCtor();
+    void SharedDtor();
+    void SetCachedSize(int size) const PROTOBUF_FINAL;
+    void InternalSwap(CMessage* other);
+private:
+    inline ::google::protobuf::Arena* GetArenaNoVirtual() const
+    {
+        return NULL;
+    }
+    inline void* MaybeArenaPtr() const
+    {
+        return NULL;
+    }
+public:
 
-  // accessors -------------------------------------------------------
+    ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
 
-  // required .MesHead MsgHead = 1;
-  bool has_msghead() const;
-  void clear_msghead();
-  static const int kMsgHeadFieldNumber = 1;
-  const ::MesHead& msghead() const;
-  ::MesHead* release_msghead();
-  ::MesHead* mutable_msghead();
-  void set_allocated_msghead(::MesHead* msghead);
+    // nested types ----------------------------------------------------
 
-  // optional fixed64 MsgPara = 2 [default = 0];
-  bool has_msgpara() const;
-  void clear_msgpara();
-  static const int kMsgParaFieldNumber = 2;
-  ::google::protobuf::uint64 msgpara() const;
-  void set_msgpara(::google::protobuf::uint64 value);
+    // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:CMessage)
- private:
-  void set_has_msghead();
-  void clear_has_msghead();
-  void set_has_msgpara();
-  void clear_has_msgpara();
+    // required .MesHead MsgHead = 1;
+    bool has_msghead() const;
+    void clear_msghead();
+    static const int kMsgHeadFieldNumber = 1;
+    const ::MesHead& msghead() const;
+    ::MesHead* release_msghead();
+    ::MesHead* mutable_msghead();
+    void set_allocated_msghead(::MesHead* msghead);
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  ::MesHead* msghead_;
-  ::google::protobuf::uint64 msgpara_;
-  friend struct ::protobuf_message_2eproto::TableStruct;
-  friend void ::protobuf_message_2eproto::InitDefaultsCMessageImpl();
+    // optional fixed64 MsgPara = 2 [default = 0];
+    bool has_msgpara() const;
+    void clear_msgpara();
+    static const int kMsgParaFieldNumber = 2;
+    ::google::protobuf::uint64 msgpara() const;
+    void set_msgpara(::google::protobuf::uint64 value);
+
+    // @@protoc_insertion_point(class_scope:CMessage)
+private:
+    void set_has_msghead();
+    void clear_has_msghead();
+    void set_has_msgpara();
+    void clear_has_msgpara();
+
+    ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable int _cached_size_;
+    ::MesHead* msghead_;
+    ::google::protobuf::uint64 msgpara_;
+    friend struct ::protobuf_message_2eproto::TableStruct;
+    friend void ::protobuf_message_2eproto::InitDefaultsCMessageImpl();
 };
 // -------------------------------------------------------------------
 
-class CProxyHead : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:CProxyHead) */ {
- public:
-  CProxyHead();
-  virtual ~CProxyHead();
+class CProxyHead :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:CProxyHead) */
+{
+public:
+    CProxyHead();
+    virtual ~CProxyHead();
 
-  CProxyHead(const CProxyHead& from);
+    CProxyHead(const CProxyHead& from);
 
-  inline CProxyHead& operator=(const CProxyHead& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  CProxyHead(CProxyHead&& from) noexcept
-    : CProxyHead() {
-    *this = ::std::move(from);
-  }
-
-  inline CProxyHead& operator=(CProxyHead&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline CProxyHead& operator=(const CProxyHead& from)
+    {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
+#if LANG_CXX11
+    CProxyHead(CProxyHead&& from) noexcept
+        : CProxyHead()
+    {
+        *this = ::std::move(from);
+    }
 
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const CProxyHead& default_instance();
+    inline CProxyHead& operator=(CProxyHead&& from) noexcept
+    {
+        if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+            if (this != &from) {
+                InternalSwap(&from);
+            }
+        } else {
+            CopyFrom(from);
+        }
 
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const CProxyHead* internal_default_instance() {
-    return reinterpret_cast<const CProxyHead*>(
-               &_CProxyHead_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    3;
+        return *this;
+    }
+#endif
+    inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+    {
+        return _internal_metadata_.unknown_fields();
+    }
+    inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+    {
+        return _internal_metadata_.mutable_unknown_fields();
+    }
 
-  void Swap(CProxyHead* other);
-  friend void swap(CProxyHead& a, CProxyHead& b) {
-    a.Swap(&b);
-  }
+    static const ::google::protobuf::Descriptor* descriptor();
+    static const CProxyHead& default_instance();
 
-  // implements Message ----------------------------------------------
+    static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+    static inline const CProxyHead* internal_default_instance()
+    {
+        return reinterpret_cast<const CProxyHead*>(
+                   &_CProxyHead_default_instance_);
+    }
+    static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+        3;
 
-  inline CProxyHead* New() const PROTOBUF_FINAL { return New(NULL); }
+    void Swap(CProxyHead* other);
+    friend void swap(CProxyHead& a, CProxyHead& b)
+    {
+        a.Swap(&b);
+    }
 
-  CProxyHead* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const CProxyHead& from);
-  void MergeFrom(const CProxyHead& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
+    // implements Message ----------------------------------------------
 
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(CProxyHead* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
+    inline CProxyHead* New() const PROTOBUF_FINAL
+    {
+        return New(NULL);
+    }
 
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+    CProxyHead* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+    void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void CopyFrom(const CProxyHead& from);
+    void MergeFrom(const CProxyHead& from);
+    void Clear() PROTOBUF_FINAL;
+    bool IsInitialized() const PROTOBUF_FINAL;
 
-  // nested types ----------------------------------------------------
+    size_t ByteSizeLong() const PROTOBUF_FINAL;
+    bool MergePartialFromCodedStream(
+        ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+    void SerializeWithCachedSizes(
+        ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+    ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+        bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+    int GetCachedSize() const PROTOBUF_FINAL
+    {
+        return _cached_size_;
+    }
+private:
+    void SharedCtor();
+    void SharedDtor();
+    void SetCachedSize(int size) const PROTOBUF_FINAL;
+    void InternalSwap(CProxyHead* other);
+private:
+    inline ::google::protobuf::Arena* GetArenaNoVirtual() const
+    {
+        return NULL;
+    }
+    inline void* MaybeArenaPtr() const
+    {
+        return NULL;
+    }
+public:
 
-  // accessors -------------------------------------------------------
+    ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
 
-  // optional .MesHead msgHead = 8;
-  bool has_msghead() const;
-  void clear_msghead();
-  static const int kMsgHeadFieldNumber = 8;
-  const ::MesHead& msghead() const;
-  ::MesHead* release_msghead();
-  ::MesHead* mutable_msghead();
-  void set_allocated_msghead(::MesHead* msghead);
+    // nested types ----------------------------------------------------
 
-  // required uint32 SrcFE = 1;
-  bool has_srcfe() const;
-  void clear_srcfe();
-  static const int kSrcFEFieldNumber = 1;
-  ::google::protobuf::uint32 srcfe() const;
-  void set_srcfe(::google::protobuf::uint32 value);
+    // accessors -------------------------------------------------------
 
-  // required uint32 SrcID = 2;
-  bool has_srcid() const;
-  void clear_srcid();
-  static const int kSrcIDFieldNumber = 2;
-  ::google::protobuf::uint32 srcid() const;
-  void set_srcid(::google::protobuf::uint32 value);
+    // optional .MesHead msgHead = 8;
+    bool has_msghead() const;
+    void clear_msghead();
+    static const int kMsgHeadFieldNumber = 8;
+    const ::MesHead& msghead() const;
+    ::MesHead* release_msghead();
+    ::MesHead* mutable_msghead();
+    void set_allocated_msghead(::MesHead* msghead);
 
-  // required uint32 DstFE = 3;
-  bool has_dstfe() const;
-  void clear_dstfe();
-  static const int kDstFEFieldNumber = 3;
-  ::google::protobuf::uint32 dstfe() const;
-  void set_dstfe(::google::protobuf::uint32 value);
+    // required uint32 SrcFE = 1;
+    bool has_srcfe() const;
+    void clear_srcfe();
+    static const int kSrcFEFieldNumber = 1;
+    ::google::protobuf::uint32 srcfe() const;
+    void set_srcfe(::google::protobuf::uint32 value);
 
-  // required uint32 DstID = 4;
-  bool has_dstid() const;
-  void clear_dstid();
-  static const int kDstIDFieldNumber = 4;
-  ::google::protobuf::uint32 dstid() const;
-  void set_dstid(::google::protobuf::uint32 value);
+    // required uint32 SrcID = 2;
+    bool has_srcid() const;
+    void clear_srcid();
+    static const int kSrcIDFieldNumber = 2;
+    ::google::protobuf::uint32 srcid() const;
+    void set_srcid(::google::protobuf::uint32 value);
 
-  // required uint64 TimeStamp = 5;
-  bool has_timestamp() const;
-  void clear_timestamp();
-  static const int kTimeStampFieldNumber = 5;
-  ::google::protobuf::uint64 timestamp() const;
-  void set_timestamp(::google::protobuf::uint64 value);
+    // required uint32 DstFE = 3;
+    bool has_dstfe() const;
+    void clear_dstfe();
+    static const int kDstFEFieldNumber = 3;
+    ::google::protobuf::uint32 dstfe() const;
+    void set_dstfe(::google::protobuf::uint32 value);
 
-  // optional .enMessageCmd OpFlag = 6 [default = MESS_NULL];
-  bool has_opflag() const;
-  void clear_opflag();
-  static const int kOpFlagFieldNumber = 6;
-  ::enMessageCmd opflag() const;
-  void set_opflag(::enMessageCmd value);
+    // required uint32 DstID = 4;
+    bool has_dstid() const;
+    void clear_dstid();
+    static const int kDstIDFieldNumber = 4;
+    ::google::protobuf::uint32 dstid() const;
+    void set_dstid(::google::protobuf::uint32 value);
 
-  // optional uint32 messageId = 7;
-  bool has_messageid() const;
-  void clear_messageid();
-  static const int kMessageIdFieldNumber = 7;
-  ::google::protobuf::uint32 messageid() const;
-  void set_messageid(::google::protobuf::uint32 value);
+    // required uint64 TimeStamp = 5;
+    bool has_timestamp() const;
+    void clear_timestamp();
+    static const int kTimeStampFieldNumber = 5;
+    ::google::protobuf::uint64 timestamp() const;
+    void set_timestamp(::google::protobuf::uint64 value);
 
-  // @@protoc_insertion_point(class_scope:CProxyHead)
- private:
-  void set_has_srcfe();
-  void clear_has_srcfe();
-  void set_has_srcid();
-  void clear_has_srcid();
-  void set_has_dstfe();
-  void clear_has_dstfe();
-  void set_has_dstid();
-  void clear_has_dstid();
-  void set_has_timestamp();
-  void clear_has_timestamp();
-  void set_has_opflag();
-  void clear_has_opflag();
-  void set_has_messageid();
-  void clear_has_messageid();
-  void set_has_msghead();
-  void clear_has_msghead();
+    // optional .enMessageCmd OpFlag = 6 [default = MESS_NULL];
+    bool has_opflag() const;
+    void clear_opflag();
+    static const int kOpFlagFieldNumber = 6;
+    ::enMessageCmd opflag() const;
+    void set_opflag(::enMessageCmd value);
 
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
+    // optional uint32 messageId = 7;
+    bool has_messageid() const;
+    void clear_messageid();
+    static const int kMessageIdFieldNumber = 7;
+    ::google::protobuf::uint32 messageid() const;
+    void set_messageid(::google::protobuf::uint32 value);
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  ::MesHead* msghead_;
-  ::google::protobuf::uint32 srcfe_;
-  ::google::protobuf::uint32 srcid_;
-  ::google::protobuf::uint32 dstfe_;
-  ::google::protobuf::uint32 dstid_;
-  ::google::protobuf::uint64 timestamp_;
-  int opflag_;
-  ::google::protobuf::uint32 messageid_;
-  friend struct ::protobuf_message_2eproto::TableStruct;
-  friend void ::protobuf_message_2eproto::InitDefaultsCProxyHeadImpl();
+    // @@protoc_insertion_point(class_scope:CProxyHead)
+private:
+    void set_has_srcfe();
+    void clear_has_srcfe();
+    void set_has_srcid();
+    void clear_has_srcid();
+    void set_has_dstfe();
+    void clear_has_dstfe();
+    void set_has_dstid();
+    void clear_has_dstid();
+    void set_has_timestamp();
+    void clear_has_timestamp();
+    void set_has_opflag();
+    void clear_has_opflag();
+    void set_has_messageid();
+    void clear_has_messageid();
+    void set_has_msghead();
+    void clear_has_msghead();
+
+    // helper for ByteSizeLong()
+    size_t RequiredFieldsByteSizeFallback() const;
+
+    ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable int _cached_size_;
+    ::MesHead* msghead_;
+    ::google::protobuf::uint32 srcfe_;
+    ::google::protobuf::uint32 srcid_;
+    ::google::protobuf::uint32 dstfe_;
+    ::google::protobuf::uint32 dstid_;
+    ::google::protobuf::uint64 timestamp_;
+    int opflag_;
+    ::google::protobuf::uint32 messageid_;
+    friend struct ::protobuf_message_2eproto::TableStruct;
+    friend void ::protobuf_message_2eproto::InitDefaultsCProxyHeadImpl();
 };
 // -------------------------------------------------------------------
 
-class CProxyMessage : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:CProxyMessage) */ {
- public:
-  CProxyMessage();
-  virtual ~CProxyMessage();
+class CProxyMessage :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:CProxyMessage) */
+{
+public:
+    CProxyMessage();
+    virtual ~CProxyMessage();
 
-  CProxyMessage(const CProxyMessage& from);
+    CProxyMessage(const CProxyMessage& from);
 
-  inline CProxyMessage& operator=(const CProxyMessage& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  CProxyMessage(CProxyMessage&& from) noexcept
-    : CProxyMessage() {
-    *this = ::std::move(from);
-  }
-
-  inline CProxyMessage& operator=(CProxyMessage&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline CProxyMessage& operator=(const CProxyMessage& from)
+    {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
+#if LANG_CXX11
+    CProxyMessage(CProxyMessage&& from) noexcept
+        : CProxyMessage()
+    {
+        *this = ::std::move(from);
+    }
 
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const CProxyMessage& default_instance();
+    inline CProxyMessage& operator=(CProxyMessage&& from) noexcept
+    {
+        if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+            if (this != &from) {
+                InternalSwap(&from);
+            }
+        } else {
+            CopyFrom(from);
+        }
 
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const CProxyMessage* internal_default_instance() {
-    return reinterpret_cast<const CProxyMessage*>(
-               &_CProxyMessage_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    4;
+        return *this;
+    }
+#endif
+    inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+    {
+        return _internal_metadata_.unknown_fields();
+    }
+    inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+    {
+        return _internal_metadata_.mutable_unknown_fields();
+    }
 
-  void Swap(CProxyMessage* other);
-  friend void swap(CProxyMessage& a, CProxyMessage& b) {
-    a.Swap(&b);
-  }
+    static const ::google::protobuf::Descriptor* descriptor();
+    static const CProxyMessage& default_instance();
 
-  // implements Message ----------------------------------------------
+    static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+    static inline const CProxyMessage* internal_default_instance()
+    {
+        return reinterpret_cast<const CProxyMessage*>(
+                   &_CProxyMessage_default_instance_);
+    }
+    static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+        4;
 
-  inline CProxyMessage* New() const PROTOBUF_FINAL { return New(NULL); }
+    void Swap(CProxyMessage* other);
+    friend void swap(CProxyMessage& a, CProxyMessage& b)
+    {
+        a.Swap(&b);
+    }
 
-  CProxyMessage* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const CProxyMessage& from);
-  void MergeFrom(const CProxyMessage& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
+    // implements Message ----------------------------------------------
 
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(CProxyMessage* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
+    inline CProxyMessage* New() const PROTOBUF_FINAL
+    {
+        return New(NULL);
+    }
 
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+    CProxyMessage* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+    void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+    void CopyFrom(const CProxyMessage& from);
+    void MergeFrom(const CProxyMessage& from);
+    void Clear() PROTOBUF_FINAL;
+    bool IsInitialized() const PROTOBUF_FINAL;
 
-  // nested types ----------------------------------------------------
+    size_t ByteSizeLong() const PROTOBUF_FINAL;
+    bool MergePartialFromCodedStream(
+        ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+    void SerializeWithCachedSizes(
+        ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+    ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+        bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+    int GetCachedSize() const PROTOBUF_FINAL
+    {
+        return _cached_size_;
+    }
+private:
+    void SharedCtor();
+    void SharedDtor();
+    void SetCachedSize(int size) const PROTOBUF_FINAL;
+    void InternalSwap(CProxyMessage* other);
+private:
+    inline ::google::protobuf::Arena* GetArenaNoVirtual() const
+    {
+        return NULL;
+    }
+    inline void* MaybeArenaPtr() const
+    {
+        return NULL;
+    }
+public:
 
-  // accessors -------------------------------------------------------
+    ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
 
-  // required .CProxyHead MsgHead = 1;
-  bool has_msghead() const;
-  void clear_msghead();
-  static const int kMsgHeadFieldNumber = 1;
-  const ::CProxyHead& msghead() const;
-  ::CProxyHead* release_msghead();
-  ::CProxyHead* mutable_msghead();
-  void set_allocated_msghead(::CProxyHead* msghead);
+    // nested types ----------------------------------------------------
 
-  // optional fixed64 MsgPara = 2 [default = 0];
-  bool has_msgpara() const;
-  void clear_msgpara();
-  static const int kMsgParaFieldNumber = 2;
-  ::google::protobuf::uint64 msgpara() const;
-  void set_msgpara(::google::protobuf::uint64 value);
+    // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:CProxyMessage)
- private:
-  void set_has_msghead();
-  void clear_has_msghead();
-  void set_has_msgpara();
-  void clear_has_msgpara();
+    // required .CProxyHead MsgHead = 1;
+    bool has_msghead() const;
+    void clear_msghead();
+    static const int kMsgHeadFieldNumber = 1;
+    const ::CProxyHead& msghead() const;
+    ::CProxyHead* release_msghead();
+    ::CProxyHead* mutable_msghead();
+    void set_allocated_msghead(::CProxyHead* msghead);
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  ::CProxyHead* msghead_;
-  ::google::protobuf::uint64 msgpara_;
-  friend struct ::protobuf_message_2eproto::TableStruct;
-  friend void ::protobuf_message_2eproto::InitDefaultsCProxyMessageImpl();
+    // optional fixed64 MsgPara = 2 [default = 0];
+    bool has_msgpara() const;
+    void clear_msgpara();
+    static const int kMsgParaFieldNumber = 2;
+    ::google::protobuf::uint64 msgpara() const;
+    void set_msgpara(::google::protobuf::uint64 value);
+
+    // @@protoc_insertion_point(class_scope:CProxyMessage)
+private:
+    void set_has_msghead();
+    void clear_has_msghead();
+    void set_has_msgpara();
+    void clear_has_msgpara();
+
+    ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable int _cached_size_;
+    ::CProxyHead* msghead_;
+    ::google::protobuf::uint64 msgpara_;
+    friend struct ::protobuf_message_2eproto::TableStruct;
+    friend void ::protobuf_message_2eproto::InitDefaultsCProxyMessageImpl();
 };
 // ===================================================================
 
@@ -835,81 +942,99 @@ class CProxyMessage : public ::google::protobuf::Message /* @@protoc_insertion_p
 // ===================================================================
 
 #ifdef __GNUC__
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
 // CSocketInfo
 
 // optional int32 SocketID = 1;
-inline bool CSocketInfo::has_socketid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+inline bool CSocketInfo::has_socketid() const
+{
+    return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void CSocketInfo::set_has_socketid() {
-  _has_bits_[0] |= 0x00000002u;
+inline void CSocketInfo::set_has_socketid()
+{
+    _has_bits_[0] |= 0x00000002u;
 }
-inline void CSocketInfo::clear_has_socketid() {
-  _has_bits_[0] &= ~0x00000002u;
+inline void CSocketInfo::clear_has_socketid()
+{
+    _has_bits_[0] &= ~0x00000002u;
 }
-inline void CSocketInfo::clear_socketid() {
-  socketid_ = 0;
-  clear_has_socketid();
+inline void CSocketInfo::clear_socketid()
+{
+    socketid_ = 0;
+    clear_has_socketid();
 }
-inline ::google::protobuf::int32 CSocketInfo::socketid() const {
-  // @@protoc_insertion_point(field_get:CSocketInfo.SocketID)
-  return socketid_;
+inline ::google::protobuf::int32 CSocketInfo::socketid() const
+{
+    // @@protoc_insertion_point(field_get:CSocketInfo.SocketID)
+    return socketid_;
 }
-inline void CSocketInfo::set_socketid(::google::protobuf::int32 value) {
-  set_has_socketid();
-  socketid_ = value;
-  // @@protoc_insertion_point(field_set:CSocketInfo.SocketID)
+inline void CSocketInfo::set_socketid(::google::protobuf::int32 value)
+{
+    set_has_socketid();
+    socketid_ = value;
+    // @@protoc_insertion_point(field_set:CSocketInfo.SocketID)
 }
 
 // optional int64 CreateTime = 2;
-inline bool CSocketInfo::has_createtime() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+inline bool CSocketInfo::has_createtime() const
+{
+    return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void CSocketInfo::set_has_createtime() {
-  _has_bits_[0] |= 0x00000001u;
+inline void CSocketInfo::set_has_createtime()
+{
+    _has_bits_[0] |= 0x00000001u;
 }
-inline void CSocketInfo::clear_has_createtime() {
-  _has_bits_[0] &= ~0x00000001u;
+inline void CSocketInfo::clear_has_createtime()
+{
+    _has_bits_[0] &= ~0x00000001u;
 }
-inline void CSocketInfo::clear_createtime() {
-  createtime_ = GOOGLE_LONGLONG(0);
-  clear_has_createtime();
+inline void CSocketInfo::clear_createtime()
+{
+    createtime_ = GOOGLE_LONGLONG(0);
+    clear_has_createtime();
 }
-inline ::google::protobuf::int64 CSocketInfo::createtime() const {
-  // @@protoc_insertion_point(field_get:CSocketInfo.CreateTime)
-  return createtime_;
+inline ::google::protobuf::int64 CSocketInfo::createtime() const
+{
+    // @@protoc_insertion_point(field_get:CSocketInfo.CreateTime)
+    return createtime_;
 }
-inline void CSocketInfo::set_createtime(::google::protobuf::int64 value) {
-  set_has_createtime();
-  createtime_ = value;
-  // @@protoc_insertion_point(field_set:CSocketInfo.CreateTime)
+inline void CSocketInfo::set_createtime(::google::protobuf::int64 value)
+{
+    set_has_createtime();
+    createtime_ = value;
+    // @@protoc_insertion_point(field_set:CSocketInfo.CreateTime)
 }
 
 // optional int32 State = 3;
-inline bool CSocketInfo::has_state() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+inline bool CSocketInfo::has_state() const
+{
+    return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void CSocketInfo::set_has_state() {
-  _has_bits_[0] |= 0x00000004u;
+inline void CSocketInfo::set_has_state()
+{
+    _has_bits_[0] |= 0x00000004u;
 }
-inline void CSocketInfo::clear_has_state() {
-  _has_bits_[0] &= ~0x00000004u;
+inline void CSocketInfo::clear_has_state()
+{
+    _has_bits_[0] &= ~0x00000004u;
 }
-inline void CSocketInfo::clear_state() {
-  state_ = 0;
-  clear_has_state();
+inline void CSocketInfo::clear_state()
+{
+    state_ = 0;
+    clear_has_state();
 }
-inline ::google::protobuf::int32 CSocketInfo::state() const {
-  // @@protoc_insertion_point(field_get:CSocketInfo.State)
-  return state_;
+inline ::google::protobuf::int32 CSocketInfo::state() const
+{
+    // @@protoc_insertion_point(field_get:CSocketInfo.State)
+    return state_;
 }
-inline void CSocketInfo::set_state(::google::protobuf::int32 value) {
-  set_has_state();
-  state_ = value;
-  // @@protoc_insertion_point(field_set:CSocketInfo.State)
+inline void CSocketInfo::set_state(::google::protobuf::int32 value)
+{
+    set_has_state();
+    state_ = value;
+    // @@protoc_insertion_point(field_set:CSocketInfo.State)
 }
 
 // -------------------------------------------------------------------
@@ -917,105 +1042,130 @@ inline void CSocketInfo::set_state(::google::protobuf::int32 value) {
 // MesHead
 
 // repeated .CSocketInfo SocketInfos = 1;
-inline int MesHead::socketinfos_size() const {
-  return socketinfos_.size();
+inline int MesHead::socketinfos_size() const
+{
+    return socketinfos_.size();
 }
-inline void MesHead::clear_socketinfos() {
-  socketinfos_.Clear();
+inline void MesHead::clear_socketinfos()
+{
+    socketinfos_.Clear();
 }
-inline const ::CSocketInfo& MesHead::socketinfos(int index) const {
-  // @@protoc_insertion_point(field_get:MesHead.SocketInfos)
-  return socketinfos_.Get(index);
+inline const ::CSocketInfo& MesHead::socketinfos(int index) const
+{
+    // @@protoc_insertion_point(field_get:MesHead.SocketInfos)
+    return socketinfos_.Get(index);
 }
-inline ::CSocketInfo* MesHead::mutable_socketinfos(int index) {
-  // @@protoc_insertion_point(field_mutable:MesHead.SocketInfos)
-  return socketinfos_.Mutable(index);
+inline ::CSocketInfo* MesHead::mutable_socketinfos(int index)
+{
+    // @@protoc_insertion_point(field_mutable:MesHead.SocketInfos)
+    return socketinfos_.Mutable(index);
 }
-inline ::CSocketInfo* MesHead::add_socketinfos() {
-  // @@protoc_insertion_point(field_add:MesHead.SocketInfos)
-  return socketinfos_.Add();
+inline ::CSocketInfo* MesHead::add_socketinfos()
+{
+    // @@protoc_insertion_point(field_add:MesHead.SocketInfos)
+    return socketinfos_.Add();
 }
 inline ::google::protobuf::RepeatedPtrField< ::CSocketInfo >*
-MesHead::mutable_socketinfos() {
-  // @@protoc_insertion_point(field_mutable_list:MesHead.SocketInfos)
-  return &socketinfos_;
+MesHead::mutable_socketinfos()
+{
+    // @@protoc_insertion_point(field_mutable_list:MesHead.SocketInfos)
+    return &socketinfos_;
 }
 inline const ::google::protobuf::RepeatedPtrField< ::CSocketInfo >&
-MesHead::socketinfos() const {
-  // @@protoc_insertion_point(field_list:MesHead.SocketInfos)
-  return socketinfos_;
+MesHead::socketinfos() const
+{
+    // @@protoc_insertion_point(field_list:MesHead.SocketInfos)
+    return socketinfos_;
 }
 
 // optional int32 Cmd = 2;
-inline bool MesHead::has_cmd() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+inline bool MesHead::has_cmd() const
+{
+    return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void MesHead::set_has_cmd() {
-  _has_bits_[0] |= 0x00000001u;
+inline void MesHead::set_has_cmd()
+{
+    _has_bits_[0] |= 0x00000001u;
 }
-inline void MesHead::clear_has_cmd() {
-  _has_bits_[0] &= ~0x00000001u;
+inline void MesHead::clear_has_cmd()
+{
+    _has_bits_[0] &= ~0x00000001u;
 }
-inline void MesHead::clear_cmd() {
-  cmd_ = 0;
-  clear_has_cmd();
+inline void MesHead::clear_cmd()
+{
+    cmd_ = 0;
+    clear_has_cmd();
 }
-inline ::google::protobuf::int32 MesHead::cmd() const {
-  // @@protoc_insertion_point(field_get:MesHead.Cmd)
-  return cmd_;
+inline ::google::protobuf::int32 MesHead::cmd() const
+{
+    // @@protoc_insertion_point(field_get:MesHead.Cmd)
+    return cmd_;
 }
-inline void MesHead::set_cmd(::google::protobuf::int32 value) {
-  set_has_cmd();
-  cmd_ = value;
-  // @@protoc_insertion_point(field_set:MesHead.Cmd)
+inline void MesHead::set_cmd(::google::protobuf::int32 value)
+{
+    set_has_cmd();
+    cmd_ = value;
+    // @@protoc_insertion_point(field_set:MesHead.Cmd)
 }
 
 // optional int32 Serial = 3;
-inline bool MesHead::has_serial() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+inline bool MesHead::has_serial() const
+{
+    return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void MesHead::set_has_serial() {
-  _has_bits_[0] |= 0x00000002u;
+inline void MesHead::set_has_serial()
+{
+    _has_bits_[0] |= 0x00000002u;
 }
-inline void MesHead::clear_has_serial() {
-  _has_bits_[0] &= ~0x00000002u;
+inline void MesHead::clear_has_serial()
+{
+    _has_bits_[0] &= ~0x00000002u;
 }
-inline void MesHead::clear_serial() {
-  serial_ = 0;
-  clear_has_serial();
+inline void MesHead::clear_serial()
+{
+    serial_ = 0;
+    clear_has_serial();
 }
-inline ::google::protobuf::int32 MesHead::serial() const {
-  // @@protoc_insertion_point(field_get:MesHead.Serial)
-  return serial_;
+inline ::google::protobuf::int32 MesHead::serial() const
+{
+    // @@protoc_insertion_point(field_get:MesHead.Serial)
+    return serial_;
 }
-inline void MesHead::set_serial(::google::protobuf::int32 value) {
-  set_has_serial();
-  serial_ = value;
-  // @@protoc_insertion_point(field_set:MesHead.Serial)
+inline void MesHead::set_serial(::google::protobuf::int32 value)
+{
+    set_has_serial();
+    serial_ = value;
+    // @@protoc_insertion_point(field_set:MesHead.Serial)
 }
 
 // optional int32 Seq = 4;
-inline bool MesHead::has_seq() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+inline bool MesHead::has_seq() const
+{
+    return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void MesHead::set_has_seq() {
-  _has_bits_[0] |= 0x00000004u;
+inline void MesHead::set_has_seq()
+{
+    _has_bits_[0] |= 0x00000004u;
 }
-inline void MesHead::clear_has_seq() {
-  _has_bits_[0] &= ~0x00000004u;
+inline void MesHead::clear_has_seq()
+{
+    _has_bits_[0] &= ~0x00000004u;
 }
-inline void MesHead::clear_seq() {
-  seq_ = 0;
-  clear_has_seq();
+inline void MesHead::clear_seq()
+{
+    seq_ = 0;
+    clear_has_seq();
 }
-inline ::google::protobuf::int32 MesHead::seq() const {
-  // @@protoc_insertion_point(field_get:MesHead.Seq)
-  return seq_;
+inline ::google::protobuf::int32 MesHead::seq() const
+{
+    // @@protoc_insertion_point(field_get:MesHead.Seq)
+    return seq_;
 }
-inline void MesHead::set_seq(::google::protobuf::int32 value) {
-  set_has_seq();
-  seq_ = value;
-  // @@protoc_insertion_point(field_set:MesHead.Seq)
+inline void MesHead::set_seq(::google::protobuf::int32 value)
+{
+    set_has_seq();
+    seq_ = value;
+    // @@protoc_insertion_point(field_set:MesHead.Seq)
 }
 
 // -------------------------------------------------------------------
@@ -1023,81 +1173,105 @@ inline void MesHead::set_seq(::google::protobuf::int32 value) {
 // CMessage
 
 // required .MesHead MsgHead = 1;
-inline bool CMessage::has_msghead() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+inline bool CMessage::has_msghead() const
+{
+    return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void CMessage::set_has_msghead() {
-  _has_bits_[0] |= 0x00000001u;
+inline void CMessage::set_has_msghead()
+{
+    _has_bits_[0] |= 0x00000001u;
 }
-inline void CMessage::clear_has_msghead() {
-  _has_bits_[0] &= ~0x00000001u;
+inline void CMessage::clear_has_msghead()
+{
+    _has_bits_[0] &= ~0x00000001u;
 }
-inline void CMessage::clear_msghead() {
-  if (msghead_ != NULL) msghead_->Clear();
-  clear_has_msghead();
-}
-inline const ::MesHead& CMessage::msghead() const {
-  const ::MesHead* p = msghead_;
-  // @@protoc_insertion_point(field_get:CMessage.MsgHead)
-  return p != NULL ? *p : *reinterpret_cast<const ::MesHead*>(
-      &::_MesHead_default_instance_);
-}
-inline ::MesHead* CMessage::release_msghead() {
-  // @@protoc_insertion_point(field_release:CMessage.MsgHead)
-  clear_has_msghead();
-  ::MesHead* temp = msghead_;
-  msghead_ = NULL;
-  return temp;
-}
-inline ::MesHead* CMessage::mutable_msghead() {
-  set_has_msghead();
-  if (msghead_ == NULL) {
-    msghead_ = new ::MesHead;
-  }
-  // @@protoc_insertion_point(field_mutable:CMessage.MsgHead)
-  return msghead_;
-}
-inline void CMessage::set_allocated_msghead(::MesHead* msghead) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete msghead_;
-  }
-  if (msghead) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      msghead = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, msghead, submessage_arena);
+inline void CMessage::clear_msghead()
+{
+    if (msghead_ != NULL) {
+        msghead_->Clear();
     }
-    set_has_msghead();
-  } else {
+
     clear_has_msghead();
-  }
-  msghead_ = msghead;
-  // @@protoc_insertion_point(field_set_allocated:CMessage.MsgHead)
+}
+inline const ::MesHead& CMessage::msghead() const
+{
+    const ::MesHead* p = msghead_;
+    // @@protoc_insertion_point(field_get:CMessage.MsgHead)
+    return p != NULL ? *p : *reinterpret_cast<const ::MesHead*>(
+               &::_MesHead_default_instance_);
+}
+inline ::MesHead* CMessage::release_msghead()
+{
+    // @@protoc_insertion_point(field_release:CMessage.MsgHead)
+    clear_has_msghead();
+    ::MesHead* temp = msghead_;
+    msghead_ = NULL;
+    return temp;
+}
+inline ::MesHead* CMessage::mutable_msghead()
+{
+    set_has_msghead();
+
+    if (msghead_ == NULL) {
+        msghead_ = new ::MesHead;
+    }
+
+    // @@protoc_insertion_point(field_mutable:CMessage.MsgHead)
+    return msghead_;
+}
+inline void CMessage::set_allocated_msghead(::MesHead* msghead)
+{
+    ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+
+    if (message_arena == NULL) {
+        delete msghead_;
+    }
+
+    if (msghead) {
+        ::google::protobuf::Arena* submessage_arena = NULL;
+
+        if (message_arena != submessage_arena) {
+            msghead = ::google::protobuf::internal::GetOwnedMessage(
+                          message_arena, msghead, submessage_arena);
+        }
+
+        set_has_msghead();
+    } else {
+        clear_has_msghead();
+    }
+
+    msghead_ = msghead;
+    // @@protoc_insertion_point(field_set_allocated:CMessage.MsgHead)
 }
 
 // optional fixed64 MsgPara = 2 [default = 0];
-inline bool CMessage::has_msgpara() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+inline bool CMessage::has_msgpara() const
+{
+    return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void CMessage::set_has_msgpara() {
-  _has_bits_[0] |= 0x00000002u;
+inline void CMessage::set_has_msgpara()
+{
+    _has_bits_[0] |= 0x00000002u;
 }
-inline void CMessage::clear_has_msgpara() {
-  _has_bits_[0] &= ~0x00000002u;
+inline void CMessage::clear_has_msgpara()
+{
+    _has_bits_[0] &= ~0x00000002u;
 }
-inline void CMessage::clear_msgpara() {
-  msgpara_ = GOOGLE_ULONGLONG(0);
-  clear_has_msgpara();
+inline void CMessage::clear_msgpara()
+{
+    msgpara_ = GOOGLE_ULONGLONG(0);
+    clear_has_msgpara();
 }
-inline ::google::protobuf::uint64 CMessage::msgpara() const {
-  // @@protoc_insertion_point(field_get:CMessage.MsgPara)
-  return msgpara_;
+inline ::google::protobuf::uint64 CMessage::msgpara() const
+{
+    // @@protoc_insertion_point(field_get:CMessage.MsgPara)
+    return msgpara_;
 }
-inline void CMessage::set_msgpara(::google::protobuf::uint64 value) {
-  set_has_msgpara();
-  msgpara_ = value;
-  // @@protoc_insertion_point(field_set:CMessage.MsgPara)
+inline void CMessage::set_msgpara(::google::protobuf::uint64 value)
+{
+    set_has_msgpara();
+    msgpara_ = value;
+    // @@protoc_insertion_point(field_set:CMessage.MsgPara)
 }
 
 // -------------------------------------------------------------------
@@ -1105,226 +1279,286 @@ inline void CMessage::set_msgpara(::google::protobuf::uint64 value) {
 // CProxyHead
 
 // required uint32 SrcFE = 1;
-inline bool CProxyHead::has_srcfe() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+inline bool CProxyHead::has_srcfe() const
+{
+    return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void CProxyHead::set_has_srcfe() {
-  _has_bits_[0] |= 0x00000002u;
+inline void CProxyHead::set_has_srcfe()
+{
+    _has_bits_[0] |= 0x00000002u;
 }
-inline void CProxyHead::clear_has_srcfe() {
-  _has_bits_[0] &= ~0x00000002u;
+inline void CProxyHead::clear_has_srcfe()
+{
+    _has_bits_[0] &= ~0x00000002u;
 }
-inline void CProxyHead::clear_srcfe() {
-  srcfe_ = 0u;
-  clear_has_srcfe();
+inline void CProxyHead::clear_srcfe()
+{
+    srcfe_ = 0u;
+    clear_has_srcfe();
 }
-inline ::google::protobuf::uint32 CProxyHead::srcfe() const {
-  // @@protoc_insertion_point(field_get:CProxyHead.SrcFE)
-  return srcfe_;
+inline ::google::protobuf::uint32 CProxyHead::srcfe() const
+{
+    // @@protoc_insertion_point(field_get:CProxyHead.SrcFE)
+    return srcfe_;
 }
-inline void CProxyHead::set_srcfe(::google::protobuf::uint32 value) {
-  set_has_srcfe();
-  srcfe_ = value;
-  // @@protoc_insertion_point(field_set:CProxyHead.SrcFE)
+inline void CProxyHead::set_srcfe(::google::protobuf::uint32 value)
+{
+    set_has_srcfe();
+    srcfe_ = value;
+    // @@protoc_insertion_point(field_set:CProxyHead.SrcFE)
 }
 
 // required uint32 SrcID = 2;
-inline bool CProxyHead::has_srcid() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+inline bool CProxyHead::has_srcid() const
+{
+    return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void CProxyHead::set_has_srcid() {
-  _has_bits_[0] |= 0x00000004u;
+inline void CProxyHead::set_has_srcid()
+{
+    _has_bits_[0] |= 0x00000004u;
 }
-inline void CProxyHead::clear_has_srcid() {
-  _has_bits_[0] &= ~0x00000004u;
+inline void CProxyHead::clear_has_srcid()
+{
+    _has_bits_[0] &= ~0x00000004u;
 }
-inline void CProxyHead::clear_srcid() {
-  srcid_ = 0u;
-  clear_has_srcid();
+inline void CProxyHead::clear_srcid()
+{
+    srcid_ = 0u;
+    clear_has_srcid();
 }
-inline ::google::protobuf::uint32 CProxyHead::srcid() const {
-  // @@protoc_insertion_point(field_get:CProxyHead.SrcID)
-  return srcid_;
+inline ::google::protobuf::uint32 CProxyHead::srcid() const
+{
+    // @@protoc_insertion_point(field_get:CProxyHead.SrcID)
+    return srcid_;
 }
-inline void CProxyHead::set_srcid(::google::protobuf::uint32 value) {
-  set_has_srcid();
-  srcid_ = value;
-  // @@protoc_insertion_point(field_set:CProxyHead.SrcID)
+inline void CProxyHead::set_srcid(::google::protobuf::uint32 value)
+{
+    set_has_srcid();
+    srcid_ = value;
+    // @@protoc_insertion_point(field_set:CProxyHead.SrcID)
 }
 
 // required uint32 DstFE = 3;
-inline bool CProxyHead::has_dstfe() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+inline bool CProxyHead::has_dstfe() const
+{
+    return (_has_bits_[0] & 0x00000008u) != 0;
 }
-inline void CProxyHead::set_has_dstfe() {
-  _has_bits_[0] |= 0x00000008u;
+inline void CProxyHead::set_has_dstfe()
+{
+    _has_bits_[0] |= 0x00000008u;
 }
-inline void CProxyHead::clear_has_dstfe() {
-  _has_bits_[0] &= ~0x00000008u;
+inline void CProxyHead::clear_has_dstfe()
+{
+    _has_bits_[0] &= ~0x00000008u;
 }
-inline void CProxyHead::clear_dstfe() {
-  dstfe_ = 0u;
-  clear_has_dstfe();
+inline void CProxyHead::clear_dstfe()
+{
+    dstfe_ = 0u;
+    clear_has_dstfe();
 }
-inline ::google::protobuf::uint32 CProxyHead::dstfe() const {
-  // @@protoc_insertion_point(field_get:CProxyHead.DstFE)
-  return dstfe_;
+inline ::google::protobuf::uint32 CProxyHead::dstfe() const
+{
+    // @@protoc_insertion_point(field_get:CProxyHead.DstFE)
+    return dstfe_;
 }
-inline void CProxyHead::set_dstfe(::google::protobuf::uint32 value) {
-  set_has_dstfe();
-  dstfe_ = value;
-  // @@protoc_insertion_point(field_set:CProxyHead.DstFE)
+inline void CProxyHead::set_dstfe(::google::protobuf::uint32 value)
+{
+    set_has_dstfe();
+    dstfe_ = value;
+    // @@protoc_insertion_point(field_set:CProxyHead.DstFE)
 }
 
 // required uint32 DstID = 4;
-inline bool CProxyHead::has_dstid() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
+inline bool CProxyHead::has_dstid() const
+{
+    return (_has_bits_[0] & 0x00000010u) != 0;
 }
-inline void CProxyHead::set_has_dstid() {
-  _has_bits_[0] |= 0x00000010u;
+inline void CProxyHead::set_has_dstid()
+{
+    _has_bits_[0] |= 0x00000010u;
 }
-inline void CProxyHead::clear_has_dstid() {
-  _has_bits_[0] &= ~0x00000010u;
+inline void CProxyHead::clear_has_dstid()
+{
+    _has_bits_[0] &= ~0x00000010u;
 }
-inline void CProxyHead::clear_dstid() {
-  dstid_ = 0u;
-  clear_has_dstid();
+inline void CProxyHead::clear_dstid()
+{
+    dstid_ = 0u;
+    clear_has_dstid();
 }
-inline ::google::protobuf::uint32 CProxyHead::dstid() const {
-  // @@protoc_insertion_point(field_get:CProxyHead.DstID)
-  return dstid_;
+inline ::google::protobuf::uint32 CProxyHead::dstid() const
+{
+    // @@protoc_insertion_point(field_get:CProxyHead.DstID)
+    return dstid_;
 }
-inline void CProxyHead::set_dstid(::google::protobuf::uint32 value) {
-  set_has_dstid();
-  dstid_ = value;
-  // @@protoc_insertion_point(field_set:CProxyHead.DstID)
+inline void CProxyHead::set_dstid(::google::protobuf::uint32 value)
+{
+    set_has_dstid();
+    dstid_ = value;
+    // @@protoc_insertion_point(field_set:CProxyHead.DstID)
 }
 
 // required uint64 TimeStamp = 5;
-inline bool CProxyHead::has_timestamp() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
+inline bool CProxyHead::has_timestamp() const
+{
+    return (_has_bits_[0] & 0x00000020u) != 0;
 }
-inline void CProxyHead::set_has_timestamp() {
-  _has_bits_[0] |= 0x00000020u;
+inline void CProxyHead::set_has_timestamp()
+{
+    _has_bits_[0] |= 0x00000020u;
 }
-inline void CProxyHead::clear_has_timestamp() {
-  _has_bits_[0] &= ~0x00000020u;
+inline void CProxyHead::clear_has_timestamp()
+{
+    _has_bits_[0] &= ~0x00000020u;
 }
-inline void CProxyHead::clear_timestamp() {
-  timestamp_ = GOOGLE_ULONGLONG(0);
-  clear_has_timestamp();
+inline void CProxyHead::clear_timestamp()
+{
+    timestamp_ = GOOGLE_ULONGLONG(0);
+    clear_has_timestamp();
 }
-inline ::google::protobuf::uint64 CProxyHead::timestamp() const {
-  // @@protoc_insertion_point(field_get:CProxyHead.TimeStamp)
-  return timestamp_;
+inline ::google::protobuf::uint64 CProxyHead::timestamp() const
+{
+    // @@protoc_insertion_point(field_get:CProxyHead.TimeStamp)
+    return timestamp_;
 }
-inline void CProxyHead::set_timestamp(::google::protobuf::uint64 value) {
-  set_has_timestamp();
-  timestamp_ = value;
-  // @@protoc_insertion_point(field_set:CProxyHead.TimeStamp)
+inline void CProxyHead::set_timestamp(::google::protobuf::uint64 value)
+{
+    set_has_timestamp();
+    timestamp_ = value;
+    // @@protoc_insertion_point(field_set:CProxyHead.TimeStamp)
 }
 
 // optional .enMessageCmd OpFlag = 6 [default = MESS_NULL];
-inline bool CProxyHead::has_opflag() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
+inline bool CProxyHead::has_opflag() const
+{
+    return (_has_bits_[0] & 0x00000040u) != 0;
 }
-inline void CProxyHead::set_has_opflag() {
-  _has_bits_[0] |= 0x00000040u;
+inline void CProxyHead::set_has_opflag()
+{
+    _has_bits_[0] |= 0x00000040u;
 }
-inline void CProxyHead::clear_has_opflag() {
-  _has_bits_[0] &= ~0x00000040u;
+inline void CProxyHead::clear_has_opflag()
+{
+    _has_bits_[0] &= ~0x00000040u;
 }
-inline void CProxyHead::clear_opflag() {
-  opflag_ = 0;
-  clear_has_opflag();
+inline void CProxyHead::clear_opflag()
+{
+    opflag_ = 0;
+    clear_has_opflag();
 }
-inline ::enMessageCmd CProxyHead::opflag() const {
-  // @@protoc_insertion_point(field_get:CProxyHead.OpFlag)
-  return static_cast< ::enMessageCmd >(opflag_);
+inline ::enMessageCmd CProxyHead::opflag() const
+{
+    // @@protoc_insertion_point(field_get:CProxyHead.OpFlag)
+    return static_cast< ::enMessageCmd >(opflag_);
 }
-inline void CProxyHead::set_opflag(::enMessageCmd value) {
-  assert(::enMessageCmd_IsValid(value));
-  set_has_opflag();
-  opflag_ = value;
-  // @@protoc_insertion_point(field_set:CProxyHead.OpFlag)
+inline void CProxyHead::set_opflag(::enMessageCmd value)
+{
+    assert(::enMessageCmd_IsValid(value));
+    set_has_opflag();
+    opflag_ = value;
+    // @@protoc_insertion_point(field_set:CProxyHead.OpFlag)
 }
 
 // optional uint32 messageId = 7;
-inline bool CProxyHead::has_messageid() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
+inline bool CProxyHead::has_messageid() const
+{
+    return (_has_bits_[0] & 0x00000080u) != 0;
 }
-inline void CProxyHead::set_has_messageid() {
-  _has_bits_[0] |= 0x00000080u;
+inline void CProxyHead::set_has_messageid()
+{
+    _has_bits_[0] |= 0x00000080u;
 }
-inline void CProxyHead::clear_has_messageid() {
-  _has_bits_[0] &= ~0x00000080u;
+inline void CProxyHead::clear_has_messageid()
+{
+    _has_bits_[0] &= ~0x00000080u;
 }
-inline void CProxyHead::clear_messageid() {
-  messageid_ = 0u;
-  clear_has_messageid();
+inline void CProxyHead::clear_messageid()
+{
+    messageid_ = 0u;
+    clear_has_messageid();
 }
-inline ::google::protobuf::uint32 CProxyHead::messageid() const {
-  // @@protoc_insertion_point(field_get:CProxyHead.messageId)
-  return messageid_;
+inline ::google::protobuf::uint32 CProxyHead::messageid() const
+{
+    // @@protoc_insertion_point(field_get:CProxyHead.messageId)
+    return messageid_;
 }
-inline void CProxyHead::set_messageid(::google::protobuf::uint32 value) {
-  set_has_messageid();
-  messageid_ = value;
-  // @@protoc_insertion_point(field_set:CProxyHead.messageId)
+inline void CProxyHead::set_messageid(::google::protobuf::uint32 value)
+{
+    set_has_messageid();
+    messageid_ = value;
+    // @@protoc_insertion_point(field_set:CProxyHead.messageId)
 }
 
 // optional .MesHead msgHead = 8;
-inline bool CProxyHead::has_msghead() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+inline bool CProxyHead::has_msghead() const
+{
+    return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void CProxyHead::set_has_msghead() {
-  _has_bits_[0] |= 0x00000001u;
+inline void CProxyHead::set_has_msghead()
+{
+    _has_bits_[0] |= 0x00000001u;
 }
-inline void CProxyHead::clear_has_msghead() {
-  _has_bits_[0] &= ~0x00000001u;
+inline void CProxyHead::clear_has_msghead()
+{
+    _has_bits_[0] &= ~0x00000001u;
 }
-inline void CProxyHead::clear_msghead() {
-  if (msghead_ != NULL) msghead_->Clear();
-  clear_has_msghead();
-}
-inline const ::MesHead& CProxyHead::msghead() const {
-  const ::MesHead* p = msghead_;
-  // @@protoc_insertion_point(field_get:CProxyHead.msgHead)
-  return p != NULL ? *p : *reinterpret_cast<const ::MesHead*>(
-      &::_MesHead_default_instance_);
-}
-inline ::MesHead* CProxyHead::release_msghead() {
-  // @@protoc_insertion_point(field_release:CProxyHead.msgHead)
-  clear_has_msghead();
-  ::MesHead* temp = msghead_;
-  msghead_ = NULL;
-  return temp;
-}
-inline ::MesHead* CProxyHead::mutable_msghead() {
-  set_has_msghead();
-  if (msghead_ == NULL) {
-    msghead_ = new ::MesHead;
-  }
-  // @@protoc_insertion_point(field_mutable:CProxyHead.msgHead)
-  return msghead_;
-}
-inline void CProxyHead::set_allocated_msghead(::MesHead* msghead) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete msghead_;
-  }
-  if (msghead) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      msghead = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, msghead, submessage_arena);
+inline void CProxyHead::clear_msghead()
+{
+    if (msghead_ != NULL) {
+        msghead_->Clear();
     }
-    set_has_msghead();
-  } else {
+
     clear_has_msghead();
-  }
-  msghead_ = msghead;
-  // @@protoc_insertion_point(field_set_allocated:CProxyHead.msgHead)
+}
+inline const ::MesHead& CProxyHead::msghead() const
+{
+    const ::MesHead* p = msghead_;
+    // @@protoc_insertion_point(field_get:CProxyHead.msgHead)
+    return p != NULL ? *p : *reinterpret_cast<const ::MesHead*>(
+               &::_MesHead_default_instance_);
+}
+inline ::MesHead* CProxyHead::release_msghead()
+{
+    // @@protoc_insertion_point(field_release:CProxyHead.msgHead)
+    clear_has_msghead();
+    ::MesHead* temp = msghead_;
+    msghead_ = NULL;
+    return temp;
+}
+inline ::MesHead* CProxyHead::mutable_msghead()
+{
+    set_has_msghead();
+
+    if (msghead_ == NULL) {
+        msghead_ = new ::MesHead;
+    }
+
+    // @@protoc_insertion_point(field_mutable:CProxyHead.msgHead)
+    return msghead_;
+}
+inline void CProxyHead::set_allocated_msghead(::MesHead* msghead)
+{
+    ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+
+    if (message_arena == NULL) {
+        delete msghead_;
+    }
+
+    if (msghead) {
+        ::google::protobuf::Arena* submessage_arena = NULL;
+
+        if (message_arena != submessage_arena) {
+            msghead = ::google::protobuf::internal::GetOwnedMessage(
+                          message_arena, msghead, submessage_arena);
+        }
+
+        set_has_msghead();
+    } else {
+        clear_has_msghead();
+    }
+
+    msghead_ = msghead;
+    // @@protoc_insertion_point(field_set_allocated:CProxyHead.msgHead)
 }
 
 // -------------------------------------------------------------------
@@ -1332,85 +1566,109 @@ inline void CProxyHead::set_allocated_msghead(::MesHead* msghead) {
 // CProxyMessage
 
 // required .CProxyHead MsgHead = 1;
-inline bool CProxyMessage::has_msghead() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+inline bool CProxyMessage::has_msghead() const
+{
+    return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void CProxyMessage::set_has_msghead() {
-  _has_bits_[0] |= 0x00000001u;
+inline void CProxyMessage::set_has_msghead()
+{
+    _has_bits_[0] |= 0x00000001u;
 }
-inline void CProxyMessage::clear_has_msghead() {
-  _has_bits_[0] &= ~0x00000001u;
+inline void CProxyMessage::clear_has_msghead()
+{
+    _has_bits_[0] &= ~0x00000001u;
 }
-inline void CProxyMessage::clear_msghead() {
-  if (msghead_ != NULL) msghead_->Clear();
-  clear_has_msghead();
-}
-inline const ::CProxyHead& CProxyMessage::msghead() const {
-  const ::CProxyHead* p = msghead_;
-  // @@protoc_insertion_point(field_get:CProxyMessage.MsgHead)
-  return p != NULL ? *p : *reinterpret_cast<const ::CProxyHead*>(
-      &::_CProxyHead_default_instance_);
-}
-inline ::CProxyHead* CProxyMessage::release_msghead() {
-  // @@protoc_insertion_point(field_release:CProxyMessage.MsgHead)
-  clear_has_msghead();
-  ::CProxyHead* temp = msghead_;
-  msghead_ = NULL;
-  return temp;
-}
-inline ::CProxyHead* CProxyMessage::mutable_msghead() {
-  set_has_msghead();
-  if (msghead_ == NULL) {
-    msghead_ = new ::CProxyHead;
-  }
-  // @@protoc_insertion_point(field_mutable:CProxyMessage.MsgHead)
-  return msghead_;
-}
-inline void CProxyMessage::set_allocated_msghead(::CProxyHead* msghead) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete msghead_;
-  }
-  if (msghead) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      msghead = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, msghead, submessage_arena);
+inline void CProxyMessage::clear_msghead()
+{
+    if (msghead_ != NULL) {
+        msghead_->Clear();
     }
-    set_has_msghead();
-  } else {
+
     clear_has_msghead();
-  }
-  msghead_ = msghead;
-  // @@protoc_insertion_point(field_set_allocated:CProxyMessage.MsgHead)
+}
+inline const ::CProxyHead& CProxyMessage::msghead() const
+{
+    const ::CProxyHead* p = msghead_;
+    // @@protoc_insertion_point(field_get:CProxyMessage.MsgHead)
+    return p != NULL ? *p : *reinterpret_cast<const ::CProxyHead*>(
+               &::_CProxyHead_default_instance_);
+}
+inline ::CProxyHead* CProxyMessage::release_msghead()
+{
+    // @@protoc_insertion_point(field_release:CProxyMessage.MsgHead)
+    clear_has_msghead();
+    ::CProxyHead* temp = msghead_;
+    msghead_ = NULL;
+    return temp;
+}
+inline ::CProxyHead* CProxyMessage::mutable_msghead()
+{
+    set_has_msghead();
+
+    if (msghead_ == NULL) {
+        msghead_ = new ::CProxyHead;
+    }
+
+    // @@protoc_insertion_point(field_mutable:CProxyMessage.MsgHead)
+    return msghead_;
+}
+inline void CProxyMessage::set_allocated_msghead(::CProxyHead* msghead)
+{
+    ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+
+    if (message_arena == NULL) {
+        delete msghead_;
+    }
+
+    if (msghead) {
+        ::google::protobuf::Arena* submessage_arena = NULL;
+
+        if (message_arena != submessage_arena) {
+            msghead = ::google::protobuf::internal::GetOwnedMessage(
+                          message_arena, msghead, submessage_arena);
+        }
+
+        set_has_msghead();
+    } else {
+        clear_has_msghead();
+    }
+
+    msghead_ = msghead;
+    // @@protoc_insertion_point(field_set_allocated:CProxyMessage.MsgHead)
 }
 
 // optional fixed64 MsgPara = 2 [default = 0];
-inline bool CProxyMessage::has_msgpara() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+inline bool CProxyMessage::has_msgpara() const
+{
+    return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void CProxyMessage::set_has_msgpara() {
-  _has_bits_[0] |= 0x00000002u;
+inline void CProxyMessage::set_has_msgpara()
+{
+    _has_bits_[0] |= 0x00000002u;
 }
-inline void CProxyMessage::clear_has_msgpara() {
-  _has_bits_[0] &= ~0x00000002u;
+inline void CProxyMessage::clear_has_msgpara()
+{
+    _has_bits_[0] &= ~0x00000002u;
 }
-inline void CProxyMessage::clear_msgpara() {
-  msgpara_ = GOOGLE_ULONGLONG(0);
-  clear_has_msgpara();
+inline void CProxyMessage::clear_msgpara()
+{
+    msgpara_ = GOOGLE_ULONGLONG(0);
+    clear_has_msgpara();
 }
-inline ::google::protobuf::uint64 CProxyMessage::msgpara() const {
-  // @@protoc_insertion_point(field_get:CProxyMessage.MsgPara)
-  return msgpara_;
+inline ::google::protobuf::uint64 CProxyMessage::msgpara() const
+{
+    // @@protoc_insertion_point(field_get:CProxyMessage.MsgPara)
+    return msgpara_;
 }
-inline void CProxyMessage::set_msgpara(::google::protobuf::uint64 value) {
-  set_has_msgpara();
-  msgpara_ = value;
-  // @@protoc_insertion_point(field_set:CProxyMessage.MsgPara)
+inline void CProxyMessage::set_msgpara(::google::protobuf::uint64 value)
+{
+    set_has_msgpara();
+    msgpara_ = value;
+    // @@protoc_insertion_point(field_set:CProxyMessage.MsgPara)
 }
 
 #ifdef __GNUC__
-  #pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
 #endif  // __GNUC__
 // -------------------------------------------------------------------
 
@@ -1424,18 +1682,24 @@ inline void CProxyMessage::set_msgpara(::google::protobuf::uint64 value) {
 // @@protoc_insertion_point(namespace_scope)
 
 
-namespace google {
-namespace protobuf {
+namespace google
+{
+namespace protobuf
+{
 
-template <> struct is_proto_enum< ::enServerType> : ::google::protobuf::internal::true_type {};
+template <> struct
+    is_proto_enum< ::enServerType> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::enServerType>() {
-  return ::enServerType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::enServerType>()
+{
+    return ::enServerType_descriptor();
 }
-template <> struct is_proto_enum< ::enMessageCmd> : ::google::protobuf::internal::true_type {};
+template <> struct
+    is_proto_enum< ::enMessageCmd> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::enMessageCmd>() {
-  return ::enMessageCmd_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::enMessageCmd>()
+{
+    return ::enMessageCmd_descriptor();
 }
 
 }  // namespace protobuf

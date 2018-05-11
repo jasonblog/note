@@ -73,7 +73,7 @@ typedef __uint8_t uint8;
 
 typedef std::vector<std::string> Tokens;
 
-Tokens StrSplit(const std::string &src, const std::string &sep);
+Tokens StrSplit(const std::string& src, const std::string& sep);
 
 // 通过unix时间戳获取是当年的第几天
 int GetDayOfYear(time_t tTime);
@@ -89,51 +89,54 @@ time_t GetMSTime();
 time_t GetUSTime();
 
 // 分割字符串，获取单词
-void TrimStr(char *strInput);
+void TrimStr(char* strInput);
 
 // 将sockaddr_in中的ip和port转换成string
-int SockAddrToString(sockaddr_in *pstSockAddr, char *szResult);
+int SockAddrToString(sockaddr_in* pstSockAddr, char* szResult);
 // 将ip和port转化成string
-int SockAddrToString(unsigned int ip, unsigned short port, char *szResult);
+int SockAddrToString(unsigned int ip, unsigned short port, char* szResult);
 
 // 获取两段时间的间隔
-int TimeValMinus(timeval &tvA, timeval &tvB, timeval &tvResult);
+int TimeValMinus(timeval& tvA, timeval& tvB, timeval& tvResult);
 
 // 广播列表，为了速度考虑，用数组实现
-struct stPointList
-{
-	void *mPointList[MAX_BROADCAST_NUM];    // 保存需要广播的玩家的FD
-	int mPointNum;                            // 广播数量
+struct stPointList {
+    void* mPointList[MAX_BROADCAST_NUM];    // 保存需要广播的玩家的FD
+    int mPointNum;                            // 广播数量
 
-	void Clear()
-	{
-		mPointNum = 0;
-	}
+    void Clear()
+    {
+        mPointNum = 0;
+    }
 
-	stPointList()
-	{
-		Clear();
-	}
+    stPointList()
+    {
+        Clear();
+    }
 
-	int push_back(void *pPoint)
-	{
-		if (mPointNum >= MAX_BROADCAST_NUM)
-			return -1;
-		mPointList[mPointNum] = pPoint;
-		return mPointNum++;
-	}
+    int push_back(void* pPoint)
+    {
+        if (mPointNum >= MAX_BROADCAST_NUM) {
+            return -1;
+        }
 
-	void *GetPointByIdx(int iIdx)
-	{
-		if (iIdx < 0 || iIdx >= mPointNum || iIdx >= MAX_BROADCAST_NUM)
-			return NULL;
-		return mPointList[iIdx];
-	}
+        mPointList[mPointNum] = pPoint;
+        return mPointNum++;
+    }
 
-	int GetBroadcastNum()
-	{
-		return mPointNum;
-	}
+    void* GetPointByIdx(int iIdx)
+    {
+        if (iIdx < 0 || iIdx >= mPointNum || iIdx >= MAX_BROADCAST_NUM) {
+            return NULL;
+        }
+
+        return mPointList[iIdx];
+    }
+
+    int GetBroadcastNum()
+    {
+        return mPointNum;
+    }
 };
 
 #endif // __BASE_H__

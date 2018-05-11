@@ -8,15 +8,15 @@
 
 class ItemItem
 {
-    
+
 public:
-    
+
     ItemItem();
-    
+
     ~ItemItem();
-    
+
 public:
-    
+
     int _id;
     int _quality;
     int _rank;
@@ -37,21 +37,21 @@ public:
 
 class ItemConfig : public ConfigData
 {
-    
+
 public:
-    
+
     ItemConfig();
-    
+
     ~ItemConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     ItemItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, ItemItem*> _datas;
 };
 #endif // __ITEM_CONFIG_H__

@@ -23,19 +23,22 @@
 #include "mindroid/io/File.h"
 #include <pthread.h>
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Provides access to environment variables.
  */
-class Environment final {
+class Environment final
+{
 public:
     /**
      * Sets the Mindroid root directory.
      *
      * @hide
      */
-    static void setRootDirectory(const char* rootDirectory) {
+    static void setRootDirectory(const char* rootDirectory)
+    {
         setRootDirectory(String::valueOf(rootDirectory));
     }
     static void setRootDirectory(const sp<String>& rootDirectory);
@@ -43,42 +46,48 @@ public:
     /**
      * Gets the Mindroid root directory.
      */
-    static sp<File> getRootDirectory() {
+    static sp<File> getRootDirectory()
+    {
         return getInstance()->ROOT_DIRECTORY;
     }
 
     /**
      * Gets the Mindroid apps directory.
      */
-    static sp<File> getAppsDirectory() {
+    static sp<File> getAppsDirectory()
+    {
         return getInstance()->APPS_DIRECTORY;
     }
 
     /**
      * Gets the Mindroid data directory.
      */
-    static sp<File> getDataDirectory() {
+    static sp<File> getDataDirectory()
+    {
         return getInstance()->DATA_DIRECTORY;
     }
 
     /**
      * Gets the Mindroid preferences directory.
      */
-    static sp<File> getPreferencesDirectory() {
+    static sp<File> getPreferencesDirectory()
+    {
         return getInstance()->PREFERENCES_DIRECTORY;
     }
 
     /**
      * Gets the Mindroid log directory.
      */
-    static sp<File> getLogDirectory() {
+    static sp<File> getLogDirectory()
+    {
         return getInstance()->LOG_DIRECTORY;
     }
 
     /**
      * Sets the Mindroid log directory.
      */
-    static void setLogDirectory(const sp<String>& directory) {
+    static void setLogDirectory(const sp<String>& directory)
+    {
         getInstance()->LOG_DIRECTORY = new File(directory);
     }
 
@@ -97,7 +106,9 @@ public:
      * @return Returns the single SharedPreferences instance that can be used to retrieve and modify
      * the preference values.
      */
-    static sp<SharedPreferences> getSharedPreferences(const sp<File>& baseDir, const sp<String>& fileName, int32_t mode) {
+    static sp<SharedPreferences> getSharedPreferences(const sp<File>& baseDir,
+            const sp<String>& fileName, int32_t mode)
+    {
         sp<File> sharedPrefsFile = new File(baseDir, fileName);
         return getSharedPreferences(sharedPrefsFile, mode);
     }
@@ -116,7 +127,8 @@ public:
      * @return Returns the single SharedPreferences instance that can be used to retrieve and modify
      * the preference values.
      */
-    static sp<SharedPreferences> getSharedPreferences(const sp<File>& sharedPrefsFile, int32_t mode);
+    static sp<SharedPreferences> getSharedPreferences(const sp<File>&
+            sharedPrefsFile, int32_t mode);
 
     /**
      * Clear shared preferences cache.
@@ -134,7 +146,8 @@ private:
     sp<File> PREFERENCES_DIRECTORY;
     sp<File> LOG_DIRECTORY;
     sp<ReentrantLock> mLock = new ReentrantLock();
-    sp<HashMap<sp<String>, sp<SharedPreferences>>> mSharedPrefs = new HashMap<sp<String>, sp<SharedPreferences>>();
+    sp<HashMap<sp<String>, sp<SharedPreferences>>> mSharedPrefs = new
+    HashMap<sp<String>, sp<SharedPreferences>>();
 
     static pthread_mutex_t sMutex;
     static Environment* sInstance;

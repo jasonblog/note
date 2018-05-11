@@ -8,14 +8,16 @@ ArmyItem::ArmyItem()
 }
 ArmyItem::~ArmyItem()
 {
-    for (auto it=_upgradeCost.begin(); it!=_upgradeCost.end(); ++it) {
+    for (auto it = _upgradeCost.begin(); it != _upgradeCost.end(); ++it) {
         it->second->clear();
     }
+
     _upgradeCost.clear();
-    
-    for (auto it=_trainCost.begin(); it!=_trainCost.end(); ++it) {
+
+    for (auto it = _trainCost.begin(); it != _trainCost.end(); ++it) {
         it->second->clear();
     }
+
     _trainCost.clear();
 }
 
@@ -25,18 +27,20 @@ ArmyConfig::ArmyConfig()
 }
 ArmyConfig::~ArmyConfig()
 {
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
 int ArmyConfig::parse()
 {
     auto obj = m_obj.ToObject();
-    for (auto it=obj.begin(); it!=obj.end(); ++it) {
+
+    for (auto it = obj.begin(); it != obj.end(); ++it) {
         auto item = new ArmyItem();
-        
+
         auto item_obj = it->second.ToObject();
         auto oid = item_obj["id"].ToInt();
         auto type = item_obj["type"].ToInt();
@@ -56,7 +60,7 @@ int ArmyConfig::parse()
         auto trainTime = item_obj["trainTime"].ToInt();
         auto armyType = item_obj["armyType"].ToInt();
         auto fscore = item_obj["score"].ToFloat();
-        
+
         item->_id = oid;
         item->_type = type;
         item->_unLockLimit = unLockLimit;
@@ -73,42 +77,49 @@ int ArmyConfig::parse()
         item->_trainTime = trainTime;
         item->_armyType = armyType;
         item->_score = fscore;
-        
-        for (auto it=upgradeCost.begin(); it!=upgradeCost.end(); ++it) {
+
+        for (auto it = upgradeCost.begin(); it != upgradeCost.end(); ++it) {
             auto v = new std::vector<int>;
             item->_upgradeCost[it->first] = v;
             auto vl = it->second.ToArray();
-            for (auto xit=vl.begin(); xit!=vl.end(); ++xit) {
+
+            for (auto xit = vl.begin(); xit != vl.end(); ++xit) {
                 v->push_back(xit->ToInt());
             }
         }
-        
-        for (auto it=trainCost.begin(); it!=trainCost.end(); ++it) {
+
+        for (auto it = trainCost.begin(); it != trainCost.end(); ++it) {
             auto v = new std::vector<int>;
             item->_trainCost[it->first] = v;
             auto vl = it->second.ToArray();
-            for (auto xit=vl.begin(); xit!=vl.end(); ++xit) {
+
+            for (auto xit = vl.begin(); xit != vl.end(); ++xit) {
                 v->push_back(xit->ToInt());
             }
         }
+
         _datas[oid] = item;
     }
+
     return 0;
 }
 
 void ArmyConfig::clear()
 {
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 ArmyItem* ArmyConfig::item(int key)
 {
     auto it = _datas.find(key);
-    if (it!=_datas.end()) {
+
+    if (it != _datas.end()) {
         return it->second;
     }
+
     return NULL;
 }
 

@@ -17,77 +17,99 @@
 #include "mindroid/os/IServiceManager.h"
 #include "mindroid/os/IRemoteCallback.h"
 
-namespace mindroid {
-namespace binder {
+namespace mindroid
+{
+namespace binder
+{
 
-const char* const ServiceManager::Stub::DESCRIPTOR = "mindroid.os.IServiceManager";
+const char* const ServiceManager::Stub::DESCRIPTOR =
+    "mindroid.os.IServiceManager";
 
-void ServiceManager::Stub::onTransact(int32_t what, int32_t arg1, int32_t arg2, const sp<Object>& obj, const sp<Bundle>& data, const sp<Object>& result) {
+void ServiceManager::Stub::onTransact(int32_t what, int32_t arg1, int32_t arg2,
+                                      const sp<Object>& obj, const sp<Bundle>& data, const sp<Object>& result)
+{
     switch (what) {
     case MSG_START_SERVICE: {
-        auto promise = object_cast<Promise<sp<ComponentName>>>(result);
-        sp<Intent> service = object_cast<Intent>(obj);
-        sp<ComponentName> component = startService(service);
-        promise->set(component);
-        break;
-    }
-    case MSG_STOP_SERVICE: {
-        auto promise = object_cast<Promise<bool>>(result);
-        sp<Intent> service = object_cast<Intent>(obj);
-        promise->set(stopService(service));
-        break;
-    }
-    case MSG_BIND_SERVICE: {
-        auto promise = object_cast<Promise<bool>>(result);
-        sp<Intent> service = object_cast<Intent>(data->getObject("intent"));
-        sp<ServiceConnection> conn = object_cast<ServiceConnection>(data->getObject("conn"));
-        int32_t flags = data->getInt("flags");
-        sp<IBinder> binder = data->getBinder("binder");
-        promise->set(bindService(service, conn, flags, binder::RemoteCallback::Stub::asInterface(binder)));
-        break;
-    }
-    case MSG_UNBIND_SERVICE: {
-        sp<Intent> intent = object_cast<Intent>(data->getObject("intent"));
-        sp<ServiceConnection> conn = object_cast<ServiceConnection>(data->getObject("conn"));
-        sp<IBinder> binder = nullptr;
-        if (binder == nullptr) {
-            unbindService(intent, conn);
-        } else {
-            unbindService(intent, conn, binder::RemoteCallback::Stub::asInterface(binder));
+            auto promise = object_cast<Promise<sp<ComponentName>>>(result);
+            sp<Intent> service = object_cast<Intent>(obj);
+            sp<ComponentName> component = startService(service);
+            promise->set(component);
+            break;
         }
-        break;
-    }
+
+    case MSG_STOP_SERVICE: {
+            auto promise = object_cast<Promise<bool>>(result);
+            sp<Intent> service = object_cast<Intent>(obj);
+            promise->set(stopService(service));
+            break;
+        }
+
+    case MSG_BIND_SERVICE: {
+            auto promise = object_cast<Promise<bool>>(result);
+            sp<Intent> service = object_cast<Intent>(data->getObject("intent"));
+            sp<ServiceConnection> conn = object_cast<ServiceConnection>
+                                         (data->getObject("conn"));
+            int32_t flags = data->getInt("flags");
+            sp<IBinder> binder = data->getBinder("binder");
+            promise->set(bindService(service, conn, flags,
+                                     binder::RemoteCallback::Stub::asInterface(binder)));
+            break;
+        }
+
+    case MSG_UNBIND_SERVICE: {
+            sp<Intent> intent = object_cast<Intent>(data->getObject("intent"));
+            sp<ServiceConnection> conn = object_cast<ServiceConnection>
+                                         (data->getObject("conn"));
+            sp<IBinder> binder = nullptr;
+
+            if (binder == nullptr) {
+                unbindService(intent, conn);
+            } else {
+                unbindService(intent, conn, binder::RemoteCallback::Stub::asInterface(binder));
+            }
+
+            break;
+        }
+
     case MSG_START_SYSTEM_SERVICE: {
-        auto promise = object_cast<Promise<sp<ComponentName>>>(result);
-        sp<Intent> service = object_cast<Intent>(obj);
-        sp<ComponentName> component = startSystemService(service);
-        promise->set(component);
-        break;
-    }
+            auto promise = object_cast<Promise<sp<ComponentName>>>(result);
+            sp<Intent> service = object_cast<Intent>(obj);
+            sp<ComponentName> component = startSystemService(service);
+            promise->set(component);
+            break;
+        }
+
     case MSG_STOP_SYSTEM_SERVICE: {
-        auto promise = object_cast<Promise<bool>>(result);
-        sp<Intent> service = object_cast<Intent>(obj);
-        promise->set(stopSystemService(service));
-        break;
-    }
+            auto promise = object_cast<Promise<bool>>(result);
+            sp<Intent> service = object_cast<Intent>(obj);
+            promise->set(stopSystemService(service));
+            break;
+        }
+
     default:
         Binder::onTransact(what, arg1, arg2, obj, data, result);
     }
 }
 
-sp<ComponentName> ServiceManager::Stub::Proxy::startService(const sp<Intent>& service) {
+sp<ComponentName> ServiceManager::Stub::Proxy::startService(
+    const sp<Intent>& service)
+{
     sp<Promise<sp<ComponentName>>> promise = new Promise<sp<ComponentName>>();
     mRemote->transact(MSG_START_SERVICE, object_cast<Object>(service), promise, 0);
     return promise->get();
 }
 
-bool ServiceManager::Stub::Proxy::stopService(const sp<Intent>& service) {
+bool ServiceManager::Stub::Proxy::stopService(const sp<Intent>& service)
+{
     sp<Promise<bool>> promise = new Promise<bool>();
     mRemote->transact(MSG_STOP_SERVICE, object_cast<Object>(service), promise, 0);
     return promise->get();
 }
 
-bool ServiceManager::Stub::Proxy::bindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, int32_t flags, const sp<IRemoteCallback>& callback) {
+bool ServiceManager::Stub::Proxy::bindService(const sp<Intent>& service,
+        const sp<ServiceConnection>& conn, int32_t flags,
+        const sp<IRemoteCallback>& callback)
+{
     sp<Promise<bool>> promise = new Promise<bool>();
     sp<Bundle> data = new Bundle();
     data->putObject("intent", service);
@@ -98,14 +120,18 @@ bool ServiceManager::Stub::Proxy::bindService(const sp<Intent>& service, const s
     return promise->get();
 }
 
-void ServiceManager::Stub::Proxy::unbindService(const sp<Intent>& intent, const sp<ServiceConnection>& conn) {
+void ServiceManager::Stub::Proxy::unbindService(const sp<Intent>& intent,
+        const sp<ServiceConnection>& conn)
+{
     sp<Bundle> data = new Bundle();
     data->putObject("intent", intent);
     data->putObject("conn", conn);
     mRemote->transact(MSG_UNBIND_SERVICE, data, nullptr, FLAG_ONEWAY);
 }
 
-void ServiceManager::Stub::Proxy::unbindService(const sp<Intent>& intent, const sp<ServiceConnection>& conn, const sp<IRemoteCallback>& callback) {
+void ServiceManager::Stub::Proxy::unbindService(const sp<Intent>& intent,
+        const sp<ServiceConnection>& conn, const sp<IRemoteCallback>& callback)
+{
     sp<Bundle> data = new Bundle();
     data->putObject("intent", intent);
     data->putObject("conn", conn);
@@ -113,25 +139,34 @@ void ServiceManager::Stub::Proxy::unbindService(const sp<Intent>& intent, const 
     mRemote->transact(MSG_UNBIND_SERVICE, data, nullptr, FLAG_ONEWAY);
 }
 
-sp<ComponentName> ServiceManager::Stub::Proxy::startSystemService(const sp<Intent>& service) {
+sp<ComponentName> ServiceManager::Stub::Proxy::startSystemService(
+    const sp<Intent>& service)
+{
     sp<Promise<sp<ComponentName>>> promise = new Promise<sp<ComponentName>>();
-    mRemote->transact(MSG_START_SYSTEM_SERVICE, object_cast<Object>(service), promise, 0);
+    mRemote->transact(MSG_START_SYSTEM_SERVICE, object_cast<Object>(service),
+                      promise, 0);
     return promise->get();
 }
 
-bool ServiceManager::Stub::Proxy::stopSystemService(const sp<Intent>& service) {
+bool ServiceManager::Stub::Proxy::stopSystemService(const sp<Intent>& service)
+{
     sp<Promise<bool>> promise = new Promise<bool>();
-    mRemote->transact(MSG_STOP_SYSTEM_SERVICE, object_cast<Object>(service), promise, 0);
+    mRemote->transact(MSG_STOP_SYSTEM_SERVICE, object_cast<Object>(service),
+                      promise, 0);
     return promise->get();
 }
 
-ServiceManager::Stub::SmartProxy::SmartProxy(const sp<IBinder>& remote) {
+ServiceManager::Stub::SmartProxy::SmartProxy(const sp<IBinder>& remote)
+{
     mRemote = remote;
-    mStub = interface_cast<IServiceManager>(remote->queryLocalInterface(DESCRIPTOR));
+    mStub = interface_cast<IServiceManager>(remote->queryLocalInterface(
+            DESCRIPTOR));
     mProxy = new ServiceManager::Stub::Proxy(remote);
 }
 
-sp<ComponentName> ServiceManager::Stub::SmartProxy::startService(const sp<Intent>& service) {
+sp<ComponentName> ServiceManager::Stub::SmartProxy::startService(
+    const sp<Intent>& service)
+{
     if (mRemote->runsOnSameThread()) {
         return mStub->startService(service);
     } else {
@@ -139,7 +174,8 @@ sp<ComponentName> ServiceManager::Stub::SmartProxy::startService(const sp<Intent
     }
 }
 
-bool ServiceManager::Stub::SmartProxy::stopService(const sp<Intent>& service) {
+bool ServiceManager::Stub::SmartProxy::stopService(const sp<Intent>& service)
+{
     if (mRemote->runsOnSameThread()) {
         return mStub->stopService(service);
     } else {
@@ -147,7 +183,10 @@ bool ServiceManager::Stub::SmartProxy::stopService(const sp<Intent>& service) {
     }
 }
 
-bool ServiceManager::Stub::SmartProxy::bindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, int32_t flags, const sp<IRemoteCallback>& callback) {
+bool ServiceManager::Stub::SmartProxy::bindService(const sp<Intent>& service,
+        const sp<ServiceConnection>& conn, int32_t flags,
+        const sp<IRemoteCallback>& callback)
+{
     if (mRemote->runsOnSameThread()) {
         return mStub->bindService(service, conn, flags, callback);
     } else {
@@ -155,7 +194,9 @@ bool ServiceManager::Stub::SmartProxy::bindService(const sp<Intent>& service, co
     }
 }
 
-void ServiceManager::Stub::SmartProxy::unbindService(const sp<Intent>& service, const sp<ServiceConnection>& conn) {
+void ServiceManager::Stub::SmartProxy::unbindService(const sp<Intent>& service,
+        const sp<ServiceConnection>& conn)
+{
     if (mRemote->runsOnSameThread()) {
         mStub->unbindService(service, conn);
     } else {
@@ -163,7 +204,9 @@ void ServiceManager::Stub::SmartProxy::unbindService(const sp<Intent>& service, 
     }
 }
 
-void ServiceManager::Stub::SmartProxy::unbindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, const sp<IRemoteCallback>& callback) {
+void ServiceManager::Stub::SmartProxy::unbindService(const sp<Intent>& service,
+        const sp<ServiceConnection>& conn, const sp<IRemoteCallback>& callback)
+{
     if (mRemote->runsOnSameThread()) {
         mStub->unbindService(service, conn, callback);
     } else {
@@ -171,7 +214,9 @@ void ServiceManager::Stub::SmartProxy::unbindService(const sp<Intent>& service, 
     }
 }
 
-sp<ComponentName> ServiceManager::Stub::SmartProxy::startSystemService(const sp<Intent>& service) {
+sp<ComponentName> ServiceManager::Stub::SmartProxy::startSystemService(
+    const sp<Intent>& service)
+{
     if (mRemote->runsOnSameThread()) {
         return mStub->startSystemService(service);
     } else {
@@ -179,7 +224,9 @@ sp<ComponentName> ServiceManager::Stub::SmartProxy::startSystemService(const sp<
     }
 }
 
-bool ServiceManager::Stub::SmartProxy::stopSystemService(const sp<Intent>& service) {
+bool ServiceManager::Stub::SmartProxy::stopSystemService(
+    const sp<Intent>& service)
+{
     if (mRemote->runsOnSameThread()) {
         return mStub->stopSystemService(service);
     } else {

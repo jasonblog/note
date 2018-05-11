@@ -23,10 +23,12 @@
 #include "mindroid/util/concurrent/ThreadPoolExecutor.h"
 #include "mindroid/util/concurrent/locks/ReentrantLock.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class AsyncTaskBase :
-        public Object {
+    public Object
+{
 public:
     static sp<SerialExecutor> SERIAL_EXECUTOR;
     static sp<ThreadPoolExecutor> THREAD_POOL_EXECUTOR;
@@ -189,11 +191,13 @@ private:
  */
 template<typename Params, typename Progress, typename Result>
 class AsyncTask :
-        public AsyncTaskBase {
+    public AsyncTaskBase
+{
 public:
     AsyncTask() :
-            mExecutor(nullptr),
-            mCancelled(false) {
+        mExecutor(nullptr),
+        mCancelled(false)
+    {
         mHandler = new InternalHandler();
         mWorkerRunnable = new WorkerRunnable(this);
     }
@@ -203,7 +207,8 @@ public:
     AsyncTask(const AsyncTask&) = delete;
     AsyncTask& operator=(const AsyncTask&) = delete;
 
-    sp<AsyncTask<Params, Progress, Result>> execute(Params params) {
+    sp<AsyncTask<Params, Progress, Result>> execute(Params params)
+    {
         if (mExecutor == nullptr) {
             mExecutor = SERIAL_EXECUTOR;
             onPreExecute();
@@ -215,7 +220,9 @@ public:
         }
     }
 
-    sp<AsyncTask<Params, Progress, Result>> executeOnExecutor(const sp<Executor>& executor, Params params) {
+    sp<AsyncTask<Params, Progress, Result>> executeOnExecutor(
+            const sp<Executor>& executor, Params params)
+    {
         if (mExecutor == nullptr) {
             mExecutor = executor;
             onPreExecute();
@@ -254,17 +261,21 @@ public:
      * @see #isCancelled()
      * @see #onCancelled(Object)
      */
-    bool cancel() {
+    bool cancel()
+    {
         bool isAlreadyCancelled = isCancelled();
         AutoLock autoLock(sLock);
+
         if (mExecutor != nullptr && !isAlreadyCancelled) {
             bool result = mExecutor->cancel(mWorkerRunnable);
+
             if (result) {
                 mCancelled = true;
                 sp<Message> message = mHandler->obtainMessage(ON_TASK_CANCELLED_MESSAGE);
                 message->obj = mWorkerRunnable;
                 message->sendToTarget();
             }
+
             return result;
         } else {
             return false;
@@ -281,7 +292,8 @@ public:
      *
      * @see #cancel(boolean)
      */
-    bool isCancelled() {
+    bool isCancelled()
+    {
         AutoLock autoLock(sLock);
         return mCancelled;
     }
@@ -309,7 +321,8 @@ protected:
      * @see #onPostExecute
      * @see #doInBackground
      */
-    virtual void onPreExecute() {
+    virtual void onPreExecute()
+    {
     }
 
     /**
@@ -328,7 +341,8 @@ protected:
      * @see #doInBackground
      * @see #onCancelled(Object)
      */
-    virtual void onPostExecute(Result result) {
+    virtual void onPostExecute(Result result)
+    {
     }
 
     /**
@@ -340,7 +354,8 @@ protected:
      * @see #publishProgress
      * @see #doInBackground
      */
-    virtual void onProgressUpdate(Progress values) {
+    virtual void onProgressUpdate(Progress values)
+    {
     }
 
     /**
@@ -358,7 +373,8 @@ protected:
      * @see #cancel(boolean)
      * @see #isCancelled()
      */
-    virtual void onCancelled() {
+    virtual void onCancelled()
+    {
     }
 
     /**
@@ -373,7 +389,8 @@ protected:
      * @see #onProgressUpdate
      * @see #doInBackground
      */
-    void publishProgress(Progress values) {
+    void publishProgress(Progress values)
+    {
         if (!isCancelled()) {
             sp<Message> message = mHandler->obtainMessage(ON_PROGRESS_UPDATE_MESSAGE);
             message->obj = object_cast<AsyncTaskResult>(new AsyncTaskResult(this, values));
@@ -381,48 +398,58 @@ protected:
         }
     }
 
-    Params params() {
+    Params params()
+    {
         return mWorkerRunnable->mParams;
     }
 
-    Result result() {
+    Result result()
+    {
         return mWorkerRunnable->mResult;
     }
 
 private:
     class InternalHandler :
-            public Handler {
+        public Handler
+    {
     public:
-        virtual void handleMessage(const sp<Message>& message) {
+        virtual void handleMessage(const sp<Message>& message)
+        {
             switch (message->what) {
             case ON_POST_EXECUTE_MESSAGE: {
-                sp<WorkerRunnable> runnable = object_cast<WorkerRunnable>(message->obj);
-                runnable->mTask->onPostExecute(runnable->mResult);
-                break;
-            }
+                    sp<WorkerRunnable> runnable = object_cast<WorkerRunnable>(message->obj);
+                    runnable->mTask->onPostExecute(runnable->mResult);
+                    break;
+                }
+
             case ON_PROGRESS_UPDATE_MESSAGE: {
-                sp<AsyncTaskResult> result = object_cast<AsyncTaskResult>(message->obj);
-                result->mTask->onProgressUpdate(result->mValue);
-                break;
-            }
+                    sp<AsyncTaskResult> result = object_cast<AsyncTaskResult>(message->obj);
+                    result->mTask->onProgressUpdate(result->mValue);
+                    break;
+                }
+
             case ON_TASK_CANCELLED_MESSAGE: {
-                sp<WorkerRunnable> runnable = object_cast<WorkerRunnable>(message->obj);
-                runnable->mTask->onCancelled();
-                break;
-            }
+                    sp<WorkerRunnable> runnable = object_cast<WorkerRunnable>(message->obj);
+                    runnable->mTask->onCancelled();
+                    break;
+                }
             }
         }
     };
 
     class WorkerRunnable :
-            public Runnable {
+        public Runnable
+    {
     public:
         WorkerRunnable(const sp<AsyncTask<Params, Progress, Result>>& task) :
-                mTask(task) {
+            mTask(task)
+        {
         }
 
-        virtual void run() {
+        virtual void run()
+        {
             mResult = mTask->doInBackground(mParams);
+
             if (!mTask->isCancelled()) {
                 sp<Message> message = mTask->mHandler->obtainMessage(ON_POST_EXECUTE_MESSAGE);
                 message->obj = object_cast<WorkerRunnable>(this);
@@ -440,10 +467,13 @@ private:
     };
 
     class AsyncTaskResult :
-            public Object {
+        public Object
+    {
     public:
-        AsyncTaskResult(const sp<AsyncTask<Params, Progress, Result>>& task, Progress& value) :
-                mTask(task), mValue(value) {
+        AsyncTaskResult(const sp<AsyncTask<Params, Progress, Result>>& task,
+                        Progress& value) :
+            mTask(task), mValue(value)
+        {
         }
 
     private:

@@ -25,58 +25,82 @@
 #include "mindroid/content/Intent.h"
 #include "mindroid/content/ServiceConnection.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class IRemoteCallback;
 
 class IServiceManager :
-        public IInterface {
+    public IInterface
+{
 public:
     virtual sp<ComponentName> startService(const sp<Intent>& service) = 0;
     virtual bool stopService(const sp<Intent>& service) = 0;
-    virtual bool bindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, int32_t flags, const sp<IRemoteCallback>& callback) = 0;
-    virtual void unbindService(const sp<Intent>& service, const sp<ServiceConnection>& conn) = 0;
-    virtual void unbindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, const sp<IRemoteCallback>& callback) = 0;
+    virtual bool bindService(const sp<Intent>& service,
+                             const sp<ServiceConnection>& conn, int32_t flags,
+                             const sp<IRemoteCallback>& callback) = 0;
+    virtual void unbindService(const sp<Intent>& service,
+                               const sp<ServiceConnection>& conn) = 0;
+    virtual void unbindService(const sp<Intent>& service,
+                               const sp<ServiceConnection>& conn, const sp<IRemoteCallback>& callback) = 0;
     virtual sp<ComponentName> startSystemService(const sp<Intent>& service) = 0;
     virtual bool stopSystemService(const sp<Intent>& service) = 0;
 };
 
-namespace binder {
+namespace binder
+{
 
-class ServiceManager {
+class ServiceManager
+{
 public:
-    class Stub : public Binder, public IServiceManager {
+    class Stub : public Binder, public IServiceManager
+    {
     public:
-        Stub() {
+        Stub()
+        {
             this->attachInterface(this, String::valueOf(DESCRIPTOR));
         }
 
-        static sp<IServiceManager> asInterface(const sp<IBinder>& binder) {
+        static sp<IServiceManager> asInterface(const sp<IBinder>& binder)
+        {
             if (binder == nullptr) {
                 return nullptr;
             }
+
             return new ServiceManager::Stub::SmartProxy(binder);
         }
 
-        virtual sp<IBinder> asBinder() {
+        virtual sp<IBinder> asBinder()
+        {
             return this;
         }
 
-        virtual void onTransact(int32_t what, int32_t arg1, int32_t arg2, const sp<Object>& obj, const sp<Bundle>& data, const sp<Object>& result);
+        virtual void onTransact(int32_t what, int32_t arg1, int32_t arg2,
+                                const sp<Object>& obj, const sp<Bundle>& data, const sp<Object>& result);
 
-        class Proxy : public IServiceManager {
+        class Proxy : public IServiceManager
+        {
         public:
-            Proxy(const sp<IBinder>& remote) {
+            Proxy(const sp<IBinder>& remote)
+            {
                 mRemote = remote;
             }
 
-            virtual sp<IBinder> asBinder() override {
+            virtual sp<IBinder> asBinder() override
+            {
                 return mRemote;
             }
 
-            bool equals(const sp<Object>& obj) const override {
-                if (obj == nullptr) return false;
-                if (obj == this) return true;
+            bool equals(const sp<Object>& obj) const override
+            {
+                if (obj == nullptr) {
+                    return false;
+                }
+
+                if (obj == this) {
+                    return true;
+                }
+
                 if (Class<Proxy>::isInstance(obj)) {
                     sp<Proxy> other = Class<Proxy>::cast(obj);
                     return mRemote->equals(other->mRemote);
@@ -85,33 +109,49 @@ public:
                 }
             }
 
-            size_t hashCode() const override {
+            size_t hashCode() const override
+            {
                 return mRemote->hashCode();
             }
 
             virtual sp<ComponentName> startService(const sp<Intent>& service) override;
             virtual bool stopService(const sp<Intent>& service) override;
-            virtual bool bindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, int32_t flags, const sp<IRemoteCallback>& callback) override;
-            virtual void unbindService(const sp<Intent>& service, const sp<ServiceConnection>& conn) override;
-            virtual void unbindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, const sp<IRemoteCallback>& callback) override;
-            virtual sp<ComponentName> startSystemService(const sp<Intent>& service) override;
+            virtual bool bindService(const sp<Intent>& service,
+                                     const sp<ServiceConnection>& conn, int32_t flags,
+                                     const sp<IRemoteCallback>& callback) override;
+            virtual void unbindService(const sp<Intent>& service,
+                                       const sp<ServiceConnection>& conn) override;
+            virtual void unbindService(const sp<Intent>& service,
+                                       const sp<ServiceConnection>& conn,
+                                       const sp<IRemoteCallback>& callback) override;
+            virtual sp<ComponentName> startSystemService(const sp<Intent>& service)
+            override;
             virtual bool stopSystemService(const sp<Intent>& service) override;
 
         private:
             sp<IBinder> mRemote;
         };
 
-        class SmartProxy : public IServiceManager {
+        class SmartProxy : public IServiceManager
+        {
         public:
             SmartProxy(const sp<IBinder>& remote);
 
-            virtual sp<IBinder> asBinder() override {
+            virtual sp<IBinder> asBinder() override
+            {
                 return mRemote;
             }
 
-            bool equals(const sp<Object>& obj) const override {
-                if (obj == nullptr) return false;
-                if (obj == this) return true;
+            bool equals(const sp<Object>& obj) const override
+            {
+                if (obj == nullptr) {
+                    return false;
+                }
+
+                if (obj == this) {
+                    return true;
+                }
+
                 if (Class<SmartProxy>::isInstance(obj)) {
                     sp<SmartProxy> other = Class<SmartProxy>::cast(obj);
                     return mRemote->equals(other->mRemote);
@@ -120,16 +160,23 @@ public:
                 }
             }
 
-            size_t hashCode() const override {
+            size_t hashCode() const override
+            {
                 return mRemote->hashCode();
             }
 
             virtual sp<ComponentName> startService(const sp<Intent>& service) override;
             virtual bool stopService(const sp<Intent>& service) override;
-            virtual bool bindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, int32_t flags, const sp<IRemoteCallback>& callback) override;
-            virtual void unbindService(const sp<Intent>& service, const sp<ServiceConnection>& conn) override;
-            virtual void unbindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, const sp<IRemoteCallback>& callback) override;
-            virtual sp<ComponentName> startSystemService(const sp<Intent>& service) override;
+            virtual bool bindService(const sp<Intent>& service,
+                                     const sp<ServiceConnection>& conn, int32_t flags,
+                                     const sp<IRemoteCallback>& callback) override;
+            virtual void unbindService(const sp<Intent>& service,
+                                       const sp<ServiceConnection>& conn) override;
+            virtual void unbindService(const sp<Intent>& service,
+                                       const sp<ServiceConnection>& conn,
+                                       const sp<IRemoteCallback>& callback) override;
+            virtual sp<ComponentName> startSystemService(const sp<Intent>& service)
+            override;
             virtual bool stopSystemService(const sp<Intent>& service) override;
 
         private:

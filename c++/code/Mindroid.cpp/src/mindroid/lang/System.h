@@ -34,9 +34,11 @@
 #define CLOCK_MONOTONIC 1
 #endif
 
-namespace mindroid {
+namespace mindroid
+{
 
-class System final {
+class System final
+{
 public:
     ~System() noexcept = delete;
     System(const System&) = delete;
@@ -52,7 +54,8 @@ public:
      * other elapsed time measurements, as changing the system time can affect
      * the results.
      */
-    static uint64_t currentTimeMillis() {
+    static uint64_t currentTimeMillis()
+    {
         timespec now;
         clock_gettime(CLOCK_REALTIME, &now);
         return (((uint64_t) now.tv_sec * 1000LL) + (now.tv_nsec / 1000000LL));
@@ -83,17 +86,23 @@ public:
      * @param length
      *            the number of elements to be copied.
      */
-    static bool arraycopy(const void* src, const size_t srcPos, const size_t srcLength,
-            const void* dest, const size_t destPos, const size_t destLength, const size_t length) {
+    static bool arraycopy(const void* src, const size_t srcPos,
+                          const size_t srcLength,
+                          const void* dest, const size_t destPos, const size_t destLength,
+                          const size_t length)
+    {
         if (srcPos + length > srcLength) {
             return false;
         }
+
         if (destPos + length > destLength) {
             return false;
         }
+
         if (src == nullptr || dest == nullptr) {
             return false;
         }
+
         memcpy(((uint8_t*) dest) + destPos, ((uint8_t*) src) + srcPos, length);
         return true;
     }
@@ -117,10 +126,12 @@ public:
      * @return the value of the specified system property or {@code null} if the
      *         property doesn't exist.
      */
-    static sp<String> getProperty(const char* propertyName) {
+    static sp<String> getProperty(const char* propertyName)
+    {
         return getProperty(String::valueOf(propertyName), nullptr);
     }
-    static sp<String> getProperty(const sp<String>& propertyName) {
+    static sp<String> getProperty(const sp<String>& propertyName)
+    {
         return getProperty(propertyName, nullptr);
     }
 
@@ -128,10 +139,12 @@ public:
      * Returns the value of a particular system property. The {@code
      * defaultValue} will be returned if no such property has been found.
      */
-    static sp<String> getProperty(const char* name, const char* defaultValue) {
+    static sp<String> getProperty(const char* name, const char* defaultValue)
+    {
         return getProperty(String::valueOf(name), String::valueOf(defaultValue));
     }
-    static sp<String> getProperty(const sp<String>& name, const sp<String>& defaultValue);
+    static sp<String> getProperty(const sp<String>& name,
+                                  const sp<String>& defaultValue);
 
     /**
      * Sets the value of a particular system property. Most system properties
@@ -141,7 +154,8 @@ public:
      * @return the old value of the property or {@code null} if the property
      *         didn't exist.
      */
-    static sp<String> setProperty(const char* name, const char* value) {
+    static sp<String> setProperty(const char* name, const char* value)
+    {
         return setProperty(String::valueOf(name), String::valueOf(value));
     }
     static sp<String> setProperty(const sp<String>& name, const sp<String>& value);
@@ -149,7 +163,8 @@ public:
     /**
      * Causes the process to stop running and the program to exit with the given exit status.
      */
-    static void exit(int32_t status) {
+    static void exit(int32_t status)
+    {
         ::exit(status);
     }
 
@@ -159,7 +174,8 @@ private:
     static System* getInstance();
 
     sp<ReentrantLock> mLock = new ReentrantLock();
-    sp<HashMap<sp<String>, sp<String>>> mSystemProperties = new HashMap<sp<String>, sp<String>>();
+    sp<HashMap<sp<String>, sp<String>>> mSystemProperties = new
+    HashMap<sp<String>, sp<String>>();
 
     static pthread_mutex_t sMutex;
     static System* sInstance;

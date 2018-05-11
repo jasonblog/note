@@ -22,7 +22,8 @@
 #include "mindroid/util/logging/LogBuffer.h"
 #include "mindroid/util/ArrayList.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * A {@code FileHandler} writes logging records into a specified file or a rotating set of files.
@@ -51,7 +52,8 @@ namespace mindroid {
  * specified in the pattern, then the generation number after a dot will be added to the end of the
  * file name.
  */
-class FileHandler : public Object {
+class FileHandler : public Object
+{
 public:
     FileHandler();
 
@@ -127,7 +129,8 @@ public:
      * {@code count < 1}.
      * @throws NullPointerException if {@code pattern} is {@code null}.
      */
-    FileHandler(const sp<String>& pattern, int32_t limit, int32_t count, bool append);
+    FileHandler(const sp<String>& pattern, int32_t limit, int32_t count,
+                bool append);
 
     /**
      * Flushes and closes all opened files.
@@ -141,7 +144,8 @@ public:
      */
     void publish(const sp<LogBuffer::LogRecord>& record);
 
-    class Writer : public Object {
+    class Writer : public Object
+    {
     public:
         Writer(const sp<File>& file, bool append);
         virtual ~Writer();

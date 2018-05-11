@@ -19,68 +19,86 @@
 
 #include <cstdint>
 
-namespace mindroid {
+namespace mindroid
+{
 
-class Math {
+class Math
+{
 public:
     Math() noexcept = delete;
     ~Math() noexcept = delete;
     Math(const Math&) = delete;
     Math& operator=(const Math&) = delete;
 
-    static int8_t min(int8_t a, int8_t b) {
+    static int8_t min(int8_t a, int8_t b)
+    {
         return (a < b) ? a : b;
     }
-    static uint8_t min(uint8_t a, uint8_t b) {
-        return (a < b) ? a : b;
-    }
-
-    static int16_t min(int16_t a, int16_t b) {
-        return (a < b) ? a : b;
-    }
-    static uint16_t min(uint16_t a, uint16_t b) {
+    static uint8_t min(uint8_t a, uint8_t b)
+    {
         return (a < b) ? a : b;
     }
 
-    static int32_t min(int32_t a, int32_t b) {
+    static int16_t min(int16_t a, int16_t b)
+    {
         return (a < b) ? a : b;
     }
-    static uint32_t min(uint32_t a, uint32_t b) {
-        return (a < b) ? a : b;
-    }
-
-    static int64_t min(int64_t a, int64_t b) {
-        return (a < b) ? a : b;
-    }
-    static uint64_t min(uint64_t a, uint64_t b) {
+    static uint16_t min(uint16_t a, uint16_t b)
+    {
         return (a < b) ? a : b;
     }
 
-    static int8_t max(int8_t a, int8_t b) {
+    static int32_t min(int32_t a, int32_t b)
+    {
+        return (a < b) ? a : b;
+    }
+    static uint32_t min(uint32_t a, uint32_t b)
+    {
+        return (a < b) ? a : b;
+    }
+
+    static int64_t min(int64_t a, int64_t b)
+    {
+        return (a < b) ? a : b;
+    }
+    static uint64_t min(uint64_t a, uint64_t b)
+    {
+        return (a < b) ? a : b;
+    }
+
+    static int8_t max(int8_t a, int8_t b)
+    {
         return (a > b) ? a : b;
     }
-    static uint8_t max(uint8_t a, uint8_t b) {
+    static uint8_t max(uint8_t a, uint8_t b)
+    {
         return (a > b) ? a : b;
     }
 
-    static int16_t max(int16_t a, int16_t b) {
+    static int16_t max(int16_t a, int16_t b)
+    {
         return (a > b) ? a : b;
     }
-    static uint16_t max(uint16_t a, uint16_t b) {
-        return (a > b) ? a : b;
-    }
-
-    static int32_t max(int32_t a, int32_t b) {
-        return (a > b) ? a : b;
-    }
-    static uint32_t max(uint32_t a, uint32_t b) {
+    static uint16_t max(uint16_t a, uint16_t b)
+    {
         return (a > b) ? a : b;
     }
 
-    static int64_t max(int64_t a, int64_t b) {
+    static int32_t max(int32_t a, int32_t b)
+    {
         return (a > b) ? a : b;
     }
-    static uint64_t max(uint64_t a, uint64_t b) {
+    static uint32_t max(uint32_t a, uint32_t b)
+    {
+        return (a > b) ? a : b;
+    }
+
+    static int64_t max(int64_t a, int64_t b)
+    {
+        return (a > b) ? a : b;
+    }
+    static uint64_t max(uint64_t a, uint64_t b)
+    {
         return (a > b) ? a : b;
     }
 };

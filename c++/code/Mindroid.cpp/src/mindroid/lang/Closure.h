@@ -42,21 +42,26 @@
 #include "mindroid/lang/Runnable.h"
 #include <functional>
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Handler;
 
 class Closure :
-        public Runnable {
+    public Runnable
+{
 public:
-    Closure(const sp<Handler>& handler, const std::function<void (void)>& func) : mHandler(handler), mFunc(func) { }
-    Closure(const sp<Handler>& handler, std::function<void (void)>&& func) : mHandler(handler), mFunc(std::move(func)) { }
+    Closure(const sp<Handler>& handler,
+            const std::function<void (void)>& func) : mHandler(handler), mFunc(func) { }
+    Closure(const sp<Handler>& handler,
+            std::function<void (void)>&& func) : mHandler(handler), mFunc(std::move(func)) { }
     Closure(const Closure&) = delete;
     Closure& operator=(const Closure&) = delete;
     Closure(Closure&&) = delete;
     Closure& operator=(Closure&&) = delete;
 
-    virtual void run() {
+    virtual void run()
+    {
         mFunc();
     }
 
@@ -68,12 +73,14 @@ private:
 };
 
 class FuncClosure0 :
-        public Runnable {
+    public Runnable
+{
 public:
     typedef void (*FuncType)();
 
     FuncClosure0(FuncType func) :
-            mFunc(func) {
+        mFunc(func)
+    {
     }
 
     virtual ~FuncClosure0() = default;
@@ -81,7 +88,8 @@ public:
     FuncClosure0(const FuncClosure0&) = delete;
     FuncClosure0& operator=(const FuncClosure0&) = delete;
 
-    virtual void run() {
+    virtual void run()
+    {
         mFunc();
     }
 
@@ -91,13 +99,15 @@ private:
 
 template<typename Class>
 class Closure0 :
-        public Runnable {
+    public Runnable
+{
 public:
     typedef void (Class::*MethodType)();
 
     Closure0(Class& object, MethodType method) :
-            mObject(&object),
-            mMethod(method) {
+        mObject(&object),
+        mMethod(method)
+    {
     }
 
     virtual ~Closure0() = default;
@@ -105,7 +115,8 @@ public:
     Closure0(const Closure0&) = delete;
     Closure0& operator=(const Closure0&) = delete;
 
-    virtual void run() {
+    virtual void run()
+    {
         (mObject->*mMethod)();
     }
 
@@ -116,13 +127,15 @@ private:
 
 template<typename Arg1>
 class FuncClosure1 :
-        public Runnable {
+    public Runnable
+{
 public:
     typedef void (*FuncType)(Arg1 arg1);
 
     FuncClosure1(FuncType func, Arg1 arg1) :
-            mFunc(func),
-            mArg1(arg1) {
+        mFunc(func),
+        mArg1(arg1)
+    {
     }
 
     virtual ~FuncClosure1() = default;
@@ -130,7 +143,8 @@ public:
     FuncClosure1(const FuncClosure1&) = delete;
     FuncClosure1& operator=(const FuncClosure1&) = delete;
 
-    virtual void run() {
+    virtual void run()
+    {
         mFunc(mArg1);
     }
 
@@ -141,14 +155,16 @@ private:
 
 template<typename Class, typename Arg1>
 class Closure1 :
-        public Runnable {
+    public Runnable
+{
 public:
     typedef void (Class::*MethodType)(Arg1 arg1);
 
     Closure1(Class& object, MethodType method, Arg1 arg1) :
-            mObject(&object),
-            mMethod(method),
-            mArg1(arg1) {
+        mObject(&object),
+        mMethod(method),
+        mArg1(arg1)
+    {
     }
 
     virtual ~Closure1() = default;
@@ -156,7 +172,8 @@ public:
     Closure1(const Closure1&) = delete;
     Closure1& operator=(const Closure1&) = delete;
 
-    virtual void run() {
+    virtual void run()
+    {
         (mObject->*mMethod)(mArg1);
     }
 
@@ -168,14 +185,16 @@ private:
 
 template<typename Arg1, typename Arg2>
 class FuncClosure2 :
-        public Runnable {
+    public Runnable
+{
 public:
     typedef void (*FuncType)(Arg1 arg1, Arg2 arg2);
 
     FuncClosure2(FuncType func, Arg1 arg1, Arg2 arg2) :
-            mFunc(func),
-            mArg1(arg1),
-            mArg2(arg2) {
+        mFunc(func),
+        mArg1(arg1),
+        mArg2(arg2)
+    {
     }
 
     virtual ~FuncClosure2() = default;
@@ -183,7 +202,8 @@ public:
     FuncClosure2(const FuncClosure2&) = delete;
     FuncClosure2& operator=(const FuncClosure2&) = delete;
 
-    virtual void run() {
+    virtual void run()
+    {
         mFunc(mArg1, mArg2);
     }
 
@@ -195,15 +215,17 @@ private:
 
 template<typename Class, typename Arg1, typename Arg2>
 class Closure2 :
-        public Runnable {
+    public Runnable
+{
 public:
     typedef void (Class::*MethodType)(Arg1 arg1, Arg2 arg2);
 
     Closure2(Class& object, MethodType method, Arg1 arg1, Arg2 arg2) :
-            mObject(&object),
-            mMethod(method),
-            mArg1(arg1),
-            mArg2(arg2) {
+        mObject(&object),
+        mMethod(method),
+        mArg1(arg1),
+        mArg2(arg2)
+    {
     }
 
     virtual ~Closure2() = default;
@@ -211,7 +233,8 @@ public:
     Closure2(const Closure2&) = delete;
     Closure2& operator=(const Closure2&) = delete;
 
-    virtual void run() {
+    virtual void run()
+    {
         (mObject->*mMethod)(mArg1, mArg2);
     }
 
@@ -224,15 +247,17 @@ private:
 
 template<typename Arg1, typename Arg2, typename Arg3>
 class FuncClosure3 :
-        public Runnable {
+    public Runnable
+{
 public:
     typedef void (*FuncType)(Arg1 arg1, Arg2 arg2, Arg3 arg3);
 
     FuncClosure3(FuncType func, Arg1 arg1, Arg2 arg2, Arg3 arg3) :
-            mFunc(func),
-            mArg1(arg1),
-            mArg2(arg2),
-            mArg3(arg3) {
+        mFunc(func),
+        mArg1(arg1),
+        mArg2(arg2),
+        mArg3(arg3)
+    {
     }
 
     virtual ~FuncClosure3() = default;
@@ -240,7 +265,8 @@ public:
     FuncClosure3(const FuncClosure3&) = delete;
     FuncClosure3& operator=(const FuncClosure3&) = delete;
 
-    virtual void run() {
+    virtual void run()
+    {
         mFunc(mArg1, mArg2, mArg3);
     }
 
@@ -253,16 +279,18 @@ private:
 
 template<typename Class, typename Arg1, typename Arg2, typename Arg3>
 class Closure3 :
-        public Runnable {
+    public Runnable
+{
 public:
     typedef void (Class::*MethodType)(Arg1 arg1, Arg2 arg2, Arg3 arg3);
 
     Closure3(Class& object, MethodType method, Arg1 arg1, Arg2 arg2, Arg3 arg3) :
-            mObject(&object),
-            mMethod(method),
-            mArg1(arg1),
-            mArg2(arg2),
-            mArg3(arg3) {
+        mObject(&object),
+        mMethod(method),
+        mArg1(arg1),
+        mArg2(arg2),
+        mArg3(arg3)
+    {
     }
 
     virtual ~Closure3() = default;
@@ -270,7 +298,8 @@ public:
     Closure3(const Closure3&) = delete;
     Closure3& operator=(const Closure3&) = delete;
 
-    virtual void run() {
+    virtual void run()
+    {
         (mObject->*mMethod)(mArg1, mArg2, mArg3);
     }
 
@@ -284,16 +313,18 @@ private:
 
 template<typename Arg1, typename Arg2, typename Arg3, typename Arg4>
 class FuncClosure4 :
-        public Runnable {
+    public Runnable
+{
 public:
     typedef void (*FuncType)(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4);
 
     FuncClosure4(FuncType func, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4) :
-            mFunc(func),
-            mArg1(arg1),
-            mArg2(arg2),
-            mArg3(arg3),
-            mArg4(arg4) {
+        mFunc(func),
+        mArg1(arg1),
+        mArg2(arg2),
+        mArg3(arg3),
+        mArg4(arg4)
+    {
     }
 
     virtual ~FuncClosure4() = default;
@@ -301,7 +332,8 @@ public:
     FuncClosure4(const FuncClosure4&) = delete;
     FuncClosure4& operator=(const FuncClosure4&) = delete;
 
-    virtual void run() {
+    virtual void run()
+    {
         mFunc(mArg1, mArg2, mArg3, mArg4);
     }
 
@@ -315,17 +347,20 @@ private:
 
 template<typename Class, typename Arg1, typename Arg2, typename Arg3, typename Arg4>
 class Closure4 :
-        public Runnable {
+    public Runnable
+{
 public:
     typedef void (Class::*MethodType)(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4);
 
-    Closure4(Class& object, MethodType method, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4) :
-            mObject(&object),
-            mMethod(method),
-            mArg1(arg1),
-            mArg2(arg2),
-            mArg3( arg3),
-            mArg4(arg4) {
+    Closure4(Class& object, MethodType method, Arg1 arg1, Arg2 arg2, Arg3 arg3,
+             Arg4 arg4) :
+        mObject(&object),
+        mMethod(method),
+        mArg1(arg1),
+        mArg2(arg2),
+        mArg3(arg3),
+        mArg4(arg4)
+    {
     }
 
     virtual ~Closure4() = default;
@@ -333,7 +368,8 @@ public:
     Closure4(const Closure4&) = delete;
     Closure4& operator=(const Closure4&) = delete;
 
-    virtual void run() {
+    virtual void run()
+    {
         (mObject->*mMethod)(mArg1, mArg2, mArg3, mArg4);
     }
 
@@ -346,53 +382,71 @@ private:
     Arg4 mArg4;
 };
 
-inline sp<Runnable> obtainClosure(void(*func)()) {
+inline sp<Runnable> obtainClosure(void(*func)())
+{
     return new FuncClosure0(func);
 }
 
 template<typename Class>
-inline sp<Runnable> obtainClosure(Class& object, void(Class::*method)()) {
+inline sp<Runnable> obtainClosure(Class& object, void(Class::*method)())
+{
     return new Closure0<Class>(object, method);
 }
 
 template<typename Arg1>
-inline sp<Runnable> obtainClosure(void(*func)(Arg1), Arg1 arg1) {
+inline sp<Runnable> obtainClosure(void(*func)(Arg1), Arg1 arg1)
+{
     return new FuncClosure1<Arg1>(func, arg1);
 }
 
 template<typename Class, typename Arg1>
-inline sp<Runnable> obtainClosure(Class& object, void(Class::*method)(Arg1), Arg1 arg1) {
+inline sp<Runnable> obtainClosure(Class& object, void(Class::*method)(Arg1),
+                                  Arg1 arg1)
+{
     return new Closure1<Class, Arg1>(object, method, arg1);
 }
 
 template<typename Arg1, typename Arg2>
-inline sp<Runnable> obtainClosure(void(*func)(Arg1, Arg2), Arg1 arg1, Arg2 arg2) {
+inline sp<Runnable> obtainClosure(void(*func)(Arg1, Arg2), Arg1 arg1,
+                                  Arg2 arg2)
+{
     return new FuncClosure2<Arg1, Arg2>(func, arg1, arg2);
 }
 
 template<typename Class, typename Arg1, typename Arg2>
-inline sp<Runnable> obtainClosure(Class& object, void(Class::*method)(Arg1, Arg2), Arg1 arg1, Arg2 arg2) {
+inline sp<Runnable> obtainClosure(Class& object, void(Class::*method)(Arg1,
+                                  Arg2), Arg1 arg1, Arg2 arg2)
+{
     return new Closure2<Class, Arg1, Arg2>(object, method, arg1, arg2);
 }
 
 template<typename Arg1, typename Arg2, typename Arg3>
-inline sp<Runnable> obtainClosure(void(*func)(Arg1, Arg2, Arg3), Arg1 arg1, Arg2 arg2, Arg3 arg3) {
+inline sp<Runnable> obtainClosure(void(*func)(Arg1, Arg2, Arg3), Arg1 arg1,
+                                  Arg2 arg2, Arg3 arg3)
+{
     return new FuncClosure3<Arg1, Arg2, Arg3>(func, arg1, arg2, arg3);
 }
 
 template<typename Class, typename Arg1, typename Arg2, typename Arg3>
-inline sp<Runnable> obtainClosure(Class& object, void(Class::*method)(Arg1, Arg2, Arg3), Arg1 arg1, Arg2 arg2, Arg3 arg3) {
+inline sp<Runnable> obtainClosure(Class& object, void(Class::*method)(Arg1,
+                                  Arg2, Arg3), Arg1 arg1, Arg2 arg2, Arg3 arg3)
+{
     return new Closure3<Class, Arg1, Arg2, Arg3>(object, method, arg1, arg2, arg3);
 }
 
 template<typename Arg1, typename Arg2, typename Arg3, typename Arg4>
-inline sp<Runnable> obtainClosure(void(*func)(Arg1, Arg2, Arg3, Arg4), Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4) {
+inline sp<Runnable> obtainClosure(void(*func)(Arg1, Arg2, Arg3, Arg4),
+                                  Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4)
+{
     return new FuncClosure4<Arg1, Arg2, Arg3, Arg4>(func, arg1, arg2, arg3, arg4);
 }
 
 template<typename Class, typename Arg1, typename Arg2, typename Arg3, typename Arg4>
-inline sp<Runnable> obtainClosure(Class& object, void(Class::*method)(Arg1, Arg2, Arg3, Arg4), Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4) {
-    return new Closure4<Class, Arg1, Arg2, Arg3, Arg4>(object, method, arg1, arg2, arg3, arg4);
+inline sp<Runnable> obtainClosure(Class& object, void(Class::*method)(Arg1,
+                                  Arg2, Arg3, Arg4), Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4)
+{
+    return new Closure4<Class, Arg1, Arg2, Arg3, Arg4>(object, method, arg1, arg2,
+            arg3, arg4);
 }
 
 } /* namespace mindroid */

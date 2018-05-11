@@ -20,12 +20,14 @@
 
 #include "mindroid/lang/Object.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Lock;
 
 class Condition :
-        public Object {
+    public Object
+{
 public:
     Condition() = default;
     virtual ~Condition() = default;

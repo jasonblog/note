@@ -11,60 +11,60 @@ int Initialize(int iInitFlag = 0);
 
 //void sigusr1_handle(int iSigVal)
 //{
-//	CDBCtrl::GetSingletonPtr()->SetRunFlag(CDBCtrl::EFLG_CTRL_RELOAD);
-//	signal(SIGUSR1, sigusr1_handle);
+//  CDBCtrl::GetSingletonPtr()->SetRunFlag(CDBCtrl::EFLG_CTRL_RELOAD);
+//  signal(SIGUSR1, sigusr1_handle);
 //}
 //
 //void sigusr2_handle(int iSigVal)
 //{
-//	CDBCtrl::GetSingletonPtr()->SetRunFlag(CDBCtrl::EFLG_CTRL_QUIT);
-//	signal(SIGUSR2, sigusr2_handle);
+//  CDBCtrl::GetSingletonPtr()->SetRunFlag(CDBCtrl::EFLG_CTRL_QUIT);
+//  signal(SIGUSR2, sigusr2_handle);
 //}
 //
 //void sigusr_handle(int iSigVal)
 //{
-//	CDBCtrl::GetSingletonPtr()->SetRunFlag(CDBCtrl::EFLG_CTRL_SHUTDOWN);
-//	signal(SIGQUIT, sigusr_handle);
+//  CDBCtrl::GetSingletonPtr()->SetRunFlag(CDBCtrl::EFLG_CTRL_SHUTDOWN);
+//  signal(SIGQUIT, sigusr_handle);
 //}
 
 //void ignore_pipe()
 //{
-//	struct sigaction sig;
+//  struct sigaction sig;
 //
-//	sig.sa_handler = SIG_IGN;
-//	sig.sa_flags = 0;
-//	sigemptyset(&sig.sa_mask);
-//	sigaction(SIGPIPE, &sig, NULL);
+//  sig.sa_handler = SIG_IGN;
+//  sig.sa_flags = 0;
+//  sigemptyset(&sig.sa_mask);
+//  sigaction(SIGPIPE, &sig, NULL);
 //}
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-	CDBCtrl *tpDBCtrl = new CDBCtrl;
-	if (tpDBCtrl->PrepareToRun() < 0)  // 创建处理线程
-	{
-		exit(-1);
-	}
+    CDBCtrl* tpDBCtrl = new CDBCtrl;
 
-//	signal(SIGUSR1, sigusr1_handle);
-//	signal(SIGUSR2, sigusr2_handle);
-//	signal(SIGQUIT, sigusr_handle);
+    if (tpDBCtrl->PrepareToRun() < 0) { // 创建处理线程
+        exit(-1);
+    }
 
-	{
-		LOG_INFO("default", "-------------------------------------------------");
-		LOG_INFO("default", "|          dbserver startup success!          |");
-		LOG_INFO("default", "-------------------------------------------------");
-	}
+    //  signal(SIGUSR1, sigusr1_handle);
+    //  signal(SIGUSR2, sigusr2_handle);
+    //  signal(SIGQUIT, sigusr_handle);
 
-	tpDBCtrl->Run();
+    {
+        LOG_INFO("default", "-------------------------------------------------");
+        LOG_INFO("default", "|          dbserver startup success!          |");
+        LOG_INFO("default", "-------------------------------------------------");
+    }
 
-	if (tpDBCtrl) {
-		delete tpDBCtrl;
-		tpDBCtrl = NULL;
-	}
+    tpDBCtrl->Run();
 
-	// 关闭所有日志
-	LOG_SHUTDOWN_ALL;
+    if (tpDBCtrl) {
+        delete tpDBCtrl;
+        tpDBCtrl = NULL;
+    }
 
-	return 0;
+    // 关闭所有日志
+    LOG_SHUTDOWN_ALL;
+
+    return 0;
 }
 

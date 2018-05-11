@@ -2,7 +2,7 @@
 
 CRunFlag::CRunFlag()
 {
-	mRunFlag = ERF_RUNTIME;
+    mRunFlag = ERF_RUNTIME;
 }
 
 
@@ -13,11 +13,11 @@ CRunFlag::~CRunFlag()
 
 void CRunFlag::SetRunFlag(ERunFlag eRunFlag)
 {
-	mRunFlag = eRunFlag;
+    mRunFlag = eRunFlag;
 }
 
 bool CRunFlag::CheckRunFlag(ERunFlag eRunFlag)
 {
-	return (eRunFlag == mRunFlag);
+    return (eRunFlag == mRunFlag);
 }
 

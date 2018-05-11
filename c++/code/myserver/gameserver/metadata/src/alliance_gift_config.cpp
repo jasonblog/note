@@ -12,12 +12,12 @@
 
 AllianceGiftCfgInfo::AllianceGiftCfgInfo()
 {
-    
+
 }
 
 AllianceGiftCfgInfo::~AllianceGiftCfgInfo()
 {
-    
+
 }
 
 AllianceGiftConfig::AllianceGiftConfig()
@@ -33,10 +33,10 @@ AllianceGiftConfig::~AllianceGiftConfig()
 int AllianceGiftConfig::parse()
 {
     auto obj = m_obj.ToObject();
-    for (auto it=obj.begin(); it!=obj.end(); ++it)
-    {
+
+    for (auto it = obj.begin(); it != obj.end(); ++it) {
         AllianceGiftCfgInfo* item = new AllianceGiftCfgInfo();
-        
+
         auto item_obj = it->second.ToObject();
         int oid = item_obj["id"].ToInt();
         item->_id = oid;
@@ -50,61 +50,63 @@ int AllianceGiftConfig::parse()
         std::string playerReward = item_obj["playerReward"].ToString();
         fillStrToMap(playerReward.c_str(), item->_playerReward);
         item->_mail = item_obj["mail"].ToInt();
-        
+
         _datas[oid] = item;
     }
-    
+
     return 0;
 }
 
 bool AllianceGiftConfig::check()
 {
-    for (auto it = _datas.begin(); it != _datas.end(); ++it)
-    {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         //去充值配置表 查看充值的正确性
-        if (NULL == g_rechargeConfig.item(it->second->_rechargeIOS))
-        {
-            ERROR_LOG("ERR: check AllianceGiftConfig _rechargeIOS is err!!! id = {}, _rechargeIOS = {}", it->first, it->second->_rechargeIOS);
+        if (NULL == g_rechargeConfig.item(it->second->_rechargeIOS)) {
+            ERROR_LOG("ERR: check AllianceGiftConfig _rechargeIOS is err!!! id = {}, _rechargeIOS = {}",
+                      it->first, it->second->_rechargeIOS);
             return false;
         }
-        if (NULL == g_rechargeConfig.item(it->second->_rechargeAndroid))
-        {
-            ERROR_LOG("ERR: check AllianceGiftConfig _rechargeAndroid is err!!! id = {}, _rechargeAndroid = {}", it->first, it->second->_rechargeAndroid);
+
+        if (NULL == g_rechargeConfig.item(it->second->_rechargeAndroid)) {
+            ERROR_LOG("ERR: check AllianceGiftConfig _rechargeAndroid is err!!! id = {}, _rechargeAndroid = {}",
+                      it->first, it->second->_rechargeAndroid);
             return false;
         }
-        
+
         //检测配置的奖品正确性
-        if(!checkVectorIsItem(it->second->_rewardItem))
-        {
-            ERROR_LOG("ERR: check AllianceGiftConfig _rewardItem item id is err!!! id = {}", it->first);
+        if (!checkVectorIsItem(it->second->_rewardItem)) {
+            ERROR_LOG("ERR: check AllianceGiftConfig _rewardItem item id is err!!! id = {}",
+                      it->first);
             return false;
         }
-        
-        if(!checkVectorIsItem(it->second->_playerReward))
-        {
-            ERROR_LOG("ERR: check AllianceGiftConfig _playerReward item id is err!!! id = {}", it->first);
+
+        if (!checkVectorIsItem(it->second->_playerReward)) {
+            ERROR_LOG("ERR: check AllianceGiftConfig _playerReward item id is err!!! id = {}",
+                      it->first);
             return false;
         }
     }
+
     return true;
 }
 
 void AllianceGiftConfig::clear()
 {
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it)
-    {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
 AllianceGiftCfgInfo* AllianceGiftConfig::getCfg(int nIndex)
 {
-    auto it=_datas.find(nIndex);
-    if (it!=_datas.end())
-    {
+    auto it = _datas.find(nIndex);
+
+    if (it != _datas.end()) {
         return it->second;
     }
+
     return NULL;
 }
 

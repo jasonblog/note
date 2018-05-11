@@ -21,10 +21,12 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-namespace mindroid {
+namespace mindroid
+{
 
 Socket4Address::Socket4Address(uint16_t port) :
-        SocketAddress(port) {
+    SocketAddress(port)
+{
     sockaddr_in socketAddress;
     ::memset(&socketAddress, 0, sizeof(socketAddress));
     socketAddress.sin_family = AF_INET;
@@ -33,7 +35,8 @@ Socket4Address::Socket4Address(uint16_t port) :
     mInetAddress = new InetAddress(socketAddress);
 }
 
-Socket4Address::Socket4Address(const sp<String>& host, uint16_t port) {
+Socket4Address::Socket4Address(const sp<String>& host, uint16_t port)
+{
     struct addrinfo hints, *result;
     int status;
 
@@ -47,17 +50,20 @@ Socket4Address::Socket4Address(const sp<String>& host, uint16_t port) {
         sockaddr_in socketAddress;
         ::memset(&socketAddress, 0, sizeof(socketAddress));
         socketAddress.sin_family = AF_INET;
-        socketAddress.sin_addr.s_addr = ((struct sockaddr_in *) (result->ai_addr))->sin_addr.s_addr;
+        socketAddress.sin_addr.s_addr = ((struct sockaddr_in*)(
+                                             result->ai_addr))->sin_addr.s_addr;
         socketAddress.sin_port = htons(port);
         mInetAddress = new InetAddress(socketAddress);
         ::freeaddrinfo(result);
     }
 }
 
-uint16_t Socket4Address::getPort() const {
+uint16_t Socket4Address::getPort() const
+{
     if (mInetAddress == nullptr) {
         return 0;
     }
+
     return ntohs(((sockaddr_in*)mInetAddress->getPointer())->sin_port);
 }
 

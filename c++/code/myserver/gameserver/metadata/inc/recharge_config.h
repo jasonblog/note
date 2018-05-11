@@ -8,15 +8,15 @@
 
 class RechargeItem
 {
-    
+
 public:
-    
+
     RechargeItem();
-    
+
     ~RechargeItem();
-    
+
 public:
-    
+
     int             _id;
     std::string     _platform;      //平台类型
     int             _level;
@@ -29,21 +29,21 @@ public:
 
 class RechargeConfig : public ConfigData
 {
-    
+
 public:
-    
+
     RechargeConfig();
-    
+
     ~RechargeConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     RechargeItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, RechargeItem*> _datas;
 };
 

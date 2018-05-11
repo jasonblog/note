@@ -18,26 +18,26 @@ using namespace std;
 class CEventReactor: public IEventReactor
 {
 public:
-	//构造函数
-	CEventReactor();
-	//析构函数
-	virtual ~CEventReactor();
-	//初始化event_base
-	void Init();
-	//注册处理
-	bool Register(IReactorHandler *pHandler);
-	//删除处理
-	bool UnRegister(IReactorHandler *pHandler);
-	//获取libevent event_base
-	event_base *GetEventBase();
-	//event监听分发事件
-	void DispatchEvents();
-	//释放资源
-	void Release();
+    //构造函数
+    CEventReactor();
+    //析构函数
+    virtual ~CEventReactor();
+    //初始化event_base
+    void Init();
+    //注册处理
+    bool Register(IReactorHandler* pHandler);
+    //删除处理
+    bool UnRegister(IReactorHandler* pHandler);
+    //获取libevent event_base
+    event_base* GetEventBase();
+    //event监听分发事件
+    void DispatchEvents();
+    //释放资源
+    void Release();
 private:
-	uint32 m_uReactorHandlerCounter;
-	event_base *m_pEventBase;
-	event_config *m_pConfig;
+    uint32 m_uReactorHandlerCounter;
+    event_base* m_pEventBase;
+    event_config* m_pConfig;
 };
 
 #endif

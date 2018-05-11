@@ -22,7 +22,8 @@
 #include "mindroid/lang/Thread.h"
 #include "mindroid/os/MessageQueue.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Runnable;
 
@@ -57,9 +58,11 @@ class Runnable;
  * </pre>
  */
 class Looper final :
-        public Object {
+    public Object
+{
 public:
-    virtual ~Looper() {
+    virtual ~Looper()
+    {
     }
 
     Looper(const Looper&) = delete;
@@ -70,7 +73,8 @@ public:
      * then reference this looper, before actually starting the loop. Be sure to call
      * {@link #loop()} after calling this method, and end it by calling {@link #quit()}.
      */
-    static bool prepare() {
+    static bool prepare()
+    {
         return prepare(true);
     }
 
@@ -91,12 +95,16 @@ public:
      * Return the {@link MessageQueue} object associated with the current thread. This must be
      * called from a thread running a Looper, or a NullPointerException will be thrown.
      */
-    static sp<MessageQueue> myQueue() { return myLooper()->mMessageQueue; }
+    static sp<MessageQueue> myQueue()
+    {
+        return myLooper()->mMessageQueue;
+    }
 
     /**
      * Returns true if the current thread is this looper's thread.
      */
-    bool isCurrentThread() {
+    bool isCurrentThread()
+    {
         return pthread_equal(pthread_self(), mThread->mThread) != 0;
     }
 
@@ -110,10 +118,14 @@ public:
     /**
      * Return the Thread associated with this Looper.
      */
-    sp<Thread> getThread() { return mThread; }
+    sp<Thread> getThread()
+    {
+        return mThread;
+    }
 
     /** @hide */
-    sp<MessageQueue> getQueue() {
+    sp<MessageQueue> getQueue()
+    {
         return mMessageQueue;
     }
 

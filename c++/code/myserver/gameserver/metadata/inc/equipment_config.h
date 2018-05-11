@@ -9,13 +9,13 @@
 class EquipmentItem
 {
 public:
-    
+
     EquipmentItem();
-    
+
     ~EquipmentItem();
-    
+
 public:
-    
+
     int _iId;
     int _iEquipId;
     int _iType;
@@ -23,7 +23,7 @@ public:
     int _iLevel;
     int _iExp;
     int _iNext;
-    
+
     float _fZsAtk;
     float _fZsHp;
     float _fGsAtk;
@@ -41,7 +41,7 @@ public:
     float _fResource;
     float _fAtk;
     float _fDef;
-    
+
     float _fTroop;
     float _fHospital;
     float _fLoad;
@@ -52,26 +52,26 @@ public:
 
 class EquipmentConfig : public ConfigData
 {
-    
+
 public:
-    
+
     EquipmentConfig();
-    
+
     ~EquipmentConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     const EquipmentItem* item(const int key) const;
 private:
     void getSmithyRewardData();
-    
+
 public:
-    
+
     std::map<int, EquipmentItem*> _datas;
     //key:装备品质 value:key:装备类型 value:装备configid 供铁匠铺抽奖使用
-    std::map<int,std::map<int,std::vector<int> > >* _colors;
+    std::map<int, std::map<int, std::vector<int> > >* _colors;
 };
 
 #endif // __EQUIPMENT_CONFIG_H__

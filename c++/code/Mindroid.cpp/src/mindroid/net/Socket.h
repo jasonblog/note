@@ -20,23 +20,27 @@
 #include "mindroid/lang/Object.h"
 #include "mindroid/lang/String.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class ServerSocket;
 
 class Socket :
-        public Object {
+    public Object
+{
 public:
     Socket() = default;
     Socket(const char* host, uint16_t port) :
-            Socket(String::valueOf(host), port) {
+        Socket(String::valueOf(host), port)
+    {
     }
     Socket(const sp<String>& host, uint16_t port);
     virtual ~Socket();
     Socket(const Socket&) = delete;
     Socket& operator=(const Socket&) = delete;
 
-    int connect(const char* host, uint16_t port) {
+    int connect(const char* host, uint16_t port)
+    {
         return connect(String::valueOf(host), port);
     }
     int connect(const sp<String>& host, uint16_t port);
@@ -44,9 +48,18 @@ public:
     ssize_t readFully(uint8_t* data, size_t size);
     bool write(const void* data, size_t size);
     void close();
-    bool isConnected() const { return mIsConnected; }
-    bool isClosed() const { return mIsClosed; }
-    int getId() const { return mSocketId; }
+    bool isConnected() const
+    {
+        return mIsConnected;
+    }
+    bool isClosed() const
+    {
+        return mIsClosed;
+    }
+    int getId() const
+    {
+        return mSocketId;
+    }
 
 private:
     int mSocketId = -1;

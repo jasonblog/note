@@ -22,7 +22,7 @@ SystemMailCfgInfo::SystemMailCfgInfo()
 
 SystemMailCfgInfo::~SystemMailCfgInfo()
 {
-    
+
 }
 
 std::string SystemMailCfgInfo::getStrSenderName()
@@ -58,9 +58,10 @@ SystemMailConfig::~SystemMailConfig()
 int SystemMailConfig::parse()
 {
     auto obj = m_obj.ToObject();
-    for (auto it=obj.begin(); it!=obj.end(); ++it) {
+
+    for (auto it = obj.begin(); it != obj.end(); ++it) {
         SystemMailCfgInfo* item = new SystemMailCfgInfo();
-        
+
         auto item_obj = it->second.ToObject();
         int oid = item_obj["id"].ToInt();
         item->_id = oid;
@@ -69,36 +70,42 @@ int SystemMailConfig::parse()
         item->_name = item_obj["name"].ToInt();
         item->_describe = item_obj["shortDesc"].ToInt();
         item->_content = item_obj["desc"].ToInt();
-        
+
         auto reward = item_obj["reward"].ToObject();
-        for (auto it1=reward.begin(); it1!=reward.end(); ++it1) {
+
+        for (auto it1 = reward.begin(); it1 != reward.end(); ++it1) {
             MailRewardTemplate oMailReward;
             auto ar = it1->second.ToArray();
             oMailReward.type = ar[0].ToInt();
             oMailReward.id = ar[1].ToInt();
             oMailReward.num = ar[2].ToInt();
- 
+
             item->_reward[it1->first] = oMailReward;
-            
+
         }
+
         _datas[oid] = item;
     }
+
     return 0;
 }
 
 void SystemMailConfig::clear()
 {
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
 SystemMailCfgInfo* SystemMailConfig::getCfg(int nIndex)
 {
-    auto it=_datas.find(nIndex);
-    if (it!=_datas.end()) {
+    auto it = _datas.find(nIndex);
+
+    if (it != _datas.end()) {
         return it->second;
     }
+
     return NULL;
 }

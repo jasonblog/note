@@ -9,12 +9,12 @@
 
 class AllianceFlagConfigItem
 {
-    
+
 public:
     AllianceFlagConfigItem();
-    
+
     ~AllianceFlagConfigItem();
-    
+
 public:
     int _id;
     int _price;
@@ -23,18 +23,18 @@ public:
 
 class AllianceFlagConfig : public ConfigData
 {
-    
+
 public:
     AllianceFlagConfig();
-    
+
     ~AllianceFlagConfig();
- 
+
     int parse();
-    
+
     void clear();
-    
+
     AllianceFlagConfigItem* item(int key);
-    
+
 public:
     std::map<int, AllianceFlagConfigItem* > _datas;
 };

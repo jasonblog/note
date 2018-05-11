@@ -24,7 +24,8 @@
 #include "mindroid/util/HashMap.h"
 #include "mindroid/util/Set.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class String;
 
@@ -51,7 +52,8 @@ class String;
  * @see Context#getSharedPreferences
  */
 class SharedPreferences :
-        public Object {
+    public Object
+{
 public:
     virtual ~SharedPreferences() = default;
 
@@ -59,7 +61,8 @@ public:
      * Interface definition for a callback to be invoked when a shared preference is changed.
      */
     class OnSharedPreferenceChangeListener :
-            public Object {
+        public Object
+    {
     public:
         /**
          * Called when a shared preference is changed, added, or removed. This may be called even if
@@ -71,10 +74,13 @@ public:
          * @param sharedPreferences The {@link SharedPreferences} that received the change.
          * @param key The key of the preference that was changed, added, or removed.
          */
-        inline void onSharedPreferenceChanged(const sp<SharedPreferences>& sharedPreferences, const char* key) {
+        inline void onSharedPreferenceChanged(const sp<SharedPreferences>&
+                                              sharedPreferences, const char* key)
+        {
             onSharedPreferenceChanged(sharedPreferences, String::valueOf(key));
         }
-        virtual void onSharedPreferenceChanged(const sp<SharedPreferences>& sharedPreferences, const sp<String>& key) = 0;
+        virtual void onSharedPreferenceChanged(const sp<SharedPreferences>&
+                                               sharedPreferences, const sp<String>& key) = 0;
     };
 
     /**
@@ -83,7 +89,8 @@ public:
      * until you call {@link #commit} or {@link #apply}
      */
     class Editor :
-            public Object {
+        public Object
+    {
     public:
         /**
          * Set a String value in the preferences editor, to be written back once {@link #commit} or
@@ -95,10 +102,12 @@ public:
          * @return Returns a reference to the same Editor object, so you can chain put calls
          * together.
          */
-        inline sp<Editor> putString(const char* key, const char* value) {
+        inline sp<Editor> putString(const char* key, const char* value)
+        {
             return putString(String::valueOf(key), String::valueOf(value));
         }
-        virtual sp<Editor> putString(const sp<String>& key, const sp<String>& value) = 0;
+        virtual sp<Editor> putString(const sp<String>& key,
+                                     const sp<String>& value) = 0;
 
         /**
          * Set a set of String values in the preferences editor, to be written back once
@@ -109,10 +118,13 @@ public:
          * @return Returns a reference to the same Editor object, so you can chain put calls
          * together.
          */
-        inline sp<Editor> putStringSet(const char* key, const sp<Set<sp<String>>>& values) {
+        inline sp<Editor> putStringSet(const char* key,
+                                       const sp<Set<sp<String>>>& values)
+        {
             return putStringSet(String::valueOf(key), values);
         }
-        virtual sp<Editor> putStringSet(const sp<String>& key, const sp<Set<sp<String>>>& values) = 0;
+        virtual sp<Editor> putStringSet(const sp<String>& key,
+                                        const sp<Set<sp<String>>>& values) = 0;
 
         /**
          * Set an int value in the preferences editor, to be written back once {@link #commit} or
@@ -124,7 +136,8 @@ public:
          * @return Returns a reference to the same Editor object, so you can chain put calls
          * together.
          */
-        inline sp<Editor> putInt(const char* key, int32_t value) {
+        inline sp<Editor> putInt(const char* key, int32_t value)
+        {
             return putInt(String::valueOf(key), value);
         }
         virtual sp<Editor> putInt(const sp<String>& key, int32_t value) = 0;
@@ -139,7 +152,8 @@ public:
          * @return Returns a reference to the same Editor object, so you can
          * chain put calls together.
          */
-        inline sp<Editor> putLong(const char* key, int64_t value) {
+        inline sp<Editor> putLong(const char* key, int64_t value)
+        {
             return putLong(String::valueOf(key), value);
         }
         virtual sp<Editor> putLong(const sp<String>& key, int64_t value) = 0;
@@ -154,7 +168,8 @@ public:
          * @return Returns a reference to the same Editor object, so you can chain put calls
          * together.
          */
-        inline sp<Editor> putFloat(const char* key, float value) {
+        inline sp<Editor> putFloat(const char* key, float value)
+        {
             return putFloat(String::valueOf(key), value);
         }
         virtual sp<Editor> putFloat(const sp<String>& key, float value) = 0;
@@ -169,7 +184,8 @@ public:
          * @return Returns a reference to the same Editor object, so you can chain put calls
          * together.
          */
-        inline sp<Editor> putBoolean(const char* key, bool value) {
+        inline sp<Editor> putBoolean(const char* key, bool value)
+        {
             return putBoolean(String::valueOf(key), value);
         }
         virtual sp<Editor> putBoolean(const sp<String>& key, bool value) = 0;
@@ -187,7 +203,8 @@ public:
          * @return Returns a reference to the same Editor object, so you can chain put calls
          * together.
          */
-        inline sp<Editor> remove(const char* key) {
+        inline sp<Editor> remove(const char* key)
+        {
             return remove(String::valueOf(key));
         }
         virtual sp<Editor> remove(const sp<String>& key) = 0;
@@ -282,10 +299,12 @@ public:
      *
      * @throws ClassCastException
      */
-    inline sp<String> getString(const char* key, const char* defValue) {
+    inline sp<String> getString(const char* key, const char* defValue)
+    {
         return getString(String::valueOf(key), String::valueOf(defValue));
     }
-    virtual sp<String> getString(const sp<String>& key, const sp<String>& defValue) = 0;
+    virtual sp<String> getString(const sp<String>& key,
+                                 const sp<String>& defValue) = 0;
 
     /**
      * Retrieve a set of String values from the preferences.
@@ -303,10 +322,13 @@ public:
      *
      * @throws ClassCastException
      */
-    inline sp<Set<sp<String>>> getStringSet(const char* key, const sp<Set<sp<String>>>& defValues) {
+    inline sp<Set<sp<String>>> getStringSet(const char* key,
+                                            const sp<Set<sp<String>>>& defValues)
+    {
         return getStringSet(String::valueOf(key), defValues);
     }
-    virtual sp<Set<sp<String>>> getStringSet(const sp<String>& key, const sp<Set<sp<String>>>& defValues) = 0;
+    virtual sp<Set<sp<String>>> getStringSet(const sp<String>& key,
+            const sp<Set<sp<String>>>& defValues) = 0;
 
     /**
      * Retrieve an int value from the preferences.
@@ -319,7 +341,8 @@ public:
      *
      * @throws ClassCastException
      */
-    inline int32_t getInt(const char* key, int32_t defValue) {
+    inline int32_t getInt(const char* key, int32_t defValue)
+    {
         return getInt(String::valueOf(key), defValue);
     }
     virtual int32_t getInt(const sp<String>& key, int32_t defValue) = 0;
@@ -335,7 +358,8 @@ public:
      *
      * @throws ClassCastException
      */
-    inline int64_t getLong(const char* key, int64_t defValue) {
+    inline int64_t getLong(const char* key, int64_t defValue)
+    {
         return getLong(String::valueOf(key), defValue);
     }
     virtual int64_t getLong(const sp<String>& key, int64_t defValue) = 0;
@@ -351,7 +375,8 @@ public:
      *
      * @throws ClassCastException
      */
-    inline float getFloat(const char* key, float defValue) {
+    inline float getFloat(const char* key, float defValue)
+    {
         return getFloat(String::valueOf(key), defValue);
     }
     virtual float getFloat(const sp<String>& key, float defValue) = 0;
@@ -367,7 +392,8 @@ public:
      *
      * @throws ClassCastException
      */
-    inline bool getBoolean(const char* key, bool defValue) {
+    inline bool getBoolean(const char* key, bool defValue)
+    {
         return getBoolean(String::valueOf(key), defValue);
     }
     virtual bool getBoolean(const sp<String>& key, bool defValue) = 0;
@@ -378,7 +404,8 @@ public:
      * @param key The name of the preference to check.
      * @return Returns true if the preference exists in the preferences, otherwise false.
      */
-    inline bool contains(const char* key) {
+    inline bool contains(const char* key)
+    {
         return contains(String::valueOf(key));
     }
     virtual bool contains(const sp<String>& key) = 0;
@@ -403,7 +430,8 @@ public:
      * @param listener The callback that will run.
      * @see #unregisterOnSharedPreferenceChangeListener
      */
-    virtual void registerOnSharedPreferenceChangeListener(const sp<OnSharedPreferenceChangeListener>& listener) = 0;
+    virtual void registerOnSharedPreferenceChangeListener(const
+            sp<OnSharedPreferenceChangeListener>& listener) = 0;
 
     /**
      * Unregisters a previous callback.
@@ -411,7 +439,8 @@ public:
      * @param listener The callback that should be unregistered.
      * @see #registerOnSharedPreferenceChangeListener
      */
-    virtual void unregisterOnSharedPreferenceChangeListener(const sp<OnSharedPreferenceChangeListener>& listener) = 0;
+    virtual void unregisterOnSharedPreferenceChangeListener(
+        const sp<OnSharedPreferenceChangeListener>& listener) = 0;
 };
 
 } /* namespace mindroid */

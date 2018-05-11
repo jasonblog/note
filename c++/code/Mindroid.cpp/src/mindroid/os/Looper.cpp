@@ -18,30 +18,37 @@
 #include "mindroid/os/Looper.h"
 #include "mindroid/os/Handler.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 pthread_once_t Looper::sTlsOneTimeInitializer = PTHREAD_ONCE_INIT;
 pthread_key_t Looper::sTlsKey;
 
-Looper::Looper(bool quitAllowed) {
+Looper::Looper(bool quitAllowed)
+{
     mMessageQueue = new MessageQueue(quitAllowed);
     mThread = Thread::currentThread();
 }
 
-void Looper::init() {
+void Looper::init()
+{
     pthread_key_create(&sTlsKey, Looper::finalize);
 }
 
-void Looper::finalize(void* l) {
+void Looper::finalize(void* l)
+{
     sp<Looper> looper((Looper*) l);
     looper->mSelf = nullptr;
 }
 
-bool Looper::prepare(bool quitAllowed) {
+bool Looper::prepare(bool quitAllowed)
+{
     pthread_once(&sTlsOneTimeInitializer, Looper::init);
     Looper* l = (Looper*) pthread_getspecific(sTlsKey);
+
     if (l == nullptr) {
         sp<Looper> looper = new Looper(quitAllowed);
+
         if (looper != nullptr) {
             if (pthread_setspecific(sTlsKey, looper.getPointer()) == 0) {
                 looper->mSelf = looper;
@@ -59,28 +66,35 @@ bool Looper::prepare(bool quitAllowed) {
     }
 }
 
-void Looper::loop() {
+void Looper::loop()
+{
     sp<Looper> me = myLooper();
-    Assert::assertNotNull("No Looper; Looper.prepare() wasn't called on this thread", me);
+    Assert::assertNotNull("No Looper; Looper.prepare() wasn't called on this thread",
+                          me);
 
     sp<MessageQueue> mq = me->mMessageQueue;
+
     for (;;) {
         sp<Message> message = mq->dequeueMessage();
+
         if (message == nullptr) {
             return;
         }
+
         message->target->dispatchMessage(message);
         message->recycle();
     }
 }
 
-sp<Looper> Looper::myLooper() {
+sp<Looper> Looper::myLooper()
+{
     pthread_once(&sTlsOneTimeInitializer, Looper::init);
     Looper* looper = (Looper*) pthread_getspecific(sTlsKey);
     return looper;
 }
 
-void Looper::quit() {
+void Looper::quit()
+{
     mMessageQueue->quit();
 }
 

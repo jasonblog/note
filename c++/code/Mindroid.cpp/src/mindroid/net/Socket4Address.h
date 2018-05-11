@@ -21,10 +21,12 @@
 #include "mindroid/lang/String.h"
 #include "mindroid/net/SocketAddress.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Socket4Address :
-        public SocketAddress {
+    public SocketAddress
+{
 public:
     virtual ~Socket4Address() = default;
 
@@ -34,7 +36,8 @@ private:
     Socket4Address() = default;
     Socket4Address(uint16_t port);
     Socket4Address(const char* host, uint16_t port) :
-            Socket4Address(String::valueOf(host), port) {
+        Socket4Address(String::valueOf(host), port)
+    {
     }
     Socket4Address(const sp<String>& host, uint16_t port);
 

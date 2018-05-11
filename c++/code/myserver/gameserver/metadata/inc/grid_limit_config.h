@@ -8,15 +8,15 @@
 
 class GridLimitItem
 {
-    
+
 public:
-    
+
     GridLimitItem();
-    
+
     ~GridLimitItem();
-    
+
 public:
-    
+
     int _id;
     int _unLockLimit;
     std::map<std::string, std::vector<int>* > _unLockCost;
@@ -26,21 +26,21 @@ public:
 
 class GridLimitConfig : public ConfigData
 {
-    
+
 public:
-    
+
     GridLimitConfig();
-    
+
     ~GridLimitConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     GridLimitItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, GridLimitItem* > _datas;
 };
 

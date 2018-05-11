@@ -21,9 +21,10 @@ VipConfig::~VipConfig()
 int VipConfig::parse()
 {
     auto obj = m_obj.ToObject();
-    for (auto it=obj.begin(); it!=obj.end(); ++it) {
+
+    for (auto it = obj.begin(); it != obj.end(); ++it) {
         VipCfgInfo* item = new VipCfgInfo();
-        
+
         auto item_obj = it->second.ToObject();
         int oid = item_obj["id"].ToInt();
         item->nID = oid;
@@ -36,26 +37,29 @@ int VipConfig::parse()
         item->fPveSpeedAdd = item_obj["pveSpeedAdd"].ToFloat();
         item->nBuildingAdd = item_obj["buildingAdd"].ToInt();
         item->fCollectAdd = item_obj["collectAdd"].ToFloat();
-        
+
         _datas[oid] = item;
     }
-    
+
     return 0;
 }
 
 void VipConfig::clear()
 {
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
 VipCfgInfo* VipConfig::getCfg(int nIndex)
 {
-    auto it=_datas.find(nIndex);
-    if (it!=_datas.end()) {
+    auto it = _datas.find(nIndex);
+
+    if (it != _datas.end()) {
         return it->second;
     }
+
     return NULL;
 }

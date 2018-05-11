@@ -10,7 +10,7 @@ class RoundleItem
 public:
     RoundleItem();
     ~RoundleItem();
-    
+
 public:
     int iID;                    //  编号
     int iType;                  //  类型
@@ -25,15 +25,15 @@ class RoundleConfig : public ConfigData
 public:
     RoundleConfig();
     ~RoundleConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     RoundleItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, RoundleItem* > _datas;
 };
 

@@ -19,12 +19,13 @@ PushMessageItem::~PushMessageItem()
 
 const std::string& PushMessageItem::getByLanguage(const std::string& language)
 {
-    if (language == "CN")
+    if (language == "CN") {
         return _cn;
-    else if (language == "DE")
+    } else if (language == "DE") {
         return _de;
-    else
+    } else {
         return _en;
+    }
 }
 
 PushMessageConfig::PushMessageConfig()
@@ -40,7 +41,8 @@ PushMessageConfig::~PushMessageConfig()
 int PushMessageConfig::parse()
 {
     auto obj = m_obj.ToObject();
-    for (auto it=obj.begin(); it!=obj.end(); ++it) {
+
+    for (auto it = obj.begin(); it != obj.end(); ++it) {
         PushMessageItem* item = new PushMessageItem();
         auto item_obj = it->second.ToObject();
         std::string oid = item_obj["id"].ToString();
@@ -53,23 +55,27 @@ int PushMessageConfig::parse()
         item->_de = de;
         _datas[oid] = item;
     }
+
     return 0;
 }
 
 void PushMessageConfig::clear()
 {
-    for (auto it = _datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
-PushMessageItem* PushMessageConfig::item(const std::string &key)
+PushMessageItem* PushMessageConfig::item(const std::string& key)
 {
     auto it = _datas.find(key);
-    if (it!=_datas.end()) {
+
+    if (it != _datas.end()) {
         return it->second;
     }
+
     return NULL;
-//    throw ERROR::MSG("PushMessageConfig::item:{}", key.c_str());
+    //    throw ERROR::MSG("PushMessageConfig::item:{}", key.c_str());
 }

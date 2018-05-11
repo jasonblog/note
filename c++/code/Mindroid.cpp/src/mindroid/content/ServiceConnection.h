@@ -21,7 +21,8 @@
 
 #include "mindroid/lang/Object.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class ComponentName;
 class IBinder;
@@ -34,7 +35,8 @@ class IBinder;
  * your process.
  */
 class ServiceConnection :
-        public Object {
+    public Object
+{
 public:
     /**
      * Called when a connection to the Service has been established, with the
@@ -45,7 +47,8 @@ public:
      * @param service The IBinder of the Service's communication channel, which you can now make
      * calls on.
      */
-    virtual void onServiceConnected(const sp<ComponentName>& name, const sp<IBinder>& service) = 0;
+    virtual void onServiceConnected(const sp<ComponentName>& name,
+                                    const sp<IBinder>& service) = 0;
 
     /**
      * Called when a connection to the Service has been lost. This typically happens when the

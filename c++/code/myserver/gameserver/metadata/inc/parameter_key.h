@@ -10,6 +10,6 @@ using namespace std;
 
 namespace PARAMETER_KEY
 {
-    const string BUILDING_INIT = "initialBuilding";
+const string BUILDING_INIT = "initialBuilding";
 };
 #endif //SERVER_PARAMETERKEY_H_H

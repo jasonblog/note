@@ -28,16 +28,18 @@ DailyConfig::DailyConfig()
 
 DailyConfig::~DailyConfig()
 {
-    for (auto it = _datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
 int DailyConfig::parse()
 {
     auto obj = m_obj.ToObject();
-    for (auto it=obj.begin(); it!=obj.end(); ++it) {
+
+    for (auto it = obj.begin(); it != obj.end(); ++it) {
         auto item = new DailyItem;
         auto value = it->second.ToObject();
         auto oid = value["id"].ToInt();
@@ -46,7 +48,7 @@ int DailyConfig::parse()
         auto condition = value["condition"].ToInt();
         auto score = value["score"].ToInt();
         auto times = value["times"].ToInt();
-        
+
         item->_id = oid;
         item->_unlock = unlock;
         item->_type = type;
@@ -55,23 +57,27 @@ int DailyConfig::parse()
         item->_times = times;
         _datas[oid] = item;
     }
+
     return 0;
 }
 
 void DailyConfig::clear()
 {
-    for (auto it = _datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
 DailyItem* DailyConfig::item(int key)
 {
     auto it = _datas.find(key);
-    if (it!=_datas.end()) {
+
+    if (it != _datas.end()) {
         return it->second;
     }
+
     return NULL;
-//    throw ERROR::MSG("DailyConfig::item:{}", key);
+    //    throw ERROR::MSG("DailyConfig::item:{}", key);
 }

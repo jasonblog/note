@@ -6,9 +6,11 @@
 
 using namespace mindroid;
 
-TEST(Mindroid, SharedPreferences) {
+TEST(Mindroid, SharedPreferences)
+{
     Environment::setRootDirectory(".");
-    sp<SharedPreferences> sharedPreferences = new SharedPreferencesImpl(new File(Environment::getPreferencesDirectory(), "Test.xml"), 0);
+    sp<SharedPreferences> sharedPreferences = new SharedPreferencesImpl(new File(
+                Environment::getPreferencesDirectory(), "Test.xml"), 0);
     sp<SharedPreferences::Editor> editor = sharedPreferences->edit();
     editor->clear()->commit();
 
@@ -22,10 +24,10 @@ TEST(Mindroid, SharedPreferences) {
     set->add(String::valueOf("3"));
 
     sharedPreferences->edit()
-            ->putBoolean("Bool", true)
-            ->putString("String", "xyz")
-            ->putStringSet("Set", set)
-            ->commit();
+    ->putBoolean("Bool", true)
+    ->putString("String", "xyz")
+    ->putStringSet("Set", set)
+    ->commit();
 
     ASSERT_EQ(sharedPreferences->getBoolean("Bool", false), true);
     ASSERT_STREQ(sharedPreferences->getString("String", "abc")->c_str(), "xyz");
@@ -35,9 +37,9 @@ TEST(Mindroid, SharedPreferences) {
     ASSERT_EQ(set->contains(String::valueOf("3")), true);
 
     sharedPreferences->edit()
-            ->remove("String")
-            ->putStringSet("Set", nullptr)
-            ->commit();
+    ->remove("String")
+    ->putStringSet("Set", nullptr)
+    ->commit();
 
     ASSERT_EQ(sharedPreferences->getString("String", nullptr), nullptr);
     ASSERT_EQ(sharedPreferences->getString("Set", nullptr), nullptr);

@@ -25,95 +25,115 @@
 #include "mindroid/util/HashMap.h"
 #include "mindroid/util/Variant.h"
 
-namespace tinyxml2 {
+namespace tinyxml2
+{
 class XMLDocument;
 class XMLElement;
 }
 
-namespace mindroid {
+namespace mindroid
+{
 
 class File;
 
 class SharedPreferencesImpl :
-        public SharedPreferences {
+    public SharedPreferences
+{
 public:
     SharedPreferencesImpl(const sp<File>& file, int32_t mode);
 
     virtual sp<HashMap<sp<String>, sp<Variant>>> getAll();
     virtual sp<String> getString(const sp<String>& key, const sp<String>& defValue);
-    virtual sp<Set<sp<String>>> getStringSet(const sp<String>& key, const sp<Set<sp<String>>>& defValues);
+    virtual sp<Set<sp<String>>> getStringSet(const sp<String>& key,
+            const sp<Set<sp<String>>>& defValues);
     virtual int32_t getInt(const sp<String>& key, int32_t defValue);
     virtual int64_t getLong(const sp<String>& key, int64_t defValue);
     virtual float getFloat(const sp<String>& key, float defValue);
     virtual bool getBoolean(const sp<String>& key, bool defValue);
 
-    virtual bool contains(const sp<String>& key) {
+    virtual bool contains(const sp<String>& key)
+    {
         AutoLock autoLock(mLock);
         return mMap->containsKey(key);
     }
 
-    virtual sp<Editor> edit() {
+    virtual sp<Editor> edit()
+    {
         return new EditorImpl(this);
     }
 
     class EditorImpl :
-            public Editor {
+        public Editor
+    {
     public:
         EditorImpl(sp<SharedPreferencesImpl> sharedPreferences) :
-                mSharedPreferences(sharedPreferences),
-                mClearMap(false) {
+            mSharedPreferences(sharedPreferences),
+            mClearMap(false)
+        {
             mModifications = new HashMap<sp<String>, sp<Variant>>();
         }
 
-        virtual sp<Editor> putString(const sp<String>& key, const sp<String>& value) {
+        virtual sp<Editor> putString(const sp<String>& key, const sp<String>& value)
+        {
             AutoLock autoLock(mSharedPreferences->mLock);
             mModifications->put(key, (value == nullptr) ? nullptr : new Variant(value));
             return this;
         }
 
-        virtual sp<Editor> putStringSet(const sp<String>& key, const sp<Set<sp<String>>>& values) {
+        virtual sp<Editor> putStringSet(const sp<String>& key,
+                                        const sp<Set<sp<String>>>& values)
+        {
             AutoLock autoLock(mSharedPreferences->mLock);
-            mModifications->put(key, (values == nullptr) ? nullptr : new Variant(object_cast<Set<sp<String>>>(new Set<sp<String>>(values))));
+            mModifications->put(key,
+                                (values == nullptr) ? nullptr : new Variant(object_cast<Set<sp<String>>>
+                                        (new Set<sp<String>>(values))));
             return this;
         }
 
-        virtual sp<Editor> putInt(const sp<String>& key, int32_t value) {
-            AutoLock autoLock(mSharedPreferences->mLock);
-            mModifications->put(key, new Variant(value));
-            return this;
-        }
-
-        virtual sp<Editor> putLong(const sp<String>& key, int64_t value) {
-            AutoLock autoLock(mSharedPreferences->mLock);
-            mModifications->put(key, new Variant(value));
-            return this;
-        }
-
-        virtual sp<Editor> putFloat(const sp<String>& key, float value) {
+        virtual sp<Editor> putInt(const sp<String>& key, int32_t value)
+        {
             AutoLock autoLock(mSharedPreferences->mLock);
             mModifications->put(key, new Variant(value));
             return this;
         }
 
-        virtual sp<Editor> putBoolean(const sp<String>& key, bool value) {
+        virtual sp<Editor> putLong(const sp<String>& key, int64_t value)
+        {
             AutoLock autoLock(mSharedPreferences->mLock);
             mModifications->put(key, new Variant(value));
             return this;
         }
 
-        virtual sp<Editor> remove(const sp<String>& key) {
+        virtual sp<Editor> putFloat(const sp<String>& key, float value)
+        {
+            AutoLock autoLock(mSharedPreferences->mLock);
+            mModifications->put(key, new Variant(value));
+            return this;
+        }
+
+        virtual sp<Editor> putBoolean(const sp<String>& key, bool value)
+        {
+            AutoLock autoLock(mSharedPreferences->mLock);
+            mModifications->put(key, new Variant(value));
+            return this;
+        }
+
+        virtual sp<Editor> remove(const sp<String>& key)
+        {
             AutoLock autoLock(mSharedPreferences->mLock);
             mModifications->put(key, nullptr);
             return this;
         }
 
-        virtual sp<Editor> clear() {
+        virtual sp<Editor> clear()
+        {
             AutoLock autoLock(mSharedPreferences->mLock);
             mClearMap = true;
             return this;
         }
 
-        virtual void apply() {
+        virtual void apply()
+        {
             commit();
         }
 
@@ -126,8 +146,10 @@ public:
     };
 
 
-    void registerOnSharedPreferenceChangeListener(const sp<SharedPreferences::OnSharedPreferenceChangeListener>& listener);
-    void unregisterOnSharedPreferenceChangeListener(const sp<SharedPreferences::OnSharedPreferenceChangeListener>& listener);
+    void registerOnSharedPreferenceChangeListener(const
+            sp<SharedPreferences::OnSharedPreferenceChangeListener>& listener);
+    void unregisterOnSharedPreferenceChangeListener(const
+            sp<SharedPreferences::OnSharedPreferenceChangeListener>& listener);
 
 private:
     static const char* const TAG;
@@ -143,17 +165,23 @@ private:
     static const char* const VALUE_ATTR;
 
     class OnSharedPreferenceChangeListenerWrapper :
-            public binder::OnSharedPreferenceChangeListener::Stub {
+        public binder::OnSharedPreferenceChangeListener::Stub
+    {
     public:
-        OnSharedPreferenceChangeListenerWrapper(const sp<OnSharedPreferenceChangeListener>& listener) {
+        OnSharedPreferenceChangeListenerWrapper(const
+                                                sp<OnSharedPreferenceChangeListener>& listener)
+        {
             mListener = listener;
         }
 
-        void onSharedPreferenceChanged(const sp<SharedPreferences>& sharedPreferences, const sp<String>& key) {
+        void onSharedPreferenceChanged(const sp<SharedPreferences>& sharedPreferences,
+                                       const sp<String>& key)
+        {
             mListener->onSharedPreferenceChanged(sharedPreferences, key);
         }
 
-        void dispose() {
+        void dispose()
+        {
             Binder::dispose();
         }
 
@@ -164,18 +192,27 @@ private:
     void loadSharedPrefs();
     bool storeSharedPrefs();
 
-    void notifySharedPreferenceChangeListeners(const sp<ArrayList<sp<String>>>& keys);
+    void notifySharedPreferenceChangeListeners(const sp<ArrayList<sp<String>>>&
+            keys);
 
     sp<HashMap<sp<String>, sp<Variant>>> readMap(const sp<File>& file);
-    void parseBoolean(sp<HashMap<sp<String>, sp<Variant>>>& map, const tinyxml2::XMLElement* element);
-    void parseInt(sp<HashMap<sp<String>, sp<Variant>>>& map, const tinyxml2::XMLElement* element);
-    void parseLong(sp<HashMap<sp<String>, sp<Variant>>>& map, const tinyxml2::XMLElement* element);
-    void parseFloat(sp<HashMap<sp<String>, sp<Variant>>>& map, const tinyxml2::XMLElement* element);
-    void parseString(sp<HashMap<sp<String>, sp<Variant>>>& map, const tinyxml2::XMLElement* element);
-    void parseStringSet(sp<HashMap<sp<String>, sp<Variant>>>& map, const tinyxml2::XMLElement* element);
+    void parseBoolean(sp<HashMap<sp<String>, sp<Variant>>>& map,
+                      const tinyxml2::XMLElement* element);
+    void parseInt(sp<HashMap<sp<String>, sp<Variant>>>& map,
+                  const tinyxml2::XMLElement* element);
+    void parseLong(sp<HashMap<sp<String>, sp<Variant>>>& map,
+                   const tinyxml2::XMLElement* element);
+    void parseFloat(sp<HashMap<sp<String>, sp<Variant>>>& map,
+                    const tinyxml2::XMLElement* element);
+    void parseString(sp<HashMap<sp<String>, sp<Variant>>>& map,
+                     const tinyxml2::XMLElement* element);
+    void parseStringSet(sp<HashMap<sp<String>, sp<Variant>>>& map,
+                        const tinyxml2::XMLElement* element);
 
-    bool writeMap(const sp<File>& file, const sp<HashMap<sp<String>, sp<Variant>>>& map);
-    tinyxml2::XMLElement* writeValue(tinyxml2::XMLDocument& doc, const sp<String>& name, const sp<Variant>& value);
+    bool writeMap(const sp<File>& file,
+                  const sp<HashMap<sp<String>, sp<Variant>>>& map);
+    tinyxml2::XMLElement* writeValue(tinyxml2::XMLDocument& doc,
+                                     const sp<String>& name, const sp<Variant>& value);
 
     sp<File> makeBackupFile(const sp<File>& prefsFile);
 
@@ -183,7 +220,8 @@ private:
     sp<File> mBackupFile;
     sp<ReentrantLock> mLock;
     sp<HashMap<sp<String>, sp<Variant>>> mMap;
-    sp<HashMap<sp<SharedPreferences::OnSharedPreferenceChangeListener>, sp<IOnSharedPreferenceChangeListener>>> mListeners;
+    sp<HashMap<sp<SharedPreferences::OnSharedPreferenceChangeListener>, sp<IOnSharedPreferenceChangeListener>>>
+    mListeners;
 };
 
 } /* namespace mindroid */

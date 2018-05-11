@@ -57,13 +57,22 @@ public:
     sp(const sp<T>& other);
     ~sp();
 
-    inline  T&      operator* () const  { return *m_ptr; }
-    inline  T*      operator-> () const { return m_ptr;  }
-    inline  T*      get() const         { return m_ptr; }
+    inline  T&      operator* () const
+    {
+        return *m_ptr;
+    }
+    inline  T*      operator-> () const
+    {
+        return m_ptr;
+    }
+    inline  T*      get() const
+    {
+        return m_ptr;
+    }
 
 private:
     template<typename Y> friend class
-    wp;//wp可以操作sp的私有变量，如构造函数
+        wp;//wp可以操作sp的私有变量，如构造函数
     sp(T* p, weakref_type* refs);
     T* m_ptr;
 };

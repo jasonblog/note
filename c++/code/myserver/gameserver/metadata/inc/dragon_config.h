@@ -10,7 +10,7 @@ class DragonItem
 public:
     DragonItem();
     ~DragonItem();
-    
+
 public:
     int     iID;        //  ID
     int     iType;      //  类型
@@ -31,15 +31,15 @@ class DragonConfig : public ConfigData
 public:
     DragonConfig();
     ~DragonConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     DragonItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, DragonItem* > _datas;
 };
 

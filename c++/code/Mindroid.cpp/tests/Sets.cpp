@@ -4,7 +4,8 @@
 
 using namespace mindroid;
 
-TEST(Mindroid, SetOfInteger) {
+TEST(Mindroid, SetOfInteger)
+{
     sp<Set<int>> set = new Set<int>();
     set->add(1);
     ASSERT_EQ(set->contains(1), true);
@@ -21,14 +22,17 @@ TEST(Mindroid, SetOfInteger) {
     ASSERT_EQ(set->contains(2), true);
     ASSERT_EQ(set->contains(3), false);
     auto itr = set->iterator();
+
     while (itr.hasNext()) {
         itr.next();
         itr.remove();
     }
+
     ASSERT_EQ(set->size(), 0);
 }
 
-TEST(Mindroid, SetOfString) {
+TEST(Mindroid, SetOfString)
+{
     sp<Set<sp<String>>> set = new Set<sp<String>>();
     set->add(String::valueOf("1"));
     ASSERT_EQ(set->contains(String::valueOf("1")), true);
@@ -45,9 +49,11 @@ TEST(Mindroid, SetOfString) {
     ASSERT_EQ(set->contains(String::valueOf("2")), true);
     ASSERT_EQ(set->contains(String::valueOf("3")), false);
     auto itr = set->iterator();
+
     while (itr.hasNext()) {
         itr.next();
         itr.remove();
     }
+
     ASSERT_EQ(set->size(), 0);
 }

@@ -19,11 +19,13 @@
 
 #include "mindroid/util/concurrent/Awaitable.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 template<typename T>
 class Future :
-        public Awaitable {
+    public Awaitable
+{
 public:
     virtual T get() const = 0;
 
@@ -32,28 +34,34 @@ public:
     virtual bool isDone() const = 0;
 
     template<typename Functor>
-    sp<Future> done(Functor func) {
+    sp<Future> done(Functor func)
+    {
         try {
             await();
+
             if (isDone()) {
                 func();
             }
         } catch (const CancellationException& e) {
         } catch (const ExecutionException& e) {
         }
+
         return this;
     }
 
     template<typename Functor>
-    sp<Future> fail(Functor func) {
+    sp<Future> fail(Functor func)
+    {
         try {
             await();
+
             if (isCancelled()) {
                 func();
             }
         } catch (...) {
             func();
         }
+
         return this;
     }
 };

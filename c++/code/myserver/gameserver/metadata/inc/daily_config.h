@@ -7,46 +7,46 @@
 
 class DailyItem
 {
-    
+
 public:
-    
+
     DailyItem();
-    
+
     ~DailyItem();
-    
+
 public:
-    
+
     int _id;
-    
+
     int _unlock;
-    
+
     int _type;
-    
+
     int _condition;
-    
+
     int _score;
-    
+
     int _times;
-    
+
 };
 
 class DailyConfig : public ConfigData
 {
-    
+
 public:
-    
+
     DailyConfig();
-    
+
     ~DailyConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     DailyItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, DailyItem*> _datas;
 };
 

@@ -11,7 +11,7 @@ class ShopGuildItem
 public:
     ShopGuildItem();
     ~ShopGuildItem();
-    
+
 public:
     int _id;        //  ID
     int _rank;      //  排序
@@ -25,17 +25,17 @@ class ShopGuildConfig : public ConfigData
 {
 public:
     ShopGuildConfig();
-    
+
     ~ShopGuildConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     ShopGuildItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, ShopGuildItem* > _datas;
 };
 

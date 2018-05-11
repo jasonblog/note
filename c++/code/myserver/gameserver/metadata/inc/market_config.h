@@ -22,26 +22,27 @@ public:
     float   fAdd;       //增益效果
     int     nBuy;       //购买价格
     int     nWeight;    //刷新权重
-    
+
 };
 
 class MarketConfig : public ConfigData
 {
-    
+
 public:
-    
+
     MarketConfig();
-    
+
     ~MarketConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     MarketCfgInfo* getCfg(int nIndex);
-    
-    bool randomId(std::vector<int>& list, int nNum);  //随机取出指定数量商人列表
-    
+
+    bool randomId(std::vector<int>& list,
+                  int nNum);  //随机取出指定数量商人列表
+
 public:
     std::map<int, MarketCfgInfo*> _datas;
 };

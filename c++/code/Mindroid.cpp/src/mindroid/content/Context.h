@@ -21,7 +21,8 @@
 
 #include "mindroid/lang/Object.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class String;
 class IBinder;
@@ -40,7 +41,8 @@ class File;
  * services, etc.
  */
 class Context :
-        public Object {
+    public Object
+{
 public:
     static const sp<String> SERVICE_MANAGER;
     static const sp<String> PACKAGE_MANAGER;
@@ -101,8 +103,10 @@ public:
      * @return Returns the single SharedPreferences instance that can be used to retrieve and modify
      * the preference values.
      */
-    virtual sp<SharedPreferences> getSharedPreferences(const char* name, int32_t mode) = 0;
-    virtual sp<SharedPreferences> getSharedPreferences(const sp<String>& name, int32_t mode) = 0;
+    virtual sp<SharedPreferences> getSharedPreferences(const char* name,
+            int32_t mode) = 0;
+    virtual sp<SharedPreferences> getSharedPreferences(const sp<String>& name,
+            int32_t mode) = 0;
 
     /**
      * Return the handle to a system-level service by name. The class of the returned object varies
@@ -187,7 +191,8 @@ public:
      * @see #unbindService
      * @see #startService
      */
-    virtual bool bindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, int32_t flags) = 0;
+    virtual bool bindService(const sp<Intent>& service,
+                             const sp<ServiceConnection>& conn, int32_t flags) = 0;
 
     /**
      * Disconnect from an application service. You will no longer receive calls as the service is
@@ -200,7 +205,8 @@ public:
      */
     virtual void unbindService(const sp<ServiceConnection>& conn) = 0;
 
-    virtual void cleanup() {
+    virtual void cleanup()
+    {
     }
 };
 

@@ -19,21 +19,21 @@ template<class Type>
 class CMemoryPoolSafty : public CMemoryPool<Type>
 {
 private:
-    std::mutex	m_utex;
-    
+    std::mutex  m_utex;
+
 public:
     //创建sizeof(Type) * nNumOfElements大小的空间
     bool Create(uint nNumOfElements)
     {
         return CMemoryPool<Type>::Create(nNumOfElements);
     }
-    
+
     //释放内存池空间
     void Destroy()
     {
         CMemoryPool<Type>::Destroy();
     }
-    
+
     //从内存池中获取一个对象空间
     Type* Alloc()
     {
@@ -42,9 +42,9 @@ public:
         pType = CMemoryPool<Type>::Alloc();
         return pType;
     }
-    
+
     //内存池回收一个对象空间
-    void Free( Type* pElement )
+    void Free(Type* pElement)
     {
         std::lock_guard<std::mutex> guard(m_utex);
         CMemoryPool<Type>::Free(pElement);

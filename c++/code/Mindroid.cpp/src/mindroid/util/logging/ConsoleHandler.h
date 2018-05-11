@@ -19,23 +19,27 @@
 
 #include "mindroid/util/logging/LogBuffer.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * A handler that writes log messages to the standard output stream {@code System.out}.
  */
-class ConsoleHandler : public Object {
+class ConsoleHandler : public Object
+{
 public:
     /**
      * Constructs a {@code ConsoleHandler} object.
      */
-    ConsoleHandler() {
+    ConsoleHandler()
+    {
     }
 
     /**
      * Flushes and closes all opened files.
      */
-    void close() {
+    void close()
+    {
     }
 
     /**

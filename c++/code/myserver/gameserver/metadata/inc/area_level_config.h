@@ -8,37 +8,37 @@
 
 class AreaLevelItem
 {
-    
+
 public:
-    
+
     AreaLevelItem();
-    
+
     ~AreaLevelItem();
-    
+
 public:
-    
+
     int _id;
-    
+
     std::map<int, float> _field;
 };
 
 class AreaLevelConfig : public ConfigData
 {
-    
+
 public:
-    
+
     AreaLevelConfig();
-    
+
     ~AreaLevelConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     AreaLevelItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, AreaLevelItem* > _datas;
 };
 

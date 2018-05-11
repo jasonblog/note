@@ -20,21 +20,26 @@
 #include "mindroid/lang/String.h"
 #include <exception>
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Exception :
-        public std::exception {
+    public std::exception
+{
 public:
     Exception() = default;
     ~Exception() noexcept {}
 
-    Exception(const char* message) : mMessage(String::valueOf(message)) {
+    Exception(const char* message) : mMessage(String::valueOf(message))
+    {
     }
 
-    Exception(const sp<String>& message) : mMessage(message) {
+    Exception(const sp<String>& message) : mMessage(message)
+    {
     }
 
-    sp<String> getMessage() {
+    sp<String> getMessage()
+    {
         return mMessage;
     }
 

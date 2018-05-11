@@ -10,7 +10,7 @@ class ChestItem
 public:
     ChestItem();
     ~ChestItem();
-    
+
 public:
     int     iID;        //  ID
     int     iTeam;      //  组别
@@ -27,15 +27,15 @@ class ChestConfig : public ConfigData
 public:
     ChestConfig();
     ~ChestConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     ChestItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, ChestItem* > _datas;
     std::map<int, std::vector<ChestItem*>> _dataTeam;
 };

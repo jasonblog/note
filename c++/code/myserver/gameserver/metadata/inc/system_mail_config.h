@@ -34,11 +34,11 @@ public:
     int _describe;      //邮件描述
     int _content;       //邮件内容
     mMailRewardList _reward;    //奖励列表
-    
+
 public:
     SystemMailCfgInfo();
     ~SystemMailCfgInfo();
-    
+
 public:
     std::string getStrSenderName();
     std::string getStrName();
@@ -48,17 +48,17 @@ public:
 
 class SystemMailConfig : public ConfigData
 {
-    
+
 public:
-    
+
     SystemMailConfig();
-    
+
     ~SystemMailConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     SystemMailCfgInfo* getCfg(int nIndex);
 public:
     std::map<int, SystemMailCfgInfo*> _datas;

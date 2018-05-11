@@ -19,50 +19,69 @@
 #include "mindroid/content/pm/IPackageManager.h"
 #include "mindroid/util/concurrent/Promise.h"
 
-namespace mindroid {
-namespace binder {
+namespace mindroid
+{
+namespace binder
+{
 
-const char* const PackageManager::Stub::DESCRIPTOR = "mindroid.content.pm.IPackageManager";
+const char* const PackageManager::Stub::DESCRIPTOR =
+    "mindroid.content.pm.IPackageManager";
 
-void PackageManager::Stub::onTransact(int32_t what, int32_t arg1, int32_t arg2, const sp<Object>& obj, const sp<Bundle>& data, const sp<Object>& result) {
+void PackageManager::Stub::onTransact(int32_t what, int32_t arg1, int32_t arg2,
+                                      const sp<Object>& obj, const sp<Bundle>& data, const sp<Object>& result)
+{
     switch (what) {
     case MSG_GET_INSTALLED_PACKAGES: {
-        sp<Promise<sp<ArrayList<sp<PackageInfo>>>>> promise = object_cast<Promise<sp<ArrayList<sp<PackageInfo>>>>>(result);
-        sp<ArrayList<sp<PackageInfo>>> packages = getInstalledPackages(arg1);
-        promise->set(packages);
-        break;
-    }
+            sp<Promise<sp<ArrayList<sp<PackageInfo>>>>> promise =
+                        object_cast<Promise<sp<ArrayList<sp<PackageInfo>>>>>(result);
+            sp<ArrayList<sp<PackageInfo>>> packages = getInstalledPackages(arg1);
+            promise->set(packages);
+            break;
+        }
+
     case MSG_RESOLVE_SERVICE: {
-        sp<Promise<sp<ResolveInfo>>> promise = object_cast<Promise<sp<ResolveInfo>>>(result);
-        sp<Intent> intent = object_cast<Intent>(obj);
-        sp<ResolveInfo> serviceInfo = resolveService(intent, arg1);
-        promise->set(serviceInfo);
-        break;
-    }
+            sp<Promise<sp<ResolveInfo>>> promise = object_cast<Promise<sp<ResolveInfo>>>
+                                                   (result);
+            sp<Intent> intent = object_cast<Intent>(obj);
+            sp<ResolveInfo> serviceInfo = resolveService(intent, arg1);
+            promise->set(serviceInfo);
+            break;
+        }
+
     default:
         Binder::onTransact(what, arg1, arg2, obj, data, result);
     }
 }
 
-sp<ArrayList<sp<PackageInfo>>> PackageManager::Stub::Proxy::getInstalledPackages(int32_t flags) {
-    sp<Promise<sp<ArrayList<sp<PackageInfo>>>>> promise = new Promise<sp<ArrayList<sp<PackageInfo>>>>();
+sp<ArrayList<sp<PackageInfo>>>
+PackageManager::Stub::Proxy::getInstalledPackages(int32_t flags)
+{
+    sp<Promise<sp<ArrayList<sp<PackageInfo>>>>> promise = new
+    Promise<sp<ArrayList<sp<PackageInfo>>>>();
     mRemote->transact(MSG_GET_INSTALLED_PACKAGES, flags, 0, promise, 0);
     return promise->get();
 }
 
-sp<ResolveInfo> PackageManager::Stub::Proxy::resolveService(const sp<Intent>& intent, int32_t flags) {
+sp<ResolveInfo> PackageManager::Stub::Proxy::resolveService(
+    const sp<Intent>& intent, int32_t flags)
+{
     sp<Promise<sp<ResolveInfo>>> promise = new Promise<sp<ResolveInfo>>();
-    mRemote->transact(MSG_RESOLVE_SERVICE, flags, 0, object_cast<Object>(intent), promise, 0);
+    mRemote->transact(MSG_RESOLVE_SERVICE, flags, 0, object_cast<Object>(intent),
+                      promise, 0);
     return promise->get();
 }
 
-PackageManager::Stub::SmartProxy::SmartProxy(const sp<IBinder>& remote) {
+PackageManager::Stub::SmartProxy::SmartProxy(const sp<IBinder>& remote)
+{
     mRemote = remote;
-    mStub = interface_cast<IPackageManager>(remote->queryLocalInterface(DESCRIPTOR));
+    mStub = interface_cast<IPackageManager>(remote->queryLocalInterface(
+            DESCRIPTOR));
     mProxy = new PackageManager::Stub::Proxy(remote);
 }
 
-sp<ArrayList<sp<PackageInfo>>> PackageManager::Stub::SmartProxy::getInstalledPackages(int32_t flags) {
+sp<ArrayList<sp<PackageInfo>>>
+PackageManager::Stub::SmartProxy::getInstalledPackages(int32_t flags)
+{
     if (mRemote->runsOnSameThread()) {
         return mStub->getInstalledPackages(flags);
     } else {
@@ -70,7 +89,9 @@ sp<ArrayList<sp<PackageInfo>>> PackageManager::Stub::SmartProxy::getInstalledPac
     }
 }
 
-sp<ResolveInfo> PackageManager::Stub::SmartProxy::resolveService(const sp<Intent>& intent, int32_t flags) {
+sp<ResolveInfo> PackageManager::Stub::SmartProxy::resolveService(
+    const sp<Intent>& intent, int32_t flags)
+{
     if (mRemote->runsOnSameThread()) {
         return mStub->resolveService(intent, flags);
     } else {

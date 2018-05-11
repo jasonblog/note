@@ -10,10 +10,10 @@ typedef ::google::protobuf::Message Message;
 class CFactory
 {
 public:
-	CFactory() {}
-	virtual ~CFactory() {}
+    CFactory() {}
+    virtual ~CFactory() {}
 
-	virtual Message* CreateMessage(unsigned int uiMessageID) ;
+    virtual Message* CreateMessage(unsigned int uiMessageID) ;
 };
 
 

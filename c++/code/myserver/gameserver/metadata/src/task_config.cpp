@@ -27,18 +27,20 @@ TaskConfig::TaskConfig()
 
 TaskConfig::~TaskConfig()
 {
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
 int TaskConfig::parse()
 {
     auto obj = m_obj.ToObject();
-    for (auto it=obj.begin(); it!=obj.end(); ++it) {
+
+    for (auto it = obj.begin(); it != obj.end(); ++it) {
         auto item = new TaskConfItem();
-        
+
         auto item_obj = it->second.ToObject();
         auto oid = item_obj["id"].ToInt();
         auto condition = item_obj["condition"].ToInt();
@@ -51,24 +53,29 @@ int TaskConfig::parse()
         item->_buildingType = buildingType;
         item->_num = num;
         item->_next = next;
-        for (auto it=reward.begin(); it!=reward.end(); ++it) {
+
+        for (auto it = reward.begin(); it != reward.end(); ++it) {
             auto v = new std::vector<int>;
             item->_reward[it->first] = v;
             auto ar = it->second.ToArray();
-            for (auto xit=ar.begin(); xit!=ar.end(); ++xit) {
+
+            for (auto xit = ar.begin(); xit != ar.end(); ++xit) {
                 v->push_back(xit->ToInt());
             }
         }
+
         _datas[oid] = item;
     }
+
     return 0;
 }
 
 void TaskConfig::clear()
 {
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it) {
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         delete it->second;
     }
+
     _datas.clear();
 }
 
@@ -77,39 +84,38 @@ bool TaskConfig::check()
     bool bOK = true;
     std::map<int, int> tempList;
     tempList.clear();
-    
-    for (auto it=_datas.begin(); it!=_datas.end(); ++it)
-    {
+
+    for (auto it = _datas.begin(); it != _datas.end(); ++it) {
         int nNext = it->second->_next;
-        if (tempList.find(nNext) == tempList.end())
-        {
+
+        if (tempList.find(nNext) == tempList.end()) {
             tempList[nNext] = it->second->_id;
-        }
-        else
-        {
-            ERROR_LOG("ERR: TaskConfig check err !!! task id = {} data: next task id = {} is repeat !!!", it->second->_id, nNext);
+        } else {
+            ERROR_LOG("ERR: TaskConfig check err !!! task id = {} data: next task id = {} is repeat !!!",
+                      it->second->_id, nNext);
             bOK = false;
         }
     }
-    
-    for (auto it = tempList.begin(); it != tempList.end(); ++it)
-    {
-        if (_datas.find(it->second) == _datas.end())
-        {
-            ERROR_LOG("ERR: TaskConfig check err !!! task id = {} data: next task id = {} is illegal !!!", it->first, it->second);
+
+    for (auto it = tempList.begin(); it != tempList.end(); ++it) {
+        if (_datas.find(it->second) == _datas.end()) {
+            ERROR_LOG("ERR: TaskConfig check err !!! task id = {} data: next task id = {} is illegal !!!",
+                      it->first, it->second);
             bOK = false;
         }
     }
-    
+
     return bOK;
 }
 
 TaskConfItem* TaskConfig::item(int key)
 {
     auto it = _datas.find(key);
-    if (it!=_datas.end()) {
+
+    if (it != _datas.end()) {
         return it->second;
     }
+
     return NULL;
-//    throw ERROR::MSG("TaskConfig::item:{}", key);
+    //    throw ERROR::MSG("TaskConfig::item:{}", key);
 }

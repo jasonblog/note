@@ -19,12 +19,14 @@
 
 #include "mindroid/lang/Object.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class String;
 
 class Short :
-        public Object {
+    public Object
+{
 public:
     /**
      * Constant for the maximum {@code short} value, 2<sup>15</sup>-1.
@@ -42,7 +44,8 @@ public:
      */
     static const int32_t SIZE = 16;
 
-    explicit Short(int16_t value) : mValue(value) {
+    explicit Short(int16_t value) : mValue(value)
+    {
     }
 
     static sp<Short> valueOf(const char* s);
@@ -50,11 +53,13 @@ public:
     static sp<Short> valueOf(const char* s, int32_t radix);
     static sp<Short> valueOf(const sp<String>& s, int32_t radix);
 
-    int16_t shortValue() const {
+    int16_t shortValue() const
+    {
         return mValue;
     }
 
-    int16_t value() const {
+    int16_t value() const
+    {
         return shortValue();
     }
 

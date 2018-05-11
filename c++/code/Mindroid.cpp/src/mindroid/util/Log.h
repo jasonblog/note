@@ -22,9 +22,11 @@
 #include <android/log.h>
 #endif
 
-namespace mindroid {
+namespace mindroid
+{
 
-class Log {
+class Log
+{
 public:
     static const int32_t VERBOSE = 0;
     static const int32_t DEBUG = 1;
@@ -90,34 +92,45 @@ public:
     static int wtf(const char* tag, const char* format, ...);
 
     /** @hide */
-    static int println(int32_t logId, int32_t priority, const char* tag, const char* msg) {
+    static int println(int32_t logId, int32_t priority, const char* tag,
+                       const char* msg)
+    {
         return println(logId, priority, String::valueOf(tag), String::valueOf(msg));
     }
 
     /** @hide */
-    static int println(int32_t logId, int32_t priority, const sp<String>& tag, const sp<String>& msg) {
+    static int println(int32_t logId, int32_t priority, const sp<String>& tag,
+                       const sp<String>& msg)
+    {
 #ifdef ANDROID
         int androidPriority = ANDROID_LOG_DEFAULT;
+
         switch (priority) {
         case Log::VERBOSE:
             androidPriority = ANDROID_LOG_VERBOSE;
             break;
+
         case Log::DEBUG:
             androidPriority = ANDROID_LOG_DEBUG;
             break;
+
         case Log::INFO:
             androidPriority = ANDROID_LOG_INFO;
             break;
+
         case Log::WARN:
             androidPriority = ANDROID_LOG_WARN;
             break;
+
         case Log::ERROR:
             androidPriority = ANDROID_LOG_ERROR;
             break;
+
         case Log::WTF:
             androidPriority = ANDROID_LOG_FATAL;
             break;
         }
+
         __android_log_write(androidPriority, tag->c_str(), msg->c_str());
 #endif
 
@@ -125,20 +138,25 @@ public:
         case LOG_ID_MAIN:
             sMainLogBuffer->offer(priority, tag, msg);
             return 0;
+
         case LOG_ID_EVENTS:
             sEventLogBuffer->offer(priority, tag, msg);
             return 0;
+
         case LOG_ID_DEBUG:
             sDebugLogBuffer->offer(priority, tag, msg);
             return 0;
+
         default:
             return -1;
         }
     }
 
     /** @hide */
-    static int32_t parsePriority(const sp<String>& priority) {
+    static int32_t parsePriority(const sp<String>& priority)
+    {
         char c;
+
         if (priority->length() > 1 && priority->toUpperCase()->equals("WTF")) {
             c = 'A';
         } else {
@@ -148,24 +166,32 @@ public:
         switch (c) {
         case 'V':
             return Log::VERBOSE;
+
         case 'D':
             return Log::DEBUG;
+
         case 'I':
             return Log::INFO;
+
         case 'W':
             return Log::WARN;
+
         case 'E':
             return Log::ERROR;
+
         case 'A':
             return Log::WTF;
+
         default:
             return -1;
         }
     }
 
     /** @hide */
-    static sp<String> toPriority(int32_t priority) {
+    static sp<String> toPriority(int32_t priority)
+    {
         const char logLevels[] = { 'V', 'D', 'I', 'W', 'E', 'A' };
+
         if (priority >= 0 && size_t(priority) < sizeof(logLevels)) {
             return String::valueOf(logLevels[priority]);
         } else {
@@ -174,14 +200,18 @@ public:
     }
 
     /** @hide */
-    static sp<LogBuffer> getLogBuffer(int32_t logId) {
+    static sp<LogBuffer> getLogBuffer(int32_t logId)
+    {
         switch (logId) {
         case LOG_ID_MAIN:
             return sMainLogBuffer;
+
         case LOG_ID_EVENTS:
             return sEventLogBuffer;
+
         case LOG_ID_DEBUG:
             return sDebugLogBuffer;
+
         default:
             return nullptr;
         }

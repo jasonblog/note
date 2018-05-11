@@ -69,9 +69,10 @@ void CServerConfig::Clear()
 ServerInfo* CServerConfig::GetServerInfo(enServerType type)
 {
     auto it =  m_mServerMap.find(type);
-    if (it != m_mServerMap.end())
-    {
+
+    if (it != m_mServerMap.end()) {
         return &(it->second);
     }
+
     return NULL;
 }

@@ -8,13 +8,13 @@
 class BuildingData
 {
 public:
-    
+
     BuildingData();
-    
+
     ~BuildingData();
-    
+
 public:
-    
+
     int _id;
     int _level;
     int _buildType;
@@ -36,23 +36,23 @@ public:
 
 class BuildingConfig : public ConfigData
 {
-    
+
 public:
-    
+
     BuildingConfig();
-    
+
     ~BuildingConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     BuildingData* item(int key);
-    
+
     BuildingData* getItemByTypeAndLvl(int type, int level);
-    
+
 public:
-    
+
     std::map<int, BuildingData*> _datas;
 };
 

@@ -32,20 +32,21 @@ public:
 
 class MonthCardConfig : public ConfigData
 {
-    
+
 public:
-    
+
     MonthCardConfig();
-    
+
     ~MonthCardConfig();
-    
+
     int parse();
-    
+
     bool check();
-    
+
     void clear();
-    
-    MonthCardCfgInfo* getCfg(int nIndex);               //根据配置id 获取配置信息
+
+    MonthCardCfgInfo* getCfg(int
+                             nIndex);               //根据配置id 获取配置信息
 public:
     std::map<int, MonthCardCfgInfo*> _datas;
 };

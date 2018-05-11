@@ -20,19 +20,23 @@
 
 #include "mindroid/lang/Exception.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * RuntimeException is the superclass of those exceptions that can be thrown during the normal operation.
  */
-class RuntimeException : public Exception {
+class RuntimeException : public Exception
+{
 public:
     RuntimeException() = default;
 
-    RuntimeException(const char* message) : Exception(message) {
+    RuntimeException(const char* message) : Exception(message)
+    {
     }
 
-    RuntimeException(const sp<String>& message) : Exception(message) {
+    RuntimeException(const sp<String>& message) : Exception(message)
+    {
     }
 };
 

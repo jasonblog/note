@@ -8,13 +8,13 @@
 class OnlineRewardItem
 {
 public:
-    
+
     OnlineRewardItem();
-    
+
     ~OnlineRewardItem();
-    
+
 public:
-    
+
     int _id;
     int _coldDown;
     std::map<std::string, std::vector<int>* > _rewards;
@@ -22,19 +22,19 @@ public:
 
 class OnlineRewardConfig : public ConfigData
 {
-    
+
 public:
-    
+
     OnlineRewardConfig();
-    
+
     ~OnlineRewardConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     OnlineRewardItem* item(int key);
-    
+
     std::map<int, OnlineRewardItem* > _datas;
 };
 

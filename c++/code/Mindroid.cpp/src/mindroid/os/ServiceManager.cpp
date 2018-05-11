@@ -27,7 +27,8 @@
 #include "mindroid/util/concurrent/locks/ReentrantLock.h"
 #include "mindroid/util/Log.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 const char* const ServiceManager::TAG = "ServiceManager";
 const char* ServiceManager::SYSTEM_SERVICE = "systemService";
@@ -35,26 +36,33 @@ sp<ReentrantLock> ServiceManager::sLock = new ReentrantLock();
 sp<Condition> ServiceManager::sCondition = sLock->newCondition();
 sp<IServiceManager> ServiceManager::sServiceManager = nullptr;
 sp<binder::ServiceManager::Stub> ServiceManager::sStub = nullptr;
-sp<HashMap<sp<String>, sp<IBinder>>> ServiceManager::sSystemServices = new HashMap<sp<String>, sp<IBinder>>();
+sp<HashMap<sp<String>, sp<IBinder>>> ServiceManager::sSystemServices = new
+HashMap<sp<String>, sp<IBinder>>();
 
 ServiceManager::ProcessManager::ProcessManager() :
-        mLock(new ReentrantLock()),
-        mProcesses(new HashMap<sp<String>, sp<Pair<sp<Process>, sp<IProcess>>>>()) {
+    mLock(new ReentrantLock()),
+    mProcesses(new HashMap<sp<String>, sp<Pair<sp<Process>, sp<IProcess>>>>())
+{
     mThread = new HandlerThread("ProcessManager");
 }
 
-void ServiceManager::ProcessManager::start() {
+void ServiceManager::ProcessManager::start()
+{
     mThread->start();
     mHandler = new Handler(mThread->getLooper());
 }
 
-void ServiceManager::ProcessManager::shutdown() {
+void ServiceManager::ProcessManager::shutdown()
+{
     mThread->quit();
     mThread->join();
 }
 
-sp<IProcess> ServiceManager::ProcessManager::startProcess(const sp<String>& name) {
+sp<IProcess> ServiceManager::ProcessManager::startProcess(
+    const sp<String>& name)
+{
     AutoLock autoLock(mLock);
+
     if (!mProcesses->containsKey(name)) {
         sp<Process> process = new Process(name);
         sp<IProcess> p = process->start();
@@ -66,12 +74,14 @@ sp<IProcess> ServiceManager::ProcessManager::startProcess(const sp<String>& name
     }
 }
 
-bool ServiceManager::ProcessManager::stopProcess(const sp<String>& name) {
+bool ServiceManager::ProcessManager::stopProcess(const sp<String>& name)
+{
     AutoLock autoLock(mLock);
     auto pair = mProcesses->remove(name);
+
     if (pair != nullptr) {
         sp<Process> process = pair->first;
-        mHandler->post([=] {
+        mHandler->post([ = ] {
             process->stop(SHUTDOWN_TIMEOUT);
         });
         return true;
@@ -80,13 +90,16 @@ bool ServiceManager::ProcessManager::stopProcess(const sp<String>& name) {
     }
 }
 
-sp<Future<bool>> ServiceManager::ProcessManager::stopProcess(const sp<String>& name, uint64_t timeout) {
+sp<Future<bool>> ServiceManager::ProcessManager::stopProcess(
+                  const sp<String>& name, uint64_t timeout)
+{
     AutoLock autoLock(mLock);
     sp<Promise<bool>> promise = new Promise<bool>();
     auto pair = mProcesses->remove(name);
+
     if (pair != nullptr) {
         sp<Process> process = pair->first;
-        mHandler->post([=] {
+        mHandler->post([ = ] {
             process->stop(timeout);
             promise->set(true);
         });
@@ -97,73 +110,96 @@ sp<Future<bool>> ServiceManager::ProcessManager::stopProcess(const sp<String>& n
     }
 }
 
-ServiceManager::ProcessRecord::ProcessRecord(const sp<String>& name, const sp<IProcess>& process) :
-        name(name),
-        process(process),
-        services(new HashMap<sp<ComponentName>, sp<ServiceRecord>>) {
+ServiceManager::ProcessRecord::ProcessRecord(const sp<String>& name,
+        const sp<IProcess>& process) :
+    name(name),
+    process(process),
+    services(new HashMap<sp<ComponentName>, sp<ServiceRecord>>)
+{
 }
 
-void ServiceManager::ProcessRecord::addService(const sp<ComponentName>& component, const sp<ServiceRecord>& service) {
+void ServiceManager::ProcessRecord::addService(const sp<ComponentName>&
+        component, const sp<ServiceRecord>& service)
+{
     services->put(component, service);
 }
 
-void ServiceManager::ProcessRecord::removeService(const sp<ComponentName>& component) {
+void ServiceManager::ProcessRecord::removeService(const sp<ComponentName>&
+        component)
+{
     services->remove(component);
 }
 
-sp<ServiceManager::ServiceRecord> ServiceManager::ProcessRecord::getService(const sp<ComponentName>& component) {
+sp<ServiceManager::ServiceRecord> ServiceManager::ProcessRecord::getService(
+    const sp<ComponentName>& component)
+{
     return services->get(component);
 }
 
-bool ServiceManager::ProcessRecord::containsService(const sp<ComponentName>& component) {
+bool ServiceManager::ProcessRecord::containsService(const sp<ComponentName>&
+        component)
+{
     return services->containsKey(component);
 }
 
-size_t ServiceManager::ProcessRecord::numServices() const {
+size_t ServiceManager::ProcessRecord::numServices() const
+{
     return services->size();
 }
 
-ServiceManager::ServiceRecord::ServiceRecord(const sp<String>& name, const sp<ProcessRecord>& processRecord, bool systemService) :
-        name(name),
-        processRecord(processRecord),
-        systemService(systemService),
-        alive(false),
-        running(false),
-        serviceConnections(new ArrayList<sp<ServiceConnection>>()) {
+ServiceManager::ServiceRecord::ServiceRecord(const sp<String>& name,
+        const sp<ProcessRecord>& processRecord, bool systemService) :
+    name(name),
+    processRecord(processRecord),
+    systemService(systemService),
+    alive(false),
+    running(false),
+    serviceConnections(new ArrayList<sp<ServiceConnection>>())
+{
 }
 
-void ServiceManager::ServiceRecord::addServiceConnection(const sp<ServiceConnection>& conn) {
+void ServiceManager::ServiceRecord::addServiceConnection(
+    const sp<ServiceConnection>& conn)
+{
     serviceConnections->add(conn);
 }
 
-void ServiceManager::ServiceRecord::removeServiceConnection(const sp<ServiceConnection> conn) {
+void ServiceManager::ServiceRecord::removeServiceConnection(
+    const sp<ServiceConnection> conn)
+{
     serviceConnections->remove(conn);
 }
 
-size_t ServiceManager::ServiceRecord::getNumServiceConnections() const {
+size_t ServiceManager::ServiceRecord::getNumServiceConnections() const
+{
     return serviceConnections->size();
 }
 
-bool ServiceManager::ServiceRecord::hasServiceConnection(const sp<ServiceConnection>& conn) const {
+bool ServiceManager::ServiceRecord::hasServiceConnection(
+    const sp<ServiceConnection>& conn) const
+{
     return serviceConnections->contains(conn);
 }
 
 ServiceManager::ServiceManager() :
-            mLock(new ReentrantLock()),
-            mProcesses(new HashMap<sp<String>, sp<ProcessRecord>>()),
-            mServices(new HashMap<sp<ComponentName>, sp<ServiceRecord>>()),
-            mServiceCallbacks(new ArrayList<sp<RemoteCallback>>()) {
+    mLock(new ReentrantLock()),
+    mProcesses(new HashMap<sp<String>, sp<ProcessRecord>>()),
+    mServices(new HashMap<sp<ComponentName>, sp<ServiceRecord>>()),
+    mServiceCallbacks(new ArrayList<sp<RemoteCallback>>())
+{
     mProcessManager = new ProcessManager();
     mMainThread = new HandlerThread(TAG);
 }
 
-void ServiceManager::start() {
+void ServiceManager::start()
+{
     mProcessManager->start();
 
     mMainThread->start();
     mMainHandler = new Handler(mMainThread->getLooper());
-    sp<Promise<sp<binder::ServiceManager::Stub>>> promise = new Promise<sp<binder::ServiceManager::Stub>>();
-    mMainHandler->post([=] {
+    sp<Promise<sp<binder::ServiceManager::Stub>>> promise = new
+    Promise<sp<binder::ServiceManager::Stub>>();
+    mMainHandler->post([ = ] {
         promise->set(new ServiceManagerImpl(this));
     });
     promise->done([&] {
@@ -175,14 +211,17 @@ void ServiceManager::start() {
     addService(Context::SERVICE_MANAGER, sStub);
 }
 
-void ServiceManager::shutdown() {
+void ServiceManager::shutdown()
+{
     {
         AutoLock autoLock(mLock);
         auto itr = mProcesses->iterator();
+
         while (itr.hasNext()) {
             auto entry = itr.next();
             sp<ProcessRecord> processRecord = entry.getValue();
-            sp<Future<bool>> future = mProcessManager->stopProcess(processRecord->name, SHUTDOWN_TIMEOUT);
+            sp<Future<bool>> future = mProcessManager->stopProcess(processRecord->name,
+                                      SHUTDOWN_TIMEOUT);
             future->await();
         }
     }
@@ -197,14 +236,18 @@ void ServiceManager::shutdown() {
     sServiceManager = nullptr;
 }
 
-sp<ComponentName> ServiceManager::ServiceManagerImpl::startService(const sp<Intent>& intent) {
+sp<ComponentName> ServiceManager::ServiceManagerImpl::startService(
+    const sp<Intent>& intent)
+{
     intent->putExtra(SYSTEM_SERVICE, false);
     return mServiceManager->startService(intent);
 }
 
-bool ServiceManager::ServiceManagerImpl::stopService(const sp<Intent>& service) {
+bool ServiceManager::ServiceManagerImpl::stopService(const sp<Intent>& service)
+{
     if (mServiceManager->mServices->containsKey(service->getComponent())) {
-        sp<ServiceRecord> serviceRecord = mServiceManager->mServices->get(service->getComponent());
+        sp<ServiceRecord> serviceRecord = mServiceManager->mServices->get(
+                                              service->getComponent());
         sp<ProcessRecord> processRecord = serviceRecord->processRecord;
         sp<IProcess> process = processRecord->process;
 
@@ -213,26 +256,35 @@ bool ServiceManager::ServiceManagerImpl::stopService(const sp<Intent>& service) 
         }
 
         if (serviceRecord->getNumServiceConnections() != 0) {
-            Log::d(ServiceManager::TAG, "Cannot stop service %s due to active bindings", service->getComponent()->toShortString()->c_str());
+            Log::d(ServiceManager::TAG, "Cannot stop service %s due to active bindings",
+                   service->getComponent()->toShortString()->c_str());
             return false;
         }
 
-        class OnResultListener : public RemoteCallback::OnResultListener {
+        class OnResultListener : public RemoteCallback::OnResultListener
+        {
         public:
-            OnResultListener(const wp<ServiceManager>& serviceManager, const sp<String>& serviceName) :
-                    mServiceManager(serviceManager),
-                    mServiceName(serviceName) {
+            OnResultListener(const wp<ServiceManager>& serviceManager,
+                             const sp<String>& serviceName) :
+                mServiceManager(serviceManager),
+                mServiceName(serviceName)
+            {
             }
 
         protected:
-            void onResult(const sp<Bundle>& data) {
+            void onResult(const sp<Bundle>& data)
+            {
                 sp<ServiceManager> serviceManager = mServiceManager.lock();
+
                 if (serviceManager != nullptr) {
                     bool result = data->getBoolean("result");
+
                     if (result) {
-                        Log::d(ServiceManager::TAG, "Service %s has been stopped", mServiceName->c_str());
+                        Log::d(ServiceManager::TAG, "Service %s has been stopped",
+                               mServiceName->c_str());
                     } else {
-                        Log::w(ServiceManager::TAG, "Service %s cannot be stopped", mServiceName->c_str());
+                        Log::w(ServiceManager::TAG, "Service %s cannot be stopped",
+                               mServiceName->c_str());
                     }
 
                     serviceManager->mServiceCallbacks->remove(getCallback());
@@ -244,8 +296,11 @@ bool ServiceManager::ServiceManagerImpl::stopService(const sp<Intent>& service) 
             const sp<String> mServiceName;
         };
 
-        sp<RemoteCallback> callback = new RemoteCallback(new OnResultListener(mServiceManager, serviceRecord->name));
+        sp<RemoteCallback> callback = new RemoteCallback(new OnResultListener(
+                    mServiceManager, serviceRecord->name));
+
         mServiceManager->mServiceCallbacks->add(callback);
+
         try {
             process->stopService(service, callback->asInterface());
         } catch (const RemoteException& e) {
@@ -258,8 +313,9 @@ bool ServiceManager::ServiceManagerImpl::stopService(const sp<Intent>& service) 
         processRecord->removeService(service->getComponent());
 
         if (processRecord->numServices() == 0) {
-            mServiceManager->mMainHandler->post([=] {
-                if (processRecord->numServices() == 0) {
+            mServiceManager->mMainHandler->post([ = ] {
+                if (processRecord->numServices() == 0)
+                {
                     mServiceManager->mProcessManager->stopProcess(processRecord->name);
                     {
                         AutoLock autoLock(mServiceManager->mLock);
@@ -271,12 +327,16 @@ bool ServiceManager::ServiceManagerImpl::stopService(const sp<Intent>& service) 
 
         return true;
     } else {
-        Log::d(ServiceManager::TAG, "Cannot find and stop service %s", service->getComponent()->toShortString()->c_str());
+        Log::d(ServiceManager::TAG, "Cannot find and stop service %s",
+               service->getComponent()->toShortString()->c_str());
         return false;
     }
 }
 
-bool ServiceManager::ServiceManagerImpl::bindService(const sp<Intent>& intent, const sp<ServiceConnection>& conn, int32_t flags, const sp<IRemoteCallback>& callback) {
+bool ServiceManager::ServiceManagerImpl::bindService(const sp<Intent>& intent,
+        const sp<ServiceConnection>& conn, int32_t flags,
+        const sp<IRemoteCallback>& callback)
+{
     intent->putExtra(SYSTEM_SERVICE, false);
 
     if (!mServiceManager->prepareService(intent)) {
@@ -284,34 +344,47 @@ bool ServiceManager::ServiceManagerImpl::bindService(const sp<Intent>& intent, c
     }
 
     if (mServiceManager->mServices->containsKey(intent->getComponent())) {
-        sp<ServiceRecord> serviceRecord = mServiceManager->mServices->get(intent->getComponent());
+        sp<ServiceRecord> serviceRecord = mServiceManager->mServices->get(
+                                              intent->getComponent());
+
         if (!serviceRecord->hasServiceConnection(conn)) {
             serviceRecord->addServiceConnection(conn);
 
             try {
-                serviceRecord->processRecord->process->bindService(intent, conn, flags, callback);
+                serviceRecord->processRecord->process->bindService(intent, conn, flags,
+                        callback);
             } catch (const RemoteException& e) {
                 Assert::fail("System failure");
             }
 
-            Log::d(ServiceManager::TAG, "Bound to service %s in process %s", serviceRecord->name->c_str(), serviceRecord->processRecord->name->c_str());
+            Log::d(ServiceManager::TAG, "Bound to service %s in process %s",
+                   serviceRecord->name->c_str(), serviceRecord->processRecord->name->c_str());
         }
 
         return true;
     } else {
-        Log::d(ServiceManager::TAG, "Cannot find and bind service %s", intent->getComponent()->toShortString()->c_str());
+        Log::d(ServiceManager::TAG, "Cannot find and bind service %s",
+               intent->getComponent()->toShortString()->c_str());
         return false;
     }
 }
 
-void ServiceManager::ServiceManagerImpl::unbindService(const sp<Intent>& service, const sp<ServiceConnection>& conn) {
+void ServiceManager::ServiceManagerImpl::unbindService(const sp<Intent>&
+        service, const sp<ServiceConnection>& conn)
+{
     unbindService(service, conn, nullptr);
 }
 
-void ServiceManager::ServiceManagerImpl::unbindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, const sp<IRemoteCallback>& callback) {
-    sp<ServiceRecord> serviceRecord = mServiceManager->mServices->get(service->getComponent());
+void ServiceManager::ServiceManagerImpl::unbindService(const sp<Intent>&
+        service, const sp<ServiceConnection>& conn,
+        const sp<IRemoteCallback>& callback)
+{
+    sp<ServiceRecord> serviceRecord = mServiceManager->mServices->get(
+                                          service->getComponent());
+
     if (serviceRecord != nullptr) {
         sp<IProcess> process = serviceRecord->processRecord->process;
+
         try {
             if (callback != nullptr) {
                 process->unbindService(service, callback);
@@ -321,9 +394,12 @@ void ServiceManager::ServiceManagerImpl::unbindService(const sp<Intent>& service
         } catch (const RemoteException& e) {
             Assert::fail("System failure");
         }
-        Log::d(ServiceManager::TAG, "Unbound from service %s in process %s", serviceRecord->name->c_str(), serviceRecord->processRecord->name->c_str());
+
+        Log::d(ServiceManager::TAG, "Unbound from service %s in process %s",
+               serviceRecord->name->c_str(), serviceRecord->processRecord->name->c_str());
 
         serviceRecord->removeServiceConnection(conn);
+
         if (serviceRecord->getNumServiceConnections() == 0) {
             try {
                 sServiceManager->stopService(service);
@@ -334,26 +410,35 @@ void ServiceManager::ServiceManagerImpl::unbindService(const sp<Intent>& service
     }
 }
 
-sp<ComponentName> ServiceManager::ServiceManagerImpl::startSystemService(const sp<Intent>& service) {
+sp<ComponentName> ServiceManager::ServiceManagerImpl::startSystemService(
+    const sp<Intent>& service)
+{
     if (!service->hasExtra("name")) {
         service->putExtra("name", service->getComponent()->getClassName()->c_str());
     }
+
     if (!service->hasExtra("process")) {
-        service->putExtra("process", service->getComponent()->getPackageName()->c_str());
+        service->putExtra("process",
+                          service->getComponent()->getPackageName()->c_str());
     }
+
     service->putExtra(SYSTEM_SERVICE, true);
     return mServiceManager->startService(service);
 }
 
-bool ServiceManager::ServiceManagerImpl::stopSystemService(const sp<Intent>& service) {
+bool ServiceManager::ServiceManagerImpl::stopSystemService(
+    const sp<Intent>& service)
+{
     service->putExtra(SYSTEM_SERVICE, true);
     return stopService(service);
 }
 
-sp<IProcess> ServiceManager::prepareProcess(const sp<String>& name) {
+sp<IProcess> ServiceManager::prepareProcess(const sp<String>& name)
+{
     sp<IProcess> process;
     {
         AutoLock autoLock(mLock);
+
         if (mProcesses->containsKey(name)) {
             sp<ProcessRecord> processRecord = mProcesses->get(name);
             process = processRecord->process;
@@ -365,8 +450,10 @@ sp<IProcess> ServiceManager::prepareProcess(const sp<String>& name) {
     return process;
 }
 
-bool ServiceManager::prepareService(const sp<Intent>& service) {
+bool ServiceManager::prepareService(const sp<Intent>& service)
+{
     sp<ServiceInfo> serviceInfo;
+
     if (service->getBooleanExtra(SYSTEM_SERVICE, false)) {
         sp<ApplicationInfo> ai = new ApplicationInfo();
         ai->processName = service->getStringExtra("process");
@@ -380,10 +467,13 @@ bool ServiceManager::prepareService(const sp<Intent>& service) {
         serviceInfo = si;
     } else {
         if (mPackageManager == nullptr) {
-            mPackageManager = binder::PackageManager::Stub::asInterface(getSystemService(Context::PACKAGE_MANAGER));
+            mPackageManager = binder::PackageManager::Stub::asInterface(getSystemService(
+                                  Context::PACKAGE_MANAGER));
             Assert::assertNotNull("System failure", mPackageManager);
         }
+
         sp<ResolveInfo> resolveInfo = nullptr;
+
         try {
             resolveInfo = mPackageManager->resolveService(service, 0);
         } catch (const RemoteException& e) {
@@ -398,25 +488,31 @@ bool ServiceManager::prepareService(const sp<Intent>& service) {
     }
 
     sp<IProcess> process = prepareProcess(serviceInfo->processName);
+
     if (process == nullptr) {
         return false;
     }
 
     sp<ServiceRecord> serviceRecord;
     sp<ProcessRecord> processRecord = mProcesses->get(serviceInfo->processName);
+
     if (mServices->containsKey(service->getComponent())) {
         serviceRecord = mServices->get(service->getComponent());
     } else {
         bool systemService = service->getBooleanExtra(SYSTEM_SERVICE, false);
         sp<String> name;
+
         if (systemService) {
             name = service->getStringExtra("name");
         } else {
-            name = String::format("%s::%s", serviceInfo->packageName->c_str(), serviceInfo->name->c_str());
+            name = String::format("%s::%s", serviceInfo->packageName->c_str(),
+                                  serviceInfo->name->c_str());
         }
+
         serviceRecord = new ServiceRecord(name, processRecord, systemService);
         mServices->put(service->getComponent(), serviceRecord);
     }
+
     if (!processRecord->containsService(service->getComponent())) {
         processRecord->addService(service->getComponent(), serviceRecord);
     }
@@ -424,25 +520,34 @@ bool ServiceManager::prepareService(const sp<Intent>& service) {
     if (!serviceRecord->alive) {
         serviceRecord->alive = true;
 
-        class OnResultListener : public RemoteCallback::OnResultListener {
+        class OnResultListener : public RemoteCallback::OnResultListener
+        {
         public:
-            OnResultListener(const wp<ServiceManager>& serviceManager, const sp<Intent>& service) :
-                    mServiceManager(serviceManager),
-                    mService(service) {
+            OnResultListener(const wp<ServiceManager>& serviceManager,
+                             const sp<Intent>& service) :
+                mServiceManager(serviceManager),
+                mService(service)
+            {
             }
 
         protected:
-            void onResult(const sp<Bundle>& data) {
+            void onResult(const sp<Bundle>& data)
+            {
                 sp<ServiceManager> serviceManager = mServiceManager.lock();
+
                 if (serviceManager != nullptr) {
                     sp<ComponentName> component = mService->getComponent();
+
                     if (serviceManager->mServices->containsKey(component)) {
                         sp<ServiceRecord> serviceRecord = serviceManager->mServices->get(component);
                         bool result = data->getBoolean("result");
+
                         if (result) {
-                            Log::d(TAG, "Service %s has been created in process %s", serviceRecord->name->c_str(), serviceRecord->processRecord->name->c_str());
+                            Log::d(TAG, "Service %s has been created in process %s",
+                                   serviceRecord->name->c_str(), serviceRecord->processRecord->name->c_str());
                         } else {
-                            Log::w(TAG, "Service %s cannot be created in process %s. Cleaning up", serviceRecord->name->c_str(), serviceRecord->processRecord->name->c_str());
+                            Log::w(TAG, "Service %s cannot be created in process %s. Cleaning up",
+                                   serviceRecord->name->c_str(), serviceRecord->processRecord->name->c_str());
                             serviceManager->cleanupService(mService);
                         }
                     }
@@ -456,8 +561,10 @@ bool ServiceManager::prepareService(const sp<Intent>& service) {
             const sp<Intent> mService;
         };
 
-        sp<RemoteCallback> callback = new RemoteCallback(new OnResultListener(this, service));
+        sp<RemoteCallback> callback = new RemoteCallback(new OnResultListener(this,
+                service));
         mServiceCallbacks->add(callback);
+
         try {
             process->createService(service, callback->asInterface());
         } catch (const RemoteException& e) {
@@ -468,7 +575,8 @@ bool ServiceManager::prepareService(const sp<Intent>& service) {
     return true;
 }
 
-sp<ComponentName> ServiceManager::startService(const sp<Intent>& service) {
+sp<ComponentName> ServiceManager::startService(const sp<Intent>& service)
+{
     if (!prepareService(service)) {
         return nullptr;
     }
@@ -476,23 +584,31 @@ sp<ComponentName> ServiceManager::startService(const sp<Intent>& service) {
     sp<ServiceRecord> serviceRecord = mServices->get(service->getComponent());
     serviceRecord->running = true;
 
-    class OnResultListener : public RemoteCallback::OnResultListener {
+    class OnResultListener : public RemoteCallback::OnResultListener
+    {
     public:
-        OnResultListener(const wp<ServiceManager>& serviceManager, const sp<String>& serviceName, const sp<String>& processName) :
-                mServiceManager(serviceManager),
-                mServiceName(serviceName),
-                mProcessName(processName) {
+        OnResultListener(const wp<ServiceManager>& serviceManager,
+                         const sp<String>& serviceName, const sp<String>& processName) :
+            mServiceManager(serviceManager),
+            mServiceName(serviceName),
+            mProcessName(processName)
+        {
         }
 
     protected:
-        void onResult(const sp<Bundle>& data) {
+        void onResult(const sp<Bundle>& data)
+        {
             sp<ServiceManager> serviceManager = mServiceManager.lock();
+
             if (serviceManager != nullptr) {
                 bool result = data->getBoolean("result");
+
                 if (result) {
-                    Log::d(TAG, "Service %s has been started in process %s", mServiceName->c_str(), mProcessName->c_str());
+                    Log::d(TAG, "Service %s has been started in process %s", mServiceName->c_str(),
+                           mProcessName->c_str());
                 } else {
-                    Log::w(TAG, "Service %s cannot be started in process %s", mServiceName->c_str(), mProcessName->c_str());
+                    Log::w(TAG, "Service %s cannot be started in process %s", mServiceName->c_str(),
+                           mProcessName->c_str());
                 }
 
                 serviceManager->mServiceCallbacks->remove(getCallback());
@@ -505,10 +621,13 @@ sp<ComponentName> ServiceManager::startService(const sp<Intent>& service) {
         const sp<String> mProcessName;
     };
 
-    sp<RemoteCallback> callback = new RemoteCallback(new OnResultListener(this, serviceRecord->name, serviceRecord->processRecord->name));
+    sp<RemoteCallback> callback = new RemoteCallback(new OnResultListener(this,
+            serviceRecord->name, serviceRecord->processRecord->name));
     mServiceCallbacks->add(callback);
+
     try {
-        serviceRecord->processRecord->process->startService(service, 0, mStartId++, callback->asInterface());
+        serviceRecord->processRecord->process->startService(service, 0, mStartId++,
+                callback->asInterface());
     } catch (const RemoteException& e) {
         Assert::fail("System failure");
     }
@@ -516,7 +635,8 @@ sp<ComponentName> ServiceManager::startService(const sp<Intent>& service) {
     return service->getComponent();
 }
 
-bool ServiceManager::cleanupService(const sp<Intent>& service) {
+bool ServiceManager::cleanupService(const sp<Intent>& service)
+{
     if (mServices->containsKey(service->getComponent())) {
         sp<ServiceRecord> serviceRecord = mServices->get(service->getComponent());
         sp<ProcessRecord> processRecord = serviceRecord->processRecord;
@@ -524,6 +644,7 @@ bool ServiceManager::cleanupService(const sp<Intent>& service) {
         if (serviceRecord->alive) {
             serviceRecord->alive = false;
         }
+
         if (serviceRecord->running) {
             serviceRecord->running = false;
         }
@@ -532,8 +653,9 @@ bool ServiceManager::cleanupService(const sp<Intent>& service) {
         processRecord->removeService(service->getComponent());
 
         if (processRecord->numServices() == 0) {
-            mMainHandler->post([=] {
-                if (processRecord->numServices() == 0) {
+            mMainHandler->post([ = ] {
+                if (processRecord->numServices() == 0)
+                {
                     mProcessManager->stopProcess(processRecord->name);
                     {
                         AutoLock autoLock(mLock);
@@ -545,13 +667,16 @@ bool ServiceManager::cleanupService(const sp<Intent>& service) {
 
         return true;
     } else {
-        Log::d(TAG, "Cannot find and clean up service %s", service->getComponent()->toShortString()->c_str());
+        Log::d(TAG, "Cannot find and clean up service %s",
+               service->getComponent()->toShortString()->c_str());
         return false;
     }
 }
 
-sp<IServiceManager> ServiceManager::getServiceManager() {
+sp<IServiceManager> ServiceManager::getServiceManager()
+{
     AutoLock autoLock(sLock);
+
     if (sServiceManager != nullptr) {
         return sServiceManager;
     }
@@ -560,35 +685,44 @@ sp<IServiceManager> ServiceManager::getServiceManager() {
     return sServiceManager;
 }
 
-sp<IBinder> ServiceManager::getSystemService(const sp<String>& name) {
+sp<IBinder> ServiceManager::getSystemService(const sp<String>& name)
+{
     AutoLock autoLock(sLock);
     sp<IBinder> service = sSystemServices->get(name);
     return service;
 }
 
-void ServiceManager::addService(const sp<String>& name, const sp<IBinder>& service) {
+void ServiceManager::addService(const sp<String>& name,
+                                const sp<IBinder>& service)
+{
     AutoLock autoLock(sLock);
+
     if (!sSystemServices->containsKey(name)) {
         sSystemServices->put(name, service);
         sCondition->signalAll();
     }
 }
 
-void ServiceManager::removeService(const sp<String>& name) {
+void ServiceManager::removeService(const sp<String>& name)
+{
     AutoLock autoLock(sLock);
     sSystemServices->remove(name);
     sCondition->signalAll();
 }
 
-void ServiceManager::waitForSystemService(const sp<String>& name) {
+void ServiceManager::waitForSystemService(const sp<String>& name)
+{
     AutoLock autoLock(sLock);
     const uint64_t TIMEOUT = 10000;
     uint64_t start = SystemClock::uptimeMillis();
     uint64_t duration = TIMEOUT;
+
     while (!sSystemServices->containsKey(name)) {
         sCondition->await(duration);
+
         if (!sSystemServices->containsKey(name)) {
             duration = start + TIMEOUT - SystemClock::uptimeMillis();
+
             if (duration <= 0) {
                 Log::w(TAG, "Starting %s takes very long", name->c_str());
                 start = SystemClock::uptimeMillis();
@@ -598,15 +732,19 @@ void ServiceManager::waitForSystemService(const sp<String>& name) {
     }
 }
 
-void ServiceManager::waitForSystemServiceShutdown(const sp<String>& name) {
+void ServiceManager::waitForSystemServiceShutdown(const sp<String>& name)
+{
     AutoLock autoLock(sLock);
     const uint64_t TIMEOUT = 10000;
     uint64_t start = SystemClock::uptimeMillis();
     uint64_t duration = TIMEOUT;
+
     while (sSystemServices->containsKey(name)) {
         sCondition->await(duration);
+
         if (sSystemServices->containsKey(name)) {
             duration = start + TIMEOUT - SystemClock::uptimeMillis();
+
             if (duration <= 0) {
                 Log::w(TAG, "Stopping %s takes very long", name->c_str());
                 start = SystemClock::uptimeMillis();

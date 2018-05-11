@@ -8,9 +8,9 @@ class PlayerSkillItem
 {
 public:
     PlayerSkillItem();
-    
+
     ~PlayerSkillItem();
-    
+
 public:
     int     _id;        //  技能ID
     int     _unlock;    //  解锁等级
@@ -29,17 +29,17 @@ class PlayerSkillConfig : public ConfigData
 {
 public:
     PlayerSkillConfig();
-    
+
     ~PlayerSkillConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     PlayerSkillItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, PlayerSkillItem* > _datas;
 };
 

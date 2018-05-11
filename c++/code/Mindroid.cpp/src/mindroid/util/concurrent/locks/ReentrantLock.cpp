@@ -21,37 +21,45 @@
 #include "mindroid/util/concurrent/locks/ConditionImpl.h"
 #include <cstdlib>
 
-namespace mindroid {
+namespace mindroid
+{
 
-ReentrantLock::ReentrantLock() {
+ReentrantLock::ReentrantLock()
+{
     pthread_mutexattr_init(&mAttributes);
     pthread_mutexattr_settype(&mAttributes, PTHREAD_MUTEX_RECURSIVE);
     pthread_mutex_init(&mMutex, &mAttributes);
 }
 
-ReentrantLock::~ReentrantLock() {
+ReentrantLock::~ReentrantLock()
+{
     pthread_mutex_destroy(&mMutex);
     pthread_mutexattr_destroy(&mAttributes);
 }
 
-void ReentrantLock::lock() {
+void ReentrantLock::lock()
+{
     pthread_mutex_lock(&mMutex);
 }
 
-sp<Condition> ReentrantLock::newCondition() {
+sp<Condition> ReentrantLock::newCondition()
+{
     return new ConditionImpl(this);
 }
 
-bool ReentrantLock::tryLock(uint64_t timeoutMillis) {
+bool ReentrantLock::tryLock(uint64_t timeoutMillis)
+{
 #ifndef ANDROID
     timespec time;
     clock_gettime(CLOCK_MONOTONIC, &time);
     time.tv_sec += timeoutMillis / 1000;
     time.tv_nsec += (timeoutMillis % 1000) * 1000000;
+
     if (time.tv_nsec >= 1000000000) {
         time.tv_sec++;
         time.tv_nsec -= 1000000000;
     }
+
     return (pthread_mutex_timedlock(&mMutex, &time) == 0);
 #else
     // Old Bionic versions lack pthread_mutex_timedlock.
@@ -60,7 +68,8 @@ bool ReentrantLock::tryLock(uint64_t timeoutMillis) {
 #endif
 }
 
-void ReentrantLock::unlock() {
+void ReentrantLock::unlock()
+{
     pthread_mutex_unlock(&mMutex);
 }
 

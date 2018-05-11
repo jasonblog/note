@@ -9,15 +9,15 @@
 
 class MapObstacleItem
 {
-    
+
 public:
-    
+
     MapObstacleItem();
-    
+
     ~MapObstacleItem();
-    
+
 public:
-    
+
     int _id;
     std::vector<int> _listOdd;
     std::vector<int> _listEven;
@@ -26,19 +26,19 @@ public:
 class MapObstacleConfig : public ConfigData
 {
 public:
-    
+
     MapObstacleConfig();
-    
+
     ~MapObstacleConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     MapObstacleItem* item(int key);
-    
+
 public:
-    
+
     std::map<int, MapObstacleItem* > _datas;
     std::map<int, std::vector<int>> _dataArea;
 };

@@ -8,15 +8,15 @@
 
 class MapFieldItem
 {
-    
+
 public:
-    
+
     MapFieldItem();
-    
+
     ~MapFieldItem();
-    
+
 public:
-    
+
     int _id;
     int _type;
     int _level;
@@ -28,23 +28,23 @@ public:
 
 class MapFieldConfig : public ConfigData
 {
-    
+
 public:
-    
+
     MapFieldConfig();
-    
+
     ~MapFieldConfig();
-    
+
     int parse();
-    
+
     void clear();
-    
+
     MapFieldItem* item(int key);
-    
+
     MapFieldItem* find(int type, int level);
-    
+
 public:
-    
+
     std::map<int, MapFieldItem* > _datas;
 };
 

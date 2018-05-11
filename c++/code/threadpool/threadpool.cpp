@@ -94,7 +94,7 @@ auto CThreadPool::PushTaskBack(F&& f, Args&& ... args)
     std::future<return_type> res = task->get_future();
 
     //如果在当前线程内，则直接执行
-    if (IsInThisThread()) {
+    if (IsThisThreadIn()) {
         (*task)();
     } else {
         std::unique_lock<std::mutex> lock(m_mutex);
@@ -131,7 +131,7 @@ auto CThreadPool::PushTaskFront(F&& f, Args&& ... args)
     std::future<return_type> res = task->get_future();
 
     //如果在当前线程内，则直接执行
-    if (IsInThisThread()) {
+    if (IsThisThreadIn()) {
         (*task)();
     } else {
         std::unique_lock<std::mutex> lock(m_mutex);

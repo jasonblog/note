@@ -1,0 +1,239 @@
+syntax = "proto2";
+import "common.proto";
+option optimize_for = SPEED;
+
+/// --------------------DTO--------------------
+
+message PlayerDTO {
+    required uint64 playerId = 1; //玩家ID,全局唯一
+    optional string name = 2; // 玩家名称
+    required int32 level = 3; // 玩家等级
+    repeated PropertyDTO properties = 4; // 玩家属性 (经验值,资源数量...etc)
+    optional string language = 5;
+    required PositionDTO mapGridPosition = 6; // 地图坐标
+    required bool hasChangedName = 7;       //是否改过名
+    required string icon = 8; // 玩家头像
+}
+
+message GuideDTO {
+    required int32 id = 2;//新手引导ID
+	required bool jump = 3;//是否跳过
+}
+
+//-------------------COMMANDS---------------------
+
+enum PlayerCommandId {
+    USER_ACCOUNT_LOGIN  = 100;
+    PLAYER_LOGIN        = 101;
+    PLAYER_RECONNECT    = 102;
+    PLAYRE_HEARTBEAT    = 103;
+    PLAYRE_RELOAD       = 104;
+    PLAYER_TALENT_SET   = 105;  //设置天赋
+    PLAYER_IMAGE_SET    = 106;  //修改领主形象
+    PLAYER_QUERY_PLAYER = 107;  //查找领主形象
+    PLAYER_ICON_SET     = 108;  //修改领主头像
+    PLAYER_CHANGE_NAME  = 109;  //修改领主昵称
+    PLAYER_SET_GUIDE    = 110;  //设置新手引导
+    PLAYER_JUMP_GUIDE   = 111;  //跳过新手引导
+}
+
+message UserAccountLoginRequest {
+    required string platform = 1;
+    required string puid = 2;
+}
+
+message UserAccountLoginResponse {
+    required uint64 playerId = 1;
+}
+
+message PlayerLoginRequest {
+    required uint64 playerId = 1;
+}
+
+message PlayerLoginResponse {
+    required uint64 sessionId = 1;
+    required int64 systime = 2;
+    required int32 timeZoneOffset = 3; //服务器时区偏移毫秒数 For fix unity bug
+}
+
+message PlayerReconnectRequest {
+    required uint64 sessionId = 1;
+    required int32 lastPushId = 2;
+}
+
+enum ReconnectState {
+    CONTINUE = 1;
+    RELOAD = 2;
+    RELOGIN = 3;
+}
+
+message PlayerReconnectResponse {
+    optional ReconnectState state = 1;
+}
+
+message PlayerReloadRequest {
+}
+
+message PlayerReloadResponse {
+    required int64 systime = 1;
+    required int32 timeZoneOffset = 2; //服务器时区偏移毫秒数 For fix unity bug
+}
+
+message PlayerHeartBeatRequest {
+}
+
+message PlayerHeartBeatResponse {
+    required int64 systime = 1;
+}
+
+message SetTalentRequest {
+    required int32 level = 1;
+    required int32 talentId = 2;
+}
+
+message SetTalentResponse {
+    required int32 level = 1;
+    required int32 talentId = 2;
+}
+
+//修改领主形象
+message SetImageRequest{
+	required int32 image = 1;  //1:男 2：女 
+}
+
+message SetImageResponse{
+	optional int32 image = 2;
+}
+
+//查看领主详情
+message QueryLordInfoRequest{
+	optional int64 playerId = 1;//
+    optional string name = 2;//
+}
+
+message QueryLordInfoResponse{
+	optional int64 playerId = 1;
+	optional string nickname = 2;
+	optional int32 allianceid = 3;
+	optional string alliancename = 4;
+	optional int32 exp = 5;
+	optional int32 level = 6;
+	optional bool isfriend = 7;
+	optional int32 image = 8;
+    repeated EquipmentDTO  equipmentlist = 9; //领主穿戴装备信息
+}
+
+//修改头像
+message SetIconRequest{
+	required string iconID = 1;//修改头像ID
+	required int32 oper = 2;//1使用道具，2花费魔钻
+}
+
+message SetIconResponse{
+	optional string iconID = 2;//
+}
+
+// 109: 修改昵称
+message ChangeNameRequest 
+{
+    required string nickname = 1;   //昵称
+    required bool useItem = 2;//是否使用道具 0，不使用，1使用
+}
+
+// 109: 修改昵称返回
+message ChangeNameResponse
+{
+    required bool isAvailable = 1; //是否可用
+    optional PropertyDTO reward = 2; //修改昵称奖励
+}
+
+//设置新手引导
+message SetGuideRequest 
+{
+	required int32 id = 1;
+}
+
+//------------------PUSH MESSAGES ----------------
+enum PlayerPushId {
+    PLAYRE_DATA_PUSH        = 50101; // PlayerDataPush
+    PROPERTY_CHANGE_PUSH    = 50102;
+    PLAYER_LEVEL_UP_PUSH    = 50103; //玩家升级
+    PLAYER_PROTECT_PUSH     = 50104; //玩家新手保护
+    PLAYER_RELOGIN          = 50110; //强制玩家重新登录
+    PLAYER_COUNT_PUSH       = 50120; //玩家计数
+    PLAYER_BATTLE_PUSH      = 50121; //玩家战力
+    PLAYER_TALENT_PUSH      = 50122; //玩家天赋
+    PLAYER_VIP_PUSH         = 50123; //玩家VIP
+    PLAYER_VIP_ACTIVE_PUSH  = 50124; //玩家VIP激活信息推送
+    PLAYER_SYS_TIME_PUSH    = 50125; //系统当前时间
+    PLAYER_ONLINE_OTHER_DAY = 50126; //玩家在线跨天
+    PLAYER_GUIDE_PUSH       = 50127; //新手引导推送
+}
+
+message PlayerDataPush {
+    required PlayerDTO player = 1;
+}
+
+message PlayerPropertyChangePush {
+    repeated PropertyDTO properties = 1;
+}
+
+message PlayerLevelUpPush {
+    required int32 level = 1;
+}
+
+message PlayerProtectPush {
+    required int32 bornProtectEndTime = 1; //新手保护结束时间
+    required int32 atkProtectEndTime = 2;  //攻击保护结束时间
+    required int32 spyProtectEndTime = 3;  //侦查保护结束时间
+}
+
+//type 
+//2: 蓝装购买次数 
+//3：绿装购买次数 
+//4：紫装购买次数
+//5: 联盟福利玩家每天已领取次数
+//6: 排行榜每日点赞数
+//7：刷新推荐列表次数
+//8: 好友每日推荐
+//9: 酒馆任务
+message PlayerCount {
+    required int32 type = 1; 
+    required int32 point = 2; //使用次数
+    required int32 defCount = 3; //默认次数
+    optional int32 addCount = 4; //增加次数(购买等...)
+}
+
+message PlayerCountPush {
+    repeated PlayerCount counts = 1;
+}
+
+message PlayeBattlePush {
+    required int32 battleValue = 1;  //战斗力
+}
+
+message TalentPush {
+    repeated int32 talentIds = 1; 
+}
+
+//VIP经验改变
+message VipInfoPush
+{
+    required int32 	lv = 1;        //当前vip等级
+    required int32 	exp = 2;       //当前经验值
+    required int32 	sign = 3;      //累计登录天数
+}
+
+message VipActiveInfoPush
+{
+    required int32 activeEnd = 1;  //vip激活持续结束时间
+}
+
+message SysTimePush {
+    required int64 currTime = 1;        //当前系统时间
+}
+
+//新手引导推送
+message GuidePush {
+    required GuideDTO guide = 1;
+}

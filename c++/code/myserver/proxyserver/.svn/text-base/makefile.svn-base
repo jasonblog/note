@@ -1,0 +1,88 @@
+#################################################################
+#	makefile for gateserver
+#################################################################
+
+C_ARGS = -O2 -DUSE_LOG4CPP -D_POSIX_MT_  -DUSE_YQ_ASSERT
+#C_ARGS = -g -DUSE_LOG4CPP -D_POSIX_MT_ -D_DEBUG_ -DUSE_YQ_ASSERT
+CPP = g++
+
+COMMON = ../common
+
+INCLUDE =	-I$(COMMON)/tools/inc -I./inc -I$(COMMON)/log4cpp/include -I$(COMMON)/template \
+			-I$(COMMON)/message -I$(COMMON)/protobuf/include
+LIBS =	-L$(COMMON)/log4cpp/lib -llog4cpp -L$(COMMON)/protobuf/lib -llog4cpp -lprotobuf -static -lpthread
+
+OBJS =	./debug/configure.pb.o ./debug/message.pb.o ./debug/tcpmessage.pb.o \
+		./debug/gate_ctrl.o ./debug/gate_conn.o ./debug/gate_handle.o ./debug/main.o \
+		./debug/runflag.o ./debug/log.o ./debug/servertool.o ./debug/thread.o ./debug/client_comm_engine.o \
+		./debug/daemon.o ./debug/base.o ./debug/protoconfig.o ./debug/object.o ./debug/oi_tea.o
+
+TARGET = ./bin/gatesvrd
+
+first: all
+####### Compile
+
+./debug/message.pb.o : ./$(COMMON)/message/message.pb.cc
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/configure.pb.o : ./$(COMMON)/message/configure.pb.cc
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/tcpmessage.pb.o : ./$(COMMON)/message/tcpmessage.pb.cc
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/gate_ctrl.o : ./src/gate_ctrl.cpp
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/gate_conn.o : ./src/gate_conn.cpp
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/gate_handle.o : ./src/gate_handle.cpp
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/main.o : ./src/main.cpp
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/runflag.o : ./$(COMMON)/tools/src/runflag.cpp
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/log.o : ./$(COMMON)/tools/src/log.cpp
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/servertool.o : ./$(COMMON)/tools/src/servertool.cpp
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/thread.o : ./$(COMMON)/tools/src/thread.cpp
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/client_comm_engine.o : ./$(COMMON)/tools/src/client_comm_engine.cpp
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/daemon.o : ./$(COMMON)/tools/src/daemon.cpp
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/base.o : ./$(COMMON)/tools/src/base.cpp
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/protoconfig.o : ./$(COMMON)/tools/src/protoconfig.cpp
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/object.o : ./$(COMMON)/tools/src/object.cpp
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+./debug/oi_tea.o : ./$(COMMON)/tools/src/oi_tea.cpp
+	$(CPP) $(C_ARGS) $(INCLUDE) -o $@ -c $<
+
+####### Build Rules
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CPP) $(C_ARGS) -o $@ $(OBJS) $(LIBS)
+#	cp $(TARGET) ../../server/trunk/proxyserver/bin/
+
+install:
+	cp $(TARGET) ../../server/trunk/proxyserver/bin/
+	
+clean:
+	rm -f ./debug/*.o
+

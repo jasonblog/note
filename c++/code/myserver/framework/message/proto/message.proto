@@ -1,0 +1,77 @@
+// 客户端需要引用包
+// package wing.net.msg;
+syntax = "proto2";
+option optimize_for = SPEED;
+
+// 服务器类型
+enum enServerType
+{
+	FE_TIMER				= 0;		// 内部消息（定时器）(暂时不用)
+	FE_CLIENT				= 1;		// 客户端(暂时不用)
+	FE_GAMESERVER			= 2;		// 场景服务器(暂时不用)
+	FE_LOGINSERVER			= 3;		// 登陆服务器(暂时不用)
+	FE_DBSERVER				= 4; 		// 数据服务器
+	FE_PROXYSERVER			= 5;		// 代理服务器
+	FE_WORLDSERVER			= 6;		// 世界服务器(暂时不用)
+	FE_WEBSERVER			= 7;		// 平台服务器
+	FE_OFFLINESERVER		= 8;		// 离线服务器(暂时不用)
+	FE_CHECKSERVER			= 9; 		// 验证服务器(暂时不用)
+	FE_HALLSERVER			= 10;		// 大厅服务器
+	FE_GATESERVER			= 11;		// 网关服务器
+	FE_ROOMSERVER			= 12;		// 房间服务器
+};
+
+enum enMessageCmd
+{	
+	MESS_NULL			= 0;	// 无指令
+	MESS_REGIST			= 1;	// 注册
+	MESS_KEEPALIVE		= 2;	// 心跳
+}
+message CSocketInfo
+{
+	optional	int32	SocketID		= 1;		// 目标的FD
+	optional	int64	CreateTime		= 2;		// 目标的创建时间
+	optional	int32	State			= 3;		// 发送后的状态 < 0 说明关闭socket
+};
+
+/////////////////////////////////////////GameServer <==> GateServer///////////////////////////////////
+/* 
+ * 发送给GameServer和gateserver的消息传递格式
+ * 总长度 ＋ 字节对齐长度 ＋ head长度 + head ＋ msgPara
+ */
+//发送GameServer<=>Gateserver的消息头
+message MesHead
+{
+	repeated	CSocketInfo		SocketInfos		= 1;	//发送目标信息(多个用来做多人推送)
+	optional	int32			Cmd		 		= 2;	//消息id
+	optional	int32			Serial		 	= 3;	//序列码
+	optional	int32			Seq		 		= 4;	//应答码
+};
+
+//服务器内部消息传递格式
+message CMessage
+{
+	required	MesHead		MsgHead		= 1;	// 消息头+
+	optional	fixed64		MsgPara		= 2[default = 0];	// 消息体( 指针 4bytes ) 消息传递时是无效的，这是服务器内部自己赋值的，方便获取消息
+};
+
+/////////////////////////////////(dbserver,gameserver等等) <==> ProxyServer/////////////////////
+//发送给proxyserver的消息头
+message CProxyHead
+{
+	required	uint32			SrcFE			= 1;							// 源服务器类型
+	required	uint32			SrcID			= 2;							// 源服务器ID
+	required	uint32			DstFE			= 3;							// 目标服务器类型
+	required	uint32			DstID			= 4;							// 目标服务器ID
+	required	uint64			TimeStamp		= 5;							// 时间戳(毫秒)
+	optional	enMessageCmd	OpFlag			= 6[default = MESS_NULL];	    // 指令类型
+    optional    uint32          messageId       = 7;                            // 消息id
+    optional	MesHead		    msgHead		    = 8;	                        // 发送目标信息(创建玩家实体之前用)
+};
+
+// 单个消息
+message CProxyMessage
+{
+	required	CProxyHead		MsgHead	= 1;						// 消息头+
+	optional	fixed64			MsgPara	= 2[default = 0];	// 消息体( 指针 4bytes ) 消息传递时是无效的，这是服务器内部自己赋值的，方便获取消息
+};

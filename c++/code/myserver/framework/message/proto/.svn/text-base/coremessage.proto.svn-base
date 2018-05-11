@@ -1,0 +1,245 @@
+
+// 客户端去掉注释
+// package wing.net.msg;
+
+import "resourcemessage.proto";
+
+option optimize_for = SPEED;
+
+// 文件功能模块说明:	此文件主要是玩家登陆和创建角色， 跨场景
+
+// 消息分段说明:		[0x00000001 ~ 0x0000FFFF]
+
+// *******************************************************************
+// CMsgLoginHallRequest : 申请进入大厅
+// *******************************************************************
+message CMsgLoginHallRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x00000001;
+	}
+	required	string	Account		= 1;		// 账号(uid)
+	optional	string	Password		= 2;		// 密码 (可以不填)
+	optional	int32	PFrom			= 3;		// 平台ID(预留字段,为以后多平台合服同一个帐号不同平台做区分)
+	required	string	Session			= 4;		// 平台的session
+};
+
+// *******************************************************************
+// CMsgLoginHallResponse : 申请进入大厅回复
+// *******************************************************************
+message CMsgLoginHallResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00000002;
+	}
+	required	int32									Result							= 1;		// 返回结果(成功返回0,失败返回错误码)
+	required	int32									EntityID						= 2;		// 实体ID
+	required	int64									RoleID							= 3;		// RoleID
+	required	string									RoleName					= 4;		// 角色名称
+	repeated	PBUpdateResource				resources						= 5;		// 更新资源
+	repeated	PBGagaleType1SingleInfo		data								= 6;		// 刮刮乐类型1的数据(成功失败都下发,如果购买失败,发送之前的数据,没有购买过发送默认值)
+	repeated 	PBItem									Items							= 7;		// 物品数据
+	required	bool										HasFirstChangeName	= 8;		// 是有已经修改过名字,第一次免费,暂时没有付费改名
+	required	int32									headid							= 9;		// 头像ID
+};
+
+// *******************************************************************
+// CMsgLeaveHallRequest : 申请离开大厅
+// *******************************************************************
+message CMsgLeaveHallRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x00000003;
+	}
+	required	int32	LeaveType		= 1;		// 离开类型
+};
+
+// *******************************************************************
+// CMsgLeaveHallResponse : 离开大厅回复（如果是tcp检测到断开连接，可以不回复）
+// *******************************************************************
+message CMsgLeaveHallResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00000004;
+	}
+	required	int32	LeaveType		= 1;	// 离开类型
+};
+
+// 系统统一错误码回复
+message CMsgSystemErrorResponse
+{
+	enum Msg
+	{
+		MsgID		= 0x00000005;
+	}
+	required	int32	Result	= 1;		// 返回结果(成功返回0,失败返回错误码)
+};
+
+// 测试消息请求
+message CMsgTestRequest
+{
+	enum Msg{
+		MsgID = 0x00000006;
+	}
+	optional	int32	EntityID		= 1;	// 实体ID
+	optional	int64	RoleID			= 2;	// 角色ID
+	optional	int64	TimeStamp	= 3;	// 时间戳
+	optional	string	Name			= 4;	// 名字
+};
+
+// 测试消息回复
+message CMsgTestResponse
+{
+	enum Msg{
+		MsgID = 0x00000007;
+	}
+	optional	int32	EntityID		= 1;	// 实体ID
+	optional	int64	RoleID			= 2;	// 角色ID
+	optional	int64	TimeStamp	= 3;	// 时间戳
+	optional	string	Name			= 4;	// 名字
+};
+
+// *******************************************************************
+// CMsgExchangeResourceRequest : 兑换资源请求(购买金币元宝等)
+// *******************************************************************
+message CMsgExchangeResourceRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x00000008;
+	}
+	required	int32	id		= 1;		// 充值模板的qid
+};
+
+// *******************************************************************
+// CMsgExchangeResourceResponse : 兑换资源请求回复(购买金币元宝等)
+// *******************************************************************
+message CMsgExchangeResourceResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00000009;
+	}
+	required	int32						result			= 1;		// 回复  0 成功  1 失败
+	repeated	PBUpdateResource	resources		= 2;		// 更新资源
+};
+
+
+// *******************************************************************
+// CMsgRenameRequest : 游戏名称修改请求
+// *******************************************************************
+message CMsgRenameRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x0000000A;
+	}
+	required	string									RoleName	= 1;		// 角色名称
+};
+
+// *******************************************************************
+// CMsgRenameResponse : 游戏名称修改回复
+// *******************************************************************
+message CMsgRenameResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x0000000B;
+	}
+	required	int32	Result			= 1;		// 回复 0: 成功 , 其他失败
+	required	string	rolename		= 2;		// 玩家当前名字
+};
+
+
+// *******************************************************************
+// CMsgChangeHeadRequest : 游戏名称修改请求
+// *******************************************************************
+message CMsgChangeHeadRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x0000000C;
+	}
+	required	int32									HeadId	= 1;		// 角色头像ID
+};
+
+// *******************************************************************
+// CMsgChangeHeadResponse : 游戏名称修改回复
+// *******************************************************************
+message CMsgChangeHeadResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x0000000D;
+	}
+	required	int32	Result		= 1;		// 回复 0: 成功 , 其他失败
+	required	int32	headid		= 2;		// 当前头像ID
+};
+
+// *******************************************************************
+// CMsgUpdateResourceResponse : 更新资源回复
+// *******************************************************************
+message CMsgUpdateResourceResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x0000000E;
+	}
+	repeated	PBUpdateResource	resources		= 1;		// 更新资源
+};
+
+// *******************************************************************
+// CMsgAlmsResponse : 给玩家发放救济金
+// *******************************************************************
+message CMsgAlmsResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x0000000F;
+	}
+};
+
+// *******************************************************************
+// CMsgBackHallOKRequest : 回到大厅客户端已经处理完毕的请求
+// *******************************************************************
+message CMsgBackHallOKRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x00000010;
+	}
+};
+
+// *******************************************************************
+// CMsgDataStatisticsRequest : 请求统计信息数据
+// *******************************************************************
+message CMsgDataStatisticsRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x00000011;
+	}
+	required	EDataStatisticsType		type		= 1;		// 统计类型
+};
+
+// *******************************************************************
+// CMsg8BallDataStatisticsResponse : 回复8球统计信息数据
+// *******************************************************************
+message CMsg8BallDataStatisticsResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00000012;
+	}
+	required	int32							result				= 1;		// 0成功  不等于0下发错误码
+	required	EDataStatisticsType		type					= 2;		// 统计类型
+	required	int32							win					= 3;		// 胜利场次
+	required	int32							lose					= 4;		// 失败场次
+	required	int32							escape				= 5;		// 逃跑场次
+	required	int32							winningstreak	= 6;		// 最大连胜场次
+};
+

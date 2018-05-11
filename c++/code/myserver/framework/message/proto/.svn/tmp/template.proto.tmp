@@ -1,0 +1,226 @@
+option optimize_for = SPEED;
+
+import "resourcemessage.proto";
+
+// 充值模板数据类型
+message PBTempChongzhi
+{
+	required	int32	qid					= 1;		// 模板ID
+	required	int32	qxiaohaotype	= 2;		// 消耗资源类型
+	required	int32	qxiaohao			= 3;		// 消耗资源数量
+	required	int32	qduihuantype	= 4;		// 获得资源类型
+	required	int32	qduihuan			= 5;		// 获得资源数量
+};
+
+// 充值模板表
+message CTemplateChongzhi
+{
+	repeated	PBTempChongzhi		TempChongzhi		= 1;
+};
+
+// 道具模板
+message CTemplateItem
+{
+	repeated	PBTempItem		TempItem	= 1;		// 道具模板
+};
+
+// 道具模板数据
+message PBTempItem
+{
+		required	int32	qid			= 1;		// 模版ID
+		required	int32	qType		= 2;		// 道具类型
+		required	int32	qSubset1	= 3;		// 道具类型参数1
+		required	int32	qSubset2	= 4;		// 道具类型参数2
+		required	int32	qSubset3	= 5;		// 道具类型参数3
+		required	int32	qifsell		= 6;		  // 是否在商城里面卖
+		required	int32	qPinJi		= 7; 		// 品级
+};
+
+// 8球1v1模板数据
+message PBBall1v1
+{
+	required	int32	qid				= 1;		// 模板ID
+	required	int32	qbettype		= 2;		// 房间类型
+	required	int32	qmingold		= 3;		// 最小金币限制
+	required	int32	qmaxgold		= 4;		// 最大金币限制
+	required	int32	qrecyclerate	= 5;		// 抽水比例(万分比)
+	required	int32	qhittime		= 6;		// 击球前等待时间
+	required	int32	qwaittime		= 7;		// 等球移动时间
+	required	int32	qallinmax		= 8;		// allin最大金币数量
+	required	int32	qwinpoint		= 9;		// 胜利获得积分
+	required	int32	qlosepoint	= 10;		// 失败获得积分
+	required	int32	qradiotimes	= 11;		// 广播被率
+};
+
+// 8球1v1模板
+message CTemplateBall1v1
+{
+	repeated	PBBall1v1		TempBall1v1		= 1;
+};
+
+// 全局变量
+message PBGlobalInt
+{
+		required	int32	qid						= 1;		// 模版ID
+		required	int32	qmorengan			= 2;		// 初始球杆模版ID
+		required	int32	qmorenzhuo		= 3;		// 初始球桌模版ID
+		required	int32	qmaxpuke			= 4;		// 8球3人欢乐赛罚球上限
+};
+// 全局变量
+message CTemplateGlobalInt
+{
+	required	PBGlobalInt		TempGlobalint	= 1;		// 道具模板
+};
+
+// 商店
+message PBShop
+{
+	required	int32	qid					= 1;		// 模版ID
+	required	int32	qitemid				= 2;		// 道具ID
+	required	int32	qmoneytype		= 3;		// 消费货币类型
+	required	int32	qprice				= 4;		// 消费第一档单价
+	required	int32	qsellday1			= 5;		// 出售时间1
+	required	int32	qsellday2			= 6;		// 出售时间2
+	required	int32	qsellday3			= 7;		// 出售时间3
+	required	int32	qsalenum			= 8;		// 出售折扣
+	required	int32	qsalestartday	= 9;		// 打折起始时间
+	required	int32	qdaynum			= 10;	// 打折持续时间
+	required	int32	qlimitnum		= 11;	// 每天限购个数
+	required	int32	qprice2				= 12;	// 消费第二档单价				
+	required	int32	qprice3				= 13;	// 消费第三档单价	
+};
+// 商店
+message CTemplateShop
+{
+	repeated	PBShop		TempShangcheng	= 1;		// 商店
+};
+
+// 幸运28数据
+message PBTempLucky28
+{
+	required	int32	qid				= 1;		// 模板ID
+	required	int32	qbettype		= 2;		// 房间类型
+	required	int32	qmingold		= 3;		// 房间需求金币下限
+	required	int32	qmaxgold		= 4;		// 房间需求金币上限
+	required	int32	qbetgold1		= 5;		// 押拄类型1消耗金币数量
+	required	int32	qbetgold2		= 6;		// 押拄类型2消耗金币数量
+	required	int32	qbetgold3		= 7;		// 押拄类型3消耗金币数量
+	required	int32	qbetgold4		= 8;		// 押拄类型4消耗金币数量
+	required	int32	qbetgold5		= 9;		// 押拄类型5消耗金币数量
+	required	int32	qmaxround	= 10;	// 最大回合数
+	required	int32	qrecyclerate	= 11;	// 抽水比例
+	required	int32	qturntime		= 12;	// 每回合超时时间
+	required	int32	qradiotimes	= 13;	// 广播倍数
+};
+
+// 幸运28模板
+message CTemplateLucky28
+{
+	repeated	PBTempLucky28	Templucky28	= 1;
+};
+
+// 刮刮乐模板数据类型
+message PBTempScratch
+{
+	required	int32	qid					= 1;		// 模板ID
+	required	int32	qscratchtype		= 2;		// 刮刮乐类型
+	required	int32	qcost				= 3;		// 购买消耗金币
+	required	int32	qhitrate			= 4;		// 中奖概率
+	required	int32	qrewardcount	= 5;		// 奖励档数
+	required	int32	qrewardmin		= 6;		// 中奖区数字下限
+	required	int32	qrewardmax		= 7;		// 中奖区数字上限
+	required	int32	qscratchmin		= 8;		// 刮奖区数字下限
+	required	int32	qscratchmax	= 9;		// 刮奖区数字上限
+	required	int32	qradiotimes		= 10;		
+	required	int32	qline1min		= 12;		// 中奖区数字下限
+	required	int32	qline1max		= 13;		// 中奖区数字上限
+	required	int32	qline2min		= 14;		// 刮奖区数字下限
+	required	int32	qline2max		= 15;		// 刮奖区数字上限	
+	required	int32	qhitrate1		= 16;	
+};
+
+// 刮刮乐模板
+message CTemplateScratch
+{
+	repeated	PBTempScratch	Tempscratch		= 1;
+};
+
+// 刮刮乐奖励数据
+message PBTempScratchReward
+{
+	required	int32	qid					= 1;		// 模板ID
+	required	int32	qrewardorder	= 2;		// 奖励档次
+	required	int32	qgetrate			= 3;		// 概率
+	required	int32	qreward			= 4;		// 奖励金币
+	required	int32	qisbroadcase	= 5;		// 是否广播(1:不广播, 2:广播)
+	required	int32	qcurrencytype	= 6;		//
+	required	int32	qquality	= 7;		//  
+};
+
+// 刮刮乐奖励模板
+message CTemplateScratchReward
+{
+	repeated	PBTempScratchReward		Tempscratchreward	= 1;
+};
+
+// 摇摇乐投注
+message PBSlotsBet
+{
+	required	int32	qid					= 1;		// 模版ID
+	required	int32	qbet				= 2;		// 投注额度
+	required	int32	qproportion			= 3;		// 抽取比例
+	required	int32	qguarantee			= 4;		// 保底金额
+	required	int32	qmin				= 5;		// 默认下线
+};
+// 摇摇乐投注
+message CTemplateSlotsBet
+{
+	repeated	PBSlotsBet		Tempslotsbet	= 1;		// 投注表
+};
+
+
+// 摇摇乐中奖额度
+message PBSlotsReward
+{
+	required	int32	qid					= 1;		// 模版ID
+	required	int32	qtype				= 2;		// 类型
+	required	float	qmultiple			= 3;		// 倍数
+};
+// 摇摇乐中奖额度
+message CTemplateSlotsReward
+{
+	repeated	PBSlotsReward		Tempslotsreward	= 1;		// 中奖额度表
+};
+
+
+// 摇摇乐球概率
+message PBSlotsRate
+{
+	required	int32	qid					= 1;		// 模版ID
+	repeated	int32	qball				= 2;		// 概率
+};
+// 摇摇乐球概率
+message CTemplateSlotsRate
+{
+	repeated	PBSlotsRate		Tempslotsrate	= 1;		// 摇摇乐球概率表
+};
+
+// 8球3人欢乐赛数据
+message PBTemp8Ball3P
+{
+	required	int32	qid				= 1;		// 模板ID
+	required	int32	qbettype		= 2;		// 房间类型
+	required	int32	qmingold		= 3;		// 金币下限
+	required	int32	qmaxgold		= 4;		// 金币上限
+	required	int32	qwingold		= 5;		// 胜利奖励金币
+	required	int32	qhittime		= 6;		// 击球等待时间
+	required	int32	qwaittime		= 7;		// 击球后等待时间
+	required	int32	qwinpoint		= 8;		// 胜利积分
+	required	int32	qlosepoint	= 9;		// 失败积分
+};
+
+// 8球3人欢乐赛模板
+message CTemplate8Ball3P
+{
+	repeated	PBTemp8Ball3P	TempBall3p	= 1;
+};

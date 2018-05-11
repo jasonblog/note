@@ -1,0 +1,121 @@
+#include <signal.h>
+
+#include "runflag.h"
+#include "gate_ctrl.h"
+#include "log.h"
+#include "base.h"
+#include "daemon.h"
+#include "protoconfig.h"
+
+
+CRunFlag g_byRunFlag;
+
+
+void sigusr1_handle(int iSigVal)
+{
+	g_byRunFlag.SetRunFlag(ERF_RELOAD);
+	signal(SIGUSR1, sigusr1_handle);
+}
+
+
+void ignore_pipe()
+{
+	struct sigaction sig;
+
+	sig.sa_handler = SIG_IGN;
+	sig.sa_flags = 0;
+	sigemptyset(&sig.sa_mask);
+	sigaction(SIGPIPE, &sig, NULL);
+}
+
+int main(int argc, char **argv)
+{
+	int iInitDaemon = SERVER_INIT_DAEMON;
+
+	for (int i = 1; i < argc; i++)
+	{
+		if (!strcasecmp(argv[i], "-v"))
+		{
+			// 支持版本信息查询
+#ifdef _DEBUG_
+			printf("gateserver debug build at %s %s\n", __DATE__, __TIME__);
+#else
+			printf("gateserver release build at %s %s\n", __DATE__, __TIME__);
+#endif
+			exit(0);
+		}
+		else if (!strcasecmp(argv[i], "-d"))
+		{
+			// 不启动守护进程
+			iInitDaemon = SERVER_INIT_UNDAEMON;
+		}
+	}
+
+	// 初始化日志信息(临时)
+	INIT_ROLLINGFILE_LOG("default", "../log/gateserver.log", LEVEL_DEBUG, 10*1024*1024, 5);
+
+	// 后台守护模式
+	int iRet = InitDaemon(iInitDaemon, "gatelock.lock");
+	if (iRet != 0)
+	{
+		printf("InitDaemon failed, ret = %d.\n", iRet);
+		exit(0);
+	}
+
+	// 读取配置
+	CConfigMgr* pTmpConfig = new CConfigMgr;
+
+	CGateCtrl* pGateCtrl = new CGateCtrl;
+	if (!pGateCtrl)
+	{
+		LOG_ERROR("default", "new CGateCtrl failed. exit!");
+		exit(1);
+	}
+
+	// 读取配置文件
+	if (pGateCtrl->Initialize())
+	{
+		LOG_ERROR("default", "CGateCtrl initialize failed.");
+		if (pGateCtrl)
+		{
+			delete pGateCtrl;
+			pGateCtrl = NULL;
+		}
+		exit(2);
+	}
+
+	// 创建EHandleType_NUM个线程
+	if (pGateCtrl->PrepareToRun())
+	{
+		LOG_ERROR("default", "CGateCtrl prepare to fun failed.");
+		if (pGateCtrl)
+		{
+			delete pGateCtrl;
+			pGateCtrl = NULL;
+		}
+		exit(3);
+	}
+
+	// 安装信号处理函数
+	signal(SIGUSR1, sigusr1_handle);
+
+	LOG_INFO("default", "CGateCtrl is ready now.");
+
+	// GateServer Run
+	pGateCtrl->Run();
+
+	// 服务器退出
+	if (pTmpConfig)
+	{
+		delete pTmpConfig;
+		pTmpConfig = NULL;
+	}
+
+	if (pGateCtrl)
+	{
+		delete pGateCtrl;
+		pGateCtrl = NULL;
+	}
+
+	return 0;
+}

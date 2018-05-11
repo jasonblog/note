@@ -1,0 +1,322 @@
+// 客户端去掉注释
+// package wing.net.msg;
+
+option optimize_for = SPEED;
+
+// 这里里面放所有的PB类型的定义,以及游戏相关的枚举类型,方便统一
+
+// 统计类型
+enum EDataStatisticsType
+{
+	EDataStatisticsType_8Ball1v1	= 0;		// 8球1v1
+	EDataStatisticsType_8Ball3P		= 1;		// 8球3人欢乐赛
+};
+
+// 8球比赛结果(用于同步大厅)
+message PB8BallDataStatistics
+{
+	required	int64				roleid				= 1;		// 玩家ID
+	required	EGameResult	result				= 2;		// 胜负还是逃跑
+};
+
+// 金币排行榜单个玩家数据
+message PBOrderGoldData
+{
+	optional	int64	roleid		= 1;	// 玩家ID
+	optional	string	rolename	= 2;	// 玩家名称
+	optional	int32	headid		= 3;	// 玩家头像
+	optional	int64	gold			= 4;	// 金币
+};
+
+// 排行榜类型
+enum EOrderType
+{
+	EOrderType_Gold		= 0;		// 金币排行榜
+};
+
+// 离开房间的类型
+enum ELeaveRoomType
+{
+	ELeaveRoomType_NotMatch		= 0;		// 回到大厅不匹配
+	ELeaveRoomType_Match			= 1;		// 回到大厅继续匹配
+};
+
+// 进入房间类型
+enum EGoRoomType
+{
+	EGoRoomType_Hall		= 0;		// 从大厅跳转房间
+	EGoRoomType_Room	= 1;		// 在房间里面不需要跳转
+};
+
+// 资源类型
+enum EResourceType
+{
+	EResourceType_Invalid			= 0;		// 无效的货币类型
+	EResourceType_Diamond		= 1;		// 钻石
+	EResourceType_Gold				= 2;		// 金币
+	EResourceType_RMB				= 3;		// 人民币(显示中的钱比如米币)
+};
+
+// 道具商城标签页类型
+enum EItemShopType
+{
+	EItemShopType_Invalid		= 0;		// 无效的货币类型
+	EItemShopType_BallGun		= 1;		// 球杆
+	EItemShopType_BallDesk		= 2;		// 球桌
+	EItemShopType_BallItem		= 3;		// 道具
+};
+
+// 8球玩家状态
+enum eEightBallStatus
+{
+	eEightBallStatus_StartKick				= 0;		// 开始击球
+	eEightBallStatus_Wait					= 1;		// 等待
+	eEightBallStatus_Kick					= 2;		// 击球
+	eEightBallStatus_StartGame			= 3;		// 比赛开始
+	eEightBallStatus_RoundEnd			= 4;		// 回合结束,玩家以上行回合结果
+	eEightBallStatus_Leave					= 5;		// 离开游戏
+	eEightBallStatus_Giveup				= 6;		// 放弃比赛,认输
+	eEightBallStatus_EndGame			= 7;		// 比赛结束
+	eEightBallStatus_WaitJoin				= 8;		// 等待加入比赛
+	eEightBallStatus_Join						= 9;		// 玩家加入比赛
+};
+
+// 8球玩家状态
+message PBEightBallStatus
+{
+	required	int64					roleid	= 1;		// 角色ID
+	required	int32					status	= 2;		// 角色状态
+};
+
+// 球的类型
+enum eBallType
+{
+	eBallType_Write			= 0;			// 白球
+	eBallType_One				= 1;			// 1号球
+	eBallType_Two				= 2;			// 2号球
+	eBallType_Three			= 3;			// 3号球
+	eBallType_Four				= 4;			// 4号球
+	eBallType_Five				= 5;			// 5号球
+	eBallType_Six				= 6;			// 6号球
+	eBallType_Seven			= 7;			// 7号球
+	eBallType_Eight				= 8;			// 8号球
+	eBallType_Nine				= 9;			// 9号球
+	eBallType_Ten				= 10;		// 10号球
+	eBallType_Eleven			= 11;		// 11号球
+	eBallType_Twelve			= 12;		// 12号球
+	eBallType_Thirteen		= 13;		// 13号球
+	eBallType_FourTeen		= 14;		// 14号球
+	eBallType_FifTeen			= 15;		// 15号球
+};
+
+// 8球回合结果
+enum eBallResult
+{
+	eBallResult_Pot				= 0;	// 进球
+	eBallResult_Unpot			= 1;	// 未进球
+	eBallResult_Foul			= 2;	// 犯规
+	eBallResult_End			= 3;	// 比赛结束
+	eBallResult_None			= 4;	// 无效状态
+	
+};
+
+// 是否落袋
+enum EIsPocket
+{
+	EIsPocket_No	= 0;	// 未落袋
+	EIsPocket_Yes	= 1;	// 落袋
+};
+
+// 单个球的属性
+message PBSingleBall
+{
+	required	int32		BallType	= 1;		// 球类型
+	required	int32		PositionX	= 2;		// 位置
+	required	int32		PositionY	= 3;		// 位置
+	required	int32		IsPocket	= 4;		// 是否落袋(0:未落袋, 1:落袋)
+};
+
+// 球的属性列表
+message PBBalls
+{
+	repeated	PBSingleBall		BallList		= 1;		// 球的信息
+};
+
+// 8球分组信息
+message PB8BallGroup
+{
+	required	int64					roleid	= 1;		// 角色ID
+	required	eEightBallStatus	status	= 2;		// 玩家状态
+	repeated	int32					balllist	= 3;		// 未入袋球的列表
+};
+
+// 击球的属性
+message PBKickBallInfo
+{
+	required	int32				angle			= 1;	// 角度
+	required	int32				power			= 2;	// 力度
+	required	int32				kickpointX		= 3;	// 打击点x
+	required	int32				kickpointY		= 4;	// 打击点y
+	required	PBSingleBall		writeball		= 5;	// 白球的信息
+	repeated	int32				startrand		= 6;	// 开球时的随机值
+};
+
+// 8球游戏结果
+message PB8BallEndResult
+{
+	required	int64		roleid			= 1;	// 玩家ID
+	required	int32		result			= 2;	// 胜利还是失败
+	required	int64		betgold			= 3;	// 获得金币
+};
+
+// 房间类型
+enum enRoomType
+{
+	RT_INVALID					= 0;			// 无效的房间类型
+	RT_8BALL_1V1_LV1		= 1;			// 8球1v1新手
+	RT_8BALL_1V1_LV2		= 2;			// 8球1v1高级
+	RT_8BALL_1V1_LV3		= 3;			// 8球1v1大师
+	RT_8BALL_1V1_LV4		= 4;			// 8球1v1AllIn
+	RT_LUCKY28_LV1			= 5;			// 幸运28新手
+	RT_LUCKY28_LV2			= 6;			// 幸运28高级
+	RT_LUCKY28_LV3			= 7;			// 幸运28大师
+	RT_LUCKY28_LV4			= 8;			// 幸运28宗师	
+	RT_8BALL_3P_LV1			= 9;			// 8球3人欢乐赛2500奖励场
+	RT_8BALL_3P_LV2			= 10;		// 8球3人欢乐赛2500奖励场
+	RT_8BALL_3P_LV3			= 11;		// 8球3人欢乐赛2500奖励场
+	RT_8BALL_3P_LV4			= 12;		// 8球3人欢乐赛2500奖励场
+
+	RT_ROOMTYPE_NUM	= 13;		// 房间类型总数,如果需要加房间类型在上面添加,请同时修改类型总数
+};
+
+// 单个物品数据信息下发给客户端
+message PBItem
+{
+	required	int32 	ArraryIndex		= 1;		// 数组下标		(客户端保存， 下次请求直接上次数组下标)
+	required	int32 	TempID			= 2;		// 物品模板ID
+	required	int32 	Num					= 3;		// 物品数量
+	required  	int32   Status    			= 4;		// 状态
+	required   int32   EndTime 			= 5; 		// 道具结束时间
+}
+
+// 物品数据列表 下发给客户端
+message PBItemList
+{
+	repeated	PBItem		Items		= 1;		// 物品数据
+}
+
+// 更新资源
+message PBUpdateResource
+{
+	optional	EResourceType		type		= 1;		// 资源类型
+	optional	int64					num		= 2;		// 当前数量
+}
+
+// 幸运28玩家状态
+enum eLucky28Status
+{
+	eLucky28Status_StartGame			= 0;		// 比赛开始
+	eLucky28Status_Wait					= 1;		// 等待
+	eLucky28Status_Shot					= 2;		// 出手
+	eLucky28Status_EndGame			= 3;		// 比赛结束
+	eLucky28Status_WaitJoin				= 4;		// 等待玩家加入
+	eLucky28Status_Prepare				= 5;		// 等待其他玩家
+	eLucky28Status_Giveup				= 6;		// 放弃
+	eLucky28Status_Leave					= 7;		// 离开
+};
+
+// 幸运28押拄类型
+enum eLucky28BetType
+{
+	eLucky28BetType_None		= 0;	// 无效的押拄类型
+	eLucky28BetType_Shot1		= 1;	// 押拄类型1
+	eLucky28BetType_Shot2		= 2;	// 押拄类型2
+	eLucky28BetType_Shot3		= 3;	// 押拄类型3
+	eLucky28BetType_Shot4		= 4;	// 押拄类型4
+	eLucky28BetType_Shot5		= 5;	// 押拄类型5
+};
+
+// 幸运28出手类型
+enum eLucky28ShotType
+{
+	eLucky28ShotType_GiveUp	= 1;	// 放弃
+	eLucky28ShotType_Yes			= 2;	// 要球
+	eLucky28ShotType_No			= 3;	// 不要球
+};
+
+// 比赛结果
+enum EGameResult
+{
+	EGameResult_Succeed	= 0;	// 胜利
+	EGameResult_Failure	= 1;	// 失败
+	EGameResult_Draw		= 2;	// 平局
+	EGameResult_Escape	= 3;	// 逃跑
+};
+
+// 幸运28比赛结束信息
+message PBLuckey28EndGame
+{
+	required	int64				roleid		= 1;		// 玩家ID
+	required	EGameResult	result		= 2;		// 结果类型
+	required	int64				addgold	= 3;		// 获得金币
+	required	int64				totalgold	= 4;		// 当前金币总量
+	repeated	int32				balllist		= 5;		// 球的列表(私球放第一位)
+};
+
+// 幸运28每个玩家的信息
+message PBLucky28RoleInfo
+{
+	required	int64		roleid			= 1;	// 玩家ID
+	repeated	int32		balllist			= 2;	// 球的列表(私球放第一位,如果不是自己就发白球,是自己就发对应的球)
+	required	int64		betgold			= 3;	// 下注金币总额
+	required	int64		remaingold	= 4;	// 当前剩余金币总额
+};
+
+// 幸运28每回合当前信息
+message PBLucky28RoundInfo
+{
+	repeated	int32						leftballlist		= 1;	// 场上剩余的球的列表
+	repeated	PBLucky28RoleInfo	roleinfos		= 2;	// 玩家当前信息
+};
+
+// 幸运28球球的列表
+message PBLucky28BallList
+{
+	repeated	int32					leftballlist		= 1;	// 场上剩余的球的列表
+};
+
+// 刮刮乐的刮开类型
+enum eGagaleDisplay
+{
+	eGagaleDisplay_NotDisplay	= 0;	// 不显示
+	eGagaleDisplay_Display			= 1;	// 显示,在服务器也做已领取奖励使用
+};
+
+// 刮刮乐类型1单个数据的结构
+message PBGagaleType1SingleInfo
+{
+	required	int32					num 	= 1;	// 数字
+	required	int32					gold		= 2;	// 奖励金额
+	required	eGagaleDisplay		display	= 3;	// 刮开类型
+	required	int32		isbig	= 4;	//  0 小奖 1 大奖
+};
+
+// 刮刮乐类型2单个数据的结构
+message PBGagaleType2SingleInfo
+{
+	required	int32					num 	= 1;	// 数字
+	required	int32					gold		= 2;	// 奖励金额
+	required	eGagaleDisplay		display	= 3;	// 刮开类型
+	required	int32		isbig	= 4;	//  0 小奖 1 大奖
+};
+// 刮刮乐类型2单个数据的结构
+message PBGagaleType3SingleInfo
+{
+	required	int32					num 	= 1;	// 数字
+	required	EResourceType					rewardtype		= 2;	// 奖励类型
+	required	int32					rewardnum		= 3;	// 奖励金额
+	required	eGagaleDisplay		display	= 4;	// 刮开类型
+	required	int32		state	= 5;	//  0 不可领取 1 可领取 
+	required	int32		isbig	= 6;	//  0 小奖 1 大奖
+};
+

@@ -1,0 +1,45 @@
+option optimize_for = SPEED;
+
+// 文件功能模块说明:	此文件webmodule使用
+
+// 消息分段说明:		[0x00030001 ~ 0x0003FFFF]
+
+enum REQUEST_TYPE
+{
+	RT_JSON	= 0;	// json类型请求
+	RT_URL	= 1;	// url类型请求
+};
+
+message CMsgWeb2GameRequest
+{
+	enum Msg{	MsgID	= 0x00030001;	}
+	optional REQUEST_TYPE	RequestType	= 1;	// 请求类型
+	optional uint64			SessionID	= 2;	// 会话ID 用于透传(webserver生成的)
+	optional bytes			Data		= 3;	// 实际内容
+};
+
+message CMsgGame2WebResponse
+{
+	enum Msg{	MsgID	= 0x00030002;	}
+	optional uint64			SessionID	= 1;	// 会话ID 用于透传(webserver生成的)
+	optional bytes			Data		= 2;	// 实际内容
+};
+
+message CMsgGame2WebRequest
+{
+	enum Msg{	MsgID = 0x00030003;	}
+	optional		uint32		SessionID		= 1; 		// 会话ID(gameserver生成的)
+	optional		uint64 	TimeStamp	= 2;		// 会话时间戳
+	required		string		Url					= 3;		// url
+	optional		bytes		Data				= 4;		// 实际内容(json)
+};
+
+message CMsgWeb2GameResponse
+{
+	enum Msg{	MsgID = 0x00030004;	}
+	required		int32		Result				= 1;		// 返回结果(0:成功)
+	optional		uint32		SessionID		= 2; 		// 会话ID(gameserver生成的)
+	optional		uint64		TimeStamp	= 3;		// 会话时间戳
+	optional		bytes		Data				= 4;		// 实际内容(json)
+};
+

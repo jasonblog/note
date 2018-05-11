@@ -1,0 +1,140 @@
+option optimize_for = SPEED;
+
+import "resourcemessage.proto";
+
+// 文件功能模块说明:	此文件dbmodule存库用
+
+// 消息分段说明:		[0x00010001 ~ 0x0001FFFF]
+
+// sql 类型
+enum SQLTYPE {
+	SELECT = 1;
+	INSERT = 2;
+	UPDATE = 3;
+	DELETE = 4;
+	CALL  = 5; 
+};
+enum CALLBACK {
+	MUSTCALLBACK = 1;		// 必须返回
+	NOTCALLBACK  = 2;		// 不必返回
+};
+
+enum BLOB
+{
+	HASBLOB		= 1;		// 有blob字段
+	NONEBLOB	= 2;		// 没有blob字段
+};
+
+message CMsgExecuteSqlRequest
+{
+	enum Msg{	MsgID	= 0x00010001;	}
+	optional uint32 	LogicType 		= 1; 							// 业务逻辑类型
+	optional uint32		SessionID		= 2[default = 0]; 				// 会话ID
+	optional uint64 	TimeStamp		= 3[default = 0]; 				// 会话时间戳
+	optional uint64 	TeamID 			= 4[default = 0]; 				// 战队ID
+	optional SQLTYPE 	SqlType			= 5[default = SELECT];			// sql 语句的类型
+	optional CALLBACK 	Callback		= 6[default = MUSTCALLBACK];	// 是否返回
+	optional string     Sql 			= 7; 							// sql语句
+	optional uint32		BufSize			= 8[default = 0]; 				// 需要转义的部分长度(内容为blob)
+	optional bytes		Buffer			= 9; 							// 需要转义的部分内容
+	optional string		SQLWhere		= 10; 							// WHERE条件语句
+	optional uint32 	OutNumber 		= 11[default = 0]; 				// 存储过程返回多个参数
+	optional BLOB	HasBlob		= 12;		// 是否有blob字段
+};
+
+message CMsgExecuteSqlResponse
+{
+	enum Msg{	MsgID	= 0x00010002;	}
+	optional uint32 LogicType 		= 1; 							// 业务逻辑类型
+	optional uint32	SessionID		= 2; 							// 会话ID
+	optional uint64 TimeStamp		= 3; 							// 会话时间戳
+	optional uint64 TeamID 			= 4; 							// 战队ID	
+	optional uint32	ResultCode		= 5; 							// 返回的错误码
+	optional uint32	RowCount		= 6[default=0]; 				// 总行数
+	optional uint32	ColCount		= 7[default=0]; 				// 总列数
+	repeated bytes	FieldValue		= 8;							// 列值 ( 变长数组个数为 RowCount * ColCount )
+	repeated uint32	FieldValueLen	= 9; 							// 列值长度 ( 变长数组个数为 RowCount * ColCount )
+};
+
+// 道具用于存库
+message PBDataItem
+{
+	optional	int32 	TempID			= 1;		// 物品模板ID
+	optional	int32 	Num					= 2;		// 物品数量
+	optional  	int32	Status    			= 3;		// 状态
+	optional   	int32	EndTime 			= 4; 		// 道具结束时间
+	optional   	int32	ItemType 			= 5; 		// 道具类型
+}
+// 物品数据列表
+message PBDataItemList
+{
+	repeated	PBDataItem	Items		= 1;		// 物品数据
+}
+
+// 刮刮乐类型1单个数据的结构
+message PBGagaleType1DataInfo
+{
+	optional	int32					num 	= 1;	// 数字
+	optional	int32					gold		= 2;	// 奖励金额
+	optional	eGagaleDisplay		display	= 3;	// 刮开类型
+	optional	int32		isbig	= 4;	//  0 小奖 1 大奖
+};
+
+// 刮刮乐类型1单个数据的结构
+message PBGagaleType2DataInfo
+{
+	optional	int32					num 	= 1;	// 数字
+	optional	int32					gold		= 2;	// 奖励金额
+	optional	eGagaleDisplay		display	= 3;	// 刮开类型
+	optional	int32		isbig	= 6;	//  0 小奖 1 大奖
+};
+
+// 刮刮乐类型1单个数据的结构
+message PBGagaleType3DataInfo
+{
+	optional	int32					num 	= 1;	// 数字
+	optional	EResourceType					rewardtype		= 2;	// 奖励类型
+	optional	int32					rewardnum		= 3;	// 奖励金额
+	optional	eGagaleDisplay		display	= 4;	// 刮开类型
+	optional	int32		state	= 5;	//  0 不可领取 1 可领取 
+	optional	int32		isbig	= 6;	//  0 小奖 1 大奖	
+};
+
+// 刮刮乐类型1数据列表
+message PBDataGagaleType1List
+{
+	repeated	PBGagaleType1DataInfo Duiduipeng = 1; //瓜瓜乐之对对碰数据
+};
+
+// 刮刮乐类型1数据列表
+message PBDataGagaleType2List
+{
+	repeated	PBGagaleType2DataInfo Sinuoke = 1; //瓜瓜乐之血拼斯诺克数据
+};
+
+// 刮刮乐类型1数据列表
+message PBDataGagaleType3List
+{
+	repeated	PBGagaleType3DataInfo Dayingjia = 1; //瓜瓜乐之大赢家数据
+};
+// 8球统计数据
+message PBData8BallStatistics
+{
+	optional	int32	win							= 1;		// 胜利场次
+	optional	int32	lose							= 2;		// 失败场次
+	optional	int32	escape						= 3;		// 逃跑场次
+	optional	int32	winningstreak			= 4;		// 当前连胜次数
+	optional	int32	maxwinningstreak	= 5;		// 最大连胜次数
+}; 
+
+// 玩家存库的blob字段
+message PBSaveRoleData
+{
+	optional	PBDataItemList					itemlist				= 1;		// 背包数据
+	optional	bool										hasrename		= 2;		// 是否已经修改过名字
+	optional	PBDataGagaleType1List		duiduipenglist	= 3;		// 刮刮乐类型1对对碰
+	optional	PBData8BallStatistics			ball8_1v1			= 4;		// 8球1v1统计
+	optional	PBData8BallStatistics			ball8_3p			= 5;		// 8球3人欢乐赛统计
+	optional	PBDataGagaleType2List		sinuokelist	= 6;		// 刮刮乐类型1对对碰
+	optional	PBDataGagaleType3List		dayingjialist	= 7;		// 刮刮乐类型1对对碰
+};

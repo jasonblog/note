@@ -622,7 +622,7 @@
    * [C++物件模型](c++/cwu_jian_mo_xing.md)
        * [物件模式(一)](c++/wu_jian_mo_5f0f28_1.md)
        * [物件模式(二)](c++/wu_jian_mo_5f0f28_4e8c29.md)
-   * [C++类对象内存结构](c++/clei_dui_xiang_nei_cun_jie_gou.md)
+   * [C++類對象內存結構](c++/clei_dui_xiang_nei_cun_jie_gou.md)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

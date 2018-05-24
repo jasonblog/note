@@ -23,7 +23,8 @@
 #include "mindroid/os/RemoteCallback.h"
 #include "mindroid/util/Pair.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class IPackageManager;
 class Process;
@@ -32,10 +33,12 @@ class HandlerThread;
 class ReentrantLock;
 
 class ServiceManager final :
-        public Object {
+    public Object
+{
 private:
     class ProcessManager :
-            public Object {
+        public Object
+    {
     public:
         ProcessManager();
 
@@ -55,10 +58,12 @@ private:
     class ServiceRecord;
 
     class ProcessRecord :
-            public Object {
+        public Object
+    {
     public:
         ProcessRecord(const sp<String>& name, const sp<IProcess>& process);
-        void addService(const sp<ComponentName>& component, const sp<ServiceRecord>& service);
+        void addService(const sp<ComponentName>& component,
+                        const sp<ServiceRecord>& service);
         void removeService(const sp<ComponentName>& component);
         sp<ServiceRecord> getService(const sp<ComponentName>& component);
         bool containsService(const sp<ComponentName>& component);
@@ -70,9 +75,11 @@ private:
     };
 
     class ServiceRecord :
-            public Object {
+        public Object
+    {
     public:
-        ServiceRecord(const sp<String>& name, const sp<ProcessRecord>& processRecord, bool systemService);
+        ServiceRecord(const sp<String>& name, const sp<ProcessRecord>& processRecord,
+                      bool systemService);
         void addServiceConnection(const sp<ServiceConnection>& conn);
         void removeServiceConnection(const sp<ServiceConnection> conn);
         size_t getNumServiceConnections() const;
@@ -87,17 +94,22 @@ private:
     };
 
     class ServiceManagerImpl :
-            public binder::ServiceManager::Stub {
+        public binder::ServiceManager::Stub
+    {
     public:
         ServiceManagerImpl(const sp<ServiceManager>& serviceManager) :
-                mServiceManager(serviceManager) {
+            mServiceManager(serviceManager)
+        {
         }
 
         sp<ComponentName> startService(const sp<Intent>& intent);
         bool stopService(const sp<Intent>& service);
-        bool bindService(const sp<Intent>& intent, const sp<ServiceConnection>& conn, int32_t flags, const sp<IRemoteCallback>& callback);
-        void unbindService(const sp<Intent>& service, const sp<ServiceConnection>& conn);
-        void unbindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, const sp<IRemoteCallback>& callback);
+        bool bindService(const sp<Intent>& intent, const sp<ServiceConnection>& conn,
+                         int32_t flags, const sp<IRemoteCallback>& callback);
+        void unbindService(const sp<Intent>& service,
+                           const sp<ServiceConnection>& conn);
+        void unbindService(const sp<Intent>& service, const sp<ServiceConnection>& conn,
+                           const sp<IRemoteCallback>& callback);
         sp<ComponentName> startSystemService(const sp<Intent>& service);
         bool stopSystemService(const sp<Intent>& service);
 

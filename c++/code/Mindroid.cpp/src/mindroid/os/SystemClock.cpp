@@ -18,24 +18,28 @@
 #include "mindroid/os/SystemClock.h"
 #include "mindroid/lang/Thread.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
-void SystemClock::sleep(uint64_t ms) {
+void SystemClock::sleep(uint64_t ms)
+{
     Thread::sleep(ms);
 }
 
-uint64_t SystemClock::uptimeMillis() {
+uint64_t SystemClock::uptimeMillis()
+{
     timespec now;
     clock_gettime(CLOCK_MONOTONIC, &now);
     return (((uint64_t) now.tv_sec * 1000LL) + (now.tv_nsec / 1000000LL));
 }
 
-uint64_t SystemClock::elapsedRealtime() {
+uint64_t SystemClock::elapsedRealtime()
+{
     timespec now;
 #ifdef CLOCK_BOOTTIME
     clock_gettime(CLOCK_BOOTTIME, &now);
 #else
-    #warning SystemClock does not support CLOCK_BOOTTIME
+#warning SystemClock does not support CLOCK_BOOTTIME
     clock_gettime(CLOCK_MONOTONIC, &now);
 #endif
     return (((uint64_t) now.tv_sec * 1000LL) + (now.tv_nsec / 1000000LL));

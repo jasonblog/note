@@ -17,10 +17,12 @@
 
 #include "mindroid/os/AsyncTask.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 sp<ReentrantLock> AsyncTaskBase::sLock = new ReentrantLock();
 sp<SerialExecutor> AsyncTaskBase::SERIAL_EXECUTOR = new SerialExecutor();
-sp<ThreadPoolExecutor> AsyncTaskBase::THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(THREAD_POOL_SIZE);
+sp<ThreadPoolExecutor> AsyncTaskBase::THREAD_POOL_EXECUTOR = new
+ThreadPoolExecutor(THREAD_POOL_SIZE);
 
 } /* namespace mindroid */

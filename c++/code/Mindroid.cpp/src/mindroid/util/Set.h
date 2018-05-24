@@ -21,74 +21,89 @@
 #include "mindroid/util/Assert.h"
 #include <set>
 
-namespace mindroid {
+namespace mindroid
+{
 
 /*
  * Set template for standard types.
  */
 template<typename T>
 class Set :
-        public Object {
+    public Object
+{
 public:
     Set() { }
 
-    Set(const sp<Set<T>>& collection) {
+    Set(const sp<Set<T>>& collection)
+    {
         if (collection != nullptr) {
             auto itr = collection->iterator();
+
             while (itr.hasNext()) {
                 add(itr.next());
             }
         }
     }
 
-    virtual ~Set() {
+    virtual ~Set()
+    {
         clear();
     }
 
-    bool add(const T& value) {
+    bool add(const T& value)
+    {
         auto pair = mSet.insert(value);
         return pair.second;
     }
 
-    void clear() {
+    void clear()
+    {
         mSet.clear();
     }
 
-    bool contains(const T& value) const {
+    bool contains(const T& value) const
+    {
         typename std::set<T>::const_iterator itr = mSet.find(value);
         return itr != mSet.end();
     }
 
-    bool isEmpty() const {
+    bool isEmpty() const
+    {
         return mSet.empty();
     }
 
-    bool remove(const T& value) {
+    bool remove(const T& value)
+    {
         return mSet.erase(value) == 1;
     }
 
-    size_t size() const {
+    size_t size() const
+    {
         return mSet.size();
     }
 
-    class Iterator {
+    class Iterator
+    {
     public:
         Iterator(std::set<T>& set) :
-                mForwardIterator(false),
-                mSet(&set),
-                mIterator(mSet->begin()) {
+            mForwardIterator(false),
+            mSet(&set),
+            mIterator(mSet->begin())
+        {
         }
 
         ~Iterator() { }
 
-        Iterator& operator=(const Iterator& iterator) {
+        Iterator& operator=(const Iterator& iterator)
+        {
             mForwardIterator = iterator.mForwardIterator;
             mSet = iterator.mSet;
             mIterator = iterator.mIterator;
             return *this;
         }
 
-        bool hasNext() const {
+        bool hasNext() const
+        {
             if (!mForwardIterator) {
                 return mIterator != mSet->end();
             } else {
@@ -97,21 +112,25 @@ public:
             }
         }
 
-        T next() {
+        T next()
+        {
             if (!mForwardIterator) {
                 mForwardIterator = true;
             } else {
                 ++mIterator;
             }
+
             return *mIterator;
         }
 
-        bool remove() {
+        bool remove()
+        {
             if (mForwardIterator) {
                 mIterator = mSet->erase(mIterator);
                 mForwardIterator = false;
                 return true;
             }
+
             return false;
         }
 
@@ -121,7 +140,8 @@ public:
         typename std::set<T>::iterator mIterator;
     };
 
-    inline Iterator iterator() {
+    inline Iterator iterator()
+    {
         return Iterator(mSet);
     }
 
@@ -136,67 +156,82 @@ private:
  */
 template<typename T>
 class Set<sp<T>> :
-        public Object {
+                  public Object
+{
 public:
     Set() { }
 
-    Set(const sp<Set<sp<T>>>& collection) {
+    Set(const sp<Set<sp<T>>>& collection)
+    {
         if (collection != nullptr) {
             auto itr = collection->iterator();
+
             while (itr.hasNext()) {
                 add(itr.next());
             }
         }
     }
 
-    virtual ~Set() {
+    virtual ~Set()
+    {
         clear();
     }
 
-    bool add(const sp<T>& value) {
+    bool add(const sp<T>& value)
+    {
         auto pair = mSet.insert(value);
         return pair.second;
     }
 
-    void clear() {
+    void clear()
+    {
         mSet.clear();
     }
 
-    bool contains(const sp<T>& value) const {
-        typename std::set<sp<T>, LessThanComparator<sp<T>>>::const_iterator itr = mSet.find(value);
+    bool contains(const sp<T>& value) const
+    {
+        typename std::set<sp<T>, LessThanComparator<sp<T>>>::const_iterator itr =
+            mSet.find(value);
         return itr != mSet.end();
     }
 
-    bool isEmpty() const {
+    bool isEmpty() const
+    {
         return mSet.empty();
     }
 
-    bool remove(const sp<T>& value) {
+    bool remove(const sp<T>& value)
+    {
         return mSet.erase(value) == 1;
     }
 
-    size_t size() const {
+    size_t size() const
+    {
         return mSet.size();
     }
 
-    class Iterator {
+    class Iterator
+    {
     public:
         Iterator(std::set<sp<T>, LessThanComparator<sp<T>>>& set) :
-                mForwardIterator(false),
-                mSet(&set),
-                mIterator(mSet->begin()) {
+            mForwardIterator(false),
+            mSet(&set),
+            mIterator(mSet->begin())
+        {
         }
 
         ~Iterator() { }
 
-        Iterator& operator=(const Iterator& iterator) {
+        Iterator& operator=(const Iterator& iterator)
+        {
             mForwardIterator = iterator.mForwardIterator;
             mSet = iterator.mSet;
             mIterator = iterator.mIterator;
             return *this;
         }
 
-        bool hasNext() const {
+        bool hasNext() const
+        {
             if (!mForwardIterator) {
                 return mIterator != mSet->end();
             } else {
@@ -205,21 +240,25 @@ public:
             }
         }
 
-        sp<T> next() {
+        sp<T> next()
+        {
             if (!mForwardIterator) {
                 mForwardIterator = true;
             } else {
                 ++mIterator;
             }
+
             return *mIterator;
         }
 
-        bool remove() {
+        bool remove()
+        {
             if (mForwardIterator) {
                 mIterator = mSet->erase(mIterator);
                 mForwardIterator = false;
                 return true;
             }
+
             return false;
         }
 
@@ -229,7 +268,8 @@ public:
         typename std::set<sp<T>, LessThanComparator<sp<T>>>::iterator mIterator;
     };
 
-    inline Iterator iterator() {
+    inline Iterator iterator()
+    {
         return Iterator(mSet);
     }
 

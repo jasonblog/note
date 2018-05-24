@@ -1,0 +1,32 @@
+
+option optimize_for = SPEED;
+
+enum EGateCmd
+{
+	EGC_NULL			= 0;	// 无指令
+	EGC_REGIST			= 1;	// 注册
+	EGC_KEEPALIVE	= 2;	// 心跳
+};
+
+
+// 发送给tcpserver的消息头
+message CSocketInfo
+{
+	optional	int32	SrcIP 			= 1;		// 目标的IP
+	optional	int32	SrcPort			= 2;		// 目标的端口
+	optional	int32	SocketID		= 3;		// 目标的FD
+	optional	int64	CreateTime	= 4;		// 目标的创建时间
+	optional	int32	State				= 5;		// 发送后的状态 < 0 说明关闭socket
+};
+
+// 发送给tcpserver的消息头
+message CTcpHead
+{
+	optional	int32				SrcFE			= 1;										// 源服务器类型
+	optional	int32				SrcID			= 2;										// 源服务器ID
+	optional	int32				DstFE			= 3;										// 目标服务器类型
+	optional	int32				DstID			= 4;										// 目标服务器ID
+	optional	EGateCmd		OpFlag			= 5[default = EGC_NULL];		// 指令类型
+	optional	int64				TimeStamp	= 6;										// 时间戳(毫秒)
+	repeated	CSocketInfo		SocketInfos	= 7;	// 发送目标信息
+};

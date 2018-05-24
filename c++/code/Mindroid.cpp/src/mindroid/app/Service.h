@@ -22,7 +22,8 @@
 #include "mindroid/content/ContextWrapper.h"
 #include "mindroid/os/IProcess.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class ComponentName;
 
@@ -136,9 +137,11 @@ class ComponentName;
  * service has been started or has clients bound to it.
  */
 class Service :
-        public ContextWrapper {
+    public ContextWrapper
+{
 public:
-    Service() : ContextWrapper(nullptr) {
+    Service() : ContextWrapper(nullptr)
+    {
     }
 
     virtual ~Service() = default;
@@ -146,7 +149,8 @@ public:
     /**
      * Called by the system when the service is first created. Do not call this method directly.
      */
-    virtual void onCreate() {
+    virtual void onCreate()
+    {
     }
 
     /**
@@ -160,7 +164,9 @@ public:
      *
      * @return The return value should always be 0.
      */
-    virtual int32_t onStartCommand(const sp<Intent>& intent, int32_t flags, int32_t startId) {
+    virtual int32_t onStartCommand(const sp<Intent>& intent, int32_t flags,
+                                   int32_t startId)
+    {
         return 0;
     }
 
@@ -170,7 +176,8 @@ public:
      * point. Upon return, there will be no more calls in to this Service object and it is
      * effectively dead. Do not call this method directly.
      */
-    virtual void onDestroy() {
+    virtual void onDestroy()
+    {
     }
 
     /**
@@ -195,7 +202,8 @@ public:
      *
      * @return Should always return true.
      */
-    virtual bool onUnbind(const sp<Intent>& intent) {
+    virtual bool onUnbind(const sp<Intent>& intent)
+    {
         return true;
     }
 
@@ -203,7 +211,8 @@ public:
      * Stop the service, if it was previously started.  This is the same as
      * calling {@link mindroid.content.Context#stopService} for this particular service.
      */
-    void stopSelf() {
+    void stopSelf()
+    {
         stopSelf(-1);
     }
 
@@ -215,7 +224,8 @@ public:
     /**
      * @hide
      */
-    void attach(const sp<Context>& context, const sp<IProcess>& process, const sp<String>& className);
+    void attach(const sp<Context>& context, const sp<IProcess>& process,
+                const sp<String>& className);
 
 private:
     sp<IProcess> mProcess;

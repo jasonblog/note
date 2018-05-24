@@ -20,7 +20,8 @@
 
 #include "mindroid/lang/Thread.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Looper;
 class ReentrantLock;
@@ -31,7 +32,8 @@ class Condition;
  * handler classes. Note that start() must still be called.
  */
 class HandlerThread :
-        public Thread {
+    public Thread
+{
 public:
     HandlerThread();
     HandlerThread(const char* name);
@@ -64,7 +66,8 @@ protected:
      * Call back method that can be explicitly overridden if needed to execute some setup before
      * Looper loops.
      */
-    virtual void onLooperPrepared() {
+    virtual void onLooperPrepared()
+    {
     }
 
 private:

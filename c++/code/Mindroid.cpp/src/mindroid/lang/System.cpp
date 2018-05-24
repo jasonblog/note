@@ -19,36 +19,50 @@
 #include <limits.h>
 #include <sys/utsname.h>
 
-namespace mindroid {
+namespace mindroid
+{
 
 pthread_mutex_t System::sMutex = PTHREAD_MUTEX_INITIALIZER;
 System* System::sInstance = nullptr;
 
-System::System() {
+System::System()
+{
     struct utsname info;
+
     if (uname(&info) == 0) {
-        mSystemProperties->put(String::valueOf("os.arch"), String::valueOf(info.machine));
-        mSystemProperties->put(String::valueOf("os.name"), String::valueOf(info.sysname));
-        mSystemProperties->put(String::valueOf("os.version"), String::valueOf(info.release));
+        mSystemProperties->put(String::valueOf("os.arch"),
+                               String::valueOf(info.machine));
+        mSystemProperties->put(String::valueOf("os.name"),
+                               String::valueOf(info.sysname));
+        mSystemProperties->put(String::valueOf("os.version"),
+                               String::valueOf(info.release));
     }
+
     char cwd[PATH_MAX];
+
     if (getcwd(cwd, sizeof(cwd)) != nullptr) {
         mSystemProperties->put(String::valueOf("user.dir"), String::valueOf(cwd));
     }
 }
 
-System* System::getInstance() {
+System* System::getInstance()
+{
     pthread_mutex_lock(&sMutex);
+
     if (sInstance == nullptr) {
         sInstance = new System();
     }
+
     pthread_mutex_unlock(&sMutex);
     return sInstance;
 }
 
-sp<String> System::getProperty(const sp<String>& name, const sp<String>& defaultValue) {
+sp<String> System::getProperty(const sp<String>& name,
+                               const sp<String>& defaultValue)
+{
     System* self = getInstance();
     AutoLock autoLock(self->mLock);
+
     if (self->mSystemProperties->containsKey(name)) {
         return self->mSystemProperties->get(name);
     } else {
@@ -56,7 +70,8 @@ sp<String> System::getProperty(const sp<String>& name, const sp<String>& default
     }
 }
 
-sp<String> System::setProperty(const sp<String>& name, const sp<String>& value) {
+sp<String> System::setProperty(const sp<String>& name, const sp<String>& value)
+{
     System* self = getInstance();
     AutoLock autoLock(self->mLock);
     return self->mSystemProperties->put(name, value);

@@ -19,14 +19,16 @@
 
 #include <cstdint>
 
-namespace mindroid {
+namespace mindroid
+{
 
 /*
  * AtomicInteger reference:
  * - http://en.cppreference.com/w/cpp/atomic/memory_order
  * - http://en.cppreference.com/w/cpp/atomic/atomic_fetch_add
  */
-class AtomicInteger {
+class AtomicInteger
+{
 public:
     AtomicInteger() noexcept = delete;
     ~AtomicInteger() noexcept = delete;
@@ -43,7 +45,8 @@ public:
 
     static int32_t getAndOr(int32_t value, volatile int32_t* address);
 
-    static int32_t compareAndSwap(int32_t oldValue, int32_t newValue, volatile int32_t* address);
+    static int32_t compareAndSwap(int32_t oldValue, int32_t newValue,
+                                  volatile int32_t* address);
 };
 
 } /* namespace mindroid */

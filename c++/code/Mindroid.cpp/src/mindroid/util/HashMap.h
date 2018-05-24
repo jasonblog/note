@@ -22,7 +22,8 @@
 #include "mindroid/util/Assert.h"
 #include <unordered_map>
 
-namespace mindroid {
+namespace mindroid
+{
 
 /*
  * HashMap template for standard K and V types.
@@ -30,45 +31,56 @@ namespace mindroid {
  */
 template<typename K, typename V>
 class HashMap :
-        public Object {
+    public Object
+{
 public:
     HashMap() :
-            mMap() {
+        mMap()
+    {
     }
 
     HashMap(size_t initialCapacity) :
-            mMap(initialCapacity) {
+        mMap(initialCapacity)
+    {
     }
 
     HashMap(const sp<HashMap<K, V>>& map) :
-            mMap() {
+        mMap()
+    {
         putAll(map);
     }
 
-    virtual ~HashMap() {
+    virtual ~HashMap()
+    {
         clear();
     }
 
-    void clear() {
+    void clear()
+    {
         mMap.clear();
     }
 
-    bool containsKey(const K& key) const {
+    bool containsKey(const K& key) const
+    {
         auto itr = mMap.find(key);
         return itr != mMap.end();
     }
 
-    bool containsValue(const V& value) const {
+    bool containsValue(const V& value) const
+    {
         for (auto itr = mMap.begin(); itr != mMap.end(); ++itr) {
             if (itr->second == value) {
                 return true;
             }
         }
+
         return false;
     }
 
-    V get(const K& key) {
+    V get(const K& key)
+    {
         auto itr = mMap.find(key);
+
         if (itr != mMap.end()) {
             return itr->second;
         } else {
@@ -76,27 +88,33 @@ public:
         }
     }
 
-    bool isEmpty() const {
+    bool isEmpty() const
+    {
         return mMap.empty();
     }
 
-    sp<Set<K>> keySet() {
+    sp<Set<K>> keySet()
+    {
         if (isEmpty()) {
             return nullptr;
         }
 
         sp<Set<K>> keys = new Set<K>();
         auto itr = iterator();
+
         while (itr.hasNext()) {
             auto pair = itr.next();
             keys->add(pair.getKey());
         }
+
         return keys;
     }
 
-    V put(const K& key, const V& value) {
+    V put(const K& key, const V& value)
+    {
         V oldValue = mMap[key];
         auto itr = mMap.find(key);
+
         if (itr != mMap.end()) {
             oldValue = itr->second;
         }
@@ -105,17 +123,21 @@ public:
         return oldValue;
     }
 
-    void putAll(const sp<HashMap>& map) {
+    void putAll(const sp<HashMap>& map)
+    {
         auto itr = map->iterator();
+
         while (itr.hasNext()) {
             auto entry = itr.next();
             put(entry.getKey(), entry.getValue());
         }
     }
 
-    V remove(const K& key) {
+    V remove(const K& key)
+    {
         V oldValue = mMap[key];
         auto itr = mMap.find(key);
+
         if (itr != mMap.end()) {
             oldValue = itr->second;
         }
@@ -124,23 +146,28 @@ public:
         return oldValue;
     }
 
-    size_t size() const {
+    size_t size() const
+    {
         return mMap.size();
     }
 
     class Iterator;
 
-    class Entry {
+    class Entry
+    {
     public:
-        K getKey() const {
+        K getKey() const
+        {
             return mKey;
         }
 
-        V getValue() const {
+        V getValue() const
+        {
             return mValue;
         }
 
-        V setValue(const V& value) {
+        V setValue(const V& value)
+        {
             V oldValue = mValue;
             mValue = value;
             return oldValue;
@@ -155,24 +182,28 @@ public:
         friend class Iterator;
     };
 
-    class Iterator {
+    class Iterator
+    {
     public:
         Iterator(std::unordered_map<K, V>& map) :
-                mForwardIterator(false),
-                mMap(&map),
-                mIterator(mMap->begin()) {
+            mForwardIterator(false),
+            mMap(&map),
+            mIterator(mMap->begin())
+        {
         }
 
         ~Iterator() { }
 
-        Iterator& operator=(const Iterator& iterator) {
+        Iterator& operator=(const Iterator& iterator)
+        {
             mForwardIterator = iterator.mForwardIterator;
             mMap = iterator.mMap;
             mIterator = iterator.mIterator;
             return *this;
         }
 
-        bool hasNext() const {
+        bool hasNext() const
+        {
             if (!mForwardIterator) {
                 return mIterator != mMap->end();
             } else {
@@ -181,22 +212,26 @@ public:
             }
         }
 
-        Entry next() {
+        Entry next()
+        {
             if (!mForwardIterator) {
                 mForwardIterator = true;
             } else {
                 ++mIterator;
             }
+
             Entry entry(mIterator->first, mIterator->second);
             return entry;
         }
 
-        bool remove() {
+        bool remove()
+        {
             if (mForwardIterator) {
                 mIterator = mMap->erase(mIterator);
                 mForwardIterator = false;
                 return true;
             }
+
             return false;
         }
 
@@ -206,7 +241,8 @@ public:
         typename std::unordered_map<K, V>::iterator mIterator;
     };
 
-    inline Iterator iterator() {
+    inline Iterator iterator()
+    {
         return Iterator(mMap);
     }
 
@@ -221,35 +257,43 @@ private:
  */
 template<typename K, typename V>
 class HashMap<K, sp<V>> :
-        public Object {
+                         public Object
+{
 public:
     HashMap() :
-            mMap() {
+        mMap()
+    {
     }
 
     HashMap(size_t initialCapacity) :
-            mMap(initialCapacity) {
+        mMap(initialCapacity)
+    {
     }
 
     HashMap(const sp<HashMap<K, sp<V>>>& map) :
-            mMap() {
+        mMap()
+    {
         putAll(map);
     }
 
-    virtual ~HashMap() {
+    virtual ~HashMap()
+    {
         clear();
     }
 
-    void clear() {
+    void clear()
+    {
         mMap.clear();
     }
 
-    bool containsKey(const K& key) const {
+    bool containsKey(const K& key) const
+    {
         auto itr = mMap.find(key);
         return itr != mMap.end();
     }
 
-    bool containsValue(const sp<V>& value) const {
+    bool containsValue(const sp<V>& value) const
+    {
         if (value != nullptr) {
             for (auto itr = mMap.begin(); itr != mMap.end(); ++itr) {
                 if (itr->second->equals(value)) {
@@ -257,11 +301,14 @@ public:
                 }
             }
         }
+
         return false;
     }
 
-    sp<V> get(const K& key) {
+    sp<V> get(const K& key)
+    {
         auto itr = mMap.find(key);
+
         if (itr != mMap.end()) {
             return itr->second;
         } else {
@@ -269,27 +316,33 @@ public:
         }
     }
 
-    bool isEmpty() const {
+    bool isEmpty() const
+    {
         return mMap.empty();
     }
 
-    sp<Set<K>> keySet() {
+    sp<Set<K>> keySet()
+    {
         if (isEmpty()) {
             return nullptr;
         }
 
         sp<Set<K>> keys = new Set<K>();
         auto itr = iterator();
+
         while (itr.hasNext()) {
             auto pair = itr.next();
             keys->add(pair.getKey());
         }
+
         return keys;
     }
 
-    sp<V> put(const K& key, const sp<V>& value) {
+    sp<V> put(const K& key, const sp<V>& value)
+    {
         sp<V> oldValue = nullptr;
         auto itr = mMap.find(key);
+
         if (itr != mMap.end()) {
             oldValue = itr->second;
         }
@@ -298,17 +351,21 @@ public:
         return oldValue;
     }
 
-    void putAll(const sp<HashMap>& map) {
+    void putAll(const sp<HashMap>& map)
+    {
         auto itr = map->iterator();
+
         while (itr.hasNext()) {
             auto entry = itr.next();
             put(entry.getKey(), entry.getValue());
         }
     }
 
-    sp<V> remove(const K& key) {
+    sp<V> remove(const K& key)
+    {
         sp<V> oldValue = nullptr;
         auto itr = mMap.find(key);
+
         if (itr != mMap.end()) {
             oldValue = itr->second;
         }
@@ -317,23 +374,28 @@ public:
         return oldValue;
     }
 
-    size_t size() const {
+    size_t size() const
+    {
         return mMap.size();
     }
 
     class Iterator;
 
-    class Entry {
+    class Entry
+    {
     public:
-        K getKey() const {
+        K getKey() const
+        {
             return mKey;
         }
 
-        sp<V> getValue() const {
+        sp<V> getValue() const
+        {
             return mValue;
         }
 
-        sp<V> setValue(const sp<V>& value) {
+        sp<V> setValue(const sp<V>& value)
+        {
             sp<V> oldValue = mValue;
             mValue = value;
             return oldValue;
@@ -348,24 +410,28 @@ public:
         friend class Iterator;
     };
 
-    class Iterator {
+    class Iterator
+    {
     public:
         Iterator(std::unordered_map<K, sp<V>>& map) :
-                mForwardIterator(false),
-                mMap(&map),
-                mIterator(mMap->begin()) {
+            mForwardIterator(false),
+            mMap(&map),
+            mIterator(mMap->begin())
+        {
         }
 
         ~Iterator() { }
 
-        Iterator& operator=(const Iterator& iterator) {
+        Iterator& operator=(const Iterator& iterator)
+        {
             mForwardIterator = iterator.mForwardIterator;
             mMap = iterator.mMap;
             mIterator = iterator.mIterator;
             return *this;
         }
 
-        bool hasNext() const {
+        bool hasNext() const
+        {
             if (!mForwardIterator) {
                 return mIterator != mMap->end();
             } else {
@@ -374,22 +440,26 @@ public:
             }
         }
 
-        Entry next() {
+        Entry next()
+        {
             if (!mForwardIterator) {
                 mForwardIterator = true;
             } else {
                 ++mIterator;
             }
+
             Entry entry(mIterator->first, mIterator->second);
             return entry;
         }
 
-        bool remove() {
+        bool remove()
+        {
             if (mForwardIterator) {
                 mIterator = mMap->erase(mIterator);
                 mForwardIterator = false;
                 return true;
             }
+
             return false;
         }
 
@@ -399,7 +469,8 @@ public:
         typename std::unordered_map<K, sp<V>>::iterator mIterator;
     };
 
-    inline Iterator iterator() {
+    inline Iterator iterator()
+    {
         return Iterator(mMap);
     }
 
@@ -414,48 +485,60 @@ private:
  */
 template<typename K, typename V>
 class HashMap<sp<K>, V> :
-        public Object {
+    public Object
+{
 public:
     HashMap() :
-            mMap() {
+        mMap()
+    {
     }
 
     HashMap(size_t initialCapacity) :
-            mMap(initialCapacity) {
+        mMap(initialCapacity)
+    {
     }
 
     HashMap(const sp<HashMap<sp<K>, V>>& map) :
-            mMap() {
+        mMap()
+    {
         putAll(map);
     }
 
-    virtual ~HashMap() {
+    virtual ~HashMap()
+    {
         clear();
     }
 
-    void clear() {
+    void clear()
+    {
         mMap.clear();
     }
 
-    bool containsKey(const sp<K>& key) const {
+    bool containsKey(const sp<K>& key) const
+    {
         if (key != nullptr) {
             auto itr = mMap.find(key);
             return itr != mMap.end();
         }
+
         return false;
     }
 
-    bool containsValue(const V& value) const {
+    bool containsValue(const V& value) const
+    {
         for (auto itr = mMap.begin(); itr != mMap.end(); ++itr) {
             if (itr->second == value) {
                 return true;
             }
         }
+
         return false;
     }
 
-    V get(const sp<K>& key) {
+    V get(const sp<K>& key)
+    {
         auto itr = mMap.find(key);
+
         if (itr != mMap.end()) {
             return itr->second;
         } else {
@@ -463,27 +546,33 @@ public:
         }
     }
 
-    bool isEmpty() const {
+    bool isEmpty() const
+    {
         return mMap.empty();
     }
 
-    sp<Set<sp<K>>> keySet() {
+    sp<Set<sp<K>>> keySet()
+    {
         if (isEmpty()) {
             return nullptr;
         }
 
         sp<Set<sp<K>>> keys = new Set<sp<K>>();
         auto itr = iterator();
+
         while (itr.hasNext()) {
             auto pair = itr.next();
             keys->add(pair.getKey());
         }
+
         return keys;
     }
 
-    V put(const sp<K>& key, const V& value) {
+    V put(const sp<K>& key, const V& value)
+    {
         V oldValue = mMap[key];
         auto itr = mMap.find(key);
+
         if (itr != mMap.end()) {
             oldValue = itr->second;
         }
@@ -492,17 +581,21 @@ public:
         return oldValue;
     }
 
-    void putAll(const sp<HashMap>& map) {
+    void putAll(const sp<HashMap>& map)
+    {
         auto itr = map->iterator();
+
         while (itr.hasNext()) {
             auto entry = itr.next();
             put(entry.getKey(), entry.getValue());
         }
     }
 
-    V remove(const sp<K>& key) {
+    V remove(const sp<K>& key)
+    {
         V oldValue = mMap[key];
         auto itr = mMap.find(key);
+
         if (itr != mMap.end()) {
             oldValue = itr->second;
         }
@@ -511,23 +604,28 @@ public:
         return oldValue;
     }
 
-    size_t size() const {
+    size_t size() const
+    {
         return mMap.size();
     }
 
     class Iterator;
 
-    class Entry {
+    class Entry
+    {
     public:
-        sp<K> getKey() const {
+        sp<K> getKey() const
+        {
             return mKey;
         }
 
-        V getValue() const {
+        V getValue() const
+        {
             return mValue;
         }
 
-        V setValue(const V& value) {
+        V setValue(const V& value)
+        {
             V oldValue = mValue;
             mValue = value;
             return oldValue;
@@ -542,58 +640,70 @@ public:
         friend class Iterator;
     };
 
-    class Iterator {
+    class Iterator
+    {
     public:
-        Iterator(std::unordered_map<sp<K>, V, Hasher<sp<K>>, EqualityComparator<sp<K>>>& map) :
-                mForwardIterator(false),
-                mMap(&map),
-                mIterator(mMap->begin()) {
+        Iterator(std::unordered_map<sp<K>, V, Hasher<sp<K>>, EqualityComparator<sp<K>>>&
+                 map) :
+            mForwardIterator(false),
+            mMap(&map),
+            mIterator(mMap->begin())
+        {
         }
 
         ~Iterator() { }
 
-        Iterator& operator=(const Iterator& iterator) {
+        Iterator& operator=(const Iterator& iterator)
+        {
             mForwardIterator = iterator.mForwardIterator;
             mMap = iterator.mMap;
             mIterator = iterator.mIterator;
             return *this;
         }
 
-        bool hasNext() const {
+        bool hasNext() const
+        {
             if (!mForwardIterator) {
                 return mIterator != mMap->end();
             } else {
-                typename std::unordered_map<sp<K>, V, Hasher<sp<K>>, EqualityComparator<sp<K>>>::iterator itr = mIterator;
+                typename std::unordered_map<sp<K>, V, Hasher<sp<K>>, EqualityComparator<sp<K>>>::iterator
+                        itr = mIterator;
                 return ++itr != mMap->end();
             }
         }
 
-        Entry next() {
+        Entry next()
+        {
             if (!mForwardIterator) {
                 mForwardIterator = true;
             } else {
                 ++mIterator;
             }
+
             Entry entry(mIterator->first, mIterator->second);
             return entry;
         }
 
-        bool remove() {
+        bool remove()
+        {
             if (mForwardIterator) {
                 mIterator = mMap->erase(mIterator);
                 mForwardIterator = false;
                 return true;
             }
+
             return false;
         }
 
     private:
         bool mForwardIterator;
         std::unordered_map<sp<K>, V, Hasher<sp<K>>, EqualityComparator<sp<K>>>* mMap;
-        typename std::unordered_map<sp<K>, V, Hasher<sp<K>>, EqualityComparator<sp<K>>>::iterator mIterator;
+        typename std::unordered_map<sp<K>, V, Hasher<sp<K>>, EqualityComparator<sp<K>>>::iterator
+                mIterator;
     };
 
-    inline Iterator iterator() {
+    inline Iterator iterator()
+    {
         return Iterator(mMap);
     }
 
@@ -608,38 +718,47 @@ private:
  */
 template<typename K, typename V>
 class HashMap<sp<K>, sp<V>> :
-        public Object {
+                             public Object
+{
 public:
     HashMap() :
-            mMap() {
+        mMap()
+    {
     }
 
     HashMap(size_t initialCapacity) :
-            mMap(initialCapacity) {
+        mMap(initialCapacity)
+    {
     }
 
     HashMap(const sp<HashMap<sp<K>, sp<V>>>& map) :
-            mMap() {
+        mMap()
+    {
         putAll(map);
     }
 
-    virtual ~HashMap() {
+    virtual ~HashMap()
+    {
         clear();
     }
 
-    void clear() {
+    void clear()
+    {
         mMap.clear();
     }
 
-    bool containsKey(const sp<K>& key) const {
+    bool containsKey(const sp<K>& key) const
+    {
         if (key != nullptr) {
             auto itr = mMap.find(key);
             return itr != mMap.end();
         }
+
         return false;
     }
 
-    bool containsValue(const sp<V>& value) const {
+    bool containsValue(const sp<V>& value) const
+    {
         if (value != nullptr) {
             for (auto itr = mMap.begin(); itr != mMap.end(); ++itr) {
                 if (itr->second->equals(value)) {
@@ -647,11 +766,14 @@ public:
                 }
             }
         }
+
         return false;
     }
 
-    sp<V> get(const sp<K>& key) {
+    sp<V> get(const sp<K>& key)
+    {
         auto itr = mMap.find(key);
+
         if (itr != mMap.end()) {
             return itr->second;
         } else {
@@ -659,27 +781,33 @@ public:
         }
     }
 
-    bool isEmpty() const {
+    bool isEmpty() const
+    {
         return mMap.empty();
     }
 
-    sp<Set<sp<K>>> keySet() {
+    sp<Set<sp<K>>> keySet()
+    {
         if (isEmpty()) {
             return nullptr;
         }
 
         sp<Set<sp<K>>> keys = new Set<sp<K>>();
         auto itr = iterator();
+
         while (itr.hasNext()) {
             auto pair = itr.next();
             keys->add(pair.getKey());
         }
+
         return keys;
     }
 
-    sp<V> put(const sp<K>& key, const sp<V>& value) {
+    sp<V> put(const sp<K>& key, const sp<V>& value)
+    {
         sp<V> oldValue = nullptr;
         auto itr = mMap.find(key);
+
         if (itr != mMap.end()) {
             oldValue = itr->second;
         }
@@ -688,17 +816,21 @@ public:
         return oldValue;
     }
 
-    void putAll(const sp<HashMap>& map) {
+    void putAll(const sp<HashMap>& map)
+    {
         auto itr = map->iterator();
+
         while (itr.hasNext()) {
             auto entry = itr.next();
             put(entry.getKey(), entry.getValue());
         }
     }
 
-    sp<V> remove(const sp<K>& key) {
+    sp<V> remove(const sp<K>& key)
+    {
         sp<V> oldValue = nullptr;
         auto itr = mMap.find(key);
+
         if (itr != mMap.end()) {
             oldValue = itr->second;
         }
@@ -707,23 +839,28 @@ public:
         return oldValue;
     }
 
-    size_t size() const {
+    size_t size() const
+    {
         return mMap.size();
     }
 
     class Iterator;
 
-    class Entry {
+    class Entry
+    {
     public:
-        sp<K> getKey() const {
+        sp<K> getKey() const
+        {
             return mKey;
         }
 
-        sp<V> getValue() const {
+        sp<V> getValue() const
+        {
             return mValue;
         }
 
-        sp<V> setValue(const sp<V>& value) {
+        sp<V> setValue(const sp<V>& value)
+        {
             sp<V> oldValue = mValue;
             mValue = value;
             return oldValue;
@@ -738,58 +875,71 @@ public:
         friend class Iterator;
     };
 
-    class Iterator {
+    class Iterator
+    {
     public:
-        Iterator(std::unordered_map<sp<K>, sp<V>, Hasher<sp<K>>, EqualityComparator<sp<K>>>& map) :
-                mForwardIterator(false),
-                mMap(&map),
-                mIterator(mMap->begin()) {
+        Iterator(std::unordered_map<sp<K>, sp<V>, Hasher<sp<K>>, EqualityComparator<sp<K>>>&
+                 map) :
+            mForwardIterator(false),
+            mMap(&map),
+            mIterator(mMap->begin())
+        {
         }
 
         ~Iterator() { }
 
-        Iterator& operator=(const Iterator& iterator) {
+        Iterator& operator=(const Iterator& iterator)
+        {
             mForwardIterator = iterator.mForwardIterator;
             mMap = iterator.mMap;
             mIterator = iterator.mIterator;
             return *this;
         }
 
-        bool hasNext() const {
+        bool hasNext() const
+        {
             if (!mForwardIterator) {
                 return mIterator != mMap->end();
             } else {
-                typename std::unordered_map<sp<K>, sp<V>, Hasher<sp<K>>, EqualityComparator<sp<K>>>::iterator itr = mIterator;
+                typename std::unordered_map<sp<K>, sp<V>, Hasher<sp<K>>, EqualityComparator<sp<K>>>::iterator
+                        itr = mIterator;
                 return ++itr != mMap->end();
             }
         }
 
-        Entry next() {
+        Entry next()
+        {
             if (!mForwardIterator) {
                 mForwardIterator = true;
             } else {
                 ++mIterator;
             }
+
             Entry entry(mIterator->first, mIterator->second);
             return entry;
         }
 
-        bool remove() {
+        bool remove()
+        {
             if (mForwardIterator) {
                 mIterator = mMap->erase(mIterator);
                 mForwardIterator = false;
                 return true;
             }
+
             return false;
         }
 
     private:
         bool mForwardIterator;
-        std::unordered_map<sp<K>, sp<V>, Hasher<sp<K>>, EqualityComparator<sp<K>>>* mMap;
-        typename std::unordered_map<sp<K>, sp<V>, Hasher<sp<K>>, EqualityComparator<sp<K>>>::iterator mIterator;
+        std::unordered_map<sp<K>, sp<V>, Hasher<sp<K>>, EqualityComparator<sp<K>>>*
+                mMap;
+        typename std::unordered_map<sp<K>, sp<V>, Hasher<sp<K>>, EqualityComparator<sp<K>>>::iterator
+                mIterator;
     };
 
-    inline Iterator iterator() {
+    inline Iterator iterator()
+    {
         return Iterator(mMap);
     }
 

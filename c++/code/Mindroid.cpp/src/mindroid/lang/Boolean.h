@@ -19,12 +19,14 @@
 
 #include "mindroid/lang/Object.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class String;
 
 class Boolean :
-        public Object {
+    public Object
+{
 public:
     /**
      * The Boolean object corresponding to the primitive value false.
@@ -36,17 +38,20 @@ public:
      */
     static const sp<Boolean> TRUE;
 
-    explicit Boolean(bool value) : mValue(value) {
+    explicit Boolean(bool value) : mValue(value)
+    {
     }
 
     static sp<Boolean> valueOf(const char* s);
     static sp<Boolean> valueOf(const sp<String>& s);
 
-    bool booleanValue() const {
+    bool booleanValue() const
+    {
         return mValue;
     }
 
-    bool value() const {
+    bool value() const
+    {
         return booleanValue();
     }
 

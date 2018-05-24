@@ -25,17 +25,20 @@
 #include <cstdarg>
 #include <cctype>
 
-namespace mindroid {
+namespace mindroid
+{
 
 class String :
-        public Object {
+    public Object
+{
 public:
     static const sp<String> EMPTY_STRING;
 
     String();
     explicit String(const char* string);
     explicit String(const char* string, size_t size);
-    explicit String(const uint8_t* string, size_t size) : String(reinterpret_cast<const char*>(string), size) { }
+    explicit String(const uint8_t* string,
+                    size_t size) : String(reinterpret_cast<const char*>(string), size) { }
     explicit String(const char c);
     virtual ~String() { }
 
@@ -47,28 +50,34 @@ public:
     bool equalsIgnoreCase(const char* string) const;
     bool equalsIgnoreCase(const sp<String>& string) const;
 
-    inline size_t length() const {
+    inline size_t length() const
+    {
         return mStringBuffer->mSize;
     }
 
-    inline bool isEmpty() const {
+    inline bool isEmpty() const
+    {
         return length() == 0;
     }
 
-    inline const char* c_str() const {
+    inline const char* c_str() const
+    {
         return mStringBuffer->mData;
     }
 
-    inline operator const char*() const {
+    inline operator const char* () const
+    {
         return c_str();
     }
 
-    inline char operator[](const size_t index) const {
+    inline char operator[](const size_t index) const
+    {
         Assert::assertTrue(index < length());
         return mStringBuffer->mData[index];
     }
 
-    inline char charAt(size_t index) const {
+    inline char charAt(size_t index) const
+    {
         Assert::assertTrue(index < length());
         return mStringBuffer->mData[index];
     }
@@ -107,19 +116,23 @@ public:
     sp<ArrayList<sp<String>>> split(const char* separator) const;
     sp<ArrayList<sp<String>>> split(const sp<String>& separator) const;
 
-    inline static sp<String> valueOf(const char* string) {
+    inline static sp<String> valueOf(const char* string)
+    {
         return (string != nullptr) ? new String(string) : nullptr;
     }
 
-    inline static sp<String> valueOf(const char* string, size_t size) {
+    inline static sp<String> valueOf(const char* string, size_t size)
+    {
         return (string != nullptr) ? new String(string, size) : nullptr;
     }
 
-    inline static sp<String> valueOf(bool b) {
+    inline static sp<String> valueOf(bool b)
+    {
         return new String(b ? "true" : "false");
     }
 
-    inline static sp<String> valueOf(char c) {
+    inline static sp<String> valueOf(char c)
+    {
         return new String(c);
     }
 
@@ -132,19 +145,23 @@ public:
     static sp<String> valueOf(float value);
     static sp<String> valueOf(double value);
 
-    static sp<String> format(const char* format, ...) __attribute__((format (printf, 1, 2)));
+    static sp<String> format(const char* format, ...) __attribute__((format(printf,
+            1, 2)));
 
-    static size_t length(const char* string) {
+    static size_t length(const char* string)
+    {
         return strlen(string);
     }
 
     sp<String> replace(char oldChar, char newChar);
 
-    sp<String> append(const char* string) const {
+    sp<String> append(const char* string) const
+    {
         return append(string, strlen(string));
     }
 
-    sp<String> append(const sp<String>& string) const {
+    sp<String> append(const sp<String>& string) const
+    {
         return append(string->c_str(), strlen(string->c_str()));
     }
 
@@ -152,26 +169,33 @@ public:
 
     sp<String> append(const char* string, size_t offset, size_t size) const;
 
-    sp<String> append(const sp<String>& string, size_t offset, size_t size) const {
-        Assert::assertTrue("IndexOutOfBoundsException", offset + size <= string->length());
+    sp<String> append(const sp<String>& string, size_t offset, size_t size) const
+    {
+        Assert::assertTrue("IndexOutOfBoundsException",
+                           offset + size <= string->length());
         return append(string->c_str(), offset, size);
     }
 
-    sp<String> appendFormatted(const char* format, ...) const __attribute__((format (printf, 2, 3)));
+    sp<String> appendFormatted(const char* format,
+                               ...) const __attribute__((format(printf, 2, 3)));
 
 private:
-    class StringBuffer : public LightweightObject<StringBuffer> {
+    class StringBuffer : public LightweightObject<StringBuffer>
+    {
     public:
         StringBuffer() :
-                mData(nullptr),
-                mSize(0) {
+            mData(nullptr),
+            mSize(0)
+        {
         }
 
         StringBuffer(size_t size);
         StringBuffer(const char* string, size_t size);
-        StringBuffer(const char* string1, size_t size1, const char* string2, size_t size2);
+        StringBuffer(const char* string1, size_t size1, const char* string2,
+                     size_t size2);
 
-        ~StringBuffer() {
+        ~StringBuffer()
+        {
             if (mData != nullptr) {
                 free(mData);
             }
@@ -186,10 +210,12 @@ private:
     };
 
     String(const sp<StringBuffer>& string) :
-            mStringBuffer(string) {
+        mStringBuffer(string)
+    {
     }
 
-    sp<String> appendFormattedWithVarArgList(const char* format, va_list args) const;
+    sp<String> appendFormattedWithVarArgList(const char* format,
+            va_list args) const;
 
     sp<StringBuffer> mStringBuffer;
     static const sp<StringBuffer> EMPTY_STRING_BUFFER;

@@ -21,14 +21,16 @@
 
 #include "mindroid/content/pm/ComponentInfo.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Information you can retrieve about a particular application service. This corresponds to
  * information collected from the MindroidManifest.xml's &lt;service&gt; tags.
  */
 class ServiceInfo :
-        public ComponentInfo {
+    public ComponentInfo
+{
 public:
     ServiceInfo() = default;
 
@@ -49,7 +51,8 @@ public:
      */
     int32_t flags = 0;
 
-    bool hasFlag(int32_t flag) {
+    bool hasFlag(int32_t flag)
+    {
         return (flags & flag) == flag;
     }
 };

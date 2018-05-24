@@ -20,10 +20,12 @@
 #include "mindroid/lang/Object.h"
 #include <climits>
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Character :
-        public Object {
+    public Object
+{
 public:
     /**
      * The minimum {@code Character} value.
@@ -35,16 +37,19 @@ public:
      */
     static const char MAX_VALUE = CHAR_MAX;
 
-    explicit Character(char value) : mValue(value) {
+    explicit Character(char value) : mValue(value)
+    {
     }
 
     static sp<Character> valueOf(const char c);
 
-    char charValue() const {
+    char charValue() const
+    {
         return mValue;
     }
 
-    char value() const {
+    char value() const
+    {
         return charValue();
     }
 

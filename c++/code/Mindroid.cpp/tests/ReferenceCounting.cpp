@@ -3,15 +3,19 @@
 
 using namespace mindroid;
 
-class Test : public Object {
+class Test : public Object
+{
 public:
-    Test(int32_t id) : mId(id) {
+    Test(int32_t id) : mId(id)
+    {
     }
 
-    virtual ~Test() {
+    virtual ~Test()
+    {
     }
 
-    int32_t id() const {
+    int32_t id() const
+    {
         return mId;
     }
 
@@ -19,7 +23,8 @@ private:
     int32_t mId;
 };
 
-TEST(Mindroid, ReferenceCounting) {
+TEST(Mindroid, ReferenceCounting)
+{
     sp<::Test> ref1 = new ::Test(1);
 
     {

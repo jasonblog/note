@@ -22,7 +22,8 @@
 #include "mindroid/lang/Object.h"
 #include "mindroid/content/pm/ApplicationInfo.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Base class containing information common to all application components ({@link ServiceInfo}).
@@ -30,7 +31,8 @@ namespace mindroid {
  * between all application components.
  */
 class ComponentInfo :
-        public Object {
+    public Object
+{
 public:
     ComponentInfo() = default;
 
@@ -64,7 +66,8 @@ public:
     /**
      * Return whether this component and its enclosing application are enabled.
      */
-    bool isEnabled() {
+    bool isEnabled()
+    {
         return enabled && applicationInfo->enabled;
     }
 
@@ -72,7 +75,8 @@ protected:
     /**
      * @hide
      */
-    sp<ApplicationInfo> getApplicationInfo() {
+    sp<ApplicationInfo> getApplicationInfo()
+    {
         return applicationInfo;
     }
 };

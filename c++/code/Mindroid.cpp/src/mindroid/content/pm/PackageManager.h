@@ -25,7 +25,8 @@
 #include "mindroid/lang/Object.h"
 #include "mindroid/util/ArrayList.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Class for retrieving various kinds of information related to the application packages that are
@@ -34,7 +35,8 @@ namespace mindroid {
  * You can find this class through {@link Context#getPackageManager}.
  */
 class PackageManager :
-        public Object {
+    public Object
+{
 public:
     /**
      * {@link PackageInfo} flag: return information about services in the package in
@@ -42,8 +44,10 @@ public:
      */
     static const int32_t GET_SERVICES = 0x00000004;
 
-    PackageManager(const sp<Context>& context) {
-        mService = binder::PackageManager::Stub::asInterface(context->getSystemService(Context::PACKAGE_MANAGER));
+    PackageManager(const sp<Context>& context)
+    {
+        mService = binder::PackageManager::Stub::asInterface(context->getSystemService(
+                       Context::PACKAGE_MANAGER));
     }
 
     /**
@@ -56,7 +60,8 @@ public:
      *
      * @see #GET_SERVICES
      */
-    sp<ArrayList<sp<PackageInfo>>> getInstalledPackages(int32_t flags) {
+    sp<ArrayList<sp<PackageInfo>>> getInstalledPackages(int32_t flags)
+    {
         try {
             return mService->getInstalledPackages(flags);
         } catch (const RemoteException& e) {
@@ -75,7 +80,8 @@ public:
      * @return Returns a ResolveInfo containing the final service intent that was determined to be
      * the best action. Returns null if no matching service was found.
      */
-    sp<ResolveInfo> resolveService(const sp<Intent>& intent, int32_t flags) {
+    sp<ResolveInfo> resolveService(const sp<Intent>& intent, int32_t flags)
+    {
         try {
             return mService->resolveService(intent, flags);
         } catch (const RemoteException& e) {

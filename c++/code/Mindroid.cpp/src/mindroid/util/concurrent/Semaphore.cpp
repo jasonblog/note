@@ -17,33 +17,41 @@
 #include "mindroid/os/SystemClock.h"
 #include "mindroid/util/concurrent/Semaphore.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
-Semaphore::Semaphore(uint32_t value) {
+Semaphore::Semaphore(uint32_t value)
+{
     sem_init(&mSemaphore, 0, value);
 }
 
-Semaphore::~Semaphore() {
+Semaphore::~Semaphore()
+{
     sem_destroy(&mSemaphore);
 }
 
-void Semaphore::acquire() {
+void Semaphore::acquire()
+{
     sem_wait(&mSemaphore);
 }
 
-void Semaphore::release() {
+void Semaphore::release()
+{
     sem_post(&mSemaphore);
 }
 
-bool Semaphore::tryAcquire(uint64_t timeoutMillis) {
+bool Semaphore::tryAcquire(uint64_t timeoutMillis)
+{
     timespec time;
     clock_gettime(CLOCK_MONOTONIC, &time);
     time.tv_sec += timeoutMillis / 1000;
     time.tv_nsec += (timeoutMillis % 1000) * 1000000;
+
     if (time.tv_nsec >= 1000000000) {
         time.tv_sec++;
         time.tv_nsec -= 1000000000;
     }
+
     return (sem_timedwait(&mSemaphore, &time) == 0);
 }
 

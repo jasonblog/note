@@ -20,12 +20,14 @@
 #include "mindroid/lang/Object.h"
 #include "pthread.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Condition;
 
 class Lock :
-        public Object {
+    public Object
+{
 public:
     Lock() = default;
     virtual ~Lock() = default;
@@ -42,14 +44,17 @@ protected:
     friend class ConditionImpl;
 };
 
-class AutoLock {
+class AutoLock
+{
 public:
     AutoLock(const sp<Lock>& lock) :
-            mLock(lock) {
+        mLock(lock)
+    {
         mLock->lock();
     }
 
-    ~AutoLock() {
+    ~AutoLock()
+    {
         mLock->unlock();
     }
 
@@ -59,9 +64,9 @@ public:
 private:
     sp<Lock> mLock;
 
-    void* operator new(size_t);
+    void* operator new (size_t);
     void* operator new[](size_t);
-    void operator delete(void*);
+    void operator delete (void*);
     void operator delete[](void*);
 };
 

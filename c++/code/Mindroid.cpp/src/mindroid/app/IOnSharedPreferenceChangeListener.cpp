@@ -18,38 +18,53 @@
 #include "mindroid/app/IOnSharedPreferenceChangeListener.h"
 #include "mindroid/content/SharedPreferences.h"
 
-namespace mindroid {
-namespace binder {
+namespace mindroid
+{
+namespace binder
+{
 
-const char* const OnSharedPreferenceChangeListener::Stub::DESCRIPTOR = "mindroid.app.IOnSharedPreferenceChangeListener";
+const char* const OnSharedPreferenceChangeListener::Stub::DESCRIPTOR =
+    "mindroid.app.IOnSharedPreferenceChangeListener";
 
-void OnSharedPreferenceChangeListener::Stub::onTransact(int32_t what, int32_t arg1, int32_t arg2, const sp<Object>& obj, const sp<Bundle>& data, const sp<Object>& result) {
+void OnSharedPreferenceChangeListener::Stub::onTransact(int32_t what,
+        int32_t arg1, int32_t arg2, const sp<Object>& obj, const sp<Bundle>& data,
+        const sp<Object>& result)
+{
     switch (what) {
     case MSG_ON_SHARED_PREFERENCE_CHANGED: {
-        sp<SharedPreferences> sharedPreferences = object_cast<SharedPreferences>(data->getObject("sharedPreferences"));
-        sp<String> key = data->getString("key");
-        onSharedPreferenceChanged(sharedPreferences, key);
-        break;
-    }
+            sp<SharedPreferences> sharedPreferences = object_cast<SharedPreferences>
+                    (data->getObject("sharedPreferences"));
+            sp<String> key = data->getString("key");
+            onSharedPreferenceChanged(sharedPreferences, key);
+            break;
+        }
+
     default:
         Binder::onTransact(what, arg1, arg2, obj, data, result);
     }
 }
 
-void OnSharedPreferenceChangeListener::Stub::Proxy::onSharedPreferenceChanged(const sp<SharedPreferences>& sharedPreferences, const sp<String>& key) {
+void OnSharedPreferenceChangeListener::Stub::Proxy::onSharedPreferenceChanged(
+    const sp<SharedPreferences>& sharedPreferences, const sp<String>& key)
+{
     sp<Bundle> data = new Bundle();
     data->putObject("sharedPreferences", sharedPreferences);
     data->putString("key", key);
     mRemote->transact(MSG_ON_SHARED_PREFERENCE_CHANGED, data, nullptr, FLAG_ONEWAY);
 }
 
-OnSharedPreferenceChangeListener::Stub::SmartProxy::SmartProxy(const sp<IBinder>& remote) {
+OnSharedPreferenceChangeListener::Stub::SmartProxy::SmartProxy(
+    const sp<IBinder>& remote)
+{
     mRemote = remote;
-    mStub = interface_cast<IOnSharedPreferenceChangeListener>(remote->queryLocalInterface(DESCRIPTOR));
+    mStub = interface_cast<IOnSharedPreferenceChangeListener>
+            (remote->queryLocalInterface(DESCRIPTOR));
     mProxy = new OnSharedPreferenceChangeListener::Stub::Proxy(remote);
 }
 
-void OnSharedPreferenceChangeListener::Stub::SmartProxy::onSharedPreferenceChanged(const sp<SharedPreferences>& sharedPreferences, const sp<String>& key) {
+void OnSharedPreferenceChangeListener::Stub::SmartProxy::onSharedPreferenceChanged(
+    const sp<SharedPreferences>& sharedPreferences, const sp<String>& key)
+{
     if (mRemote->runsOnSameThread()) {
         return mStub->onSharedPreferenceChanged(sharedPreferences, key);
     } else {

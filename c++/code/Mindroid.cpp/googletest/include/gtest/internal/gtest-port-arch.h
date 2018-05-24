@@ -55,8 +55,8 @@
 #  elif WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
 #   define GTEST_OS_WINDOWS_RT 1
 #  else
-    // WINAPI_FAMILY defined but no known partition matched.
-    // Default to desktop.
+// WINAPI_FAMILY defined but no known partition matched.
+// Default to desktop.
 #   define GTEST_OS_WINDOWS_DESKTOP 1
 #  endif
 # else

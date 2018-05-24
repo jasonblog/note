@@ -21,7 +21,8 @@
 #include "mindroid/lang/Object.h"
 #include "mindroid/util/concurrent/locks/ReentrantLock.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Message;
 class Handler;
@@ -37,7 +38,8 @@ class Runnable;
  * Looper.myQueue()}.
  */
 class MessageQueue final :
-        public Object {
+    public Object
+{
 public:
     MessageQueue(bool quitAllowed);
     virtual ~MessageQueue();
@@ -47,11 +49,16 @@ public:
     bool quit();
     bool enqueueMessage(const sp<Message>& message, uint64_t when);
     sp<Message> dequeueMessage();
-    bool hasMessages(const sp<Handler>& handler, int32_t what, const sp<Object>& object);
-    bool hasMessages(const sp<Handler>& handler, const sp<Runnable>& runnable, const sp<Object>& object);
-    bool removeMessages(const sp<Handler>& handler, int32_t what, const sp<Object>& object);
-    bool removeCallbacks(const sp<Handler>& handler, const sp<Runnable>& runnable, const sp<Object>& object);
-    bool removeCallbacksAndMessages(const sp<Handler>& handler, const sp<Object>& object);
+    bool hasMessages(const sp<Handler>& handler, int32_t what,
+                     const sp<Object>& object);
+    bool hasMessages(const sp<Handler>& handler, const sp<Runnable>& runnable,
+                     const sp<Object>& object);
+    bool removeMessages(const sp<Handler>& handler, int32_t what,
+                        const sp<Object>& object);
+    bool removeCallbacks(const sp<Handler>& handler, const sp<Runnable>& runnable,
+                         const sp<Object>& object);
+    bool removeCallbacksAndMessages(const sp<Handler>& handler,
+                                    const sp<Object>& object);
 
 private:
     static const char* const TAG;

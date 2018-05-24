@@ -25,36 +25,44 @@
 #include "mindroid/content/pm/ResolveInfo.h"
 #include "mindroid/content/pm/PackageInfo.h"
 
-namespace tinyxml2 {
+namespace tinyxml2
+{
 class XMLElement;
 }
 
-namespace mindroid {
+namespace mindroid
+{
 
 class File;
 
 class PackageManagerService :
-        public Service {
+    public Service
+{
 public:
     PackageManagerService() :
         mPackages(new HashMap<sp<String>, sp<PackageInfo>>()),
-        mComponents(new HashMap<sp<ComponentName>, sp<ComponentInfo>>()) {
+        mComponents(new HashMap<sp<ComponentName>, sp<ComponentInfo>>())
+    {
     }
 
     virtual ~PackageManagerService() = default;
 
     virtual void onCreate();
-    virtual int32_t onStartCommand(const sp<Intent>& intent, int32_t flags, int32_t startId);
+    virtual int32_t onStartCommand(const sp<Intent>& intent, int32_t flags,
+                                   int32_t startId);
     virtual void onDestroy();
 
-    virtual sp<IBinder> onBind(const sp<Intent>& intent) {
+    virtual sp<IBinder> onBind(const sp<Intent>& intent)
+    {
         return mBinder;
     }
 
 private:
-    class PackageManagerImpl : public binder::PackageManager::Stub {
+    class PackageManagerImpl : public binder::PackageManager::Stub
+    {
     public:
-        PackageManagerImpl(const sp<PackageManagerService>& packageManagerService) : mPackageManagerService(packageManagerService) { }
+        PackageManagerImpl(const sp<PackageManagerService>& packageManagerService) :
+            mPackageManagerService(packageManagerService) { }
 
         virtual sp<ArrayList<sp<PackageInfo>>> getInstalledPackages(int32_t flags);
         virtual sp<ResolveInfo> resolveService(const sp<Intent>& intent, int32_t flags);
@@ -66,8 +74,10 @@ private:
     sp<binder::PackageManager::Stub> mBinder = new PackageManagerImpl(this);
 
     void parseManifest(const sp<File>& file);
-    sp<ArrayList<sp<ServiceInfo>>> parseApplication(sp<ApplicationInfo>& ai, const tinyxml2::XMLElement* applicationNode);
-    sp<ServiceInfo> parseService(sp<ApplicationInfo>& ai, const tinyxml2::XMLElement* serviceNode);
+    sp<ArrayList<sp<ServiceInfo>>> parseApplication(sp<ApplicationInfo>& ai,
+            const tinyxml2::XMLElement* applicationNode);
+    sp<ServiceInfo> parseService(sp<ApplicationInfo>& ai,
+                                 const tinyxml2::XMLElement* serviceNode);
 
     static const char* const TAG;
     static const char* MANIFEST_TAG;

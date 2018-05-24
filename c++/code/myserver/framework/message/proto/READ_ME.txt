@@ -1,0 +1,23 @@
+﻿命令号规则:
+    player.proto => 1xx,
+    bulding.proto => 2xx,
+    timer_task.proto => 3xx,
+    resource_building.proto => 4xx,
+    training.proto => 5xx
+    battle.proto => 6xx
+    map.proto => 7xx
+    item.proto => 8xx
+    tower.proto => 9xx   
+    tech.proto => 10xx
+    pray.proto => 11xx
+    hospital.proto => 12xx
+    wall.proto =>13xx 
+    shop.proto =>14xx
+    alliance.proto =>15xx 
+    equipment.proto =>16xx
+    report.proto => 17xx   
+    task.proto => 18xx   
+    rank.proto => 19xx
+    friend.proto => 20xx
+    market.proto => 21xx
+    chat.proto => 22xx

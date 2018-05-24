@@ -23,38 +23,52 @@
 
 #include <netinet/in.h>
 
-namespace mindroid {
+namespace mindroid
+{
 
 class SocketAddress :
-        public Object {
+    public Object
+{
 public:
     virtual ~SocketAddress() = default;
     static sp<SocketAddress> getSocketAddress(uint16_t port);
 
-    static sp<SocketAddress> getSocketAddress(const char* host, uint16_t port) {
+    static sp<SocketAddress> getSocketAddress(const char* host, uint16_t port)
+    {
         if (host == nullptr) {
             return getSocketAddress(port);
         }
+
         return getSocketAddress(String::valueOf(host), port);
     }
 
-    static sp<SocketAddress> getSocketAddress(const sp<String>& host, uint16_t port);
+    static sp<SocketAddress> getSocketAddress(const sp<String>& host,
+            uint16_t port);
 
     sp<String> getHostName() const;
     virtual uint16_t getPort() const = 0;
-    bool isUnresolved() const { return mIsUnresolved; }
-    virtual sp<InetAddress> getInetAddress() const { return mInetAddress; }
+    bool isUnresolved() const
+    {
+        return mIsUnresolved;
+    }
+    virtual sp<InetAddress> getInetAddress() const
+    {
+        return mInetAddress;
+    }
 
 protected:
     SocketAddress() = default;
     SocketAddress(uint16_t port) :
-        mIsUnresolved(false) {
+        mIsUnresolved(false)
+    {
     }
 
-    SocketAddress(const char* host, uint16_t port) {
+    SocketAddress(const char* host, uint16_t port)
+    {
     }
 
-    SocketAddress(const sp<String>& host, uint16_t port) {
+    SocketAddress(const sp<String>& host, uint16_t port)
+    {
     }
 
     SocketAddress(const SocketAddress&) = delete;

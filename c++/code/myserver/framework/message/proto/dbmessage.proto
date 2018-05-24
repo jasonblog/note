@@ -1,0 +1,61 @@
+// 客户端需要引用包
+// package wing.net.msg;
+syntax = "proto2";
+option optimize_for = SPEED;
+
+// 文件功能模块说明:	此文件dbmodule存库用
+// 消息分段说明:		[0x00010001 ~ 0x0001FFFF]
+
+// sql 类型
+enum SQLTYPE {
+	SELECT = 1;
+	INSERT = 2;
+	UPDATE = 3;
+	DELETE = 4;
+	CALL  = 5;
+};
+enum CALLBACK {
+	MUSTCALLBACK = 1;		// 必须返回
+	NOTCALLBACK  = 2;		// 不必返回
+};
+
+enum BLOB
+{
+	HASBLOB		= 1;		// 有blob字段
+	NONEBLOB	= 2;		// 没有blob字段
+};
+
+message CMsgExecuteSqlRequest
+{
+	enum Msg{
+	    MsgID	= 10001;
+	}
+	optional uint32 	LogicType 		= 1; 							// 业务逻辑类型
+	optional uint32		SessionID		= 2[default = 0]; 				// 会话ID
+	optional uint64 	TimeStamp		= 3[default = 0]; 				// 会话时间戳
+	optional uint64 	TeamID 			= 4[default = 0]; 				// 战队ID
+	optional SQLTYPE 	SqlType			= 5[default = SELECT];			// sql 语句的类型
+	optional CALLBACK 	Callback		= 6[default = MUSTCALLBACK];	// 是否返回
+	optional string     Sql 			= 7; 							// sql语句
+	optional uint32		BufSize			= 8[default = 0]; 				// 需要转义的部分长度(内容为blob)
+	optional bytes		Buffer			= 9; 							// 需要转义的部分内容
+	optional string		SQLWhere		= 10; 							// WHERE条件语句
+	optional uint32 	OutNumber 		= 11[default = 0]; 				// 存储过程返回多个参数
+	optional BLOB	HasBlob		= 12;		// 是否有blob字段
+};
+
+message CMsgExecuteSqlResponse
+{
+	enum Msg{
+		MsgID	= 10002;
+	}
+	optional uint32 LogicType 		= 1; 							// 业务逻辑类型
+	optional uint32	SessionID		= 2; 							// 会话ID
+	optional uint64 TimeStamp		= 3; 							// 会话时间戳
+	optional uint64 TeamID 			= 4; 							// 战队ID
+	optional uint32	ResultCode		= 5; 							// 返回的错误码
+	optional uint32	RowCount		= 6[default=0]; 				// 总行数
+	optional uint32	ColCount		= 7[default=0]; 				// 总列数
+	repeated bytes	FieldValue		= 8;							// 列值 ( 变长数组个数为 RowCount * ColCount )
+	repeated uint32	FieldValueLen	= 9; 							// 列值长度 ( 变长数组个数为 RowCount * ColCount )
+};

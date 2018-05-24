@@ -4,24 +4,30 @@
 
 using namespace mindroid;
 
-class Test {
+class Test
+{
 public:
-    void test1(int32_t value) {
+    void test1(int32_t value)
+    {
         Log::d("Test", "test1 with value %d", value);
     }
 
-    void test2(int32_t value) {
+    void test2(int32_t value)
+    {
         Log::d("Test", "test2 with value %d", value);
     }
 
     Event<void (int32_t)> testIt;
 };
 
-int main() {
+int main()
+{
     Test test;
 
-    Delegate<void (int32_t)> delegate1 = Delegate<void (int32_t)>::create<Test, &Test::test1>(test);
-    Delegate<void (int32_t)> delegate2 = Delegate<void (int32_t)>::create<Test, &Test::test2>(test);
+    Delegate<void (int32_t)> delegate1 =
+        Delegate<void (int32_t)>::create<Test, &Test::test1>(test);
+    Delegate<void (int32_t)> delegate2 =
+        Delegate<void (int32_t)>::create<Test, &Test::test2>(test);
 
     test.testIt += delegate1;
     test.testIt(1234567);

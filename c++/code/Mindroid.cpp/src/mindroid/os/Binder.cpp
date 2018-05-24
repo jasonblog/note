@@ -19,19 +19,24 @@
 #include "mindroid/util/Log.h"
 #include "mindroid/util/concurrent/Awaitable.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 const char* const Binder::TAG = "Binder";
-const sp<String> Binder::EXCEPTION_MESSAGE = String::valueOf("Binder transaction failure");
+const sp<String> Binder::EXCEPTION_MESSAGE =
+    String::valueOf("Binder transaction failure");
 
-void Binder::transact(int32_t what, const sp<Awaitable>& result, int32_t flags) {
+void Binder::transact(int32_t what, const sp<Awaitable>& result, int32_t flags)
+{
     sp<Message> message = Message::obtain();
     message->what = what;
+
     if (flags == FLAG_ONEWAY) {
         mTarget->send(message);
     } else {
         message->result = result;
         mTarget->send(message);
+
         try {
             result->await();
         } catch (const CancellationException& e) {
@@ -42,15 +47,19 @@ void Binder::transact(int32_t what, const sp<Awaitable>& result, int32_t flags) 
     }
 }
 
-void Binder::transact(int32_t what, const sp<Object>& obj, const sp<Awaitable>& result, int32_t flags) {
+void Binder::transact(int32_t what, const sp<Object>& obj,
+                      const sp<Awaitable>& result, int32_t flags)
+{
     sp<Message> message = Message::obtain();
     message->what = what;
     message->obj = obj;
+
     if (flags == FLAG_ONEWAY) {
         mTarget->send(message);
     } else {
         message->result = result;
         mTarget->send(message);
+
         try {
             result->await();
         } catch (const CancellationException& e) {
@@ -61,16 +70,20 @@ void Binder::transact(int32_t what, const sp<Object>& obj, const sp<Awaitable>& 
     }
 }
 
-void Binder::transact(int32_t what, int32_t arg1, int32_t arg2, const sp<Awaitable>& result, int32_t flags) {
+void Binder::transact(int32_t what, int32_t arg1, int32_t arg2,
+                      const sp<Awaitable>& result, int32_t flags)
+{
     sp<Message> message = Message::obtain();
     message->what = what;
     message->arg1 = arg1;
     message->arg2 = arg2;
+
     if (flags == FLAG_ONEWAY) {
         mTarget->send(message);
     } else {
         message->result = result;
         mTarget->send(message);
+
         try {
             result->await();
         } catch (const CancellationException& e) {
@@ -81,17 +94,21 @@ void Binder::transact(int32_t what, int32_t arg1, int32_t arg2, const sp<Awaitab
     }
 }
 
-void Binder::transact(int32_t what, int32_t arg1, int32_t arg2, const sp<Object>& obj, const sp<Awaitable>& result, int32_t flags) {
+void Binder::transact(int32_t what, int32_t arg1, int32_t arg2,
+                      const sp<Object>& obj, const sp<Awaitable>& result, int32_t flags)
+{
     sp<Message> message = Message::obtain();
     message->what = what;
     message->arg1 = arg1;
     message->arg2 = arg2;
     message->obj = obj;
+
     if (flags == FLAG_ONEWAY) {
         mTarget->send(message);
     } else {
         message->result = result;
         mTarget->send(message);
+
         try {
             result->await();
         } catch (const CancellationException& e) {
@@ -102,15 +119,19 @@ void Binder::transact(int32_t what, int32_t arg1, int32_t arg2, const sp<Object>
     }
 }
 
-void Binder::transact(int32_t what, const sp<Bundle>& data, const sp<Awaitable>& result, int32_t flags) {
+void Binder::transact(int32_t what, const sp<Bundle>& data,
+                      const sp<Awaitable>& result, int32_t flags)
+{
     sp<Message> message = Message::obtain();
     message->what = what;
     message->setData(data);
+
     if (flags == FLAG_ONEWAY) {
         mTarget->send(message);
     } else {
         message->result = result;
         mTarget->send(message);
+
         try {
             result->await();
         } catch (const CancellationException& e) {
@@ -121,17 +142,21 @@ void Binder::transact(int32_t what, const sp<Bundle>& data, const sp<Awaitable>&
     }
 }
 
-void Binder::transact(int32_t what, int32_t arg1, int32_t arg2, const sp<Bundle>& data, const sp<Awaitable>& result, int32_t flags) {
+void Binder::transact(int32_t what, int32_t arg1, int32_t arg2,
+                      const sp<Bundle>& data, const sp<Awaitable>& result, int32_t flags)
+{
     sp<Message> message = Message::obtain();
     message->what = what;
     message->arg1 = arg1;
     message->arg2 = arg2;
     message->setData(data);
+
     if (flags == FLAG_ONEWAY) {
         mTarget->send(message);
     } else {
         message->result = result;
         mTarget->send(message);
+
         try {
             result->await();
         } catch (const CancellationException& e) {

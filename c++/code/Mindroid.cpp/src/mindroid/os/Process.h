@@ -23,7 +23,8 @@
 #include "mindroid/os/IProcess.h"
 #include "mindroid/util/concurrent/locks/ReentrantLock.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Service;
 class IRemoteCallback;
@@ -31,36 +32,45 @@ class ComponentName;
 class IPackageManager;
 
 class Process :
-        public Object {
+    public Object
+{
 public:
     Process(const sp<String>& name);
 
     sp<IProcess> start();
     void stop(uint64_t timeout);
 
-    sp<String> getName() {
+    sp<String> getName()
+    {
         return mName;
     }
 
-    sp<HandlerThread> getMainThread() {
+    sp<HandlerThread> getMainThread()
+    {
         return mMainThread;
     }
 
     bool isAlive() const;
 
 private:
-    class ProcessImpl : public binder::Process::Stub {
+    class ProcessImpl : public binder::Process::Stub
+    {
     public:
-        ProcessImpl(sp<Process> process) : mProcess(process) {
+        ProcessImpl(sp<Process> process) : mProcess(process)
+        {
         }
 
-        void createService(const sp<Intent>& intent, const sp<IRemoteCallback>& callback);
-        void startService(const sp<Intent>& intent, int32_t flags, int32_t startId, const sp<IRemoteCallback>& callback);
+        void createService(const sp<Intent>& intent,
+                           const sp<IRemoteCallback>& callback);
+        void startService(const sp<Intent>& intent, int32_t flags, int32_t startId,
+                          const sp<IRemoteCallback>& callback);
         void stopService(const sp<Intent>& intent);
         void stopService(const sp<Intent>& intent, const sp<IRemoteCallback>& callback);
-        void bindService(const sp<Intent>& intent, const sp<ServiceConnection>& conn, int32_t flags, const sp<IRemoteCallback>& callback);
+        void bindService(const sp<Intent>& intent, const sp<ServiceConnection>& conn,
+                         int32_t flags, const sp<IRemoteCallback>& callback);
         void unbindService(const sp<Intent>& intent);
-        void unbindService(const sp<Intent>& intent, const sp<IRemoteCallback>& callback);
+        void unbindService(const sp<Intent>& intent,
+                           const sp<IRemoteCallback>& callback);
 
     private:
         sp<Process> mProcess;

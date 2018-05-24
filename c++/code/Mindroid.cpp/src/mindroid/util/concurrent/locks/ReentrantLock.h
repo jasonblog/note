@@ -22,10 +22,12 @@
 #include "mindroid/util/concurrent/locks/Condition.h"
 #include <pthread.h>
 
-namespace mindroid {
+namespace mindroid
+{
 
 class ReentrantLock :
-        public Lock {
+    public Lock
+{
 public:
     ReentrantLock();
     virtual ~ReentrantLock();
@@ -37,7 +39,8 @@ public:
     virtual void unlock();
 
 protected:
-    virtual pthread_mutex_t* getMutex() {
+    virtual pthread_mutex_t* getMutex()
+    {
         return &mMutex;
     }
 

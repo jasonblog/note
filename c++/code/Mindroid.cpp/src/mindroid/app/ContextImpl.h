@@ -27,7 +27,8 @@
 #include "mindroid/os/HandlerThread.h"
 #include "mindroid/os/RemoteCallback.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class IServiceManager;
 class PackageManager;
@@ -37,29 +38,37 @@ class PackageManager;
  * context object for Activity and other application components.
  */
 class ContextImpl :
-        public Context {
+    public Context
+{
 public:
-    ContextImpl(const sp<HandlerThread>& mainThread, const sp<ComponentName>& component);
+    ContextImpl(const sp<HandlerThread>& mainThread,
+                const sp<ComponentName>& component);
 
     sp<PackageManager> getPackageManager();
 
-    sp<Looper> getMainLooper() {
+    sp<Looper> getMainLooper()
+    {
         return mMainThread->getLooper();
     }
 
     sp<String> getPackageName();
 
-    sp<File> getSharedPrefsFile(const sp<String>& name) {
-        return makeFilename(getPreferencesDir(), String::format("%s.xml", name->c_str()));
+    sp<File> getSharedPrefsFile(const sp<String>& name)
+    {
+        return makeFilename(getPreferencesDir(), String::format("%s.xml",
+                            name->c_str()));
     }
 
-    sp<SharedPreferences> getSharedPreferences(const char* name, int32_t mode) {
+    sp<SharedPreferences> getSharedPreferences(const char* name, int32_t mode)
+    {
         return getSharedPreferences(String::valueOf(name), mode);
     }
 
-    sp<SharedPreferences> getSharedPreferences(const sp<String>& name, int32_t mode);
+    sp<SharedPreferences> getSharedPreferences(const sp<String>& name,
+            int32_t mode);
 
-    sp<IBinder> getSystemService(const char* name) {
+    sp<IBinder> getSystemService(const char* name)
+    {
         return getSystemService(String::valueOf(name));
     }
 
@@ -67,7 +76,8 @@ public:
 
     sp<ComponentName> startService(const sp<Intent>& service);
     bool stopService(const sp<Intent>& service);
-    bool bindService(const sp<Intent>& service, const sp<ServiceConnection>& conn, int32_t flags);
+    bool bindService(const sp<Intent>& service, const sp<ServiceConnection>& conn,
+                     int32_t flags);
     void unbindService(const sp<ServiceConnection>& conn);
 
 private:

@@ -19,16 +19,19 @@
 #include <cstdlib>
 #include <limits>
 
-namespace mindroid {
+namespace mindroid
+{
 
 const float Float::MAX_VALUE = std::numeric_limits<float>::max();
 const float Float::MIN_VALUE = std::numeric_limits<float>::min();
 
-sp<Float> Float::valueOf(const char* s) {
+sp<Float> Float::valueOf(const char* s)
+{
     return new Float(strtol(s, nullptr, 10));
 }
 
-sp<Float> Float::valueOf(const sp<String>& s) {
+sp<Float> Float::valueOf(const sp<String>& s)
+{
     return valueOf(s->c_str());
 }
 

@@ -1,0 +1,20 @@
+
+option optimize_for = SPEED;
+
+enum EProxyCmd
+{
+	CMD_NULL			= 0;	// 无指令
+	CMD_REGIST			= 1;	// 注册
+	CMD_KEEPALIVE	= 2;	// 心跳
+};
+
+// 服务器之间转发的消息头
+message CProxyHead
+{
+	required uint32			SrcFE			= 1;										// 源服务器类型
+	required uint32			SrcID			= 2;										// 源服务器ID
+	required uint32			DstFE			= 3;										// 目标服务器类型
+	required uint32			DstID			= 4;										// 目标服务器ID
+	required EProxyCmd	OpFlag			= 5[default = CMD_NULL];	// 指令类型
+	required uint64			TimeStamp	= 6;										// 时间戳(毫秒)
+};

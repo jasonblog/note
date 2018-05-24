@@ -19,19 +19,23 @@
 
 #include "mindroid/lang/Exception.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Exception indicating that the result of a future cannot be retrieved because the task timed out.
  */
-class TimeoutException : public Exception {
+class TimeoutException : public Exception
+{
 public:
     TimeoutException() = default;
 
-    TimeoutException(const char* message) : Exception(message) {
+    TimeoutException(const char* message) : Exception(message)
+    {
     }
 
-    TimeoutException(const sp<String>& message) : Exception(message) {
+    TimeoutException(const sp<String>& message) : Exception(message)
+    {
     }
 };
 

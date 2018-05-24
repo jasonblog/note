@@ -1,0 +1,571 @@
+// 客户端去掉注释
+// package wing.net.msg;
+
+import "resourcemessage.proto";
+
+option optimize_for = SPEED;
+
+// 文件功能模块说明:	此文件主要是房间,跨场景和房间中的所有消息
+
+// 消息分段说明:		[0x00020001 ~ 0x0002FFFF]
+
+// 房间服务器信息
+message PBRoomServerInfo
+{
+	required	int32	RoomserverID		= 1;		// 房间服务器ID
+	required	int32	CurRoomNum		= 2;		// 当前房间数量
+	required	int32	CurRoleNum			= 3;		// 当前玩家数量
+	required	int32	MaxRoomNum		= 4;		// 最大房间数量
+	required	int32	MaxRoleNum		= 5;		// 最大玩家数量
+}
+
+// 房间数据
+message PBRoomInfo
+{
+	required	int32				RoomID		= 1;		// 房间ID
+	required	enRoomType	RoomType	= 2;		// 房间类型
+	repeated	PBRoleInfo		RoleList		= 3;		// 玩家列表
+}
+
+// 玩家信息
+message PBRoleInfo
+{
+	required	int64					RoleID				= 1;		// RoleID
+	required	string					Name				= 2;		// 名称
+	required	int32					HeadID				= 3;		// 头像
+	required	int64					Gold					= 4;		// 金币
+	required	int32					Status				= 5;		// 角色状态 0:未进入 1:进入房间
+	required	int32					gunid				= 6;		// 球杆模板ID
+}
+
+// 连接信息
+message PBConnectInfo
+{
+	optional	int32	SrcIP 			= 1;		// 目标的IP
+	optional	int32	SrcPort			= 2;		// 目标的端口
+	optional	int32	SocketID		= 3;		// 目标的FD
+	optional	int64	CreateTime	= 4;		// 目标的创建时间
+	optional	int32	TcpID			= 5;		// tcp服务器的ID
+}
+
+// *******************************************************************
+// CMsgR2HRegistHallRequest : 申请注册大厅
+// *******************************************************************
+message CMsgR2HRegistHallRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x00020001;
+	}
+	
+	required	PBRoomServerInfo	RoomServerInfo		= 1;		// 房间服务器信息
+};
+
+// *******************************************************************
+// CMsgH2RRegistHallResponse : 申请注册大厅回复
+// *******************************************************************
+message CMsgH2RRegistHallResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020002;
+	}
+	required	int32	Result			= 1;		// 返回结果(成功返回0,失败返回错误码)
+};
+
+// *******************************************************************
+// CMsgR2HUpdateRoomRequest : 更新房间信息到大厅
+// *******************************************************************
+message CMsgR2HUpdateRoomRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x00020003;
+	}
+	required	PBRoomServerInfo	RoomServerInfo		= 1;		// 房间服务器信息
+};
+
+// *******************************************************************
+// CMsgH2RUpdateRoomResponse : 更新房间信息到大厅回复
+// *******************************************************************
+message CMsgH2RUpdateRoomResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020004;
+	}
+	required	int32	Result			= 1;		// 返回结果(成功返回0,失败返回错误码)
+};
+
+// *******************************************************************
+// CMsgLoginRoomRequest : 请求进入房间开始匹配
+// *******************************************************************
+message CMsgLoginRoomRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x00020005;
+	}
+	required	int32	RoomType	= 1;		// 房间类型
+};
+
+// *******************************************************************
+// CMsgLoginRoomResponse : 请求进入房间开始匹配回复
+// *******************************************************************
+message CMsgLoginRoomResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020006;
+	}
+	required	int32	Result					= 1;		// 返回结果(成功返回0,失败返回错误码)
+};
+
+// *******************************************************************
+// CMsgH2RCreateRoomRequest : 创建房间请求
+// *******************************************************************
+message CMsgH2RCreateRoomRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x00020007;
+	}
+	required	PBRoomInfo			RoomInfo			= 1;		// 创建房间的信息
+	repeated	PBConnectInfo		ConnectInfo		= 2;		// 角色连接信息
+};
+
+// *******************************************************************
+// CMsgR2HCreateRoomResponse : 创建房间请求回复
+// *******************************************************************
+message CMsgR2HCreateRoomResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020008;
+	}
+	required	int32						Result						= 1;		// 返回结果(成功返回0,失败返回错误码)
+	required	PBRoomServerInfo	RoomServerInfo		= 2;		// 刷新房间服务器信息
+	optional	PBRoomInfo				RoomInfo					= 3;		// 返回的房间数据,失败也返回
+};
+
+// *******************************************************************
+// CMsgGoRoomResponse : 通知玩家跳转房间
+// *******************************************************************
+message CMsgGoRoomResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020009;
+	}
+	required	int32					RoomServerID		= 1;		// 房间服务器ID
+	required	int32					RoomID				= 2;		// 房间号
+	required	EGoRoomType		GoRoomType		= 3;		// 进入房间类型
+	required	enRoomType		RoomType			= 4;		// 房间类型
+};
+
+// *******************************************************************
+// CMsgJoinGameRequest : 玩家请求进入房间
+// *******************************************************************
+message CMsgJoinGameRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x0102000A;
+	}
+};
+
+// *******************************************************************
+// CMsgJoinGameResponse : 玩家请求进入房间回复
+// *******************************************************************
+message CMsgJoinGameResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x0002000B;
+	}
+	required	int32					Result					= 1;		// 返回结果(成功返回0,失败返回错误码)
+	required	EGoRoomType		GoRoomType		= 2;		// 进入房间类型
+	repeated	PBRoleInfo			RoleInfos				= 3;		// 角色列表
+	required	enRoomType		RoomType			= 4;		// 房间类型
+};
+
+// *******************************************************************
+// CMsgRoomPingRequest : 房间内的ping消息
+// *******************************************************************
+message CMsgRoomPingRequest
+{
+        enum Msg
+        {
+                MsgID   = 0x0102000C;
+        }
+        required        int64                           timestamp               = 1;            // 时间
+};
+
+// *******************************************************************
+// CMsgRoomPingResponse : 房间内ping消息的回复
+// *******************************************************************
+message CMsgRoomPingResponse
+{
+        enum Msg
+        {
+                MsgID   = 0x0002000D;
+        }
+        required        int64                           timestamp               = 1;            // 时间
+};
+
+// *******************************************************************
+// CMsgUpdateRoleInfoResponse : 更新当前入场玩家信息
+// *******************************************************************
+message CMsgUpdateRoleInfoResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x0002000E;
+	}
+	repeated	PBRoleInfo				RoleInfos					= 1;		// 角色列表
+};
+
+// *******************************************************************
+// CMsgLeaveRoomRequest : 离开房间的请求
+// *******************************************************************
+message CMsgLeaveRoomRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x0102000F;
+	}
+	required	ELeaveRoomType		leavetype		= 1;		// 离开房间类型(如果是游戏中离开,则服务器不需要根据该类型判断,直接作为离开不匹配处理)
+};
+
+// *******************************************************************
+// CMsgR2HLeaveRoomResponse : 房间服务器通知大厅玩家离开
+// *******************************************************************
+message CMsgR2HLeaveRoomResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020010;
+	}
+	required	int64						roleid			= 1;		// 角色ID
+	required	ELeaveRoomType		leavetype		= 2;		// 离开房间类型
+	required	enRoomType			roomtype		= 3;		// 房间类型
+};
+
+// *******************************************************************
+// CMsgR2HUpdateRoleDataResponse : 房间服务器通知大厅更新玩家信息
+// *******************************************************************
+message CMsgR2HUpdateRoleDataResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020011;
+	}
+	required	int64	roleid	= 1;	// 角色ID
+	required	int64	gold		= 2;	// 金币变化(这里是变化量,不是全量,不能直接覆盖)
+};
+
+// *******************************************************************
+// CMsgLucky28ShotRequest : 幸运28客户端上行出手信息
+// *******************************************************************
+message CMsgLucky28ShotRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x01020012;
+	}
+	required	eLucky28ShotType	shottype	= 1;		// 出手类型
+	required	eLucky28BetType		bettype		= 2;		// 押拄类型
+};
+
+// *******************************************************************
+// CMsgLucky28PrepareResponse : 幸运28游戏准备
+// *******************************************************************
+message CMsgLucky28PrepareResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020013;
+	}
+};
+
+// *******************************************************************
+// CMsgLucky28StartResponse : 幸运28游戏开始
+// *******************************************************************
+message CMsgLucky28StartResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020014;
+	}
+	required	PBLucky28RoundInfo	roundinfo		= 1;		// 回合信息
+};
+
+// *******************************************************************
+// CMsgLucky28EndResponse : 幸运28游戏结束
+// *******************************************************************
+message CMsgLucky28EndResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020015;
+	}
+	repeated	PBLuckey28EndGame	results			= 1;		// 比赛结果信息
+};
+
+// *******************************************************************
+// CMsgLucky28ShotRoleResponse : 幸运28通知所有玩家谁出手
+// *******************************************************************
+message CMsgLucky28ShotRoleResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020016;
+	}
+	required	int64	shotroleid		= 1;		// 出手玩家ID
+	required	int32	roundnum	= 2;		// 当前回合数
+};
+
+// *******************************************************************
+// CMsgLucky28ShotResultResponse : 幸运28通知所有玩家出手结果
+// *******************************************************************
+message CMsgLucky28ShotResultResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020017;
+	}
+	required	int64							shotroleid		= 1;		// 出手玩家ID
+	required	int32							getball			= 2;		// 获得的球
+	required	eLucky28ShotType		shottype		= 3;		// 出手类型
+	required	eLucky28BetType			bettype			= 4;		// 押拄类型
+	required	PBLucky28RoundInfo	roundinfo		= 5;		// 回合信息
+};
+
+// *******************************************************************
+// CMsg8BallStartGameRequest : 8球比赛开始请求(客户端上行)
+// *******************************************************************
+message CMsg8BallStartGameRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x01020018;
+	}
+
+};
+
+// *******************************************************************
+// CMsg8BallRoundStartResponse : 回合开始(服务器下行)
+// *******************************************************************
+message CMsg8BallRoundStartResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020019;
+	}
+	required	int32					selfstatus		= 1;		// 自己的状态 (eEightBallStatus枚举)
+	required	int64					roleid			= 2;		// 出手角色ID(仅用于客户端显示)
+	required	int32					LastResult		= 3;		// 上回合结果
+	optional	PBBalls					balllist			= 4;		// 所有剩余球的位置信息,开场时因为所有客户端一致,所以服务器下发的为空
+	repeated	PB8BallGroup		ballgroup		= 5;		// 8球分组信息,用于显示场上角色需要打哪些球
+};
+
+// *******************************************************************
+// CMsg8BallKickInfoRequest : 8球上报击球点信息(客户端上行)
+// *******************************************************************
+message CMsg8BallKickInfoRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x0102001A;
+	}
+	required	PBKickBallInfo	kickinfo	= 1;	// 击球点信息
+};
+
+// *******************************************************************
+// CMsg8BallKickInfoResponse : 8球下行击球点信息(服务器下行)
+// *******************************************************************
+message CMsg8BallKickInfoResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x0002001B;
+	}
+	required	PBKickBallInfo	kickinfo	= 1;	// 击球点信息
+};
+
+// *******************************************************************
+// CMsg8BallPositionRequest : 8球上报球的位置信息(客户端上行)
+// *******************************************************************
+message CMsg8BallPositionRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x0102001C;
+	}
+	required	PBBalls		balllist	= 1;	// 球的位置信息
+};
+
+// *******************************************************************
+// CMsg8BallPositionResponse : 8球下发球的位置信息(服务器下行)
+// *******************************************************************
+message CMsg8BallPositionResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x0002001D;
+	}
+	required	PBBalls		balllist	= 1;	// 球的位置信息
+};
+
+// *******************************************************************
+// CMsg8BallRoundEndRequest : 8球上报回合结束信息(客户端上行)
+// *******************************************************************
+message CMsg8BallRoundEndRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x0102001E;
+	}
+	required	int32				result			= 1;		// 回合结果 (eBallResult枚举)
+	required	PBBalls				balllist			= 2;		// 球的位置信息
+	repeated	PB8BallGroup	ballgroup		= 3;		// 8球分组信息,用于显示场上角色需要打哪些球
+	optional	int64				sucroleid		= 4;		// 如果当前回合比赛结束,需要上行胜利玩家的角色ID
+};
+
+// *******************************************************************
+// CMsg8BallEndGameResponse : 8球比赛结束请求(服务器下行)
+// *******************************************************************
+message CMsg8BallEndGameResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x0002001F;
+	}
+	repeated	PB8BallEndResult		result	= 1;		// 玩家结算结果
+};
+
+// *******************************************************************
+// CMsg8BallCannotContinueResponse : 8球比赛无法继续(服务器下行)
+// *******************************************************************
+message CMsg8BallCannotContinueResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020020;
+	}
+	required	enRoomType	roomtype		= 1;		// 离开房间的类型
+	required	int32				result			= 2;		// 错误码
+};
+
+// *******************************************************************
+// CMsgLucky28SettlementEndRequest : 幸运28结算完毕请求(客户端上行)
+// *******************************************************************
+message CMsgLucky28SettlementEndRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x01020021;
+	}
+
+};
+
+// *******************************************************************
+// CMsg8BallLeaveMatchRequest : 8球离开匹配队列
+// *******************************************************************
+message CMsg8BallLeaveMatchRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x00020022;
+	}
+	required	enRoomType	roomtype		= 1;		// 离开队列的房间类型
+};
+
+// *******************************************************************
+// CMsg8BallLeaveMatchResponse : 8球离开匹配队列回复
+// *******************************************************************
+message CMsg8BallLeaveMatchResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020023;
+	}
+	required	int32				result			= 1;		// 离开匹配队列的结果
+	required	enRoomType	roomtype		= 2;		// 离开队列的房间类型
+};
+
+// *******************************************************************
+// CMsg8BallMoveBallRequest : 8球移动白球请求
+// *******************************************************************
+message CMsg8BallMoveBallRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x01020024;
+	}
+	required	PBSingleBall		ball		= 1;	// 球的信息(用来移动白球)
+	required	int32				angle	= 2;	// 击球角度
+};
+
+// *******************************************************************
+// CMsg8BallMoveBallResponse : 8球移动白球请求回复
+// *******************************************************************
+message CMsg8BallMoveBallResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020025;
+	}
+	required	PBSingleBall		ball		= 1;	// 球的信息(用来移动白球)
+	required	int32				angle	= 2;	// 击球角度
+};
+
+// *******************************************************************
+// CMsg8BallMoveGunRequest : 8球移动球杆请求
+// *******************************************************************
+message CMsg8BallMoveGunRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x01020026;
+	}
+	required	int32		angle	= 1;	// 球杆角度
+};
+
+// *******************************************************************
+// CMsg8BallMoveGunResponse : 8球移动球杆请求回复
+// *******************************************************************
+message CMsg8BallMoveGunResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020027;
+	}
+	required	int32		angle	= 1;	// 球杆角度
+};
+
+// *******************************************************************
+// CMsg8Ball3PFoulResponse : 8球3人欢乐赛犯规发球通知
+// *******************************************************************
+message CMsg8Ball3PFoulResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00020028;
+	}
+	required	int64		roleid		= 1;		// 犯规玩家的ID
+	required	int32		ballnum	= 2;		// 犯规罚牌的编号
+};
+
+// *******************************************************************
+// CMsg8BallUpdateResultToHall : 8球更新比赛结果到大厅
+// *******************************************************************
+message CMsg8BallUpdateResultToHall
+{
+	enum Msg
+	{
+		MsgID	= 0x00020029;
+	}
+	required	EDataStatisticsType		type		= 1;		// 统计类型
+	repeated	PB8BallDataStatistics	data		= 2;		// 比赛结果信息
+};

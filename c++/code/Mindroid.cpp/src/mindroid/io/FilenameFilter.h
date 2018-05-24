@@ -20,7 +20,8 @@
 #include "mindroid/lang/Object.h"
 #include "mindroid/lang/String.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * An interface for filtering {@link File} objects based on their names
@@ -29,7 +30,8 @@ namespace mindroid {
  * @see File
  * @see File#list(FilenameFilter)
  */
-class FilenameFilter : public Object {
+class FilenameFilter : public Object
+{
 public:
     /**
      * Indicates if a specific filename matches this filter.

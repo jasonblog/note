@@ -1,0 +1,48 @@
+// 客户端需要引用包
+// package wing.net.msg;
+
+option optimize_for = SPEED;
+
+// 服务器类型
+enum enMessageFE
+{
+	FE_TIMER						= 0;		// 内部消息（定时器）(暂时不用)
+	FE_CLIENT					= 1;		// 客户端(暂时不用)
+	FE_GAMESERVER			= 2;		// 场景服务器(暂时不用)
+	FE_LOGINSERVER			= 3;		// 登陆服务器(暂时不用)
+	FE_DBSERVER				= 4; 		// 数据服务器
+	FE_PROXYSERVER			= 5;		// 代理服务器
+	FE_WORLDSERVER		= 6;		// 世界服务器(暂时不用)
+	FE_WEBSERVER				= 7;		// 平台服务器
+	FE_OFFLINESERVER		= 8;		// 离线服务器(暂时不用)
+	FE_CHECKSERVER			= 9; 		// 验证服务器(暂时不用)
+	FE_HALLSERVER			= 10;	// 大厅服务器
+	FE_GATESERVER			= 11;	// 网关服务器
+	FE_TCPSERVER				= 12;	// 连接服务器
+	FE_ROOMSERVER			= 13;	// 房间服务器
+};
+
+// 消息头( server -> client 可以只填messageid, 但 client -> server 必须全填)
+message CMessageHead
+{
+	required	int32	MessageID	= 1[default = 0];		// 消息ID
+	optional	int32	DstFE			= 2;							// 消息到达的服务器类型
+	optional	int32	DstID			= 3;							// 消息到达的服务器ID
+	optional	int64	TimeStamp	= 4;							// 时间戳
+    optional	int32	RoomID		= 5;							// 房间ID,用于房间服务器处理消息
+    optional	int64	RoleID			= 6[default = 0];		// 角色ID
+    optional	int32	EntityID		= 7[default = 0];		// 实体ID(客户端不用填,服务器自己取)
+};
+
+// 单个消息
+message CMessage
+{
+	required	CMessageHead		MsgHead	= 1;						// 消息头+
+	optional	fixed64					MsgPara	= 2[default = 0];	// 消息体( 指针 4bytes ) 消息传递时是无效的，这是服务器内部自己赋值的，方便获取消息
+};
+
+// ping消息
+message CMsgPingRequest
+{
+	enum Msg{MsgID	=	0x00FFFFFF;	}
+};

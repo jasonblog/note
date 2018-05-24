@@ -21,10 +21,12 @@
 #include "mindroid/util/concurrent/Executor.h"
 #include "mindroid/util/concurrent/LinkedBlockingQueue.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class ThreadPoolExecutor :
-        public Executor {
+    public Executor
+{
 public:
     ThreadPoolExecutor(uint32_t threadPoolSize);
     virtual ~ThreadPoolExecutor();
@@ -35,11 +37,13 @@ public:
     virtual bool cancel(const sp<Runnable>& runnable);
 
 private:
-    class WorkerThread : public Thread {
+    class WorkerThread : public Thread
+    {
     public:
         WorkerThread(const sp<String>& name) :
-                Thread(name),
-                mQueue(nullptr) {
+            Thread(name),
+            mQueue(nullptr)
+        {
         }
         virtual ~WorkerThread() = default;
         virtual void run();

@@ -4,14 +4,16 @@
 
 using namespace mindroid;
 
-TEST(Mindroid, Files) {
+TEST(Mindroid, Files)
+{
     sp<File> file = new File("/mindroid/test/");
     ASSERT_STREQ(file->getName()->c_str(), "test");
     ASSERT_STREQ(file->getPath()->c_str(), "/mindroid/test");
     ASSERT_STREQ(file->getParent()->c_str(), "/mindroid");
 }
 
-TEST(Mindroid, Root) {
+TEST(Mindroid, Root)
+{
     sp<File> file = new File("/");
     ASSERT_STREQ(file->getName()->c_str(), "");
     ASSERT_STREQ(file->getPath()->c_str(), "/");

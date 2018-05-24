@@ -23,12 +23,14 @@
 #include "mindroid/util/Set.h"
 #include "mindroid/util/ArrayList.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Bundle;
 
 class Variant :
-        public Object {
+    public Object
+{
 public:
     enum Type {
         Null,
@@ -55,116 +57,143 @@ public:
     inline Variant() : mType(Null) { }
 
     inline Variant(bool value) :
-            mType(Bool) {
+        mType(Bool)
+    {
         mValue.boolValue = value;
     }
 
     inline Variant(uint8_t value) :
-            mType(Byte) {
+        mType(Byte)
+    {
         mValue.byteValue = value;
     }
 
     inline Variant(char value) :
-            mType(Char) {
+        mType(Char)
+    {
         mValue.charValue = value;
     }
 
     inline Variant(int16_t value) :
-            mType(Short) {
+        mType(Short)
+    {
         mValue.shortValue = value;
     }
 
     inline Variant(uint16_t value) :
-            mType(UnsignedShort) {
+        mType(UnsignedShort)
+    {
         mValue.unsignedShortValue = value;
     }
 
     inline Variant(int32_t value) :
-            mType(Int) {
+        mType(Int)
+    {
         mValue.intValue = value;
     }
 
     inline Variant(uint32_t value) :
-            mType(UnsignedInt) {
+        mType(UnsignedInt)
+    {
         mValue.unsignedIntValue = value;
     }
 
     inline Variant(int64_t value) :
-            mType(Long) {
+        mType(Long)
+    {
         mValue.longValue = value;
     }
 
     inline Variant(uint64_t value) :
-            mType(UnsignedLong) {
+        mType(UnsignedLong)
+    {
         mValue.unsignedLongValue = value;
     }
 
     inline Variant(float value) :
-            mType(Float) {
+        mType(Float)
+    {
         mValue.floatValue = value;
     }
 
     inline Variant(double value) :
-            mType(Double) {
+        mType(Double)
+    {
         mValue.doubleValue = value;
     }
 
     inline Variant(const char* string) :
-            mType(String) {
+        mType(String)
+    {
         const sp<mindroid::String> object = String::valueOf(string);
+
         if (object != nullptr) {
             object->incStrongReference(this);
         }
+
         mValue.object = object.getPointer();
     }
 
     inline Variant(const sp<mindroid::String>& string) :
-            mType(String) {
+        mType(String)
+    {
         if (string != nullptr) {
             string->incStrongReference(this);
         }
+
         mValue.object = string.getPointer();
     }
 
     inline Variant(const sp<mindroid::Set<sp<mindroid::String>>>& set) :
-            mType(StringSet) {
+        mType(StringSet)
+    {
         if (set != nullptr) {
             set->incStrongReference(this);
         }
+
         mValue.object = set.getPointer();
     }
 
-    inline Variant(const sp<mindroid::ArrayList<sp<mindroid::String>>>& stringArrayList) :
-            mType(StringArrayList) {
+    inline Variant(const sp<mindroid::ArrayList<sp<mindroid::String>>>&
+                   stringArrayList) :
+        mType(StringArrayList)
+    {
         if (stringArrayList != nullptr) {
             stringArrayList->incStrongReference(this);
         }
+
         mValue.object = stringArrayList.getPointer();
     }
 
     inline Variant(const sp<mindroid::ArrayList<int32_t>>& integerArrayList) :
-            mType(IntegerArrayList) {
+        mType(IntegerArrayList)
+    {
         if (integerArrayList != nullptr) {
             integerArrayList->incStrongReference(this);
         }
+
         mValue.object = integerArrayList.getPointer();
     }
 
     inline Variant(const sp<mindroid::Object>& object) :
-            mType(Object) {
+        mType(Object)
+    {
         if (object != nullptr) {
             object->incStrongReference(this);
         }
+
         mValue.object = object.getPointer();
     }
 
     inline Variant(const sp<mindroid::Bundle>& bundle);
 
     inline Variant(const sp<mindroid::IBinder>& binder) :
-            mType(Binder) {
+        mType(Binder)
+    {
         if (binder != nullptr) {
             binder->incStrongReference(this);
         }
+
         mValue.binder = binder.getPointer();
     }
 
@@ -176,145 +205,180 @@ public:
     bool equals(const sp<mindroid::Object>& other) const override;
     size_t hashCode() const override;
 
-    inline bool isBool() const {
+    inline bool isBool() const
+    {
         return mType == Bool;
     }
 
-    inline bool getBool() const {
+    inline bool getBool() const
+    {
         return mValue.boolValue;
     }
 
-    inline bool isByte() const {
+    inline bool isByte() const
+    {
         return mType == Byte;
     }
 
-    inline uint8_t getByte() const {
+    inline uint8_t getByte() const
+    {
         return mValue.byteValue;
     }
 
-    inline bool isChar() const {
+    inline bool isChar() const
+    {
         return mType == Char;
     }
 
-    inline char getChar() const {
+    inline char getChar() const
+    {
         return mValue.charValue;
     }
 
-    inline bool isShort() const {
+    inline bool isShort() const
+    {
         return mType == Short;
     }
 
-    inline int16_t getShort() const {
+    inline int16_t getShort() const
+    {
         return mValue.shortValue;
     }
 
-    inline bool isUnsignedShort() const {
+    inline bool isUnsignedShort() const
+    {
         return mType == UnsignedShort;
     }
 
-    inline uint16_t getUnsignedShort() const {
+    inline uint16_t getUnsignedShort() const
+    {
         return mValue.unsignedShortValue;
     }
 
-    inline bool isInt() const {
+    inline bool isInt() const
+    {
         return mType == Int;
     }
 
-    inline int32_t getInt() const {
+    inline int32_t getInt() const
+    {
         return mValue.intValue;
     }
 
-    inline bool isUnsignedInt() const {
+    inline bool isUnsignedInt() const
+    {
         return mType == UnsignedInt;
     }
 
-    inline uint32_t getUnsignedInt() const {
+    inline uint32_t getUnsignedInt() const
+    {
         return mValue.unsignedIntValue;
     }
 
-    inline bool isLong() const {
+    inline bool isLong() const
+    {
         return mType == Long;
     }
 
-    inline int64_t getLong() const {
+    inline int64_t getLong() const
+    {
         return mValue.longValue;
     }
 
-    inline bool isUnsignedLong() const {
+    inline bool isUnsignedLong() const
+    {
         return mType == UnsignedLong;
     }
 
-    inline uint64_t getUnsignedLong() const {
+    inline uint64_t getUnsignedLong() const
+    {
         return mValue.unsignedLongValue;
     }
 
-    inline bool isFloat() const {
+    inline bool isFloat() const
+    {
         return mType == Float;
     }
 
-    inline float getFloat() const {
+    inline float getFloat() const
+    {
         return mValue.floatValue;
     }
 
-    inline bool isDouble() const {
+    inline bool isDouble() const
+    {
         return mType == Double;
     }
 
-    inline double getDouble() const {
+    inline double getDouble() const
+    {
         return mValue.doubleValue;
     }
 
-    inline bool isString() const {
+    inline bool isString() const
+    {
         return mType == String;
     }
 
-    inline sp<mindroid::String> getString() const {
+    inline sp<mindroid::String> getString() const
+    {
         return static_cast<mindroid::String*>(mValue.object);
     }
 
-    inline bool isStringSet() const {
+    inline bool isStringSet() const
+    {
         return mType == StringSet;
     }
 
-    inline sp<mindroid::Set<sp<mindroid::String>>> getStringSet() const {
+    inline sp<mindroid::Set<sp<mindroid::String>>> getStringSet() const
+    {
         return static_cast<mindroid::Set<sp<mindroid::String>>*>(mValue.object);
     }
 
-    inline bool isStringArrayList() const {
+    inline bool isStringArrayList() const
+    {
         return mType == StringArrayList;
     }
 
-    inline sp<mindroid::ArrayList<sp<mindroid::String>>> getStringArrayList() const {
+    inline sp<mindroid::ArrayList<sp<mindroid::String>>> getStringArrayList() const
+    {
         return static_cast<mindroid::ArrayList<sp<mindroid::String>>*>(mValue.object);
     }
 
-    inline bool isIntegerArrayList() const {
+    inline bool isIntegerArrayList() const
+    {
         return mType == IntegerArrayList;
     }
 
-    inline sp<mindroid::ArrayList<int32_t>> getIntegerArrayList() const {
+    inline sp<mindroid::ArrayList<int32_t>> getIntegerArrayList() const
+    {
         return static_cast<mindroid::ArrayList<int32_t>*>(mValue.object);
     }
 
-    inline bool isObject() const {
+    inline bool isObject() const
+    {
         return mType == Object;
     }
 
-    inline sp<mindroid::Object> getObject() const {
+    inline sp<mindroid::Object> getObject() const
+    {
         return static_cast<mindroid::Object*>(mValue.object);
     }
 
-    inline bool isBundle() const {
+    inline bool isBundle() const
+    {
         return mType == Bundle;
     }
 
     inline sp<mindroid::Bundle> getBundle() const;
 
-    inline bool isBinder() const {
+    inline bool isBinder() const
+    {
         return mType == Binder;
     }
 
-    inline sp<mindroid::IBinder> getBinder() const {
+    inline sp<mindroid::IBinder> getBinder() const
+    {
         if (mType == Binder) {
             return mValue.binder;
         } else {
@@ -322,15 +386,18 @@ public:
         }
     }
 
-    inline bool isNull() {
+    inline bool isNull()
+    {
         return mType == Null;
     }
 
-    inline Type getType() const {
+    inline Type getType() const
+    {
         return mType;
     }
 
-    inline bool isBasicType() const {
+    inline bool isBasicType() const
+    {
         return ((mType == Null) ||
                 (mType == Bool) ||
                 (mType == Byte) ||

@@ -18,25 +18,30 @@
 #include "mindroid/os/Handler.h"
 #include "mindroid/os/Message.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 SerialExecutor::SerialExecutor() :
-        mHandler(nullptr) {
+    mHandler(nullptr)
+{
     mHandlerThread = new HandlerThread("SerialExecutor");
     mHandlerThread->start();
     mHandler = new Handler(mHandlerThread->getLooper());
 }
 
-SerialExecutor::~SerialExecutor() {
+SerialExecutor::~SerialExecutor()
+{
     mHandlerThread->getLooper()->quit();
     mHandlerThread->join();
 }
 
-void SerialExecutor::execute(const sp<Runnable>& runnable) {
+void SerialExecutor::execute(const sp<Runnable>& runnable)
+{
     mHandler->obtainMessage(runnable)->sendToTarget();
 }
 
-bool SerialExecutor::cancel(const sp<Runnable>& runnable) {
+bool SerialExecutor::cancel(const sp<Runnable>& runnable)
+{
     return mHandler->removeCallbacks(runnable);
 }
 

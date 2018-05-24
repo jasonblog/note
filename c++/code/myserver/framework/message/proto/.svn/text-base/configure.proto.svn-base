@@ -1,0 +1,134 @@
+option optimize_for = SPEED;
+
+// proxy信息
+message PBProxy
+{
+	required		uint32		id			= 1;		// ID
+	required		string		ip			= 2;		// IP地址
+	required		uint32		port		= 3;		// 端口
+}
+
+// gate信息
+message PBGate
+{
+	required		uint32		id			= 1;		// ID
+	required		string		ip			= 2;		// IP地址
+	required		uint32		port		= 3;		// 端口
+}
+
+// log信息
+message PBLog
+{
+	required		string		identifier					= 1;		// 标识符
+	required		string		directory					= 2;		// 文件路径
+	required		uint32		priority						= 3;		// 等级
+	required		uint32		maxfilesize				= 4;		// 文件大小
+	required		uint32		maxbackupindex		= 5;		// 文件数量
+}
+
+// dbserver 配置
+message PBDBConfig
+{
+	required			string			selfip				=  1;					// db服务器指定ip地址
+	required			uint32			selfport			=  2;					// db服务器指定端口
+	required			uint32 			serverid 			=  3; 				// dbserver id
+	repeated			PBProxy		proxyinfo			=  4;					// 多个proxy(目前是一个proxy) 
+	required			string			mysqlinfo			=  5;					// mysql信息 例如 : “172.16.35.45;3306;root;game;mh_dev” 
+	required			uint32			loglvl					=  6;					// log日志等级
+	required			uint32			rwtimeout		=  7;					// mysql读写超时时间
+	required			uint32			sleeptime			=  8;					// mysql重连休眠时间
+	required			uint32			loop					=  9;					// mysql重连次数
+	required			int64			keepalive			=  10;				// 服务器间的心跳频率(单位:秒|10秒)
+	required			int64			servertick			=  11;				// 服务器帧频(单位:秒|1秒)
+}
+
+// hallserver 配置
+message PBHallConfig
+{
+	required		int64				proxytimeout			= 1;				// 与proxy心跳超时(单位:秒|30秒)
+	required		int32				serverid					= 2;				// 当前服务器ID
+	repeated		PBProxy			proxyinfo					= 3;				// proxy信息
+	repeated		PBLog				loginfo						= 4;				// 日志信息
+	required		int64				keepalive					= 5;				// 服务器间的心跳频率(单位:秒|10秒)
+	required		int64				servertick					= 6;				// 服务器帧频(单位:毫秒|100毫秒)
+	required		int64				sessiontimeout			= 7;				// Session超时时间(单位:毫秒|20秒)
+	required		int64				perffrequecny			= 8;				// Perf日志打印频率(单位:毫秒|5分钟)
+	required		bool					encrypt						= 9;				// 是否加密(true:加密 false:不加密)
+	required		int64				autosave					= 10;			// 玩家定时存储频率(单位:秒|5分钟)
+	required		int64				logintimeout				= 11;			// 玩家登陆超时时间(单位:秒|5分钟)
+	required		int64				nocontraltime			= 12;			// 玩家无操作下线时间(单位:秒|10分钟)
+	required		int32				dbserverid				= 13;			// dbsvrd的ID
+	required		int32				webserverid				= 14;			// websvrd的ID
+	required		string  				urllogincheck			= 15;			// sdkURL
+	required		string  				urlprintdot				= 16;			// printdotURL
+	required		string  				urlmimessage			= 17;			// MiMessage
+	required		bool  				sdkcheck					= 18;			// 是否验证sdk
+	required		PBGate				gateinfo					= 19;			// gate信息
+	required		int32				addgold					= 20;			// 初始金币
+	required		int32				adddiamond				= 21;			// 初始钻石
+}
+
+// roomserver 配置
+message PBRoomConfig
+{
+	required		int64				proxytimeout			= 1;				// 与proxy心跳超时(单位:秒|30秒)
+	required		int32				serverid					= 2;				// 当前服务器ID
+	repeated		PBProxy			proxyinfo					= 3;				// proxy信息
+	repeated		PBLog				loginfo						= 4;				// 日志信息
+	required		int64				keepalive					= 5;				// 服务器间的心跳频率(单位:秒|10秒)
+	required		int64				servertick					= 6;				// 服务器帧频(单位:毫秒|100毫秒)
+	required		int64				sessiontimeout			= 7;				// Session超时时间(单位:毫秒|20秒)
+	required		int64				perffrequecny			= 8;				// Perf日志打印频率(单位:毫秒|5分钟)
+	required		bool					encrypt						= 9;				// 是否加密(true:加密 false:不加密)
+	required		PBGate				gateinfo					= 10;			// gate信息
+}
+
+// proxyserver 配置
+message PBProxyConfig
+{
+	required		uint32		id			= 1;		// 当前proxy服务器的ID
+	required		int32		port		= 2;		// 端口
+}
+
+// tcpserver 配置
+message PBTcpConfig
+{
+	required		PBGate			gateinfo			= 1;				// gate信息
+	repeated		PBLog			loginfo				= 2;				// 日志信息
+	required		int32			listenport			= 3;				// 监听端口
+	required		int32			checktimegap	= 4;				// 时间检测间隔(单位:秒|5秒)
+	required		int32			sockettimeout	= 5;				// socket(已发送过消息)超时时间(单位:秒|3分钟)
+	required		int32			conntimeout		= 6;				// socket(刚连接还未发送过消息)超时时间(单位:秒|3分钟)
+	required		int32			maxlogcount	= 7;				// 最大日志数量
+	required		int32			tcpbuflen			= 8;				// tcpbuflen
+	required		int32			writestatgap		= 9;				// 状态打印间隔(单位:秒|1分钟)
+	required		int32			tcpserverid		= 10;			// 当前tcp服务器的ID
+	required		int64			gatetimeout		= 11;			// 与gate心跳超时(单位:秒|30秒)
+	required		int64			keepalive			= 12;			// 服务器间的心跳频率(单位:秒|10秒)
+}
+
+// gateserver 配置
+message PBGateConfig
+{
+	required		uint32		id			= 1;		// 当前gate服务器的ID
+	required		int32		port		= 2;		// 端口
+}
+
+// client配置
+message PBClientConfig
+{
+	required		string	ip					= 1;
+	required		int32	port				= 2;
+	required		int32	connnum		= 3;
+}
+
+message CConfigure
+{
+	optional		PBDBConfig			dbconfig			= 1;		// dbconfig
+	optional		PBHallConfig			hallconfig			= 2;		// hallconfig
+	optional		PBProxyConfig		proxyconfig		= 3;		// proxyconfig
+	optional		PBTcpConfig			tcpconfig			= 4;		// tcpconfig
+	optional		PBGateConfig		gateconfig		= 5;		// gateconfig
+	optional		PBClientConfig		clientconfig		= 6;
+	optional		PBRoomConfig		roomconfig		= 7;
+}

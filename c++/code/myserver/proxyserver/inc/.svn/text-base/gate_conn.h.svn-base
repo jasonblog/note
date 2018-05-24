@@ -1,0 +1,67 @@
+#ifndef _GATE_CONN_H_
+#define _GATE_CONN_H_
+
+#include "tcp_conn.h"
+#include "code_queue.h"
+#include "servertool.h"
+
+typedef CTCPSocket<RECVBUFLENGTH, POSTBUFLENGTH> CMyTCPSocket;
+
+enum enConnFlags {   
+	FLG_CONN_IGNORE = 0,
+	FLG_CONN_REDO   = 1,
+	FLG_CONN_CTRL   = 2                                                                                           
+};  
+
+enum enEntityStates  {
+	ENTITY_OFF  = 0, 
+	ENTITY_ON   = 1
+};
+
+enum enBlockStates {
+	BLK_EMPTY    = 0,
+	BLK_SAVING   = 1,
+	BLK_REDOING  = 2
+};  
+    
+class CMyTCPConn: public CDoubleLinker, public CTCPConn<RECVBUFLENGTH, POSTBUFLENGTH>
+{
+	public:
+		CMyTCPConn()
+		{
+			CDoubleLinker::Init();
+		}
+		~CMyTCPConn() {}
+
+		enum enConnParas {
+#ifdef _DEBUG_
+			BLOCKQUEUESIZE = 0x2000,
+#else
+			BLOCKQUEUESIZE = 0x1000000,
+#endif // _DEBUG_
+		};
+
+		int EstConn(int iAcceptFD);
+		int IsConnCanRecv();
+
+		int RegToCheckSet(fd_set *pCheckSet);
+		int IsFDSetted(fd_set *pCheckSet);
+		int RecvAllData();
+		int GetOneCode(short &nCodeLength, BYTE *pCode);
+		int SendCode(short nCodeLength, BYTE *pCode, int iFlag = FLG_CONN_IGNORE);
+		int CleanBlockQueue(int iQueueLength);
+		int SetConnState(int iConnState);
+		bool IsStateOn();
+		int SetLastKeepalive(time_t tNow);
+		time_t GetLastKeepalive();
+
+	private:
+		int m_iConnState;
+		time_t m_tLastKeepalive;
+
+#ifdef _POSIX_MT_
+		pthread_mutex_t m_stMutex;          // 操作的互斥变量
+#endif // _POSIX_MT_
+};
+
+#endif // _GATE_CONN_H_

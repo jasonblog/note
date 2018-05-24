@@ -21,28 +21,39 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 
-namespace mindroid {
+namespace mindroid
+{
 
-sp<String> SocketAddress::getHostName() const {
+sp<String> SocketAddress::getHostName() const
+{
     char host[NI_MAXHOST] = { 0 };
+
     if (mInetAddress != nullptr) {
-        getnameinfo(mInetAddress->getPointer(), mInetAddress->getSize(), host, sizeof(host), nullptr, 0, 0);
+        getnameinfo(mInetAddress->getPointer(), mInetAddress->getSize(), host,
+                    sizeof(host), nullptr, 0, 0);
     }
+
     return String::valueOf(host);
 }
 
-sp<SocketAddress> SocketAddress::getSocketAddress(uint16_t port) {
+sp<SocketAddress> SocketAddress::getSocketAddress(uint16_t port)
+{
     return new Socket6Address(port);
 }
 
-sp<SocketAddress> SocketAddress::getSocketAddress(const sp<String>& host, uint16_t port) {
+sp<SocketAddress> SocketAddress::getSocketAddress(const sp<String>& host,
+        uint16_t port)
+{
     if (host == nullptr) {
         return getSocketAddress(port);
     }
+
     struct sockaddr_in sa;
+
     if (inet_pton(AF_INET, host->c_str(), &sa.sin_addr) != 0) {
         return new Socket4Address(host, port);
     }
+
     return new Socket6Address(host, port);
 }
 

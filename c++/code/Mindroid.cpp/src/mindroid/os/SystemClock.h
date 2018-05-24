@@ -29,7 +29,8 @@
 #define CLOCK_MONOTONIC 1
 #endif
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Core timekeeping facilities.
@@ -97,7 +98,8 @@ namespace mindroid {
  * (ELAPSED_REALTIME), and cause an {@link mindroid.content.Intent} broadcast when they occur.
  * </ul>
  */
-class SystemClock {
+class SystemClock
+{
 public:
     /**
      * This class is uninstantiable.
@@ -137,7 +139,8 @@ public:
      *
      * @return elapsed nanoseconds since boot.
      */
-    static uint64_t elapsedRealtimeNanos() {
+    static uint64_t elapsedRealtimeNanos()
+    {
         return elapsedRealtime() * 1000000;
     }
 };

@@ -19,20 +19,24 @@
 
 #include "mindroid/lang/Exception.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Exception indicating that the result of a future cannot be retrieved because the task was
  * stopped.
  */
-class ExecutionException : public Exception {
+class ExecutionException : public Exception
+{
 public:
     ExecutionException() = default;
 
-    ExecutionException(const char* message) : Exception(message) {
+    ExecutionException(const char* message) : Exception(message)
+    {
     }
 
-    ExecutionException(const sp<String>& message) : Exception(message) {
+    ExecutionException(const sp<String>& message) : Exception(message)
+    {
     }
 };
 

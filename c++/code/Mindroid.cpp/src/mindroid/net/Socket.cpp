@@ -22,57 +22,76 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-namespace mindroid {
+namespace mindroid
+{
 
-Socket::Socket(const sp<String>& host, uint16_t port) {
+Socket::Socket(const sp<String>& host, uint16_t port)
+{
     connect(host, port);
 }
 
-Socket::~Socket() {
+Socket::~Socket()
+{
     close();
 }
 
-int Socket::connect(const sp<String>& host, uint16_t port) {
+int Socket::connect(const sp<String>& host, uint16_t port)
+{
     sp<SocketAddress> socketAddress = SocketAddress::getSocketAddress(host, port);
     int rc = -1;
+
     if (socketAddress->getInetAddress() != nullptr) {
         if (mSocketId == -1) {
-            mSocketId = ::socket(socketAddress->getInetAddress()->isInet6Address() ? AF_INET6 : AF_INET, SOCK_STREAM, 0);
+            mSocketId = ::socket(socketAddress->getInetAddress()->isInet6Address() ?
+                                 AF_INET6 : AF_INET, SOCK_STREAM, 0);
         }
+
         if (!socketAddress->isUnresolved()) {
-            if ((rc = ::connect(mSocketId, socketAddress->getInetAddress()->getPointer(), socketAddress->getInetAddress()->getSize())) == 0) {
+            if ((rc = ::connect(mSocketId, socketAddress->getInetAddress()->getPointer(),
+                                socketAddress->getInetAddress()->getSize())) == 0) {
                 mIsConnected = true;
             }
         }
     }
+
     return rc;
 }
 
-ssize_t Socket::read(uint8_t* data, size_t size) {
+ssize_t Socket::read(uint8_t* data, size_t size)
+{
     return ::recv(mSocketId, reinterpret_cast<char*>(data), size, 0);
 }
 
-ssize_t Socket::readFully(uint8_t* data, size_t size) {
+ssize_t Socket::readFully(uint8_t* data, size_t size)
+{
     size_t curSize = 0;
     ssize_t result = 0;
+
     while (curSize < size) {
-        result = ::recv(mSocketId, reinterpret_cast<char*>(data + curSize), size - curSize, 0);
+        result = ::recv(mSocketId, reinterpret_cast<char*>(data + curSize),
+                        size - curSize, 0);
+
         if (result > 0) {
             curSize += result;
         } else {
             break;
         }
     }
+
     return (result > 0) ? size : result;
 }
 
-bool Socket::write(const void* data, size_t size) {
-    return (size_t) ::send(mSocketId, reinterpret_cast<const char*>(data), size, 0) == size;
+bool Socket::write(const void* data, size_t size)
+{
+    return (size_t) ::send(mSocketId, reinterpret_cast<const char*>(data), size,
+                           0) == size;
 }
 
-void Socket::close() {
+void Socket::close()
+{
     mIsClosed = true;
     mIsConnected = false;
+
     if (mSocketId != -1) {
         ::shutdown(mSocketId, SHUT_RDWR);
         ::close(mSocketId);

@@ -19,46 +19,57 @@
 #include <cstring>
 #include <unistd.h>
 
-namespace mindroid {
+namespace mindroid
+{
 
 Thread::Thread(const sp<Runnable>& runnable, const sp<String>& name) :
-        mName(name),
-        mRunnable(runnable),
-        mStarted(false),
-        mInterrupted(false) {
+    mName(name),
+    mRunnable(runnable),
+    mStarted(false),
+    mInterrupted(false)
+{
 }
 
 Thread::Thread(pthread_t thread) :
-        mThread(thread),
-        mStarted(true),
-        mInterrupted(false) {
+    mThread(thread),
+    mStarted(true),
+    mInterrupted(false)
+{
 }
 
-bool Thread::start() {
+bool Thread::start()
+{
     if (!mStarted) {
         mSelf = this;
+
         if (pthread_create(&mThread, nullptr, &Thread::exec, this) != 0) {
             mSelf.clear();
         }
+
         if (mName != nullptr) {
             pthread_setname_np(mThread, mName->c_str());
         }
+
         mStarted = (mSelf != nullptr);
         return mStarted;
     }
+
     return false;
 }
 
-void Thread::sleep(uint32_t milliseconds) {
+void Thread::sleep(uint32_t milliseconds)
+{
     ::usleep((milliseconds % 1000) * 1000);
     ::sleep(milliseconds / 1000);
 }
 
-void Thread::join() const {
+void Thread::join() const
+{
     pthread_join(mThread, nullptr);
 }
 
-void* Thread::exec(void* args) {
+void* Thread::exec(void* args)
+{
     Thread* const self = (Thread*) args;
     sp<Runnable> runnable = (self->mRunnable != nullptr) ? self->mRunnable : self;
     runnable->run();
@@ -66,27 +77,33 @@ void* Thread::exec(void* args) {
     return nullptr;
 }
 
-void Thread::interrupt() {
+void Thread::interrupt()
+{
     mInterrupted = true;
 }
 
-bool Thread::isInterrupted() const {
+bool Thread::isInterrupted() const
+{
     return mInterrupted;
 }
 
-sp<Thread> Thread::currentThread() {
+sp<Thread> Thread::currentThread()
+{
     return new Thread(pthread_self());
 }
 
-bool Thread::isAlive() const {
+bool Thread::isAlive() const
+{
     return mSelf != nullptr;
 }
 
-pthread_t Thread::getId() const {
+pthread_t Thread::getId() const
+{
     return pthread_self();
 }
 
-void Thread::setSchedulingParams(int32_t policy, int32_t priority) {
+void Thread::setSchedulingParams(int32_t policy, int32_t priority)
+{
     sched_param schedulingParameters;
     memset(&schedulingParameters, 0, sizeof(schedulingParameters));
     schedulingParameters.sched_priority = priority;

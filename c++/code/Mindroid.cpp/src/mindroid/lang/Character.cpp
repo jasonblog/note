@@ -16,9 +16,11 @@
 
 #include "mindroid/lang/Character.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
-sp<Character> Character::valueOf(const char c) {
+sp<Character> Character::valueOf(const char c)
+{
     return new Character(c);
 }
 

@@ -20,11 +20,14 @@
 #include "mindroid/content/Intent.h"
 #include "mindroid/content/ComponentName.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
-void Service::stopSelf(int32_t startId) {
+void Service::stopSelf(int32_t startId)
+{
     sp<Intent> intent = new Intent();
     intent->setComponent(new ComponentName(object_cast<Context>(this), mClassName));
+
     try {
         mProcess->stopService(intent);
     } catch (const RemoteException& e) {
@@ -32,7 +35,9 @@ void Service::stopSelf(int32_t startId) {
     }
 }
 
-void Service::attach(const sp<Context>& context, const sp<IProcess>& process, const sp<String>& className) {
+void Service::attach(const sp<Context>& context, const sp<IProcess>& process,
+                     const sp<String>& className)
+{
     mProcess = process;
     mClassName = className;
     attachBaseContext(context);

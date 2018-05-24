@@ -20,20 +20,25 @@
 #include "mindroid/lang/Object.h"
 #include "mindroid/util/concurrent/locks/ReentrantLock.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 template<typename T>
 class LinkedBlockingQueue :
-        public Object {
+    public Object
+{
 public:
     LinkedBlockingQueue() :
-            mHeadNode(nullptr),
-            mLock(new ReentrantLock()),
-            mCondition(mLock->newCondition()) {
+        mHeadNode(nullptr),
+        mLock(new ReentrantLock()),
+        mCondition(mLock->newCondition())
+    {
     }
 
-    ~LinkedBlockingQueue() {
+    ~LinkedBlockingQueue()
+    {
         Node* node = mHeadNode;
+
         while (node != nullptr) {
             Node* nextNode = node->nextNode;
             delete node;
@@ -44,31 +49,38 @@ public:
     LinkedBlockingQueue(const LinkedBlockingQueue&) = delete;
     LinkedBlockingQueue& operator=(const LinkedBlockingQueue&) = delete;
 
-    bool put(T item) {
+    bool put(T item)
+    {
         AutoLock autoLock(mLock);
         Node* node = new Node(item);
         Node* curNode = mHeadNode;
+
         if (curNode == nullptr) {
             node->nextNode = curNode;
             mHeadNode = node;
             mCondition->signal();
         } else {
             Node* prevNode = nullptr;
+
             while (curNode != nullptr) {
                 prevNode = curNode;
                 curNode = curNode->nextNode;
             }
+
             node->nextNode = prevNode->nextNode;
             prevNode->nextNode = node;
             mCondition->signal();
         }
+
         return true;
     }
 
-    T take() {
+    T take()
+    {
         while (true) {
             AutoLock autoLock(mLock);
             Node* node = getNextNode();
+
             if (node != nullptr) {
                 T item = node->item;
                 delete node;
@@ -79,10 +91,12 @@ public:
         }
     }
 
-    bool remove(T item) {
+    bool remove(T item)
+    {
         bool foundItem = false;
         AutoLock autoLock(mLock);
         Node* curNode = mHeadNode;
+
         // Remove all matching messages at the front of the message queue.
         while (curNode != nullptr && curNode->item == item) {
             foundItem = true;
@@ -95,6 +109,7 @@ public:
         // Remove all matching messages after the front of the message queue.
         while (curNode != nullptr) {
             Node* nextNode = curNode->nextNode;
+
             if (nextNode != nullptr) {
                 if (nextNode->item == item) {
                     foundItem = true;
@@ -104,8 +119,10 @@ public:
                     continue;
                 }
             }
+
             curNode = nextNode;
         }
+
         return foundItem;
     }
 
@@ -118,12 +135,15 @@ private:
         Node(T t) : item(t), nextNode(nullptr) { }
     };
 
-    Node* getNextNode() {
+    Node* getNextNode()
+    {
         Node* node = mHeadNode;
+
         if (node != nullptr) {
             mHeadNode = node->nextNode;
             return node;
         }
+
         return nullptr;
     }
 

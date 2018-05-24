@@ -22,14 +22,16 @@
 #include "mindroid/lang/Object.h"
 #include "mindroid/content/pm/ServiceInfo.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Information that is returned from resolving an intent. This partially corresponds to information
  * collected from the MindroidManifest.xml.
  */
 class ResolveInfo :
-        public Object {
+    public Object
+{
 public:
     ResolveInfo() = default;
 

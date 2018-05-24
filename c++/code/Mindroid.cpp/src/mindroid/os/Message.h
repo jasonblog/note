@@ -23,7 +23,8 @@
 #include "mindroid/util/concurrent/Cancellable.h"
 #include "mindroid/os/Bundle.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Runnable;
 class Handler;
@@ -51,7 +52,8 @@ struct MessagePool {
  * </p>
  */
 class Message final :
-        public Object {
+    public Object
+{
 public:
     /**
      * User-defined message code so that the recipient can identify what this message is about. Each
@@ -83,7 +85,8 @@ public:
      */
     Message();
 
-    virtual ~Message() {
+    virtual ~Message()
+    {
     }
 
     /**
@@ -118,7 +121,8 @@ public:
      * @param callback Runnable that will execute when the message is handled.
      * @return A Message object from the global pool.
      */
-    static sp<Message> obtain(const sp<Handler>& handler, const sp<Runnable>& callback);
+    static sp<Message> obtain(const sp<Handler>& handler,
+                              const sp<Runnable>& callback);
 
     /**
      * Same as {@link #obtain()}, but sets the values for both <em>target</em> and <em>what</em>
@@ -139,7 +143,8 @@ public:
      * @param obj The <em>object</em> method to set.
      * @return A Message object from the global pool.
      */
-    static sp<Message> obtain(const sp<Handler>& handler, int32_t what, const sp<Object>& obj);
+    static sp<Message> obtain(const sp<Handler>& handler, int32_t what,
+                              const sp<Object>& obj);
 
     /**
      * Same as {@link #obtain()}, but sets the values of the <em>target</em>, <em>what</em>,
@@ -151,7 +156,8 @@ public:
      * @param arg2 The <em>arg2</em> value to set.
      * @return A Message object from the global pool.
      */
-    static sp<Message> obtain(const sp<Handler>& handler, int32_t what, int32_t arg1, int32_t arg2);
+    static sp<Message> obtain(const sp<Handler>& handler, int32_t what,
+                              int32_t arg1, int32_t arg2);
 
     /**
      * Same as {@link #obtain()}, but sets the values of the <em>target</em>, <em>what</em>,
@@ -164,7 +170,8 @@ public:
      * @param obj The <em>obj</em> value to set.
      * @return A Message object from the global pool.
      */
-    static sp<Message> obtain(const sp<Handler>& handler, int32_t what, int32_t arg1, int32_t arg2, const sp<Object>& obj);
+    static sp<Message> obtain(const sp<Handler>& handler, int32_t what,
+                              int32_t arg1, int32_t arg2, const sp<Object>& obj);
 
     /**
      * Make this message like otherMessage. Performs a shallow copy of the data field. Does not copy the linked
@@ -175,11 +182,13 @@ public:
     /**
      * Return the targeted delivery time of this message, in milliseconds.
      */
-    uint64_t getWhen() const {
+    uint64_t getWhen() const
+    {
         return when;
     }
 
-    void setTarget(const sp<Handler>& target) {
+    void setTarget(const sp<Handler>& target)
+    {
         this->target = target;
     }
 
@@ -190,7 +199,8 @@ public:
      * Handler has its own name-space for message codes, so you do not need to worry about yours
      * conflicting with other handlers.
      */
-    sp<Handler> getTarget() const {
+    sp<Handler> getTarget() const
+    {
         return target;
     }
 
@@ -200,7 +210,8 @@ public:
      * this Message to dispatch it. If not set, the message will be dispatched to the receiving
      * Handler's {@link Handler#handleMessage(Message Handler.handleMessage())}.
      */
-    sp<Runnable> getCallback() const {
+    sp<Runnable> getCallback() const
+    {
         return callback;
     }
 
@@ -211,10 +222,12 @@ public:
      * @see #peekData()
      * @see #setData(Bundle)
      */
-    sp<Bundle> getData() {
+    sp<Bundle> getData()
+    {
         if (data == nullptr) {
             data = new Bundle();
         }
+
         return data;
     }
 
@@ -225,7 +238,8 @@ public:
      * @see #getData()
      * @see #setData(Bundle)
      */
-    sp<Bundle> peekData() {
+    sp<Bundle> peekData()
+    {
         return data;
     }
 
@@ -236,7 +250,8 @@ public:
      * @see #getData()
      * @see #peekData()
      */
-    void setData(const sp<Bundle>& data) {
+    void setData(const sp<Bundle>& data)
+    {
         this->data = data;
     }
 
@@ -247,11 +262,13 @@ public:
     void sendToTarget();
 
 private:
-    bool isInUse() {
+    bool isInUse()
+    {
         return ((flags & FLAG_IN_USE) == FLAG_IN_USE);
     }
 
-    void markInUse() {
+    void markInUse()
+    {
         flags |= FLAG_IN_USE;
     }
 

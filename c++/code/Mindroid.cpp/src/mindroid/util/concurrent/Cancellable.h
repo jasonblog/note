@@ -19,10 +19,12 @@
 
 #include "mindroid/lang/Object.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Cancellable :
-        public Object {
+    public Object
+{
 public:
     virtual ~Cancellable() = default;
 

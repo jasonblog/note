@@ -20,19 +20,23 @@
 
 #include "mindroid/lang/Exception.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Parent exception for all Binder remote-invocation errors.
  */
-class RemoteException : public Exception {
+class RemoteException : public Exception
+{
 public:
     RemoteException() = default;
 
-    RemoteException(const char* message) : Exception(message) {
+    RemoteException(const char* message) : Exception(message)
+    {
     }
 
-    RemoteException(const sp<String>& message) : Exception(message) {
+    RemoteException(const sp<String>& message) : Exception(message)
+    {
     }
 };
 

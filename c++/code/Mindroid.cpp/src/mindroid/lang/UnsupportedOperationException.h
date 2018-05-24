@@ -20,19 +20,24 @@
 
 #include "mindroid/lang/RuntimeException.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 /**
  * Thrown to indicate that the requested operation is not supported.
  */
-class UnsupportedOperationException : public RuntimeException {
+class UnsupportedOperationException : public RuntimeException
+{
 public:
     UnsupportedOperationException() = default;
 
-    UnsupportedOperationException(const char* message) : RuntimeException(message) {
+    UnsupportedOperationException(const char* message) : RuntimeException(message)
+    {
     }
 
-    UnsupportedOperationException(const sp<String>& message) : RuntimeException(message) {
+    UnsupportedOperationException(const sp<String>& message) : RuntimeException(
+            message)
+    {
     }
 };
 

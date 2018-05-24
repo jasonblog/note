@@ -1,0 +1,38 @@
+// 客户端去掉注释
+// package wing.net.msg;
+
+import "resourcemessage.proto";
+
+option optimize_for = SPEED;
+
+// 文件功能模块说明:	此文件主要是玩家排行榜相关
+
+// 消息分段说明:		[0x00050001 ~ 0x0005FFFF]
+
+// *******************************************************************
+// CMsgOpenOrderRequest : 打开排行榜请求
+// *******************************************************************
+message CMsgOpenOrderRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x00050001;
+	}
+	
+	required	EOrderType	type	= 1;	// 排行榜类型
+};
+
+// *******************************************************************
+// CMsgOpenOrderResponse : 打开排行榜回复
+// *******************************************************************
+message CMsgOpenOrderResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00050002;
+	}
+
+	required	int32						Result		= 1;		// 返回结果(成功返回0,失败返回错误码)
+	required	EOrderType				type			= 2;		// 排行榜类型
+	repeated	PBOrderGoldData		DataList	= 3;		// 排行榜数据
+};

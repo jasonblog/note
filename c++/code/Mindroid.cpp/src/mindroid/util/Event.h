@@ -20,34 +20,43 @@
 #include "mindroid/util/LinkedList.h"
 #include "mindroid/util/Delegate.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 template<typename R = void, typename A1 = void, typename A2 = void, typename A3 = void, typename A4 = void>
 class Event;
 
 // 4 arguments
 template<typename R, typename A1, typename A2, typename A3, typename A4>
-class Event {
+class Event
+{
 public:
     typedef Delegate<R, A1, A2, A3, A4> DelegateType;
 
-    Event() { mEventHandlers = new LinkedList<DelegateType>(); }
+    Event()
+    {
+        mEventHandlers = new LinkedList<DelegateType>();
+    }
     ~Event() { }
     Event(const Event&) = delete;
     Event& operator=(const Event&) = delete;
 
-    Event& operator+=(const DelegateType& delegate) {
+    Event& operator+=(const DelegateType& delegate)
+    {
         mEventHandlers->add(delegate);
         return *this;
     }
 
-    Event& operator-=(const DelegateType& delegate) {
+    Event& operator-=(const DelegateType& delegate)
+    {
         mEventHandlers->remove(delegate);
         return *this;
     }
 
-    void operator()(A1 arg1, A2 arg2, A3 arg3, A4 arg4) const {
+    void operator()(A1 arg1, A2 arg2, A3 arg3, A4 arg4) const
+    {
         auto itr = mEventHandlers->iterator();
+
         while (itr.hasNext()) {
             DelegateType delegate = itr.next();
             delegate(arg1, arg2, arg3, arg4);
@@ -59,27 +68,35 @@ private:
 };
 
 template<typename R, typename A1, typename A2, typename A3, typename A4>
-class Event<R(A1, A2, A3, A4)> {
+class Event<R(A1, A2, A3, A4)>
+{
 public:
     typedef Delegate<R(A1, A2, A3, A4)> DelegateType;
 
-    Event() { mEventHandlers = new LinkedList<DelegateType>(); }
+    Event()
+    {
+        mEventHandlers = new LinkedList<DelegateType>();
+    }
     ~Event() { }
     Event(const Event&) = delete;
     Event& operator=(const Event&) = delete;
 
-    Event& operator+=(const DelegateType& delegate) {
+    Event& operator+=(const DelegateType& delegate)
+    {
         mEventHandlers->add(delegate);
         return *this;
     }
 
-    Event& operator-=(const DelegateType& delegate) {
+    Event& operator-=(const DelegateType& delegate)
+    {
         mEventHandlers->remove(delegate);
         return *this;
     }
 
-    void operator()(A1 arg1, A2 arg2, A3 arg3, A4 arg4) const {
+    void operator()(A1 arg1, A2 arg2, A3 arg3, A4 arg4) const
+    {
         auto itr = mEventHandlers->iterator();
+
         while (itr.hasNext()) {
             DelegateType delegate = itr.next();
             delegate(arg1, arg2, arg3, arg4);
@@ -92,27 +109,35 @@ private:
 
 // 3 arguments
 template<typename R, typename A1, typename A2, typename A3>
-class Event<R, A1, A2, A3, void> {
+class Event<R, A1, A2, A3, void>
+{
 public:
     typedef Delegate<R, A1, A2, A3> DelegateType;
 
-    Event() { mEventHandlers = new LinkedList<DelegateType>(); }
+    Event()
+    {
+        mEventHandlers = new LinkedList<DelegateType>();
+    }
     ~Event() { }
     Event(const Event&) = delete;
     Event& operator=(const Event&) = delete;
 
-    Event& operator+=(const DelegateType& delegate) {
+    Event& operator+=(const DelegateType& delegate)
+    {
         mEventHandlers->add(delegate);
         return *this;
     }
 
-    Event& operator-=(const DelegateType& delegate) {
+    Event& operator-=(const DelegateType& delegate)
+    {
         mEventHandlers->remove(delegate);
         return *this;
     }
 
-    void operator()(A1 arg1, A2 arg2, A3 arg3) const {
+    void operator()(A1 arg1, A2 arg2, A3 arg3) const
+    {
         auto itr = mEventHandlers->iterator();
+
         while (itr.hasNext()) {
             DelegateType delegate = itr.next();
             delegate(arg1, arg2, arg3);
@@ -124,27 +149,35 @@ private:
 };
 
 template<typename R, typename A1, typename A2, typename A3>
-class Event<R(A1, A2, A3), void> {
+class Event<R(A1, A2, A3), void>
+{
 public:
     typedef Delegate<R(A1, A2, A3)> DelegateType;
 
-    Event() { mEventHandlers = new LinkedList<DelegateType>(); }
+    Event()
+    {
+        mEventHandlers = new LinkedList<DelegateType>();
+    }
     ~Event() { }
     Event(const Event&) = delete;
     Event& operator=(const Event&) = delete;
 
-    Event& operator+=(const DelegateType& delegate) {
+    Event& operator+=(const DelegateType& delegate)
+    {
         mEventHandlers->add(delegate);
         return *this;
     }
 
-    Event& operator-=(const DelegateType& delegate) {
+    Event& operator-=(const DelegateType& delegate)
+    {
         mEventHandlers->remove(delegate);
         return *this;
     }
 
-    void operator()(A1 arg1, A2 arg2, A3 arg3) const {
+    void operator()(A1 arg1, A2 arg2, A3 arg3) const
+    {
         auto itr = mEventHandlers->iterator();
+
         while (itr.hasNext()) {
             DelegateType delegate = itr.next();
             delegate(arg1, arg2, arg3);
@@ -157,27 +190,35 @@ private:
 
 // 2 arguments
 template<typename R, typename A1, typename A2>
-class Event<R, A1, A2, void, void> {
+class Event<R, A1, A2, void, void>
+{
 public:
     typedef Delegate<R, A1, A2> DelegateType;
 
-    Event() { mEventHandlers = new LinkedList<DelegateType>(); }
+    Event()
+    {
+        mEventHandlers = new LinkedList<DelegateType>();
+    }
     ~Event() { }
     Event(const Event&) = delete;
     Event& operator=(const Event&) = delete;
 
-    Event& operator+=(const DelegateType& delegate) {
+    Event& operator+=(const DelegateType& delegate)
+    {
         mEventHandlers->add(delegate);
         return *this;
     }
 
-    Event& operator-=(const DelegateType& delegate) {
+    Event& operator-=(const DelegateType& delegate)
+    {
         mEventHandlers->remove(delegate);
         return *this;
     }
 
-    void operator()(A1 arg1, A2 arg2) const {
+    void operator()(A1 arg1, A2 arg2) const
+    {
         auto itr = mEventHandlers->iterator();
+
         while (itr.hasNext()) {
             DelegateType delegate = itr.next();
             delegate(arg1, arg2);
@@ -189,27 +230,35 @@ private:
 };
 
 template<typename R, typename A1, typename A2>
-class Event<R(A1, A2), void, void> {
+class Event<R(A1, A2), void, void>
+{
 public:
     typedef Delegate<R(A1, A2)> DelegateType;
 
-    Event() { mEventHandlers = new LinkedList<DelegateType>(); }
+    Event()
+    {
+        mEventHandlers = new LinkedList<DelegateType>();
+    }
     ~Event() { }
     Event(const Event&) = delete;
     Event& operator=(const Event&) = delete;
 
-    Event& operator+=(const DelegateType& delegate) {
+    Event& operator+=(const DelegateType& delegate)
+    {
         mEventHandlers->add(delegate);
         return *this;
     }
 
-    Event& operator-=(const DelegateType& delegate) {
+    Event& operator-=(const DelegateType& delegate)
+    {
         mEventHandlers->remove(delegate);
         return *this;
     }
 
-    void operator()(A1 arg1, A2 arg2) const {
+    void operator()(A1 arg1, A2 arg2) const
+    {
         auto itr = mEventHandlers->iterator();
+
         while (itr.hasNext()) {
             DelegateType delegate = itr.next();
             delegate(arg1, arg2);
@@ -222,27 +271,35 @@ private:
 
 // 1 argument
 template<typename R, typename A1>
-class Event<R, A1, void, void, void> {
+class Event<R, A1, void, void, void>
+{
 public:
     typedef Delegate<R, A1> DelegateType;
 
-    Event() { mEventHandlers = new LinkedList<DelegateType>(); }
+    Event()
+    {
+        mEventHandlers = new LinkedList<DelegateType>();
+    }
     ~Event() { }
     Event(const Event&) = delete;
     Event& operator=(const Event&) = delete;
 
-    Event& operator+=(const DelegateType& delegate) {
+    Event& operator+=(const DelegateType& delegate)
+    {
         mEventHandlers->add(delegate);
         return *this;
     }
 
-    Event& operator-=(const DelegateType& delegate) {
+    Event& operator-=(const DelegateType& delegate)
+    {
         mEventHandlers->remove(delegate);
         return *this;
     }
 
-    void operator()(A1 arg1) const {
+    void operator()(A1 arg1) const
+    {
         auto itr = mEventHandlers->iterator();
+
         while (itr.hasNext()) {
             DelegateType delegate = itr.next();
             delegate(arg1);
@@ -254,27 +311,35 @@ private:
 };
 
 template<typename R, typename A1>
-class Event<R(A1), void, void, void> {
+class Event<R(A1), void, void, void>
+{
 public:
     typedef Delegate<R(A1)> DelegateType;
 
-    Event() { mEventHandlers = new LinkedList<DelegateType>(); }
+    Event()
+    {
+        mEventHandlers = new LinkedList<DelegateType>();
+    }
     ~Event() { }
     Event(const Event&) = delete;
     Event& operator=(const Event&) = delete;
 
-    Event& operator+=(const DelegateType& delegate) {
+    Event& operator+=(const DelegateType& delegate)
+    {
         mEventHandlers->add(delegate);
         return *this;
     }
 
-    Event& operator-=(const DelegateType& delegate) {
+    Event& operator-=(const DelegateType& delegate)
+    {
         mEventHandlers->remove(delegate);
         return *this;
     }
 
-    void operator()(A1 arg1) const {
+    void operator()(A1 arg1) const
+    {
         auto itr = mEventHandlers->iterator();
+
         while (itr.hasNext()) {
             DelegateType delegate = itr.next();
             delegate(arg1);
@@ -287,27 +352,35 @@ private:
 
 // no arguments
 template<typename R>
-class Event<R, void, void, void, void> {
+class Event<R, void, void, void, void>
+{
 public:
     typedef Delegate<R> DelegateType;
 
-    Event() { mEventHandlers = new LinkedList<DelegateType>(); }
+    Event()
+    {
+        mEventHandlers = new LinkedList<DelegateType>();
+    }
     ~Event() { }
     Event(const Event&) = delete;
     Event& operator=(const Event&) = delete;
 
-    Event& operator+=(const DelegateType& delegate) {
+    Event& operator+=(const DelegateType& delegate)
+    {
         mEventHandlers->add(delegate);
         return *this;
     }
 
-    Event& operator-=(const DelegateType& delegate) {
+    Event& operator-=(const DelegateType& delegate)
+    {
         mEventHandlers->remove(delegate);
         return *this;
     }
 
-    void operator()() const {
+    void operator()() const
+    {
         auto itr = mEventHandlers->iterator();
+
         while (itr.hasNext()) {
             DelegateType delegate = itr.next();
             delegate();
@@ -319,27 +392,35 @@ private:
 };
 
 template<typename R>
-class Event<R(void), void, void, void> {
+class Event<R(void), void, void, void>
+{
 public:
     typedef Delegate<R> DelegateType;
 
-    Event() { mEventHandlers = new LinkedList<DelegateType>(); }
+    Event()
+    {
+        mEventHandlers = new LinkedList<DelegateType>();
+    }
     ~Event() { }
     Event(const Event&) = delete;
     Event& operator=(const Event&) = delete;
 
-    Event& operator+=(const DelegateType& delegate) {
+    Event& operator+=(const DelegateType& delegate)
+    {
         mEventHandlers->add(delegate);
         return *this;
     }
 
-    Event& operator-=(const DelegateType& delegate) {
+    Event& operator-=(const DelegateType& delegate)
+    {
         mEventHandlers->remove(delegate);
         return *this;
     }
 
-    void operator()() const {
+    void operator()() const
+    {
         auto itr = mEventHandlers->iterator();
+
         while (itr.hasNext()) {
             DelegateType delegate = itr.next();
             delegate();

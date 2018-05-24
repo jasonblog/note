@@ -21,25 +21,32 @@
 #include "mindroid/lang/Runnable.h"
 #include <pthread.h>
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Thread :
-        public Runnable {
+    public Runnable
+{
 public:
     Thread() :
-            Thread(nullptr, nullptr) {
+        Thread(nullptr, nullptr)
+    {
     }
     Thread(const char* name) :
-            Thread(nullptr, String::valueOf(name)) {
+        Thread(nullptr, String::valueOf(name))
+    {
     }
     Thread(const sp<String>& name) :
-            Thread(nullptr, name) {
+        Thread(nullptr, name)
+    {
     }
     Thread(const sp<Runnable>& runnable) :
-            Thread(runnable, nullptr) {
+        Thread(runnable, nullptr)
+    {
     }
     Thread(const sp<Runnable>& runnable, const char* name) :
-            Thread(runnable, String::valueOf(name)) {
+        Thread(runnable, String::valueOf(name))
+    {
     }
     Thread(const sp<Runnable>& runnable, const sp<String>& name);
     virtual ~Thread() = default;
@@ -71,7 +78,10 @@ public:
     /**
      * Returns the name of the Thread.
      */
-    sp<String> getName() { return mName; }
+    sp<String> getName()
+    {
+        return mName;
+    }
 
     /**
      * Calls the <code>run()</code> method of the Runnable object the receiver

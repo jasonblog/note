@@ -1,0 +1,230 @@
+
+// 客户端去掉注释
+// package wing.net.msg;
+
+option optimize_for = SPEED;
+
+import "resourcemessage.proto";
+
+// 文件功能模块说明:	此文件主要是玩家道具系统通讯
+
+// 消息分段说明:		[0x00040001 ~ 0x0004FFFF]
+
+
+// *******************************************************************
+// CMsgItemDataRequest : 请求包裹
+// *******************************************************************
+message CMsgItemDataRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x00040001;
+	}
+};
+
+// *******************************************************************
+// CMsgItemDataResponse : 请求包裹数据回复
+// *******************************************************************
+// 物品数据列表
+message CMsgItemDataResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00040002;
+	}
+	repeated 	PBItem	Items			= 1;		// 物品数据
+}
+
+
+
+// *******************************************************************
+// CMsgItemUseRequest : 请求使用道具 新版本
+// *******************************************************************
+message CMsgItemUseRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x00040003;
+	}
+	required	int32 	ItemID				= 1;		// 道具ID
+	required	int32	ArrayIndex		= 2;		// 服务器道具数组下标， 提升服务器效率
+}
+
+
+// *******************************************************************
+// CMsgItemUseResponse : 请求使用道具回复
+// *******************************************************************
+message CMsgItemUseResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00040004;
+	}
+	required 	int32		Result			= 1;		// 返回结果(成功返回0,失败返回错误码)
+	repeated 	PBItem		Items			= 2;		// 物品数据
+}
+
+
+
+// 商城购买功能
+// *******************************************************************
+// CMsgShopBuyRequest : 请求商场购买
+// *******************************************************************
+message CMsgShopBuyRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x00040005;
+	}
+	required	int32 	ShopSerial							= 1;		// 商城策划模版表序列号
+	required	int32 	Num									= 2;		// 道具个数
+	required	int32 	ContinueTime						= 3;		// 球桌球杆持续时间 
+}
+
+
+// 商城购买功能
+// *******************************************************************
+// CMsgShopBuyResponse: 请求商场购买
+// *******************************************************************
+message CMsgShopBuyResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x00040006;
+	}
+	required 	int32						Result			= 1;		// 返回结果(成功返回0,失败返回错误码)
+	repeated 	PBItem						Items			= 2;		// 物品数据
+	repeated	PBUpdateResource	resources		= 3;		// 更新资源(金币,钻石)
+}
+
+// *******************************************************************
+// CMsgBuyGagaleType1Request : 刮刮乐类型1购买请求
+// *******************************************************************
+message CMsgBuyGagaleType1Request
+{
+	enum Msg
+	{
+		MsgID	= 0x00040007;
+	}
+
+}
+
+// *******************************************************************
+// CMsgGagaleType1Response: 刮刮乐类型1数据请求回复
+// *******************************************************************
+message CMsgBuyGagaleType1Response
+{
+	enum Msg
+	{
+		MsgID	= 0x00040008;
+	}
+	required 	int32									Result	= 1;	// 返回结果(成功返回0,失败返回错误码)
+	repeated	PBGagaleType1SingleInfo		data		= 2;	// 刮刮乐类型1的数据(成功失败都下发,如果购买失败,发送之前的数据,没有购买过发送默认值)
+}
+
+// *******************************************************************
+// CMsgOpenGagaleType1Request : 刮刮乐类型1刮开的请求
+// *******************************************************************
+message CMsgOpenGagaleType1Request
+{
+	enum Msg
+	{
+		MsgID	= 0x00040009;
+	}
+	repeated	int32	openindex	= 1;	// 挂开区域的索引(0 ----- 8)
+}
+
+// *******************************************************************
+// CMsgOpenGagaleType1Response: 刮刮乐类型1刮开的回复
+// *******************************************************************
+message CMsgOpenGagaleType1Response
+{
+	enum Msg
+	{
+		MsgID	= 0x0004000A;
+	}
+	required 	int32									Result	= 1;	// 返回结果(成功返回0,失败返回错误码)
+	repeated	PBGagaleType1SingleInfo		data		= 2;	// 刮刮乐类型1的数据(成功失败都下发,如果购买失败,发送之前的数据,没有购买过发送默认值)
+	required	PBUpdateResource				gold		= 3;	// 刮刮乐只更新金币,这里是当前金币数量
+}
+
+// *******************************************************************
+// CMsgBuyGagaleType1Request : 刮刮乐类型1数据请求
+// *******************************************************************
+message CMsgGagaleType1Request
+{
+	enum Msg
+	{
+		MsgID	= 0x0004000B;
+	}
+}
+
+<<<<<<< .mine
+// *******************************************************************
+// CMsgGagaleType1Response: 刮刮乐类型1数据请求回复
+// *******************************************************************
+message CMsgGagaleType1Response
+{
+	enum Msg
+	{
+		MsgID	= 0x0004000C;
+	}
+	required 	int32									Result	= 1;	// 返回结果(成功返回0,失败返回错误码)
+	repeated	PBGagaleType1SingleInfo		data		= 2;	// 刮刮乐类型1的数据(成功失败都下发,如果购买失败,发送之前的数据,没有购买过发送默认值)
+}
+=======
+// *******************************************************************
+// CMsgOpenShakeRequest : 打开摇摇乐请求
+// *******************************************************************
+message CMsgOpenShakeRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x0004000C;
+	}
+	required	int32	Index	= 1;	// 档
+}
+
+// *******************************************************************
+// CMsgOpenShakeResponse: 打开摇摇乐回复
+// *******************************************************************
+message CMsgOpenShakeResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x0004000D;
+	}
+	required 	int32		Result		= 1;	// 返回结果(成功返回0,失败返回错误码)
+	required	int64		Pool		= 2;	// 奖池 
+}
+
+// *******************************************************************
+// CMsgShakeRequest : 摇摇乐请求
+// *******************************************************************
+message CMsgShakeRequest
+{
+	enum Msg
+	{
+		MsgID	= 0x0004000E;
+	}
+	required	int32	Index	= 1;	// 档
+}
+
+// *******************************************************************
+// CMsgShakeResponse: 摇摇乐回复
+// *******************************************************************
+message CMsgShakeResponse
+{
+	enum Msg
+	{
+		MsgID	= 0x0004000F;
+	}
+	required 	int32		Result		= 1;	// 返回结果(成功返回0,失败返回错误码)
+	required	int32		One			= 2;	// 1球 
+	required	int32		Two			= 3;	// 2球 
+	required	int32		Three		= 4;	// 3球 
+	required	int64		Reward		= 5;	// 奖励 
+	required	int64		Money		= 6;	// 金币 
+	required	int64		Pool		= 7;	// 奖池 
+}
+>>>>>>> .r1708

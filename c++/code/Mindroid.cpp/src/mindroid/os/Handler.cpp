@@ -21,29 +21,38 @@
 #include "mindroid/os/Looper.h"
 #include "mindroid/util/Assert.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
-Handler::Handler() : Handler(Looper::myLooper()) {
+Handler::Handler() : Handler(Looper::myLooper())
+{
 }
 
-Handler::Handler(const sp<Callback>& callback) : Handler(Looper::myLooper(), callback) {
+Handler::Handler(const sp<Callback>& callback) : Handler(Looper::myLooper(),
+            callback)
+{
 }
 
-Handler::Handler(const sp<Looper>& looper) {
+Handler::Handler(const sp<Looper>& looper)
+{
     mLooper = looper;
-    Assert::assertNotNull("Can't create handler inside thread that has not called Looper.prepare()", mLooper);
+    Assert::assertNotNull("Can't create handler inside thread that has not called Looper.prepare()",
+                          mLooper);
     mMessageQueue = looper->mMessageQueue;
     mCallback = nullptr;
 }
 
-Handler::Handler(const sp<Looper>& looper, const sp<Callback>& callback) {
+Handler::Handler(const sp<Looper>& looper, const sp<Callback>& callback)
+{
     mLooper = looper;
-    Assert::assertNotNull("Can't create handler inside thread that has not called Looper.prepare()", mLooper);
+    Assert::assertNotNull("Can't create handler inside thread that has not called Looper.prepare()",
+                          mLooper);
     mMessageQueue = looper->mMessageQueue;
     mCallback = callback;
 }
 
-void Handler::dispatchMessage(const sp<Message>& msg) {
+void Handler::dispatchMessage(const sp<Message>& msg)
+{
     if (msg->callback != nullptr) {
         handleCallback(msg);
     } else {
@@ -52,11 +61,13 @@ void Handler::dispatchMessage(const sp<Message>& msg) {
                 return;
             }
         }
+
         handleMessage(msg);
     }
 }
 
-sp<Closure> Handler::post(const std::function<void (void)>& func) {
+sp<Closure> Handler::post(const std::function<void (void)>& func)
+{
     if (func) {
         const sp<Message> message = Message::obtain();
         sp<Closure> closure = new Closure(sp<Handler>(this), func);
@@ -67,7 +78,8 @@ sp<Closure> Handler::post(const std::function<void (void)>& func) {
     }
 }
 
-sp<Closure> Handler::post(std::function<void (void)>&& func) {
+sp<Closure> Handler::post(std::function<void (void)>&& func)
+{
     if (func) {
         const sp<Message> message = Message::obtain();
         sp<Closure> closure = new Closure(sp<Handler>(this), std::move(func));
@@ -78,7 +90,9 @@ sp<Closure> Handler::post(std::function<void (void)>&& func) {
     }
 }
 
-sp<Closure> Handler::postAtTime(const std::function<void (void)>& func, uint64_t uptimeMillis) {
+sp<Closure> Handler::postAtTime(const std::function<void (void)>& func,
+                                uint64_t uptimeMillis)
+{
     if (func) {
         const sp<Message> message = Message::obtain();
         sp<Closure> closure = new Closure(sp<Handler>(this), func);
@@ -89,7 +103,9 @@ sp<Closure> Handler::postAtTime(const std::function<void (void)>& func, uint64_t
     }
 }
 
-sp<Closure> Handler::postAtTime(std::function<void (void)>&& func, uint64_t uptimeMillis) {
+sp<Closure> Handler::postAtTime(std::function<void (void)>&& func,
+                                uint64_t uptimeMillis)
+{
     if (func) {
         const sp<Message> message = Message::obtain();
         sp<Closure> closure = new Closure(sp<Handler>(this), std::move(func));
@@ -100,7 +116,9 @@ sp<Closure> Handler::postAtTime(std::function<void (void)>&& func, uint64_t upti
     }
 }
 
-sp<Closure> Handler::postDelayed(const std::function<void (void)>& func, uint32_t delayMillis) {
+sp<Closure> Handler::postDelayed(const std::function<void (void)>& func,
+                                 uint32_t delayMillis)
+{
     if (func) {
         const sp<Message> message = Message::obtain();
         sp<Closure> closure = new Closure(sp<Handler>(this), func);
@@ -111,7 +129,9 @@ sp<Closure> Handler::postDelayed(const std::function<void (void)>& func, uint32_
     }
 }
 
-sp<Closure> Handler::postDelayed(std::function<void (void)>&& func, uint32_t delayMillis) {
+sp<Closure> Handler::postDelayed(std::function<void (void)>&& func,
+                                 uint32_t delayMillis)
+{
     if (func) {
         const sp<Message> message = Message::obtain();
         sp<Closure> closure = new Closure(sp<Handler>(this), std::move(func));
@@ -122,50 +142,64 @@ sp<Closure> Handler::postDelayed(std::function<void (void)>&& func, uint32_t del
     }
 }
 
-bool Handler::removeCallbacks(const sp<Runnable>& runnable) {
+bool Handler::removeCallbacks(const sp<Runnable>& runnable)
+{
     return mMessageQueue->removeCallbacks(this, runnable, nullptr);
 }
 
-bool Handler::removeCallbacks(const sp<Runnable>& runnable, const sp<Object>& token) {
+bool Handler::removeCallbacks(const sp<Runnable>& runnable,
+                              const sp<Object>& token)
+{
     return mMessageQueue->removeCallbacks(this, runnable, token);
 }
 
-bool Handler::sendMessageAtTime(const sp<Message>& message, uint64_t uptimeMillis) {
+bool Handler::sendMessageAtTime(const sp<Message>& message,
+                                uint64_t uptimeMillis)
+{
     message->target = this;
     return mMessageQueue->enqueueMessage(message, uptimeMillis);
 }
 
-bool Handler::removeMessages(int32_t what) {
+bool Handler::removeMessages(int32_t what)
+{
     return mMessageQueue->removeMessages(this, what, nullptr);
 }
 
-bool Handler::removeMessages(int32_t what, const sp<Object>& object) {
+bool Handler::removeMessages(int32_t what, const sp<Object>& object)
+{
     return mMessageQueue->removeMessages(this, what, object);
 }
 
-bool Handler::removeCallbacksAndMessages(const sp<Object>& token) {
+bool Handler::removeCallbacksAndMessages(const sp<Object>& token)
+{
     return mMessageQueue->removeCallbacksAndMessages(this, token);
 }
 
-bool Handler::hasMessages(int32_t what) {
+bool Handler::hasMessages(int32_t what)
+{
     return mMessageQueue->hasMessages(this, what, nullptr);
 }
 
-bool Handler::hasMessages(int32_t what, const sp<Object>& object) {
+bool Handler::hasMessages(int32_t what, const sp<Object>& object)
+{
     return mMessageQueue->hasMessages(this, what, object);
 }
 
-bool Handler::hasCallbacks(const sp<Runnable>& runnable) {
+bool Handler::hasCallbacks(const sp<Runnable>& runnable)
+{
     return mMessageQueue->hasMessages(this, runnable, nullptr);
 }
 
-sp<Message> Handler::getPostMessage(const sp<Runnable>& runnable) {
+sp<Message> Handler::getPostMessage(const sp<Runnable>& runnable)
+{
     const sp<Message> message = Message::obtain();
     message->callback = runnable;
     return message;
 }
 
-sp<Message> Handler::getPostMessage(const sp<Runnable>& runnable, const sp<Object>& token) {
+sp<Message> Handler::getPostMessage(const sp<Runnable>& runnable,
+                                    const sp<Object>& token)
+{
     sp<Message> message = Message::obtain();
     message->obj = token;
     message->callback = runnable;

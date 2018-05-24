@@ -29,18 +29,21 @@
 #define DEBUG_INFO(...) printf(__VA_ARGS__)
 #define ERROR_INFO(...) printf(__VA_ARGS__)
 
-namespace mindroid {
+namespace mindroid
+{
 
 template<typename T> class sp;
 template<typename T> class wp;
 
-class Object {
+class Object
+{
 public:
     Object();
     void incStrongReference(const void* id) const;
     void decStrongReference(const void* id) const;
 
-    class WeakReference {
+    class WeakReference
+    {
     public:
         Object* toObject() const;
         void incWeakReference(const void* id);
@@ -50,7 +53,8 @@ public:
         // Debugging APIs
         int32_t getWeakReferenceCount() const;
         void printReferences() const;
-        void trackReference(bool doTracking, bool memorizeRefOperationsDuringRefTracking);
+        void trackReference(bool doTracking,
+                            bool memorizeRefOperationsDuringRefTracking);
     };
 
     WeakReference* createWeakReference(const void* id) const;
@@ -59,13 +63,20 @@ public:
     // Debugging APIs
     int32_t getStrongReferenceCount() const;
     // Print all references for this object
-    inline void printReferences() const { getWeakReference()->printReferences(); }
-    inline void trackReference(bool trackReferences, bool memorizeRefOperationsDuringRefTracking) {
-        getWeakReference()->trackReference(trackReferences, memorizeRefOperationsDuringRefTracking);
+    inline void printReferences() const
+    {
+        getWeakReference()->printReferences();
+    }
+    inline void trackReference(bool trackReferences,
+                               bool memorizeRefOperationsDuringRefTracking)
+    {
+        getWeakReference()->trackReference(trackReferences,
+                                           memorizeRefOperationsDuringRefTracking);
     }
 
     // Object destroyer
-    class Destroyer {
+    class Destroyer
+    {
     public:
         virtual ~Destroyer();
 
@@ -113,22 +124,26 @@ private:
 };
 
 template<class T>
-class LightweightObject {
+class LightweightObject
+{
 public:
     inline LightweightObject() : mReferenceCounter(0) { }
 
-    inline void incStrongReference(const void* id) const {
+    inline void incStrongReference(const void* id) const
+    {
         AtomicInteger::getAndIncrement(&mReferenceCounter);
     }
 
-    inline void decStrongReference(const void* id) const {
+    inline void decStrongReference(const void* id) const
+    {
         if (AtomicInteger::getAndDecrement(&mReferenceCounter) == 1) {
             delete static_cast<const T*>(this);
         }
     }
 
     // Debugging APIs
-    inline int32_t getStrongReferenceCount() const {
+    inline int32_t getStrongReferenceCount() const
+    {
         return mReferenceCounter;
     }
 
@@ -141,30 +156,31 @@ private:
 
 
 #define COMPARE_STRONG_REFERENCE(_operator_)                   \
-inline bool operator _operator_ (const sp<T>& o) const {       \
-    return mPointer _operator_ o.mPointer;                     \
-}                                                              \
-inline bool operator _operator_ (const T* o) const {           \
-    return mPointer _operator_ o;                              \
-}                                                              \
-template<typename U>                                           \
-inline bool operator _operator_ (const sp<U>& o) const {       \
-    return mPointer _operator_ o.mPointer;                     \
-}                                                              \
-template<typename U>                                           \
-inline bool operator _operator_ (const U* o) const {           \
-    return mPointer _operator_ o;                              \
-}                                                              \
-inline bool operator _operator_ (const wp<T>& o) const {       \
-    return mPointer _operator_ o.mPointer;                     \
-}                                                              \
-template<typename U>                                           \
-inline bool operator _operator_ (const wp<U>& o) const {       \
-    return mPointer _operator_ o.mPointer;                     \
-}
+    inline bool operator _operator_ (const sp<T>& o) const {       \
+        return mPointer _operator_ o.mPointer;                     \
+    }                                                              \
+    inline bool operator _operator_ (const T* o) const {           \
+        return mPointer _operator_ o;                              \
+    }                                                              \
+    template<typename U>                                           \
+    inline bool operator _operator_ (const sp<U>& o) const {       \
+        return mPointer _operator_ o.mPointer;                     \
+    }                                                              \
+    template<typename U>                                           \
+    inline bool operator _operator_ (const U* o) const {           \
+        return mPointer _operator_ o;                              \
+    }                                                              \
+    inline bool operator _operator_ (const wp<T>& o) const {       \
+        return mPointer _operator_ o.mPointer;                     \
+    }                                                              \
+    template<typename U>                                           \
+    inline bool operator _operator_ (const wp<U>& o) const {       \
+        return mPointer _operator_ o.mPointer;                     \
+    }
 
 template<typename T>
-class sp {
+class sp
+{
 public:
     inline sp() : mPointer(nullptr) { }
 
@@ -183,18 +199,30 @@ public:
     template<typename U> sp& operator=(U* other);
 
     // Accessor methods
-    inline T& operator*() const { return *mPointer; }
-    inline T* operator->() const { return mPointer; }
-    inline T* getPointer() const { return mPointer; }
-    inline T const* getConstPointer() const { return mPointer; }
+    inline T& operator*() const
+    {
+        return *mPointer;
+    }
+    inline T* operator->() const
+    {
+        return mPointer;
+    }
+    inline T* getPointer() const
+    {
+        return mPointer;
+    }
+    inline T const* getConstPointer() const
+    {
+        return mPointer;
+    }
 
     // Operators
-    COMPARE_STRONG_REFERENCE(==)
-    COMPARE_STRONG_REFERENCE(!=)
-    COMPARE_STRONG_REFERENCE(>)
-    COMPARE_STRONG_REFERENCE(<)
-    COMPARE_STRONG_REFERENCE(<=)
-    COMPARE_STRONG_REFERENCE(>=)
+    COMPARE_STRONG_REFERENCE( ==)
+    COMPARE_STRONG_REFERENCE( !=)
+    COMPARE_STRONG_REFERENCE( >)
+    COMPARE_STRONG_REFERENCE( <)
+    COMPARE_STRONG_REFERENCE( <=)
+    COMPARE_STRONG_REFERENCE( >=)
 
     void clear();
 
@@ -214,23 +242,24 @@ private:
 
 
 #define COMPARE_WEAK_REFERENCE(_operator_)                     \
-inline bool operator _operator_ (const sp<T>& o) const {       \
-    return mPointer _operator_ o.mPointer;                     \
-}                                                              \
-inline bool operator _operator_ (const T* o) const {           \
-    return mPointer _operator_ o;                              \
-}                                                              \
-template<typename U>                                           \
-inline bool operator _operator_ (const sp<U>& o) const {       \
-    return mPointer _operator_ o.mPointer;                     \
-}                                                              \
-template<typename U>                                           \
-inline bool operator _operator_ (const U* o) const {           \
-    return mPointer _operator_ o;                              \
-}
+    inline bool operator _operator_ (const sp<T>& o) const {       \
+        return mPointer _operator_ o.mPointer;                     \
+    }                                                              \
+    inline bool operator _operator_ (const T* o) const {           \
+        return mPointer _operator_ o;                              \
+    }                                                              \
+    template<typename U>                                           \
+    inline bool operator _operator_ (const sp<U>& o) const {       \
+        return mPointer _operator_ o.mPointer;                     \
+    }                                                              \
+    template<typename U>                                           \
+    inline bool operator _operator_ (const U* o) const {           \
+        return mPointer _operator_ o;                              \
+    }
 
 template<typename T>
-class wp {
+class wp
+{
 public:
     typedef typename Object::WeakReference WeakReference;
 
@@ -257,67 +286,79 @@ public:
     template<typename U> wp& operator=(const sp<U>& other);
 
     // Operators
-    COMPARE_WEAK_REFERENCE(==)
-    COMPARE_WEAK_REFERENCE(!=)
-    COMPARE_WEAK_REFERENCE(>)
-    COMPARE_WEAK_REFERENCE(<)
-    COMPARE_WEAK_REFERENCE(<=)
-    COMPARE_WEAK_REFERENCE(>=)
+    COMPARE_WEAK_REFERENCE( ==)
+    COMPARE_WEAK_REFERENCE( !=)
+    COMPARE_WEAK_REFERENCE( >)
+    COMPARE_WEAK_REFERENCE( <)
+    COMPARE_WEAK_REFERENCE( <=)
+    COMPARE_WEAK_REFERENCE( >=)
 
     void clear();
 
-    inline bool operator==(const wp<T>& o) const {
+    inline bool operator==(const wp<T>& o) const
+    {
         return (mPointer == o.mPointer) && (mReference == o.mReference);
     }
 
     template<typename U>
-    inline bool operator==(const wp<U>& o) const {
+    inline bool operator==(const wp<U>& o) const
+    {
         return mPointer == o.mPointer;
     }
 
-    inline bool operator>(const wp<T>& o) const {
+    inline bool operator>(const wp<T>& o) const
+    {
         return (mPointer == o.mPointer) ?
-                (mReference > o.mReference) : (mPointer > o.mPointer);
+               (mReference > o.mReference) : (mPointer > o.mPointer);
     }
 
     template<typename U>
-    inline bool operator>(const wp<U>& o) const {
+    inline bool operator>(const wp<U>& o) const
+    {
         return (mPointer == o.mPointer) ?
-                (mReference > o.mReference) : (mPointer > o.mPointer);
+               (mReference > o.mReference) : (mPointer > o.mPointer);
     }
 
-    inline bool operator<(const wp<T>& o) const {
+    inline bool operator<(const wp<T>& o) const
+    {
         return (mPointer == o.mPointer) ?
-                (mReference < o.mReference) : (mPointer < o.mPointer);
+               (mReference < o.mReference) : (mPointer < o.mPointer);
     }
 
     template<typename U>
-    inline bool operator<(const wp<U>& o) const {
+    inline bool operator<(const wp<U>& o) const
+    {
         return (mPointer == o.mPointer) ?
-                (mReference < o.mReference) : (mPointer < o.mPointer);
+               (mReference < o.mReference) : (mPointer < o.mPointer);
     }
 
-    inline bool operator!=(const wp<T>& o) const {
+    inline bool operator!=(const wp<T>& o) const
+    {
         return mReference != o.mReference;
     }
 
-    template<typename U> inline bool operator!=(const wp<U>& o) const {
+    template<typename U> inline bool operator!=(const wp<U>& o) const
+    {
         return !operator ==(o);
     }
 
-    inline bool operator<=(const wp<T>& o) const {
+    inline bool operator<=(const wp<T>& o) const
+    {
         return !operator >(o);
     }
 
-    template<typename U> inline bool operator<=(const wp<U>& o) const {
+    template<typename U> inline bool operator<=(const wp<U>& o) const
+    {
         return !operator >(o);
     }
 
-    inline bool operator>=(const wp<T>& o) const {
+    inline bool operator>=(const wp<T>& o) const
+    {
         return !operator <(o);
     }
 
-    template<typename U> inline bool operator>=(const wp<U>& o) const {
+    template<typename U> inline bool operator>=(const wp<U>& o) const
+    {
         return !operator <(o);
     }
 
@@ -334,7 +375,8 @@ private:
 
 template<typename T>
 sp<T>::sp(T* other) :
-        mPointer(other) {
+    mPointer(other)
+{
     if (other) {
         other->incStrongReference(this);
     }
@@ -342,7 +384,8 @@ sp<T>::sp(T* other) :
 
 template<typename T>
 sp<T>::sp(const sp<T>& other) :
-        mPointer(other.mPointer) {
+    mPointer(other.mPointer)
+{
     if (mPointer) {
         mPointer->incStrongReference(this);
     }
@@ -350,7 +393,8 @@ sp<T>::sp(const sp<T>& other) :
 
 template<typename T> template<typename U>
 sp<T>::sp(U* other) :
-        mPointer(other) {
+    mPointer(other)
+{
     if (other) {
         ((T*) other)->incStrongReference(this);
     }
@@ -358,71 +402,88 @@ sp<T>::sp(U* other) :
 
 template<typename T> template<typename U>
 sp<T>::sp(const sp<U>& other) :
-        mPointer(other.mPointer) {
+    mPointer(other.mPointer)
+{
     if (mPointer) {
         mPointer->incStrongReference(this);
     }
 }
 
 template<typename T>
-sp<T>::~sp() {
+sp<T>::~sp()
+{
     if (mPointer) {
         mPointer->decStrongReference(this);
     }
 }
 
 template<typename T>
-sp<T>& sp<T>::operator=(const sp<T>& other) {
+sp<T>& sp<T>::operator=(const sp<T>& other)
+{
     T* otherPointer(other.mPointer);
+
     if (otherPointer) {
         otherPointer->incStrongReference(this);
     }
+
     if (mPointer) {
         mPointer->decStrongReference(this);
     }
+
     mPointer = otherPointer;
     return *this;
 }
 
 template<typename T>
-sp<T>& sp<T>::operator=(T* other) {
+sp<T>& sp<T>::operator=(T* other)
+{
     if (other) {
         other->incStrongReference(this);
     }
+
     if (mPointer) {
         mPointer->decStrongReference(this);
     }
+
     mPointer = other;
     return *this;
 }
 
 template<typename T> template<typename U>
-sp<T>& sp<T>::operator=(const sp<U>& other) {
+sp<T>& sp<T>::operator=(const sp<U>& other)
+{
     T* otherPointer(other.mPointer);
+
     if (otherPointer) {
         otherPointer->incStrongReference(this);
     }
+
     if (mPointer) {
         mPointer->decStrongReference(this);
     }
+
     mPointer = otherPointer;
     return *this;
 }
 
 template<typename T> template<typename U>
-sp<T>& sp<T>::operator=(U* other) {
+sp<T>& sp<T>::operator=(U* other)
+{
     if (other) {
         ((T*) other)->incStrongReference(this);
     }
+
     if (mPointer) {
         mPointer->decStrongReference(this);
     }
+
     mPointer = other;
     return *this;
 }
 
 template<typename T>
-void sp<T>::clear() {
+void sp<T>::clear()
+{
     if (mPointer) {
         // Make sure that mPointer is already set to nullptr before decStrongReference triggers the sp<T>'s dtor.
         T* pointer = mPointer;
@@ -432,19 +493,22 @@ void sp<T>::clear() {
 }
 
 template<typename T>
-void sp<T>::setPointer(T* pointer) {
+void sp<T>::setPointer(T* pointer)
+{
     mPointer = pointer;
 }
 
 template<typename T>
-inline sp<T> to_sp(T* object) {
+inline sp<T> to_sp(T* object)
+{
     return object;
 }
 
 
 template<typename T>
 wp<T>::wp(T* other) :
-        mPointer(other) {
+    mPointer(other)
+{
     if (other) {
         mReference = other->createWeakReference(this);
     }
@@ -452,7 +516,8 @@ wp<T>::wp(T* other) :
 
 template<typename T>
 wp<T>::wp(const wp<T>& other) :
-        mPointer(other.mPointer), mReference(other.mReference) {
+    mPointer(other.mPointer), mReference(other.mReference)
+{
     if (mPointer) {
         mReference->incWeakReference(this);
     }
@@ -460,7 +525,8 @@ wp<T>::wp(const wp<T>& other) :
 
 template<typename T>
 wp<T>::wp(const sp<T>& other) :
-        mPointer(other.mPointer) {
+    mPointer(other.mPointer)
+{
     if (mPointer) {
         mReference = mPointer->createWeakReference(this);
     }
@@ -468,7 +534,8 @@ wp<T>::wp(const sp<T>& other) :
 
 template<typename T> template<typename U>
 wp<T>::wp(U* other) :
-        mPointer(other) {
+    mPointer(other)
+{
     if (other) {
         mReference = other->createWeakReference(this);
     }
@@ -476,7 +543,8 @@ wp<T>::wp(U* other) :
 
 template<typename T> template<typename U>
 wp<T>::wp(const wp<U>& other) :
-        mPointer(other.mPointer) {
+    mPointer(other.mPointer)
+{
     if (mPointer) {
         mReference = other.mReference;
         mReference->incWeakReference(this);
@@ -485,106 +553,136 @@ wp<T>::wp(const wp<U>& other) :
 
 template<typename T> template<typename U>
 wp<T>::wp(const sp<U>& other) :
-        mPointer(other.mPointer) {
+    mPointer(other.mPointer)
+{
     if (mPointer) {
         mReference = mPointer->createWeakReference(this);
     }
 }
 
 template<typename T>
-wp<T>::~wp() {
+wp<T>::~wp()
+{
     if (mPointer) {
         mReference->decWeakReference(this);
     }
 }
 
 template<typename T>
-wp<T>& wp<T>::operator=(T* other) {
-    WeakReference* newReference = other ? other->createWeakReference(this) : nullptr;
+wp<T>& wp<T>::operator=(T* other)
+{
+    WeakReference* newReference = other ? other->createWeakReference(
+                                      this) : nullptr;
+
     if (mPointer) {
         mReference->decWeakReference(this);
     }
+
     mPointer = other;
     mReference = newReference;
     return *this;
 }
 
 template<typename T>
-wp<T>& wp<T>::operator=(const wp<T>& other) {
+wp<T>& wp<T>::operator=(const wp<T>& other)
+{
     WeakReference* otherReference(other.mReference);
     T* otherPointer(other.mPointer);
+
     if (otherPointer) {
         otherReference->incWeakReference(this);
     }
+
     if (mPointer) {
         mReference->decWeakReference(this);
     }
+
     mPointer = otherPointer;
     mReference = otherReference;
     return *this;
 }
 
 template<typename T>
-wp<T>& wp<T>::operator=(const sp<T>& other) {
-    WeakReference* newReference = other != nullptr ? other->createWeakReference(this) : nullptr;
+wp<T>& wp<T>::operator=(const sp<T>& other)
+{
+    WeakReference* newReference = other != nullptr ? other->createWeakReference(
+                                      this) : nullptr;
     T* otherPointer(other.mPointer);
+
     if (mPointer) {
         mReference->decWeakReference(this);
     }
+
     mPointer = otherPointer;
     mReference = newReference;
     return *this;
 }
 
 template<typename T> template<typename U>
-wp<T>& wp<T>::operator=(U* other) {
-    WeakReference* newReference = other ? other->createWeakReference(this) : nullptr;
+wp<T>& wp<T>::operator=(U* other)
+{
+    WeakReference* newReference = other ? other->createWeakReference(
+                                      this) : nullptr;
+
     if (mPointer) {
         mReference->decWeakReference(this);
     }
+
     mPointer = other;
     mReference = newReference;
     return *this;
 }
 
 template<typename T> template<typename U>
-wp<T>& wp<T>::operator=(const wp<U>& other) {
+wp<T>& wp<T>::operator=(const wp<U>& other)
+{
     WeakReference* otherReference(other.mReference);
     U* otherPointer(other.mPointer);
+
     if (otherPointer) {
         otherReference->incWeakReference(this);
     }
+
     if (mPointer) {
         mReference->decWeakReference(this);
     }
+
     mPointer = otherPointer;
     mReference = otherReference;
     return *this;
 }
 
 template<typename T> template<typename U>
-wp<T>& wp<T>::operator=(const sp<U>& other) {
-    WeakReference* newReference = other != nullptr ? other->createWeakReference(this) : nullptr;
+wp<T>& wp<T>::operator=(const sp<U>& other)
+{
+    WeakReference* newReference = other != nullptr ? other->createWeakReference(
+                                      this) : nullptr;
     U* otherPointer(other.mPointer);
+
     if (mPointer) {
         mReference->decWeakReference(this);
     }
+
     mPointer = otherPointer;
     mReference = newReference;
     return *this;
 }
 
 template<typename T>
-sp<T> wp<T>::lock() const {
+sp<T> wp<T>::lock() const
+{
     sp<T> newReference;
+
     if (mPointer && mReference->tryIncStrongReference(&newReference)) {
         newReference.setPointer(mPointer);
     }
+
     return newReference;
 }
 
 template<typename T>
-void wp<T>::clear() {
+void wp<T>::clear()
+{
     if (mPointer) {
         // Make sure that mPointer is already set to nullptr before decWeakReference triggers the wp<T>'s dtor.
         mPointer = nullptr;
@@ -593,27 +691,35 @@ void wp<T>::clear() {
 }
 
 template<typename T>
-inline wp<T> to_wp(T* object) {
+inline wp<T> to_wp(T* object)
+{
     return object;
 }
 
 template<typename T>
-sp<T> Object::Destroyer::reviveObject(Object* obj) {
+sp<T> Object::Destroyer::reviveObject(Object* obj)
+{
     sp<T> newReference;
+
     if (obj != nullptr) {
         obj->setObjectLifetime(OBJECT_LIFETIME_WEAK_REFERENCE);
+
         if (obj->getWeakReference()->tryIncStrongReference(&newReference)) {
             newReference.setPointer(static_cast<T*>(obj));
         }
+
         obj->setObjectLifetime(OBJECT_LIFETIME_STRONG_REFERENCE);
     }
+
     return newReference;
 }
 
 
 template<typename OBJECT>
-inline sp<OBJECT> object_cast(const sp<Object>& object) {
-    return (object != nullptr) ? static_cast<OBJECT*>(object.getPointer()) : nullptr;
+inline sp<OBJECT> object_cast(const sp<Object>& object)
+{
+    return (object != nullptr) ? static_cast<OBJECT*>(object.getPointer()) :
+           nullptr;
 }
 
 
@@ -623,7 +729,8 @@ struct Hasher {
 
 template<typename K>
 struct Hasher<mindroid::sp<K>> {
-    std::size_t operator()(const mindroid::sp<K>& object) const {
+    std::size_t operator()(const mindroid::sp<K>& object) const
+    {
         const mindroid::sp<mindroid::Object>& self = object;
         return self->hashCode();
     }
@@ -635,7 +742,8 @@ struct EqualityComparator {
 
 template<typename K>
 struct EqualityComparator<mindroid::sp<K>> {
-    bool operator() (const mindroid::sp<K>& lhs, const mindroid::sp<K>& rhs) const {
+    bool operator()(const mindroid::sp<K>& lhs, const mindroid::sp<K>& rhs) const
+    {
         const mindroid::sp<mindroid::Object>& object1 = lhs;
         const mindroid::sp<mindroid::Object>& object2 = rhs;
         return object1->equals(object2);
@@ -648,7 +756,8 @@ struct LessThanComparator {
 
 template<typename K>
 struct LessThanComparator<mindroid::sp<K>> {
-    bool operator() (const mindroid::sp<K>& lhs, const mindroid::sp<K>& rhs) const {
+    bool operator()(const mindroid::sp<K>& lhs, const mindroid::sp<K>& rhs) const
+    {
         const mindroid::sp<mindroid::Object>& object1 = lhs;
         const mindroid::sp<mindroid::Object>& object2 = rhs;
         return object1->hashCode() < object2->hashCode();

@@ -1,0 +1,58 @@
+syntax = "proto2";
+option optimize_for = SPEED;
+
+message EmptyMessage {
+}
+
+enum ErrorCommandId {
+    ERROR_COMMAND_ID = 99;
+}
+
+message ErrorMessage {
+    required int32 errorCode = 1;
+    repeated string args = 2;
+}
+
+message PositionDTO {
+    required int32 x = 1; 
+    required int32 y = 2; 
+}
+
+message PropertyDTO {
+    required int32 type = 1;
+    required int32 value = 2; // + 增加, - 减少
+}
+
+message ItemDTO {
+    required int32 itemId = 1;
+    required int32 count = 2;
+}
+
+message SoldierDTO {
+    required int32 armyType = 1;            //士兵类型
+    required int32 armyNum = 2;             //士兵数量
+}
+
+message LevelSoldierDTO {
+    required SoldierDTO soldier = 1;
+    required int32 level = 2;
+}
+
+//装备
+message EquipmentDTO   //装备
+{
+	required int32 id = 1; //id
+    required int32 level = 2; //等级
+	required int32 exp = 3; //经验值
+	repeated int32 gemstonelist = 4;
+	required int32 type = 5; //装备类型
+}
+
+enum Platform {
+    IN_GAME = 1;
+}
+
+message VipDTO {
+    required int32 vipLevel = 1;
+    required bool activated = 2;
+}

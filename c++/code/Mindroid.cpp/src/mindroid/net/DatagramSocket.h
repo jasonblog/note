@@ -20,17 +20,20 @@
 #include "mindroid/lang/Object.h"
 #include "mindroid/lang/String.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class SocketAddress;
 
 class DatagramSocket :
-        public Object {
+    public Object
+{
 public:
     DatagramSocket();
     DatagramSocket(uint16_t port);
     DatagramSocket(const char* host, uint16_t port) :
-            DatagramSocket(String::valueOf(host), port) {
+        DatagramSocket(String::valueOf(host), port)
+    {
     }
     DatagramSocket(const sp<String>& host, uint16_t port);
     virtual ~DatagramSocket();
@@ -38,7 +41,8 @@ public:
     DatagramSocket& operator=(const DatagramSocket&) = delete;
 
     bool bind(uint16_t port);
-    bool bind(const char* host, uint16_t port) {
+    bool bind(const char* host, uint16_t port)
+    {
         return bind(String::valueOf(host), port);
     }
     bool bind(const sp<String>& host, uint16_t port);
@@ -46,9 +50,18 @@ public:
     ssize_t recv(uint8_t* data, size_t size, sp<SocketAddress>& sender);
     bool send(const void* data, size_t size, const sp<SocketAddress>& receiver);
     void close();
-    bool isBound() const { return mIsBound; }
-    bool isClosed() const { return mIsClosed; }
-    int getId() const { return mSocketId; }
+    bool isBound() const
+    {
+        return mIsBound;
+    }
+    bool isClosed() const
+    {
+        return mIsClosed;
+    }
+    int getId() const
+    {
+        return mSocketId;
+    }
 
 private:
     int mSocketId;

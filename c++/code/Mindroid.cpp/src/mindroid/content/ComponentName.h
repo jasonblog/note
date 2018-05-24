@@ -23,7 +23,8 @@
 #include "mindroid/lang/String.h"
 #include "mindroid/lang/Class.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 class Context;
 
@@ -34,7 +35,8 @@ class Context;
  *
  */
 class ComponentName final :
-        public Object {
+    public Object
+{
 public:
     /**
      * Create a new component identifier.
@@ -59,14 +61,16 @@ public:
     /**
      * Return the package name of this component.
      */
-    sp<String> getPackageName() {
+    sp<String> getPackageName()
+    {
         return mPackage;
     }
 
     /**
      * Return the class name of this component.
      */
-    sp<String> getClassName() {
+    sp<String> getClassName()
+    {
         return mClass;
     }
 
@@ -74,23 +78,29 @@ public:
      * Return string representation of this class without the class's name
      * as a prefix.
      */
-    sp<String> toShortString() {
+    sp<String> toShortString()
+    {
         return String::format("{%s/%s}", mPackage->c_str(), mClass->c_str());
     }
 
-    sp<String> toString() {
-        return String::format("ComponentInfo{%s/%s}", mPackage->c_str(), mClass->c_str());
+    sp<String> toString()
+    {
+        return String::format("ComponentInfo{%s/%s}", mPackage->c_str(),
+                              mClass->c_str());
     }
 
-    bool equals(const sp<ComponentName>& other) {
+    bool equals(const sp<ComponentName>& other)
+    {
         if (other != nullptr) {
             return mPackage->equals(other->mPackage)
-                    && mClass->equals(other->mClass);
+                   && mClass->equals(other->mClass);
         }
+
         return false;
     }
 
-    bool equals(const sp<Object>& obj) const override {
+    bool equals(const sp<Object>& obj) const override
+    {
         if (obj != nullptr) {
             if (Class<ComponentName>::isInstance(obj)) {
                 sp<ComponentName> other = Class<ComponentName>::cast(obj);
@@ -99,10 +109,12 @@ public:
                 return false;
             }
         }
+
         return false;
     }
 
-    size_t hashCode() const override {
+    size_t hashCode() const override
+    {
         return mPackage->hashCode() + mClass->hashCode();
     }
 

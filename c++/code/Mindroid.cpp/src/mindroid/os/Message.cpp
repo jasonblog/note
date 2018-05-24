@@ -20,17 +20,20 @@
 #include "mindroid/util/Assert.h"
 #include "mindroid/util/concurrent/Cancellable.h"
 
-namespace mindroid {
+namespace mindroid
+{
 
 MessagePool Message::sMessagePool;
 
 MessagePool::MessagePool() :
-        MAX_SIZE(42),
-        size(0),
-        lock(new ReentrantLock()) {
+    MAX_SIZE(42),
+    size(0),
+    lock(new ReentrantLock())
+{
 }
 
-MessagePool::~MessagePool() {
+MessagePool::~MessagePool()
+{
     AutoLock autoLock(lock);
     MAX_SIZE = 0;
     size = 0;
@@ -38,21 +41,24 @@ MessagePool::~MessagePool() {
 }
 
 Message::Message() :
-        what(0),
-        arg1(0),
-        arg2(0),
-        obj(nullptr),
-        flags(0),
-        when(0),
-        data(nullptr),
-        target(nullptr),
-        callback(nullptr),
-        nextMessage(nullptr) {
+    what(0),
+    arg1(0),
+    arg2(0),
+    obj(nullptr),
+    flags(0),
+    when(0),
+    data(nullptr),
+    target(nullptr),
+    callback(nullptr),
+    nextMessage(nullptr)
+{
 }
 
-sp<Message> Message::obtain() {
+sp<Message> Message::obtain()
+{
     {
         AutoLock autoLock(sMessagePool.lock);
+
         if (sMessagePool.pool != nullptr) {
             sp<Message> message = sMessagePool.pool;
             sMessagePool.pool = message->nextMessage;
@@ -67,42 +73,51 @@ sp<Message> Message::obtain() {
     return message;
 }
 
-sp<Message> Message::obtain(const sp<Message>& origMessage) {
+sp<Message> Message::obtain(const sp<Message>& origMessage)
+{
     sp<Message> message = obtain();
     message->what = origMessage->what;
     message->arg1 = origMessage->arg1;
     message->arg2 = origMessage->arg2;
     message->obj = origMessage->obj;
+
     if (origMessage->data != nullptr) {
         message->data = new Bundle(origMessage->data);
     }
+
     message->target = origMessage->target;
     message->callback = origMessage->callback;
 
     return message;
 }
 
-sp<Message> Message::obtain(const sp<Handler>& handler) {
+sp<Message> Message::obtain(const sp<Handler>& handler)
+{
     sp<Message> message = obtain();
     message->target = handler;
     return message;
 }
 
-sp<Message> Message::obtain(const sp<Handler>& handler, const sp<Runnable>& callback) {
+sp<Message> Message::obtain(const sp<Handler>& handler,
+                            const sp<Runnable>& callback)
+{
     sp<Message> message = obtain();
     message->target = handler;
     message->callback = callback;
     return message;
 }
 
-sp<Message> Message::obtain(const sp<Handler>& handler, int32_t what) {
+sp<Message> Message::obtain(const sp<Handler>& handler, int32_t what)
+{
     sp<Message> message = obtain();
     message->target = handler;
     message->what = what;
     return message;
 }
 
-sp<Message> Message::obtain(const sp<Handler>& handler, int32_t what, const sp<Object>& obj) {
+sp<Message> Message::obtain(const sp<Handler>& handler, int32_t what,
+                            const sp<Object>& obj)
+{
     sp<Message> message = obtain();
     message->target = handler;
     message->what = what;
@@ -110,7 +125,9 @@ sp<Message> Message::obtain(const sp<Handler>& handler, int32_t what, const sp<O
     return message;
 }
 
-sp<Message> Message::obtain(const sp<Handler>& handler, int32_t what, int32_t arg1, int32_t arg2) {
+sp<Message> Message::obtain(const sp<Handler>& handler, int32_t what,
+                            int32_t arg1, int32_t arg2)
+{
     sp<Message> message = obtain();
     message->target = handler;
     message->what = what;
@@ -119,7 +136,9 @@ sp<Message> Message::obtain(const sp<Handler>& handler, int32_t what, int32_t ar
     return message;
 }
 
-sp<Message> Message::obtain(const sp<Handler>& handler, int32_t what, int32_t arg1, int32_t arg2, const sp<Object>& obj) {
+sp<Message> Message::obtain(const sp<Handler>& handler, int32_t what,
+                            int32_t arg1, int32_t arg2, const sp<Object>& obj)
+{
     sp<Message> message = obtain();
     message->target = handler;
     message->what = what;
@@ -133,7 +152,8 @@ sp<Message> Message::obtain(const sp<Handler>& handler, int32_t what, int32_t ar
  * Return a Message instance to the global pool. You MUST NOT touch the Message after calling
  * this function -- it has effectively been freed.
  */
-void Message::recycle() {
+void Message::recycle()
+{
     if (result != nullptr) {
         result->cancel();
     }
@@ -151,6 +171,7 @@ void Message::recycle() {
 
     {
         AutoLock autoLock(sMessagePool.lock);
+
         if (sMessagePool.size < sMessagePool.MAX_SIZE) {
             nextMessage = sMessagePool.pool;
             sMessagePool.pool = this;
@@ -159,11 +180,13 @@ void Message::recycle() {
     }
 }
 
-void Message::copyFrom(const sp<Message>& otherMessage) {
+void Message::copyFrom(const sp<Message>& otherMessage)
+{
     this->what = otherMessage->what;
     this->arg1 = otherMessage->arg1;
     this->arg2 = otherMessage->arg2;
     this->obj = otherMessage->obj;
+
     if (otherMessage->data != nullptr) {
         this->data = new Bundle(otherMessage->data);
     } else {
@@ -171,7 +194,8 @@ void Message::copyFrom(const sp<Message>& otherMessage) {
     }
 }
 
-void Message::sendToTarget() {
+void Message::sendToTarget()
+{
     target->sendMessage(this);
 }
 

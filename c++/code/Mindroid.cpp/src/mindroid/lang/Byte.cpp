@@ -18,21 +18,26 @@
 #include "mindroid/lang/String.h"
 #include <cstdlib>
 
-namespace mindroid {
+namespace mindroid
+{
 
-sp<Byte> Byte::valueOf(const char* s) {
+sp<Byte> Byte::valueOf(const char* s)
+{
     return new Byte(strtol(s, nullptr, 10));
 }
 
-sp<Byte> Byte::valueOf(const sp<String>& s) {
+sp<Byte> Byte::valueOf(const sp<String>& s)
+{
     return valueOf(s->c_str());
 }
 
-sp<Byte> Byte::valueOf(const char* s, int32_t radix) {
+sp<Byte> Byte::valueOf(const char* s, int32_t radix)
+{
     return new Byte(strtol(s, nullptr, radix));
 }
 
-sp<Byte> Byte::valueOf(const sp<String>& s, int32_t radix) {
+sp<Byte> Byte::valueOf(const sp<String>& s, int32_t radix)
+{
     return valueOf(s->c_str(), radix);
 }
 

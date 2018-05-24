@@ -623,7 +623,7 @@
        * [物件模式(一)](c++/wu_jian_mo_5f0f28_1.md)
        * [物件模式(二)](c++/wu_jian_mo_5f0f28_4e8c29.md)
    * [C++類對象內存結構](c++/clei_dui_xiang_nei_cun_jie_gou.md)
-   * C++四种继承关系中内存分布
+   * [C++四种继承关系中内存分布](c++/csi_zhong_ji_cheng_guan_xi_zhong_nei_cun_fen_bu.md)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

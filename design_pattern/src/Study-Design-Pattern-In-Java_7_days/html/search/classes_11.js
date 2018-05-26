@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['sabar',['Sabar',['../classc10_1_1template_1_1adventurer_1_1Sabar.html',1,'c10::template::adventurer']]],
+  ['servicedepartment',['ServiceDepartment',['../classc11_1_1composite_1_1organizationTree_1_1ServiceDepartment.html',1,'c11::composite::organizationTree']]],
+  ['simplefactory',['SimpleFactory',['../classc01_1_1simpleFactory_1_1village_1_1SimpleFactory.html',1,'c01::simpleFactory::village']]],
+  ['simpleiterator',['SimpleIterator',['../classc14_1_1iterator_1_1simpleList_1_1SimpleList_1_1SimpleIterator.html',1,'c14::iterator::simpleList::SimpleList']]],
+  ['simplelist',['SimpleList',['../classc14_1_1iterator_1_1simpleList_1_1SimpleList.html',1,'c14::iterator::simpleList']]],
+  ['simplelistinterface',['SimpleListInterface',['../interfacec14_1_1iterator_1_1simpleList_1_1SimpleListInterface.html',1,'c14::iterator::simpleList']]],
+  ['simplelisttest',['SimpleListTest',['../classc14_1_1iterator_1_1SimpleListTest.html',1,'c14::iterator']]],
+  ['singleton',['Singleton',['../classc0_1_1singleton_1_1Singleton.html',1,'c0::singleton']]],
+  ['singletongreed',['SingletonGreed',['../classc0_1_1singleton_1_1SingletonGreed.html',1,'c0::singleton']]],
+  ['singletontest',['SingletonTest',['../classc0_1_1singleton_1_1SingletonTest.html',1,'c0::singleton']]],
+  ['snackorder',['SnackOrder',['../classc07_1_1command_1_1coffeShop_1_1SnackOrder.html',1,'c07::command::coffeShop']]],
+  ['sortvillagebyarea',['SortVillageByArea',['../classc04_1_1strategy_1_1example_1_1SortVillageByArea.html',1,'c04::strategy::example']]],
+  ['sortvillagebyid',['SortVillageById',['../classc04_1_1strategy_1_1example_1_1SortVillageById.html',1,'c04::strategy::example']]],
+  ['sortvillagebyname',['SortVillageByName',['../classc04_1_1strategy_1_1example_1_1SortVillageByName.html',1,'c04::strategy::example']]],
+  ['sortvillagebypopulation',['SortVillageByPopulation',['../classc04_1_1strategy_1_1example_1_1SortVillageByPopulation.html',1,'c04::strategy::example']]],
+  ['state',['State',['../interfacec12_1_1state_1_1warrior_1_1State.html',1,'c12::state::warrior']]],
+  ['stereo',['Stereo',['../classc09_1_1facade_1_1Stereo.html',1,'c09::facade']]],
+  ['strategyexample',['StrategyExample',['../classc04_1_1strategy_1_1StrategyExample.html',1,'c04::strategy']]],
+  ['subject',['Subject',['../classc06_1_1observer_1_1association_1_1Subject.html',1,'c06::observer::association']]],
+  ['superchef',['SuperChef',['../classc24_1_1visitor_1_1description_1_1SuperChef.html',1,'c24::visitor::description']]],
+  ['superchef',['SuperChef',['../classc24_1_1visitor_1_1SuperChef.html',1,'c24::visitor']]],
+  ['supernoodlechef',['SuperNoodleChef',['../classc24_1_1visitor_1_1SuperNoodleChef.html',1,'c24::visitor']]],
+  ['supernoodlechef',['SuperNoodleChef',['../classc24_1_1visitor_1_1description_1_1SuperNoodleChef.html',1,'c24::visitor::description']]]
+];

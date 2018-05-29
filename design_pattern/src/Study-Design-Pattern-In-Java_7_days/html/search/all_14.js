@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['vedioroomfacade',['VedioRoomFacade',['../classc09_1_1facade_1_1VedioRoomFacade.html',1,'c09::facade']]],
+  ['vedioroomfacade_2ejava',['VedioRoomFacade.java',['../VedioRoomFacade_8java.html',1,'']]],
+  ['vedioroomfacadeclient',['VedioRoomFacadeClient',['../classc09_1_1facade_1_1VedioRoomFacadeClient.html',1,'c09::facade']]],
+  ['vedioroomfacadeclient_2ejava',['VedioRoomFacadeClient.java',['../VedioRoomFacadeClient_8java.html',1,'']]],
+  ['village',['Village',['../classc04_1_1strategy_1_1example_1_1Village.html#a0729360c39461c2786679712dfed5711',1,'c04::strategy::example::Village']]],
+  ['village',['Village',['../classc04_1_1strategy_1_1example_1_1Village.html',1,'c04::strategy::example']]],
+  ['village_2ejava',['Village.java',['../Village_8java.html',1,'']]],
+  ['viplist',['vipList',['../classc18_1_1mediator_1_1Chatroom_1_1MessageMediator.html#af15494f32c4fa83990e3617bdaa1dbc1',1,'c18::mediator::Chatroom::MessageMediator']]],
+  ['vipuser',['VIPUser',['../classc18_1_1mediator_1_1Chatroom_1_1VIPUser.html',1,'c18::mediator::Chatroom']]],
+  ['vipuser',['VIPUser',['../classc18_1_1mediator_1_1Chatroom_1_1VIPUser.html#adf27507ff122b2743ad8775ee26b5df0',1,'c18::mediator::Chatroom::VIPUser']]],
+  ['vipuser_2ejava',['VIPUser.java',['../VIPUser_8java.html',1,'']]],
+  ['visitor',['Visitor',['../interfacec24_1_1visitor_1_1Visitor.html',1,'c24::visitor']]],
+  ['visitor_2ejava',['Visitor.java',['../Visitor_8java.html',1,'']]],
+  ['visitor_5fsaomai',['Visitor_saoMai',['../classc24_1_1visitor_1_1Visitor__saoMai.html',1,'c24::visitor']]],
+  ['visitor_5fsaomai_2ejava',['Visitor_saoMai.java',['../Visitor__saoMai_8java.html',1,'']]],
+  ['visitor_5ftofu',['Visitor_tofu',['../classc24_1_1visitor_1_1Visitor__tofu.html',1,'c24::visitor']]],
+  ['visitor_5ftofu_2ejava',['Visitor_tofu.java',['../Visitor__tofu_8java.html',1,'']]]
+];

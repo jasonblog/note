@@ -11,7 +11,7 @@ def GetHtmlcode(ID):
     # Get the webpage's source html code
     source = 'https://goodinfo.tw/StockInfo/StockBzPerformance.asp?STOCK_ID='
     url = source + ID
-    print url
+    print(url)
 
     # Header
     headers = { 'accept' : '*/*' ,
@@ -101,7 +101,7 @@ def GetHtmlcode(ID):
 
         df = pd.read_html(str(soup))[2]
         df.columns = columns[key]
-        print df
+        print(df)
 
         if key == u'獲利指標':
             df_final[u'年度'] = df[u'年度'] 
@@ -171,8 +171,8 @@ def GetHtmlcode(ID):
 
 def main():
     # python2
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
+    #reload(sys)
+    #sys.setdefaultencoding('utf-8')
 
     fin = open('StockCode', 'r+')
     StockCodeList = [str(i)for i in fin.read().splitlines()]

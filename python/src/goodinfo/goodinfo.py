@@ -149,17 +149,17 @@ def GetHtmlcode(ID):
 
         key = key.replace('/', '_')
 
-	if not os.path.exists(ID):
-	    os.makedirs(ID)
+        if not os.path.exists(ID):
+            os.makedirs(ID)
 
         key = str(ID) + '/' + key +'.html' 
         #print key
         #raw_input()
         #df.to_html(str(key))
-	with open(str(key), 'w') as f:
-	    f.write(HEADER)
-	    f.write(df.to_html(classes='df'))
-	    f.write(FOOTER)
+        with open(str(key), 'w') as f:
+            f.write(HEADER)
+            f.write(df.to_html(classes='df'))
+            f.write(FOOTER)
 
     key = str(ID) + '/基本資料表.html'
     with open(str(key), 'w') as f:

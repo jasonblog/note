@@ -970,3 +970,36 @@ sudp dpkg -P linux-image-4.4.0-57-generic
 ###總結
 
 以上就是這篇文章的全部內容瞭，希望本文的內容對大傢的學習或者工作能帶來一定的幫助，如果有疑問大傢可以留言交流。
+
+
+
+## 重撥 PPPoE 的方法
+
+```sh
+cd /etc/ppp/peers
+```
+
+ls
+-rw-r----- 1 root dip   282 Dec 30  2013 dsl-provider
+
+```sh
+sudo poff -r dsl-provider
+```
+
+---
+-r 就是斷掉後會重播
+
+
+如果沒重播，就要自己:
+
+```sh
+sudo pon dsl-provider
+```
+
+```sh  
+斷線
+sudo poff dsl-provider
+
+重播
+sudo pon dsl-provider
+```

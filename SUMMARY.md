@@ -962,7 +962,7 @@
    * [raspberry 3b 64bit 系統安裝，以及交叉編譯環境、調試環境的搭建](raspberry_pi/raspberry_3b_64bit_xi_tong_an_zhuang_ff0c_yi_ji_ji.md)
    * [樹莓派autossh反向隧道](raspberry_pi/shu_mei_pai_autossh_fan_xiang_sui_dao.md)
    * [Kernel Initialization](raspberry_pi/kernel_initialization.md)
-   * Debugging Raspberry Pi 3 with JTAG
+   * [Debugging Raspberry Pi 3 with JTAG](raspberry_pi/debugging_raspberry_pi_3_with_jtag.md)
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

@@ -1,0 +1,17 @@
+#include <threads.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+int run(void* par) {
+    for (int i=0; i< 100000; i++)
+        printf("%5d ", i);
+}
+
+
+int main(int argc, char** argv) {
+    thrd_t thr1, thr2, thr3, thr4;
+    thrd_create(&thr1, run, NULL);
+    thrd_create(&thr2, run, NULL);
+    thrd_create(&thr3, run, NULL);
+    thrd_create(&thr4, run, NULL);
+}

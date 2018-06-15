@@ -11,15 +11,16 @@
 /*例如在pipe中（後面張婕蕙教授），可以將檔名當成輸出資料的一部份*/
 /*argv則是字串陣列，最後一個字串是NULL*/
 
-int main(int argc, char**argv) {
-    int i=0;
-    
-    while(argv[i]!=NULL) {
+int main(int argc, char** argv)
+{
+    int i = 0;
+
+    while (argv[i] != NULL) {
         printf("%s\n", argv[i]);
         i++;
-        
+
     }
-    
+
     /*依照程式的屬性，設定適當的return value*/
     return 1;
 }

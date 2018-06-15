@@ -8,12 +8,14 @@
 #include <stdlib.h>
 
 
-void myName() {
-	printf("shiwulo\n");
+void myName()
+{
+    printf("shiwulo\n");
 }
 
-int main(int argc, char **argv) {
-	atexit(myName);
-	return 0;
+int main(int argc, char** argv)
+{
+    atexit(myName);
+    return 0;
 }
 

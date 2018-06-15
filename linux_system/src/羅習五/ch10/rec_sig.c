@@ -6,13 +6,16 @@
 
 int nSig[100];
 
-void sighandler(int signumber) {
+void sighandler(int signumber)
+{
     nSig[signumber]++;
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
     int sig_exist[100];
     int idx = 0;
+
     for (idx = 0; idx < 100; idx++) {
         if (signal(idx, sighandler) == SIG_ERR) {
             sig_exist[idx] = 0;
@@ -20,14 +23,17 @@ int main(int argc, char **argv) {
             sig_exist[idx] = 1;
         }
     }
+
     printf("my pid is %d\n", getpid());
     printf("press any key to count the signal number\n");
     getchar();
-    for (idx=0; idx<100; idx++) {
-        if (nSig[idx] != 0)
+
+    for (idx = 0; idx < 100; idx++) {
+        if (nSig[idx] != 0) {
             printf("signal #%d, %d times\n", idx, nSig[idx]);
+        }
     }
-    
+
     return 0;
 }
 

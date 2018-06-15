@@ -7,17 +7,18 @@
 #include <string.h>
 #include <sched.h>
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-	int i;
-	clockid_t clk_id;
-	struct timespec tt;
+    int i;
+    clockid_t clk_id;
+    struct timespec tt;
 
-	// clk_id = CLOCK_REALTIME;
-	clk_id = CLOCK_MONOTONIC;
-	// clk_id = CLOCK_BOOTTIME;
-	//clk_id = CLOCK_PROCESS_CPUTIME_ID;
-	for (i=0; i<1000000000; i++) {
-		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &tt);
-	}
+    // clk_id = CLOCK_REALTIME;
+    clk_id = CLOCK_MONOTONIC;
+
+    // clk_id = CLOCK_BOOTTIME;
+    //clk_id = CLOCK_PROCESS_CPUTIME_ID;
+    for (i = 0; i < 1000000000; i++) {
+        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &tt);
+    }
 }

@@ -27,16 +27,18 @@ const int GB = 1024 * 1024 * 1024;
 
 const long long nspersec = 1000000000;
 
-long long timespec2sec(struct timespec ts) {
+long long timespec2sec(struct timespec ts)
+{
     long long ns = ts.tv_nsec;
     ns += ts.tv_sec * nspersec;
     return ns;
     //return (double)ns/1000000000.0;
 }
 
-double timeval2sec(struct timeval input) {
-    long long us = input.tv_sec*1000000;
+double timeval2sec(struct timeval input)
+{
+    long long us = input.tv_sec * 1000000;
     us += input.tv_usec;
     //printf("%ldsec, %ld us\n", input.tv_sec, input.tv_usec);
-    return (double)us/1000000.0;
+    return (double)us / 1000000.0;
 }

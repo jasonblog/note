@@ -43,48 +43,66 @@ str：使用者傳進的命令
 cmd：回傳執行檔
 更好的作法：使用strtok
 */
-void parseString(char* str, char** cmd) {
+void parseString(char* str, char** cmd)
+{
     char* buf;
-    int totalLen = strlen(str)-1;
+    int totalLen = strlen(str) - 1;
     /*fgets拿進來的字串有換行符號，因此扣掉1*/
-    int cur=0, flag=0, idx=0;
+    int cur = 0, flag = 0, idx = 0;
+
     /*cur代表目前正要讀的字串開頭位置*/
     /*將開頭的空白符號吃光光*/
-    while(str[cur] == ' ')
+    while (str[cur] == ' ') {
         cur++;
-    while (1) {
-        sscanf(str+cur, "%ms", &buf);
-        /*%ms會自動配置記憶體*/
-        if (idx==0) *cmd=buf;
-        /*第一個參數就是執行檔*/
-        argVect[idx++]=buf;
-        cur += strlen(buf)+1;
-        /*將空白符號吃光光*/
-        while(str[cur] == ' ')
-            cur++;
-        if (cur >= totalLen)
-            break;
     }
+
+    while (1) {
+        sscanf(str + cur, "%ms", &buf);
+
+        /*%ms會自動配置記憶體*/
+        if (idx == 0) {
+            *cmd = buf;
+        }
+
+        /*第一個參數就是執行檔*/
+        argVect[idx++] = buf;
+        cur += strlen(buf) + 1;
+
+        /*將空白符號吃光光*/
+        while (str[cur] == ' ') {
+            cur++;
+        }
+
+        if (cur >= totalLen) {
+            break;
+        }
+    }
+
     /*依照規定，字串陣列的最尾端要填入NULL*/
-    argVect[idx]=NULL;
+    argVect[idx] = NULL;
 }
 
 /*
 freeArgVect：釋放掉sanf("%ms");所配置的字串
 */
-void freeArgVect() {
+void freeArgVect()
+{
     int idx;
-    for(idx=0; argVect[idx]!=NULL; idx++)
+
+    for (idx = 0; argVect[idx] != NULL; idx++) {
         free(argVect[idx]);
+    }
 }
 
-int main (int argc, char** argv) {
+int main(int argc, char** argv)
+{
     char cmdLine[4096];
     char hostName[256];
     char cwd[256];
     char* exeName;
     int pid, pos, wstatus;
-    while(1) {
+
+    while (1) {
         char* showPath;
         char* loginName = getlogin();
         int homeLen = 0;
@@ -94,15 +112,17 @@ int main (int argc, char** argv) {
         會參考"home"將"home"路徑取代為~
         */
         getcwd(cwd, 256);
-        pos=strspn(getenv("HOME"), cwd);
+        pos = strspn(getenv("HOME"), cwd);
         homeLen = strlen(getenv("HOME"));
+
         //printf("cwd=%s, home=%s, pos=%d, prompt=%s", cwd, getenv("HOME"), pos, &cwd[pos]);
-        if(pos>=homeLen) {
-            cwd[pos-1]='~';
-            showPath=&cwd[pos-1];
+        if (pos >= homeLen) {
+            cwd[pos - 1] = '~';
+            showPath = &cwd[pos - 1];
+        } else {
+            showPath = cwd;
         }
-        else
-            showPath=cwd;
+
         /*
         底下程式碼負責印出提示符號
         */
@@ -113,30 +133,38 @@ int main (int argc, char** argv) {
         接收使用者命令，除了cd, exit以外，其他指令呼叫對應的執行檔
         */
         fgets(cmdLine, 4096, stdin);
-        if (strlen(cmdLine)>1)
+
+        if (strlen(cmdLine) > 1) {
             parseString(cmdLine, &exeName);
-        else
+        } else {
             continue;
+        }
+
         if (strcmp(exeName, "exit") == 0) {
             freeArgVect();
             break;
         }
+
         if (strcmp(exeName, "cd") == 0) {
-            if (strcmp(argVect[1], "~")==0)
+            if (strcmp(argVect[1], "~") == 0) {
                 chdir(getenv("HOME"));
-            else
+            } else {
                 chdir(argVect[1]);
+            }
+
             freeArgVect();
             continue;
         }
+
         pid = fork();
+
         if (pid == 0) {
             /*
             產生一個child執行使用者的指令
             */
-            if (execvp(exeName, argVect)==-1) {
+            if (execvp(exeName, argVect) == -1) {
                 perror("myShell");
-                exit(errno*-1);
+                exit(errno * -1);
             }
         } else {
             /*
@@ -144,10 +172,11 @@ int main (int argc, char** argv) {
             完成命令後，parent將child的結束回傳值印出來
             */
             wait(&wstatus);
-            printf(RED "return value of " YELLOW "%s" RED " is " YELLOW "%d\n", 
-                exeName, WEXITSTATUS(wstatus));
+            printf(RED "return value of " YELLOW "%s" RED " is " YELLOW "%d\n",
+                   exeName, WEXITSTATUS(wstatus));
             printf(NONE);
         }
+
         freeArgVect();
     }
 }

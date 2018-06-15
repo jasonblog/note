@@ -40,9 +40,11 @@ char* argVect[256];
 volatile sig_atomic_t hasChild = 0;
 pid_t childPid;
 
-void ctrC_handler(int sigNumber) {
-    if (hasChild) kill(childPid, sigNumber);
-    else {
+void ctrC_handler(int sigNumber)
+{
+    if (hasChild) {
+        kill(childPid, sigNumber);
+    } else {
         ungetc("^", stdin);
         ugetc("c", stdin);
     }
@@ -54,29 +56,37 @@ parseString：將使用者傳進的命令轉換成字串陣列
 str：使用者傳進的命令
 cmd：回傳執行檔
 */
-void parseString(char* str, char** cmd) {
-    int idx=0;
+void parseString(char* str, char** cmd)
+{
+    int idx = 0;
     char* retPtr;
     //printf("%s\n", str);
-    retPtr=strtok(str, " \n");
-    while(retPtr != NULL) {
+    retPtr = strtok(str, " \n");
+
+    while (retPtr != NULL) {
         //printf("token =%s\n", retPtr);
         //if(strlen(retPtr)==0) continue;
         argVect[idx++] = retPtr;
-        if (idx==1)
+
+        if (idx == 1) {
             *cmd = retPtr;
-        retPtr=strtok(NULL, " \n");
+        }
+
+        retPtr = strtok(NULL, " \n");
     }
-    argVect[idx]=NULL;
+
+    argVect[idx] = NULL;
 }
 
-int main (int argc, char** argv) {
+int main(int argc, char** argv)
+{
     char cmdLine[4096];
     char hostName[256];
     char cwd[256];
     char* exeName;
     int pid, pos, wstatus;
-    while(1) {
+
+    while (1) {
         char* showPath;
         char* loginName = getlogin();
         int homeLen = 0;
@@ -86,15 +96,17 @@ int main (int argc, char** argv) {
         會參考"home"將"home"路徑取代為~
         */
         getcwd(cwd, 256);
-        pos=strspn(getenv("HOME"), cwd);
+        pos = strspn(getenv("HOME"), cwd);
         homeLen = strlen(getenv("HOME"));
+
         //printf("cwd=%s, home=%s, pos=%d, prompt=%s", cwd, getenv("HOME"), pos, &cwd[pos]);
-        if(pos>=homeLen) {
-            cwd[pos-1]='~';
-            showPath=&cwd[pos-1];
+        if (pos >= homeLen) {
+            cwd[pos - 1] = '~';
+            showPath = &cwd[pos - 1];
+        } else {
+            showPath = cwd;
         }
-        else
-            showPath=cwd;
+
         /*
         底下程式碼負責印出提示符號
         */
@@ -105,29 +117,39 @@ int main (int argc, char** argv) {
         接收使用者命令，除了cd, exit以外，其他指令呼叫對應的執行檔
         */
         fgets(cmdLine, 4096, stdin);
-        if (strlen(cmdLine)>1)
+
+        if (strlen(cmdLine) > 1) {
             parseString(cmdLine, &exeName);
-        else
-            continue;
-        if (strcmp(exeName), "^C") == 0)
-            printf("^c\n");
-        if (strcmp(exeName, "exit") == 0)
-            break;
-        if (strcmp(exeName, "cd") == 0) {
-            if (strcmp(argVect[1], "~")==0)
-                chdir(getenv("HOME"));
-            else
-                chdir(argVect[1]);
+        } else {
             continue;
         }
+
+        if (strcmp(exeName), "^C") == 0)
+            printf("^c\n");
+
+            if (strcmp(exeName, "exit") == 0) {
+                break;
+            }
+
+        if (strcmp(exeName, "cd") == 0) {
+            if (strcmp(argVect[1], "~") == 0) {
+                chdir(getenv("HOME"));
+            } else {
+                chdir(argVect[1]);
+            }
+
+            continue;
+        }
+
         pid = fork();
+
         if (pid == 0) {
-            /*
-            產生一個child執行使用者的指令
-            */
-            if (execvp(exeName, argVect)==-1) {
+        /*
+        產生一個child執行使用者的指令
+        */
+        if (execvp(exeName, argVect) == -1) {
                 perror("myShell");
-                exit(errno*-1);
+                exit(errno * -1);
             }
         } else {
             /*
@@ -135,8 +157,8 @@ int main (int argc, char** argv) {
             完成命令後，parent將child的結束回傳值印出來
             */
             wait(&wstatus);
-            printf(RED "return value of " YELLOW "%s" RED " is " YELLOW "%d\n", 
-                exeName, WEXITSTATUS(wstatus));
+            printf(RED "return value of " YELLOW "%s" RED " is " YELLOW "%d\n",
+                   exeName, WEXITSTATUS(wstatus));
             printf(NONE);
         }
     }

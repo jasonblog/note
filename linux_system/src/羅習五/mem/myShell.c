@@ -13,7 +13,7 @@ ctr-c
 #include <signal.h>
 #include <time.h>
 #include <setjmp.h>
-#include <sys/resource.h> 
+#include <sys/resource.h>
 ///color///
 #define NONE "\033[m"
 #define RED "\033[0;32;31m"
@@ -49,22 +49,25 @@ volatile sig_atomic_t hasChild = 0;
 pid_t childPid;
 const long long nspersec = 1000000000;
 
-long long timespec2sec(struct timespec ts) {
+long long timespec2sec(struct timespec ts)
+{
     long long ns = ts.tv_nsec;
     ns += ts.tv_sec * nspersec;
     return ns;
     //return (double)ns/1000000000.0;
 }
 
-double timeval2sec(struct timeval input) {
-    long long us = input.tv_sec*1000000;
+double timeval2sec(struct timeval input)
+{
+    long long us = input.tv_sec * 1000000;
     us += input.tv_usec;
     //printf("%ldsec, %ld us\n", input.tv_sec, input.tv_usec);
-    return (double)us/1000000.0;
+    return (double)us / 1000000.0;
 }
 
 /*signal handler專門用來處理ctr-c*/
-void ctrC_handler(int sigNumber) {
+void ctrC_handler(int sigNumber)
+{
     if (hasChild) {
         kill(childPid, sigNumber);
         hasChild = 0;
@@ -73,7 +76,9 @@ void ctrC_handler(int sigNumber) {
         /*藉由確認是否argVect[0]（即執行檔）是否為NULL保證main function不是在處理字串*/
         /*主程式的控制迴圈必須在一開始的地方將argVect[0]設為NULL*/
         if (argVect[0] == NULL) {
-            ungetc('\n', stdin);ungetc('c', stdin);ungetc('^', stdin);
+            ungetc('\n', stdin);
+            ungetc('c', stdin);
+            ungetc('^', stdin);
             siglongjmp(jumpBuf, 1);
         } else {
             /*極少發生，剛好在處理字串，忽略這個signal，印出訊息提示一下*/
@@ -87,23 +92,30 @@ parseString：將使用者傳進的命令轉換成字串陣列
 str：使用者傳進的命令
 cmd：回傳執行檔
 */
-void parseString(char* str, char** cmd) {
-    int idx=0;
+void parseString(char* str, char** cmd)
+{
+    int idx = 0;
     char* retPtr;
     //printf("%s\n", str);
-    retPtr=strtok(str, " \n");
-    while(retPtr != NULL) {
+    retPtr = strtok(str, " \n");
+
+    while (retPtr != NULL) {
         //printf("token =%s\n", retPtr);
         //if(strlen(retPtr)==0) continue;
         argVect[idx++] = retPtr;
-        if (idx==1)
+
+        if (idx == 1) {
             *cmd = retPtr;
-        retPtr=strtok(NULL, " \n");
+        }
+
+        retPtr = strtok(NULL, " \n");
     }
-    argVect[idx]=NULL;
+
+    argVect[idx] = NULL;
 }
 
-int main (int argc, char** argv) {
+int main(int argc, char** argv)
+{
     char cmdLine[4096];
     char hostName[256];
     char cwd[256];
@@ -117,13 +129,13 @@ int main (int argc, char** argv) {
     signal(SIGTSTP, SIG_IGN);
 
     /*無窮迴圈直到使用者輸入exit*/
-    while(1) {
+    while (1) {
         char* showPath;
         char* loginName;
         int homeLen = 0;
         //設定化hasChild, argVect[0]，避免發生race condtion
         hasChild = 0;
-        argVect[0]=NULL;
+        argVect[0] = NULL;
         //抓取主機名稱、用戶名稱
         loginName = getlogin();
         gethostname(hostName, 256);
@@ -132,15 +144,17 @@ int main (int argc, char** argv) {
         會參考"home"將"home"路徑取代為~
         */
         getcwd(cwd, 256);
-        pos=strspn(getenv("HOME"), cwd);
+        pos = strspn(getenv("HOME"), cwd);
         homeLen = strlen(getenv("HOME"));
+
         //printf("cwd=%s, home=%s, pos=%d, prompt=%s", cwd, getenv("HOME"), pos, &cwd[pos]);
-        if(pos>=homeLen) {
-            cwd[pos-1]='~';
-            showPath=&cwd[pos-1];
+        if (pos >= homeLen) {
+            cwd[pos - 1] = '~';
+            showPath = &cwd[pos - 1];
+        } else {
+            showPath = cwd;
         }
-        else
-            showPath=cwd;
+
         /*
         底下程式碼負責印出提示符號
         */
@@ -153,41 +167,54 @@ int main (int argc, char** argv) {
         接收使用者命令，除了cd, exit以外，其他指令呼叫對應的執行檔
         */
         fgets(cmdLine, 4096, stdin);
+
         //printf("cmdLine = %s\n",cmdLine);
-        if (strlen(cmdLine)>1)  //判斷長度是否大於1，判斷「使用者無聊按下enter鍵」
+        if (strlen(cmdLine) >
+            1) { //判斷長度是否大於1，判斷「使用者無聊按下enter鍵」
             parseString(cmdLine, &exeName);
-        else
+        } else {
             continue;
-        if (strcmp(exeName, "^c") == 0) {   //使用者按下control-c，^c是由signal handler放入
+        }
+
+        if (strcmp(exeName, "^c") ==
+            0) {   //使用者按下control-c，^c是由signal handler放入
             //printf("ctr-c \n");
             printf("\n");
             continue;
         }
-        if (strcmp(exeName, "exit") == 0)   //內建指令exit
+
+        if (strcmp(exeName, "exit") == 0) { //內建指令exit
             break;
+        }
+
         if (strcmp(exeName, "cd") == 0) {   //內建指令cd
-            if (strcmp(argVect[1], "~")==0)
+            if (strcmp(argVect[1], "~") == 0) {
                 chdir(getenv("HOME"));
-            else
+            } else {
                 chdir(argVect[1]);
+            }
+
             continue;
         }
+
         clock_gettime(CLOCK_MONOTONIC, &statTime);
         pid = fork();   //除了exit, cd，其餘為外部指令
+
         if (pid == 0) {
             /*
             產生一個child執行使用者的指令
             */
-            if (execvp(exeName, argVect)==-1) {
+            if (execvp(exeName, argVect) == -1) {
                 perror("myShell");
-                exit(errno*-1);
+                exit(errno * -1);
             }
         } else {
             /*
             parent(myShell)等待child完成命令
             完成命令後，parent將child的結束回傳值印出來
             */
-            childPid = pid;/*通知singal handler，如果使用者按下ctr-c時，要處理這個child*/
+            childPid =
+                pid;/*通知singal handler，如果使用者按下ctr-c時，要處理這個child*/
             hasChild = 1;/*通知singal handler，正在處理child*/
             wait3(&wstatus, 0, &resUsage);
             clock_gettime(CLOCK_MONOTONIC, &endTime);
@@ -199,21 +226,24 @@ int main (int argc, char** argv) {
             //printf("%ld\n", endTime.tv_nsec);
             //printf("%ld\n", statTime.tv_nsec);
             printf("\n");
-            long long elapse = timespec2sec(endTime)-timespec2sec(statTime);
-            printf(RED"elapse:     "YELLOW"%lld.%llds\n",elapse/nspersec, elapse%nspersec);
+            long long elapse = timespec2sec(endTime) - timespec2sec(statTime);
+            printf(RED"elapse:     "YELLOW"%lld.%llds\n", elapse / nspersec,
+                   elapse % nspersec);
             printf(RED"usr+sys:    "YELLOW"%fs\n"
                    RED"user:       "YELLOW"%fs\n"
-                   RED"sys:        "YELLOW"%fs\n", sysTime+usrTime , usrTime, sysTime);
+                   RED"sys:        "YELLOW"%fs\n", sysTime + usrTime, usrTime, sysTime);
             printf(RED"minor:      "YELLOW"%ld\n", resUsage.ru_minflt);
             printf(RED"major:      "YELLOW"%ld\n", resUsage.ru_majflt);
             printf(RED"vol, ctx-sw:"YELLOW"%ld\n", resUsage.ru_nvcsw);
             printf(RED"inv, ctx-sw:"YELLOW"%ld\n", resUsage.ru_nivcsw);
-            printf(RED "return value of " YELLOW "%s" RED " is " YELLOW "%d\n", 
-                exeName, WEXITSTATUS(wstatus));
+            printf(RED "return value of " YELLOW "%s" RED " is " YELLOW "%d\n",
+                   exeName, WEXITSTATUS(wstatus));
+
             //printf("isSignaled? %d\n", WIFSIGNALED(wstatus));
             if (WIFSIGNALED(wstatus))
                 printf(RED"the child process was terminated by a signal "YELLOW"%d"RED
-                    ", named " YELLOW "%s.\n",  WTERMSIG(wstatus), sys_siglist[WTERMSIG(wstatus)]);
+                       ", named " YELLOW "%s.\n",  WTERMSIG(wstatus), sys_siglist[WTERMSIG(wstatus)]);
+
             printf(NONE);
         }
     }

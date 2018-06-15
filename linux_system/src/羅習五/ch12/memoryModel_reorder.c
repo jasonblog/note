@@ -1,5 +1,6 @@
 #include <stdio.h>
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
     volatile int a;
     int b;
     b = 0xdead;

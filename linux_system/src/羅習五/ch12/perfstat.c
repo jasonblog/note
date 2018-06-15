@@ -16,7 +16,7 @@
 #include <signal.h>
 #include <time.h>
 #include <setjmp.h>
-#include <sys/resource.h> 
+#include <sys/resource.h>
 #include <assert.h>
 #include <fcntl.h>
 
@@ -51,7 +51,8 @@ volatile sig_atomic_t hasChild = 0;
 pid_t childPid;
 
 /*signal handler專門用來處理ctr-c*/
-void ctrC_handler(int sigNumber) {
+void ctrC_handler(int sigNumber)
+{
     if (hasChild) {
         kill(childPid, sigNumber);
         hasChild = 0;
@@ -60,8 +61,9 @@ void ctrC_handler(int sigNumber) {
     }
 }
 
-int main (int argc, char** argv) {
-    int pid, wstatus, logmode=0;
+int main(int argc, char** argv)
+{
+    int pid, wstatus, logmode = 0;
     struct rusage resUsage;     //資源使用率
     struct timespec statTime, endTime;
     /*底下程式碼註冊signal的處理方式*/
@@ -70,34 +72,39 @@ int main (int argc, char** argv) {
     logmode = 1;
 
     if (logmode == 0) {
-        argVect[0]="perf";
-        argVect[1]="stat";
-        argVect[2]="-a";
-        argVect[3]="-r";
-        argVect[4]="10";
-        argVect[5]="--log-fd";
-        argVect[6]="2";
-        argVect[7]="-e";
-        argVect[8]=basic "," mem_load "," cache "," xsnp "," reorder "," TLB ;
-        for (int i=1; i< argc; i++)
-            argVect[8+i] = argv[i];
+        argVect[0] = "perf";
+        argVect[1] = "stat";
+        argVect[2] = "-a";
+        argVect[3] = "-r";
+        argVect[4] = "10";
+        argVect[5] = "--log-fd";
+        argVect[6] = "2";
+        argVect[7] = "-e";
+        argVect[8] = basic "," mem_load "," cache "," xsnp "," reorder "," TLB ;
+
+        for (int i = 1; i < argc; i++) {
+            argVect[8 + i] = argv[i];
+        }
     } else {
-        argVect[0]="perf";
-        argVect[1]="stat";
-        argVect[2]="-a";
-        argVect[3]="-r";
-        argVect[4]="10";
-        argVect[5]="-x";
-        argVect[6]=";";
-        argVect[7]="--log-fd";
-        argVect[8]="2";
-        argVect[9]="-e";
-        argVect[10]=basic "," mem_load "," cache "," xsnp "," reorder "," TLB ;
-        for (int i=1; i< argc; i++)
-            argVect[10+i] = argv[i];
+        argVect[0] = "perf";
+        argVect[1] = "stat";
+        argVect[2] = "-a";
+        argVect[3] = "-r";
+        argVect[4] = "10";
+        argVect[5] = "-x";
+        argVect[6] = ";";
+        argVect[7] = "--log-fd";
+        argVect[8] = "2";
+        argVect[9] = "-e";
+        argVect[10] = basic "," mem_load "," cache "," xsnp "," reorder "," TLB ;
+
+        for (int i = 1; i < argc; i++) {
+            argVect[10 + i] = argv[i];
+        }
     }
 
     pid = fork();   //除了exit, cd，其餘為外部指令
+
     if (pid == 0) {
         /*
         cpu_set_t set;
@@ -109,12 +116,13 @@ int main (int argc, char** argv) {
             exit(errno);
         }
         */
-        if (execvp(argVect[0], argVect)==-1) {
+        if (execvp(argVect[0], argVect) == -1) {
             perror("perfstat");
             exit(errno);
         }
     } else {
-        childPid = pid;/*通知singal handler，如果使用者按下ctr-c時，要處理這個child*/
+        childPid =
+            pid;/*通知singal handler，如果使用者按下ctr-c時，要處理這個child*/
         hasChild = 1;/*通知singal handler，正在處理child*/
         wait(&wstatus);
     }

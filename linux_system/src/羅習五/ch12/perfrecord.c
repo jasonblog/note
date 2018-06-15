@@ -16,7 +16,7 @@
 #include <signal.h>
 #include <time.h>
 #include <setjmp.h>
-#include <sys/resource.h> 
+#include <sys/resource.h>
 #include <assert.h>
 #include <fcntl.h>
 #include <pwd.h>
@@ -55,7 +55,8 @@ volatile sig_atomic_t hasChild = 0;
 pid_t childPid;
 
 /*signal handler專門用來處理ctr-c*/
-void ctrC_handler(int sigNumber) {
+void ctrC_handler(int sigNumber)
+{
     if (hasChild) {
         kill(childPid, sigNumber);
         hasChild = 0;
@@ -65,33 +66,41 @@ void ctrC_handler(int sigNumber) {
 }
 
 //frequency可以設定到多少請用cat /proc/sys/kernel/perf_event_max_sample_rate查閱，我的是15250，因此設定為 "-F 15250"
-char tmpCmdline[4000] = "perf record -e " basic "," mem_load "," cache "," xsnp "," reorder "," TLB  " -F 15250 --output=%s.perf.data";
+char tmpCmdline[4000] = "perf record -e " basic "," mem_load "," cache "," xsnp
+                        "," reorder "," TLB  " -F 15250 --output=%s.perf.data";
 char cmdLine[4000];
-int idx=0;
+int idx = 0;
 
 /*
 parseString：將使用者傳進的命令轉換成字串陣列
 str：使用者傳進的命令
 cmd：回傳執行檔
 */
-void parseString(char* str, char** cmd) {
-    
+void parseString(char* str, char** cmd)
+{
+
     char* retPtr;
     //printf("%s\n", str);
-    retPtr=strtok(str, " ");
-    while(retPtr != NULL) {
+    retPtr = strtok(str, " ");
+
+    while (retPtr != NULL) {
         //printf("token =%s\n", retPtr);
         //if(strlen(retPtr)==0) continue;
         argVect[idx++] = retPtr;
-        if (idx==1)
+
+        if (idx == 1) {
             *cmd = retPtr;
-        retPtr=strtok(NULL, " ");
+        }
+
+        retPtr = strtok(NULL, " ");
     }
+
     //argVect[idx]=NULL;
 }
 
-int main (int argc, char** argv) {
-    int pid, wstatus, logmode=0;
+int main(int argc, char** argv)
+{
+    int pid, wstatus, logmode = 0;
     struct rusage resUsage;     //資源使用率
     struct timespec statTime, endTime;
     /*底下程式碼註冊signal的處理方式*/
@@ -103,18 +112,22 @@ int main (int argc, char** argv) {
     //printf("%s\n", cmdLine);
     parseString(cmdLine, exeName);
 
-    for (int i=1; i<argc; i++)
-        argVect[idx++]=argv[i];
-    argVect[idx]=NULL;
+    for (int i = 1; i < argc; i++) {
+        argVect[idx++] = argv[i];
+    }
+
+    argVect[idx] = NULL;
 
     pid = fork();   //除了exit, cd，其餘為外部指令
+
     if (pid == 0) {
-        if (execvp(*exeName, argVect)==-1) {
+        if (execvp(*exeName, argVect) == -1) {
             perror("perfstat");
             exit(errno);
         }
     } else {
-        childPid = pid;/*通知singal handler，如果使用者按下ctr-c時，要處理這個child*/
+        childPid =
+            pid;/*通知singal handler，如果使用者按下ctr-c時，要處理這個child*/
         hasChild = 1;/*通知singal handler，正在處理child*/
         wait(&wstatus);
         //char perf_data_pathname[200];

@@ -7,17 +7,18 @@
 
 char buf[200];
 
-int main(int argc, char **argv) {
-	int fd;
-	int ret;
-	ret=mkfifo("/tmp/shiwulo", 0666);
-	printf("mkfifo() = %d\n", ret);
-	close(1);
-	fd = open("/tmp/shiwulo",O_WRONLY);
-	printf("hello\n");
-	printf("1234\n");
-	printf("5678\n");
-	close(fd);
-	unlink("/tmp/shiwulo");
-	return 0;
+int main(int argc, char** argv)
+{
+    int fd;
+    int ret;
+    ret = mkfifo("/tmp/shiwulo", 0666);
+    printf("mkfifo() = %d\n", ret);
+    close(1);
+    fd = open("/tmp/shiwulo", O_WRONLY);
+    printf("hello\n");
+    printf("1234\n");
+    printf("5678\n");
+    close(fd);
+    unlink("/tmp/shiwulo");
+    return 0;
 }

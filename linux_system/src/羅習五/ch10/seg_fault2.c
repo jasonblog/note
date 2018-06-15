@@ -10,21 +10,23 @@
 
 /* Define 'c' as a global register variable
    https://gcc.gnu.org/onlinedocs/gcc/Global-Register-Variables.html */
-register unsigned long *c __asm__("r12");
+register unsigned long* c __asm__("r12");
 
-void sighandler(int signumber, siginfo_t *sinfo, void *ucontext) {
-	ucontext_t *context = ucontext;
+void sighandler(int signumber, siginfo_t* sinfo, void* ucontext)
+{
+    ucontext_t* context = ucontext;
 
-	printf("got a signal %d(%s)\n", signumber,
-			sys_siglist[signumber]);
-  
-	/* NOTE: assigning to 'c' instead of 'REG_R12' likely won't work on most systems
-	   due to register content restoration after a signal handler returns */
-	context->uc_mcontext.gregs[REG_R12] = (unsigned long) malloc(sizeof(char));
+    printf("got a signal %d(%s)\n", signumber,
+           sys_siglist[signumber]);
+
+    /* NOTE: assigning to 'c' instead of 'REG_R12' likely won't work on most systems
+       due to register content restoration after a signal handler returns */
+    context->uc_mcontext.gregs[REG_R12] = (unsigned long) malloc(sizeof(char));
 }
 
 __attribute__((optimize("Os")))
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
     int r;
     struct sigaction sa = { {0} };
     sa.sa_flags = SA_SIGINFO;

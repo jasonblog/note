@@ -8,12 +8,14 @@ usage debugFork1
 int main(void)
 {
     pid_t pid;
+
     if ((pid = fork()) == 0) {
-	    printf("child");
+        printf("child");
     } else {
-	    printf("child's pid = %d\n", pid);
-	    printf("parent");
+        printf("child's pid = %d\n", pid);
+        printf("parent");
     }
+
     printf("end\n");
     return 0;
 }

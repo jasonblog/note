@@ -13,7 +13,7 @@ ctr-c
 #include <signal.h>
 #include <time.h>
 #include <setjmp.h>
-#include <sys/resource.h> 
+#include <sys/resource.h>
 #include <sys/time.h>
 #include <sys/wait.h>
 
@@ -52,22 +52,25 @@ volatile sig_atomic_t hasChild = 0;
 pid_t childPid;
 const long long nspersec = 1000000000;
 
-long long timespec2sec(struct timespec ts) {
+long long timespec2sec(struct timespec ts)
+{
     long long ns = ts.tv_nsec;
     ns += ts.tv_sec * nspersec;
     return ns;
     //return (double)ns/1000000000.0;
 }
 
-double timeval2sec(struct timeval input) {
-    long long us = input.tv_sec*1000000;
+double timeval2sec(struct timeval input)
+{
+    long long us = input.tv_sec * 1000000;
     us += input.tv_usec;
     //printf("%ldsec, %ld us\n", input.tv_sec, input.tv_usec);
-    return (double)us/1000000.0;
+    return (double)us / 1000000.0;
 }
 
 /*signal handler專門用來處理ctr-c*/
-void ctrC_handler(int sigNumber) {
+void ctrC_handler(int sigNumber)
+{
     if (hasChild) {
         kill(childPid, sigNumber);
         hasChild = 0;
@@ -76,7 +79,9 @@ void ctrC_handler(int sigNumber) {
         /*藉由確認是否argVect[0]（即執行檔）是否為NULL保證main function不是在處理字串*/
         /*主程式的控制迴圈必須在一開始的地方將argVect[0]設為NULL*/
         if (argVect[0] == NULL) {
-            ungetc('\n', stdin);ungetc('c', stdin);ungetc('^', stdin);
+            ungetc('\n', stdin);
+            ungetc('c', stdin);
+            ungetc('^', stdin);
             siglongjmp(jumpBuf, 1);
         } else {
             /*極少發生，剛好在處理字串，忽略這個signal，印出訊息提示一下*/
@@ -90,23 +95,30 @@ parseString：將使用者傳進的命令轉換成字串陣列
 str：使用者傳進的命令
 cmd：回傳執行檔
 */
-void parseString(char* str, char** cmd) {
-    int idx=0;
+void parseString(char* str, char** cmd)
+{
+    int idx = 0;
     char* retPtr;
     //printf("%s\n", str);
-    retPtr=strtok(str, " \n");
-    while(retPtr != NULL) {
+    retPtr = strtok(str, " \n");
+
+    while (retPtr != NULL) {
         //printf("token =%s\n", retPtr);
         //if(strlen(retPtr)==0) continue;
         argVect[idx++] = retPtr;
-        if (idx==1)
+
+        if (idx == 1) {
             *cmd = retPtr;
-        retPtr=strtok(NULL, " \n");
+        }
+
+        retPtr = strtok(NULL, " \n");
     }
-    argVect[idx]=NULL;
+
+    argVect[idx] = NULL;
 }
 
-int main (int argc, char** argv) {
+int main(int argc, char** argv)
+{
     int pid, wstatus;
     struct rusage resUsage;     //資源使用率
     struct timespec statTime, endTime;
@@ -114,23 +126,25 @@ int main (int argc, char** argv) {
     signal(SIGINT, ctrC_handler);
 
     //printf("argc =%d\n", argc);
-    for (int i=1; i<argc; i++) {
-        argVect[i-1] = argv[i];
+    for (int i = 1; i < argc; i++) {
+        argVect[i - 1] = argv[i];
     }
 
 
     clock_gettime(CLOCK_MONOTONIC, &statTime);
     pid = fork();   //除了exit, cd，其餘為外部指令
+
     if (pid == 0) {
         /*
         產生一個child執行使用者的指令
         */
-        if (execvp(argVect[0], argVect)==-1) {
+        if (execvp(argVect[0], argVect) == -1) {
             perror("myShell");
-            exit(errno*-1);
+            exit(errno * -1);
         }
     } else {
-        childPid = pid;/*通知singal handler，如果使用者按下ctr-c時，要處理這個child*/
+        childPid =
+            pid;/*通知singal handler，如果使用者按下ctr-c時，要處理這個child*/
         hasChild = 1;/*通知singal handler，正在處理child*/
         wait3(&wstatus, 0, &resUsage);
         clock_gettime(CLOCK_MONOTONIC, &endTime);
@@ -142,17 +156,21 @@ int main (int argc, char** argv) {
         //printf("%ld\n", endTime.tv_nsec);
         //printf("%ld\n", statTime.tv_nsec);
         printf("\n");
-        long long elapse = timespec2sec(endTime)-timespec2sec(statTime);
-        printf(RED"經過時間:\t\t\t\t"YELLOW"%lld.%llds\n",elapse/nspersec, elapse%nspersec);
+        long long elapse = timespec2sec(endTime) - timespec2sec(statTime);
+        printf(RED"經過時間:\t\t\t\t"YELLOW"%lld.%llds\n", elapse / nspersec,
+               elapse % nspersec);
         printf(RED"CPU花在執行程式的時間:\t\t\t"YELLOW"%fs\n"
-                RED"CPU於usr mode執行此程式所花的時間：\t"YELLOW"%fs\n"
-                RED"CPU於krl mode執行此程式所花的時間：\t"YELLOW"%fs\n", sysTime+usrTime , usrTime, sysTime);
-        printf(RED"Page fault，但沒有造成I/O：\t\t"YELLOW"%ld\n", resUsage.ru_minflt);
+               RED"CPU於usr mode執行此程式所花的時間：\t"YELLOW"%fs\n"
+               RED"CPU於krl mode執行此程式所花的時間：\t"YELLOW"%fs\n",
+               sysTime + usrTime, usrTime, sysTime);
+        printf(RED"Page fault，但沒有造成I/O：\t\t"YELLOW"%ld\n",
+               resUsage.ru_minflt);
         printf(RED"Page fault，並且觸發I/O:\t\t"YELLOW"%ld\n", resUsage.ru_majflt);
         printf(RED"自願性的context switch：\t\t"YELLOW"%ld\n", resUsage.ru_nvcsw);
-        printf(RED"非自願性的context switch:\t\t"YELLOW"%ld\n", resUsage.ru_nivcsw);
+        printf(RED"非自願性的context switch:\t\t"YELLOW"%ld\n",
+               resUsage.ru_nivcsw);
         /*
-        printf(RED "return value of " YELLOW "%s" RED " is " YELLOW "%d\n", 
+        printf(RED "return value of " YELLOW "%s" RED " is " YELLOW "%d\n",
             argVect[0], WEXITSTATUS(wstatus));
         //printf("isSignaled? %d\n", WIFSIGNALED(wstatus));
         if (WIFSIGNALED(wstatus))

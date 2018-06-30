@@ -59,6 +59,7 @@ https://github.com/vim/vim.git
 --enable-python3interp \
 --with-python3-config-dir=/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu \
 --enable-luainterp \
+--with-lua-prefix=/usr/include/lua5.2
 --with-luajit \
 --enable-cscope \
 --enable-gui=auto \

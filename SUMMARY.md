@@ -1358,7 +1358,7 @@
        * [鏈表面試常見合集](interview/lian_biao_mian_shi_chang_jian_he_ji.md)
        * [編程判斷兩個鏈表是否相交](interview/bian_cheng_pan_duan_liang_ge_lian_biao_shi_fou_xia.md)
    * [面試經驗談 - C 語言篇](interview/mian_shi_jing_yan_tan_-_c_yu_yan_pian.md)
-   * CHT
+   * [CHT](interview/cht.md)
 * [Java](java/java.md)
    * [開檔讀檔 & 正則範例](java/kai_dang_du_dang_&_zheng_ze_fan_li.md)
    * [Thread和Runnable的區別](java/threadhe_runnable_de_qu_bie.md)

@@ -74,3 +74,19 @@ Hadoop 是 Apache 的大量資料儲存與處理平台, 源自於 Doug Cutting �
 
 ### MapReduce
 MapReduce 中的 Map 是將工作分割成許多小工作交給不同伺服器執行; 而 Reduce 則是指將所有伺服器的執行結果彙整後傳會最終結果. 利用 MapReduce 可在上千台伺服器上平行處理巨量資料. Hadoop 的新版 MapReduce 架構稱為 YARN (Yet Another Resource Negotiator), 是效率更高的運算資源管理核心. 
+
+
+```sh
+1.手機怎麼跟後端資料傳送 
+格式  協定 
+
+2. MVC
+
+3. APP ~ Linux/Windows 檢測
+
+4 CVP
+
+5. 應用優勢
+
+車聯網
+```

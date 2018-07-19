@@ -1059,6 +1059,7 @@
    * [Linux Socket 入門](linux_network/linux_socket_ru_men.md)
    * [Socket programming 筆記](linux_network/socket_programming_bi_ji.md)
    * [TCP Socket Programming 學習筆記](linux_network/tcp_socket_programming_xue_xi_bi_ji.md)
+   * ntohs, ntohl, htons,htonl的比较
 * [node.js](nodejs/nodejs.md)
    * [安裝 NodeJS、NPM](nodejs/an_zhuang_nodejs__npm.md)
    * [JavaScript 快速入門[轉]](nodejs/javascript_kuai_su_ru_95805b_8f495d.md)

@@ -59,7 +59,7 @@ Spark DataFrame 提供 API 可輕易讀取其他資料來源, 例如 Hadoop, JSO
 ```
 
 
-Hadoop 是 Apache 的大量資料儲存與處理平台, 源自於 Doug Cutting 與 Mike Cafarelia 於 2002 年起始的 Nutch 專案, 2004 年導入 Google 的 MapReduce 分散是技術, 於 2006 年改名為 Hadoop 專案. Hadoop 具有如下特性 :
+Hadoop 是 Apache 的大量資料儲存與處理平臺, 源自於 Doug Cutting 與 Mike Cafarelia 於 2002 年起始的 Nutch 專案, 2004 年導入 Google 的 MapReduce 分散是技術, 於 2006 年改名為 Hadoop 專案. Hadoop 具有如下特性 :
 
 ```
 (1) 可擴展性 : 分散式儲存與運算, 只要增加新的資料節點伺服器即可擴充
@@ -73,7 +73,7 @@ Hadoop 是 Apache 的大量資料儲存與處理平台, 源自於 Doug Cutting �
 `HDFS(Hadoop Distributed File System)` 分散式檔案系統由 NameNode 與多個 DataNode 組成, `ode 負責管理維護 HDFS 目錄系統, 控制檔案讀寫動作, DataNode 則負責儲存資料. DataNode 可擴充至成千上萬個. 檔案在儲存時會被切割成多個區塊, 每個區塊會有兩個副本 (總共), 也可以在組態設定中指定要建立幾個副本, 當某個區塊毀損時, NameNode 會自動搜尋其他 DataNode 上的副本來回復資料. HDFS 具備機架感知功能, 一份資料的三個副本會分別存放於同機架的不同節點, 以及不同機架的不同節點以避免資料遺失, 即使機架或節點故障仍可保證回復資料. 
 
 ### MapReduce
-MapReduce 中的 Map 是將工作分割成許多小工作交給不同伺服器執行; 而 Reduce 則是指將所有伺服器的執行結果彙整後傳會最終結果. 利用 MapReduce 可在上千台伺服器上平行處理巨量資料. Hadoop 的新版 MapReduce 架構稱為 YARN (Yet Another Resource Negotiator), 是效率更高的運算資源管理核心. 
+MapReduce 中的 Map 是將工作分割成許多小工作交給不同伺服器執行; 而 Reduce 則是指將所有伺服器的執行結果彙整後傳會最終結果. 利用 MapReduce 可在上千臺伺服器上平行處理巨量資料. Hadoop 的新版 MapReduce 架構稱為 YARN (Yet Another Resource Negotiator), 是效率更高的運算資源管理核心. 
 
 
 ```sh

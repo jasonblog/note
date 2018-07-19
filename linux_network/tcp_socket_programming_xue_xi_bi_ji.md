@@ -24,7 +24,7 @@ int socket(int domain, int type, int protocol);
 定義了socket要在哪個領域溝通，常用的有2種：
 
 - AF_UNIX/AF_LOCAL：用在`本機程序與程序`間的傳輸，讓兩個程序共享一個檔案系統(file system)
-- AF_INET , AF_INET6 ：讓兩台主機`透過網路`進行資料傳輸，AF_INET使用的是IPv4協定，而AF_INET6則是IPv6協定。
+- AF_INET , AF_INET6 ：讓兩臺主機`透過網路`進行資料傳輸，AF_INET使用的是IPv4協定，而AF_INET6則是IPv6協定。
 
 ####type
 說明這個socket是傳輸的手段為何：

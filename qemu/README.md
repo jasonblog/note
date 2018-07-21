@@ -12,6 +12,24 @@ $ make -j8
 $ sudo make install
 ```
 
+
+## qemu
+
+```sh
+https://github.com/qemu/qemu
+```
+
+```sh
+libcap-dev libattr1-dev
+```
+
+```sh
+./configure --prefix=/home/shihyu/.mybin/qemu
+make -j8
+make install
+```
+
+
 ## ~/.bashrc
 
 ```sh

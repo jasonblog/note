@@ -30,6 +30,8 @@ export PATH="/home/shihyu/.mybin/qemu/bin:$PATH"
 須下載 `x86_64` 才支援ubuntu 18,04 的 64位元, ubuntu 18.04不支援32位元
 
 ```sh
+https://releases.linaro.org/components/toolchain/binaries/latest-5/aarch64-linux-gnu/
+
 gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu
 ```
 

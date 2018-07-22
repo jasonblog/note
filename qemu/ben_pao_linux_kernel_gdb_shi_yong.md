@@ -44,7 +44,7 @@ git clone https://github.com/figozhang/runninglinuxkernel_4.0
 ```sh
 $ export ARCH=arm64
 $ export CROSS_COMPILE=aarch64-linux-gnu-
-$ cd _install_arm64 && mkdir dev
+$ cd _install_arm64 && mkdir dev && cd dev
 $ sudo mknod console c 5 1  (注意，不要遗漏该步骤)
 $ cd runninglinuxkernel_4.0 
 $ make defconfig (在runninglinuxkernel_4.0目录下输入make命令)

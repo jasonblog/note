@@ -1328,6 +1328,7 @@
    * [Docker 修改默認存儲位置](docker/docker_xiu_gai_mo_ren_cun_chu_wei_zhi.md)
    * [Docker 安裝使用](docker/docker_an_zhuang_shi_yong.md)
    * [快速刪除多個 docker 容器的方法](docker/kuai_su_shan_chu_duo_ge_docker_rong_qi_de_fang_fa.md)
+   * ubuntu docker 开启ssh
 * [Javascript](javascript/javascript.md)
    * [14款基於javascript的數據可視化工具](javascript/14kuan_ji_yu_javascript_de_shu_ju_ke_shi_hua_gong_.md)
 * [ncku 嵌入式課程 (Jserv)](ncku_embededd/ncku_qian_ru_shi_ke_cheng__jserv.md)

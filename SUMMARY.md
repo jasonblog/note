@@ -1062,6 +1062,7 @@
    * [Socket programming 筆記](linux_network/socket_programming_bi_ji.md)
    * [TCP Socket Programming 學習筆記](linux_network/tcp_socket_programming_xue_xi_bi_ji.md)
    * [ntohs, ntohl, htons,htonl的比較](linux_network/ntohs,_ntohl,_htons,htonlde_bi_jiao.md)
+   * AF_INET和PF_INET的區別
 * [node.js](nodejs/nodejs.md)
    * [安裝 NodeJS、NPM](nodejs/an_zhuang_nodejs__npm.md)
    * [JavaScript 快速入門[轉]](nodejs/javascript_kuai_su_ru_95805b_8f495d.md)

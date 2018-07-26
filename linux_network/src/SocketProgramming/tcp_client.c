@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
         len = send(client_sockfd, buf, strlen(buf), 0);
         len = recv(client_sockfd, buf, BUFSIZ, 0);
         buf[len] = '\0';
-        printf("received:%s/n", buf);
+        printf("received:%s\n", buf);
     }
 
     close(client_sockfd);//关闭套接字

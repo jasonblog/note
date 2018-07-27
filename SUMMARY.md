@@ -627,7 +627,7 @@
    * [C++類對象內存結構](c++/clei_dui_xiang_nei_cun_jie_gou.md)
    * [C++四種繼承關係中內存分佈](c++/csi_zhong_ji_cheng_guan_xi_zhong_nei_cun_fen_bu.md)
    * [GDB来理解C++ 对象的内存布局](c++/gdblai_li_jie_c_++_dui_xiang_de_nei_cun_bu_ju.md)
-   * 利用函数指针实现父类函数调用子类函数
+   * [利用函数指针实现父类函数调用子类函数](c++/li_yong_han_shu_zhi_zhen_shi_xian_fu_lei_han_shu_d.md)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

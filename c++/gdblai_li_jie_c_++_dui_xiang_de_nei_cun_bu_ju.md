@@ -48,6 +48,8 @@ vtable for 'Parent' @ 0x555555755d68 (subobject @ 0x7fffffffded0):
 [1]: 0x555555554a2e <Parent::Boo()>
 ```
 
+
+
 ```sh
 (gdb) p *this
 $1 = (Parent) {
@@ -55,6 +57,8 @@ $1 = (Parent) {
   numInParent = 1111
 }
 ```
+
+虚函数表 vtable for 'A' @0x405188
 
 ```sh
 (gdb) x/16x 0x555555755d68

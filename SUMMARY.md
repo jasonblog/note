@@ -630,6 +630,7 @@
    * [利用函數指針實現父類函數調用子類函數](c++/li_yong_han_shu_zhi_zhen_shi_xian_fu_lei_han_shu_d.md)
    * [c++子類和父類指針的轉換](c++/czi_lei_he_fu_lei_zhi_zhen_de_zhuan_huan.md)
    * [使用gdb探究C++内存布局](c++/shi_yong_gdb_tan_jiu_c_nei_cun_bu_ju.md)
+   * C++ 通过虚函数表，直接外部访问类中的函数，并且脱离类
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

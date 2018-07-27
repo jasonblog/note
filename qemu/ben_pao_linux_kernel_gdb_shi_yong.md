@@ -25,7 +25,7 @@ make install
 export PATH="/home/shihyu/.mybin/qemu/bin:$PATH"
 ```
 
-## linaro  工具链 
+## linaro  工具鏈 
 
 須下載 `x86_64` 才支援ubuntu 18,04 的 64位元, ubuntu 18.04不支援32位元
 
@@ -35,7 +35,7 @@ https://releases.linaro.org/components/toolchain/binaries/latest-5/aarch64-linux
 gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu
 ```
 
-## 编译ARM64内核：
+## 編譯ARM64內核：
 
 ```sh
 git clone https://github.com/figozhang/runninglinuxkernel_4.0
@@ -45,9 +45,9 @@ git clone https://github.com/figozhang/runninglinuxkernel_4.0
 $ export ARCH=arm64
 $ export CROSS_COMPILE=aarch64-linux-gnu-
 $ cd _install_arm64 && mkdir dev && cd dev
-$ sudo mknod console c 5 1  (注意，不要遗漏该步骤)
+$ sudo mknod console c 5 1  (注意，不要遺漏該步驟)
 $ cd runninglinuxkernel_4.0 
-$ make defconfig (在runninglinuxkernel_4.0目录下输入make命令)
+$ make defconfig (在runninglinuxkernel_4.0目錄下輸入make命令)
 $ make -j8
 ```
 

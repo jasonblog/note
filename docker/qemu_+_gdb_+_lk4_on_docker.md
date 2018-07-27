@@ -83,14 +83,14 @@ docker exec -it CONTAINER ID /bin/bash
 
 ## 建構環境 從0開始
 
-- 下载ubuntu镜像
+- 下載ubuntu鏡像
 
 
 ```sh
 docker pull ubuntu:18.04
 ```
 
-- 启动镜像
+- 啟動鏡像
 
 ```sh
 docker run -ti ubuntu:18.04

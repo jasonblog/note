@@ -380,4 +380,7 @@ A::_ZTV1A: 4u entries
 12    (int (*)(...))A::bar
 ```
 
+![](images/34600009-633afb3c-f230-11e7-97ba-7dec7dcbf650.png)
+
+
 

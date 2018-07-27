@@ -42,6 +42,13 @@ int main(int argc, char *argv[])
 
 
 ```sh
+(gdb) info vtbl this
+vtable for 'Parent' @ 0x555555755d68 (subobject @ 0x7fffffffded0):
+[0]: 0x555555554a22 <Parent::Foo()>
+[1]: 0x555555554a2e <Parent::Boo()>
+```
+
+```sh
 (gdb) p *this
 $1 = (Parent) {
   _vptr.Parent = 0x555555755d68 <vtable for Parent+16>,

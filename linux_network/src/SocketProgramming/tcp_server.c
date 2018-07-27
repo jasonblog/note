@@ -46,13 +46,13 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    printf("accept client %s/n", inet_ntoa(remote_addr.sin_addr));
-    len = send(client_sockfd, "Welcome to my server/n", 21, 0); //发送欢迎信息
+    printf("accept client %s\n", inet_ntoa(remote_addr.sin_addr));
+    len = send(client_sockfd, "Welcome to my server\n", 21, 0); //发送欢迎信息
 
     /*接收客户端的数据并将其发送给客户端--recv返回接收到的字节数，send返回发送的字节数*/
     while ((len = recv(client_sockfd, buf, BUFSIZ, 0)) > 0) {
         buf[len] = '\0';
-        printf("%s/n", buf);
+        printf("%s\n", buf);
 
         if (send(client_sockfd, buf, len, 0) < 0) {
             perror("write");

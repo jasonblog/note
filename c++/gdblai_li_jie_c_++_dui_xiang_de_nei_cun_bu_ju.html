@@ -57,7 +57,7 @@
         data-chapter-title="GDB來理解C++ 對象的內存佈局"
         data-filepath="c++/gdblai_li_jie_c_++_dui_xiang_de_nei_cun_bu_ju.md"
         data-basepath=".."
-        data-revision="Sat Jul 28 2018 01:35:45 GMT+0800 (CST)"
+        data-revision="Sat Jul 28 2018 01:54:58 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -22486,12 +22486,18 @@
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
+<pre><code class="lang-sh">(gdb) info vtbl this
+vtable <span class="hljs-keyword">for</span> <span class="hljs-string">&apos;Parent&apos;</span> @ <span class="hljs-number">0</span>x555555755d68 (subobject @ <span class="hljs-number">0</span>x7fffffffded0):
+[<span class="hljs-number">0</span>]: <span class="hljs-number">0</span>x555555554a22 &lt;Parent::Foo()&gt;
+[<span class="hljs-number">1</span>]: <span class="hljs-number">0</span>x555555554a2e &lt;Parent::Boo()&gt;
+</code></pre>
 <pre><code class="lang-sh">(gdb) p *this
 <span class="hljs-variable">$1</span> = (Parent) {
   _vptr.Parent = <span class="hljs-number">0</span>x555555755d68 &lt;vtable <span class="hljs-keyword">for</span> Parent+<span class="hljs-number">16</span>&gt;,
   numInParent = <span class="hljs-number">1111</span>
 }
 </code></pre>
+<p>&#x865A;&#x51FD;&#x6570;&#x8868; vtable for &apos;A&apos; @0x405188</p>
 <pre><code class="lang-sh">(gdb) x/<span class="hljs-number">16</span>x <span class="hljs-number">0</span>x555555755d68
 <span class="hljs-number">0</span>x555555755d68 &lt;vtable <span class="hljs-keyword">for</span> Parent+<span class="hljs-number">16</span>&gt;:  <span class="hljs-number">0</span>x55554a22  <span class="hljs-number">0</span>x00005555  <span class="hljs-number">0</span>x55554a2e  <span class="hljs-number">0</span>x00005555
 <span class="hljs-number">0</span>x555555755d78 &lt;typeinfo <span class="hljs-keyword">for</span> Child&gt;:    <span class="hljs-number">0</span>xf7dc7438  <span class="hljs-number">0</span>x00007fff  <span class="hljs-number">0</span>x55554b05  <span class="hljs-number">0</span>x00005555

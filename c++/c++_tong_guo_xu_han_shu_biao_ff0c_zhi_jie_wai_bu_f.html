@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>C++ 通过虚函数表，直接外部访问类中的函数，并且脱离类 | Jason note</title>
+        <title>C++ 通過虛函數表，直接外部訪問類中的函數，並且脫離類 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -54,10 +54,10 @@
         
     <div class="book"
         data-level="18.3"
-        data-chapter-title="C++ 通过虚函数表，直接外部访问类中的函数，并且脱离类"
+        data-chapter-title="C++ 通過虛函數表，直接外部訪問類中的函數，並且脫離類"
         data-filepath="c++/c++_tong_guo_xu_han_shu_biao_ff0c_zhi_jie_wai_bu_f.md"
         data-basepath=".."
-        data-revision="Sat Jul 28 2018 10:46:14 GMT+0800 (CST)"
+        data-revision="Sat Jul 28 2018 10:51:19 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -9221,7 +9221,7 @@
                         
                             <b>18.1.1.</b>
                         
-                        C++动多态实现之虚函数与虚表指针
+                        C++動多態實現之虛函數與虛表指針
                     </a>
             
             
@@ -9241,7 +9241,7 @@
                         
                             <b>18.2.</b>
                         
-                        使用gdb探究C++内存布局
+                        使用gdb探究C++內存佈局
                     </a>
             
             
@@ -9256,7 +9256,7 @@
                         
                             <b>18.3.</b>
                         
-                        C++ 通过虚函数表，直接外部访问类中的函数，并且脱离类
+                        C++ 通過虛函數表，直接外部訪問類中的函數，並且脫離類
                     </a>
             
             
@@ -22514,7 +22514,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="c-&#x901A;&#x8FC7;&#x865A;&#x51FD;&#x6570;&#x8868;&#xFF0C;&#x76F4;&#x63A5;&#x5916;&#x90E8;&#x8BBF;&#x95EE;&#x7C7B;&#x4E2D;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x5E76;&#x4E14;&#x8131;&#x79BB;&#x7C7B;">C++ &#x901A;&#x8FC7;&#x865A;&#x51FD;&#x6570;&#x8868;&#xFF0C;&#x76F4;&#x63A5;&#x5916;&#x90E8;&#x8BBF;&#x95EE;&#x7C7B;&#x4E2D;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x5E76;&#x4E14;&#x8131;&#x79BB;&#x7C7B;</h1>
+                        <h1 id="c-&#x901A;&#x904E;&#x865B;&#x51FD;&#x6578;&#x8868;&#xFF0C;&#x76F4;&#x63A5;&#x5916;&#x90E8;&#x8A2A;&#x554F;&#x985E;&#x4E2D;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x4E26;&#x4E14;&#x812B;&#x96E2;&#x985E;">C++ &#x901A;&#x904E;&#x865B;&#x51FD;&#x6578;&#x8868;&#xFF0C;&#x76F4;&#x63A5;&#x5916;&#x90E8;&#x8A2A;&#x554F;&#x985E;&#x4E2D;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x4E26;&#x4E14;&#x812B;&#x96E2;&#x985E;</h1>
 <pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 <span class="hljs-keyword">class</span> CStu
 {
@@ -22536,13 +22536,13 @@
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
 </span>{
     CStu* p = <span class="hljs-keyword">new</span> CStu;
-    <span class="hljs-comment">// p&#x6307;&#x9488;&#x91CC;&#x9762;&#x5B58;&#x653E;&#x7684;&#x6570;&#x636E;&#x662F;&#x865A;&#x51FD;&#x6570;&#x8868;&#x7684;&#x4E8C;&#x7EA7;&#x6307;&#x9488;</span>
-    <span class="hljs-comment">//*(int *)p  p&#x5360;4&#x4E2A;&#x5B57;&#x8282;&#xFF0C;&#x5F3A;&#x8F6C;&#x6210;int * &#x540E; &#x89E3;&#x5F15;&#x7528;&#xFF0C;&#x53D6;&#x51FA;&#x4E8C;&#x7EA7;&#x6307;&#x9488;&#x5730;&#x5740;</span>
-    <span class="hljs-comment">//(int **)(*(int *)p)&#x5C06;&#x4E8C;&#x7EA7;&#x6307;&#x9488;&#x5730;&#x5740;&#x7531;void **&#x8F6C;&#x4E3A; int **</span>
-    <span class="hljs-comment">//(int **)(*(int *)p) + n  &#x76F8;&#x5F53;&#x4E8E;(int **)(*(int *)p)[n]&#xFF0C;&#x53D6;&#x51FA;&#x91CC;&#x9762;&#x7684;&#x5143;&#x7D20;&#x6307;&#x9488;</span>
-    <span class="hljs-comment">// *((int **)(*(int *)p) + n) &#x89E3;&#x8BE5;&#x5F15;&#x7528;&#xFF0C;&#x53D6;&#x51FA;&#x6307;&#x9488;&#x91CC;&#x9762;&#x5B58;&#x653E;&#x7684;&#x5730;&#x5740;</span>
-    <span class="hljs-comment">//(void *)(*((int **)(*(int *)p) + n))&#x5C06;&#x53D6;&#x51FA;&#x7684;&#x5730;&#x5740;&#x503C;&#x5F3A;&#x8F6C;&#x4E3A;void* &#x578B;&#xFF0C;</span>
-    <span class="hljs-comment">//&#x5916;&#x9762;&#x8D4B;&#x503C;&#x7ED9;&#x51FD;&#x6570;&#x6307;&#x9488;&#xFF0C;&#x5373;&#x53EF;&#x8C03;&#x7528;&#x7C7B;&#x91CC;&#x9762;&#x7684;&#x865A;&#x51FD;&#x6570;&#x3002;</span>
+    <span class="hljs-comment">// p&#x6307;&#x91DD;&#x88E1;&#x9762;&#x5B58;&#x653E;&#x7684;&#x6578;&#x64DA;&#x662F;&#x865B;&#x51FD;&#x6578;&#x8868;&#x7684;&#x4E8C;&#x7D1A;&#x6307;&#x91DD;</span>
+    <span class="hljs-comment">//*(int *)p  p&#x4F54;4&#x500B;&#x5B57;&#x7BC0;&#xFF0C;&#x5F37;&#x8F49;&#x6210;int * &#x5F8C; &#x89E3;&#x5F15;&#x7528;&#xFF0C;&#x53D6;&#x51FA;&#x4E8C;&#x7D1A;&#x6307;&#x91DD;&#x5730;&#x5740;</span>
+    <span class="hljs-comment">//(int **)(*(int *)p)&#x5C07;&#x4E8C;&#x7D1A;&#x6307;&#x91DD;&#x5730;&#x5740;&#x7531;void **&#x8F49;&#x70BA; int **</span>
+    <span class="hljs-comment">//(int **)(*(int *)p) + n  &#x76F8;&#x7576;&#x65BC;(int **)(*(int *)p)[n]&#xFF0C;&#x53D6;&#x51FA;&#x88E1;&#x9762;&#x7684;&#x5143;&#x7D20;&#x6307;&#x91DD;</span>
+    <span class="hljs-comment">// *((int **)(*(int *)p) + n) &#x89E3;&#x8A72;&#x5F15;&#x7528;&#xFF0C;&#x53D6;&#x51FA;&#x6307;&#x91DD;&#x88E1;&#x9762;&#x5B58;&#x653E;&#x7684;&#x5730;&#x5740;</span>
+    <span class="hljs-comment">//(void *)(*((int **)(*(int *)p) + n))&#x5C07;&#x53D6;&#x51FA;&#x7684;&#x5730;&#x5740;&#x503C;&#x5F37;&#x8F49;&#x70BA;void* &#x578B;&#xFF0C;</span>
+    <span class="hljs-comment">//&#x5916;&#x9762;&#x8CE6;&#x503C;&#x7D66;&#x51FD;&#x6578;&#x6307;&#x91DD;&#xFF0C;&#x5373;&#x53EF;&#x8ABF;&#x7528;&#x985E;&#x88E1;&#x9762;&#x7684;&#x865B;&#x51FD;&#x6578;&#x3002;</span>
     <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; *(<span class="hljs-keyword">long</span>*)p &lt;&lt; <span class="hljs-built_in">std</span>::endl;
     <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; *((<span class="hljs-keyword">long</span>**)(*(<span class="hljs-keyword">long</span>*)p) + <span class="hljs-number">0</span>) &lt;&lt; <span class="hljs-built_in">std</span>::endl;
     <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; *((<span class="hljs-keyword">long</span>**)(*(<span class="hljs-keyword">long</span>*)p) + <span class="hljs-number">1</span>) &lt;&lt; <span class="hljs-built_in">std</span>::endl;
@@ -22567,7 +22567,7 @@
         </div>
 
         
-        <a href="../c++/shi_yong_gdb_tan_jiu_c_nei_cun_bu_ju.html" class="navigation navigation-prev " aria-label="Previous page: 使用gdb探究C++内存布局"><i class="fa fa-angle-left"></i></a>
+        <a href="../c++/shi_yong_gdb_tan_jiu_c_nei_cun_bu_ju.html" class="navigation navigation-prev " aria-label="Previous page: 使用gdb探究C++內存佈局"><i class="fa fa-angle-left"></i></a>
         
         
         <a href="../c++/211.html" class="navigation navigation-next " aria-label="Next page: [轉]C++ 對象的內存佈局"><i class="fa fa-angle-right"></i></a>

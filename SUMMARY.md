@@ -589,7 +589,7 @@
        * [Linux內和分析（二）操作系統是如何工作的](mooc_linux_kernel/linuxnei_he_fen_xi_ff08_er_ff09_cao_zuo_xi_tong_sh.md)
 * [C++](c++/README.md)
    * [筆記](c++/bi_ji.md)
-       * C++动多态实现之虚函数与虚表指针
+       * [C++动多态实现之虚函数与虚表指针](c++/cdong_duo_tai_shi_xian_zhi_xu_han_shu_yu_xu_biao_z.md)
    * [使用gdb探究C++内存布局](c++/shi_yong_gdb_tan_jiu_c_nei_cun_bu_ju.md)
    * [C++ 通过虚函数表，直接外部访问类中的函数，并且脱离类](c++/c++_tong_guo_xu_han_shu_biao_ff0c_zhi_jie_wai_bu_f.md)
    * [[轉]C++ 對象的內存佈局](c++/211.md)

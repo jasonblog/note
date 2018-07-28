@@ -57,7 +57,7 @@
         data-chapter-title="C++ 通過虛函數表，直接外部訪問類中的函數，並且脫離類"
         data-filepath="c++/c++_tong_guo_xu_han_shu_biao_ff0c_zhi_jie_wai_bu_f.md"
         data-basepath=".."
-        data-revision="Sat Jul 28 2018 11:18:01 GMT+0800 (CST)"
+        data-revision="Sat Jul 28 2018 22:24:31 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -22518,6 +22518,14 @@
 <pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 <span class="hljs-keyword">class</span> CStu
 {
+<span class="hljs-keyword">public</span>:
+    CStu()
+    {
+        c = <span class="hljs-number">10</span>;
+        d = <span class="hljs-number">20</span>;
+        e = <span class="hljs-number">30</span>;
+        f = <span class="hljs-number">50</span>;
+    }
     <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">go1</span><span class="hljs-params">()</span>
     </span>{
         <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;go1&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::endl;
@@ -22530,6 +22538,11 @@
     </span>{
         <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;go3&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::endl;
     }
+    <span class="hljs-comment">// int a;</span>
+    <span class="hljs-keyword">int</span> c;
+    <span class="hljs-keyword">int</span> d;
+    <span class="hljs-keyword">int</span> e;
+    <span class="hljs-keyword">int</span> f;
 };
 
 <span class="hljs-keyword">class</span> B
@@ -22547,8 +22560,43 @@
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
 </span>{
     B b;
+    CStu c;
 
-    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;int a=&quot;</span> &lt;&lt; *((<span class="hljs-keyword">int</span>*)&amp;b) &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>)&amp;c.c - (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>)&amp;c &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>)&amp;c.d - (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>)&amp;c.c &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>)&amp;c.e - (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>)&amp;c.d &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>)&amp;c.f - (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>)&amp;c.e &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;c address:&quot;</span> &lt;&lt; &amp;c &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;c.c address:&quot;</span> &lt;&lt; &amp;c.c &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;c.d address:&quot;</span> &lt;&lt; &amp;c.d &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;c.e address:&quot;</span> &lt;&lt; &amp;c.e &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;c.f address:&quot;</span> &lt;&lt; &amp;c.f &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;CStu size:&quot;</span> &lt;&lt; <span class="hljs-keyword">sizeof</span>(c) &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;c address:&quot;</span> &lt;&lt; &amp;c &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+
+    <span class="hljs-comment">// class data member &#x4E5F;&#x6709;&#x8A18;&#x61B6;&#x9AD4;2&#x500D;&#x4F4D;&#x5740;&#x5C0D;&#x9F4A;&#x554F;&#x984C;, &#x6240;&#x4EE5;&#x504F;&#x9577;&#x5EA6;&#x4E0D;&#x4E00;&#x5B9A;</span>
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;c.c address:&quot;</span> &lt;&lt; ((<span class="hljs-keyword">long</span>*)&amp;c + <span class="hljs-number">1</span>) &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+    <span class="hljs-comment">// c + 8 byte</span>
+    <span class="hljs-comment">// ((long*)&amp;c + 1) offset 8 byte</span>
+    <span class="hljs-comment">// *((int*) (c + 8byte &#x5F8C;&#x7684;address))  &#x5728;&#x6293;&#x53D6;4byte</span>
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;c.c value:&quot;</span> &lt;&lt; *((<span class="hljs-keyword">int</span>*)((<span class="hljs-keyword">long</span>*)&amp;c + <span class="hljs-number">1</span>)) &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+
+    <span class="hljs-comment">// c + 12 byte</span>
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;c.d address:&quot;</span> &lt;&lt; ((<span class="hljs-keyword">int</span>*)&amp;c + <span class="hljs-number">3</span>) &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;c.d value:&quot;</span> &lt;&lt; *((<span class="hljs-keyword">int</span>*)((<span class="hljs-keyword">int</span>*)&amp;c + <span class="hljs-number">3</span>)) &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+
+    <span class="hljs-comment">// c + 16 byte</span>
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;c.e address:&quot;</span> &lt;&lt; ((<span class="hljs-keyword">int</span>*)&amp;c + <span class="hljs-number">4</span>) &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;c.e value:&quot;</span> &lt;&lt; *((<span class="hljs-keyword">int</span>*)((<span class="hljs-keyword">int</span>*)&amp;c + <span class="hljs-number">4</span>)) &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+
+    <span class="hljs-comment">// c + 20 byte</span>
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;c.f address:&quot;</span> &lt;&lt; ((<span class="hljs-keyword">int</span>*)&amp;c + <span class="hljs-number">5</span>) &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;c.f value:&quot;</span> &lt;&lt; *((<span class="hljs-keyword">int</span>*)((<span class="hljs-keyword">int</span>*)&amp;c + <span class="hljs-number">5</span>)) &lt;&lt; <span class="hljs-built_in">std</span>::endl; 
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;int a=&quot;</span> &lt;&lt; *((<span class="hljs-keyword">int</span>*)&amp;b) &lt;&lt; <span class="hljs-built_in">std</span>::endl;
 
     CStu* p = <span class="hljs-keyword">new</span> CStu;
     <span class="hljs-comment">// p&#x6307;&#x9488;&#x91CC;&#x9762;&#x5B58;&#x653E;&#x7684;&#x6570;&#x636E;&#x662F;&#x865A;&#x51FD;&#x6570;&#x8868;&#x7684;&#x4E8C;&#x7EA7;&#x6307;&#x9488;</span>

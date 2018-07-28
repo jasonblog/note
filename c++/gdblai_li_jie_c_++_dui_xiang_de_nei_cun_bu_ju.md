@@ -58,7 +58,7 @@ $1 = (Parent) {
 }
 ```
 
-虚函数表 vtable for 'A' @0x405188
+虛函數表 vtable for 'A' @0x405188
 
 ```sh
 (gdb) x/16x 0x555555755d68

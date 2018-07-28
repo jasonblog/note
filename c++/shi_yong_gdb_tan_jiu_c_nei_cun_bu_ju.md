@@ -1,47 +1,47 @@
-# 使用gdb探究C++内存布局
+# 使用gdb探究C++內存佈局
 
 
-行打印一个结构体成员
-可以执行set print pretty on命令，这样每行只会显示结构体的一名成员，而且还会根据成员的定义层次进行缩进
+行打印一個結構體成員
+可以執行set print pretty on命令，這樣每行只會顯示結構體的一名成員，而且還會根據成員的定義層次進行縮進
 
-按照派生类打印对象
+按照派生類打印對象
 ```sh
 set print object on
 ```
 
 `set p obj <on/off>`: 
-在C++中，如果一个对象指针指向其派生类，如果打开这个选项，GDB会自动按照虚方法调用的规则显示输出，如果关闭这个选项的话，GDB就不管虚函数表了。这个选项默认是off。 使用show print object查看对象选项的设置。
+在C++中，如果一個對象指針指向其派生類，如果打開這個選項，GDB會自動按照虛方法調用的規則顯示輸出，如果關閉這個選項的話，GDB就不管虛函數表了。這個選項默認是off。 使用show print object查看對象選項的設置。
 
-查看虚函数表
-在 GDB 中还可以直接查看虚函数表，通过如下设置：`set print vtbl on`
+查看虛函數表
+在 GDB 中還可以直接查看虛函數表，通過如下設置：`set print vtbl on`
 
-之后执行如下命令查看虚函数表：`info vtbl 对象或者info vtbl 指针或引用所指向或绑定的对象`
+之後執行如下命令查看虛函數表：`info vtbl 對象或者info vtbl 指針或引用所指向或綁定的對象`
 
 - c++filt
 
-GNU提供的从name mangling后的名字来找原函数的方法，如c++filt _ZTV1A，在命令行下运行
+GNU提供的從name mangling後的名字來找原函數的方法，如c++filt _ZTV1A，在命令行下運行
 
-- 打印内存的值
+- 打印內存的值
 
-gdb中使用“x”命令来打印内存的值，格式为`“x/nfu addr”`。含义为以f格式打印从addr开始的n个长度单元为u的内存值。参数具体含义如下：
+gdb中使用“x”命令來打印內存的值，格式為`“x/nfu addr”`。含義為以f格式打印從addr開始的n個長度單元為u的內存值。參數具體含義如下：
 
 ```sh
-a）n：输出单元的个数。
+a）n：輸出單元的個數。
 
-b）f：是输出格式。比如x是以16进制形式输出，o是以8进制形式输出,a 表示将值当成一个地址打印,i 表示将值当作一条指令打印，等等。
+b）f：是輸出格式。比如x是以16進制形式輸出，o是以8進制形式輸出,a 表示將值當成一個地址打印,i 表示將值當作一條指令打印，等等。
 
-c）u：标明一个单元的长度。b是一个byte，h是两个byte（halfword），w是四个byte（word），g是八个byte（giant word）。
+c）u：標明一個單元的長度。b是一個byte，h是兩個byte（halfword），w是四個byte（word），g是八個byte（giant word）。
 ```
 
-打印表达式的值
+打印表達式的值
 
-p 命令可以用来打印一个表达式的值。
+p 命令可以用來打印一個表達式的值。
 
-使用如下：p/f 表达式
+使用如下：p/f 表達式
 
 f 代表格式控制符，同上。
 
-###单继承
+###單繼承
 
 ```cpp
 #include <iostream>
@@ -95,7 +95,7 @@ int main()
 }
 ```
 
-运行结果
+運行結果
 
 
 ```sh
@@ -103,9 +103,9 @@ C::foo()
 4 8
 ```
 
-`int和int* 都是4个字节是在32bit 平台 64位元是8个字节 `，且p为基类B的指针，指向派生类C，virtual foo()函数运行时多态
+`int和int* 都是4個字節是在32bit 平臺 64位元是8個字節 `，且p為基類B的指針，指向派生類C，virtual foo()函數運行時多態
 
-对象内存布局
+對象內存佈局
 
 ```sh
 (gdb) set p pre on
@@ -130,12 +130,12 @@ vtable for 'A' @ 0x405188 (subobject @ 0x28ff24):
 [0]: 0x403bf8 <A::foo()>
 ```
 
-- _vptr.A 代表a对象所含有的虚函数表指针，0x405188为第一个虚函数也即foo()的地址，真正虚函数表的起始地址为0x405188 - 8，还会有一些虚函数表头信息
+- _vptr.A 代表a對象所含有的虛函數表指針，0x405188為第一個虛函數也即foo()的地址，真正虛函數表的起始地址為0x405188 - 8，還會有一些虛函數表頭信息
 
-- vptr 总是指向 虚函数表的第一个函数入口
-对象a所在的地址为0x28ff24，整个对象占8个字节，其中4个字节为vptr虚函数表指针，4个字节为数据int a
+- vptr 總是指向 虛函數表的第一個函數入口
+對象a所在的地址為0x28ff24，整個對象佔8個字節，其中4個字節為vptr虛函數表指針，4個字節為數據int a
 
-- 虚函数表 vtable for 'A' @0x405188
+- 虛函數表 vtable for 'A' @0x405188
 
 
 ```sh
@@ -167,10 +167,10 @@ $7 = (C) {
 $8 = 16
 ```
 
-- 如果class B中申明了新的虚函数（比如foo2），class B中依然只有一个虚函数表，只不过会把foo2加入到该表中。此时class A的虚函数表不会包含foo2。
+- 如果class B中申明瞭新的虛函數（比如foo2），class B中依然只有一個虛函數表，只不過會把foo2加入到該表中。此時class A的虛函數表不會包含foo2。
 
 
-### 多重继承
+### 多重繼承
 
 ```cpp
 class A{
@@ -191,7 +191,7 @@ class C: public A, public B{
 ```
 
 
-对象内存布局
+對象內存佈局
 
 
 ```sh
@@ -226,11 +226,11 @@ $4 = 20
 0x28ff1c:	0x75e61162 <onexit+53>
 ```
 
-- 数据成员int a, int b, int c都未初始化，此时是UB未定义行为
-- 对象c含有两个虚函数表指针_vptr.A和_vptr.B，占用20个字节内存，3个int数据成员，两个虚函数表指针
-- 对象c的内存布局为 c: vptr.A | a | vptr.B | b | c
+- 數據成員int a, int b, int c都未初始化，此時是UB未定義行為
+- 對象c含有兩個虛函數表指針_vptr.A和_vptr.B，佔用20個字節內存，3個int數據成員，兩個虛函數表指針
+- 對象c的內存佈局為 c: vptr.A | a | vptr.B | b | c
 
-### 虚继承
+### 虛繼承
 
 ```cpp
 #include <iostream>
@@ -275,7 +275,7 @@ int main()
 }
 ```
 
-对象内存布局
+對象內存佈局
 
 
 ```sh
@@ -328,7 +328,7 @@ $4 = (D) {
 $5 = (D *) 0x28fee8
 ```
 
-- 对象内存布局
+- 對象內存佈局
 
 ```sh
 a: vptr.A | a
@@ -337,10 +337,10 @@ c: vptr.A | a | vptr.C | c
 d: vptr.A | a | vptr.B | b | vptr.C | c | d
 ```
 
-- A *pa = &d;B *pb = &d;C*p c= &d;，都指向d的起始地址&d = 0x28fee8 。假如d类里实现的虚
+- A *pa = &d;B *pb = &d;C*p c= &d;，都指向d的起始地址&d = 0x28fee8 。假如d類裡實現的虛
 
 
-### 虚函数表里到底有些什么
+### 虛函數表裡到底有些什麼
 
 ```cpp
 /* vtable.cpp */
@@ -369,7 +369,7 @@ public:
 };
 ```
 
-我们可以利用`g++ -fdump-class-hierarchy vtable.cpp`得到class A和class B的vtable（结果在文件vtable.cpp.002t.class里），如下所示：
+我們可以利用`g++ -fdump-class-hierarchy vtable.cpp`得到class A和class B的vtable（結果在文件vtable.cpp.002t.class裡），如下所示：
 
 ```sh
 Vtable for A

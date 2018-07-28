@@ -49,6 +49,11 @@ int main()
     B b;
 	CStu c;
 
+    std::cout << "vtable address: " <<  ((long**)(*(long*)&c) + 0) << std::endl;
+    std::cout << *((long**)(*(long*)&c) + 0) << std::endl;
+    std::cout << *((long**)(*(long*)&c) + 1) << std::endl;
+    std::cout << *((long**)(*(long*)&c) + 2) << std::endl;
+
     std::cout << (unsigned long)&c.c - (unsigned long)&c << std::endl;
     std::cout << (unsigned long)&c.d - (unsigned long)&c.c << std::endl;
     std::cout << (unsigned long)&c.e - (unsigned long)&c.d << std::endl;
@@ -63,8 +68,6 @@ int main()
 	std::cout << "CStu size:" << sizeof(c) << std::endl; 
 	std::cout << "c address:" << &c << std::endl; 
 
-    // class data member 也有記憶體2倍位址對齊問題, 所以偏長度不一定
-    
 	std::cout << "c.c address:" << ((long*)&c + 1) << std::endl; 
     // c + 8 byte
     // ((long*)&c + 1) offset 8 byte
@@ -82,6 +85,8 @@ int main()
     // c + 20 byte
 	std::cout << "c.f address:" << ((int*)&c + 5) << std::endl; 
 	std::cout << "c.f value:" << *((int*)((int*)&c + 5)) << std::endl; 
+
+    
 
     std::cout << "int a=" << *((int*)&b) << std::endl;
 
@@ -110,4 +115,5 @@ int main()
 
     return 0;
 }
+
 ```

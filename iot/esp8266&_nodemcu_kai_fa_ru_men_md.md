@@ -1,5 +1,3 @@
-# ESP8266 & NodeMCU 開發入門
-
 
 # ESP8266 & NodeMCU 開發入門
 

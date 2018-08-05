@@ -33,3 +33,12 @@ git clone --recursive https://github.com/pfalcon/esp-open-sdk.git esp8266/esp-op
 git clone https://github.com/nodemcu/nodemcu-firmware.git esp8266/nodemcu-firmware
 ```
 
+
+```sh
+https://github.com/micropython/micropython.git
+```
+
+```sh
+cd micropython/ports/esp8266
+make
+```

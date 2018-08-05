@@ -44,6 +44,12 @@ esptool.py --port <serial-port-of-ESP8266> --baud 115200 write_flash --flash_siz
 
 ```sh
 $ python esptool.py --port COM15 --baud 115200 write_flash --flash_size=32m 0 esp8266-20160909-v1.8.4.bin
+
+
+esptool.py --port /dev/ttyUSB0 --baud 115200 write_flash --flash_size=32m 0 esp8266-20180805-v1.9.4-440-g3bef7bd78.bin
+
+
+
 esptool.py v1.2-dev
 Connecting...
 Running Cesanta flasher stub...

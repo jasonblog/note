@@ -55,7 +55,7 @@
         data-chapter-title="在 NODEMCU 上執行 MICROPYTHON"
         data-filepath="iot/zai_nodemcu_shang_zhi_xing_micropython.md"
         data-basepath=".."
-        data-revision="Sun Aug 05 2018 23:48:02 GMT+0800 (CST)"
+        data-revision="Mon Aug 06 2018 01:01:38 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -22602,6 +22602,16 @@ Leaving...
 </code></pre>
 <p>&#x63A5;&#x4E0B;&#x4F86;&#x53EF;&#x4EE5;&#x7528; putty &#x4F86;&#x9023;&#x7D50; MicroPython REPL (read-evaluate-print loop), putty &#x7684;&#x8A2D;&#x5B9A;&#x5982;&#x4E0B;:</p>
 <p><img src="images/putty-to-Serial-REPL.png" alt=""></p>
+<p>Arduino / Installation (Ubuntu) : sudo usermod -G dialout -a <USER></USER></p>
+<p>&#x9019;&#x500B;&#x4F8B;&#x5B50;&#x4F86;&#x770B;&#xFF0C;Arduino &#x5C0D;&#x61C9;&#x5230;&#x7CFB;&#x7D71;&#x7684;&#x88DD;&#x7F6E;&#x540D;&#x7A31;&#x662F; ttyACM0&#x3002;</p>
+<pre><code class="lang-sh">$ ls <span class="hljs-operator">-l</span> /dev/ttyACM0
+</code></pre>
+<pre><code class="lang-sh">crw-rw---- <span class="hljs-number">1</span> root dialout <span class="hljs-number">166</span>, <span class="hljs-number">0</span> Jan  <span class="hljs-number">1</span> <span class="hljs-number">09</span>:<span class="hljs-number">22</span> /dev/ttyACM0
+</code></pre>
+<p>&#x6CE8;&#x610F;&#x5230;&#x5B83;&#x7684;&#x6B0A;&#x9650;&#xFF0C;&#x53EA;&#x7D66; dialout &#x9019;&#x500B;&#x7FA4;&#x7D44;&#x8B80;&#x5BEB;&#x3002;</p>
+<p>&#x70BA;&#x4E86;&#x8981;&#x80FD;&#x8B80;&#x5BEB; /dev/ttyACM0 &#x9019;&#x500B;&#x88DD;&#x7F6E;&#xFF0C;&#x5FC5;&#x9808;&#x628A;&#x6240;&#x6709;&#x8981;&#x4F7F;&#x7528; Arduino IDE &#x7684;&#x5E33;&#x865F;&#x5168;&#x90E8;&#x52A0;&#x5230; dialout &#x9019;&#x500B;&#x7FA4;&#x7D44;&#xFF0C;&#x7136;&#x5F8C;&#x91CD;&#x65B0;&#x767B;&#x5165;&#x3002;</p>
+<pre><code class="lang-sh">$ sudo usermod -G dialout <span class="hljs-operator">-a</span> &lt;USER&gt;
+</code></pre>
 
                     
                     </section>

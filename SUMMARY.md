@@ -1432,4 +1432,5 @@
    * [TensorFlow和Spark MLlib有什麼區別？](tensorflowhe_spark_mllib_you_shi_me_qu_bie_ff1f.md)
 * [IOT](iot.md)
    * [ESP8266 & NodeMCU 開發入門](iot/esp8266&_nodemcu_kai_fa_ru_men_md.md)
+   * 在 NODEMCU 上執行 MICROPYTHON
 

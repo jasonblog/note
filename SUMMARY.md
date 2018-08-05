@@ -1430,5 +1430,4 @@
 * [Big Data](big_data.md)
    * [Spark與Hadoop關係](sparkyu_hadoop_guan_xi.md)
    * [TensorFlow和Spark MLlib有什麼區別？](tensorflowhe_spark_mllib_you_shi_me_qu_bie_ff1f.md)
-* IOT
 

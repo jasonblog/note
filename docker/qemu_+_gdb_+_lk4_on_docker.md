@@ -47,6 +47,10 @@ docker stop c8fddb25161f && docker rm c8fddb25161f
 
 ```sh
 docker image rm IMAGE ID
+
+
+// 強制刪除所有Image
+docker rmi -f $(docker images -q)
 ```
 
 ### docker commit

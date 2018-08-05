@@ -56,4 +56,4 @@ Leaving...
 接下來可以用 putty 來連結 MicroPython REPL (read-evaluate-print loop), putty 的設定如下:
 
 
-![](images/putty-to-Serial-REPL.png)
+![](./images/putty-to-Serial-REPL.png)

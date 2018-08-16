@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/map"
+        android:layout_centerInParent="true"
+        android:background="@drawable/operation_drawable"
+        android:padding="8dp"
+        android:stretchColumns="1,2">
+
+        <TableRow>
+            <TextView
+                android:layout_column="1"
+                android:gravity="center"
+                android:text="Visible" />
+
+            <TextView
+                android:gravity="center"
+                android:text="Stroke Width" />
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="Polyline" />
+            <!-- 切換線條是否顯示 -->
+            <Switch
+                android:id="@+id/polyline_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:paddingRight="8sp" />
+            <!-- 設定線條寬度 -->
+            <SeekBar
+                android:id="@+id/ployline_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="50"
+                android:progress="10" />
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="Polygon" />
+            <!-- 切換區塊是否顯示 -->
+            <Switch
+                android:id="@+id/polygon_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:paddingRight="8sp" />
+            <!-- 設定區塊線條寬度 -->
+            <SeekBar
+                android:id="@+id/ploygon_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="50"
+                android:progress="5" />
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="Circle" />
+            <!-- 切換圓形是否顯示 -->
+            <Switch
+                android:id="@+id/circle_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:paddingRight="8sp" />
+            <!-- 設定圓形線條寬度 -->
+            <SeekBar
+                android:id="@+id/circle_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="0" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

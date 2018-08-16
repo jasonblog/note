@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.macdidi.broadcast02">
+
+    <!-- 接收開機完成事件的授權設定 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- 讀取電話狀態的授權設定 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!-- 讀取 Wifi 狀態的授權設定 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Broadcast02Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 接收開機完成事件的廣播接收元件 -->
+        <receiver android:name="BootCompletedReceiver">
+            <intent-filter>
+                <!-- 設定開機完成的 Action 名稱 -->
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 開機就要啟動的服務元件 -->
+        <service android:name="BootCompletedService"/>
+        <service android:name="TimeTickService"/>
+        <!-- 讀取電話狀態的服務元件 -->
+        <service android:name="PhoneStateService"/>
+        <!-- 讀取 Wifi 狀態的服務元件 -->
+        <service android:name="WifiStateService"/>
+    </application>
+
+</manifest>

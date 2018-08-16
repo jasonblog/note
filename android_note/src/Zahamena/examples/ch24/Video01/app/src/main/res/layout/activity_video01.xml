@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 播放影片用的元件 -->
+    <VideoView
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
+
+    <LinearLayout
+        android:id="@+id/title_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/video_view"
+        android:layout_centerInParent="true"
+        android:background="@drawable/operation_drawable"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <!-- 錄影 -->
+        <ImageView
+            android:id="@+id/image_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="3sp"
+            android:onClick="clickRecord"
+            android:src="@drawable/ic_photo_camera_black_48dp" />
+
+        <!-- 播放影片 -->
+        <ImageView
+            android:id="@+id/image_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3sp"
+            android:onClick="clickPlay"
+            android:src="@drawable/ic_play_circle_outline_black_48dp" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.macdidi.intent01">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Intent01Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".SecondActivity"
+            android:label="Second Activity" />
+
+        <activity
+            android:name=".ThirdActivity"
+            android:label="Third Activity"
+            android:theme="@android:style/Theme.Dialog" >
+            <!-- 加入intent-filter標籤 -->
+            <intent-filter>
+                <!-- 使用action標籤設定一個Action名稱 -->
+                <action android:name="net.macdidi.intent01.ACTION.THIRD" />
+                <action android:name="net.macdidi.intent01.ACTION.THIRD_ONE" />
+                <action android:name="net.macdidi.intent01.ACTION.THIRD_TWO" />
+                <!-- 一定要加入的設定，內容固定不變 -->
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

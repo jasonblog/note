@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6sp"
+        android:background="@drawable/rectangle_drawable"
+        android:padding="6sp"
+        android:stretchColumns="1">
+
+        <TableRow>
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:text="Detect"
+                android:textSize="24dp" />
+
+            <!-- 啟動與關閉偵測 -->
+            <Switch
+                android:id="@+id/detect"
+                android:layout_gravity="center"
+                android:layout_margin="6sp"
+                android:layout_span="2"
+                android:padding="6sp" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:text="Level"
+                android:textSize="24dp" />
+
+            <!-- 閃光燈亮度開關調整 -->
+            <SeekBar
+                android:id="@+id/sensor_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6sp"
+                android:max="300"
+                android:padding="6sp"
+                android:progress="150" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:text="Light"
+                android:textSize="24dp"/>
+
+            <!-- 目前亮度 -->
+            <ProgressBar
+                android:id="@+id/light_value"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6sp"
+                android:focusable="false"
+                android:max="300"
+                android:padding="6sp" />
+        </TableRow>
+    </TableLayout>
+
+    <!-- 閃光燈開、關圖示 -->
+    <ImageView
+        android:id="@+id/flash_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_weight="1"
+        android:src="@drawable/android_oreo_dark" />
+
+</LinearLayout>

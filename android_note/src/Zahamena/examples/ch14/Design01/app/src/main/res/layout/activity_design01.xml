@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DrawerLayout 元件 -->
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/design01_drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <!-- 引用畫面配置資源 -->
+    <include layout="@layout/activity_content" />
+
+    <!-- 顯示 Drawer 的 NavigationView 元件 -->
+    <!--   app:headerLayout: 設定頂端畫面資源 -->
+    <!--   app:menu: 設定 Drawer 使用的選單資源 -->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/drawer_navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/drawer_header"
+        app:menu="@menu/menu_drawer" />
+
+</android.support.v4.widget.DrawerLayout>

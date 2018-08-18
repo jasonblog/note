@@ -972,7 +972,7 @@
    * [樹莓派autossh反向隧道](raspberry_pi/shu_mei_pai_autossh_fan_xiang_sui_dao.md)
    * [Kernel Initialization](raspberry_pi/kernel_initialization.md)
    * [Debugging Raspberry Pi 3 with JTAG](raspberry_pi/debugging_raspberry_pi_3_with_jtag.md)
-   * pi3 設定
+   * [pi3 設定](raspberry_pi/pi3_she_ding.md)
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

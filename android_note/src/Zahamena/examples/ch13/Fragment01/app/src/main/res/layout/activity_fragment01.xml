@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#AAAAAA">
+    <!-- 使用「fragment」標籤加入Fragment -->
+    <!-- 使用「class」指定Fragment包含套件的完整類別名稱 -->
+    <!-- 使用「android:name」也可以，效果與「class」一樣 -->
+    <fragment
+        android:id="@+id/myfragment01"
+        class="net.macdidi.fragment01.MyFragment01"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- 加入第二個Fragment -->
+    <fragment
+        android:id="@+id/myfragment02"
+        class="net.macdidi.fragment01.MyFragment02"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- 在畫面的下方放一個FrameLayout元件，先把它設定為不顯示 -->
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone" />
+
+</LinearLayout>

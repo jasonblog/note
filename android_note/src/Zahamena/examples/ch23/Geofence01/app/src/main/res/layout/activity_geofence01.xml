@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".Geofence01Activity">
+
+    <TableLayout
+        android:id="@+id/data_pane"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/rectangle_drawable">
+
+        <TableRow>
+
+            <TextView
+                style="@style/table_style"
+                android:text="Longitude" />
+
+            <TextView
+                android:id="@+id/longitude_text"
+                style="@style/table_style" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/table_style"
+                android:text="Latitude" />
+
+            <TextView
+                android:id="@+id/latitude_text"
+                style="@style/table_style" />
+        </TableRow>
+    </TableLayout>
+
+
+    <ToggleButton
+        android:id="@+id/geofence_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/data_pane"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24sp"
+        android:onClick="clickToggleButton"
+        android:textOff="OFF"
+        android:textOn="ON"
+        android:textSize="32dp" />
+
+</RelativeLayout>

@@ -1,0 +1,126 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CCCCCC"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6sp"
+        android:background="@drawable/rectangle_drawable"
+        android:gravity="center_horizontal"
+        android:padding="2sp"
+        android:text="Notification01 Panel"
+        android:textSize="24sp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6sp"
+        android:background="@drawable/rectangle_drawable"
+        android:padding="2sp"
+        android:stretchColumns="1">
+
+        <TableRow>
+            <TextView
+                style="@style/table_style"
+                android:text="BASIC" />
+
+            <Button
+                style="@style/table_style"
+                android:onClick="clickBasicSend"
+                android:text="SEND" />
+
+            <Button
+                android:id="@+id/cancel_button01"
+                style="@style/table_style"
+                android:onClick="clickBasicCancel"
+                android:text="CANCEL" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                style="@style/table_style"
+                android:text="Max priority:" />
+
+            <Switch
+                android:id="@+id/max_priority_switch"
+                style="@style/table_style"
+                android:layout_span="2" />
+        </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/button_basic_pref"
+                style="@style/table_style"
+                android:text="Basic Preference"
+                android:onClick="clickPref"
+                android:layout_span="3"/>
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6sp"
+        android:background="@drawable/rectangle_drawable"
+        android:padding="2sp"
+        android:stretchColumns="1,2">
+
+        <TableRow>
+            <TextView
+                style="@style/table_style"
+                android:text="PROGRESS:" />
+
+            <Button
+                style="@style/table_style"
+                android:onClick="clickProgressSend"
+                android:text="SEND" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                style="@style/table_style"
+                android:text="Big Picture:" />
+
+            <Button
+                style="@style/table_style"
+                android:onClick="clickBigPictureSend"
+                android:text="SEND" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                style="@style/table_style"
+                android:text="Big Text:" />
+
+            <Button
+                style="@style/table_style"
+                android:onClick="clickBigTextSend"
+                android:text="SEND" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                style="@style/table_style"
+                android:text="Inbox:" />
+
+            <Button
+                style="@style/table_style"
+                android:onClick="clickInboxSend"
+                android:text="SEND" />
+        </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/button_other_pref"
+                style="@style/table_style"
+                android:text="Other Preference"
+                android:onClick="clickPref"
+                android:layout_span="2"/>
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

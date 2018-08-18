@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Google Map 元件 -->
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/title_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/map"
+        android:layout_centerInParent="true"
+        android:background="@drawable/operation_drawable"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Menu" />
+    </LinearLayout>
+
+    <TableLayout
+        android:id="@+id/menu_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_panel"
+        android:layout_centerInParent="true"
+        android:background="@drawable/operation_drawable"
+        android:padding="12dp"
+        android:visibility="invisible">
+
+        <!-- 縮放控制按鈕 -->
+        <TableRow>
+            <TextView android:text="Zoom Button" />
+
+            <Switch
+                android:id="@+id/zoom_button_switch"
+                android:checked="true" />
+        </TableRow>
+
+        <!-- 指北針圖示 -->
+        <TableRow>
+            <TextView android:text="Compass" />
+
+            <Switch
+                android:id="@+id/compass_switch"
+                android:checked="true" />
+        </TableRow>
+
+        <!-- 交通流量資訊圖層 -->
+        <TableRow>
+            <TextView android:text="Traffic" />
+
+            <Switch
+                android:id="@+id/traffic_switch"
+                android:checked="true" />
+        </TableRow>
+
+        <!-- 我的地點按鈕 -->
+        <TableRow>
+            <TextView android:text="MyLocation Button" />
+
+            <Switch
+                android:id="@+id/mylocation_button_switch"
+                android:checked="false" />
+        </TableRow>
+
+        <!-- 我的地點圖層 -->
+        <TableRow>
+            <TextView android:text="MyLocation Layer" />
+
+            <Switch
+                android:id="@+id/mylocation_layer_switch"
+                android:checked="false" />
+        </TableRow>
+
+        <!-- 移動地圖 -->
+        <TableRow>
+            <TextView android:text="Scroll Gestures" />
+
+            <Switch
+                android:id="@+id/scroll_gestures_switch"
+                android:checked="true" />
+        </TableRow>
+
+        <!-- 使用兩點觸控縮放 -->
+        <TableRow>
+            <TextView android:text="Zoom Gestures" />
+
+            <Switch
+                android:id="@+id/zoom_gestures_switch"
+                android:checked="true" />
+        </TableRow>
+
+        <!-- 使用兩點觸控上下移動，控制地圖的傾斜度 -->
+        <TableRow>
+            <TextView android:text="Tilt Gestures" />
+
+            <Switch
+                android:id="@+id/tilt_gestures_switch"
+                android:checked="true" />
+        </TableRow>
+
+        <!-- 使用兩點觸控旋轉，控制地圖的方向 -->
+        <TableRow>
+            <TextView android:text="Rotate Gestures" />
+
+            <Switch
+                android:id="@+id/rotate_gestures_switch"
+                android:checked="true" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

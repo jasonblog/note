@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- 分組設定，使用android:title設定顯示的分組名稱 -->
+    <PreferenceCategory android:title="INFO">
+        <!-- 輸入與儲存字串元件 -->
+        <!-- android:key設定資料名稱 -->
+        <!-- android:title設定畫面上顯示的標題 -->
+        <!-- android:summary設定畫面上顯示的說明 -->
+        <!-- android:defaultValue設定預設值 -->
+        <EditTextPreference
+            android:key="KEY_NAME"
+            android:title="Name"
+            android:summary="Your name"
+            android:defaultValue="your name" />
+
+        <!-- 單選設定元件-->
+        <!-- android:entries設定畫面顯示選項內容的陣列資源-->
+        <!-- android:entriyValues設定儲存選項資料的陣列資源-->
+        <!-- android:defaultValue設定選項預設項目編號-->
+        <ListPreference
+            android:key="KEY_AMOUNT"
+            android:title="Amount"
+            android:summary="Amount"
+            android:entries="@array/amount_array"
+            android:entryValues="@array/amount_value_array"
+            android:defaultValue="0" />
+
+        <!-- 多選設定元件-->
+        <!-- android:entries設定畫面顯示選項內容的陣列資源-->
+        <!-- android:entriyValues設定儲存選項資料的陣列資源-->
+        <!-- android:defaultValue設定選項預設勾選項目的陣列資源-->
+        <MultiSelectListPreference
+            android:key="KEY_WEEKS"
+            android:title="Weeks"
+            android:summary="Select weeks"
+            android:entries="@array/weeks_array"
+            android:entryValues="@array/weeks_value_array"
+            android:defaultValue="@array/empty_array" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="ALARM">
+        <RingtonePreference
+            android:key="KEY_RINGTONE"
+            android:title="Ringtone"
+            android:summary="Select system ringtone" />
+
+        <CheckBoxPreference
+            android:key="KEY_ALARM"
+            android:title="Alarm"
+            android:summary="Set alarm ON or OFF"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+</PreferenceScreen>

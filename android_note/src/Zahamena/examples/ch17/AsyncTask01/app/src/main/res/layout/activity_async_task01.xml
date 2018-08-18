@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#607D8B">
+
+    <!-- 顯示圖片的元件 -->
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- 開始下載圖片的按鈕元件 -->
+    <Button
+        android:id="@+id/download_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="6sp"
+        android:onClick="clickDownLoadButton"
+        android:text="DOWNLOAD"
+        android:textSize="24sp" />
+
+    <LinearLayout
+        android:id="@+id/op_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/imageview"
+        android:layout_centerInParent="true"
+        android:background="@drawable/operation_drawable"
+        android:orientation="horizontal"
+        android:padding="6sp"
+        android:visibility="invisible">
+
+        <!-- 顯示前一張圖片 -->
+        <ImageButton
+            android:id="@+id/previous"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="clickMoveButton"
+            android:src="@drawable/ic_keyboard_arrow_left_white_48dp" />
+
+        <!-- 顯示下一張圖片 -->
+        <ImageButton
+            android:id="@+id/next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="clickMoveButton"
+            android:src="@drawable/ic_keyboard_arrow_right_white_48dp" />
+    </LinearLayout>
+
+</RelativeLayout>

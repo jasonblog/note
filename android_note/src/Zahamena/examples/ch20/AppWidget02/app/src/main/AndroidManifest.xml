@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.macdidi.appwidget02">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <receiver
+            android:name="net.macdidi.appwidget02.AppWidget02"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <!-- 在 intent-filter 標籤中加入需要的 Action 名稱設定 -->
+            <intent-filter>
+                <action android:name="net.macdidi.appwidget02.ACTION.UPDATE" />
+                <!-- 如果需要多個操作功能，在這裡繼續加入其它 Action 名稱設定 -->
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_config"/>
+        </receiver>
+    </application>
+
+</manifest>

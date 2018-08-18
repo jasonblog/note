@@ -1,0 +1,102 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12sp"
+        android:background="@drawable/rectangle_drawable"
+        android:stretchColumns="1">
+
+        <TableRow>
+            <TextView
+                style="@style/table_style"
+                android:text="NAME:" />
+
+            <EditText
+                android:id="@+id/name_edit"
+                style="@style/table_style"
+                android:layout_span="2"
+                android:focusable="false" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                style="@style/table_style"
+                android:text="AMOUNT:" />
+
+            <SeekBar
+                android:id="@+id/amount_seekbar"
+                android:max="100" />
+
+            <TextView
+                android:id="@+id/amount_text"
+                style="@style/table_style"
+                android:text="0" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                style="@style/table_style"
+                android:text="WEEKS:" />
+
+            <EditText
+                android:id="@+id/weeks_edit"
+                style="@style/table_style"
+                android:layout_span="2"
+                android:focusable="false" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                style="@style/table_style"
+                android:text="RINGTONE:" />
+
+            <EditText
+                android:id="@+id/ringtone_edit"
+                style="@style/table_style"
+                android:layout_span="2"
+                android:focusable="false" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                style="@style/table_style"
+                android:text="Alarm:" />
+
+            <CheckBox
+                android:id="@+id/alarm_check"
+                style="@style/table_style"
+                android:layout_span="2"
+                android:clickable="false" />
+        </TableRow>
+
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12sp"
+        android:background="@drawable/rectangle_drawable"
+        android:orientation="horizontal">
+
+        <Button
+            style="@style/table_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="clickCancel"
+            android:text="@android:string/cancel" />
+
+        <Button
+            style="@style/table_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="clickPref"
+            android:text="PREFERENCE" />
+    </LinearLayout>
+
+</LinearLayout>

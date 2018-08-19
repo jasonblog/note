@@ -20,7 +20,7 @@ sudo apt-get install gcc-aarch64-linux-gnu
 
 ```sh
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bcmrpi3_defconfig
-make-j 3 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
+make-j3 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
 mkdir modules
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu INSTALL_MOD_PATH=modules modules_install
 ```

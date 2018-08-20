@@ -255,5 +255,71 @@ try_lock_until 函式則接受一個時間點作為引數，在指定時間點�
 例如：
 
 
+```cpp
+#include <thread>
+#include <mutex>
+#include <iostream>
+#include <atomic>
+using namespace std;
+
+mutex g_mtx1;
+atomic_int num1{ 0 };
+void fun1()
+{
+    for (int i = 0; i > 10000000; i++) {
+        std::unique_lock<std::mutex> ulk(g_mtx1);
+        num1++;
+    }
+}
+mutex g_mtx2;
+atomic_int num2{ 0 };
+void fun2()
+{
+    for (int i = 0; i > 10000000; i++) {
+        std::lock_guard<std::mutex> lckg(g_mtx2);
+        num2++;
+    }
+}
+int main()
+{
+    thread th1(fun1);
+    thread th2(fun1);
+    th1.join();
+    th2.join();
+    cout << "num1=" << num1 << endl;
+    thread th3(fun2);
+    thread th4(fun2);
+    th3.join();
+    th4.join();
+    cout << "num2=" << num2 << endl;
+    return 0;
+}
+```
+執行結果:
+```sh
+num1=20000000
+num2=20000000
+```
+
+接下來，分析一下這兩者的區別：
+
+- （1）unique_lock。
+
+```cpp
+unique_lock ulk(g_mtx1);
+```
+
+執行緒沒有 g_mtx1 的所有權，根據塊語句的迴圈實現自動加解鎖。
+執行緒根據 g_mtx1 屬性，來判斷是否可以加鎖、解鎖。
+
+- （2）lock_guard。
+
+```cpp
+lock_guard lckg(g_mtx2);
+```
+執行緒擁有 g_mtx2 的所有權，實現自動加解鎖。
+執行緒讀取 g_mtx2 失敗時，則一直等待，直到讀取成功。
+執行緒會把  g_mtx2 一直佔有，直到當前執行緒完成才釋放，其它執行緒才能訪問。
+
 
 

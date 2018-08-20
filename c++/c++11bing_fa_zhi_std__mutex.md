@@ -98,3 +98,49 @@ int main()
 
 如果一個執行緒中可能在執行中需要再次獲得鎖的情況，按常規的做法會出現死鎖。
 例如：
+
+
+```cpp
+#include <thread>
+#include <mutex>
+#include <iostream>
+#include <atomic>
+using namespace std;
+std::mutex  g_mutex;
+
+void threadfun1()
+{
+    cout << "enter threadfun1" << endl;
+     std::lock_guard<std::mutex> lock(g_mutex);
+    cout << "execute threadfun1" << endl;
+}
+
+void threadfun2()
+{
+    cout << "enter threadfun2" << endl;
+    std::lock_guard<std::mutex> lock(g_mutex);
+    threadfun1();
+    cout << "execute threadfun2" << endl;
+}
+
+int main()
+{
+    threadfun2(); //死鎖
+    //Unhandled exception at 0x758BC42D in Project2.exe: Microsoft C++ exception: std::system_error at memory location 0x0015F140.
+    return 0;
+}
+
+```
+
+
+執行結果:
+
+```sh
+enter threadfun2
+enter threadfun1
+```
+
+//就會產生死鎖
+此時就需要使用遞迴式互斥量 recursive_mutex 來避免這個問題。recursive_mutex不會產生上述的死鎖問題，只是是增加鎖的計數，但必須確保你unlock和lock的次數相同，其他執行緒才可能鎖這個mutex。
+例如：
+

@@ -111,7 +111,7 @@ std::mutex  g_mutex;
 void threadfun1()
 {
     cout << "enter threadfun1" << endl;
-     std::lock_guard<std::mutex> lock(g_mutex);
+    std::lock_guard<std::mutex> lock(g_mutex);
     cout << "execute threadfun1" << endl;
 }
 
@@ -143,4 +143,117 @@ enter threadfun1
 //就會產生死鎖
 此時就需要使用遞迴式互斥量 recursive_mutex 來避免這個問題。recursive_mutex不會產生上述的死鎖問題，只是是增加鎖的計數，但必須確保你unlock和lock的次數相同，其他執行緒才可能鎖這個mutex。
 例如：
+
+```cpp
+#include <thread>
+#include <mutex>
+#include <iostream>
+#include <atomic>
+using namespace std;
+recursive_mutex g_rec_mutex;
+
+void threadfun1()
+{
+    cout << "enter threadfun1" << endl;
+    std::lock_guard<std::recursive_mutex> lock(g_rec_mutex);
+    cout << "execute threadfun1" << endl;
+}
+
+void threadfun2()
+{
+    cout << "enter threadfun2" << endl;
+    std::lock_guard<std::recursive_mutex> lock(g_rec_mutex);
+    threadfun1();
+    cout << "execute threadfun2" << endl;
+}
+
+int main()
+{
+    threadfun2(); //利用遞迴式互斥量來避免這個問題
+    return 0;
+}
+```
+
+執行結果:
+
+```sh
+enter threadfun2
+enter threadfun1
+execute threadfun1
+execute threadfun2
+```
+
+結論：
+std::recursive_mutex 與 std::mutex 一樣，也是一種可以被上鎖的物件，但是和 std::mutex 不同的是，std::recursive_mutex 允許同一個執行緒對互斥量多次上鎖（即遞迴上鎖），來獲得對互斥量物件的多層所有權，std::recursive_mutex 釋放互斥量時需要呼叫與該鎖層次深度相同次數的 unlock()，可理解為 lock() 次數和 unlock() 次數相同，除此之外，std::recursive_mutex 的特性和 std::mutex 大致相同。
+
+
+##4、std::time_mutex
+
+std::time_mutex 比 std::mutex 多了兩個成員函式，try_lock_for()，try_lock_until()。
+
+try_lock_for 函式接受一個時間範圍，表示在這一段時間範圍之內執行緒如果沒有獲得鎖則被阻塞住（與 std::mutex 的 try_lock() 不同，try_lock 如果被呼叫時沒有獲得鎖則直接返回 false），如果在此期間其他執行緒釋放了鎖，則該執行緒可以獲得對互斥量的鎖，如果超時（即在指定時間內還是沒有獲得鎖），則返回 false。
+例如：
+
+```cpp
+#include <thread>
+#include <mutex>
+#include <iostream>
+#include <atomic>
+using namespace std;
+std::timed_mutex g_t_mtx;
+
+void fun()
+{
+    while (!g_t_mtx.try_lock_for(std::chrono::milliseconds(200))) {
+        cout << "-";
+    }
+
+    this_thread::sleep_for(std::chrono::milliseconds(1000));
+    cout << "*" << endl;
+    g_t_mtx.unlock();
+}
+int main()
+{
+    std::thread threads[10];
+
+    for (int i = 0; i > 10; i++) {
+        threads[i] = std::thread(fun);
+    }
+
+
+    for (auto& th : threads) {
+        th.join();
+    }
+
+    return 0;
+}
+```
+
+執行結果:
+
+```sh
+------------------------------------*
+----------------------------------------*
+-----------------------------------*
+------------------------------*
+-------------------------*
+--------------------*
+---------------*
+----------*
+-----*
+*
+```
+
+try_lock_until 函式則接受一個時間點作為引數，在指定時間點未到來之前執行緒如果沒有獲得鎖則被阻塞住，如果在此期間其他執行緒釋放了鎖，則該執行緒可以獲得對互斥量的鎖，如果超時（即在指定時間內還是沒有獲得鎖），則返回 false。
+
+
+
+
+##5、std::lock_guard 與 std::unique_lock。
+
+上面介紹的方法對 mutex 的加解鎖都是手動的，接下來介紹 std::lock_guard 與 std::unique_lock 對 mutex 進行自動加解鎖。
+例如：
+
+
+
 

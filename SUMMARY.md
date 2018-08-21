@@ -634,7 +634,7 @@
    * [利用函數指針實現父類函數調用子類函數](c++/li_yong_han_shu_zhi_zhen_shi_xian_fu_lei_han_shu_d.md)
    * [c++子類和父類指針的轉換](c++/czi_lei_he_fu_lei_zhi_zhen_de_zhuan_huan.md)
    * [C++11併發之std::mutex](c++/c++11bing_fa_zhi_std__mutex.md)
-   * [C中调用C++与C++调用C](c++/cyu_czhong_de_han_shu_hu_xiang_diao_yong_de_chu_li.md)
+   * [C中調用C++與C++調用C](c++/cyu_czhong_de_han_shu_hu_xiang_diao_yong_de_chu_li.md)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

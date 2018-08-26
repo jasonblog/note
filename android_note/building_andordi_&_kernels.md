@@ -1,6 +1,7 @@
 # Building Andordi & Kernels
 
 
+## Android
 
 ```sh
 sudo apt-get install libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-dev g++-multilib  &&
@@ -16,6 +17,8 @@ sudo apt-get install lib32z-dev ccache
 ```
 
 ```sh
+https://android.googlesource.com/platform/manifest/
+
 repo init -u https://android.googlesource.com/platform/manifest -b  android-8.1.0_r43
 ```
 

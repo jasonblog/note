@@ -35,7 +35,7 @@ git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/
 ```
 
 ```cpp
-export PATH=$PATH:/media/shihyu/ssd/x86_64-linux-android-4.9/bin
+export PATH=$PATH:/media/shihyu/ssd/arm-linux-androideabi-4.9/bin
 export ARCH=arm64
 export CROSS_COMPILE=aarch64-linux-android-
 make ranchu64_defconfig

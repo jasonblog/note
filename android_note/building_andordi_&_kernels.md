@@ -37,7 +37,7 @@ git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/
 ```cpp
 export PATH=$PATH:/media/shihyu/ssd/arm-linux-androideabi-4.9/bin
 export ARCH=arm64
-export CROSS_COMPILE=aarch64-linux-android-
+export CROSS_COMPILE=arm-linux-androideabi-
 make ranchu64_defconfig
 time make -j8
 ```

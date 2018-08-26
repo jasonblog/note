@@ -2,7 +2,7 @@
 
 
 
-```
+```sh
 sudo apt-get install libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-dev g++-multilib  &&
 sudo apt-get install -y git flex bison gperf build-essential libncurses5-dev:i386 &&
 sudo apt-get install tofrodos python-markdown libxml2-utils xsltproc zlib1g-dev:i386 && 

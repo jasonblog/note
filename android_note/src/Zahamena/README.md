@@ -1,6 +1,6 @@
 # Android APP程式開發剖析 第三版
 
-* 出版：[松崗](http://www.kingsinfo.com.tw/module.php?i=item&tid=8506)
+* 出版：[鬆崗](http://www.kingsinfo.com.tw/module.php?i=item&tid=8506)
 * ISBN：9789572246580
 * 頁數：816 頁
 * 開數：17x23公分
@@ -36,7 +36,7 @@
 
 1. 認識ANDROID
 2. 建立Android開發環境
-3. Android平台與模擬裝置
+3. Android平臺與模擬裝置
 4. 設計Android應用程式
 5. 活動元件
 6. 設計畫面 – 基本元件
@@ -69,4 +69,4 @@
 
 ![CouaCristata](https://raw.githubusercontent.com/macdidi5/Zahamena/master/resources/CouaCristataS.jpg)
 
-鳳頭馬島鵑，容易在Zahamena國家公園看到，與科奎氏馬島鵑，紅頂馬島鵑都屬島鵑科，中等身型，身長大約44厘米，頭冠綠灰色，藍裸色眼睛，胸脯紅褐色，嘴巴和腿部為黑色，腹部白色，紫藍色尾翼，尾翼末端呈白色，長而尖，棲在枝頭時常上下翹動。
+鳳頭馬島鵑，容易在Zahamena國家公園看到，與科奎氏馬島鵑，紅頂馬島鵑都屬島鵑科，中等身型，身長大約44釐米，頭冠綠灰色，藍裸色眼睛，胸脯紅褐色，嘴巴和腿部為黑色，腹部白色，紫藍色尾翼，尾翼末端呈白色，長而尖，棲在枝頭時常上下翹動。

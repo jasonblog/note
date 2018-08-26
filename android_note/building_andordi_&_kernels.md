@@ -37,4 +37,6 @@ git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/x86/
 ```cpp
 export ARCH=arm64
 export CROSS_COMPILE=aarch64-linux-android-
+make ranchu64_defconfig
+time make -j8
 ```

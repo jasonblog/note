@@ -57,7 +57,7 @@
         data-chapter-title="Building Andordi &amp; Kernels"
         data-filepath="android_note/building_andordi_&amp;_kernels.md"
         data-basepath=".."
-        data-revision="Mon Aug 27 2018 04:27:11 GMT+0800 (CST)"
+        data-revision="Mon Aug 27 2018 04:39:33 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -22641,6 +22641,7 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="building-andordi--kernels">Building Andordi &amp; Kernels</h1>
+<h2 id="android">Android</h2>
 <pre><code class="lang-sh">sudo apt-get install libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-dev g++-multilib  &amp;&amp;
 sudo apt-get install -y git flex bison gperf build-essential libncurses5-dev:i386 &amp;&amp;
 sudo apt-get install tofrodos python-markdown libxml2-utils xsltproc zlib1g-dev:i386 &amp;&amp; 
@@ -22652,7 +22653,9 @@ sudo apt-get install lib32ncurses5-dev x11proto-core-dev libx11-dev &amp;&amp;
 sudo apt-get install libgl1-mesa-dev libxml2-utils xsltproc unzip m4 &amp;&amp;
 sudo apt-get install lib32z-dev ccache
 </code></pre>
-<pre><code class="lang-sh">repo init -u https://android.googlesource.com/platform/manifest -b  android-<span class="hljs-number">8.1</span>.<span class="hljs-number">0</span>_r43
+<pre><code class="lang-sh">https://android.googlesource.com/platform/manifest/
+
+repo init -u https://android.googlesource.com/platform/manifest -b  android-<span class="hljs-number">8.1</span>.<span class="hljs-number">0</span>_r43
 </code></pre>
 <pre><code class="lang-sh"><span class="hljs-built_in">export</span> LC_ALL=C
 <span class="hljs-built_in">source</span> build/envsetup.sh 
@@ -22662,11 +22665,15 @@ time make -j8
 <h2 id="kernel">Kernel</h2>
 <pre><code class="lang-sh">git <span class="hljs-built_in">clone</span> https://android.googlesource.com/kernel/goldfish.git
 
-git <span class="hljs-built_in">clone</span> https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-<span class="hljs-number">4.9</span>
+git <span class="hljs-built_in">clone</span> https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-<span class="hljs-number">4.9</span>
 </code></pre>
-<pre><code class="lang-cpp"><span class="hljs-keyword">export</span> PATH=$PATH:/media/shihyu/ssd/arm-linux-androideabi-<span class="hljs-number">4.9</span>/bin
+<pre><code class="lang-cpp"><span class="hljs-keyword">export</span> PATH=$PATH:/media/shihyu/ssd/aarch64-linux-android-<span class="hljs-number">4.9</span>/bin
+
+cd goldfish
+git br -a
+
 <span class="hljs-keyword">export</span> ARCH=arm64
-<span class="hljs-keyword">export</span> CROSS_COMPILE=arm-linux-androideabi-
+<span class="hljs-keyword">export</span> CROSS_COMPILE=aarch64-linux-android-
 make ranchu64_defconfig
 time make -j8
 </code></pre>

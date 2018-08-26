@@ -57,7 +57,7 @@
         data-chapter-title="Building Andordi &amp; Kernels"
         data-filepath="android_note/building_andordi_&amp;_kernels.md"
         data-basepath=".."
-        data-revision="Sun Aug 26 2018 22:32:38 GMT+0800 (CST)"
+        data-revision="Mon Aug 27 2018 04:21:37 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -22662,10 +22662,13 @@ time make -j8
 <h2 id="kernel">Kernel</h2>
 <pre><code class="lang-sh">git <span class="hljs-built_in">clone</span> https://android.googlesource.com/kernel/goldfish.git
 
-git <span class="hljs-built_in">clone</span> https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/x86/x86_64-linux-android-<span class="hljs-number">4.9</span>
+git <span class="hljs-built_in">clone</span> https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-<span class="hljs-number">4.9</span>
 </code></pre>
-<pre><code class="lang-cpp"><span class="hljs-keyword">export</span> ARCH=arm64
+<pre><code class="lang-cpp"><span class="hljs-keyword">export</span> PATH=$PATH:/media/shihyu/ssd/x86_64-linux-android-<span class="hljs-number">4.9</span>/bin
+<span class="hljs-keyword">export</span> ARCH=arm64
 <span class="hljs-keyword">export</span> CROSS_COMPILE=aarch64-linux-android-
+make ranchu64_defconfig
+time make -j8
 </code></pre>
 
                     

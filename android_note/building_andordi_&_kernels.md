@@ -31,7 +31,7 @@ time make -j8
 ```sh
 git clone https://android.googlesource.com/kernel/goldfish.git
  
-git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/x86/x86_64-linux-android-4.9
+git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
 ```
 
 ```cpp

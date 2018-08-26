@@ -39,6 +39,10 @@ git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarc
 
 ```cpp
 export PATH=$PATH:/media/shihyu/ssd/aarch64-linux-android-4.9/bin
+
+cd goldfish
+git br -a
+
 export ARCH=arm64
 export CROSS_COMPILE=aarch64-linux-android-
 make ranchu64_defconfig

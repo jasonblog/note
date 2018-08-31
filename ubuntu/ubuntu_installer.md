@@ -57,6 +57,12 @@ sudo apt-get install autoconf automake linux-headers-`uname -r` vim-gnome \
 					 libxpm-dev libxt-dev lua5.2 python3-dev ruby ruby-dev tcl-dev
 ```
 
+## 安裝Rust
+
+```sh
+curl -sSf https://static.rust-lang.org/rustup.sh | sudo sh
+```
+
 -  PCMAN 字體
 
 ```

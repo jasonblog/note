@@ -1439,4 +1439,5 @@
    * [ESP8266 & NodeMCU 開發入門](iot/esp8266&_nodemcu_kai_fa_ru_men_md.md)
    * [在 NODEMCU 上執行 MICROPYTHON](iot/zai_nodemcu_shang_zhi_xing_micropython.md)
 * [media player](media_player/media_player.md)
+   * vlc-android 編譯 for ubuntu 18.04
 

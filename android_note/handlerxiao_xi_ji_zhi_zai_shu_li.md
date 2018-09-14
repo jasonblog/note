@@ -647,14 +647,120 @@ public void handleMessage(Message msg)
 Looper.myLooper()獲取當前線程綁定的Looper，如果沒有返回null。Looper.getMainLooper()返回主線程的Looper,這樣就可以方便的與主線程通信。
 
 ## 總結
-Looper調用prepare()進行初始化，創建了一個與當前線程對應的Looper對象（通過ThreadLocal實現），並且初始化了一個與當前Looper對應的MessageQueue對象。
-Looper調用靜態方法loop()開始消息循環，通過MessageQueue.next()方法獲取Message對象。
-當獲取到一個Message對象時，讓Message的發送者（target）去處理它。
-Message對象包括數據，發送者（Handler），可執行代碼段（Runnable）三個部分組成。
-Handler可以在一個已經Looper.prepare()的線程中初始化，如果線程沒有初始化Looper，創建Handler對象會失敗
-一個線程的執行流中可以構造多個Handler對象，它們都往同一個MQ中發消息，消息也只會分發給對應的Handler處理。
-Handler將消息發送到MQ中，Message的target域會引用自己的發送者，Looper從MQ中取出來後，再交給發送這個Message的Handler去處理。
-Message可以直接添加一個Runnable對象，當這條消息被處理的時候，直接執行Runnable.run()方法。
-Handler的內存洩露問題
+- Looper調用prepare()進行初始化，創建了一個與當前線程對應的Looper對象（通過ThreadLocal實現），並且初始化了一個與當前Looper對應的MessageQueue對象。
+- Looper調用靜態方法loop()開始消息循環，通過MessageQueue.next()方法獲取Message對象。
+- 當獲取到一個Message對象時，讓Message的發送者（target）去處理它。
+- Message對象包括數據，發送者（Handler），可執行代碼段（Runnable）三個部分組成。
+- Handler可以在一個已經Looper.prepare()的線程中初始化，如果線程沒有初始化Looper，創建Handler對象會失敗
+- 一個線程的執行流中可以構造多個Handler對象，它們都往同一個MQ中發消息，消息也只會分發給對應的Handler處理。
+- Handler將消息發送到MQ中，Message的target域會引用自己的發送者，Looper從MQ中取出來後，再交給發送這個Message的Handler去處理。
+- Message可以直接添加一個Runnable對象，當這條消息被處理的時候，直接執行Runnable.run()方法。
+
+### Handler的內存洩露問題
+
 再來看看我們的新建Handler的代碼：
 
+
+```java
+private Handler mHandler = new Handler()
+{
+    @Override
+    public void handleMessage(Message msg) {
+        ...
+    }
+};
+
+```
+
+`當使用內部類（包括匿名類）來創建Handler的時候，Handler對象會隱式地持有Activity的引用。`
+
+而Handler通常會伴隨著一個耗時的後台線程一起出現，這個後台線程在任務執行完畢後發送消息去更新UI。然而，如果用戶在網絡請求過程中關閉了Activity，正常情況下，Activity不再被使用，它就有可能在GC檢查時被回收掉，但由於這時線程尚未執行完，而該線程持有Handler的引用（不然它怎麼發消息給Handler？），這個Handler又持有Activity的引用，就導致該Activity無法被回收（即內存洩露），直到網絡請求結束。
+
+另外，如果執行了Handler的postDelayed()方法，那麼在設定的delay到達之前，會有一條MessageQueue -> Message -> Handler -> Activity的鏈，導致你的Activity被持有引用而無法被回收。
+
+解決方法之一，使用弱引用：
+
+
+```java
+static class MyHandler extends Handler
+{
+    WeakReference<Activity > mActivityReference;
+    MyHandler(Activity activity)
+    {
+        mActivityReference = new WeakReference<Activity>(activity);
+    }
+    @Override
+    public void handleMessage(Message msg)
+    {
+        final Activity activity = mActivityReference.get();
+
+        if (activity != null) {
+            mImageView.setImageBitmap(mBitmap);
+        }
+    }
+}
+```
+
+從JDK1.2開始，Java把對象的引用分為四種級別，這四種級別由高到低依次為：強引用、軟引用、弱引用和虛引用。
+
+- 強引用：我們一般使用的就是強引用，垃圾回收器一般都不會對其進行回收操作。當內存空間不足時Java虛擬機寧願拋出OutOfMemoryError錯誤使程序異常終止，也不會回收具有強引用的對象。
+
+- 軟引用(SoftReference)：如果一個對象具有軟引用(SoftReference)，在內存空間足夠的時候GC不會回收它，如果內存空間不足了GC就會回收這些對象的內存空間。
+
+- 弱引用(WeakReference) ：如果一個對象具有弱引用(WeakReference)，那麼當GC線程掃瞄的過程中一旦發現某個對象只具有弱引用而不存在強引用時不管當前內存空間足夠與否GC都會回收它的內存。由於垃圾回收器是一個優先級較低的線程，所以不一定會很快發現那些只具有弱引用的對象。為了防止內存溢出，在處理一些佔用內存大而且生命週期較長的對象時候，可以儘量使用軟引用和弱引用。
+
+- 虛引用(PhantomReference) ：虛引用(PhantomReference)與其他三種引用都不同，它並不會決定對象的生命週期。如果一個對象僅持有虛引用，那麼它就和沒有任何引用一樣，在任何時候都可能被垃圾回收器回收。所以，虛引用主要用來跟蹤對象被垃圾回收器回收的活動，在一般的開發中並不會使用它。
+
+##進程、線程間通信方式
+
+
+文章最後，我們來整理一下進程、線程間通信方式，參考線程通信與進程通信的區別。看看Handler消息傳遞機制屬於哪種？
+
+### 一、進程間的通信方式
+- 管道( pipe )：管道是一種半雙工的通信方式，數據只能單向流動，而且只能在具有親緣關係的進程間使用。進程的親緣關係通常是指父子進程關係。
+- 有名管道 (namedpipe) ： 有名管道也是半雙工的通信方式，但是它允許無親緣關係進程間的通信。
+- 信號量(semophore ) ： 信號量是一個計數器，可以用來控制多個進程對共享資源的訪問。它常作為一種鎖機制，防止某進程正在訪問共享資源時，其他進程也訪問該資源。因此，主要作為進程間以及同一進程內不同線程之間的同步手段。
+- 消息隊列( messagequeue ) ： 消息隊列是由消息的鏈表，存放在內核中並由消息隊列標識符標識。消息隊列克服了信號傳遞信息少、管道只能承載無格式字節流以及緩衝區大小受限等缺點。
+- 信號 (sinal ) ： 信號是一種比較複雜的通信方式，用於通知接收進程某個事件已經發生。
+- 共享內存(shared memory ) ：共享內存就是映射一段能被其他進程所訪問的內存，這段共享內存由一個進程創建，但多個進程都可以訪問。共享內存是最快的 IPC 方式，它是針對其他進程間通信方式運行效率低而專門設計的。它往往與其他通信機制，如信號兩，配合使用，來實現進程間的同步和通信。
+- 套接字(socket ) ： 套解口也是一種進程間通信機制，與其他通信機制不同的是，它可用於不同及其間的進程通信。
+
+
+<table>
+<thead>
+<tr>
+<th><strong>IPC</strong></th>
+<th><strong>數據拷貝次數</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>共享內存</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Android Binder</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Socket/管道/消息隊列</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+
+###二、線程間的通信方式
+- 鎖機制：包括互斥鎖、條件變量、讀寫鎖
+    - 互斥鎖提供了以排他方式防止數據結構被併發修改的方法。
+    - 讀寫鎖允許多個線程同時讀共享數據，而對寫操作是互斥的。
+    - 條件變量可以以原子的方式阻塞進程，直到某個特定條件為真為止。對條件的測試是在互斥鎖的保護下進行的。條件變量始終與互斥鎖一起使用。
+- 信號量機制(Semaphore)：包括無名線程信號量和命名線程信號量
+- 信號機制(Signal)：類似進程間的信號處理
+
+線程間的通信目的主要是用於線程同步，所以線程沒有像進程通信中的用於數據交換的通信機制。
+
+
+
+
+
+很明顯，Android的Handler消息機制使用消息隊列( MessageQueue )實現的線程間通信方式。而Binder是Android建立額一套新的IPC機制來滿足系統對通信方式，傳輸性能和安全性的要求`。Binder基於Client-Server通信模式，傳輸過程只需一次拷貝，為發送方添加UID/PID身份，既支持實名Binder也支持匿名Binder，安全性高`。此處就不對Binder作更多介紹了。

@@ -145,6 +145,7 @@
        * [Android 多線程編程的總結](android_note/android_duo_xian_cheng_bian_cheng_de_zong_jie.md)
    * [簽署你的Android應用程式(.keystore)](android_note/qian_shu_ni_de_android_ying_yong_cheng_5f0f28_keys.md)
    * [Building Andordi & Kernels](android_note/building_andordi_&_kernels.md)
+   * Handler消息機制再梳理
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
    * [Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法](ubuntu/windowsyuubuntu_shuang_xi_tong_ff0c_kai_ji_shi_zhe.md)

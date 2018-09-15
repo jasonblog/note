@@ -1392,7 +1392,7 @@
    * [Java Thread 之間 記憶體空間分析](java/java_thread_zhi_jian_ji_yi_ti_kong_jian_fen_xi.md)
    * [java中如何給Runnable線程傳遞參數？](java/javazhong_ru_he_gei_runnable_xian_cheng_chuan_di_c.md)
    * [Java的兩種多線程實現方式](java/javade_liang_zhong_duo_xian_cheng_shi_xian_fang_sh.md)
-   * gradle init --type java-application
+   * [gradle init --type java-application](java/gradle_init_--type_java-application.md)
 * [Linear Algebra](linear_algebra/linear_algebra.md)
    * [理解矩陣](linear_algebra/li_jie_ju_zhen.md)
    * [旋轉矩陣與四元數](linear_algebra/xuanzhuan_ju_zhen_yu_si_yuan_shu_md.md)

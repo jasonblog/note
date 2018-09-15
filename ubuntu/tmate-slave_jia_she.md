@@ -77,7 +77,7 @@ After=network-online.target
 Type=simple
 Restart=always
 User=root
-ExecStart=/xxxxx/tmate-slave -p 1234 -k /xxx/keys
+ExecStart=/home/shihyu/.mybin/tmate-slave -p 5432 -k  /home/shihyu/.mybin/keys/
 ```
 
 ## Enable/Start service

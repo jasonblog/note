@@ -56,7 +56,7 @@ The key's randomart image is:
 yaoshihyu@instance-1:~/tmate-slave$ 
 
 
-sudo ./tmate-slave -p 1234 -k keys/
+sudo ./tmate-slave -p 5432 -k keys/
 ```
 
 ## Make the tmate-slave run as a service
@@ -95,10 +95,10 @@ sudo systemctl start tmate-slave
 - ~/.tmate.conf
 
 ```sh
-set -g tmate-server-host "35.236.182.178"
-set -g tmate-server-port 1234
-set -g tmate-server-rsa-fingerprint   "c3:02:f6:2f:20:37:98:ee:88:58:d0:e5:51:21:c5:5f"
-set -g tmate-server-ecdsa-fingerprint "51:72:5e:16:65:e0:25:e4:42:20:9b:af:f0:c1:3c:5d"
+set -g tmate-server-host "175.181.152.243"
+set -g tmate-server-port 5432
+set -g tmate-server-rsa-fingerprint   "9d:80:d3:31:02:f2:24:9e:1a:71:ec:0d:d3:b9:0e:d6"
+set -g tmate-server-ecdsa-fingerprint "ec:8f:30:3d:88:4c:fe:89:7d:11:80:b5:e7:23:42:67"
 ```
 
 ## run

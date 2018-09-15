@@ -97,8 +97,8 @@ sudo systemctl start tmate-slave
 ```sh
 set -g tmate-server-host "35.236.182.178"
 set -g tmate-server-port 1234
-set -g tmate-server-rsa-fingerprint   "ec:80:4a:c7:c9:13:92:d7:24:1d:dc:78:ef:d3:41:5a"
-set -g tmate-server-ecdsa-fingerprint "9d:e3:67:11:9c:61:43:d3:3e:50:36:80:37:cc:33:4f"
+set -g tmate-server-rsa-fingerprint   "c3:02:f6:2f:20:37:98:ee:88:58:d0:e5:51:21:c5:5f"
+set -g tmate-server-ecdsa-fingerprint "51:72:5e:16:65:e0:25:e4:42:20:9b:af:f0:c1:3c:5d"
 ```
 
 ## run

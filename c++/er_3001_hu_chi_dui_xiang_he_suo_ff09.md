@@ -313,7 +313,9 @@ std::mutex mt1, mt2;
 }
 ```
 
-此外std::lock和std::try_lock還是異常安全的函數(要求待加鎖的對象unlock操作不允許拋出異常)，當對多個對象加鎖時，其中如果有某個對象在lock或try_lock時拋出異常，std::lock或std::try_lock會捕獲這個異常並將之前已經加鎖的對象逐個執行unlock操作，然後重新拋出這個異常(異常中立)。並且std::lock_guard的構造函數lock_guard(mutex_type& m, std::adopt_lock_t t)也不會拋出異常。所以std::lock像下面這麼用也是正確
+此外std::lock和std::try_lock還是異常安全的函數(要求待加鎖的對象unlock操作不允許拋出異常)，當對多個對象加鎖時，其中如果有某個對象在lock或try_lock時拋出異常，std::lock或std::try_lock會捕獲這個異常並將之前已經加鎖的對象逐個執行unlock操作，然後重新拋出這個異常(異常中立)。
+
+並且std::lock_guard的構造函數lock_guard(mutex_type& m, std::adopt_lock_t t)也不會拋出異常。所以std::lock像下面這麼用也是正確
 
 ```cpp
 std::lock(mt1, mt2);

@@ -140,3 +140,184 @@ try
 </tbody>
 </table>
 
+使用std::lock_guard類模板修改前面的代碼，在lck對象構造時加鎖，析構時自動釋放鎖，即使insert拋出了異常lck對象也會被正確的析構，所以也就不會發生互斥對象沒有釋放鎖而導致死鎖的問題。
+
+```cpp
+std::set<int> int_set;
+std::mutex mt;
+auto f = [&int_set, &mt]()
+{
+    try {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(1, 1000);
+
+        for (std::size_t i = 0; i != 100000; ++i) {
+            std::lock_guard<std::mutex> lck(mt);
+            int_set.insert(dis(gen));
+        }
+    } catch (...) {}
+};
+std::thread td1(f), td2(f);
+td1.join();
+td2.join();
+```
+`互斥對象管理類模板`的加鎖策略
+
+前面提到std::lock_guard、std::unique_lock和std::shared_lock類模板在構造時是否加鎖是可選的，C++11提供了`3種`加鎖策略。
+
+
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>tag type</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(默認)</td>
+<td>無</td>
+<td>請求鎖，阻塞當前線程直到成功獲得鎖。</td>
+</tr>
+<tr>
+<td>std::defer_lock</td>
+<td>std::defer_lock_t</td>
+<td>不請求鎖。</td>
+</tr>
+<tr>
+<td>std::try_to_lock</td>
+<td>std::try_to_lock_t</td>
+<td>嘗試請求鎖，但不阻塞線程，鎖不可用時也會立即返回。</td>
+</tr>
+<tr>
+<td>std::adopt_lock</td>
+<td>std::adopt_lock_t</td>
+<td>假定當前線程已經獲得互斥對象的所有權，所以不再請求鎖。</td>
+</tr>
+</tbody>
+</table>
+
+下表列出了互斥對象管理類模板對各策略的支持情況。
+
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>std::lock_guard</th>
+<th>std::unique_lock</th>
+<th>std::shared_lock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(默認)</td>
+<td>√</td>
+<td>√</td>
+<td>√(共享)</td>
+</tr>
+<tr>
+<td>std::defer_lock</td>
+<td>×</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>std::try_to_lock</td>
+<td>×</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>std::adopt_lock</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+
+下面的代碼中std::unique_lock指定了std::defer_lock。
+
+```cpp
+std::mutex mt;
+std::unique_lock<std::mutex> lck(mt, std::defer_lock);
+assert(lck.owns_lock() == false);
+lck.lock();
+assert(lck.owns_lock() == true);
+```
+
+###對多個互斥對象加鎖
+在某些情況下我們可能需要對多個互斥對象進行加鎖，考慮下面的代碼
+
+```cpp
+std::mutex mt1, mt2;
+// thread 1
+{
+    std::lock_guard<std::mutex> lck1(mt1);
+    std::lock_guard<std::mutex> lck2(mt2);
+    // do something
+}
+// thread 2
+{
+    std::lock_guard<std::mutex> lck2(mt2);
+    std::lock_guard<std::mutex> lck1(mt1);
+    // do something
+}
+```
+
+如果線程1執行到第5行的時候恰好線程2執行到第11行。那麼就會出現
+
+- 線程1持有mt1並等待mt2
+- 線程2持有mt2並等待mt1
+
+發生死鎖。
+為了避免發生這類死鎖，對於任意兩個互斥對象，在多個線程中進行加鎖時應保證其先後順序是一致。前面的代碼應修改成
+
+
+```cpp
+std::mutex mt1, mt2;
+// thread 1
+{
+    std::lock_guard<std::mutex> lck1(mt1);
+    std::lock_guard<std::mutex> lck2(mt2);
+    // do something
+}
+// thread 2
+{
+    std::lock_guard<std::mutex> lck1(mt1);
+    std::lock_guard<std::mutex> lck2(mt2);
+    // do something
+}
+```
+
+更好的做法是使用標準庫中的std::lock和std::try_lock函數來對多個Lockable對象加鎖。std::lock(或std::try_lock)會使用一種避免死鎖的算法對多個待加鎖對象進行lock操作(std::try_lock進行try_lock操作)，當待加鎖的對象中有不可用對象時std::lock會阻塞當前線程知道所有對象都可用(std::try_lock不會阻塞線程當有對象不可用時會釋放已經加鎖的其他對象並立即返回)。使用std::lock改寫前面的代碼，這裡刻意讓第6行和第13行的參數順序不同
+
+
+```cpp
+std::mutex mt1, mt2;
+// thread 1
+{
+    std::unique_lock<std::mutex> lck1(mt1, std::defer_lock);
+    std::unique_lock<std::mutex> lck2(mt2, std::defer_lock);
+    std::lock(lck1, lck2);
+    // do something
+}
+// thread 2
+{
+    std::unique_lock<std::mutex> lck1(mt1, std::defer_lock);
+    std::unique_lock<std::mutex> lck2(mt2, std::defer_lock);
+    std::lock(lck2, lck1);
+    // do something
+}
+```
+
+此外std::lock和std::try_lock還是異常安全的函數(要求待加鎖的對象unlock操作不允許拋出異常)，當對多個對象加鎖時，其中如果有某個對象在lock或try_lock時拋出異常，std::lock或std::try_lock會捕獲這個異常並將之前已經加鎖的對象逐個執行unlock操作，然後重新拋出這個異常(異常中立)。並且std::lock_guard的構造函數lock_guard(mutex_type& m, std::adopt_lock_t t)也不會拋出異常。所以std::lock像下面這麼用也是正確
+
+```cpp
+std::lock(mt1, mt2);
+std::lock_guard<std::mutex> lck1(mt1, std::adopt_lock);
+std::lock_guard<std::mutex> lck2(mt2, std::adopt_lock);
+```
+

@@ -639,6 +639,7 @@
    * [C++11併發之std::mutex](c++/c++11bing_fa_zhi_std__mutex.md)
    * [C中調用C++與C++調用C](c++/cyu_czhong_de_han_shu_hu_xiang_diao_yong_de_chu_li.md)
    * [C++11之多線程](c++/c++11zhi_duo_xian_cheng.md)
+       * (一、標準庫的線程封裝類Thread和Future）
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

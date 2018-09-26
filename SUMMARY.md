@@ -643,6 +643,7 @@
        * [(二、互斥對象和鎖）](c++/er_3001_hu_chi_dui_xiang_he_suo_ff09.md)
        * (三、條件變量）
    * [mutex](c++/mutex.md)
+       * timed_mutex 例子
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

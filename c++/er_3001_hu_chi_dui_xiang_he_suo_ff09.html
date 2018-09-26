@@ -57,7 +57,7 @@
         data-chapter-title="(二、互斥對象和鎖）"
         data-filepath="c++/er_3001_hu_chi_dui_xiang_he_suo_ff09.md"
         data-basepath=".."
-        data-revision="Wed Sep 26 2018 20:47:25 GMT+0800 (CST)"
+        data-revision="Wed Sep 26 2018 23:54:30 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -10055,6 +10055,21 @@
     
 
             </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="18.36" data-path="c++/cjing_tai_cheng_yuan_han_shu_fang_wen_fei_jing_tai.html">
+            
+                
+                    <a href="../c++/cjing_tai_cheng_yuan_han_shu_fang_wen_fei_jing_tai.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.36.</b>
+                        
+                        C++靜態成員函數訪問非靜態成員的幾種方法
+                    </a>
+            
             
         </li>
     
@@ -22915,7 +22930,7 @@ td2.join();
 
 <h2 id="&#x9396;lock">&#x9396;(Lock)</h2>
 <p>&#x9019;&#x88E1;&#x7684;&#x9396;&#x662F;&#x52D5;&#x8A5E;&#x800C;&#x975E;&#x540D;&#x8A5E;&#xFF0C;&#x4E92;&#x65A5;&#x5C0D;&#x8C61;&#x7684;&#x4E3B;&#x8981;&#x64CD;&#x4F5C;&#x6709;&#x5169;&#x500B;&#x52A0;&#x9396;(lock)&#x548C;&#x91CB;&#x653E;&#x9396;(unlock)&#x3002;&#x7576;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x5C0D;&#x4E92;&#x65A5;&#x5C0D;&#x8C61;&#x9032;&#x884C;lock&#x64CD;&#x4F5C;&#x4E26;&#x6210;&#x529F;&#x7372;&#x5F97;&#x9019;&#x500B;&#x4E92;&#x65A5;&#x5C0D;&#x8C61;&#x7684;&#x6240;&#x6709;&#x6B0A;&#xFF0C;&#x5728;&#x6B64;&#x7DDA;&#x7A0B;&#x5C0D;&#x6B64;&#x5C0D;&#x8C61;unlock&#x524D;&#xFF0C;&#x5176;&#x4ED6;&#x7DDA;&#x7A0B;&#x5C0D;&#x9019;&#x500B;&#x4E92;&#x65A5;&#x5C0D;&#x8C61;&#x7684;lock&#x64CD;&#x4F5C;&#x90FD;&#x6703;&#x88AB;&#x963B;&#x585E;&#x3002;</p>
-<p>&#x4FEE;&#x6539;&#x524D;&#x9762;&#x7684;&#x4EE3;&#x78BC;&#x5728;&#x5169;&#x500B;&#x7DDA;&#x7A0B;&#x4E2D;&#x5C0D;&#x5171;&#x4EAB;&#x8CC7;&#x6E90;int_set&#x57F7;&#x884C;insert&#x64CD;&#x4F5C;&#x524D;&#x5148;&#x5C0D;&#x4E92;&#x65A5;&#x5C0D;&#x8C61;mt&#x9032;&#x884C;&#x52A0;&#x9396;&#x64CD;&#x4F5C;&#xFF0C;&#x5F85;&#x64CD;&#x4F5C;&#x5B8C;&#x6210;&#x5F8C;&#x518D;&#x91CB;&#x653E;&#x9396;&#x3002;&#x9019;&#x6A23;&#x5C31;&#x80FD;&#x4FDD;&#x8B49;&#x540C;&#x4E00;&#x6642;&#x523B;&#x81F3;&#x591A;&#x53EA;&#x6709;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x5C0D;int_set&#x5C0D;&#x8C61;&#x57F7;&#x884C;insert&#x64CD;&#x4F5C;&#x3002;</p>
+<p>&#x4FEE;&#x6539;&#x524D;&#x9762;&#x7684;&#x4EE3;&#x78BC;&#x5728;&#x5169;&#x500B;&#x7DDA;&#x7A0B;&#x4E2D;&#x5C0D;&#x5171;&#x4EAB;&#x8CC7;&#x6E90;int_set&#x57F7;&#x884C;insert&#x64CD;&#x4F5C;&#x524D;&#x5148;&#x5C0D;&#x4E92;&#x65A5;&#x5C0D;&#x8C61;mt&#x9032;&#x884C;&#x52A0;&#x9396;&#x64CD;&#x4F5C;&#xFF0C;&#x5F85;&#x64CD;&#x4F5C;&#x5B8C;&#x6210;&#x5F8C;&#x518D;&#x91CB;&#x653E;&#x9396;&#x3002;&#x9019;&#x6A23;&#x5C31;&#x80FD;&#x4FDD;&#x8B49;&#x540C;&#x4E00;&#x6642;&#x523B;&#x81F3;&#x591A;&#x96BB;&#x6709;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x5C0D;int_set&#x5C0D;&#x8C61;&#x57F7;&#x884C;insert&#x64CD;&#x4F5C;&#x3002;</p>
 <pre><code class="lang-cpp">std::set&lt;int&gt; int_set;
 std::mutex mt;
 auto f = [&amp;int_set, &amp;mt]()

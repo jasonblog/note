@@ -11,7 +11,7 @@
 - 然後 Looper 無限循環讀取消息
 - 再調用 Handler 處理消息
 
-但是只知道整體流程，細節還不是特別透徹。最近不甚忙碌，回頭看到這塊又有些許收穫，我們來記錄一下吧。
+但是隻知道整體流程，細節還不是特別透徹。最近不甚忙碌，回頭看到這塊又有些許收穫，我們來記錄一下吧。
 
 在整個Android的源碼世界裡，有兩大利劍，其一是`Binder IPC機制`，另一個便是`消息機制`。Android有大量的消息驅動方式來進行交互，比如Android的四劍客Activity, Service, Broadcast, ContentProvider的啟動過程的交互，都離不開消息機制，Android某種意義上也可以說成是一個以消息驅動的系統。而Android 消息機制主要涉及 4 個類：
 
@@ -639,7 +639,7 @@ public void handleMessage(Message msg)
 - 做一些準備工作(如暴露handler等)
 - 調用Looper.loop()，線程進入阻塞態
 
-由於每一個線程內最多只可以有一個Looper，所以一定要在Looper.prepare()之前做好判定，否則會拋出java.lang.RuntimeException: Only one Looper may be created per thread。為了獲取Looper的信息可以使用兩個方法：
+由於每一個線程內最多隻可以有一個Looper，所以一定要在Looper.prepare()之前做好判定，否則會拋出java.lang.RuntimeException: Only one Looper may be created per thread。為了獲取Looper的信息可以使用兩個方法：
 
 - Looper.myLooper()
 - Looper.getMainLooper()
@@ -674,7 +674,7 @@ private Handler mHandler = new Handler()
 
 `當使用內部類（包括匿名類）來創建Handler的時候，Handler對象會隱式地持有Activity的引用。`
 
-而Handler通常會伴隨著一個耗時的後台線程一起出現，這個後台線程在任務執行完畢後發送消息去更新UI。然而，如果用戶在網絡請求過程中關閉了Activity，正常情況下，Activity不再被使用，它就有可能在GC檢查時被回收掉，但由於這時線程尚未執行完，而該線程持有Handler的引用（不然它怎麼發消息給Handler？），這個Handler又持有Activity的引用，就導致該Activity無法被回收（即內存洩露），直到網絡請求結束。
+而Handler通常會伴隨著一個耗時的後臺線程一起出現，這個後臺線程在任務執行完畢後發送消息去更新UI。然而，如果用戶在網絡請求過程中關閉了Activity，正常情況下，Activity不再被使用，它就有可能在GC檢查時被回收掉，但由於這時線程尚未執行完，而該線程持有Handler的引用（不然它怎麼發消息給Handler？），這個Handler又持有Activity的引用，就導致該Activity無法被回收（即內存洩露），直到網絡請求結束。
 
 另外，如果執行了Handler的postDelayed()方法，那麼在設定的delay到達之前，會有一條MessageQueue -> Message -> Handler -> Activity的鏈，導致你的Activity被持有引用而無法被回收。
 

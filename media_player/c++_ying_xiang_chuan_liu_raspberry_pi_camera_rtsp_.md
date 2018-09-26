@@ -112,7 +112,7 @@ VLC -> open network : rtsp://54.250.138.78:8554/my_video/rpi.264
 還是有更好的方法可以改進?
 對於我這種三角貓等級的工程師來說只能打打指令過過乾癮,
 從頭到尾沒寫半行 code 做出來的 偽 即時影像還蠻心虛的,
-因為我還是不了解底層到底做了哪些事..
+因為我還是不瞭解底層到底做了哪些事..
 而且用現成的 RTSP server 不就沒辦法針對影片進行權限區分了嗎?
 現在腦中還是充滿很多問號..
 
@@ -151,7 +151,7 @@ VLC player : RTP/AVP 傳輸也不支援 NAT 打洞, 但可以用 RTP/AVP/TCP 傳
 ----------------
 http://www.programmer-club.com.tw/ShowSameTitleN/vc/39380.html
 
-- RTSP ( 如果已經了解 http 的話, 這個應該不難. RFC2326 )
+- RTSP ( 如果已經瞭解 http 的話, 這個應該不難. RFC2326 )
 - RTCP
 - RTP
 - SDP
@@ -166,7 +166,7 @@ http://www.programmer-club.com.tw/ShowSameTitleN/vc/39380.html
 - 
 - Demux
 
-至於 encoder , decoder 就看您是否需要深入了解了.
+至於 encoder , decoder 就看您是否需要深入瞭解了.
 
 推薦幾個常用的 open source 的 library:
 - live555
@@ -182,7 +182,7 @@ vlc 底層是以 live555 實作的, 並在同一支程式提供了 streaming ser
 
 media streaming framework 一個很多 embedded system 都在使用的 framework.
 
-這幾個也都是跨平台的 library, live555 目前好像只能當 rtsp server.
+這幾個也都是跨平臺的 library, live555 目前好像只能當 rtsp server.
 VLC 可以用來當各種 server, 只是似乎沒有 live555 穩定. 但他的 multicast server 很方便使用,
 可以將很多 multicast stream 都描述在一個檔案內, 一次全部打出來.
 使用 Multicast 時, 如果在 local 環境測試, 請小心把網路頻寬佔滿.

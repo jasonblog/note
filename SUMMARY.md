@@ -644,7 +644,7 @@
    * [mutex](c++/mutex.md)
        * [C++11併發之std::mutex](c++/c++11bing_fa_zhi_std__mutex.md)
        * [timed_mutex 例子](c++/timedmutex_li_zi.md)
-   * [C++静态成员函数访问非静态成员的几种方法](c++/cjing_tai_cheng_yuan_han_shu_fang_wen_fei_jing_tai.md)
+   * [C++靜態成員函數訪問非靜態成員的幾種方法](c++/cjing_tai_cheng_yuan_han_shu_fang_wen_fei_jing_tai.md)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

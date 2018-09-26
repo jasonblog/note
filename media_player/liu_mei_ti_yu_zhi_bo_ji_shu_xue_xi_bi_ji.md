@@ -50,7 +50,7 @@
 
 ###（1）直播中使用的流媒體協議
 
-`RTMP`， Real Time Messaging Protocol（實時消息傳輸協議）的首字母縮寫。該協議基於`TCP`，是一個協議族，包括RTMP基本協議及RTMPT/RTMPS/RTMPE等多種變種。RTMP是一種設計用來進行實時數據通信的網絡協議，主要用來在Flash/AIR平台和支持RTMP協議的流媒體/交互服務器之間進行音視頻和數據通信。RTMP 基於 flash 無法在 iOS 的瀏覽器裡播放，但是實時性比 HLS 要好。
+`RTMP`， Real Time Messaging Protocol（實時消息傳輸協議）的首字母縮寫。該協議基於`TCP`，是一個協議族，包括RTMP基本協議及RTMPT/RTMPS/RTMPE等多種變種。RTMP是一種設計用來進行實時數據通信的網絡協議，主要用來在Flash/AIR平臺和支持RTMP協議的流媒體/交互服務器之間進行音視頻和數據通信。RTMP 基於 flash 無法在 iOS 的瀏覽器裡播放，但是實時性比 HLS 要好。
 
 `HLS`，HTTP Live Streaming（HTTP直播流技術），Apple的動態碼率自適應技術。主要用於PC和Apple終端的音視頻服務。包括一個m3u(8)的索引文件，TS媒體分片文件和key加密串文件。
 
@@ -62,7 +62,7 @@
 
 - 視頻播放端：可以是電腦上的播放器，手機端的 Native 播放器，還有就是 H5 的 video 標籤等，目前還是已手機端的 Native 播放器為主。技術：`HLS協議或RTMP協議`（用途：視頻播放）`、ffmpeg`（用途：使用RTMP協議時進行移動端視頻解碼）
 
-- 視頻服務器端：一般是一台 nginx 服務器，用來接受視頻錄製端提供的視頻源，同時提供給視頻播放端流服務。技術：`RTMP協議`（用途：上傳視頻流）、`nginx rtmp-module 或 SRS(simple-rtmp-server)`（用途：流服務器）
+- 視頻服務器端：一般是一臺 nginx 服務器，用來接受視頻錄製端提供的視頻源，同時提供給視頻播放端流服務。技術：`RTMP協議`（用途：上傳視頻流）、`nginx rtmp-module 或 SRS(simple-rtmp-server)`（用途：流服務器）
 
 
 

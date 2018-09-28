@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+
+    defaultConfig {
+        applicationId 'com.google.sample.echo'
+        /*
+           To run on earlier version of Android than android-21, do:
+             *) set this minSDKVersion and cmake's ANDROID_PLATFORM to your version
+             *) set ANDROID_STL to c++_static for some very earlier version android.
+         */
+        minSdkVersion 23
+        targetSdkVersion 25
+        versionCode 1
+        versionName '1.0'
+        externalNativeBuild {
+            cmake {
+                arguments '-DANDROID_STL=c++_static'
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                          'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path 'src/main/cpp/CMakeLists.txt'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:25.4.0'
+}

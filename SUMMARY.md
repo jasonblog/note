@@ -1320,6 +1320,7 @@
        * [linked list 和非連續記憶體操作](c/linked_list_he_fei_lian_xu_ji_yi_ti_cao_zuo.md)
        * [Stream I/O 和 EOF](c/stream_io_he_eof.md)
        * [未定義行為篇](c/wei_ding_yi_xing_wei_pian.md)
+       * 記憶體管理、對齊及硬體特性
    * [幫 C 語言加上 Garbage Collector](c/bang_c_yu_yan_jia_shang_garbage_collector.md)
    * [memcpy alignment](c/memcpy_alignment.md)
    * [如何得知 malloc/free 的呼叫次數](c/ru_he_de_zhi_malloc__free_de_hu_jiao_ci_shu.md)

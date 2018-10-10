@@ -30,7 +30,7 @@ Copyright (**慣C**) 2018 [宅色夫](http://wiki.csie.ncku.edu.tw/User/jserv)
 
 ## 你可能沒想過的 Memory
 
-![](https://i.imgur.com/Or5nAKc.png)
+![](./images/Or5nAKc.png)
 * Cache locality
 
 參照 [What a C programmer should know about memory](https://marek.vavrusa.com/memory/) ([簡記](http://wen00072.github.io/blog/2015/08/08/notes-what-a-c-programmer-should-know-about-memory/))
@@ -104,13 +104,13 @@ He doesn't say which authors and doesn't give references to any specific papers,
 例如:
   * 第一次取: 0~3 
   * 第二次取: 4~7
-![](https://i.imgur.com/aDCYyWc.png)
+![](./images/aDCYyWc.png)
 
 所以如果你的資料是分布在 1~4 那還是會
   * 第一次取:0~3 將，0 的資料去掉，留下 1~3
   * 第二次取:4~7 將，5~7 的資料去掉，留下 4
   * 再將 1~3 4 合起來
-![](https://i.imgur.com/wIfEVy9.png)
+![](./images/wIfEVy9.png)
 由於資料分布不在 4 的倍數，導致了存取速度降低，編譯器在分配記憶體時，就會按照宣告的型態去做 alignment ，例如 int 就是 4 byte alignment。
 
 * struct 會自動做 alignment，假設創了一個 struct，如下面 code 所示
@@ -179,7 +179,7 @@ for i in `seq 0 1 200`; do \
 ```
 
 效能分佈:
-![](https://i.imgur.com/yUS7zcw.png)
+![](./images/yUS7zcw.png)
 
 
 malloc 本來配置出來的記憶體位置就有做 alignment，根據 malloc 的 man page 裡提到 :
@@ -213,7 +213,7 @@ Then you can also have  other complexities  like  one half of the memory access 
 
 Some architectures (like Intel x86) also has alignment interrupts  that help in detecting  unaligned memory access.
 
-![](https://i.imgur.com/JqXjUAe.png)
+![](./images/JqXjUAe.png)
 
 考慮以下 `unaligned_get32` 函式的實作: (假設硬體架構為 32-bits)
 ```C
@@ -276,7 +276,7 @@ void unaligned_set32(void *dest, uint32_t value) {
 
 文中首先提到對「天真版」的 linked-list 插入與刪除，就算直接用compare-and-swap 這個最小操作改寫，也沒有辦法保證結果正確。在只有 insert 的狀況下可以成立，但如果加上 delete 的話，如果 insert 跟 delete 發生時機很接近，有可能會發生以下的狀況：
 
-![](https://i.imgur.com/3UdTPuB.png)
+![](./images/3UdTPuB.png)
 
 情境是這樣：準備插入 20, 並且刪除 10。這是做到一半的狀況。 
 
@@ -290,11 +290,11 @@ void unaligned_set32(void *dest, uint32_t value) {
 
 但是兩個 CAS 的動作的先後是無法確定的。如果 insert  的先發生，那結果是正確的。但是如果 delete 的先發生，就會變成下面這個樣子：
 
-![](https://i.imgur.com/N2V17Uw.png)
+![](./images/N2V17Uw.png)
 
 結果顯然不太對，因為本來沒有要刪除 20 那個節點。那到底要怎麼辦呢？這篇文章提到一個作法：刪除時不要真的刪除，而是掛一個牌子說「此路段即將刪除」，但是還是過得去，像這樣：
 
-![](https://i.imgur.com/jFqa1Ik.png)
+![](./images/jFqa1Ik.png)
 
 然後等到真的要拆他的時候（比如說需要插入的時候），再把它拆掉。
 
@@ -353,7 +353,7 @@ typedef unsigned int        uintptr_t;
 
 繼續找 [x86_64 ABI](https://www.uclibc.org/docs/psABI-x86_64.pdf)，裡面其中一個附表：
 
-![](https://i.imgur.com/XER1MC6.png)
+![](./images/XER1MC6.png)
 
 然後又說：
 
@@ -419,11 +419,11 @@ arena即為malloc從系統取得的連續記憶體區域，分為main arena與th
 
 _Main arena vs Thread arena :_
 
-![](https://hackpad-attachments.s3.amazonaws.com/embedded2016.hackpad.com_kS5wHum1S54_p.606235_1462612773104_undefined)
+![](./images/embedded2016.hackpad.com_kS5wHum1S54_p.606235_1462612773104_undefined)
 
 _multiple heap Thread arena :_
 
-![](https://docs.google.com/drawings/d/150bTi0uScQlnABDImLYS8rWyL82mmfpMxzRbx-45UKw/pub?w=960&h=720)
+![](./images/d/150bTi0uScQlnABDImLYS8rWyL82mmfpMxzRbx-45UKw/pub?w=960&h=720)
 
 **Chunks**
 
@@ -433,7 +433,7 @@ _multiple heap Thread arena :_
 
 _Allocated chunk :_
 
-![](https://hackpad-attachments.s3.amazonaws.com/embedded2016.hackpad.com_kS5wHum1S54_p.606235_1470748227961_embedded2016.hackpad.com_kS5wHum1S54_p.png)
+![](./images/embedded2016.hackpad.com_kS5wHum1S54_p.606235_1470748227961_embedded2016.hackpad.com_kS5wHum1S54_p.png)
 
 *   [prev_size](https://github.com/sploitfun/lsploits/blob/master/glibc/malloc/malloc.c#L1110) : 如果前一個chunk是free chunk，包含前一個chunk的size，若是allocated，則包含user data
 *   [size](https://github.com/sploitfun/lsploits/blob/master/glibc/malloc/malloc.c#L1111) : 此chunk的大小，最後3bit作為flag使用
@@ -459,7 +459,7 @@ bins是紀錄free chunks的資料結構(freelist)，依據其大小和特性分�
 
 (以下的數值為32bit系統，64bit *2)
 
-![](https://hackpad-attachments.s3.amazonaws.com/embedded2016.hackpad.com_kS5wHum1S54_p.606235_1465029316592_undefined)
+![](./images/embedded2016.hackpad.com_kS5wHum1S54_p.606235_1465029316592_undefined)
 
 _Fast Bin _:
 
@@ -469,7 +469,7 @@ _Fast Bin _:
 *   size : 每個bin差8 bytes
 *   不執行合併 : 在free時不會清除下一個chunk的PREV_INUSE flag
 
-![](https://hackpad-attachments.s3.amazonaws.com/embedded2016.hackpad.com_kS5wHum1S54_p.606235_1464375243439_undefined)
+![](./images/embedded2016.hackpad.com_kS5wHum1S54_p.606235_1464375243439_undefined)
 
 _Unsorted Bin _:
 

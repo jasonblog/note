@@ -109,4 +109,59 @@ public class FileUtil
 }
 ```
 
+範例在catch區塊進行完部份錯誤處理之後，可以使用throw（注意不是throws）將例外再拋出，實際上，你可以在任何流程中拋出例外，`不一定要在catch區塊中`，在流程中拋出例外，`就直接跳離原有的流程`，可以拋出`受檢或非受檢例外`，
+
+記得！
+
+
+如果拋出的是`受檢例外`，表示你認為客戶端有能力且應處理例外，此時必須在`方法上使用throws宣告`，
+
+如果拋出的例外是`非受檢例外`，表示你認為客戶端呼叫方法的時機出錯了，拋出例外是要求客戶端修正這個臭蟲再來呼叫方法，`此時也就不用使用throws宣告`。
+
+
+
+```java
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.io.EOFException;
+
+public class FileUtil
+{
+    public static void doSome(String arg) throws FileNotFoundException, EOFException {
+        try
+        {
+            if ("one".equals(arg)) {
+                throw new FileNotFoundException();
+            } else {
+                throw new EOFException();
+            }
+        } catch (FileNotFoundException ex)
+        {
+            ex.printStackTrace();
+            throw ex;
+        } catch (EOFException ex)
+        {
+            ex.printStackTrace();
+            throw ex;
+        }
+    }
+
+    public static void main(String args[])
+    {
+    }
+}
+```
+
+如果使用繼承時，父類別某個方法宣告throws某些例外，子類別重新定義該方法時可以：
+
+- 不宣告throws任何例外
+- 可throws父類別該方法中宣告的某些例外
+- 可throws父類別該方法中宣告例外之子類別
+
+但是不可以：
+
+- throws父類別方法中未宣告的其它例外
+- throws父類別方法中宣告例外之父類別
+
 

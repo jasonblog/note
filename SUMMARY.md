@@ -1405,6 +1405,7 @@
    * [Java的兩種多線程實現方式](java/javade_liang_zhong_duo_xian_cheng_shi_xian_fang_sh.md)
    * [gradle init --type java-application](java/gradle_init_--type_java-application.md)
    * [Java_Gossip](java/javagossip.md)
+       * 例外處理
 * [Linear Algebra](linear_algebra/linear_algebra.md)
    * [理解矩陣](linear_algebra/li_jie_ju_zhen.md)
    * [旋轉矩陣與四元數](linear_algebra/xuanzhuan_ju_zhen_yu_si_yuan_shu_md.md)

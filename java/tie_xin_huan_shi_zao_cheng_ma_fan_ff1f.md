@@ -25,3 +25,28 @@ public class CustomizedException extends RuntimeException { // 自訂非受檢�
 }
 ```
 
+
+一個基本的例子是這樣的：
+
+````java
+try {
+    ....
+} catch(SomeException ex) {
+    // 作些可行的處理
+    // 也許是 Logging 之類的
+    throw new CustomizedException("error message..."); // Checked 或 Unchecked？
+}
+```
+
+類似地，如果流程中要拋出例外，也要思考一下，這是客戶端可以處理的例外嗎？還是客戶端沒有準備好前置條件就呼叫方法，才引發的例外？
+
+```java
+if(someCondition) {
+    throw new CustomizedException("error message"); // Checked 或 Unchecked？
+}
+```
+
+
+無論如何，Java採用了受檢例外的作法，Java的標準API似乎也打算一直這麼區分下去，只是受檢例外讓開發人員無從選擇，會由編譯器強制性要求處理，確實會在設計上造成麻煩，因而有些開發者在設計程式庫時，乾脆就選擇完全使用非受檢例外，一 些會封裝應用程式底層行為的框架，如Spring或Hibernate，就選擇了讓例外體系是非受檢例外，例如Spring中的DataAccessException，或者是Hibernate 3中的HibernateException，它們選擇給予開發人員較大的彈性來面對例外（也許也需要開發人員更多的經驗）。
+
+隨著應用程式的演化，例外也可以考慮演化，也許一開始是設計為受檢例外，然而隨著應用程式堆疊的加深，受檢例外老是一層一層往外宣告拋出造成麻煩時，這也許代表了，原先認為客戶端可處理的例外，每一層客戶端實際上都無力處理了，每層客戶端都無力處理的例外，也許該視為一種臭蟲，也許客戶端在呼叫時都該準備好前置條件再行呼叫，以避免引發錯誤，這時將受檢例外演化為非受檢例外，也許就有其必要。

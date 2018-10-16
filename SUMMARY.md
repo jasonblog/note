@@ -1406,6 +1406,7 @@
    * [gradle init --type java-application](java/gradle_init_--type_java-application.md)
    * [Java_Gossip](java/javagossip.md)
        * [例外處理](java/li_wai_chu_li.md)
+           * 要抓還是要拋？
 * [Linear Algebra](linear_algebra/linear_algebra.md)
    * [理解矩陣](linear_algebra/li_jie_ju_zhen.md)
    * [旋轉矩陣與四元數](linear_algebra/xuanzhuan_ju_zhen_yu_si_yuan_shu_md.md)

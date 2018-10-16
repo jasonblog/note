@@ -1407,6 +1407,7 @@
    * [Java_Gossip](java/javagossip.md)
        * [例外處理](java/li_wai_chu_li.md)
            * [要抓還是要拋？](java/yao_zhua_huan_shi_yao_pao_ff1f.md)
+           * 貼心還是造成麻煩？
 * [Linear Algebra](linear_algebra/linear_algebra.md)
    * [理解矩陣](linear_algebra/li_jie_ju_zhen.md)
    * [旋轉矩陣與四元數](linear_algebra/xuanzhuan_ju_zhen_yu_si_yuan_shu_md.md)

@@ -10,3 +10,18 @@ Java 將例外區分為受檢例外與非受檢例外，在例外繼承架構中
 
 
 
+也可以考慮為應用程式自訂專屬例外類別，讓例外更能表現應用程式特有的錯誤資訊。自訂例外類別時，可以繼承Throwable、Error或Exception的相關子類別，通常建議繼承自Exception，如果不是繼承自Error或RuntimeException，那麼就會是受檢例外。
+
+```java
+public class CustomizedException extends Exception { // 自訂受檢例外的一個例子
+    ...
+}
+```
+錯誤發生時，如果上下文環境並沒有足夠的資訊讓你處理例外，你可以就現有資訊處理完例外後，重新拋出例外，既然你已經針對錯誤做了某些處理，那麼也就可以考慮自訂例外，用以更精確地表示出未處理的錯誤，如果認為呼叫API的客戶端應當有能力處理未處理的錯誤，那就自訂受檢例外、填入適當錯誤訊息並重新拋出，並在方法上使用throws加以宣告，如果認為呼叫API的客戶端沒有準備好就呼叫了方法，才會造成還有未處理的錯誤，那就自訂非受檢例外、填入適當錯誤訊息並重新拋出。
+
+```java
+public class CustomizedException extends RuntimeException { // 自訂非受檢例外的一個例子
+    ...
+}
+```
+

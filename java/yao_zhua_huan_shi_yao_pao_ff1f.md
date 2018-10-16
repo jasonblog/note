@@ -73,3 +73,40 @@ class FileUtil
 
 
 實際上在例外發生時，可使用try、catch處理`當時環境可進行的例外處理`，當時環境下`無法決定如何處理的部份，可以拋出由呼叫方法的客戶端處理`。如果想先處理部份事項再拋出，可以如下：
+
+
+
+```java
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class FileUtil
+{
+    public static String readFile(String name) throws FileNotFoundException {
+        StringBuilder builder = new StringBuilder();
+
+        try
+        {
+            Scanner scanner = new Scanner(new FileInputStream(name));
+
+            while (scanner.hasNext()) {
+                builder.append(scanner.nextLine());
+                builder.append('\n');
+            }
+        } catch (FileNotFoundException ex)
+        {
+            ex.printStackTrace();
+            throw ex;
+        }
+
+        return builder.toString();
+    }
+
+    public static void main(String args[])
+    {
+    }
+}
+```
+
+

@@ -57,7 +57,7 @@
         data-chapter-title="選出股本50億以上的股票代號"
         data-filepath="python/xuan_chu_gu_ben_50_yi_yi_shang_de_gu_piao_dai_hao.md"
         data-basepath=".."
-        data-revision="Thu Oct 18 2018 02:34:28 GMT+0800 (CST)"
+        data-revision="Thu Oct 18 2018 02:43:04 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23020,7 +23020,11 @@ header = {<span class="hljs-string">&apos;user-agent&apos;</span>:<span class="h
 VAL_S = <span class="hljs-number">8</span>   <span class="hljs-comment">#&#x80A1;&#x672C;&#x7BC4;&#x570D;&#x8D77;</span>
 VAL_E = <span class="hljs-number">15</span>    <span class="hljs-comment">#&#x80A1;&#x672C;&#x7BC4;&#x570D;&#x8FC4;</span>
 
-rt = requests.get(<span class="hljs-string">&apos;https://goodinfo.tw/StockInfo/StockList.asp?MARKET_CAT=%E8%87%AA%E8%A8%82%E7%AF%A9%E9%81%B8&amp;INDUSTRY_CAT=%E6%88%91%E7%9A%84%E6%A2%9D%E4%BB%B6&amp;FILTER_ITEM0=%E8%82%A1%E6%9C%AC+%28%E5%84%84%E5%85%83%29&amp;FILTER_VAL_S0=&apos;</span> + str(VAL_S) + <span class="hljs-string">&apos;&amp;FILTER_VAL_E0=&apos;</span> + str(VAL_E), headers = header)
+url = <span class="hljs-string">&apos;https://goodinfo.tw/StockInfo/StockList.asp?MARKET_CAT=%E8%87%AA%E8%A8%82%E7%AF%A9%E9%81%B8&amp;INDUSTRY_CAT=%E6%88%91%E7%9A%84%E6%A2%9D%E4%BB%B6&amp;FILTER_ITEM0=%E8%82%A1%E6%9C%AC+%28%E5%84%84%E5%85%83%29&amp;FILTER_VAL_S0=&apos;</span> + str(VAL_S) + <span class="hljs-string">&apos;&amp;FILTER_VAL_E0=&apos;</span> + str(VAL_E)
+
+print(url)
+
+rt = requests.get(url, headers = header)
 
 <span class="hljs-comment"># &#x78BA;&#x8A8D;&#x662F;&#x5426;&#x4E0B;&#x8F09;&#x6210;&#x529F;</span>
 <span class="hljs-keyword">if</span> rt.status_code == requests.codes.ok:

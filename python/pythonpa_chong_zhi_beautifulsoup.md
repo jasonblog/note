@@ -335,4 +335,19 @@ soup.b.contents
 
 clear用来移除当前节点的所有的内容，包括其中的子孙节点和文本内容
 
+```py
+html="""
+<p><p>
+"""
+soup=BeautifulSoup(html,'lxml')
+tag=soup.p
+new_tag=soup.new_tag('a')
+new_tag['href']='#'
+new_tag.string='陈加兵的博客'
+tag.append("欢迎来到")
+tag.insert(1,new_tag)
+tag.clear()    #这里将会移除所有内容
+print tag
+```
+
 

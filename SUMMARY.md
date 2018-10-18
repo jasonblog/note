@@ -646,6 +646,7 @@
        * [timed_mutex 例子](c++/timedmutex_li_zi.md)
    * [C++靜態成員函數訪問非靜態成員的幾種方法](c++/cjing_tai_cheng_yuan_han_shu_fang_wen_fei_jing_tai.md)
    * [Mutex + Timer 模擬時間鎖](c++/mutex_+_timer_mo_ni_shi_jian_suo.md)
+   * How to Stop or Terminate a Thread
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

@@ -878,6 +878,7 @@
        * [remove script tags with BeautifulSoup](python/remove_script_tags_with_beautifulsoup.md)
        * [使用BeautifulSoup](python/shi_yong_beautifulsoup.md)
        * [Python使用beautifulsoup解析HTML、XML](python/pythonshi_yong_beautifulsoup_jie_xi_html__xml.md)
+       * python爬虫之BeautifulSoup
    * [爬蟲](python/pa_chong.md)
        * [Python爬蟲模擬登錄的黑魔法](python/pythonpa_chong_mo_ni_deng_lu_de_hei_mo_fa.md)
        * [Selenium 使用 CSS locator 定位 HTML element](python/selenium_shi_yong_css_locator_ding_wei_html_elemen.md)

@@ -57,7 +57,7 @@
         data-chapter-title="Mutex + Timer 模擬時間鎖"
         data-filepath="c++/mutex_+_timer_mo_ni_shi_jian_suo.md"
         data-basepath=".."
-        data-revision="Thu Oct 18 2018 22:48:50 GMT+0800 (CST)"
+        data-revision="Thu Oct 18 2018 23:02:24 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23093,7 +23093,7 @@
 
 <span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">void</span><span class="hljs-params">(*ProcessHandler)</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;
 
-<span class="hljs-comment">//&#x4E92;&#x65A5;&#x9501;</span>
+<span class="hljs-comment">//&#x4E92;&#x65A5;&#x9396;</span>
 <span class="hljs-keyword">class</span> MutexLock
 {
 <span class="hljs-keyword">public</span>:
@@ -23161,10 +23161,10 @@ MutexLock* MutexLock::this_ = <span class="hljs-literal">nullptr</span>;
 <span class="hljs-keyword">public</span>:
     Timer(<span class="hljs-keyword">int</span> sec, <span class="hljs-keyword">int</span> usec)
     {
-        <span class="hljs-comment">//&#x7ED3;&#x6784;&#x6210;&#x5458;it_value&#x6307;&#x5B9A;&#x9996;&#x6B21;&#x5B9A;&#x65F6;&#x7684;&#x65F6;&#x95F4;&#xFF0C;</span>
-        <span class="hljs-comment">// &#x7ED3;&#x6784;&#x6210;&#x5458;it_interval&#x6307;&#x5B9A;&#x4E0B;&#x6B21;&#x5B9A;&#x65F6;&#x7684;&#x65F6;&#x95F4;</span>
-        <span class="hljs-comment">// &#x5B9A;&#x65F6;&#x5668;&#x5DE5;&#x4F5C;&#x65F6;&#xFF0C;&#x5148;&#x5C06;it_value&#x7684;&#x65F6;&#x95F4;&#x503C;&#x51CF;&#x5230;0&#xFF0C;</span>
-        <span class="hljs-comment">// &#x53D1;&#x9001;&#x4E00;&#x4E2A;&#x4FE1;&#x53F7;&#xFF0C;&#x518D;&#x5C06;it_value&#x8D4B;&#x503C;&#x4E3A;it_interval&#x7684;&#x503C;&#xFF0C;&#x91CD;&#x65B0;&#x5F00;&#x59CB;&#x5B9A;&#x65F6;&#xFF0C;&#x5982;&#x6B64;&#x53CD;&#x590D;&#x3002;</span>
+        <span class="hljs-comment">//&#x7D50;&#x69CB;&#x6210;&#x54E1;it_value&#x6307;&#x5B9A;&#x9996;&#x6B21;&#x5B9A;&#x6642;&#x7684;&#x6642;&#x9593;&#xFF0C;</span>
+        <span class="hljs-comment">// &#x7D50;&#x69CB;&#x6210;&#x54E1;it_interval&#x6307;&#x5B9A;&#x4E0B;&#x6B21;&#x5B9A;&#x6642;&#x7684;&#x6642;&#x9593;</span>
+        <span class="hljs-comment">// &#x5B9A;&#x6642;&#x5668;&#x5DE5;&#x4F5C;&#x6642;&#xFF0C;&#x5148;&#x5C07;it_value&#x7684;&#x6642;&#x9593;&#x503C;&#x6E1B;&#x5230;0&#xFF0C;</span>
+        <span class="hljs-comment">// &#x767C;&#x9001;&#x4E00;&#x500B;&#x4FE1;&#x865F;&#xFF0C;&#x518D;&#x5C07;it_value&#x8CE6;&#x503C;&#x70BA;it_interval&#x7684;&#x503C;&#xFF0C;&#x91CD;&#x65B0;&#x958B;&#x59CB;&#x5B9A;&#x6642;&#xFF0C;&#x5982;&#x6B64;&#x53CD;&#x8986;&#x3002;</span>
         _tim_ticks.it_value.tv_sec = sec;
         _tim_ticks.it_value.tv_usec = usec;
         _tim_ticks.it_interval.tv_sec = <span class="hljs-number">0</span>;

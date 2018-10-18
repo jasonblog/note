@@ -1,25 +1,25 @@
-# python爬虫之BeautifulSoup
+# python爬蟲之BeautifulSoup
 
-##简介
-Beautiful Soup提供一些简单的、python式的函数用来处理导航、搜索、修改分析树等功能。它是一个工具箱，通过解析文档为用户提供需要抓取的数据，因为简单，所以不需要多少代码就可以写出一个完整的应用程序。Beautiful Soup自动将输入文档转换为Unicode编码，输出文档转换为utf-8编码。你不需要考虑编码方式，除非文档没有指定一个编码方式，这时，Beautiful Soup就不能自动识别编码方式了。然后，你仅仅需要说明一下原始编码方式就可以了。
-
-
-Beautiful Soup已成为和lxml、html6lib一样出色的python解释器，为用户灵活地提供不同的解析策略或强劲的速度。
+##簡介
+Beautiful Soup提供一些簡單的、python式的函數用來處理導航、搜索、修改分析樹等功能。它是一個工具箱，通過解析文檔為用戶提供需要抓取的數據，因為簡單，所以不需要多少代碼就可以寫出一個完整的應用程序。Beautiful Soup自動將輸入文檔轉換為Unicode編碼，輸出文檔轉換為utf-8編碼。你不需要考慮編碼方式，除非文檔沒有指定一個編碼方式，這時，Beautiful Soup就不能自動識別編碼方式了。然後，你僅僅需要說明一下原始編碼方式就可以了。
 
 
+Beautiful Soup已成為和lxml、html6lib一樣出色的python解釋器，為用戶靈活地提供不同的解析策略或強勁的速度。
 
-## 安装
+
+
+## 安裝
 
 ```sh
 pip install BeautifulSoup4
 easy_install BeautifulSoup4
 ```
 
-## 创建BeautifulSoup对象
+## 創建BeautifulSoup對象
 
-- 首先应该导入BeautifulSoup类库 from bs4 import BeautifulSoup
+- 首先應該導入BeautifulSoup類庫 from bs4 import BeautifulSoup
 
-- 下面开始创建对像，在开始之前为了方便演示，先创建一个html文本，如下：
+- 下面開始創建對像，在開始之前為了方便演示，先創建一個html文本，如下：
 
 
 ```html
@@ -36,92 +36,92 @@ and they lived at the bottom of a well.</p>
 """
 ```
 
-- 创建对象：soup=BeautifulSoup(html,'lxml'),这里的lxml是解析的类库，目前来说个人觉得最好的解析器了，一直在用这个，安装方法：pip install lxml
+- 創建對象：soup=BeautifulSoup(html,'lxml'),這裡的lxml是解析的類庫，目前來說個人覺得最好的解析器了，一直在用這個，安裝方法：pip install lxml
 
 
 ## Tag
 
-Tag就是html中的一个标签，用BeautifulSoup就能解析出来Tag的具体内容，具体的格式为soup.name,其中name是html下的标签，具体实例如下：
+Tag就是html中的一個標籤，用BeautifulSoup就能解析出來Tag的具體內容，具體的格式為soup.name,其中name是html下的標籤，具體實例如下：
 
-- print soup.title输出title标签下的内容，包括此标签，这个将会输出<title>The Dormouse's story</title>
+- print soup.title輸出title標籤下的內容，包括此標籤，這個將會輸出<title>The Dormouse's story</title>
 
 - print soup.head
 
 ## 注意：
 
-这里的格式只能获取这些标签的第一个，后面会讲到获取多个标签的方法。其中对于Tag有两个重要的属性name和attrs,分别表示名字和属性,介绍如下：
+這裡的格式只能獲取這些標籤的第一個，後面會講到獲取多個標籤的方法。其中對於Tag有兩個重要的屬性name和attrs,分別表示名字和屬性,介紹如下：
 
 
-- name:对于Tag，它的name就是其本身，如soup.p.name就是p
+- name:對於Tag，它的name就是其本身，如soup.p.name就是p
 
-- attrs是一个字典类型的，对应的是属性-值，如print soup.p.attrs,输出的就是{'class': ['title'], 'name': 'dromouse'},当然你也可以得到具体的值，如print soup.p.attrs['class'],输出的就是[title]是一个列表的类型，因为一个属性可能对应多个值,当然你也可以通过get方法得到属性的，如：print soup.p.get('class')。还可以直接使用print soup.p['class']
+- attrs是一個字典類型的，對應的是屬性-值，如print soup.p.attrs,輸出的就是{'class': ['title'], 'name': 'dromouse'},當然你也可以得到具體的值，如print soup.p.attrs['class'],輸出的就是[title]是一個列表的類型，因為一個屬性可能對應多個值,當然你也可以通過get方法得到屬性的，如：print soup.p.get('class')。還可以直接使用print soup.p['class']
 
 ###get
 
 
-get方法用于得到标签下的属性值，注意这是一个重要的方法，在许多场合都能用到，比如你要得到<img src="#">标签下的图像url,那么就可以用soup.img.get('src'),具体解析如下：
+get方法用於得到標籤下的屬性值，注意這是一個重要的方法，在許多場合都能用到，比如你要得到<img src="#">標籤下的圖像url,那麼就可以用soup.img.get('src'),具體解析如下：
 
 
 
 ```py
-print soup.p.get("class")   #得到第一个p标签下的src属性
+print soup.p.get("class")   #得到第一個p標籤下的src屬性
 ```
 
 ###string
-得到标签下的文本内容，只有在此标签下没有子标签，或者只有一个子标签的情况下才能返回其中的内容，否则返回的是None具体实例如下：
+得到標籤下的文本內容，只有在此標籤下沒有子標籤，或者只有一個子標籤的情況下才能返回其中的內容，否則返回的是None具體實例如下：
 
 ```py
-print soup.p.string #在上面的一段文本中p标签没有子标签，因此能够正确返回文本的内容
-print soup.html.string  #这里得到的就是None,因为这里的html中有很多的子标签
+print soup.p.string #在上面的一段文本中p標籤沒有子標籤，因此能夠正確返回文本的內容
+print soup.html.string  #這裡得到的就是None,因為這裡的html中有很多的子標籤
 ```
 
 ### get_text()
-可以获得一个标签中的所有文本内容，包括子孙节点的内容，这是最常用的方法
+可以獲得一個標籤中的所有文本內容，包括子孫節點的內容，這是最常用的方法
 
 
-## 搜索文档树
+## 搜索文檔樹
 
 ```py
 find_all( name , attrs , recursive , text , **kwargs )
 ```
 
-find_all是用于搜索节点中所有符合过滤条件的节点
+find_all是用於搜索節點中所有符合過濾條件的節點
 
-###1.name参数：是Tag的名字，如p,div,title …..
-soup.find_all("p") 查找所有的p标签，返回的是[<b>The Dormouse's story</b>]，可以通过遍历获取每一个节点，如下：
+###1.name參數：是Tag的名字，如p,div,title …..
+soup.find_all("p") 查找所有的p標籤，返回的是[<b>The Dormouse's story</b>]，可以通過遍歷獲取每一個節點，如下：
 
 
 ```py
 ps=soup.find_all("p")
 for p in ps:
-    print p.get('class')   #得到p标签下的class属性
+    print p.get('class')   #得到p標籤下的class屬性
 ```
 
-传入正则表达式：soup.find_all(re.compile(r'^b')查找以b开头的所有标签，这里的body和b标签都会被查到
+傳入正則表達式：soup.find_all(re.compile(r'^b')查找以b開頭的所有標籤，這裡的body和b標籤都會被查到
 
-传入类列表：如果传入列表参数,BeautifulSoup会将与列表中任一元素匹配的内容返回.下面代码找到文档中所有<a>标签和<b>标签
+傳入類列表：如果傳入列表參數,BeautifulSoup會將與列表中任一元素匹配的內容返回.下面代碼找到文檔中所有<a>標籤和<b>標籤
 
 ```py
 soup.find_all(["a", "b"])
 ```
 
-### 2. KeyWords参数，就是传入属性和对应的属性值，或者一些其他的表达式
+### 2. KeyWords參數，就是傳入屬性和對應的屬性值，或者一些其他的表達式
 
-- soup.find_all(id='link2'),这个将会搜索找到所有的id属性为link2的标签。传入正则表达式soup.find_all(href=re.compile("elsie")),这个将会查找所有href属性满足正则表达式的标签
+- soup.find_all(id='link2'),這個將會搜索找到所有的id屬性為link2的標籤。傳入正則表達式soup.find_all(href=re.compile("elsie")),這個將會查找所有href屬性滿足正則表達式的標籤
 
-- 传入多个值：soup.find_all(id='link2',class_='title') ,这个将会查找到同时满足这两个属性的标签，这里的class必须用class_传入参数，因为class是python中的关键词
+- 傳入多個值：soup.find_all(id='link2',class_='title') ,這個將會查找到同時滿足這兩個屬性的標籤，這裡的class必須用class_傳入參數，因為class是python中的關鍵詞
 
-- 有些属性不能通过以上方法直接搜索，比如html5中的data-*属性，不过可以通过attrs参数指定一个字典参数来搜索包含特殊属性的标签，如下：
+- 有些屬性不能通過以上方法直接搜索，比如html5中的data-*屬性，不過可以通過attrs參數指定一個字典參數來搜索包含特殊屬性的標籤，如下：
 
 
 ```py
 # [<div data-foo="value">foo!</div>]
-data_soup.find_all(attrs={"data-foo": "value"})   #注意这里的atts不仅能够搜索特殊属性，亦可以搜索普通属性
-soup.find_all("p",attrs={'class':'title','id':'value'})  #相当与soup.find_all('p',class_='title',id='value')
+data_soup.find_all(attrs={"data-foo": "value"})   #注意這裡的atts不僅能夠搜索特殊屬性，亦可以搜索普通屬性
+soup.find_all("p",attrs={'class':'title','id':'value'})  #相當與soup.find_all('p',class_='title',id='value')
 ```
 
 
-### 3. text参数：通过 text 参数可以搜搜文档中的字符串内容.与 name 参数的可选值一样, text 参数接受 字符串 , 正则表达式 , 列表, True
+### 3. text參數：通過 text 參數可以搜搜文檔中的字符串內容.與 name 參數的可選值一樣, text 參數接受 字符串 , 正則表達式 , 列表, True
 
 ```py
 soup.find_all(text="Elsie")
@@ -134,9 +134,9 @@ soup.find_all(text=re.compile("Dormouse"))
 [u"The Dormouse's story", u"The Dormouse's story"]
 ```
 
-### 4. limit参数：find_all() 方法返回全部的搜索结构,如果文档树很大那么搜索会很慢.如果我们不需要全部结果,可以使用 limit 参数限制返回结果的数量.效果与SQL中的limit关键字类似,当搜索到的结果数量达到 limit 的限制时,就停止搜索返回结果.
+### 4. limit參數：find_all() 方法返回全部的搜索結構,如果文檔樹很大那麼搜索會很慢.如果我們不需要全部結果,可以使用 limit 參數限制返回結果的數量.效果與SQL中的limit關鍵字類似,當搜索到的結果數量達到 limit 的限制時,就停止搜索返回結果.
 
-文档树中有3个tag符合搜索条件,但结果只返回了2个,因为我们限制了返回数量,代码如下：
+文檔樹中有3個tag符合搜索條件,但結果只返回了2個,因為我們限制了返回數量,代碼如下：
 
 
 ```py
@@ -145,21 +145,21 @@ soup.find_all("a", limit=2)
 #  <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>]
 ```
 
-### 5.recursive 参数:调用tag的 find_all() 方法时,BeautifulSoup会检索当前tag的所有子孙节点,如果只想搜索tag的直接子节点,可以使用参数 recursive=False
+### 5.recursive 參數:調用tag的 find_all() 方法時,BeautifulSoup會檢索當前tag的所有子孫節點,如果只想搜索tag的直接子節點,可以使用參數 recursive=False
 
 ```py
 find( name , attrs , recursive , text , **kwargs )
 ```
 
-它与 find_all() 方法唯一的区别是 find_all() 方法的返回结果是值包含一个元素的列表,而 find() 方法直接返回结果,就是直接返回第一匹配到的元素，不是列表，不用遍历，如soup.find("p").get("class")
+它與 find_all() 方法唯一的區別是 find_all() 方法的返回結果是值包含一個元素的列表,而 find() 方法直接返回結果,就是直接返回第一匹配到的元素，不是列表，不用遍歷，如soup.find("p").get("class")
 
 
-# css选择器
+# css選擇器
 
-我们在写 CSS 时，标签名不加任何修饰，类名前加点，id名前加#，在这里我们也可以利用类似的方法来筛选元素，用到的方法是 soup.select()，返回类型是 list
+我們在寫 CSS 時，標籤名不加任何修飾，類名前加點，id名前加#，在這裡我們也可以利用類似的方法來篩選元素，用到的方法是 soup.select()，返回類型是 list
 
 
-### 通过标签名查找
+### 通過標籤名查找
 
 ```py
 print soup.select('title') 
@@ -168,34 +168,34 @@ print soup.select('a')
 #[<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
 ```
 
-### 通过类名查找
+### 通過類名查找
 
 ```py
 print soup.select('.sister')
 #[<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
 ```
 
-### 通过id名查找
+### 通過id名查找
 
 ```py
 print soup.select('#link1')
 #[<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>]
 ```
 
-### 组合查找
+### 組合查找
 
-学过css的都知道css选择器，如p #link1是查找p标签下的id属性为link1的标签
+學過css的都知道css選擇器，如p #link1是查找p標籤下的id屬性為link1的標籤
 
 ```py
-print soup.select('p #link1')    #查找p标签中内容为id属性为link1的标签
+print soup.select('p #link1')    #查找p標籤中內容為id屬性為link1的標籤
 #[<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>]
-print soup.select("head > title")   #直接查找子标签
+print soup.select("head > title")   #直接查找子標籤
 #[<title>The Dormouse's story</title>]
 ```
 
-### 属性查找
+### 屬性查找
 
-查找时还可以加入属性元素，属性需要用中括号括起来，注意属性和标签属于同一节点，所以中间不能加空格，否则会无法匹配到。
+查找時還可以加入屬性元素，屬性需要用中括號括起來，注意屬性和標籤屬於同一節點，所以中間不能加空格，否則會無法匹配到。
 
 ```py
 print soup.select('a[class="sister"]')
@@ -204,7 +204,7 @@ print soup.select('a[href="http://example.com/elsie"]')
 #[<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>]
 ```
 
-同样，属性仍然可以与上述查找方式组合，不在同一节点的空格隔开，同一节点的不加空格,代码如下：
+同樣，屬性仍然可以與上述查找方式組合，不在同一節點的空格隔開，同一節點的不加空格,代碼如下：
 
 
 ```py
@@ -212,7 +212,7 @@ print soup.select('p a[href="http://example.com/elsie"]')
 #[<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>]
 ```
 
-以上的 select 方法返回的结果都是列表形式，可以遍历形式输出，然后用 get_text() 方法来获取它的内容
+以上的 select 方法返回的結果都是列表形式，可以遍歷形式輸出，然後用 get_text() 方法來獲取它的內容
 
 ```py
 soup = BeautifulSoup(html, 'lxml')
@@ -222,59 +222,59 @@ for title in soup.select('title'):
     print title.get_text()
 ```
 
-## 修改文档树
+## 修改文檔樹
 
-Beautiful Soup的强项是文档树的搜索,但同时也可以方便的修改文档树,这个虽说对于一些其他的爬虫并不适用，因为他们都是爬文章的内容的，并不需要网页的源码并且修改它们，但是在我后续更新的文章中有用python制作pdf电子书的,这个就需要用到修改文档树的功能了，详情请见本人博客
+Beautiful Soup的強項是文檔樹的搜索,但同時也可以方便的修改文檔樹,這個雖說對於一些其他的爬蟲並不適用，因為他們都是爬文章的內容的，並不需要網頁的源碼並且修改它們，但是在我後續更新的文章中有用python製作pdf電子書的,這個就需要用到修改文檔樹的功能了，詳情請見本人博客
 
-### 修改tag的名称和属性
+### 修改tag的名稱和屬性
 
 ```py
 html="""
-<p><a href='#'>修改文档树</a></p>
+<p><a href='#'>修改文檔樹</a></p>
 """
 soup=BeautifulSoup(html,'lxml')
-tag=soup.a    #得到标签a，可以使用print tag.name输出标签
-tag['class']='content'    #修改标签a的属性class和div
+tag=soup.a    #得到標籤a，可以使用print tag.name輸出標籤
+tag['class']='content'    #修改標籤a的屬性class和div
 tag['div']='nav'
 ```
 
 ### 修改.string
 
-注意这里如果标签的中还嵌套了子孙标签，那么如果直接使用string这个属性会将这里的所有的子孙标签都覆盖掉
+注意這裡如果標籤的中還嵌套了子孫標籤，那麼如果直接使用string這個屬性會將這裡的所有的子孫標籤都覆蓋掉
 
 ```py
 html="""
-<p><a href='#'>修改文档树</a></p>
+<p><a href='#'>修改文檔樹</a></p>
 """
 soup=BeautifulSoup(html,'lxml')
 tag=soup.a
-tag.string='陈加兵的博客'   #这里会将修改文档树变成修改的内容
+tag.string='陳加兵的博客'   #這裡會將修改文檔樹變成修改的內容
 print  tag
-soup.p.string='陈加兵的博客'   #这里修改了p标签的内容，那么就会覆盖掉a标签，直接变成的修改后的文本
+soup.p.string='陳加兵的博客'   #這裡修改了p標籤的內容，那麼就會覆蓋掉a標籤，直接變成的修改後的文本
 print soup
 ```
 
 ### append
 
-append的方法的作用是在在原本标签文本后面附加文本，就像python中列表的append方法
+append的方法的作用是在在原本標籤文本後面附加文本，就像python中列表的append方法
 
 
 ```py
 html="""
-<p><a href='#'>修改文档树</a></p>
+<p><a href='#'>修改文檔樹</a></p>
 """
 soup=BeautifulSoup(html,'lxml')
-soup.a.append("陈加兵的博客")    #在a标签和面添加文本，这里的文本内容将会变成修改文档树陈加兵的博客
+soup.a.append("陳加兵的博客")    #在a標籤和麵添加文本，這裡的文本內容將會變成修改文檔樹陳加兵的博客
 print soup
-print soup.a.contents    #这里输出a标签的内容，这里的必定是一个带有两个元素的列表
+print soup.a.contents    #這裡輸出a標籤的內容，這裡的必定是一個帶有兩個元素的列表
 ```
 
-注意这里的append方法也可以将一个新的标签插入到文本的后面，下面将会讲到
+注意這裡的append方法也可以將一個新的標籤插入到文本的後面，下面將會講到
 
 
 ### new_tag
 
-相信学过js的朋友都知道怎样创建一个新的标签，这里的方法和js中的大同小异，使用的new_tag
+相信學過js的朋友都知道怎樣創建一個新的標籤，這裡的方法和js中的大同小異，使用的new_tag
 
 
 ```py
@@ -283,17 +283,17 @@ html="""
 """
 soup=BeautifulSoup(html,'lxml')
 tag=soup.p
-new_tag=soup.new_tag('a')    #创建一个新的标签a
-new_tag['href']='#'    #添加属性
-new_tag.string='陈加兵的博客'  #添加文本
+new_tag=soup.new_tag('a')    #創建一個新的標籤a
+new_tag['href']='#'    #添加屬性
+new_tag.string='陳加兵的博客'  #添加文本
 print new_tag      
-tag.append(new_tag)    #将新添加的标签写入到p标签中
+tag.append(new_tag)    #將新添加的標籤寫入到p標籤中
 print tag
 ```
 
 ### insert
 
-Tag.insert() 方法与 Tag.append() 方法类似,区别是不会把新元素添加到父节点 .contents 属性的最后,而是把元素插入到指定的位置.与Python列表总的 .insert() 方法的用法下同:
+Tag.insert() 方法與 Tag.append() 方法類似,區別是不會把新元素添加到父節點 .contents 屬性的最後,而是把元素插入到指定的位置.與Python列表總的 .insert() 方法的用法下同:
 
 
 ```py
@@ -304,18 +304,18 @@ soup=BeautifulSoup(html,'lxml')
 tag=soup.p
 new_tag=soup.new_tag('a')
 new_tag['href']='#'
-new_tag.string='陈加兵的博客'
-tag.append("欢迎来到")  #这里向p标签中插入文本，这个文本在contents下的序号为0
-tag.insert(1,new_tag)   #在contents序号为1的位置插入新的标签，如果这里修改成0，那么将会出现a标签将会出现在欢饮来到的前面
+new_tag.string='陳加兵的博客'
+tag.append("歡迎來到")  #這裡向p標籤中插入文本，這個文本在contents下的序號為0
+tag.insert(1,new_tag)   #在contents序號為1的位置插入新的標籤，如果這裡修改成0，那麼將會出現a標籤將會出現在歡飲來到的前面
 print tag
 ```
 
-注意这的1是标签的内容在contents中的序号，可以用print tag.contents查看当前的内容
+注意這的1是標籤的內容在contents中的序號，可以用print tag.contents查看當前的內容
 
 
 ### insert_before() 和 insert_after()
 
-insert_before() 方法在当前tag或文本节点前插入内容,insert_after() 方法在当前tag或文本节点后插入内容:
+insert_before() 方法在當前tag或文本節點前插入內容,insert_after() 方法在當前tag或文本節點後插入內容:
 
 ```py
 soup = BeautifulSoup("<b>stop</b>")
@@ -333,7 +333,7 @@ soup.b.contents
 
 ### clear
 
-clear用来移除当前节点的所有的内容，包括其中的子孙节点和文本内容
+clear用來移除當前節點的所有的內容，包括其中的子孫節點和文本內容
 
 ```py
 html="""
@@ -343,10 +343,10 @@ soup=BeautifulSoup(html,'lxml')
 tag=soup.p
 new_tag=soup.new_tag('a')
 new_tag['href']='#'
-new_tag.string='陈加兵的博客'
-tag.append("欢迎来到")
+new_tag.string='陳加兵的博客'
+tag.append("歡迎來到")
 tag.insert(1,new_tag)
-tag.clear()    #这里将会移除所有内容
+tag.clear()    #這裡將會移除所有內容
 print tag
 ```
 

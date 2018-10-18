@@ -20,7 +20,7 @@ C 語言沒規定 `i++` 或 `++i` 的「加 1」動作到底是在哪個敘述�
 
 兩個詞彙:
 * [Undefined behavior](https://en.wikipedia.org/wiki/Undefined_behavior): 程式行為並未在==語言規範==(在 C 中，自然就是 ISO/IEC 9899 一類的規格) 所明確定義規範。縮寫為 "UB"
-* [Unspecified behavior](https://en.wikipedia.org/wiki/Unspecified_behavior): 程式行為仰賴==編譯器實作和平台特性==而定
+* [Unspecified behavior](https://en.wikipedia.org/wiki/Unspecified_behavior): 程式行為仰賴==編譯器實作和平臺特性==而定
 
 考慮以下程式碼:
 ```C=
@@ -125,7 +125,7 @@ int main(void) {
 }
 ```
 
-近期的案例是，Apple Inc. 為了迎合中國市場的「規範」(政治正確)，原本 emoji (表情圖示) 有台灣/中華民國國旗，但只要語系設定為中國 (簡體中文) 後，台灣國旗的 emoji 就會在 iOS 裝置上被隱藏，以避免非戰之罪。顧及商業利益，Apple 此舉無可厚非，不過研究人員發現，可透過台灣國旗，對 iOS 裝置做遠端攻擊，詳見 [A Remote iOS Bug](https://objective-see.com/blog/blog_0x34.html) 和 CVE-2018-4290
+近期的案例是，Apple Inc. 為了迎合中國市場的「規範」(政治正確)，原本 emoji (表情圖示) 有臺灣/中華民國國旗，但只要語系設定為中國 (簡體中文) 後，臺灣國旗的 emoji 就會在 iOS 裝置上被隱藏，以避免非戰之罪。顧及商業利益，Apple 此舉無可厚非，不過研究人員發現，可透過臺灣國旗，對 iOS 裝置做遠端攻擊，詳見 [A Remote iOS Bug](https://objective-see.com/blog/blog_0x34.html) 和 CVE-2018-4290
 
 
 ## 偵測 Undefined Behavior
@@ -307,7 +307,7 @@ if (addr + len < addr) {
 }
 ```
 
-在 Arm 平台上，依據 gcc [PR54365](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=54365)，在不同的編譯器最佳化等級會有不同的輸出:
+在 Arm 平臺上，依據 gcc [PR54365](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=54365)，在不同的編譯器最佳化等級會有不同的輸出:
 
 * `-O0` (抑制最佳化)
 ```shell

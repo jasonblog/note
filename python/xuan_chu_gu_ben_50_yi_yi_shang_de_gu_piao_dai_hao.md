@@ -78,7 +78,7 @@ for y in range( math.ceil(len(STOCK_ID)/100) ):
 
       print(volume)
 
-      #季均量=前13周成交量平均(含本周)
+      #季均量=前13周成交量平均(含本週)
       tmp = 0
       for x in volume:
         tmp = tmp + float(x)

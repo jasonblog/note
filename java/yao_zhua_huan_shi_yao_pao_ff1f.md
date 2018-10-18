@@ -34,12 +34,12 @@ class FileUtil
 }
 ```
 
-由於建構FileInputStream時，API設計者聲明方法實作中會拋出FileNotFoundException，根據目前你學到的例外處理語法，於是你捕捉FileNotFoundException並在主控台中顯示錯誤訊息。
+由於建構FileInputStream時，API設計者聲明方法實作中會拋出FileNotFoundException，根據目前你學到的例外處理語法，於是你捕捉FileNotFoundException並在主控臺中顯示錯誤訊息。
 
 
 ## 拋
 
-主控台？等一下！老闆有說這個程式庫會用在文字模式中嗎？如果這個程式庫是用在Web網站上，發生錯誤時顯示在主控台上，Web使用者怎麼會看得到？你開發的是程式庫，例外發生時如何處理，是程式庫使用者才知道，直接在catch中寫死處理例外或輸出錯誤訊息的方式，並不符合需求。
+主控臺？等一下！老闆有說這個程式庫會用在文字模式中嗎？如果這個程式庫是用在Web網站上，發生錯誤時顯示在主控臺上，Web使用者怎麼會看得到？你開發的是程式庫，例外發生時如何處理，是程式庫使用者才知道，直接在catch中寫死處理例外或輸出錯誤訊息的方式，並不符合需求。
 
 ```java
 import java.util.Scanner;

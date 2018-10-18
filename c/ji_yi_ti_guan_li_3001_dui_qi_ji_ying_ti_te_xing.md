@@ -65,7 +65,7 @@ lazy loading：allocate記憶體先給位址。等到process要存取的時候OS
 
 > Copy-on-write
 :::info
-有些情況是一個process要吃別的process已經map到記憶體的內容，而不要把自己改過的資料放回原本的記憶體。也就是說最終會有兩塊記憶體(兩份資料)。當然每次都複製有點多餘，因此系統使用了Copy-on-write機制。要怎麼做呢？就是在mmap使用MAP_PRIVATE參數即可。
+有些情況是一個process要吃別的process已經map到記憶體的內容，而不要把自己改過的資料放回原本的記憶體。也就是說最終會有兩塊記憶體(兩份資料)。當然每次都複製有點多餘，因此係統使用了Copy-on-write機制。要怎麼做呢？就是在mmap使用MAP_PRIVATE參數即可。
 :::
 
 延伸閱讀 (報告編撰中):
@@ -77,7 +77,7 @@ lazy loading：allocate記憶體先給位址。等到process要存取的時候OS
 ## 重新看 Heap
 
 heap 的中文翻譯
-台灣: 堆積
+臺灣: 堆積
 中國: 堆
 
 動態配置產生，系統會存放在另外一塊空間，稱之為『Heap』
@@ -106,12 +106,12 @@ He doesn't say which authors and doesn't give references to any specific papers,
   * 第二次取: 4~7
 ![](./images/aDCYyWc.png)
 
-所以如果你的資料是分布在 1~4 那還是會
+所以如果你的資料是分佈在 1~4 那還是會
   * 第一次取:0~3 將，0 的資料去掉，留下 1~3
   * 第二次取:4~7 將，5~7 的資料去掉，留下 4
   * 再將 1~3 4 合起來
 ![](./images/wIfEVy9.png)
-由於資料分布不在 4 的倍數，導致了存取速度降低，編譯器在分配記憶體時，就會按照宣告的型態去做 alignment ，例如 int 就是 4 byte alignment。
+由於資料分佈不在 4 的倍數，導致了存取速度降低，編譯器在分配記憶體時，就會按照宣告的型態去做 alignment ，例如 int 就是 4 byte alignment。
 
 * struct 會自動做 alignment，假設創了一個 struct，如下面 code 所示
 ```clike
@@ -141,7 +141,7 @@ int main() {
 得到執行結果為
 struct s1 size: 5 byte
 
-由於 char type 的 data 大小只佔 1 byte 所以只要 1 byte alignment ，也就是不用使用 padding 讓其變成 4 的倍數。由於編譯器會自動幫我們以 data 的大小做 alignment ，假設有 int type（4 byte) 在配置時，已是 4 byte alignment。
+由於 char type 的 data 大小隻佔 1 byte 所以只要 1 byte alignment ，也就是不用使用 padding 讓其變成 4 的倍數。由於編譯器會自動幫我們以 data 的大小做 alignment ，假設有 int type（4 byte) 在配置時，已是 4 byte alignment。
 
 * 現代的處理器處理一般的讀取跟寫入資料，如果沒有效能考量，不用特別處理 data alignment 的議題，例如 intel x86 系統 是允許 data unalignment 的以下用我的電腦實驗 data alignment 跟 data unalignment 的差異。
 * 首先我建立兩個 struct 兩個放的東西是相同的，唯一不同的是 t1 有加 pack 這條指令告訴 compiler 說 test1 裡的 data 只要 1 byte alignment 就好，t2 則是會按照宣告的 type 作 alignment 所以 t2 裡會有 padding。

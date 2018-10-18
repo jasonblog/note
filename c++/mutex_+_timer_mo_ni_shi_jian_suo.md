@@ -34,7 +34,7 @@ volatile static long counter = 0;
 
 typedef void(*ProcessHandler)(int);
 
-//互斥锁
+//互斥鎖
 class MutexLock
 {
 public:
@@ -102,10 +102,10 @@ protected:
 public:
     Timer(int sec, int usec)
     {
-        //结构成员it_value指定首次定时的时间，
-        // 结构成员it_interval指定下次定时的时间
-        // 定时器工作时，先将it_value的时间值减到0，
-        // 发送一个信号，再将it_value赋值为it_interval的值，重新开始定时，如此反复。
+        //結構成員it_value指定首次定時的時間，
+        // 結構成員it_interval指定下次定時的時間
+        // 定時器工作時，先將it_value的時間值減到0，
+        // 發送一個信號，再將it_value賦值為it_interval的值，重新開始定時，如此反覆。
         _tim_ticks.it_value.tv_sec = sec;
         _tim_ticks.it_value.tv_usec = usec;
         _tim_ticks.it_interval.tv_sec = 0;

@@ -32,6 +32,10 @@ if rt.status_code == requests.codes.ok:
     df = df[1:] # 只要一列之後
     df = df[df['代號'].apply(lambda x: str(x).isdigit())] # 刪除非數字的列
     df = df.reset_index(col_level=1, drop=True) # 因為 drop 後需 index 重新reset 
+
+    df['成交'] = df['成交'].astype('float') # 把 str 轉成 float 型態才能sort
+    df = df.sort_values(by='成交', ascending=1)
+    df = df.reset_index(col_level=1, drop=True) # 因為 sort 後需 index 重新reset 
     print(df)
 
 

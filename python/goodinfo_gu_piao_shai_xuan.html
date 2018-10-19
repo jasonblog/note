@@ -57,7 +57,7 @@
         data-chapter-title="goodinfo 股票篩選"
         data-filepath="python/goodinfo_gu_piao_shai_xuan.md"
         data-basepath=".."
-        data-revision="Sat Oct 20 2018 01:03:10 GMT+0800 (CST)"
+        data-revision="Sat Oct 20 2018 01:44:13 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23121,6 +23121,10 @@ rt = requests.get(url , headers = header)
     df = df[<span class="hljs-number">1</span>:] <span class="hljs-comment"># &#x53EA;&#x8981;&#x4E00;&#x5217;&#x4E4B;&#x5F8C;</span>
     df = df[df[<span class="hljs-string">&apos;&#x4EE3;&#x865F;&apos;</span>].apply(<span class="hljs-keyword">lambda</span> x: str(x).isdigit())] <span class="hljs-comment"># &#x522A;&#x9664;&#x975E;&#x6578;&#x5B57;&#x7684;&#x5217;</span>
     df = df.reset_index(col_level=<span class="hljs-number">1</span>, drop=<span class="hljs-keyword">True</span>) <span class="hljs-comment"># &#x56E0;&#x70BA; drop &#x5F8C;&#x9700; index &#x91CD;&#x65B0;reset </span>
+
+    df[<span class="hljs-string">&apos;&#x6210;&#x4EA4;&apos;</span>] = df[<span class="hljs-string">&apos;&#x6210;&#x4EA4;&apos;</span>].astype(<span class="hljs-string">&apos;float&apos;</span>) <span class="hljs-comment"># &#x628A; str &#x8F49;&#x6210; float &#x578B;&#x614B;&#x624D;&#x80FD;sort</span>
+    df = df.sort_values(by=<span class="hljs-string">&apos;&#x6210;&#x4EA4;&apos;</span>, ascending=<span class="hljs-number">1</span>)
+    df = df.reset_index(col_level=<span class="hljs-number">1</span>, drop=<span class="hljs-keyword">True</span>) <span class="hljs-comment"># &#x56E0;&#x70BA; sort &#x5F8C;&#x9700; index &#x91CD;&#x65B0;reset </span>
     print(df)
 </code></pre>
 <hr>

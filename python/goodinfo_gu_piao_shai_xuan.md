@@ -32,7 +32,7 @@ if rt.status_code == requests.codes.ok:
     print(df)
 ```
 
-## 使用 pandas 測試那個 table
+## 使用 pandas 在用Jupyter 測試哪個table是我們要的
 
 ```py
 #!/usr/bin/env python3

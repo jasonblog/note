@@ -36,9 +36,54 @@ if rt.status_code == requests.codes.ok:
     df['成交'] = df['成交'].astype('float') # 把 str 轉成 float 型態才能sort
     df = df.sort_values(by='成交', ascending=1)
     df = df.reset_index(col_level=1, drop=True) # 因為 sort 後需 index 重新reset 
+    df.to_html('goodinfo.html')
     print(df)
 
 
+'''
+MARKET_CAT: 自訂篩選
+INDUSTRY_CAT: 我的條件
+FILTER_ITEM0: K值 (月)
+FILTER_VAL_S0: 0
+FILTER_VAL_E0: 20
+FILTER_ITEM1: D值 (月)
+FILTER_VAL_S1: 0
+FILTER_VAL_E1: 20
+FILTER_ITEM2: 連續配發現金股利次數
+FILTER_VAL_S2: 5
+FILTER_VAL_E2: 20
+FILTER_ITEM3: 累季–EPS(元)
+FILTER_VAL_S3: 2
+FILTER_VAL_E3: 5
+FILTER_ITEM4: ---請選擇過濾條件---
+FILTER_VAL_S4:
+FILTER_VAL_E4:
+FILTER_ITEM5: ---請選擇過濾條件---
+FILTER_VAL_S5:
+FILTER_VAL_E5:
+FILTER_ITEM6: ---請選擇過濾條件---
+FILTER_VAL_S6:
+FILTER_VAL_E6:
+FILTER_ITEM7: ---請選擇過濾條件---
+FILTER_VAL_S7:
+FILTER_VAL_E7:
+FILTER_ITEM8: ---請選擇過濾條件---
+FILTER_VAL_S8:
+FILTER_VAL_E8:
+FILTER_RULE0: ---請指定選股條件---
+FILTER_RULE1: ---請指定選股條件---
+FILTER_RULE2: ---請指定選股條件---
+FILTER_RULE3: ---請指定選股條件---
+FILTER_RULE4: ---請指定選股條件---
+FILTER_RULE5: ---請指定選股條件---
+FILTER_RANK0: ---請指定排名條件---
+FILTER_RANK1: ---請指定排名條件---
+FILTER_RANK2: ---請指定排名條件---
+FILTER_SHEET: 年獲利能力
+FILTER_SHEET2: 獲利能力
+FILTER_MARKET: 上市/上櫃
+FILTER_QUERY: 查  詢
+'''
 ```
 
 ---

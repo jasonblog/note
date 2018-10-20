@@ -57,7 +57,7 @@
         data-chapter-title="goodinfo 股票篩選"
         data-filepath="python/goodinfo_gu_piao_shai_xuan.md"
         data-basepath=".."
-        data-revision="Sat Oct 20 2018 01:44:13 GMT+0800 (CST)"
+        data-revision="Sun Oct 21 2018 02:51:40 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23125,7 +23125,54 @@ rt = requests.get(url , headers = header)
     df[<span class="hljs-string">&apos;&#x6210;&#x4EA4;&apos;</span>] = df[<span class="hljs-string">&apos;&#x6210;&#x4EA4;&apos;</span>].astype(<span class="hljs-string">&apos;float&apos;</span>) <span class="hljs-comment"># &#x628A; str &#x8F49;&#x6210; float &#x578B;&#x614B;&#x624D;&#x80FD;sort</span>
     df = df.sort_values(by=<span class="hljs-string">&apos;&#x6210;&#x4EA4;&apos;</span>, ascending=<span class="hljs-number">1</span>)
     df = df.reset_index(col_level=<span class="hljs-number">1</span>, drop=<span class="hljs-keyword">True</span>) <span class="hljs-comment"># &#x56E0;&#x70BA; sort &#x5F8C;&#x9700; index &#x91CD;&#x65B0;reset </span>
+    df.to_html(<span class="hljs-string">&apos;goodinfo.html&apos;</span>)
     print(df)
+
+
+<span class="hljs-string">&apos;&apos;&apos;
+MARKET_CAT: &#x81EA;&#x8A02;&#x7BE9;&#x9078;
+INDUSTRY_CAT: &#x6211;&#x7684;&#x689D;&#x4EF6;
+FILTER_ITEM0: K&#x503C; (&#x6708;)
+FILTER_VAL_S0: 0
+FILTER_VAL_E0: 20
+FILTER_ITEM1: D&#x503C; (&#x6708;)
+FILTER_VAL_S1: 0
+FILTER_VAL_E1: 20
+FILTER_ITEM2: &#x9023;&#x7E8C;&#x914D;&#x767C;&#x73FE;&#x91D1;&#x80A1;&#x5229;&#x6B21;&#x6578;
+FILTER_VAL_S2: 5
+FILTER_VAL_E2: 20
+FILTER_ITEM3: &#x7D2F;&#x5B63;&#x2013;EPS(&#x5143;)
+FILTER_VAL_S3: 2
+FILTER_VAL_E3: 5
+FILTER_ITEM4: ---&#x8ACB;&#x9078;&#x64C7;&#x904E;&#x6FFE;&#x689D;&#x4EF6;---
+FILTER_VAL_S4:
+FILTER_VAL_E4:
+FILTER_ITEM5: ---&#x8ACB;&#x9078;&#x64C7;&#x904E;&#x6FFE;&#x689D;&#x4EF6;---
+FILTER_VAL_S5:
+FILTER_VAL_E5:
+FILTER_ITEM6: ---&#x8ACB;&#x9078;&#x64C7;&#x904E;&#x6FFE;&#x689D;&#x4EF6;---
+FILTER_VAL_S6:
+FILTER_VAL_E6:
+FILTER_ITEM7: ---&#x8ACB;&#x9078;&#x64C7;&#x904E;&#x6FFE;&#x689D;&#x4EF6;---
+FILTER_VAL_S7:
+FILTER_VAL_E7:
+FILTER_ITEM8: ---&#x8ACB;&#x9078;&#x64C7;&#x904E;&#x6FFE;&#x689D;&#x4EF6;---
+FILTER_VAL_S8:
+FILTER_VAL_E8:
+FILTER_RULE0: ---&#x8ACB;&#x6307;&#x5B9A;&#x9078;&#x80A1;&#x689D;&#x4EF6;---
+FILTER_RULE1: ---&#x8ACB;&#x6307;&#x5B9A;&#x9078;&#x80A1;&#x689D;&#x4EF6;---
+FILTER_RULE2: ---&#x8ACB;&#x6307;&#x5B9A;&#x9078;&#x80A1;&#x689D;&#x4EF6;---
+FILTER_RULE3: ---&#x8ACB;&#x6307;&#x5B9A;&#x9078;&#x80A1;&#x689D;&#x4EF6;---
+FILTER_RULE4: ---&#x8ACB;&#x6307;&#x5B9A;&#x9078;&#x80A1;&#x689D;&#x4EF6;---
+FILTER_RULE5: ---&#x8ACB;&#x6307;&#x5B9A;&#x9078;&#x80A1;&#x689D;&#x4EF6;---
+FILTER_RANK0: ---&#x8ACB;&#x6307;&#x5B9A;&#x6392;&#x540D;&#x689D;&#x4EF6;---
+FILTER_RANK1: ---&#x8ACB;&#x6307;&#x5B9A;&#x6392;&#x540D;&#x689D;&#x4EF6;---
+FILTER_RANK2: ---&#x8ACB;&#x6307;&#x5B9A;&#x6392;&#x540D;&#x689D;&#x4EF6;---
+FILTER_SHEET: &#x5E74;&#x7372;&#x5229;&#x80FD;&#x529B;
+FILTER_SHEET2: &#x7372;&#x5229;&#x80FD;&#x529B;
+FILTER_MARKET: &#x4E0A;&#x5E02;/&#x4E0A;&#x6AC3;
+FILTER_QUERY: &#x67E5;  &#x8A62;
+&apos;&apos;&apos;</span>
 </code></pre>
 <hr>
 <pre><code class="lang-py"><span class="hljs-comment">#!/usr/bin/env python3</span>

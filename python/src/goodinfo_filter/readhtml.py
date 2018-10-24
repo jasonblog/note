@@ -19,8 +19,8 @@ df = pd.read_html(str(soup))
 for index, row in df[0].iterrows():
     k = float(re.findall(r"\d+\.?\d*", row['K值(月)'])[0])
     d = float(re.findall(r"\d+\.?\d*", row['D值(月)'])[0])
-    print(k)
-    print(d)
+    if k > d:
+        print('%d %s : K:%d, D:%d' % (row['代號'], row['名稱'], k, d))
     #print(row['D值(月)'])
     #print(row['K值(月)'])
     #print(type(row['K值(月)']))

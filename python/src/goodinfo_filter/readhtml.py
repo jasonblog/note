@@ -10,9 +10,10 @@ with codecs.open('./goodinfo.html','r',encoding='utf8') as f:
 
 
 soup = BeautifulSoup(text.replace('&nbsp;', '').replace('　',''), 'lxml')
-[s.extract() for s in soup('thead')]
+#[s.extract() for s in soup('thead')]
 
 #print soup
 df = pd.read_html(str(soup))
+
 print(df)
 

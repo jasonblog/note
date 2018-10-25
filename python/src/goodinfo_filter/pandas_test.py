@@ -2,6 +2,7 @@
 # coding=UTF-8
 import math
 import requests
+import re
 from bs4 import BeautifulSoup
 import pandas as pd
 
@@ -35,9 +36,16 @@ if rt.status_code == requests.codes.ok:
     df['成交'] = df['成交'].astype('float') # 把 str 轉成 float 型態才能sort
     df = df.sort_values(by='成交', ascending=1)
     df = df.reset_index(col_level=1, drop=True) # 因為 sort 後需 index 重新reset 
-    df.to_html('goodinfo.html')
+
     print(df)
 
+    for index, row in df.iterrows():
+        k = float(re.findall(r"\d+\.?\d*", row['K值(月)'])[0])
+        d = float(re.findall(r"\d+\.?\d*", row['D值(月)'])[0])
+        if k > d:
+            print('%s %s : K:%f, D:%f' % (row['代號'], row['名稱'], k, d))
+
+    df.to_html('goodinfo.html')
 
 '''
 MARKET_CAT: 自訂篩選

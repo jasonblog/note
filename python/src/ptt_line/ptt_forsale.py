@@ -17,6 +17,7 @@ def line_nofity(item):
 
 if __name__ == "__main__":  
     KeyWord = (sys.argv[1])
+    KeyWord = KeyWord.lower()
 
     # (設為負數則以倒數第幾頁計算) 
     ptt = crawler(['-b', 'forsale', '-i', '-1', '2'])
@@ -33,10 +34,10 @@ if __name__ == "__main__":
                  u'公告' not in item[u'article_title'].lower() and \
                  u'市集' not in item[u'article_title'].lower()):
 
-                diff_time = moment.utc(item[u'date']) - moment.utc(str(time.asctime(time.gmtime(time.time()))))
+                diff_time = moment.utc(time.asctime(time.localtime(time.time()))) - moment.utc(item[u'date'])
                 diff_time = diff_time.seconds / 60.0
-                #print(diff_time)
-                if(diff_time < 25) :  
+                print(diff_time)
+                if(diff_time < 20) :  
                     line_nofity(item)
                     print(item[u'article_title'])
                     print(item[u'author'])

@@ -33,17 +33,16 @@ if __name__ == "__main__":
                  u'公告' not in item[u'article_title'].lower() and \
                  u'市集' not in item[u'article_title'].lower()):
 
-                now = moment.utc(str(time.asctime(time.gmtime(time.time()))))
-                diff_time = moment.utc(item[u'date']) - now
-
-                print(diff_time)
-                print(type(diff_time))
-                line_nofity(item)
-                print(item[u'article_title'])
-                print(item[u'author'])
-                print(item[u'content'])
-                print(item[u'date'])
-                print(item[u'url'])
-                print('\n')
+                diff_time = moment.utc(item[u'date']) - moment.utc(str(time.asctime(time.gmtime(time.time()))))
+                diff_time = diff_time.seconds / 60.0
+                #print(diff_time)
+                if(diff_time < 25) :  
+                    line_nofity(item)
+                    print(item[u'article_title'])
+                    print(item[u'author'])
+                    print(item[u'content'])
+                    print(item[u'date'])
+                    print(item[u'url'])
+                    print('\n')
 
     os.remove(ptt.json_filename)

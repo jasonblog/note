@@ -2,6 +2,7 @@
 from PttWebCrawler.crawler import PttWebCrawler as crawler
 import codecs, json, os, sys
 import requests
+import moment, time
 
 def line_nofity(item):
     url = "https://notify-api.line.me/api/notify"
@@ -31,6 +32,12 @@ if __name__ == "__main__":
                 (u'看板規則' not in item[u'content'].lower() and \
                  u'公告' not in item[u'article_title'].lower() and \
                  u'市集' not in item[u'article_title'].lower()):
+
+                now = moment.utc(str(time.asctime(time.gmtime(time.time()))))
+                diff_time = moment.utc(item[u'date']) - now
+
+                print(diff_time)
+                print(type(diff_time))
                 line_nofity(item)
                 print(item[u'article_title'])
                 print(item[u'author'])
@@ -39,4 +46,4 @@ if __name__ == "__main__":
                 print(item[u'url'])
                 print('\n')
 
-    os.remove(filename)
+    os.remove(ptt.json_filename)

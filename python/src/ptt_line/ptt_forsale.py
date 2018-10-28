@@ -34,7 +34,7 @@ if __name__ == "__main__":
                  u'公告' not in item[u'article_title'].lower() and \
                  u'市集' not in item[u'article_title'].lower()):
 
-                diff_time = moment.utc(time.asctime(time.localtime(time.time()))) - moment.utc(item[u'date'])
+                diff_time = moment.utc(time.asctime(time.localtime(time.time()))).timezone('Asia/Taipei') - moment.utc(item[u'date'])
                 diff_time = diff_time.seconds / 60.0
                 print(diff_time)
                 if(diff_time < 20) :  

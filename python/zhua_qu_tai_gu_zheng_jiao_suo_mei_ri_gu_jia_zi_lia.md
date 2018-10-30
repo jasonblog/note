@@ -1,47 +1,47 @@
-# 抓取臺股證交所每日股價資料，儲存到MongoDB
+# 抓取台股證交所每日股價資料，儲存到MongoDB
 
 
-## 1. MongoDB安裝
+## 1. MongoDB安装
 
 ```sh
 sudo apt-get install mongodb
 ```
 
-###查看是否安裝成功，查看版本
+###查看是否安装成功，查看版本
 
 ```sh
 mongo -version
 ```
 
-### 啟動/關閉 mongoDB數據庫服務的命令
+### 启动/关闭 mongoDB数据库服务的命令
 
 ```sh
 service mongodb start
 service mongodb stop
 ```
 
-### mongo啟動shell模式
+### mongo启动shell模式
 
 ```sh
 mongo
 ```
 
 
-## 2. python調用mongo的驅動安裝
+## 2. python调用mongo的驱动安装
 
-### 安裝pymongo驅動
+### 安装pymongo驱动
 
 ```sh
 pip install pymongo
 ```
 
-### 更新pymongo驅動
+### 更新pymongo驱动
 
 ```sh
 pip install --upgrade pip
 ```
 
-## 3. 測試
+## 3. 测试
 
 
 ```py
@@ -265,7 +265,11 @@ connect_mongo()   #連線資料庫
 fetch_data(2017, 4, '2892')   #取出編號2892的股票，從201704到今天的股價與成交量資料
 ```
 
+## MongoDB 備份
 
+```sh
+mongodump -h 127.0.0.1:27017 -d TwStock -o ./mongo-backup
+```
 
 
 

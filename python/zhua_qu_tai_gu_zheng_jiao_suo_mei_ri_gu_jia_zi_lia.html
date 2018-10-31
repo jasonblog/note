@@ -57,7 +57,7 @@
         data-chapter-title="抓取臺股證交所每日股價資料，儲存到MongoDB"
         data-filepath="python/zhua_qu_tai_gu_zheng_jiao_suo_mei_ri_gu_jia_zi_lia.md"
         data-basepath=".."
-        data-revision="Thu Nov 01 2018 00:23:48 GMT+0800 (CST)"
+        data-revision="Thu Nov 01 2018 01:40:01 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23231,6 +23231,7 @@ fetch_data(<span class="hljs-number">2017</span>, <span class="hljs-number">4</s
 </code></pre>
 <h3 id="&#x5B8C;&#x6574;&#x7A0B;&#x5F0F;&#x78BC;&#x5982;&#x4E0B;">&#x5B8C;&#x6574;&#x7A0B;&#x5F0F;&#x78BC;&#x5982;&#x4E0B;</h3>
 <pre><code class="lang-py"><span class="hljs-comment">#&#x5C07;&#x80A1;&#x7968;&#x4EA4;&#x6613;&#x8CC7;&#x6599;&#x653E;&#x9032;MongoDB&#x8CC7;&#x6599;&#x5EAB;&#xFF0C;&#x5C31;&#x4E0D;&#x7528;&#x9700;&#x8981;&#x6BCF;&#x6B21;&#x5F9E;&#x8B49;&#x4EA4;&#x6240;&#x8B80;&#x53D6;&#x8CC7;&#x6599;</span>
+<span class="hljs-comment">#&#x5C07;&#x80A1;&#x7968;&#x4EA4;&#x6613;&#x8CC7;&#x6599;&#x653E;&#x9032;MongoDB&#x8CC7;&#x6599;&#x5EAB;&#xFF0C;&#x5C31;&#x4E0D;&#x7528;&#x9700;&#x8981;&#x6BCF;&#x6B21;&#x5F9E;&#x8B49;&#x4EA4;&#x6240;&#x8B80;&#x53D6;&#x8CC7;&#x6599;</span>
 <span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
 <span class="hljs-keyword">import</span> requests
 <span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
@@ -23255,9 +23256,22 @@ MONGO_COLLETION = <span class="hljs-string">&apos;twse&apos;</span>
     quotes = []
     url = <span class="hljs-string">&apos;http://www.twse.com.tw/exchangeReport/STOCK_DAY?date=%s&amp;stockNo=%s&apos;</span> % ( date, stock_no)
     print(url)
-    r = requests.get(url)
-    data = r.json()
-    <span class="hljs-keyword">return</span> transform(data[<span class="hljs-string">&apos;data&apos;</span>])  <span class="hljs-comment">#&#x9032;&#x884C;&#x8CC7;&#x6599;&#x683C;&#x5F0F;&#x8F49;&#x63DB;</span>
+    data = <span class="hljs-string">&apos;&apos;</span>
+    <span class="hljs-keyword">while</span> data == <span class="hljs-string">&apos;&apos;</span>:
+        <span class="hljs-keyword">try</span>:
+            s = requests.session()
+            s.keep_alive = <span class="hljs-keyword">False</span> <span class="hljs-comment"># &#x95DC;&#x9589;&#x591A;&#x9918;&#x9023;&#x63A5;</span>
+            <span class="hljs-comment">#r = requests.get(url)</span>
+            r = s.get(url)
+            data = r.json()
+            <span class="hljs-keyword">return</span> transform(data[<span class="hljs-string">&apos;data&apos;</span>])  <span class="hljs-comment">#&#x9032;&#x884C;&#x8CC7;&#x6599;&#x683C;&#x5F0F;&#x8F49;&#x63DB;</span>
+        <span class="hljs-keyword">except</span>:
+            print(<span class="hljs-string">&quot;Connection refused by the server..&quot;</span>)
+            print(<span class="hljs-string">&quot;Let me sleep for 5 seconds&quot;</span>)
+            print(<span class="hljs-string">&quot;ZZzzzz...&quot;</span>)
+            time.sleep(<span class="hljs-number">5</span>)
+            print(<span class="hljs-string">&quot;Was a nice sleep, now let me continue...&quot;</span>)
+            <span class="hljs-keyword">continue</span>
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">transform_date</span><span class="hljs-params">(date)</span>:</span>   <span class="hljs-comment">#&#x6C11;&#x570B;&#x8F49;&#x897F;&#x5143;</span>
         y, m, d = date.split(<span class="hljs-string">&apos;/&apos;</span>)
@@ -23306,7 +23320,7 @@ MONGO_COLLETION = <span class="hljs-string">&apos;twse&apos;</span>
         time.sleep(<span class="hljs-number">10</span>)  <span class="hljs-comment">#&#x5EF6;&#x9072;5&#x79D2;&#xFF0C;&#x8B49;&#x4EA4;&#x6240;&#x6703;&#x6839;&#x64DA;IP&#x9032;&#x884C;&#x6D41;&#x91CF;&#x7D71;&#x8A08;&#xFF0C;&#x6D41;&#x91CF;&#x904E;&#x5927;&#x6703;&#x65B7;&#x7DDA;</span>
 
 connect_mongo()   <span class="hljs-comment">#&#x9023;&#x7DDA;&#x8CC7;&#x6599;&#x5EAB;</span>
-fetch_data(<span class="hljs-number">2017</span>, <span class="hljs-number">4</span>, <span class="hljs-string">&apos;2892&apos;</span>)   <span class="hljs-comment">#&#x53D6;&#x51FA;&#x7DE8;&#x865F;2892&#x7684;&#x80A1;&#x7968;&#xFF0C;&#x5F9E;201704&#x5230;&#x4ECA;&#x5929;&#x7684;&#x80A1;&#x50F9;&#x8207;&#x6210;&#x4EA4;&#x91CF;&#x8CC7;&#x6599;</span>
+fetch_data(<span class="hljs-number">1996</span>, <span class="hljs-number">1</span>, <span class="hljs-string">&apos;2022&apos;</span>)   <span class="hljs-comment">#&#x53D6;&#x51FA;&#x7DE8;&#x865F;2892&#x7684;&#x80A1;&#x7968;&#xFF0C;&#x5F9E;201704&#x5230;&#x4ECA;&#x5929;&#x7684;&#x80A1;&#x50F9;&#x8207;&#x6210;&#x4EA4;&#x91CF;&#x8CC7;&#x6599;</span>
 </code></pre>
 <h3 id="query">query</h3>
 <pre><code class="lang-py"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd

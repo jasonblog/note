@@ -187,7 +187,6 @@ fetch_data(2017, 4, '2892')   #取出編號2892的股票，從201704到今天的
 
 ```py
 #將股票交易資料放進MongoDB資料庫，就不用需要每次從證交所讀取資料
-#將股票交易資料放進MongoDB資料庫，就不用需要每次從證交所讀取資料
 import numpy as np
 import requests
 import pandas as pd
@@ -264,6 +263,11 @@ def fetch_data(year: int, month: int, stockno):  #擷取從year-month開始到�
         else:
             date = str(year) + str(month) + '01'   #10月
         data = get_stock_history(date, stockno)
+
+        if data == None:
+            print(data)
+            continue
+
         for item in data:  #取出每一天編號為stockno的股票資料
             if collection.find({    #找尋該交易資料是否不存在
                     "date": item[0],
@@ -276,7 +280,8 @@ def fetch_data(year: int, month: int, stockno):  #擷取從year-month開始到�
         time.sleep(10)  #延遲5秒，證交所會根據IP進行流量統計，流量過大會斷線
 
 connect_mongo()   #連線資料庫
-fetch_data(1996, 1, '2022')   #取出編號2892的股票，從201704到今天的股價與成交量資料
+fetch_data(2010, 8, '2022')   #取出編號2892的股票，從201704到今天的股價與成交量資料
+
 ```
 
 ### query

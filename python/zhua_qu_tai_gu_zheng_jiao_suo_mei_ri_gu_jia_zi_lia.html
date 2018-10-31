@@ -57,7 +57,7 @@
         data-chapter-title="抓取臺股證交所每日股價資料，儲存到MongoDB"
         data-filepath="python/zhua_qu_tai_gu_zheng_jiao_suo_mei_ri_gu_jia_zi_lia.md"
         data-basepath=".."
-        data-revision="Thu Nov 01 2018 01:40:01 GMT+0800 (CST)"
+        data-revision="Thu Nov 01 2018 02:07:31 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23231,7 +23231,6 @@ fetch_data(<span class="hljs-number">2017</span>, <span class="hljs-number">4</s
 </code></pre>
 <h3 id="&#x5B8C;&#x6574;&#x7A0B;&#x5F0F;&#x78BC;&#x5982;&#x4E0B;">&#x5B8C;&#x6574;&#x7A0B;&#x5F0F;&#x78BC;&#x5982;&#x4E0B;</h3>
 <pre><code class="lang-py"><span class="hljs-comment">#&#x5C07;&#x80A1;&#x7968;&#x4EA4;&#x6613;&#x8CC7;&#x6599;&#x653E;&#x9032;MongoDB&#x8CC7;&#x6599;&#x5EAB;&#xFF0C;&#x5C31;&#x4E0D;&#x7528;&#x9700;&#x8981;&#x6BCF;&#x6B21;&#x5F9E;&#x8B49;&#x4EA4;&#x6240;&#x8B80;&#x53D6;&#x8CC7;&#x6599;</span>
-<span class="hljs-comment">#&#x5C07;&#x80A1;&#x7968;&#x4EA4;&#x6613;&#x8CC7;&#x6599;&#x653E;&#x9032;MongoDB&#x8CC7;&#x6599;&#x5EAB;&#xFF0C;&#x5C31;&#x4E0D;&#x7528;&#x9700;&#x8981;&#x6BCF;&#x6B21;&#x5F9E;&#x8B49;&#x4EA4;&#x6240;&#x8B80;&#x53D6;&#x8CC7;&#x6599;</span>
 <span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
 <span class="hljs-keyword">import</span> requests
 <span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
@@ -23308,6 +23307,11 @@ MONGO_COLLETION = <span class="hljs-string">&apos;twse&apos;</span>
         <span class="hljs-keyword">else</span>:
             date = str(year) + str(month) + <span class="hljs-string">&apos;01&apos;</span>   <span class="hljs-comment">#10&#x6708;</span>
         data = get_stock_history(date, stockno)
+
+        <span class="hljs-keyword">if</span> data == <span class="hljs-keyword">None</span>:
+            print(data)
+            <span class="hljs-keyword">continue</span>
+
         <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> data:  <span class="hljs-comment">#&#x53D6;&#x51FA;&#x6BCF;&#x4E00;&#x5929;&#x7DE8;&#x865F;&#x70BA;stockno&#x7684;&#x80A1;&#x7968;&#x8CC7;&#x6599;</span>
             <span class="hljs-keyword">if</span> collection.find({    <span class="hljs-comment">#&#x627E;&#x5C0B;&#x8A72;&#x4EA4;&#x6613;&#x8CC7;&#x6599;&#x662F;&#x5426;&#x4E0D;&#x5B58;&#x5728;</span>
                     <span class="hljs-string">&quot;date&quot;</span>: item[<span class="hljs-number">0</span>],
@@ -23320,7 +23324,7 @@ MONGO_COLLETION = <span class="hljs-string">&apos;twse&apos;</span>
         time.sleep(<span class="hljs-number">10</span>)  <span class="hljs-comment">#&#x5EF6;&#x9072;5&#x79D2;&#xFF0C;&#x8B49;&#x4EA4;&#x6240;&#x6703;&#x6839;&#x64DA;IP&#x9032;&#x884C;&#x6D41;&#x91CF;&#x7D71;&#x8A08;&#xFF0C;&#x6D41;&#x91CF;&#x904E;&#x5927;&#x6703;&#x65B7;&#x7DDA;</span>
 
 connect_mongo()   <span class="hljs-comment">#&#x9023;&#x7DDA;&#x8CC7;&#x6599;&#x5EAB;</span>
-fetch_data(<span class="hljs-number">1996</span>, <span class="hljs-number">1</span>, <span class="hljs-string">&apos;2022&apos;</span>)   <span class="hljs-comment">#&#x53D6;&#x51FA;&#x7DE8;&#x865F;2892&#x7684;&#x80A1;&#x7968;&#xFF0C;&#x5F9E;201704&#x5230;&#x4ECA;&#x5929;&#x7684;&#x80A1;&#x50F9;&#x8207;&#x6210;&#x4EA4;&#x91CF;&#x8CC7;&#x6599;</span>
+fetch_data(<span class="hljs-number">2010</span>, <span class="hljs-number">8</span>, <span class="hljs-string">&apos;2022&apos;</span>)   <span class="hljs-comment">#&#x53D6;&#x51FA;&#x7DE8;&#x865F;2892&#x7684;&#x80A1;&#x7968;&#xFF0C;&#x5F9E;201704&#x5230;&#x4ECA;&#x5929;&#x7684;&#x80A1;&#x50F9;&#x8207;&#x6210;&#x4EA4;&#x91CF;&#x8CC7;&#x6599;</span>
 </code></pre>
 <h3 id="query">query</h3>
 <pre><code class="lang-py"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd

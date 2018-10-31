@@ -187,6 +187,7 @@ fetch_data(2017, 4, '2892')   #取出編號2892的股票，從201704到今天的
 
 ```py
 #將股票交易資料放進MongoDB資料庫，就不用需要每次從證交所讀取資料
+#將股票交易資料放進MongoDB資料庫，就不用需要每次從證交所讀取資料
 import numpy as np
 import requests
 import pandas as pd
@@ -211,9 +212,22 @@ def get_stock_history(date, stock_no, retry = 5):   #從www.twse.com.tw讀取資
     quotes = []
     url = 'http://www.twse.com.tw/exchangeReport/STOCK_DAY?date=%s&stockNo=%s' % ( date, stock_no)
     print(url)
-    r = requests.get(url)
-    data = r.json()
-    return transform(data['data'])  #進行資料格式轉換
+    data = ''
+    while data == '':
+        try:
+            s = requests.session()
+            s.keep_alive = False # 關閉多餘連接
+            #r = requests.get(url)
+            r = s.get(url)
+            data = r.json()
+            return transform(data['data'])  #進行資料格式轉換
+        except:
+            print("Connection refused by the server..")
+            print("Let me sleep for 5 seconds")
+            print("ZZzzzz...")
+            time.sleep(5)
+            print("Was a nice sleep, now let me continue...")
+            continue
 
 def transform_date(date):   #民國轉西元
         y, m, d = date.split('/')
@@ -262,7 +276,7 @@ def fetch_data(year: int, month: int, stockno):  #擷取從year-month開始到�
         time.sleep(10)  #延遲5秒，證交所會根據IP進行流量統計，流量過大會斷線
 
 connect_mongo()   #連線資料庫
-fetch_data(2017, 4, '2892')   #取出編號2892的股票，從201704到今天的股價與成交量資料
+fetch_data(1996, 1, '2022')   #取出編號2892的股票，從201704到今天的股價與成交量資料
 ```
 
 ### query

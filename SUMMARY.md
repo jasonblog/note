@@ -495,7 +495,7 @@
    * [在pthread的線程函數中，使用類的非靜態成員函數來執行](linux_system/zai_pthread_de_xian_cheng_han_shu_zhong_ff0c_shi_y.md)
    * [從 pthread 轉換到 std::thread](linux_system/cong_pthread_zhuan_huan_dao_std__thread.md)
    * [如何在運行時加載C＋＋函數和類別](linux_system/ru_he_zai_yun_xing_shi_jia_zai_c_ff0b_ff0b_han_shu.md)
-   * 主線程退出對子線程的影響
+   * [主線程退出對子線程的影響](linux_system/zhu_xian_cheng_tui_chu_dui_zi_xian_cheng_de_ying_x.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

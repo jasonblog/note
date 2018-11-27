@@ -1,6 +1,46 @@
 # 主線程退出對子線程的影響
 
 
+
+##1、進程中線程之間的關係
+
+線程不像進程，一個進程中的線程之間是沒有父子之分的，都是平級關係。即線程都是一樣的, 退出了一個不會影響另外一個。
+
+但是所謂的"主線程"main,其入口代碼是類似這樣的方式調用main的：exit(main(...))。
+
+main執行完之後, 會調用exit()。
+
+exit() 會讓整個進程over終止，那所有線程自然都會退出。
+
+
+
+
+##2、主線程先退出，子線程繼續運行的方法
+
+
+在進程主函數（main()）中調用pthread_exit()，只會使主函數所在的線程（可以說是進程的主線程）退出；而如果是return，編譯器將使其調用進程退出的代碼（如_exit()），從而導致進程及其所有線程結束運行。
+
+理論上說，pthread_exit()和線程宿體函數退出的功能是相同的，函數結束時會在內部自動調用pthread_exit()來清理線程相關的資源。
+但實際上二者由於編譯器的處理有很大的不同。  
+
+
+按照POSIX標準定義，當主線程在子線程終止之前調用pthread_exit()時，子線程是不會退出的。
+
+
+
+按照POSIX標準定義，當主線程在子線程終止之前調用pthread_exit()時，子線程是不會退出的。
+
+When you program with POSIX Threads API, there is one thing about pthread_exit() that you may ignore for mistake. In subroutines that complete normally, there is nothing special you have to do unless you want to pass a return code back using pthread_exit(). The completion won't affect the other threads which were created by the main thread of this subroutine. However, in main(), when the code has been executed to the end, there could leave a choice for you. If you want to kill all the threads that main() created before, you can dispense with calling any functions. **But if you want to keep the process and all the other threads except for the main thread alive after the exit of main(), then you can call pthread_exit() to realize it. And any files opened inside the main thread will remain open after its termination.
+**
+
+
+main()中調用了`pthread_exit後，導致住線程提前退出，其後的exit()無法執行了，所以要到其他線程全部執行完了，整個進程才會退出。`
+
+
+
+---
+
+
 對於程序來說，如果主進程在子進程還未結束時就已經退出，那麼Linux內核會將子進程的父進程ID改為1（也就是init進程），當子進程結束後會由init進程來回收該子進程。
 
 那如果是把進程換成線程的話，會怎麼樣呢？假設主線程在子線程結束前就已經退出，子線程會發生什麼？

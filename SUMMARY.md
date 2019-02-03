@@ -1457,7 +1457,7 @@
    * [Vector3d   Quaterniond  Affine3d  MatrixXd for Eigen](third-party/vector3d_quaterniond_affine3d_matrixxd_for_eigen.md)
    * [Google Protocol Buffers](third-party/google_protocol_buffers.md)
        * [Google Protocol Buffers 學習筆記](third-party/google_protocol_buffers_xue_xi_bi_ji.md)
-   * openh264在ubuntu下的android版編譯
+   * [openh264在ubuntu下的android版編譯](third-party/openh264zai_ubuntu_xia_de_android_ban_bian_yi.md)
 * [Big Data](big_data/big_data.md)
    * [Spark與Hadoop關係](big_data/sparkyu_hadoop_guan_xi.md)
    * [TensorFlow和Spark MLlib有什麼區別？](big_data/tensorflowhe_spark_mllib_you_shi_me_qu_bie_ff1f.md)

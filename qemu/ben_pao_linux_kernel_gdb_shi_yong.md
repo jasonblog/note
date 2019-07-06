@@ -39,16 +39,17 @@ gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu
 
 ```sh
 git clone https://github.com/figozhang/runninglinuxkernel_4.0
+git checkout master
 ```
 
 ```sh
-$ export ARCH=arm64
-$ export CROSS_COMPILE=aarch64-linux-gnu-
-$ cd _install_arm64 && mkdir dev && cd dev
-$ sudo mknod console c 5 1  (注意，不要遺漏該步驟)
-$ cd runninglinuxkernel_4.0 
-$ make defconfig (在runninglinuxkernel_4.0目錄下輸入make命令)
-$ make -j8
+export ARCH=arm64
+export CROSS_COMPILE=aarch64-linux-gnu-
+cd _install_arm64 && mkdir dev && cd dev
+sudo mknod console c 5 1  (注意，不要遺漏該步驟)
+cd runninglinuxkernel_4.0 
+make defconfig    (在runninglinuxkernel_4.0目錄下輸入make命令)
+make -j8
 ```
 
 
@@ -58,6 +59,15 @@ $ make -j8
 ```
 cd /home/shihyu/.mybin/linaro  && source build.env
 ./run.sh arm64 debug
+```
+
+- build.env
+
+```sh
+TOOLCHAIN="gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu"
+DIR=$(pushd $(dirname $BASH_SOURCE) > /dev/null; pwd; popd > /dev/null)
+echo $DIR/${TOOLCHAIN}/bin
+export PATH=${DIR}/${TOOLCHAIN}/bin:$PATH 
 ```
 
 ```

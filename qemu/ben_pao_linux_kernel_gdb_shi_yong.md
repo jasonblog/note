@@ -35,6 +35,15 @@ https://releases.linaro.org/components/toolchain/binaries/latest-5/aarch64-linux
 gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu
 ```
 
+- build.env
+
+```sh
+TOOLCHAIN="gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu"
+DIR=$(pushd $(dirname $BASH_SOURCE) > /dev/null; pwd; popd > /dev/null)
+echo $DIR/${TOOLCHAIN}/bin
+export PATH=${DIR}/${TOOLCHAIN}/bin:$PATH 
+```
+
 ## 編譯ARM64內核：
 
 ```sh
@@ -43,6 +52,8 @@ git checkout master
 ```
 
 ```sh
+cd /home/shihyu/.mybin/linaro  && source build.env
+
 export ARCH=arm64
 export CROSS_COMPILE=aarch64-linux-gnu-
 cd _install_arm64 && mkdir dev && cd dev
@@ -61,14 +72,6 @@ cd /home/shihyu/.mybin/linaro  && source build.env
 ./run.sh arm64 debug
 ```
 
-- build.env
-
-```sh
-TOOLCHAIN="gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu"
-DIR=$(pushd $(dirname $BASH_SOURCE) > /dev/null; pwd; popd > /dev/null)
-echo $DIR/${TOOLCHAIN}/bin
-export PATH=${DIR}/${TOOLCHAIN}/bin:$PATH 
-```
 
 ```
 cd /home/shihyu/.mybin/linaro  && source build.env

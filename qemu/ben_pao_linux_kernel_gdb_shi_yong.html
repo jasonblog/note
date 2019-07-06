@@ -57,7 +57,7 @@
         data-chapter-title="奔跑 linux kernel GDB 使用"
         data-filepath="qemu/ben_pao_linux_kernel_gdb_shi_yong.md"
         data-basepath=".."
-        data-revision="Sat Jul 06 2019 12:28:00 GMT+0800 (CST)"
+        data-revision="Sat Jul 06 2019 13:06:41 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23154,11 +23154,21 @@ make install
 
 gcc-linaro-<span class="hljs-number">5.5</span>.<span class="hljs-number">0</span>-<span class="hljs-number">2017.10</span>-x86_64_aarch64-linux-gnu
 </code></pre>
+<ul>
+<li>build.env</li>
+</ul>
+<pre><code class="lang-sh">TOOLCHAIN=<span class="hljs-string">&quot;gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu&quot;</span>
+DIR=$(<span class="hljs-built_in">pushd</span> $(dirname <span class="hljs-variable">$BASH_SOURCE</span>) &gt; /dev/null; <span class="hljs-built_in">pwd</span>; <span class="hljs-built_in">popd</span> &gt; /dev/null)
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$DIR</span>/<span class="hljs-variable">${TOOLCHAIN}</span>/bin
+<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">${DIR}</span>/<span class="hljs-variable">${TOOLCHAIN}</span>/bin:<span class="hljs-variable">$PATH</span>
+</code></pre>
 <h2 id="&#x7DE8;&#x8B6F;arm64&#x5167;&#x6838;&#xFF1A;">&#x7DE8;&#x8B6F;ARM64&#x5167;&#x6838;&#xFF1A;</h2>
 <pre><code class="lang-sh">git <span class="hljs-built_in">clone</span> https://github.com/figozhang/runninglinuxkernel_4.<span class="hljs-number">0</span>
 git checkout master
 </code></pre>
-<pre><code class="lang-sh"><span class="hljs-built_in">export</span> ARCH=arm64
+<pre><code class="lang-sh"><span class="hljs-built_in">cd</span> /home/shihyu/.mybin/linaro  &amp;&amp; <span class="hljs-built_in">source</span> build.env
+
+<span class="hljs-built_in">export</span> ARCH=arm64
 <span class="hljs-built_in">export</span> CROSS_COMPILE=aarch64-linux-gnu-
 <span class="hljs-built_in">cd</span> _install_arm64 &amp;&amp; mkdir dev &amp;&amp; <span class="hljs-built_in">cd</span> dev
 sudo mknod console c <span class="hljs-number">5</span> <span class="hljs-number">1</span>  (&#x6CE8;&#x610F;&#xFF0C;&#x4E0D;&#x8981;&#x907A;&#x6F0F;&#x8A72;&#x6B65;&#x9A5F;)
@@ -23169,15 +23179,7 @@ make -j8
 <h2 id="run--gdb">RUN + GDB</h2>
 <pre><code>cd /home/shihyu/.mybin/linaro  &amp;&amp; source build.env
 ./run.sh arm64 debug
-</code></pre><ul>
-<li>build.env</li>
-</ul>
-<pre><code class="lang-sh">TOOLCHAIN=<span class="hljs-string">&quot;gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu&quot;</span>
-DIR=$(<span class="hljs-built_in">pushd</span> $(dirname <span class="hljs-variable">$BASH_SOURCE</span>) &gt; /dev/null; <span class="hljs-built_in">pwd</span>; <span class="hljs-built_in">popd</span> &gt; /dev/null)
-<span class="hljs-built_in">echo</span> <span class="hljs-variable">$DIR</span>/<span class="hljs-variable">${TOOLCHAIN}</span>/bin
-<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">${DIR}</span>/<span class="hljs-variable">${TOOLCHAIN}</span>/bin:<span class="hljs-variable">$PATH</span>
-</code></pre>
-<pre><code>cd /home/shihyu/.mybin/linaro  &amp;&amp; source build.env
+</code></pre><pre><code>cd /home/shihyu/.mybin/linaro  &amp;&amp; source build.env
 cgdb -d aarch64-linux-gnu-gdb vmlinux
 target remote localhost:1234
 b start_kernel

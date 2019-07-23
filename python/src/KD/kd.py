@@ -1,10 +1,22 @@
 #!/usr/bin/env python3
 # coding=UTF-8
 import math
+import time
 import requests
 import re
+import os
 from bs4 import BeautifulSoup
 import pandas as pd
+
+def line_nofity(token, kd_result):
+    url = "https://notify-api.line.me/api/notify"
+    headers = {"Authorization" : "Bearer "+ token}
+    message = "【" + '月KD' + "】 \n" + kd_result
+    payload = {"message" :  message}
+    files = {"imageFile": open(os.getcwd() + "/kd.png", "rb")} 
+    #requests.post(url ,headers = headers ,params=payload)
+    requests.post(url ,headers = headers ,params=payload, files=files)
+    #time.sleep(10)
 
 # 下載網頁內容
 header = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'}
@@ -36,13 +48,21 @@ if rt.status_code == requests.codes.ok:
 
     print(df)
 
+    kd_result = ""
     for index, row in df.iterrows():
         k = float(re.findall(r"\d+\.?\d*", row['K值(月)'])[0])
         d = float(re.findall(r"\d+\.?\d*", row['D值(月)'])[0])
         if k > d:
             print('%s %s : K:%f, D:%f' % (row['代號'], row['名稱'], k, d))
+            buf = '%s %s : K:%f, D:%f \n' % (row['代號'], row['名稱'], k, d)
+            kd_result = kd_result + buf
+
 
     df.to_html('goodinfo.html')
+
+    token = "KXwzqEGtIp1JEkS5GjqXqRAT0D4BdQQvCNcqOa7ySfz" # Jason
+    line_nofity(token, kd_result)
+
 
 '''
 MARKET_CAT: 自訂篩選
@@ -88,3 +108,4 @@ FILTER_SHEET2: 獲利能力
 FILTER_MARKET: 上市/上櫃
 FILTER_QUERY: 查  詢
 '''
+

@@ -58,7 +58,8 @@ if rt.status_code == requests.codes.ok:
             kd_result = kd_result + buf
 
 
-    df.to_html('goodinfo.html')
+    timestr = time.strftime("%Y%m%d%H%M")
+    df.to_html(timestr + '.html')
 
     token = "KXwzqEGtIp1JEkS5GjqXqRAT0D4BdQQvCNcqOa7ySfz" # Jason
     line_nofity(token, kd_result)

@@ -32,6 +32,8 @@ libluajit-5.1-dev libacl1-dev libgpmg1-dev \
 libgtk-3-dev libgtk2.0-dev liblua5.2-dev libperl-dev \
 libselinux1-dev libtinfo-dev libxaw7-dev libxpm-dev \
 libxt-dev lua5.2 python3-dev ruby ruby-dev tcl-dev \
+libdvdnav4 libdvdread4 gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly libdvd-pkg \
+ubuntu-restricted-extras
 ```
 
 ```

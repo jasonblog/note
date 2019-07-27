@@ -1470,4 +1470,5 @@
    * [流媒體與直播技術學習筆記](media_player/liu_mei_ti_yu_zhi_bo_ji_shu_xue_xi_bi_ji.md)
    * [Streaming 通訊協定 RTP RTCP RTSP RTMP HLS 介紹](media_player/streaming_tong_xun_xie_ding_rtp_rtcp_rtsp_rtmp_hls.md)
 * [投資](tou_zi.md)
+   * ubuntu TA-lib的安裝
 

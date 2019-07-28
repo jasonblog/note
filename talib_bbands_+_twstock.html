@@ -55,7 +55,7 @@
         data-chapter-title="talib BBands + twstock"
         data-filepath="talib_bbands_+_twstock.md"
         data-basepath="."
-        data-revision="Sun Jul 28 2019 21:57:53 GMT+0800 (CST)"
+        data-revision="Sun Jul 28 2019 22:05:35 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23201,7 +23201,7 @@ stock = twstock.Stock(<span class="hljs-string">&apos;4991&apos;</span>)
 
 <span class="hljs-comment">#close = numpy.random.random(31)</span>
 close = []
-data = stock.fetch_from(<span class="hljs-number">2019</span>, <span class="hljs-number">7</span>)
+data = stock.fetch_from(<span class="hljs-number">2019</span>, <span class="hljs-number">5</span>)
 print(data)
 <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> data:
     close.append(item.close)
@@ -23209,8 +23209,15 @@ print(data)
 print(len(close))
 close = numpy.array(close)
 
+print(<span class="hljs-string">&quot;MA_Type.T3 = &quot;</span> + str(MA_Type.T3))
+
 <span class="hljs-comment"># &#x5275;&#x5EFA;&#x5E03;&#x6797;&#x901A;&#x9053;&#xFF1A;  &#x9031;&#x671F; 20&#x65E5;&#xFF08;&#xFF1D;&#x65E5;K&#x6708;&#x5747;&#x7DDA;&#xFF09;&#x3001;2.1 &#x500B;&#x6A19;&#x6E96;&#x5DEE;; &#x5982;&#x679C;&#x53EA;&#x6709;20&#x5929;&#x6536;&#x76E4;&#x50F9;&#x53EA;&#x6709;&#x7B97;&#x51FA;&#x4E00;&#x7D44;&#x503C;</span>
-upper, middle, lower = talib.BBANDS(close, timeperiod=<span class="hljs-number">20</span>, nbdevup=<span class="hljs-number">2.1</span>, nbdevdn=<span class="hljs-number">2.1</span>, matype=<span class="hljs-number">0</span>)
+upper, middle, lower = talib.BBANDS(close, 
+                                    timeperiod=<span class="hljs-number">20</span>, 
+                                    nbdevup=<span class="hljs-number">2.1</span>, 
+                                    nbdevdn=<span class="hljs-number">2.1</span>, 
+                                    <span class="hljs-comment"># Moving average type: simple moving average here</span>
+                                    matype=<span class="hljs-number">0</span>)
 print(upper)
 print(middle)
 print(lower)

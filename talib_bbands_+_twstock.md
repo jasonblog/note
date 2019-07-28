@@ -6,6 +6,8 @@ import twstock
 import numpy
 import talib
 from talib import MA_Type
+import matplotlib.pyplot as plt
+from matplotlib import rc
 
 stock = twstock.Stock('4991')
 
@@ -39,9 +41,17 @@ print(upper)
 print(middle)
 print(lower)
 
+plt.figure(figsize=(15,7))
+plt.plot(middle, 'r', alpha=0.3)
+plt.plot(upper, 'g', alpha=0.3)
+plt.plot(lower, 'g', alpha=0.3)
+plt.show()
+
 #def BBandMA(df, count, acmroi, winnum, winfact):
     #計算BBand上, 中, 下線
     #close = np.array(df['close'], dtype=float)
     #upper, middle, lower = talib.BBANDS(close, timeperiod=20, nbdevup=0.0001, nbdevdn=0.0001, matype=MA_Type.T3)
+
+
 
 ```

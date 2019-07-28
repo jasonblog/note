@@ -55,7 +55,7 @@
         data-chapter-title="talib BBands + twstock"
         data-filepath="talib_bbands_+_twstock.md"
         data-basepath="."
-        data-revision="Sun Jul 28 2019 20:42:35 GMT+0800 (CST)"
+        data-revision="Sun Jul 28 2019 21:02:11 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23201,13 +23201,15 @@ stock = twstock.Stock(<span class="hljs-string">&apos;4991&apos;</span>)
 
 <span class="hljs-comment">#close = numpy.random.random(31)</span>
 close = []
-<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> stock.fetch_from(<span class="hljs-number">2019</span>, <span class="hljs-number">6</span>):
+data = stock.fetch_from(<span class="hljs-number">2019</span>, <span class="hljs-number">6</span>)
+print(data)
+<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> data:
     close.append(item.close)
 
 print(len(close))
 close = numpy.array(close)
 
-upper, middle, lower = talib.BBANDS(close, timeperiod=<span class="hljs-number">5</span>, nbdevup=<span class="hljs-number">2</span>, nbdevdn=<span class="hljs-number">2</span>, matype=<span class="hljs-number">0</span>)
+upper, middle, lower = talib.BBANDS(close, timeperiod=<span class="hljs-number">5</span>, nbdevup=<span class="hljs-number">2.1</span>, nbdevdn=<span class="hljs-number">2.1</span>, matype=<span class="hljs-number">0</span>)
 print(upper)
 print(middle)
 print(lower)

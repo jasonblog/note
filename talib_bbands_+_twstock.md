@@ -18,7 +18,7 @@ stock = twstock.Stock('4991')
 
 #close = numpy.random.random(31)
 close = []
-data = stock.fetch_from(2019, 7)
+data = stock.fetch_from(2019, 5)
 print(data)
 for item in data:
     close.append(item.close)
@@ -26,8 +26,15 @@ for item in data:
 print(len(close))
 close = numpy.array(close)
 
+print("MA_Type.T3 = " + str(MA_Type.T3))
+
 # 創建布林通道：  週期 20日（＝日K月均線）、2.1 個標準差; 如果只有20天收盤價只有算出一組值
-upper, middle, lower = talib.BBANDS(close, timeperiod=20, nbdevup=2.1, nbdevdn=2.1, matype=0)
+upper, middle, lower = talib.BBANDS(close, 
+                                    timeperiod=20, 
+                                    nbdevup=2.1, 
+                                    nbdevdn=2.1, 
+                                    # Moving average type: simple moving average here
+                                    matype=0)
 print(upper)
 print(middle)
 print(lower)

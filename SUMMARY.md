@@ -1471,4 +1471,5 @@
    * [Streaming 通訊協定 RTP RTCP RTSP RTMP HLS 介紹](media_player/streaming_tong_xun_xie_ding_rtp_rtcp_rtsp_rtmp_hls.md)
 * [投資](tou_zi.md)
    * [ubuntu TA-lib的安裝](ubuntu_ta-libde_an_zhuang.md)
+   * talib BBands + twstock
 

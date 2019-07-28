@@ -55,7 +55,7 @@
         data-chapter-title="talib BBands + twstock"
         data-filepath="talib_bbands_+_twstock.md"
         data-basepath="."
-        data-revision="Sun Jul 28 2019 22:05:35 GMT+0800 (CST)"
+        data-revision="Sun Jul 28 2019 22:14:41 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23189,6 +23189,8 @@
 <span class="hljs-keyword">import</span> numpy
 <span class="hljs-keyword">import</span> talib
 <span class="hljs-keyword">from</span> talib <span class="hljs-keyword">import</span> MA_Type
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> rc
 
 stock = twstock.Stock(<span class="hljs-string">&apos;4991&apos;</span>)
 
@@ -23221,6 +23223,12 @@ upper, middle, lower = talib.BBANDS(close,
 print(upper)
 print(middle)
 print(lower)
+
+plt.figure(figsize=(<span class="hljs-number">15</span>,<span class="hljs-number">7</span>))
+plt.plot(middle, <span class="hljs-string">&apos;r&apos;</span>, alpha=<span class="hljs-number">0.3</span>)
+plt.plot(upper, <span class="hljs-string">&apos;g&apos;</span>, alpha=<span class="hljs-number">0.3</span>)
+plt.plot(lower, <span class="hljs-string">&apos;g&apos;</span>, alpha=<span class="hljs-number">0.3</span>)
+plt.show()
 
 <span class="hljs-comment">#def BBandMA(df, count, acmroi, winnum, winfact):</span>
     <span class="hljs-comment">#&#x8A08;&#x7B97;BBand&#x4E0A;, &#x4E2D;, &#x4E0B;&#x7DDA;</span>

@@ -2,6 +2,7 @@ import twstock
 import numpy
 import talib
 from talib import MA_Type
+import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import rc
 
@@ -16,7 +17,7 @@ stock = twstock.Stock('4991')
 
 #close = numpy.random.random(31)
 close = []
-data = stock.fetch_from(2019, 5)
+data = stock.fetch_from(2019, 4)
 print(data)
 for item in data:
     close.append(item.close)
@@ -33,9 +34,15 @@ upper, middle, lower = talib.BBANDS(close,
                                     nbdevdn=2.1, 
                                     # Moving average type: simple moving average here
                                     matype=0)
+
+
 print(upper)
 print(middle)
 print(lower)
+
+print(type(upper))
+Bandwidth = (upper - lower) / middle
+print(Bandwidth)
 
 plt.figure(figsize=(15,7))
 plt.plot(middle, 'r', alpha=0.3)
@@ -43,8 +50,11 @@ plt.plot(upper, 'g', alpha=0.3)
 plt.plot(lower, 'g', alpha=0.3)
 plt.show()
 
-#def BBandMA(df, count, acmroi, winnum, winfact):
-    #計算BBand上, 中, 下線
-    #close = np.array(df['close'], dtype=float)
-    #upper, middle, lower = talib.BBANDS(close, timeperiod=20, nbdevup=0.0001, nbdevdn=0.0001, matype=MA_Type.T3)
 
+'''
+def BBandMA(df, count, acmroi, winnum, winfact):
+    #計算BBand上, 中, 下線
+    close = np.array(df['close'], dtype=float)
+    upper, middle, lower = talib.BBANDS(close, timeperiod=20, nbdevup=0.0001, nbdevdn=0.0001, matype=MA_Type.T3)
+
+'''

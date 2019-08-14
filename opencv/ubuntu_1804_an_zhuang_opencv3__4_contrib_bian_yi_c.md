@@ -130,7 +130,8 @@ g++ opencv.cpp -o opencv  `pkg-config opencv --cflags --libs`
 
 
 
-`CXX = g++
+```c
+CXX = g++
 
 CXXFLAG :=
 CXXFLAG += -O3
@@ -154,5 +155,6 @@ opencv: opencv.cpp
 
 run: opencv
     ./$(EXEFILE)
+    
 ```
 

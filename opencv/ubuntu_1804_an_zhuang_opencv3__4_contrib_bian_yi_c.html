@@ -57,7 +57,7 @@
         data-chapter-title="ubuntu 18.04 安裝 OpenCV3.4  contrib 編譯 C++"
         data-filepath="opencv/ubuntu_1804_an_zhuang_opencv3__4_contrib_bian_yi_c.md"
         data-basepath=".."
-        data-revision="Mon Aug 12 2019 21:02:20 GMT+0800 (CST)"
+        data-revision="Wed Aug 14 2019 14:18:09 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23300,24 +23300,31 @@ int main(int argc, char const *argv[]) {
 <p>&#x57F7;&#x884C;&#x51FA;&#x554F;&#x984C; &#x672A;&#x5B9A;&#x7FA9;&#x53C3;&#x8003;&#x5230;&#x300C;cv::String::deallocate()&#x300D; opencv</p>
 <p>&#x53EF;&#x80FD;&#x662F;&#x525B;&#x525B;&#x4F60;&#x7684;&#x8A2D;&#x7F6E;&#x51FD;&#x5F0F;&#x5EAB;&#x8DEF;&#x5F91;&#x6C92;&#x57F7;&#x884C;&#xFF0C;&#x518D;&#x91CD;&#x65B0;&#x57F7;&#x884C;&#x4E00;&#x6B21; sudo ldconfig</p>
 <p>&#x6700;&#x5F8C;&#x662F; makefile &#x6A94;&#x4E0D;&#x904E;&#x6211;&#x4E5F;&#x6B63;&#x5728;&#x5B78;&#x7FD2;&#xFF0C;&#x9084;&#x4E0D;&#x77E5;&#x9053;&#x901A;&#x5E38;&#x6B63;&#x898F;&#x662F;&#x600E;&#x9EBC;&#x5BEB;&#x7684;&#xFF0C;&#x5C31;&#x662F;&#x4E00;&#x500B;&#x80FD;&#x8DD1;&#x7684;&#x800C;&#x5DF2;~</p>
-<p>`CXX = g++</p>
-<p>CXXFLAG :=
+<pre><code class="lang-c">CXX = g++
+
+CXXFLAG :=
 CXXFLAG += -O3
-CXXFLAG += -std=c++11
-CXXFLAG += -Wall</p>
-<p>CXXLIBS :=
-CXXLIBS += <code>pkg-config opencv --libs</code></p>
-<p>CXXINCS :=
-CXXINCS += <code>pkg-config opencv --cflags</code></p>
-<p>CPPFILES :=
-CPPFILES := opencv.cpp</p>
-<p>EXEFILE := main</p>
-<p>all: opencv
+CXXFLAG += -<span class="hljs-built_in">std</span>=c++<span class="hljs-number">11</span>
+CXXFLAG += -Wall
+
+CXXLIBS :=
+CXXLIBS += `pkg-config opencv --libs`
+
+CXXINCS :=
+CXXINCS += `pkg-config opencv --cflags`
+
+CPPFILES :=
+CPPFILES := opencv.cpp
+
+EXEFILE := main
+
+all: opencv
 opencv: opencv.cpp
-    g++ $(CXXFLAG) $(CPPFILES) -o $(EXEFILE) $(CXXINCS) $(CXXLIBS)</p>
-<p>run: opencv
+    g++ $(CXXFLAG) $(CPPFILES) -o $(EXEFILE) $(CXXINCS) $(CXXLIBS)
+
+run: opencv
     ./$(EXEFILE)
-```</p>
+</code></pre>
 
                     
                     </section>

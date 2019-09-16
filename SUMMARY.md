@@ -846,6 +846,7 @@
        * [選出股本50億以上的股票代號](python/xuan_chu_gu_ben_50_yi_yi_shang_de_gu_piao_dai_hao.md)
        * [goodinfo 股票篩選](python/goodinfo_gu_piao_shai_xuan.md)
        * [抓取臺股證交所每日股價資料，儲存到MongoDB](python/zhua_qu_tai_gu_zheng_jiao_suo_mei_ri_gu_jia_zi_lia.md)
+       * 音頻文件按照正常語句，斷句拆分的處理方法
    * [pandas](python/pandas.md)
        * [pandas 入門](python/pandas_ru_men.md)
        * [Python Pandas DataFrame 的 iloc[0] 與 iloc[[0]]](python/python_pandas_dataframe_de_iloc_[_0_]_yu_iloc_[[_0.md)

@@ -649,7 +649,7 @@
    * [Mutex + Timer 模擬時間鎖](c++/mutex_+_timer_mo_ni_shi_jian_suo.md)
    * [How to Stop or Terminate a Thread](c++/how_to_stop_or_terminate_a_thread.md)
    * [C++ 11  thread run函數不需要 static](c++/c++_11_thread_run_han_shu_bu_xu_yao_static.md)
-   * template c++ to allocate dynamic matrix 2D
+   * [template c++ to allocate dynamic matrix 2D](c++/template_c++_to_allocate_dynamic_matrix_2d.md)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

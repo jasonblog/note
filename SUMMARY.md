@@ -1430,6 +1430,7 @@
    * [如何把OpenCV Python獲取的圖像傳遞到C層處理](opencv/ru_he_ba_opencv_python_huo_qu_de_tu_xiang_chuan_di.md)
    * [ubuntu 18.04 安裝 OpenCV3.4  contrib 編譯 C++](opencv/ubuntu_1804_an_zhuang_opencv3__4_contrib_bian_yi_c.md)
    * [Opencv 讀寫圖檔基本操作](opencv/opencv_du_xie_tu_dang_ji_ben_cao_zuo.md)
+   * Opencv 3.4 + gdb 
 * [Qt](qt/qt.md)
    * [ubuntu編譯安裝 qt 5.8](qt/ubuntubian_yi_an_zhuang_qt5__0__1.md)
    * [在QT官網下載最新的版本](qt/zai_qt_guan_wang_xia_zai_zui_xin_de_ban_ben.md)

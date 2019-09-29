@@ -57,7 +57,7 @@
         data-chapter-title="Opencv 3.4 + gdb"
         data-filepath="opencv/opencv_34_+_gdb.md"
         data-basepath=".."
-        data-revision="Mon Sep 30 2019 01:09:51 GMT+0800 (CST)"
+        data-revision="Mon Sep 30 2019 01:25:23 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23376,7 +23376,12 @@ run
 gdb  `find /home/shihyu/opencv347/opencv/ -type d -printf &apos;-d %p &apos;` --args ./main ./test.csv
 
 b remap // &#x4E0D;&#x80FD; b *remap
+</code></pre><hr>
+<pre><code class="lang-sh">g++ -g -O0 <span class="hljs-number">0927</span>_block.cpp -o main  `pkg-config opencv --cflags --libs` &amp;&amp; ./main ./test.csv
 </code></pre>
+<pre><code class="lang-sh">cgdb ./main -- -ex <span class="hljs-string">&quot;`find /home/shihyu/opencv347/opencv/modules/ -type d -printf &apos;dir %p &apos;`&quot;</span> -ex <span class="hljs-string">&apos;set args ./test.csv&apos;</span>
+</code></pre>
+
                     
                     </section>
                 

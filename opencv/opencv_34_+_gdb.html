@@ -57,7 +57,7 @@
         data-chapter-title="Opencv 3.4 + gdb"
         data-filepath="opencv/opencv_34_+_gdb.md"
         data-basepath=".."
-        data-revision="Mon Sep 30 2019 00:00:01 GMT+0800 (CST)"
+        data-revision="Mon Sep 30 2019 01:04:27 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23367,11 +23367,16 @@ run
 
 <span class="hljs-built_in">set</span>  solib-search-path /home/shihyu/.mybin/opencv347/lib
 </code></pre>
-<p>g++ -g -O0 0927_block.cpp -o main  <code>pkg-config opencv --cflags --libs</code> &amp;&amp; ./main ./test.csv
-gdb  <code>find /home/shihyu/opencv347/opencv/ -type d -printf &apos;-d %p &apos;</code> --args ./main ./test.csv</p>
-<p>b remap // &#x4E0D;&#x80FD; b *remap</p>
-<p>```</p>
+<h2 id="cgdb">cgdb</h2>
+<pre><code class="lang-sh">cgdb ./<span class="hljs-built_in">test</span>4 -- -ex=<span class="hljs-string">&quot;`find /home/shihyu/opencv347/opencv/modules/ -type d -printf &apos;dir %p &apos;`&quot;</span>
+</code></pre>
+<hr>
+<pre><code>g++ -g -O0 0927_block.cpp -o main  `pkg-config opencv --cflags --libs` &amp;&amp; ./main ./test.csv
 
+gdb  `find /home/shihyu/opencv347/opencv/ -type d -printf &apos;-d %p &apos;` --args ./main ./test.csv
+
+b remap // &#x4E0D;&#x80FD; b *remap
+</code></pre>
                     
                     </section>
                 

@@ -135,4 +135,18 @@ b remap // 不能 b *remap
 
 
 
+---
+
+```sh
+g++ -g -O0 0927_block.cpp -o main  `pkg-config opencv --cflags --libs` && ./main ./test.csv
+```
+
+
+```sh
+cgdb ./main -- -ex "`find /home/shihyu/opencv347/opencv/modules/ -type d -printf 'dir %p '`" -ex 'set args ./test.csv'
+```
+
+
+
+
 

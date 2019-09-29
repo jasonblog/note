@@ -120,7 +120,7 @@ set  solib-search-path /home/shihyu/.mybin/opencv347/lib
 ## cgdb 
 
 ```sh
-cgdb ./test4 -- -ex="`find /home/shihyu/opencv347/opencv/modules/ -type d -printf 'dir %p '`"
+cgdb ./test4 -- -ex "`find /home/shihyu/opencv347/opencv/modules/ -type d -printf 'dir %p '`" -ex 'b imread'
 ```
 
 ---

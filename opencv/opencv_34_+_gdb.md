@@ -117,12 +117,20 @@ run
 set  solib-search-path /home/shihyu/.mybin/opencv347/lib
 ```
 
+## cgdb 
 
+```sh
+cgdb ./test4 -- -ex="`find /home/shihyu/opencv347/opencv/modules/ -type d -printf 'dir %p '`"
+```
+
+---
+
+```
 g++ -g -O0 0927_block.cpp -o main  `pkg-config opencv --cflags --libs` && ./main ./test.csv
+
 gdb  `find /home/shihyu/opencv347/opencv/ -type d -printf '-d %p '` --args ./main ./test.csv
 
 b remap // 不能 b *remap
-
 ```
 
 

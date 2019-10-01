@@ -57,7 +57,7 @@
         data-chapter-title="Opencv 3.4 + gdb"
         data-filepath="opencv/opencv_34_+_gdb.md"
         data-basepath=".."
-        data-revision="Mon Sep 30 2019 01:25:23 GMT+0800 (CST)"
+        data-revision="Tue Oct 01 2019 20:12:37 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23312,8 +23312,19 @@ git checkout <span class="hljs-number">3.4</span>
 mkdir build
 <span class="hljs-built_in">cd</span> build
 
-
-cmake -D CMAKE_BUILD_TYPE=DEBUG \
+```sh
+cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv3.<span class="hljs-number">4.7</span> \
+      -D CMAKE_BUILD_TYPE:STRING=RelWithDebInfo \
+      -D CMAKE_BUILD_TYPE=DEBUG \
+      -D BUILD_opencv_xfeatures2d=OFF \
+      -D CMAKE_CXX_FLAGS_DEBUG=<span class="hljs-string">&quot;-g -O0 -ggdb3&quot;</span> ../
+</code></pre>
+<pre><code class="lang-sh"><span class="hljs-built_in">export</span> PKG_CONFIG_PATH=/home/shihyu/.mybin/opencv3.<span class="hljs-number">4.7</span>/lib/pkgconfig:<span class="hljs-variable">$PKG_CONFIG_PATH</span> &amp;&amp; g++ -g -O0 -ggdb3 calibration.cpp main.cpp -o main -Wl,-rpath,/home/shihyu/.mybin/opencv3.<span class="hljs-number">4.7</span>/lib `pkg-config opencv --cflags --libs`
+</code></pre>
+<pre><code class="lang-sh">cgdb ./main -- -ex <span class="hljs-string">&quot;`find /home/shihyu/github/opencv-3.4.7/modules -type d -printf &apos;dir %p &apos;`&quot;</span> -ex <span class="hljs-string">&apos;b remap&apos;</span> -ex <span class="hljs-string">&apos;set args ./test.csv&apos;</span>
+</code></pre>
+<hr>
+<p>cmake -D CMAKE_BUILD_TYPE=DEBUG \
             -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv347 \
             -D INSTALL_C_EXAMPLES=ON \
             -D INSTALL_PYTHON_EXAMPLES=ON \
@@ -23324,36 +23335,34 @@ cmake -D CMAKE_BUILD_TYPE=DEBUG \
             -D WITH_OPENGL=ON \
             -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
             -D BUILD_opencv_xfeatures2d=OFF \
-            -D BUILD_EXAMPLES=ON ..
+            -D BUILD_EXAMPLES=ON ..</p>
+<p>make install</p>
+<pre><code>
+```cpp
+#include &lt;stdio.h&gt;
+#include &lt;opencv2/opencv.hpp&gt;
 
+using namespace cv;
 
-make install
-</code></pre>
-<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;opencv2/opencv.hpp&gt;</span></span>
-
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> cv;
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span>
-</span>{
+int main(int argc, char** argv)
+{
 
     Mat image;
-    image = imread(<span class="hljs-string">&quot;Sinsinawa_640_480.jpg&quot;</span>, <span class="hljs-number">1</span>);
+    image = imread(&quot;Sinsinawa_640_480.jpg&quot;, 1);
 
-    <span class="hljs-keyword">if</span> (!image.data) {
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;No image data \n&quot;</span>);
-        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+    if (!image.data) {
+        printf(&quot;No image data \n&quot;);
+        return -1;
     }
 
-    namedWindow(<span class="hljs-string">&quot;Display Image&quot;</span>, CV_WINDOW_AUTOSIZE);
-    imshow(<span class="hljs-string">&quot;Display Image&quot;</span>, image);
+    namedWindow(&quot;Display Image&quot;, CV_WINDOW_AUTOSIZE);
+    imshow(&quot;Display Image&quot;, image);
 
-    waitKey(<span class="hljs-number">0</span>);
+    waitKey(0);
 
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    return 0;
 }
-</code></pre>
-<pre><code class="lang-sh">CFLAGS=-g -I/home/shihyu/.mybin/opencv347/include
+</code></pre><pre><code class="lang-sh">CFLAGS=-g -I/home/shihyu/.mybin/opencv347/include
 LIBS=/home/shihyu/.mybin/opencv347/lib
 
 <span class="hljs-built_in">test</span>4:<span class="hljs-built_in">test</span>4.cpp

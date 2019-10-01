@@ -57,7 +57,7 @@
         data-chapter-title="Opencv 3.4 + gdb"
         data-filepath="opencv/opencv_34_+_gdb.md"
         data-basepath=".."
-        data-revision="Tue Oct 01 2019 20:12:37 GMT+0800 (CST)"
+        data-revision="Tue Oct 01 2019 22:18:04 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23322,6 +23322,37 @@ cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv3.<span class="hljs-numb
 <pre><code class="lang-sh"><span class="hljs-built_in">export</span> PKG_CONFIG_PATH=/home/shihyu/.mybin/opencv3.<span class="hljs-number">4.7</span>/lib/pkgconfig:<span class="hljs-variable">$PKG_CONFIG_PATH</span> &amp;&amp; g++ -g -O0 -ggdb3 calibration.cpp main.cpp -o main -Wl,-rpath,/home/shihyu/.mybin/opencv3.<span class="hljs-number">4.7</span>/lib `pkg-config opencv --cflags --libs`
 </code></pre>
 <pre><code class="lang-sh">cgdb ./main -- -ex <span class="hljs-string">&quot;`find /home/shihyu/github/opencv-3.4.7/modules -type d -printf &apos;dir %p &apos;`&quot;</span> -ex <span class="hljs-string">&apos;b remap&apos;</span> -ex <span class="hljs-string">&apos;set args ./test.csv&apos;</span>
+</code></pre>
+<pre><code class="lang-sh">CXX = g++
+CXXFLAG :=
+CXXFLAG += -g -O0 -ggdb3
+CXXFLAG += -std=c++<span class="hljs-number">11</span>
+CXXFLAG += -Wall
+
+CXXLIBS :=
+CXXLIBS += `pkg-config opencv --libs`
+CXXINCS :=
+CXXINCS += `pkg-config opencv --cflags`
+
+
+SOURCEDIR = src
+BUILDDIR = build
+SRCS = $(wildcard $(SOURCEDIR)/*.cpp)
+OBJS = $(addprefix $(BUILDDIR)/,$(notdir $(SRCS:.cpp=.o)))
+
+all : dir main 
+
+dir :
+    mkdir -p $(BUILDDIR)
+
+main : $(OBJS)
+    $(CXX) -o <span class="hljs-variable">$@</span> $(CXXFLAG) $(OBJS) $(CXXINCS) $(CXXLIBS)
+
+$(BUILDDIR)/%.o : $(SOURCEDIR)/%.cpp
+    $(CXX) $(CXXFLAG) -c $&lt; -o <span class="hljs-variable">$@</span> $(CXXINCS) $(CXXLIBS) 
+
+clean:
+    rm -rf main $(BUILDDIR)
 </code></pre>
 <hr>
 <p>cmake -D CMAKE_BUILD_TYPE=DEBUG \

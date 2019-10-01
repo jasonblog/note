@@ -68,6 +68,39 @@ export PKG_CONFIG_PATH=/home/shihyu/.mybin/opencv3.4.7/lib/pkgconfig:$PKG_CONFIG
 cgdb ./main -- -ex "`find /home/shihyu/github/opencv-3.4.7/modules -type d -printf 'dir %p '`" -ex 'b remap' -ex 'set args ./test.csv'
 ```
 
+```sh
+CXX = g++
+CXXFLAG :=
+CXXFLAG += -g -O0 -ggdb3
+CXXFLAG += -std=c++11
+CXXFLAG += -Wall
+
+CXXLIBS :=
+CXXLIBS += `pkg-config opencv --libs`
+CXXINCS :=
+CXXINCS += `pkg-config opencv --cflags`
+
+
+SOURCEDIR = src
+BUILDDIR = build
+SRCS = $(wildcard $(SOURCEDIR)/*.cpp)
+OBJS = $(addprefix $(BUILDDIR)/,$(notdir $(SRCS:.cpp=.o)))
+
+all : dir main 
+
+dir :
+	mkdir -p $(BUILDDIR)
+
+main : $(OBJS)
+	$(CXX) -o $@ $(CXXFLAG) $(OBJS) $(CXXINCS) $(CXXLIBS)
+
+$(BUILDDIR)/%.o : $(SOURCEDIR)/%.cpp
+	$(CXX) $(CXXFLAG) -c $< -o $@ $(CXXINCS) $(CXXLIBS) 
+
+clean:
+	rm -rf main $(BUILDDIR)
+```
+
 ---
 
 cmake -D CMAKE_BUILD_TYPE=DEBUG \

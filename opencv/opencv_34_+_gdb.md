@@ -52,6 +52,23 @@ cd opencv
 mkdir build
 cd build
 
+```sh
+cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv3.4.7 \
+      -D CMAKE_BUILD_TYPE:STRING=RelWithDebInfo \
+      -D CMAKE_BUILD_TYPE=DEBUG \
+      -D BUILD_opencv_xfeatures2d=OFF \
+      -D CMAKE_CXX_FLAGS_DEBUG="-g -O0 -ggdb3" ../
+```
+
+```sh
+export PKG_CONFIG_PATH=/home/shihyu/.mybin/opencv3.4.7/lib/pkgconfig:$PKG_CONFIG_PATH && g++ -g -O0 -ggdb3 calibration.cpp main.cpp -o main -Wl,-rpath,/home/shihyu/.mybin/opencv3.4.7/lib `pkg-config opencv --cflags --libs`
+```
+
+```sh
+cgdb ./main -- -ex "`find /home/shihyu/github/opencv-3.4.7/modules -type d -printf 'dir %p '`" -ex 'b remap' -ex 'set args ./test.csv'
+```
+
+---
 
 cmake -D CMAKE_BUILD_TYPE=DEBUG \
             -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv347 \

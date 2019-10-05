@@ -5,7 +5,6 @@
     
 <div class="post-container">
   <div class="blog-header">
-    <h1>C 語言的奇技淫巧</h1>
     <div class="post-description">
       <i class="fa fa-calendar"></i> 2015-08-16 Sunday &nbsp; &nbsp;
       <i class="fa fa-tags"></i>  linux ,  program  
@@ -13,7 +12,6 @@
     </div>
   </div>
   <hr>
-  <p>整理下 C 語言中常用的技巧。</p>
 
 <!-- more -->
 

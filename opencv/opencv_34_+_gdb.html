@@ -57,7 +57,7 @@
         data-chapter-title="Opencv 3.4 + gdb"
         data-filepath="opencv/opencv_34_+_gdb.md"
         data-basepath=".."
-        data-revision="Wed Oct 09 2019 01:10:37 GMT+0800 (CST)"
+        data-revision="Wed Oct 09 2019 22:43:04 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23370,7 +23370,7 @@ clean:
     rm -rf main $(BUILDDIR)
 </code></pre>
 <hr>
-<p>cmake -D CMAKE_BUILD_TYPE=DEBUG \
+<pre><code class="lang-sh">cmake -D CMAKE_BUILD_TYPE=DEBUG \
             -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv347 \
             -D INSTALL_C_EXAMPLES=ON \
             -D INSTALL_PYTHON_EXAMPLES=ON \
@@ -23381,34 +23381,36 @@ clean:
             -D WITH_OPENGL=ON \
             -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
             -D BUILD_opencv_xfeatures2d=OFF \
-            -D BUILD_EXAMPLES=ON ..</p>
-<p>make install</p>
-<pre><code>
-```cpp
-#include &lt;stdio.h&gt;
-#include &lt;opencv2/opencv.hpp&gt;
+            -D BUILD_EXAMPLES=ON ..
 
-using namespace cv;
 
-int main(int argc, char** argv)
-{
+make install
+</code></pre>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;opencv2/opencv.hpp&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> cv;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span>
+</span>{
 
     Mat image;
-    image = imread(&quot;Sinsinawa_640_480.jpg&quot;, 1);
+    image = imread(<span class="hljs-string">&quot;Sinsinawa_640_480.jpg&quot;</span>, <span class="hljs-number">1</span>);
 
-    if (!image.data) {
-        printf(&quot;No image data \n&quot;);
-        return -1;
+    <span class="hljs-keyword">if</span> (!image.data) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;No image data \n&quot;</span>);
+        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
     }
 
-    namedWindow(&quot;Display Image&quot;, CV_WINDOW_AUTOSIZE);
-    imshow(&quot;Display Image&quot;, image);
+    namedWindow(<span class="hljs-string">&quot;Display Image&quot;</span>, CV_WINDOW_AUTOSIZE);
+    imshow(<span class="hljs-string">&quot;Display Image&quot;</span>, image);
 
-    waitKey(0);
+    waitKey(<span class="hljs-number">0</span>);
 
-    return 0;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</code></pre><pre><code class="lang-sh">CFLAGS=-g -I/home/shihyu/.mybin/opencv347/include
+</code></pre>
+<pre><code class="lang-sh">CFLAGS=-g -I/home/shihyu/.mybin/opencv347/include
 LIBS=/home/shihyu/.mybin/opencv347/lib
 
 <span class="hljs-built_in">test</span>4:<span class="hljs-built_in">test</span>4.cpp

@@ -102,7 +102,7 @@ clean:
 ```
 
 ---
-
+```sh
 cmake -D CMAKE_BUILD_TYPE=DEBUG \
             -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv347 \
             -D INSTALL_C_EXAMPLES=ON \

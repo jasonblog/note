@@ -1432,7 +1432,7 @@
    * [Opencv 讀寫圖檔基本操作](opencv/opencv_du_xie_tu_dang_ji_ben_cao_zuo.md)
    * [Opencv 3.4 + gdb](opencv/opencv_34_+_gdb.md)
    * [gdb-imagewatch](opencv/gdb-imagewatch.md)
-   * Opencv Makefile
+   * [Opencv Makefile](opencv/opencv_makefile.md)
 * [Qt](qt/qt.md)
    * [ubuntu編譯安裝 qt 5.8](qt/ubuntubian_yi_an_zhuang_qt5__0__1.md)
    * [在QT官網下載最新的版本](qt/zai_qt_guan_wang_xia_zai_zui_xin_de_ban_ben.md)

@@ -57,7 +57,7 @@
         data-chapter-title="Opencv Makefile"
         data-filepath="opencv/opencv_makefile.md"
         data-basepath=".."
-        data-revision="Thu Oct 10 2019 11:21:22 GMT+0800 (CST)"
+        data-revision="Thu Oct 10 2019 11:38:21 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23292,6 +23292,45 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="opencv-makefile">Opencv Makefile</h1>
+<h2 id="&#x4F7F;&#x7528;-export--rpath">&#x4F7F;&#x7528; export &amp; rpath</h2>
+<pre><code class="lang-sh">thirdparty_root := /home/shihyu/.mybin/opencv3.<span class="hljs-number">4.7</span>
+<span class="hljs-built_in">export</span> PKG_CONFIG_PATH := <span class="hljs-variable">${thirdparty_root}</span>/lib/pkgconfig:<span class="hljs-variable">${PKG_CONFIG_PATH}</span>
+
+CXXINCS :=
+CXXINCS += `pkg-config opencv --cflags`
+
+CXXLIBS :=
+CXXLIBS += `pkg-config opencv --libs`
+
+CXX = g++
+CXXFLAG :=
+CXXFLAG += -g -O0 -ggdb3
+CXXFLAG += -std=c++<span class="hljs-number">11</span>
+CXXFLAG += -Wall $(CXXINCS)
+
+LDFLAGS := -lpthread 
+LDFLAGS += -Wl,-rpath,<span class="hljs-variable">${thirdparty_root}</span>/lib
+
+SOURCEDIR = src
+BUILDDIR = build
+SRCS = $(wildcard $(SOURCEDIR)/*.cpp)
+OBJS = $(addprefix $(BUILDDIR)/,$(notdir $(SRCS:.cpp=.o)))
+
+all : dir main 
+
+dir :
+    mkdir -p $(BUILDDIR)
+
+main : $(OBJS)
+    $(CXX) $(CXXFLAG) -o <span class="hljs-variable">$@</span> $(OBJS) $(LDFLAGS) $(CXXLIBS)
+
+$(BUILDDIR)/%.o : $(SOURCEDIR)/%.cpp
+    $(CXX) $(CXXFLAG) -c $&lt; -o <span class="hljs-variable">$@</span> $(CXXLIBS) 
+
+clean:
+    rm -rf main $(BUILDDIR)
+</code></pre>
+<hr>
 <pre><code class="lang-sh">CXX = g++
 CXXFLAG :=
 CXXFLAG += -g -O0 -ggdb3

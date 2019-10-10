@@ -37,6 +37,9 @@ main : $(OBJS)
 $(BUILDDIR)/%.o : $(SOURCEDIR)/%.cpp
 	$(CXX) $(CXXFLAG) -c $< -o $@ $(CXXLIBS) 
 
+debug:
+	cgdb main -- -ex "`find /home/shihyu/github/opencv-3.4.7/modules -type d -printf 'dir %p '`" -ex 'b remap'
+	
 clean:
 	rm -rf main $(BUILDDIR)
 ```

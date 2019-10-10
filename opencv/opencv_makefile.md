@@ -33,3 +33,43 @@ $(BUILDDIR)/%.o : $(SOURCEDIR)/%.cpp
 clean:
 	rm -rf main $(BUILDDIR)
 ```
+
+### Makefile 標準寫法
+
+```sh
+thirdparty_root := /usr/local/thirdparty
+facesdk_root := /usr/local/facesdk
+export PKG_CONFIG_PATH := ${thirdparty_root}/lib64/pkgconfig:${PKG_CONFIG_PATH}
+
+CC := g++
+INCS += `pkg-config --cflags opencv`
+INCS += -I${facesdk_root}/include
+INCS += -I${thirdparty_root}/include
+INCS += -I${thirdparty_root}/include/apr-1
+
+
+LIBS += `pkg-config --libs opencv`
+LIBS +=	-L${thirdparty_root}/lib -lglog -lactivemq-cpp -lapr-1
+LIBS +=	-L${facesdk_root}/lib -lrr_faceverify_t -lrr_facedetect_t
+
+AFLAGS := -Wall -c -fPIC -O2 -std=c++11 $(INCS)
+LDFLAGS := -lpthread -lcurl
+LDFLAGS += -Wl,-rpath,${thirdparty_root}/lib64:${thirdparty_root}/lib:${facesdk_root}/lib
+
+OBJS := $(patsubst %.cpp,%.o,$(shell find . -name "*.cpp"))
+
+
+FaceFilter: $(OBJS)
+	$(CC) -o $@ $^ $(LDFLAGS) $(LIBS)
+
+$(OBJS): %.o:%.cpp
+	$(CC) $(AFLAGS) $^ -o $@
+
+debugOBJS:
+	@echo ${OBJS}
+
+.PHONY: clean FaceFilter setenv
+
+clean:					
+	rm -rf *.o FaceFilter baseutils/*.o factory/*.o message/*.o servicemodules/*.o
+```

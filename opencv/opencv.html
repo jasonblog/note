@@ -57,7 +57,7 @@
         data-chapter-title="OpenCV"
         data-filepath="opencv/opencv.md"
         data-basepath=".."
-        data-revision="Thu Oct 10 2019 11:00:20 GMT+0800 (CST)"
+        data-revision="Thu Oct 10 2019 11:21:22 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23291,39 +23291,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="opencv">OpenCV</h1>
-<pre><code class="lang-sh">CXX = g++
-CXXFLAG :=
-CXXFLAG += -g -O0 -ggdb3
-CXXFLAG += -std=c++<span class="hljs-number">11</span>
-CXXFLAG += -Wall
-
-CXXLIBS :=
-CXXLIBS += `pkg-config opencv --libs`
-CXXINCS :=
-CXXINCS += `pkg-config opencv --cflags`
-
-
-SOURCEDIR = src
-BUILDDIR = build
-SRCS = $(wildcard $(SOURCEDIR)/*.cpp)
-OBJS = $(addprefix $(BUILDDIR)/,$(notdir $(SRCS:.cpp=.o)))
-
-all : dir main 
-
-dir :
-    mkdir -p $(BUILDDIR)
-
-main : $(OBJS)
-    $(CXX) -o <span class="hljs-variable">$@</span> $(CXXFLAG) $(OBJS) $(CXXINCS) $(CXXLIBS)
-
-$(BUILDDIR)/%.o : $(SOURCEDIR)/%.cpp
-    $(CXX) $(CXXFLAG) -c $&lt; -o <span class="hljs-variable">$@</span> $(CXXINCS) $(CXXLIBS) 
-
-clean:
-    rm -rf main $(BUILDDIR)
-</code></pre>
-
+                        
                     
                     </section>
                 

@@ -57,7 +57,7 @@
         data-chapter-title="Opencv Makefile"
         data-filepath="opencv/opencv_makefile.md"
         data-basepath=".."
-        data-revision="Thu Oct 10 2019 11:00:20 GMT+0800 (CST)"
+        data-revision="Thu Oct 10 2019 11:21:22 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23322,6 +23322,43 @@ $(BUILDDIR)/%.o : $(SOURCEDIR)/%.cpp
 
 clean:
     rm -rf main $(BUILDDIR)
+</code></pre>
+<h3 id="makefile-&#x6A19;&#x6E96;&#x5BEB;&#x6CD5;">Makefile &#x6A19;&#x6E96;&#x5BEB;&#x6CD5;</h3>
+<pre><code class="lang-sh">thirdparty_root := /usr/<span class="hljs-built_in">local</span>/thirdparty
+facesdk_root := /usr/<span class="hljs-built_in">local</span>/facesdk
+<span class="hljs-built_in">export</span> PKG_CONFIG_PATH := <span class="hljs-variable">${thirdparty_root}</span>/lib64/pkgconfig:<span class="hljs-variable">${PKG_CONFIG_PATH}</span>
+
+CC := g++
+INCS += `pkg-config --cflags opencv`
+INCS += -I<span class="hljs-variable">${facesdk_root}</span>/include
+INCS += -I<span class="hljs-variable">${thirdparty_root}</span>/include
+INCS += -I<span class="hljs-variable">${thirdparty_root}</span>/include/apr-<span class="hljs-number">1</span>
+
+
+LIBS += `pkg-config --libs opencv`
+LIBS +=    -L<span class="hljs-variable">${thirdparty_root}</span>/lib -lglog -lactivemq-cpp -lapr-<span class="hljs-number">1</span>
+LIBS +=    -L<span class="hljs-variable">${facesdk_root}</span>/lib -lrr_faceverify_t -lrr_facedetect_t
+
+AFLAGS := -Wall -c <span class="hljs-operator">-f</span>PIC -O2 -std=c++<span class="hljs-number">11</span> $(INCS)
+LDFLAGS := -lpthread -lcurl
+LDFLAGS += -Wl,-rpath,<span class="hljs-variable">${thirdparty_root}</span>/lib64:<span class="hljs-variable">${thirdparty_root}</span>/lib:<span class="hljs-variable">${facesdk_root}</span>/lib
+
+OBJS := $(patsubst %.cpp,%.o,$(shell find . -name <span class="hljs-string">&quot;*.cpp&quot;</span>))
+
+
+FaceFilter: $(OBJS)
+    $(CC) -o <span class="hljs-variable">$@</span> $^ $(LDFLAGS) $(LIBS)
+
+$(OBJS): %.o:%.cpp
+    $(CC) $(AFLAGS) $^ -o <span class="hljs-variable">$@</span>
+
+debugOBJS:
+    @<span class="hljs-built_in">echo</span> <span class="hljs-variable">${OBJS}</span>
+
+.PHONY: clean FaceFilter setenv
+
+clean:                    
+    rm -rf *.o FaceFilter baseutils/*.o factory/*.o message/*.o servicemodules/*.o
 </code></pre>
 
                     

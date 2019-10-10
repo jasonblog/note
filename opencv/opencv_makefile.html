@@ -57,7 +57,7 @@
         data-chapter-title="Opencv Makefile"
         data-filepath="opencv/opencv_makefile.md"
         data-basepath=".."
-        data-revision="Thu Oct 10 2019 11:38:21 GMT+0800 (CST)"
+        data-revision="Thu Oct 10 2019 16:00:27 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23326,6 +23326,9 @@ main : $(OBJS)
 
 $(BUILDDIR)/%.o : $(SOURCEDIR)/%.cpp
     $(CXX) $(CXXFLAG) -c $&lt; -o <span class="hljs-variable">$@</span> $(CXXLIBS) 
+
+debug:
+    cgdb main -- -ex <span class="hljs-string">&quot;`find /home/shihyu/github/opencv-3.4.7/modules -type d -printf &apos;dir %p &apos;`&quot;</span> -ex <span class="hljs-string">&apos;b remap&apos;</span>
 
 clean:
     rm -rf main $(BUILDDIR)

@@ -1,5 +1,30 @@
 # Vim
 
+## 編譯vim8.2
+
+- 關掉 anaconda3
+- 乾淨的vim 程式碼去編譯
+
+```sh
+git clone https://github.com/vim/vim
+```
+
+```sh
+./configure --prefix=/home/shihyu/.mybin/vim \
+--with-features=huge \
+--enable-rubyinterp \
+--enable-pythoninterp \
+--enable-python3interp \
+--enable-luainterp \
+--enable-perlinterp \
+--enable-multibyte \
+--enable-cscope \
+--enable-gui=gtk3 \
+--with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu/ \
+--with-python3-config-dir=/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu/
+```
+
+
 ## 編譯vim 8
 
 ### Requirement package

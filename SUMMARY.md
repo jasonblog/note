@@ -848,6 +848,7 @@
        * [goodinfo 股票篩選](python/goodinfo_gu_piao_shai_xuan.md)
        * [抓取臺股證交所每日股價資料，儲存到MongoDB](python/zhua_qu_tai_gu_zheng_jiao_suo_mei_ri_gu_jia_zi_lia.md)
        * [音頻文件按照正常語句，斷句拆分的處理方法](python/yin_pin_wen_jian_an_zhao_zheng_chang_yu_ju_ff0c_du.md)
+       * 台股大盤季線計算
    * [pandas](python/pandas.md)
        * [pandas 入門](python/pandas_ru_men.md)
        * [Python Pandas DataFrame 的 iloc[0] 與 iloc[[0]]](python/python_pandas_dataframe_de_iloc_[_0_]_yu_iloc_[[_0.md)

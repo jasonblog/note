@@ -55,7 +55,7 @@
         data-chapter-title="finviz 篩選"
         data-filepath="invested/finvizshai_xuan_md.md"
         data-basepath=".."
-        data-revision="Sat Feb 22 2020 03:02:54 GMT+0800 (CST)"
+        data-revision="Sat Feb 22 2020 03:34:11 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23332,7 +23332,33 @@
 
 filters = [<span class="hljs-string">&apos;fa_eps5years_pos&apos;</span>, <span class="hljs-string">&apos;fa_pe_u20&apos;</span> ,<span class="hljs-string">&apos;fa_roa_o5&apos;</span>, <span class="hljs-string">&apos;fa_sales5years_pos&apos;</span>, <span class="hljs-string">&apos;idx_sp500&apos;</span>]  <span class="hljs-comment"># Shows companies in NASDAQ which are in the S&amp;P500</span>
 <span class="hljs-comment"># Get the first 50 results sorted by price ascending</span>
-stock_list = Screener(filters=filters, order=<span class="hljs-string">&apos;price&apos;</span>)
+<span class="hljs-comment"># </span>
+
+<span class="hljs-string">&apos;&apos;&apos;
+def __init__(self, tickers=None, filters=None, rows=None, order=&apos;&apos;, signal=&apos;&apos;, table=None, custom=None):
+    &quot;&quot;&quot;
+    Initilizes all variables to its values
+
+    :param tickers: collection of ticker strings eg.: [&apos;AAPL&apos;, &apos;AMD&apos;, &apos;WMT&apos;]
+    :type tickers: list
+    :param filters: collection of filters strings eg.: [&apos;exch_nasd&apos;, &apos;idx_sp500&apos;, &apos;fa_div_none&apos;]
+    :type filters: list
+    :param rows: total number of rows to get
+    :type rows: int
+    :param order: table order eg.: &apos;-price&apos; (to sort table by descending price)
+    :type order: str
+    :param signal: show by signal eg.: &apos;n_majornews&apos; (for stocks with major news)
+    :type signal: str
+    :param table: table type eg.: &apos;Performance&apos;
+    :type table: str
+    :param custom: collection of custom columns eg.: [&apos;1&apos;, &apos;21&apos;, &apos;23&apos;, &apos;45&apos;]
+    :type custom: list
+    :var self.data: list of dictionaries containing row data
+    :type self.data: list
+    &quot;&quot;&quot;
+&apos;&apos;&apos;</span>
+
+stock_list = Screener(filters=filters, order=<span class="hljs-string">&apos;price&apos;</span>, table=<span class="hljs-string">&apos;Valuation&apos;</span>)
 
 <span class="hljs-comment"># Export the screener results to .csv</span>
 stock_list.to_csv()

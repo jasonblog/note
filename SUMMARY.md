@@ -1480,5 +1480,5 @@
 * [投資](tou_zi.md)
    * [ubuntu TA-lib的安裝](invested/ubuntu_ta-libde_an_zhuang.md)
    * [talib BBands + twstock](invested/talib_bbands_+_twstock.md)
-   * [finviz 篩選](finviz_shai_xuan.md)
+   * [finviz 篩選](invested/finviz_shai_xuan.md)
 

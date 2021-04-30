@@ -44,7 +44,7 @@ make
 
 
 ```shell
-sudo qemu/build/qemu-system-arm -M vexpress-a9 -nographic -smp 4 -m 512 -kernel linux-4.18/arch/arm/boot/zImage -a      ppend "rdinit=/linuxrc console=ttyAMA0 loglevel=8" -dtb linux-4.18/arch/arm/boot/dts/vexpress-v2p-ca9.dtb
+sudo qemu/build/qemu-system-arm -M vexpress-a9 -nographic -smp 4 -m 512 -kernel linux-4.18/arch/arm/boot/zImage -append "rdinit=/linuxrc console=ttyAMA0 loglevel=8" -dtb linux-4.18/arch/arm/boot/dts/vexpress-v2p-ca9.dtb
 ```
 
 

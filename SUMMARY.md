@@ -1443,6 +1443,7 @@
    * [環境安裝 & 第一個 Qt 程式](qt/di_yi_ge_qt_cheng_shi.md)
    * [花了 6 年才找到的 bug?](qt/hua_le_6_nian_cai_zhao_dao_de_bug.md)
 * [SlickEdit](SlickEdit/slickedit.md)
+* [Rust](Rust/rust_programming.md)
 * [Deep Learning](deep_learning/deep_learning.md)
    * [人工智慧、機器學習與深度學習間有什麼區別?](deep_learning/ren_gong_zhi_hui_3001_ji_qi_xue_xi_yu_shen_du_xue_.md)
    * [機器學習(Machine Learning) 介紹](deep_learning/ji_qi_xue_7fd228_machine_learning__jie_shao.md)

@@ -57,7 +57,7 @@
         data-chapter-title="Myrunninglinuxkernel_5.0"
         data-filepath="qemu/Myrunninglinuxkernel_5.0.md"
         data-basepath=".."
-        data-revision="Tue May 25 2021 20:44:48 GMT+0800 (CST)"
+        data-revision="Tue May 25 2021 22:50:17 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23437,6 +23437,23 @@ ssh benshushu@localhost -p <span class="hljs-number">6666</span> -v
             <span class="hljs-variable">$DBG</span>
 
 }
+</code></pre>
+<hr>
+<h2 id="&#x958B;&#x653E;-root-&#x767B;&#x5165;-ssh">&#x958B;&#x653E; root &#x767B;&#x5165; ssh</h2>
+<pre><code class="lang-bash">vim /etc/ssh/sshd_config
+
+&#x627E;&#x5230;&#x4EE5;&#x4E0B;&#x4E00;&#x884C;:
+
+PermitRootLogin prohibit-password
+
+&#x6539;&#x70BA;:
+
+PermitRootLogin yes
+
+&#x5132;&#x5B58;&#x6A94;&#x6848;&#x53CA;&#x96E2;&#x958B;&#x7DE8;&#x8F2F;&#x5668;, &#x91CD;&#x65B0;&#x555F;&#x52D5; sshd:
+systemctl restart sshd
+
+&#x91CD;&#x65B0;&#x555F;&#x52D5; sshd &#x5F8C;, &#x4FBF;&#x53EF;&#x4EE5;&#x7528; root &#x5E33;&#x865F;&#x767C;&#x5165; ssh.
 </code></pre>
 <hr>
 <h2 id="gdb">gdb</h2>

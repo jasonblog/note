@@ -179,6 +179,7 @@
    * [奔跑 linux kernel GDB 使用](qemu/ben_pao_linux_kernel_gdb_shi_yong.md)
    * [QEMU运行Linux Kernel环境配置](qemu/20210501.md)
    * [基于QEMU的Linux Driver开发环境的配置](qemu/qemu_driver.md)
+   * [Myrunninglinuxkernel_5.0](qemu/Myrunninglinuxkernel_5.0.md)
 * [fcamel](fcamel/README.md)
    * [[轉]ld, ld.so 和 ldconfig 的行為](fcamel/01.md)
    * [[轉]解決 undefined symbol / reference](fcamel/02.md)

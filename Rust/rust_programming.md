@@ -172,5 +172,7 @@ fn main(){
 
 [通過例子學 Rust 中文版](https://rustwiki.org/zh-CN/rust-by-example/)
 
-[令狐一冲](https://github.com/anonymousGiga/learn_rust)
+[令狐一冲](https://github.com/anonymousGiga/learn_rust/)
+
+---
 

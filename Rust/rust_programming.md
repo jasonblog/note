@@ -166,9 +166,9 @@ fn main(){
 
 
 
-## 學習網站
+### 學習網站
 
-[令狐一沖](https://github.com/anonymousGiga/learn_rust/)
+[LearnRust](https://github.com/anonymousGiga/learn_rust/)
 
 [Rust 程式設計語言](https://rust-lang.tw/book-tw/#rust-程式設計語言)
 

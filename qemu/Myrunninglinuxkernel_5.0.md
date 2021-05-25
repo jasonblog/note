@@ -7,21 +7,15 @@ git clone https://github.com/shihyu/Myrunninglinuxkernel_5.0
 cd Myrunninglinuxkernel_5.0
 ./run_debian_arm64.sh build_kernel
 sudo ./run_debian_arm64.sh build_rootfs
-
 sudo ./run_debian_arm64_ssh.sh run
 ```
 
-
-
-```
-root
-123
+```bash
+帳號: root
+密碼: 123
 
 apt-get update
 apt install openssh-server vim  haveged silversearcher-ag  htop
-
-
-systemctl status ssh
 ```
 
 ```bash
@@ -50,8 +44,6 @@ May 25 10:04:20 benshushu sshd[1881]: pam_unix(sshd:session): session opened for
 
 ```
 
-
-
 ```bash
 在 benshushu 帳號 mkdir ~/.ssh
 ssh-keygen
@@ -59,8 +51,6 @@ host 跟 qemu 互加  authorized_keys
 
 ssh benshushu@localhost -p 6666 -v
 ```
-
-
 
 
 
@@ -80,5 +70,21 @@ run_qemu_debian(){
 			$DBG
 
 }
+```
+
+---
+
+
+
+## gdb 
+
+```bash
+sudo ./run_debian_arm64_ssh.sh run debug
+
+$ gdb-multiarch --tui vmlinux
+(gdb) set architecture aarch64           <= 设置Aarch64架构
+(gdb) target remote localhost:1234       <= 通过1234端口远程连接到QEMU虚拟机
+(gdb) b start_kernel
+(gdb) c
 ```
 

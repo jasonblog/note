@@ -1,0 +1,1 @@
+/media/shihyu/Toshiba/note/note/Rust/code/learn_rust/addr/target/debug/adder: /media/shihyu/Toshiba/note/note/Rust/code/learn_rust/addr/add-one/src/lib.rs /media/shihyu/Toshiba/note/note/Rust/code/learn_rust/addr/adder/src/main.rs

@@ -2,7 +2,7 @@
 
 
 
-[[Rust 程式設計語言](https://rust-lang.tw/book-tw/#rust-程式設計語言)]
+[Rust 程式設計語言](https://rust-lang.tw/book-tw/#rust-程式設計語言)
 
 [通過例子學 Rust 中文版](https://rustwiki.org/zh-CN/rust-by-example/)
 

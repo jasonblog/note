@@ -74,6 +74,29 @@ run_qemu_debian(){
 
 ---
 
+## 開放 root 登入 ssh
+
+```bash
+vim /etc/ssh/sshd_config
+
+找到以下一行:
+
+PermitRootLogin prohibit-password
+
+改為:
+
+PermitRootLogin yes
+
+儲存檔案及離開編輯器, 重新啟動 sshd:
+systemctl restart sshd
+
+重新啟動 sshd 後, 便可以用 root 帳號發入 ssh.
+```
+
+
+
+---
+
 
 
 ## gdb 

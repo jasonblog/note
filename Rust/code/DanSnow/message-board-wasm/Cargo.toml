@@ -1,0 +1,39 @@
+[package]
+name = "message-board-wasm"
+version = "0.1.0"
+authors = ["DanSnow <dododavid006@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = { version = "0.2.25", features = ["serde-serialize"] }
+js-sys = "0.3.2"
+serde = "1.0.80"
+serde_derive = "1.0.80"
+wasm-bindgen-futures = "0.3.2"
+futures = "0.1.25"
+console_error_panic_hook = "0.1.5"
+
+[dependencies.web-sys]
+version = "0.3.2"
+features = [
+  "Window",
+  "Document",
+  "DocumentFragment",
+  "Node",
+  "HtmlElement",
+  "Element",
+  "Event",
+  "EventTarget",
+  "HtmlCollection",
+  "HtmlFormElement",
+  "HtmlInputElement",
+  "HtmlTextAreaElement",
+  "Request",
+  "RequestInit",
+  "Headers",
+  "Response",
+  "console"
+]

@@ -162,7 +162,7 @@ fn main(){
 - `String::new()`的結果，會是一個新的 Empty string ，並且綁定在 input 這個變數。接著 `stdin()` 會回傳一個 stdin 的 struct，並且我們 invoke 其方法 `read_line` ，而這裡餵入的參數就是上面說明的 `&mut input` ，因為 input 這個變數必須要讓 `read_line` 這個 Function 拿到所有權並且修改，最後就是透過 `println!` 印出來囉！
 - `println!`出現了一個驚嘆號，這代表說這不是一般的函式，而是 Rust 中的巨集，至於 Rust 的巨集又是什麼呢？與像是 C 的 Macro 不同，Rust 的 Macro 不僅僅是文字替換。在 Rust 中， Macro 是用來讓 Compiler 替我們生出程式，Compiler 會先將 Macro 展開，生成程式，再進行編譯。而且 Macro 不會受到一般函數的限制，甚至也不一定要用 `()` 來放入參數，可以使用像是 `[]` (像是 `vec![1,2,3]`) 或是 `{}` 都可以。在 Rust 中，一般函數是無法接受任意數量的參數的，也因此 `println!`勢必要是個 Macro 囉！
 
-
+---
 
 
 

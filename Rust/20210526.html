@@ -57,7 +57,7 @@
         data-chapter-title="Rust 概念"
         data-filepath="Rust/20210526.md"
         data-basepath=".."
-        data-revision="Wed May 26 2021 21:26:44 GMT+0800 (CST)"
+        data-revision="Wed May 26 2021 22:42:48 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23424,6 +23424,18 @@
    print_type_of(&amp;main); <span class="hljs-comment">// playground::main</span>
    print_type_of(&amp;print_type_of::&lt;<span class="hljs-keyword">i32</span>&gt;); <span class="hljs-comment">// playground::print_type_of&lt;i32&gt;</span>
    print_type_of(&amp;{ || <span class="hljs-string">&quot;Hi!&quot;</span> }); <span class="hljs-comment">// playground::main::{{closure}}</span>
+}
+</code></pre>
+<h3 id="move-borrow--ownership">Move, Borrow &amp; Ownership</h3>
+<p>Rust &#x4E2D;&#x53EF;&#x8AAA;&#x662F;&#x6700;&#x8907;&#x96DC;&#xFF0C;&#x537B;&#x4E5F;&#x662F;&#x6700;&#x91CD;&#x8981;&#x7684;&#x4E00;&#x500B;&#x89C0;&#x5FF5;&#xFF0C;&#x8B8A;&#x6578;&#x7684;&#x6240;&#x6709;&#x6B0A; (ownership) &#xFF0C;&#x5728; Rust &#x4E2D;&#x6BCF;&#x500B;&#x8B8A;&#x6578;&#x90FD;&#x6709;&#x5176;&#x6240;&#x5C6C;&#x7684;&#x7BC4;&#x570D; (scope) &#xFF0C;&#x5728;&#x8B8A;&#x6578;&#x7684;&#x6709;&#x6548;&#x7684;&#x7BC4;&#x570D;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x9078;&#x64C7;&#x5C07;&#x8B8A;&#x6578;&#x300C;&#x501F; (borrow)&#x300D;&#x7D66;&#x5176;&#x5B83;&#x7684; scope &#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5C07;&#x6240;&#x6709;&#x6B0A;&#x6574;&#x500B;&#x8F49;&#x79FB; (move) &#x51FA;&#x53BB;&#xFF0C;&#x9001;&#x7D66;&#x5225;&#x4EBA;&#x5594;&#xFF0C;&#x7576;&#x7136;&#xFF0C;&#x9001;&#x51FA;&#x53BB;&#x7684;&#x6771;&#x897F;&#x5982;&#x679C;&#x5225;&#x4EBA;&#x4E0D;&#x9084;&#x4F60;&#x7684;&#x8A71;&#x662F;&#x62FF;&#x4E0D;&#x56DE;&#x4F86;&#x7684;&#xFF0C;&#x4F46;&#x501F;&#x51FA;&#x53BB;&#x7684;&#x5C31;&#x53EA;&#x662F;&#x66AB;&#x6642;&#x7684;&#x7D66;&#x5225;&#x4EBA;&#x4F7F;&#x7528;&#x800C;&#x5DF2;&#x3002;</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>()
+{
+    <span class="hljs-keyword">let</span> message = String::from(<span class="hljs-string">&quot;Hello&quot;</span>);
+    {
+        message;
+    }
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, message);
+                   ^^^^^^^ value borrowed here after move 
 }
 </code></pre>
 <h3 id="ownership-&#x7684;&#x898F;&#x5247;&#x9084;&#x6709;-copy-&#x8DDF;-move-&#x7684;&#x5DEE;&#x7570;&#x3002;">Ownership &#x7684;&#x898F;&#x5247;&#x9084;&#x6709; copy &#x8DDF; move &#x7684;&#x5DEE;&#x7570;&#x3002;</h3>

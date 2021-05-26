@@ -158,8 +158,17 @@ fn main(){
 
 
 - 首先我們可以先發現在 Rust 裡頭，分號是必須的唷！這點跟很多 Modern languages 不同，你可以說有點麻煩，但好處是讓可讀性能夠增加，表示一個表達式的結束，因為 Rust 是 expression based (雖然我已經習慣沒有打分號的日子)。
-- Rust 透過 `use` 來將其他的 Module的 Function 引入，讓我們在使用 Function 時可以不用將整個路徑寫出來。在 Rust 定義 Function 的關鍵字是 `fn` 。`let` 是做變數綁定，為什麼我特別說是變數綁定而不是傳統的變數賦值？這裡就要講到 Rust 為了記憶體的安全性，而有一個很重要的觀念就是 Ownership (所有權)。如果有學過 C/C++，相信對 Pointer 一定不陌生 (或是頭痛？)，而 C/C++ 因為讓你有很高的自由度可以操作 Pointer，所以就會有機會產生 Dangling pointer，也就是假設 A 和 B 都是指向同一個記憶體區塊的 Pointer，但是當 A 執行釋放記憶體後，想再用 B 去存取就會產生錯誤。而 Rust 則是引入了 Ownership 的觀念來解決這個問題。簡單來說，每份資料同一時間只會有一個擁有者，因此假使今天 A 是一個 Reference (可想成是 Pointer)，而我們 `let B = A` ，此時所有權就從 A 轉移到了 B 身上，A 就不再能夠存取對應的資料了。但如果 A 是例如一個整數，就不會有這個問題，因為此時的 `let B = A` ，Rust 會拷貝一份資料給 B，所以 A 還是可以存取，與 Reference 的情況不同。回到 A 是 Reference 的情況，假使把 A 傳入某個 Function 作為參數，那麼當該 Function 執行完之後，A 也不能存取了，因為在傳入的那刻，所有權就轉移到了該 Function 身上。為了解決這個問題，在 Rust 又有一個 Borrowing 的概念，也就是把所有權暫時借給該 Function，等到 Function 返回之後，所有權又回到 A 的身上，而實務上就是在傳入的時候加上`stdin().read_line(&mut input)` 的 `&` 囉! 最後就是 `&mut` 的 `mut` ，因為在 Rust，如果要讓轉移後可以有權去修改，那也要明確指出，所以 `&mut` 就是說明可以修改囉！(昏頭了嗎？哈！可以參考 [這裡](https://michaelchen.tech/rust-prog/ownership/) 有更多的說明)！
+
+    
+
+- Rust 透過 `use` 來將其他的 Module的 Function 引入，讓我們在使用 Function 時可以不用將整個路徑寫出來。在 Rust 定義 Function 的關鍵字是 `fn` 。`let` 是做變數綁定，為什麼我特別說是變數綁定而不是傳統的變數賦值？這裡就要講到 Rust 為了記憶體的安全性，而有一個很重要的觀念就是 Ownership (所有權)。如果有學過 C/C++，相信對 Pointer 一定不陌生 (或是頭痛？)，而 C/C++ 因為讓你有很高的自由度可以操作 Pointer，所以就會有機會產生 Dangling pointer，也就是假設 A 和 B 都是指向同一個記憶體區塊的 Pointer，但是當 A 執行釋放記憶體後，想再用 B 去存取就會產生錯誤。而 Rust 則是引入了 Ownership 的觀念來解決這個問題。簡單來說，每份資料同一時間只會有一個擁有者，因此假使今天 A 是一個 Reference (可想成是 Pointer)，而我們 `let B = A` ，此時所有權就從 A 轉移到了 B 身上，A 就不再能夠存取對應的資料了。但如果 A 是例如一個整數，就不會有這個問題，因為此時的 `let B = A` ，Rust 會拷貝一份資料給 B，所以 A 還是可以存取，與 `Reference` 的情況不同。回到 A 是 Reference 的情況，假使把 A 傳入某個 Function 作為參數，那麼當該 Function 執行完之後，A 也不能存取了，因為在傳入的那刻，所有權就轉移到了該 Function 身上。為了解決這個問題，在 Rust 又有一個 Borrowing 的概念，也就是把所有權暫時借給該 Function，等到 Function 返回之後，所有權又回到 A 的身上，而實務上就是在傳入的時候加上`stdin().read_line(&mut input)` 的 `&` 囉! 最後就是 `&mut` 的 `mut` ，因為在 Rust，如果要讓轉移後可以有權去修改，那也要明確指出，所以 `&mut` 就是說明可以修改囉！(昏頭了嗎？哈！可以參考 [這裡](https://michaelchen.tech/rust-prog/ownership/) 有更多的說明)！
+
+    
+
 - `String::new()`的結果，會是一個新的 Empty string ，並且綁定在 input 這個變數。接著 `stdin()` 會回傳一個 stdin 的 struct，並且我們 invoke 其方法 `read_line` ，而這裡餵入的參數就是上面說明的 `&mut input` ，因為 input 這個變數必須要讓 `read_line` 這個 Function 拿到所有權並且修改，最後就是透過 `println!` 印出來囉！
+
+    
+
 - `println!`出現了一個驚嘆號，這代表說這不是一般的函式，而是 Rust 中的巨集，至於 Rust 的巨集又是什麼呢？與像是 C 的 Macro 不同，Rust 的 Macro 不僅僅是文字替換。在 Rust 中， Macro 是用來讓 Compiler 替我們生出程式，Compiler 會先將 Macro 展開，生成程式，再進行編譯。而且 Macro 不會受到一般函數的限制，甚至也不一定要用 `()` 來放入參數，可以使用像是 `[]` (像是 `vec![1,2,3]`) 或是 `{}` 都可以。在 Rust 中，一般函數是無法接受任意數量的參數的，也因此 `println!`勢必要是個 Macro 囉！
 
 ---

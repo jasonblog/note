@@ -1,7 +1,6 @@
 # SlickEdit
 
 
-![SlickEdit](http://upload.wikimedia.org/wikipedia/en/2/2e/SlickEdit_logo.png)
 
 ## 換編輯器的原因
 1. Source Insight 不進行大的更新了(今天看, 居然更新了一個小版本, 呵呵, 裝了沒任何變換啊) 經常無響應, 鬱悶死我了

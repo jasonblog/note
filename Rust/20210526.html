@@ -57,7 +57,7 @@
         data-chapter-title="Rust 概念"
         data-filepath="Rust/20210526.md"
         data-basepath=".."
-        data-revision="Wed May 26 2021 15:42:39 GMT+0800 (CST)"
+        data-revision="Wed May 26 2021 21:26:44 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23424,6 +23424,258 @@
    print_type_of(&amp;main); <span class="hljs-comment">// playground::main</span>
    print_type_of(&amp;print_type_of::&lt;<span class="hljs-keyword">i32</span>&gt;); <span class="hljs-comment">// playground::print_type_of&lt;i32&gt;</span>
    print_type_of(&amp;{ || <span class="hljs-string">&quot;Hi!&quot;</span> }); <span class="hljs-comment">// playground::main::{{closure}}</span>
+}
+</code></pre>
+<h3 id="ownership-&#x7684;&#x898F;&#x5247;&#x9084;&#x6709;-copy-&#x8DDF;-move-&#x7684;&#x5DEE;&#x7570;&#x3002;">Ownership &#x7684;&#x898F;&#x5247;&#x9084;&#x6709; copy &#x8DDF; move &#x7684;&#x5DEE;&#x7570;&#x3002;</h3>
+<pre><code class="lang-rust"><span class="hljs-comment">// https://ithelp.ithome.com.tw/articles/10222382</span>
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">print_type_of</span></span>&lt;T&gt;(_: &amp;T)
+{
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, std::any::type_name::&lt;T&gt;())
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">move_vs_copy</span></span>()
+{
+    <span class="hljs-comment">// &#x9019;&#x908A;&#x7684; y &#x5728;&#x8A18;&#x61B6;&#x9AD4;&#x4E2D;&#x8907;&#x88FD;&#x4E86;&#x4E00;&#x6574;&#x4EFD;&#x5B8C;&#x6574;&#x7684;&#x8CC7;&#x6599;</span>
+    <span class="hljs-keyword">let</span> x = <span class="hljs-number">5</span>;
+    <span class="hljs-keyword">let</span> y = x;
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, x);
+    <span class="hljs-comment">// s1 &#x7684;&#x6307;&#x6A19;&#x548C;&#x9577;&#x5EA6;&#x7B49;&#x8CC7;&#x8A0A;&#x8F49;&#x79FB;&#x7D66; s2</span>
+    <span class="hljs-keyword">let</span> s1 = String::from(<span class="hljs-string">&quot;hello&quot;</span>);
+    <span class="hljs-keyword">let</span> s2 = s1;
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, s1);
+                   ^^ value borrowed here after move
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>()
+{
+    move_vs_copy();
+}
+</code></pre>
+<p>&#x5404;&#x4F4D;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x9019;&#x500B;&#x4F8B;&#x5B50;&#x5728;&#x5370;&#x51FA; x &#x6642;&#x6C92;&#x6709;&#x554F;&#x984C;&#x4F46;&#x662F;&#x600E;&#x9EBC;&#x537B;&#x6C92;&#x8FA6;&#x6CD5;&#x5370;&#x51FA; s1 &#x5462;&#xFF1F;&#x56E0;&#x70BA; x &#x8DDF; y &#x7528;&#x7684;&#x662F; copy &#x7684;&#x65B9;&#x5F0F;&#x4F46;&#x662F; s1 &#x8DDF; s2 &#x7528;&#x7684;&#x662F; move &#x7684;&#x65B9;&#x5F0F;&#x3002;</p>
+<h3 id="clone">Clone</h3>
+<p>&#x5982;&#x679C;&#x9700;&#x8981;&#x5B8C;&#x6574;&#x5730;&#x8907;&#x88FD; heap &#x7684;&#x8CC7;&#x6599; Rust &#x4E5F;&#x6709;&#x63D0;&#x4F9B; clone &#x7684;&#x65B9;&#x6CD5;&#x5982;&#x4E0B;&#xFF0C;</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> s1 = String::from(<span class="hljs-string">&quot;hello&quot;</span>);
+<span class="hljs-keyword">let</span> s2 = s1.clone();
+
+<span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;s1 = {}, s2 = {}&quot;</span>, s1, s2);
+</code></pre>
+<h3 id="ownership-and-functions">Ownership and Functions</h3>
+<p>&#x50B3;&#x905E;&#x503C;&#x7D66;&#x51FD;&#x5F0F;(function)&#x6642;&#x5176;&#x5BE6;&#x8DDF;&#x6211;&#x5011;&#x628A;&#x503C; assign &#x7D66;&#x8B8A;&#x6578;&#x6642;&#x662F;&#x985E;&#x4F3C;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x7576;&#x628A;&#x503C;&#x50B3;&#x7D66;&#x51FD;&#x5F0F;&#x6642;&#x540C;&#x6A23;&#x6703;&#x7528; move &#x6216;&#x662F; copy &#x7684;&#x65B9;&#x6CD5;&#x8655;&#x7406;&#xFF0C;&#x90A3;&#x9EBC;&#x6211;&#x5011;&#x5C31;&#x76F4;&#x63A5;&#x770B;&#x500B;&#x4F8B;&#x5B50;&#xFF0C;</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">ownership_and_functions</span></span>()
+{
+    <span class="hljs-keyword">let</span> s = String::from(<span class="hljs-string">&quot;hello&quot;</span>); <span class="hljs-comment">// s &#x73FE;&#x5728;&#x5728; scope &#x88E1;&#x9762;</span>
+
+    takes_ownership(s); <span class="hljs-comment">// &#x7531;&#x65BC; s &#x662F;&#x7528; heap &#x6CD5;&#x8655;&#x7406;&#x6240;&#x4EE5; move</span>
+    <span class="hljs-comment">// &#x56E0;&#x6B64; s &#x7684;&#x6240;&#x6709;&#x6B0A;&#x5DF2;&#x7D93;&#x88AB;&#x8F49;&#x79FB;&#x4E86;</span>
+
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;s = {}&quot;</span>, s); <span class="hljs-comment">// &#x9019;&#x6642;&#x5DF2;&#x7D93;&#x53D6;&#x5F97;&#x4E0D;&#x4E86; s &#x7DE8;&#x8B6F;&#x6703;&#x5831;&#x932F;</span>
+    ^ value borrowed here after move
+
+    <span class="hljs-keyword">let</span> x = <span class="hljs-number">5</span>; <span class="hljs-comment">// &#x53CD;&#x4E4B;&#x5982;&#x679C;&#x662F; stack &#x6CD5;&#x8655;&#x7406;</span>
+
+    makes_copy(x); <span class="hljs-comment">// x &#x5C31;&#x6703; copy &#x4E00;&#x4EFD;&#x5F8C;&#x9032;&#x5230;&#x51FD;&#x5F0F;&#x88E1;&#x9762;</span>
+    <span class="hljs-comment">// &#x6240;&#x4EE5;&#x9084;&#x662F;&#x53EF;&#x4EE5;&#x5370;&#x5F97;&#x51FA; x &#x4E0D;&#x6703;&#x5831;&#x932F;</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;x = {}&quot;</span>, x);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">takes_ownership</span></span>(some_string: <span class="hljs-built_in">String</span>)
+{
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, some_string);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">makes_copy</span></span>(some_integer: <span class="hljs-keyword">i32</span>)
+{
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, some_integer);
+}
+</code></pre>
+<p>&#x5982;&#x679C;&#x6211;&#x5011;&#x8A66;&#x8457;&#x53D6;&#x5F97; s &#x5728;&#x4ED6; move &#x6240;&#x6709;&#x6B0A;&#x4E4B;&#x5F8C;&#x7DE8;&#x8B6F;&#x5668;&#x5C31;&#x6703;&#x5831;&#x932F;&#x53CD;&#x4E4B;&#x5982;&#x679C;&#x662F;&#x7528; copy &#x7684;&#x65B9;&#x5F0F;&#x8655;&#x7406;&#x7684;&#x5C31;&#x4E0D;&#x6703;&#x3002;</p>
+<h3 id="return-values-and-scope">Return Values and Scope</h3>
+<p>&#x800C;&#x540C;&#x6A23;&#x7576;&#x51FD;&#x5F0F;&#x8FD4;&#x56DE;&#x503C;&#x7684;&#x6642;&#x5019;&#x4E5F;&#x6703;&#x8F49;&#x79FB;&#x6240;&#x6709;&#x6B0A;&#xFF0C;&#x4F8B;&#x5982;&#x4E0B;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">ownership_and_return_values</span></span>()
+{
+    <span class="hljs-keyword">let</span> s1 = gives_ownership(); <span class="hljs-comment">// s1 &#x7684;&#x6240;&#x6709;&#x6B0A;&#x662F;&#x5F9E; gives_ownership &#x4F86;&#x7684;, &#x5176;&#x503C;&#x70BA; &quot;hello&quot;</span>
+
+    <span class="hljs-keyword">let</span> s2 = String::from(<span class="hljs-string">&quot;hello&quot;</span>); <span class="hljs-comment">// &#x5BA3;&#x544A;&#x4E00;&#x500B;&#x65B0;&#x7684;&#x8B8A;&#x6578; s2</span>
+
+    <span class="hljs-keyword">let</span> s3 = takes_and_gives_back(s2); <span class="hljs-comment">// s2 move &#x9032; takes_and_gives_back</span>
+    <span class="hljs-comment">// takes_and_gives_back, &#x540C;&#x6642;&#x4E5F;&#x8FD4;&#x56DE;&#x6240;&#x6709;&#x6B0A;, &#x73FE;&#x5728; s3 &#x64C1;&#x6709;&#x6240;&#x6709;&#x6B0A;</span>
+
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, s2); <span class="hljs-comment">// &#x5831;&#x932F;&#x56E0;&#x70BA; s2 &#x7684;&#x6240;&#x6709;&#x6B0A;&#x5DF2;&#x7D93;&#x8F49;&#x79FB;&#x7D66; s3</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, s3); <span class="hljs-comment">// &#x4E0D;&#x6703;&#x5831;&#x932F; s3 &#x64C1;&#x6709;&#x6240;&#x6709;&#x6B0A;</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">gives_ownership</span></span>() -&gt; <span class="hljs-built_in">String</span> {
+    <span class="hljs-comment">// gives_ownership &#x9019;&#x652F;&#x7A0B;&#x5F0F;&#x5C07;&#x6703;&#x628A; some_string &#x7684;&#x64C1;&#x6709;&#x6B0A;</span>
+    <span class="hljs-comment">// &#x50B3;&#x51FA;&#x53BB;&#x7D66;&#x547C;&#x53EB;&#x4ED6;&#x7684;&#x53E6;&#x5916;&#x4E00;&#x500B;&#x64C1;&#x6709;&#x8005;</span>
+
+    <span class="hljs-keyword">let</span> some_string = String::from(<span class="hljs-string">&quot;hello&quot;</span>); <span class="hljs-comment">// &#x5BA3;&#x544A;&#x4E00;&#x500B;&#x65B0;&#x7684;&#x8B8A;&#x6578; some_string</span>
+    some_string <span class="hljs-comment">// &#x8FD4;&#x56DE; some_string, move &#x51FA;&#x53BB;&#x7D66;&#x547C;&#x53EB;&#x4ED6;&#x7684;&#x64C1;&#x6709;&#x8005;</span>
+}
+
+<span class="hljs-comment">// &#x76F4;&#x63A5;&#x8FD4;&#x56DE;&#x50B3;&#x5165;&#x7684;&#x503C;</span>
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">takes_and_gives_back</span></span>(a_string: <span class="hljs-built_in">String</span>) -&gt; <span class="hljs-built_in">String</span> {
+    a_string
+}
+</code></pre>
+<p>&#x4E5F;&#x5C31;&#x662F;&#x8AAA; ownership (&#x6240;&#x6709;&#x6B0A;)&#x6703;&#x5728;&#x51FD;&#x5F0F;&#x4E4B;&#x4E2D;&#x88AB;&#x50B3;&#x4F86;&#x50B3;&#x53BB;&#xFF0C;&#x4F46;&#x662F;&#x540C;&#x6642;&#x4E5F;&#x9020;&#x6210;&#x9EBB;&#x7169;&#x4F8B;&#x5982;&#xFF0C;</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>()
+{
+    <span class="hljs-keyword">let</span> s1 = String::from(<span class="hljs-string">&quot;hello&quot;</span>);
+    <span class="hljs-keyword">let</span>(s2, len) = calculate_length(s1);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;The length of &apos;{}&apos; is {}.&quot;</span>, s2, len);
+}
+
+<span class="hljs-comment">// &#x5982;&#x679C;&#x6211;&#x5011;&#x9084;&#x9700;&#x8981;&#x4F7F;&#x7528; s &#x6642;&#x5FC5;&#x9808;&#x518D;&#x628A;&#x4ED6;&#x56DE;&#x50B3;</span>
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">calculate_length</span></span>(s: <span class="hljs-built_in">String</span>) -&gt; (<span class="hljs-built_in">String</span>, usize)
+{
+    <span class="hljs-keyword">let</span> length = s.len(); <span class="hljs-comment">// &#x7B97;&#x51FA; String &#x7684;&#x9577;&#x5EA6;</span>
+    (s, length)
+}
+</code></pre>
+<p>&#x9019;&#x6A23;&#x7684;&#x65B9;&#x5F0F;&#x592A;&#x650F;&#x9577;&#x6703;&#x9020;&#x6210;&#x5BEB;&#x7A0B;&#x5F0F;&#x6642;&#x7684;&#x4E0D;&#x4FBF;&#xFF0C;&#x56E0;&#x6B64;&#x63A5;&#x4E0B;&#x4F86;&#x6703;&#x4ECB;&#x7D39; Rust <code>reference</code> &#x7684;&#x6982;&#x5FF5;&#x3002;</p>
+<h3 id="references">References</h3>
+<p>&#x9996;&#x5148;&#x6211;&#x5011;&#x4F86;&#x7A0D;&#x5FAE;&#x6539;&#x5BEB;&#x4E00;&#x4E0B;&#x4E0A;&#x4E00;&#x7BC7;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>()
+{
+    <span class="hljs-keyword">let</span> s1 = String::from(<span class="hljs-string">&quot;hello&quot;</span>);
+    <span class="hljs-keyword">let</span> len = calculate_length(&amp;s1); <span class="hljs-comment">// &#x50B3;&#x905E; reference &#x4F46;&#x662F;&#x6C92;&#x6709; ownership</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;The length of &apos;{}&apos; is {}.&quot;</span>, s1, len);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">calculate_length</span></span>(s: &amp;<span class="hljs-built_in">String</span>) -&gt; usize {
+    s.len()
+} <span class="hljs-comment">// &#x56E0;&#x70BA;&#x6C92;&#x6709;&#x4EFB;&#x4F55; ownership &#x6240;&#x4EE5; drop &#x4E5F;&#x4E0D;&#x6703;&#x600E;&#x6A23;</span>
+</code></pre>
+<p>&#x5404;&#x4F4D;&#x6CE8;&#x610F;&#x5230;&#x6709;&#x4EC0;&#x9EBC;&#x8B8A;&#x5316;&#x4E86;&#x55CE;&#xFF1F;</p>
+<ol>
+<li>&#x51FD;&#x5F0F;&#x7684;&#x53C3;&#x6578;&#x591A;&#x4E86;&#x500B; &amp; &#x7684;&#x7B26;&#x865F;</li>
+<li>s1 &#x9084;&#x662F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; ownership &#x6C92;&#x6709;&#x88AB;&#x8F49;&#x79FB;</li>
+</ol>
+<p>&#x9996;&#x5148;</p>
+<ul>
+<li>&#x7B2C;&#x4E00;&#x9EDE; &amp; &#x7684;&#x7B26;&#x865F;&#x5C31;&#x4EE3;&#x8868;&#x9019;&#x500B;&#x53C3;&#x6578;&#x662F; reference</li>
+<li>&#x7B2C;&#x4E8C;&#x9EDE; reference &#x8B93;&#x4F60;&#x53EF;&#x4EE5;&#x6307;&#x5230;&#x4F60;&#x8981;&#x7684;&#x503C;&#x4F46;&#x662F;&#x4E0D;&#x9700;&#x8981;&#x8F49;&#x79FB; ownership</li>
+</ul>
+<p>&#x6211;&#x5011;&#x501F;&#x5B98;&#x7DB2;&#x7684;&#x5716;&#x4F86;&#x770B;&#x6BD4;&#x8F03;&#x597D;&#x61C2;&#xFF0C;</p>
+<p><img src="images/20119807K6gOdVKusy.png" alt=""></p>
+<p>&#x56E0;&#x6B64; references(&#x53C3;&#x7167;) &#x5B57;&#x9762;&#x4E0A;&#x4F86;&#x8AAA;&#x5C31;&#x8DDF;&#x5BE6;&#x969B;&#x884C;&#x70BA;&#x883B;&#x50CF;&#x7684;&#xFF0C;&#x611F;&#x89BA;&#x5C31;&#x662F;&#x8ACB;&#x4F60;&#x53C3;&#x7167;&#x4ED6;&#x5C31;&#x597D;&#x4F46;&#x6211;&#x4E0D;&#x5FC5;&#x64C1;&#x6709;&#x4ED6;&#x3002;</p>
+<p>&#x90A3;&#x9EBC;&#x5982;&#x679C;&#x6211;&#x5011;&#x60F3;&#x8981;&#x4FEE;&#x6539; borrowing(&#x501F;)&#x4F86;&#x7684; references &#x7684;&#x5462;&#xFF1F;&#x8209;&#x500B;&#x4F8B;&#x5B50;&#xFF0C;</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> s = String::from(<span class="hljs-string">&quot;hello&quot;</span>);
+    unchangeable(&amp;s);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">unchangeable</span></span>(some_string: &amp;<span class="hljs-built_in">String</span>) {
+    some_string.push_str(<span class="hljs-string">&quot;, world&quot;</span>);
+    ^^^^^^^^^^^ `some_string` is a `&amp;` reference, so the data it refers to cannot <span class="hljs-keyword">be</span> borrowed <span class="hljs-keyword">as</span> mutable
+}
+</code></pre>
+<p>&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x5C31;&#x6703;&#x5831;&#x932F;&#xFF0C;&#x56E0;&#x70BA;&#x9019;&#x500B; reference &#x6307;&#x5411;&#x7684;&#x662F; immutable &#x7684;&#x8B8A;&#x6578;&#x6240;&#x4EE5;&#x6211;&#x5011;&#x4E26;&#x4E0D;&#x80FD;&#x4FEE;&#x6539;&#x4ED6;&#x3002;</p>
+<h2 id="mutable-references">Mutable References</h2>
+<p>&#x524D;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x9664;&#x975E;&#x6539;&#x6210; mutable &#x624D;&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">changeable</span></span>(some_string: &amp;<span class="hljs-keyword">mut</span> <span class="hljs-built_in">String</span>)
+{
+    some_string.push_str(<span class="hljs-string">&quot;, world&quot;</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>()
+{
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> s = String::from(<span class="hljs-string">&quot;hello&quot;</span>);
+    changeable(&amp;<span class="hljs-keyword">mut</span> s);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;s = {}&quot;</span>, s); <span class="hljs-comment">// s = hello, world</span>
+}
+</code></pre>
+<p>&#x9019;&#x6A23;&#x5C31;&#x53EF;&#x4EE5;&#x7DE8;&#x8F2F;&#xFF0C;&#x4F46;&#x662F; Rust &#x5C0D;&#x9019;&#x6A23;&#x7684;&#x5BEB;&#x6CD5;&#x6709;&#x5F88;&#x5927;&#x7684;&#x9650;&#x5236;&#xFF0C;&#x5728;&#x540C;&#x4E00;&#x500B; scope &#x4E0D;&#x80FD;&#x540C;&#x6642;&#x5BA3;&#x544A; 2 &#x500B;&#x4EE5;&#x4E0A;&#x7684; mutable reference &#x56E0;&#x6B64;&#x50CF;&#x662F;&#x9019;&#x500B;&#x4F8B;&#x5B50;&#x5C31;&#x6703;&#x5831;&#x932F;&#xFF0C;</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">cause_error</span></span>()
+{
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> s = String::from(<span class="hljs-string">&quot;hello&quot;</span>);
+    <span class="hljs-keyword">let</span> r1 = &amp;<span class="hljs-keyword">mut</span> s;
+    <span class="hljs-keyword">let</span> r2 = &amp;<span class="hljs-keyword">mut</span> s;
+    ^^^^^^ second mutable borrow occurs here
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}, {}&quot;</span>, r1, r2);
+}
+</code></pre>
+<p>&#x800C;&#x4E3B;&#x8981;&#x7684;&#x539F;&#x56E0;&#x662F; Rust &#x8981;&#x907F;&#x514D;&#x5728;&#x7DE8;&#x8B6F;&#x671F;&#x9593;&#x9020;&#x6210; data race&#xFF0C; data race &#x985E;&#x4F3C;&#x65BC; race condition &#x4ED6;&#x901A;&#x5E38;&#x767C;&#x751F;&#x65BC;&#x4E0B;&#x5217;&#x4E09;&#x7A2E;&#x60C5;&#x6CC1;&#xFF0C;</p>
+<ul>
+<li>2 &#x500B;&#x4EE5;&#x4E0A;&#x7684; mutable reference &#x540C;&#x6642;&#x53D6;&#x5F97;&#x540C;&#x4E00;&#x500B;&#x503C;</li>
+<li>&#x81F3;&#x5C11;&#x4E00;&#x500B; pointer &#x88AB;&#x7528;&#x4F86;&#x5BEB;&#x5165;&#x8CC7;&#x6599;</li>
+<li>&#x6C92;&#x6709;&#x540C;&#x6B65;&#x8A2A;&#x554F;&#x6578;&#x64DA;&#x7684;&#x6A5F;&#x5236;</li>
+</ul>
+<p><a href="https://en.wikipedia.org/wiki/Race_condition" target="_blank">&#x9019;&#x88E1;</a>&#x6709; wiki &#x7684;&#x88DC;&#x5145;&#x8CC7;&#x6599;&#x53EF;&#x4EE5;&#x66F4;&#x4E86;&#x89E3; race condition&#xFF0C;&#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#x5C31;&#x662F;&#x8655;&#x7406;&#x8CC7;&#x6599;&#x6642;&#x7684;&#x5148;&#x5F8C;&#x9806;&#x5E8F;&#x6C92;&#x8655;&#x7406;&#x597D;&#x800C;&#x5C0E;&#x81F4;&#x8CC7;&#x6599;&#x932F;&#x8AA4;&#x7684;&#x60C5;&#x6CC1;&#x3002;</p>
+<p>&#x57FA;&#x672C;&#x4E0A; data race &#x6703;&#x9020;&#x6210; undefined &#x800C;&#x4E14;&#x4E0D;&#x5BB9;&#x6613;&#x627E;&#x51FA; bug&#xFF0C;&#x800C;&#x9019;&#x4E5F;&#x662F; Rust &#x5E0C;&#x671B;&#x53EF;&#x4EE5;&#x5E6B;&#x52A9;&#x5DE5;&#x7A0B;&#x5E2B;&#x907F;&#x514D;&#x7684;&#x60C5;&#x6CC1;&#xFF0C;&#x6240;&#x4EE5;&#x624D;&#x6703;&#x6709;&#x9019;&#x6A23;&#x7684;&#x9650;&#x5236;&#xFF0C;&#x57FA;&#x672C;&#x4E0A;&#x5C31;&#x7B97;&#x6C92;&#x6709;&#x9650;&#x5236;&#x7B46;&#x8005;&#x4E5F;&#x6703;&#x907F;&#x514D;&#x9019;&#x6A23;&#x7684;&#x8A2D;&#x8A08;&#x65B9;&#x5F0F;&#xFF0C;&#x9664;&#x975E;&#x6709;&#x975E;&#x5E38;&#x4E0D;&#x5F97;&#x5DF2;&#x7684;&#x7406;&#x7531;&#x3002;</p>
+<p>&#x540C;&#x6A23;&#x7684;&#x932F;&#x8AA4;&#x4E5F;&#x6703;&#x51FA;&#x73FE;&#x5728;&#x540C;&#x6642;&#x64C1;&#x6709; immutable &#x8DDF; mutable reference &#x7684; scope &#x88E1;&#x9762;&#x4F8B;&#x5982;&#xFF0C;</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> s = String::from(<span class="hljs-string">&quot;hello&quot;</span>);
+
+<span class="hljs-keyword">let</span> r1 = &amp;s; <span class="hljs-comment">// no problem</span>
+<span class="hljs-keyword">let</span> r2 = &amp;s; <span class="hljs-comment">// no problem</span>
+<span class="hljs-keyword">let</span> r3 = &amp;<span class="hljs-keyword">mut</span> s; <span class="hljs-comment">// BIG PROBLEM</span>
+         ^^^^^^ mutable borrow occurs here
+
+<span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}, {}, and {}&quot;</span>, r1, r2, r3);
+</code></pre>
+<p>&#x9019;&#x500B;&#x932F;&#x7684;&#x60C5;&#x6CC1;&#x5F88;&#x5BB9;&#x6613;&#x7406;&#x89E3;&#xFF0C;&#x6211;&#x5011;&#x4E0D;&#x80FD;&#x7D66;&#x4E86; immutable &#x7684; reference &#x4E4B;&#x5F8C;&#x53C8;&#x4ED6;&#x7D66; mutable &#x7684; reference &#x4F60;&#x5230;&#x5E95;&#x662F;&#x8981;&#x6211;&#x8B8A;&#x9084;&#x662F;&#x4E0D;&#x8B8A;&#x5462;&#xFF1F;</p>
+<p>&#x53E6;&#x5916;&#x662F; reference &#x7684; scope &#x5F9E;&#x88AB;&#x5BA3;&#x544A;&#x958B;&#x59CB;&#x5230;&#x6700;&#x5F8C;&#x4E00;&#x6B21;&#x88AB;&#x4F7F;&#x7528;&#x4E4B;&#x5F8C;&#x5C31;&#x7D50;&#x675F;&#x4E86;&#x6240;&#x4EE5;&#x50CF;&#x662F;&#x9019;&#x500B;&#x4F8B;&#x5B50;&#x662F;&#x53EF;&#x4EE5;&#x7684;&#xFF0C;</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">this_work</span></span>()
+{
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> s = String::from(<span class="hljs-string">&quot;hello&quot;</span>);
+
+    <span class="hljs-keyword">let</span> r1 = &amp;s; <span class="hljs-comment">// no problem</span>
+    <span class="hljs-keyword">let</span> r2 = &amp;s; <span class="hljs-comment">// no problem</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{} and {}&quot;</span>, r1, r2);
+    <span class="hljs-comment">// &#x5728;&#x9019;&#x4E4B;&#x5F8C;&#x4E0D;&#x518D;&#x4F7F;&#x7528; r1 &#x548C; r2</span>
+
+    <span class="hljs-keyword">let</span> r3 = &amp;<span class="hljs-keyword">mut</span> s; <span class="hljs-comment">// no problem</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, r3);
+}
+</code></pre>
+<p>&#x540C;&#x8981;&#x7684;&#x9053;&#x7406;&#x6211;&#x5148; mutable &#x518D; immutable &#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x7684;&#x4F8B;&#x5982;&#xFF0C;</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">this_still_work</span></span>()
+{
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> s = String::from(<span class="hljs-string">&quot;hello&quot;</span>);
+    <span class="hljs-keyword">let</span> r1 = &amp;<span class="hljs-keyword">mut</span> s;
+    <span class="hljs-comment">// &#x5728;&#x9019;&#x4E4B;&#x5F8C;&#x4E0D;&#x518D;&#x4F7F;&#x7528; r1</span>
+    <span class="hljs-keyword">let</span> r2 = &amp;s;
+    <span class="hljs-keyword">let</span> r3 = &amp;s;
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{} {}&quot;</span>, r2, r3);
+}
+</code></pre>
+<p>&#x9084;&#x6709;&#x5982;&#x679C;&#x5728;&#x4E0D;&#x540C; scope &#x4F8B;&#x5982;&#x9019;&#x6A23;&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x7684;&#xFF0C;</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">this_work_too</span></span>()
+{
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> s = String::from(<span class="hljs-string">&quot;hello&quot;</span>);
+
+    {
+        <span class="hljs-keyword">let</span> r1 = &amp;<span class="hljs-keyword">mut</span> s;
+
+    } <span class="hljs-comment">// r1 goes out of scope here, so we can make a new reference with no problems.</span>
+
+    <span class="hljs-keyword">let</span> r2 = &amp;<span class="hljs-keyword">mut</span> s;
+}
+</code></pre>
+<h2 id="dangling-references">Dangling References</h2>
+<p><a href="https://zh.wikipedia.org/wiki/&#x8FF7;&#x9014;&#x6307;&#x9488;" target="_blank">&#x8FF7;&#x9014;&#x6307;&#x6A19;</a>&#xFF0C;&#x7B46;&#x8005;&#x6211;&#x6BD4;&#x8F03;&#x559C;&#x6B61;&#x9019;&#x500B;&#x7FFB;&#x6CD5;&#x6BD4;&#x8F03;&#x76F4;&#x89BA;&#xFF0C;&#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#x5C31;&#x662F;&#x503C;&#x5DF2;&#x7D93;&#x88AB;&#x91CB;&#x653E;&#x4E86;&#x4F46;&#x662F; reference &#x6C92;&#x6709;&#x6536;&#x56DE;&#x4F86;&#x3002;</p>
+<p>&#x4E0D;&#x904E;&#x5B8C;&#x5168;&#x4E0D;&#x7528;&#x64D4;&#x5FC3;&#x56E0;&#x70BA; Rust &#x8AAA;&#x4FDD;&#x8B49;&#x4E0D;&#x6703;&#x767C;&#x751F;&#x9019;&#x500B;&#x60C5;&#x6CC1;&#x4ED6;&#x6703;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x5E6B;&#x6211;&#x5011;&#x505A;&#x6AA2;&#x67E5;&#xFF0C;&#x4F86;&#x770B;&#x9019;&#x500B;&#x4F8B;&#x5B50;&#xFF0C;</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> reference_to_nothing = dangling_references();
+}
+
+<span class="hljs-comment">// help: this function&apos;s return type contains a borrowed value, but there is no value for it to be borrowed from</span>
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">dangling_references</span></span>() -&gt; &amp;<span class="hljs-built_in">String</span> {
+                            ^ help: consider giving it a <span class="hljs-string">&apos;static</span> lifetime: `&amp;<span class="hljs-string">&apos;static</span>`
+  <span class="hljs-keyword">let</span> s = String::from(<span class="hljs-string">&quot;hello&quot;</span>);
+  &amp;s
+} <span class="hljs-comment">// s &#x5728;&#x9019;&#x908A;&#x5DF2;&#x7D93;&#x96E2;&#x958B; scope &#x4E86;&#x4F46;&#x662F;&#x537B;&#x56DE;&#x50B3;&#x4E86;&#x4ED6;&#x7684; reference&#xFF0C;&#x56E0;&#x6B64;&#x5C31;&#x6703;&#x9020;&#x6210;&#x8FF7;&#x9014;&#x6307;&#x6A19;&#x3002;</span>
+</code></pre>
+<p>&#x9019;&#x908A;&#x8981;&#x9019;&#x6A23;&#x6539;&#x624D;&#x6703;&#x6B63;&#x5E38;</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>()
+{
+    <span class="hljs-keyword">let</span> reference_to_nothing = no_dangling_references();
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">no_dangling_references</span></span>() -&gt; <span class="hljs-built_in">String</span> {
+    <span class="hljs-keyword">let</span> s = String::from(<span class="hljs-string">&quot;hello&quot;</span>);
+    s
 }
 </code></pre>
 

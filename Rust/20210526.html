@@ -41,7 +41,7 @@
         
     
     
-    <link rel="next" href="../deep_learning/deep_learning.html" />
+    <link rel="next" href="../Rust/RustTW2020_note.html" />
     
     
     <link rel="prev" href="../Rust/rust_programming.html" />
@@ -57,7 +57,7 @@
         data-chapter-title="Rust 概念"
         data-filepath="Rust/20210526.md"
         data-basepath=".."
-        data-revision="Thu May 27 2021 04:26:25 GMT+0800 (CST)"
+        data-revision="Sun May 30 2021 06:11:49 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -22689,6 +22689,21 @@
             
         </li>
     
+        <li class="chapter " data-level="69.2" data-path="Rust/RustTW2020_note.html">
+            
+                
+                    <a href="../Rust/RustTW2020_note.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>69.2.</b>
+                        
+                        Rust筆記
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -23713,6 +23728,31 @@
     s
 }
 </code></pre>
+<h3 id="&#x88F8;&#x6307;&#x6A19;&#x4F7F;&#x7528;&#x9700;&#x914D;&#x5408;unsafe">&#x88F8;&#x6307;&#x6A19;&#x4F7F;&#x7528;&#x9700;&#x914D;&#x5408;unsafe</h3>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">print_type_of</span></span>&lt;T&gt;(_: &amp;T) {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, std::any::type_name::&lt;T&gt;())
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> num = <span class="hljs-number">5</span>;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> n = <span class="hljs-number">5</span>;
+
+    <span class="hljs-keyword">let</span> r1 = &amp;num <span class="hljs-keyword">as</span> *<span class="hljs-keyword">const</span> <span class="hljs-keyword">i32</span>;
+    print_type_of(&amp;n);
+    print_type_of(&amp;r1);
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> r2 = &amp;<span class="hljs-keyword">mut</span> num <span class="hljs-keyword">as</span> *<span class="hljs-keyword">mut</span> <span class="hljs-keyword">i32</span>;
+    print_type_of(&amp;r2);
+
+    <span class="hljs-keyword">unsafe</span> {
+        *r2 = <span class="hljs-number">44</span>;
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;r1 is: {}&quot;</span>, *r1);
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;r2 is: {}&quot;</span>, *r2);
+        r2 = &amp;<span class="hljs-keyword">mut</span> n <span class="hljs-keyword">as</span> *<span class="hljs-keyword">mut</span> <span class="hljs-keyword">i32</span>;
+        print_type_of(&amp;r2);
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;r2 is: {}&quot;</span>, *r2);
+    }
+}
+</code></pre>
 
                     
                     </section>
@@ -23726,7 +23766,7 @@
         <a href="../Rust/rust_programming.html" class="navigation navigation-prev " aria-label="Previous page: Rust"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../deep_learning/deep_learning.html" class="navigation navigation-next " aria-label="Next page: Deep Learning"><i class="fa fa-angle-right"></i></a>
+        <a href="../Rust/RustTW2020_note.html" class="navigation navigation-next " aria-label="Next page: Rust筆記"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

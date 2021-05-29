@@ -1445,6 +1445,7 @@
 * [SlickEdit](SlickEdit/slickedit.md)
 * [Rust](Rust/rust_programming.md)
    * [Rust 概念](Rust/20210526.md)
+   * [Rust筆記](Rust/RustTW2020_note.md)
 * [Deep Learning](deep_learning/deep_learning.md)
    * [人工智慧、機器學習與深度學習間有什麼區別?](deep_learning/ren_gong_zhi_hui_3001_ji_qi_xue_xi_yu_shen_du_xue_.md)
    * [機器學習(Machine Learning) 介紹](deep_learning/ji_qi_xue_7fd228_machine_learning__jie_shao.md)

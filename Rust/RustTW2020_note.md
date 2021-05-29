@@ -1,6 +1,6 @@
 # Rust 基本教學
 
-[TOC]
+
 
 ## Hello World!
 

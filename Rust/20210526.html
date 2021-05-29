@@ -57,7 +57,7 @@
         data-chapter-title="Rust 概念"
         data-filepath="Rust/20210526.md"
         data-basepath=".."
-        data-revision="Sun May 30 2021 06:11:49 GMT+0800 (CST)"
+        data-revision="Sun May 30 2021 06:37:01 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23751,6 +23751,27 @@
         print_type_of(&amp;r2);
         <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;r2 is: {}&quot;</span>, *r2);
     }
+}
+</code></pre>
+<hr>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">print_type_of</span></span>&lt;T&gt;(_: &amp;T) {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, std::any::type_name::&lt;T&gt;())
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> n = <span class="hljs-number">42</span>;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> c = <span class="hljs-number">55</span>;
+    {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> a = &amp;<span class="hljs-keyword">mut</span> n <span class="hljs-keyword">as</span> &amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">i32</span>;
+        print_type_of(&amp;a);
+        *a += <span class="hljs-number">5</span>;
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, a); 
+        a = &amp;<span class="hljs-keyword">mut</span> c;
+        *a += <span class="hljs-number">100</span>;
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, a);
+    }
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, c); 
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, n); 
 }
 </code></pre>
 

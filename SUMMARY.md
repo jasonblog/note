@@ -1451,6 +1451,7 @@
        * [安裝環境](Rust/Rust_30/Setup.md)
        * [Rust 的套件管理工具 Cargo 與套件倉庫](Rust/Rust_30/Cargo.md)
        * [Rust 基礎](Rust/Rust_30/Basis.md)
+       * [變數的所有權與借出變數](Rust/Rust_30/Borrow_and_Ownership.md)
 * [Deep Learning](deep_learning/deep_learning.md)
    * [人工智慧、機器學習與深度學習間有什麼區別?](deep_learning/ren_gong_zhi_hui_3001_ji_qi_xue_xi_yu_shen_du_xue_.md)
    * [機器學習(Machine Learning) 介紹](deep_learning/ji_qi_xue_7fd228_machine_learning__jie_shao.md)

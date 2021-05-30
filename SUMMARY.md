@@ -1444,6 +1444,7 @@
    * [花了 6 年才找到的 bug?](qt/hua_le_6_nian_cai_zhao_dao_de_bug.md)
 * [SlickEdit](SlickEdit/slickedit.md)
 * [Rust](Rust/rust_programming.md)
+   * [給 C++ 使用者的 Rust 簡介](Rust/10-rust-an-introduction.md)
    * [Rust 概念](Rust/20210526.md)
    * [Rust筆記](Rust/RustTW2020_note.md)
    * [30 天深入淺出 Rust](Rust/Rust_30/Rust30D.md)

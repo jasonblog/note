@@ -111,3 +111,19 @@ $ gdb-multiarch --tui vmlinux
 (gdb) c
 ```
 
+---
+
+## 本機交叉編譯
+
+```bash
+sudo apt-get install qemu qemu-system-arm gcc-aarch64-linux-gnu build-essential bison flex bc  gdb-multiarch
+
+
+export ARCH=arm64
+export CROSS_COMPILE=aarch64-linux-gnu-
+export BASEINCLUDE=/home/shihyu/github/Myrunninglinuxkernel_5.0  # 更改成 runninglinuxkernel_5.0 根目錄
+
+cd kmodules/rlk_lab/rlk_basic/chapter_1_quick_start/lab3_hello_world
+make
+```
+

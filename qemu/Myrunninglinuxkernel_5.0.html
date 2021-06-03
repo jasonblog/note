@@ -57,7 +57,7 @@
         data-chapter-title="Myrunninglinuxkernel_5.0"
         data-filepath="qemu/Myrunninglinuxkernel_5.0.md"
         data-basepath=".."
-        data-revision="Mon May 31 2021 01:15:13 GMT+0800 (CST)"
+        data-revision="Fri Jun 04 2021 03:43:49 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23611,6 +23611,18 @@ $ gdb-multiarch --tui vmlinux
 (gdb) target remote localhost:<span class="hljs-number">1234</span>       &lt;= &#x901A;&#x8FC7;<span class="hljs-number">1234</span>&#x7AEF;&#x53E3;&#x8FDC;&#x7A0B;&#x8FDE;&#x63A5;&#x5230;QEMU&#x865A;&#x62DF;&#x673A;
 (gdb) b start_kernel
 (gdb) c
+</code></pre>
+<hr>
+<h2 id="&#x672C;&#x6A5F;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;">&#x672C;&#x6A5F;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;</h2>
+<pre><code class="lang-bash">sudo apt-get install qemu qemu-system-arm gcc-aarch64-linux-gnu build-essential bison flex bc  gdb-multiarch
+
+
+<span class="hljs-built_in">export</span> ARCH=arm64
+<span class="hljs-built_in">export</span> CROSS_COMPILE=aarch64-linux-gnu-
+<span class="hljs-built_in">export</span> BASEINCLUDE=/home/shihyu/github/Myrunninglinuxkernel_5.<span class="hljs-number">0</span>  <span class="hljs-comment"># &#x66F4;&#x6539;&#x6210; runninglinuxkernel_5.0 &#x6839;&#x76EE;&#x9304;</span>
+
+<span class="hljs-built_in">cd</span> kmodules/rlk_lab/rlk_basic/chapter_1_quick_start/lab3_hello_world
+make
 </code></pre>
 
                     

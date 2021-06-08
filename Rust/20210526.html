@@ -57,7 +57,7 @@
         data-chapter-title="Rust 概念"
         data-filepath="Rust/20210526.md"
         data-basepath=".."
-        data-revision="Tue Jun 08 2021 14:09:38 GMT+0800 (CST)"
+        data-revision="Tue Jun 08 2021 14:47:43 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23885,6 +23885,272 @@
     <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, n); 
 }
 </code></pre>
+<h1 id="&#x88F8;&#x6307;&#x9488;">&#x88F8;&#x6307;&#x9488;</h1>
+<p><strong>Rust</strong>&#x901A;&#x8FC7;&#x9650;&#x5236;&#x667A;&#x80FD;&#x6307;&#x9488;&#x7684;&#x884C;&#x4E3A;&#x4FDD;&#x969C;&#x4E86;&#x7F16;&#x8BD1;&#x65F6;&#x5B89;&#x5168;&#xFF0C;&#x4E0D;&#x8FC7;&#x4ECD;&#x9700;&#x8981;&#x5BF9;&#x6307;&#x9488;&#x505A;&#x4E00;&#x4E9B;&#x989D;&#x5916;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
+<p><code>*const T</code>&#x548C;<code>*mut T</code>&#x5728;<strong>Rust</strong>&#x4E2D;&#x88AB;&#x79F0;&#x4E3A;&#x201C;&#x88F8;&#x6307;&#x9488;&#x201D;&#x3002;&#x5B83;&#x5141;&#x8BB8;&#x522B;&#x540D;&#xFF0C;&#x5141;&#x8BB8;&#x7528;&#x6765;&#x5199;&#x5171;&#x4EAB;&#x6240;&#x6709;&#x6743;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x751A;&#x81F3;&#x662F;&#x5185;&#x5B58;&#x5B89;&#x5168;&#x7684;&#x5171;&#x4EAB;&#x5185;&#x5B58;&#x7C7B;&#x578B;&#x5982;&#xFF1A;<code>Rc&lt;T&gt;</code>&#x548C;<code>Arc&lt;T&gt;</code>&#xFF0C;&#x4F46;&#x662F;&#x8D4B;&#x4E88;&#x4F60;&#x66F4;&#x591A;&#x6743;&#x5229;&#x7684;&#x540C;&#x65F6;&#x610F;&#x5473;&#x7740;&#x4F60;&#x9700;&#x8981;&#x62C5;&#x5F53;&#x66F4;&#x591A;&#x7684;&#x8D23;&#x4EFB;&#xFF1A;</p>
+<ul>
+<li>&#x4E0D;&#x80FD;&#x4FDD;&#x8BC1;&#x6307;&#x5411;&#x6709;&#x6548;&#x7684;&#x5185;&#x5B58;&#xFF0C;&#x751A;&#x81F3;&#x4E0D;&#x80FD;&#x4FDD;&#x8BC1;&#x662F;&#x975E;&#x7A7A;&#x7684;</li>
+<li>&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x81EA;&#x52A8;&#x6E05;&#x9664;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x624B;&#x52A8;&#x7BA1;&#x7406;&#x8D44;&#x6E90;</li>
+<li>&#x662F;&#x666E;&#x901A;&#x65E7;&#x5F0F;&#x7C7B;&#x578B;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x5B83;&#x4E0D;&#x79FB;&#x52A8;&#x6240;&#x6709;&#x6743;&#xFF0C;&#x56E0;&#x6B64;<strong>Rust</strong>&#x7F16;&#x8BD1;&#x5668;&#x4E0D;&#x80FD;&#x4FDD;&#x8BC1;&#x4E0D;&#x51FA;&#x50CF;&#x91CA;&#x653E;&#x540E;&#x4F7F;&#x7528;&#x8FD9;&#x79CD;bug</li>
+<li>&#x7F3A;&#x5C11;&#x4EFB;&#x4F55;&#x5F62;&#x5F0F;&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#xFF0C;&#x4E0D;&#x50CF;<code>&amp;</code>&#xFF0C;&#x56E0;&#x6B64;&#x7F16;&#x8BD1;&#x5668;&#x4E0D;&#x80FD;&#x5224;&#x65AD;&#x51FA;&#x60AC;&#x5782;&#x6307;&#x9488;</li>
+<li>&#x9664;&#x4E86;&#x4E0D;&#x5141;&#x8BB8;&#x76F4;&#x63A5;&#x901A;&#x8FC7;<code>*const T</code>&#x6539;&#x53D8;&#x5916;&#xFF0C;&#x6CA1;&#x6709;&#x522B;&#x540D;&#x6216;&#x53EF;&#x53D8;&#x6027;&#x7684;&#x4FDD;&#x969C;</li>
+</ul>
+<pre><code class="lang-rust">
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">let</span> b = &amp;a <span class="hljs-keyword">as</span> *<span class="hljs-keyword">const</span> <span class="hljs-keyword">i32</span>;
+    <span class="hljs-keyword">let</span> c = <span class="hljs-keyword">unsafe</span> { *b };
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, c);
+
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> x = <span class="hljs-number">2</span>;
+    <span class="hljs-keyword">let</span> y = &amp;<span class="hljs-keyword">mut</span> x <span class="hljs-keyword">as</span> *<span class="hljs-keyword">mut</span> <span class="hljs-keyword">i32</span>;
+    <span class="hljs-keyword">let</span> d = <span class="hljs-keyword">unsafe</span> {
+        *y = <span class="hljs-number">9</span>;
+        *y
+    };
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, d);
+
+    <span class="hljs-keyword">let</span> a: <span class="hljs-built_in">Box</span>&lt;<span class="hljs-keyword">i32</span>&gt; = Box::new(<span class="hljs-number">10</span>);
+    <span class="hljs-comment">// &#x6211;&#x4EEC;&#x9700;&#x8981;&#x5148;&#x89E3;&#x5F15;&#x7528;a&#xFF0C;&#x518D;&#x9690;&#x5F0F;&#x628A; &amp; &#x8F6C;&#x6362;&#x6210; *</span>
+    <span class="hljs-keyword">let</span> b: *<span class="hljs-keyword">const</span> <span class="hljs-keyword">i32</span> = &amp;*a;
+    <span class="hljs-comment">// &#x4F7F;&#x7528; into_raw &#x65B9;&#x6CD5;</span>
+    <span class="hljs-keyword">let</span> c: *<span class="hljs-keyword">const</span> <span class="hljs-keyword">i32</span> = Box::into_raw(a);
+
+    <span class="hljs-keyword">unsafe</span> {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, *c);
+    }
+} <span class="hljs-comment">// a &#x8207; m &#x6703;&#x5728;&#x9019;&#x908A;&#x6D88;&#x5931;</span>
+</code></pre>
+<h2 id="&#x6240;&#x6709;&#x6743;&#xFF08;ownership&#xFF09;">&#x6240;&#x6709;&#x6743;&#xFF08;Ownership&#xFF09;</h2>
+<h3 id="&#x7ED1;&#x5B9A;&#xFF08;binding&#xFF09;">&#x7ED1;&#x5B9A;&#xFF08;Binding&#xFF09;</h3>
+<p><strong>&#x91CD;&#x8981;</strong>&#xFF1A;&#x9996;&#x5148;&#x5FC5;&#x987B;&#x5F3A;&#x8C03;&#x4E0B;&#xFF0C;&#x51C6;&#x786E;&#x5730;&#x8BF4;Rust&#x4E2D;&#x5E76;&#x6CA1;&#x6709;&#x53D8;&#x91CF;&#x8FD9;&#x4E00;&#x6982;&#x5FF5;&#xFF0C;&#x800C;&#x5E94;&#x8BE5;&#x79F0;&#x4E3A;<code>&#x6807;&#x8BC6;&#x7B26;</code>&#xFF0C;&#x76EE;&#x6807;<code>&#x8D44;&#x6E90;</code>(&#x5185;&#x5B58;&#xFF0C;&#x5B58;&#x653E;value)<code>&#x7ED1;&#x5B9A;</code>&#x5230;&#x8FD9;&#x4E2A;<code>&#x6807;&#x8BC6;&#x7B26;</code>&#xFF1A;</p>
+<pre><code class="lang-rust">{
+    <span class="hljs-keyword">let</span> x: <span class="hljs-keyword">i32</span>;       <span class="hljs-comment">// &#x6807;&#x8BC6;&#x7B26;x, &#x6CA1;&#x6709;&#x7ED1;&#x5B9A;&#x4EFB;&#x4F55;&#x8D44;&#x6E90;</span>
+    <span class="hljs-keyword">let</span> y: <span class="hljs-keyword">i32</span> = <span class="hljs-number">100</span>; <span class="hljs-comment">// &#x6807;&#x8BC6;&#x7B26;y&#xFF0C;&#x7ED1;&#x5B9A;&#x8D44;&#x6E90;100</span>
+}
+</code></pre>
+<p>&#x597D;&#x4E86;&#xFF0C;&#x6211;&#x4EEC;&#x7EE7;&#x7EED;&#x770B;&#x4E0B;&#x4EE5;&#x4E0B;&#x4E00;&#x6BB5;Rust&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code class="lang-rust">{
+    <span class="hljs-keyword">let</span> a: <span class="hljs-keyword">i32</span>;
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, a);
+}
+</code></pre>
+<p>&#x4E0A;&#x9762;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;i32&#x7C7B;&#x578B;&#x7684;&#x6807;&#x8BC6;&#x7B26;<code>a</code>&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x76F4;&#x63A5;<code>println!</code>&#xFF0C;&#x4F60;&#x4F1A;&#x6536;&#x5230;&#x4E00;&#x4E2A;error&#x62A5;&#x9519;&#xFF1A;</p>
+<blockquote>
+<p>error: use of possibly uninitialized variable: <code>a</code></p>
+</blockquote>
+<p>&#x8FD9;&#x662F;<strong>&#x56E0;&#x4E3A;Rust&#x5E76;&#x4E0D;&#x4F1A;&#x50CF;&#x5176;&#x4ED6;&#x8BED;&#x8A00;&#x4E00;&#x6837;&#x53EF;&#x4EE5;&#x4E3A;&#x53D8;&#x91CF;&#x9ED8;&#x8BA4;&#x521D;&#x59CB;&#x5316;&#x503C;&#xFF0C;Rust&#x660E;&#x786E;&#x89C4;&#x5B9A;&#x53D8;&#x91CF;&#x7684;&#x521D;&#x59CB;&#x503C;&#x5FC5;&#x987B;&#x7531;&#x7A0B;&#x5E8F;&#x5458;&#x81EA;&#x5DF1;&#x51B3;&#x5B9A;</strong>&#x3002;</p>
+<p>&#x6B63;&#x786E;&#x7684;&#x505A;&#x6CD5;&#xFF1A;</p>
+<pre><code class="lang-rust">{
+    <span class="hljs-keyword">let</span> a: <span class="hljs-keyword">i32</span>;
+    a = <span class="hljs-number">100</span>; <span class="hljs-comment">//&#x5FC5;&#x987B;&#x521D;&#x59CB;&#x5316;a</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, a);
+}
+</code></pre>
+<p>&#x5176;&#x5B9E;&#xFF0C;<strong><code>let</code></strong>&#x5173;&#x952E;&#x5B57;&#x5E76;&#x4E0D;&#x53EA;&#x662F;&#x58F0;&#x660E;&#x53D8;&#x91CF;&#x7684;&#x610F;&#x601D;&#xFF0C;&#x5B83;&#x8FD8;&#x6709;&#x4E00;&#x5C42;&#x7279;&#x6B8A;&#x4E14;&#x91CD;&#x8981;&#x7684;&#x6982;&#x5FF5;-<strong>&#x7ED1;&#x5B9A;</strong>&#x3002;&#x901A;&#x4FD7;&#x7684;&#x8BB2;&#xFF0C;<code>let</code>&#x5173;&#x952E;&#x5B57;&#x53EF;&#x4EE5;&#x628A;&#x4E00;&#x4E2A;&#x6807;&#x8BC6;&#x7B26;&#x548C;&#x4E00;&#x6BB5;&#x5185;&#x5B58;&#x533A;&#x57DF;&#x505A;&#x201C;&#x7ED1;&#x5B9A;&#x201D;&#xFF0C;&#x7ED1;&#x5B9A;&#x540E;&#xFF0C;&#x8FD9;&#x6BB5;&#x5185;&#x5B58;&#x5C31;&#x88AB;&#x8FD9;&#x4E2A;&#x6807;&#x8BC6;&#x7B26;&#x6240;&#x62E5;&#x6709;&#xFF0C;&#x8FD9;&#x4E2A;&#x6807;&#x8BC6;&#x7B26;&#x4E5F;&#x6210;&#x4E3A;&#x8FD9;&#x6BB5;&#x5185;&#x5B58;&#x7684;&#x552F;&#x4E00;<strong>&#x6240;&#x6709;&#x8005;</strong>&#x3002; &#x6240;&#x4EE5;&#xFF0C;<code>a = 100</code>&#x53D1;&#x751F;&#x4E86;&#x8FD9;&#x4E48;&#x51E0;&#x4E2A;&#x52A8;&#x4F5C;&#xFF0C;&#x9996;&#x5148;&#x5728;&#x6808;&#x5185;&#x5B58;&#x4E0A;&#x5206;&#x914D;&#x4E00;&#x4E2A;<code>i32</code>&#x7684;&#x8D44;&#x6E90;&#xFF0C;&#x5E76;&#x586B;&#x5145;&#x503C;<code>100</code>&#xFF0C;&#x968F;&#x540E;&#xFF0C;&#x628A;&#x8FD9;&#x4E2A;&#x8D44;&#x6E90;&#x4E0E;<code>a</code>&#x505A;&#x7ED1;&#x5B9A;&#xFF0C;&#x8BA9;<code>a</code>&#x6210;&#x4E3A;&#x8D44;&#x6E90;&#x7684;&#x6240;&#x6709;&#x8005;(Owner)&#x3002;</p>
+<h3 id="&#x4F5C;&#x7528;&#x57DF;"><strong>&#x4F5C;&#x7528;&#x57DF;</strong></h3>
+<p>&#x50CF;C&#x8BED;&#x8A00;&#x4E00;&#x6837;&#xFF0C;Rust&#x901A;&#x8FC7;<code>{}</code>&#x5927;&#x62EC;&#x53F7;&#x5B9A;&#x4E49;&#x4F5C;&#x7528;&#x57DF;&#xFF1A;</p>
+<pre><code class="lang-rust">{
+    {
+        <span class="hljs-keyword">let</span> a: <span class="hljs-keyword">i32</span> = <span class="hljs-number">100</span>;
+    }
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, a);
+}
+</code></pre>
+<p>&#x7F16;&#x8BD1;&#x540E;&#x4F1A;&#x5F97;&#x5230;&#x5982;&#x4E0B;<code>error</code>&#x9519;&#x8BEF;&#xFF1A;</p>
+<blockquote>
+<p>b.rs:3:20: 3:21 error: unresolved name <code>a</code> [E0425] b.rs:3 println!(&quot;{}&quot;, a);</p>
+</blockquote>
+<p>&#x50CF;C&#x8BED;&#x8A00;&#x4E00;&#x6837;&#xFF0C;&#x5728;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x79BB;&#x5F00;&#x4F5C;&#x7528;&#x57DF;&#x540E;&#xFF0C;&#x53D8;&#x91CF;&#x968F;&#x5373;&#x4F1A;&#x88AB;&#x9500;&#x6BC1;&#xFF1B;<strong>&#x4F46;&#x4E0D;&#x540C;&#x662F;&#xFF0C;Rust&#x4F1A;&#x8FDE;&#x540C;&#x53D8;&#x91CF;&#x7ED1;&#x5B9A;&#x7684;&#x5185;&#x5B58;&#xFF0C;&#x4E0D;&#x7BA1;&#x662F;&#x5426;&#x4E3A;&#x5E38;&#x91CF;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x8FDE;&#x540C;&#x6240;&#x6709;&#x8005;&#x53D8;&#x91CF;&#x4E00;&#x8D77;&#x88AB;&#x9500;&#x6BC1;&#x91CA;&#x653E;</strong>&#x3002;&#x6240;&#x4EE5;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;a&#x9500;&#x6BC1;&#x540E;&#x518D;&#x6B21;&#x8BBF;&#x95EE;a&#x5C31;&#x4F1A;&#x63D0;&#x793A;&#x65E0;&#x6CD5;&#x627E;&#x5230;&#x53D8;&#x91CF;<code>a</code>&#x7684;&#x9519;&#x8BEF;&#x3002;&#x8FD9;&#x4E9B;&#x6240;&#x6709;&#x7684;&#x4E00;&#x5207;&#x90FD;&#x662F;&#x5728;&#x7F16;&#x8BD1;&#x8FC7;&#x7A0B;&#x4E2D;&#x5B8C;&#x6210;&#x7684;&#x3002;</p>
+<h3 id="&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#xFF08;move&#xFF09;"><strong>&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#xFF08;move&#xFF09;</strong></h3>
+<p>&#x5148;&#x770B;&#x5982;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code class="lang-rust">{
+    <span class="hljs-keyword">let</span> a: <span class="hljs-built_in">String</span> = String::from(<span class="hljs-string">&quot;xyz&quot;</span>);
+    <span class="hljs-keyword">let</span> b = a;
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, a);
+}
+</code></pre>
+<p>&#x7F16;&#x8BD1;&#x540E;&#x4F1A;&#x5F97;&#x5230;&#x5982;&#x4E0B;&#x7684;&#x62A5;&#x9519;&#xFF1A;</p>
+<blockquote>
+<p>c.rs:4:20: 4:21 error: use of moved value: <code>a</code> [E0382] c.rs:4 println!(&quot;{}&quot;, a);</p>
+</blockquote>
+<p>&#x9519;&#x8BEF;&#x7684;&#x610F;&#x601D;&#x662F;&#x5728;<code>println</code>&#x4E2D;&#x8BBF;&#x95EE;&#x4E86;&#x88AB;<code>moved</code>&#x7684;&#x53D8;&#x91CF;<code>a</code>&#x3002;&#x90A3;&#x4E3A;&#x4EC0;&#x4E48;&#x4F1A;&#x6709;&#x8FD9;&#x79CD;&#x62A5;&#x9519;&#x5462;&#xFF1F;&#x5177;&#x4F53;&#x542B;&#x4E49;&#x662F;&#x4EC0;&#x4E48;&#xFF1F; &#x5728;Rust&#x4E2D;&#xFF0C;&#x548C;&#x201C;&#x7ED1;&#x5B9A;&#x201D;&#x6982;&#x5FF5;&#x76F8;&#x8F85;&#x76F8;&#x6210;&#x7684;&#x53E6;&#x4E00;&#x4E2A;&#x673A;&#x5236;&#x5C31;&#x662F;&#x201C;&#x8F6C;&#x79FB;move&#x6240;&#x6709;&#x6743;&#x201D;&#xFF0C;&#x610F;&#x601D;&#x662F;&#xFF0C;<strong>&#x53EF;&#x4EE5;&#x628A;&#x8D44;&#x6E90;&#x7684;&#x6240;&#x6709;&#x6743;(ownership)&#x4ECE;&#x4E00;&#x4E2A;&#x7ED1;&#x5B9A;&#x8F6C;&#x79FB;&#xFF08;move&#xFF09;&#x6210;&#x53E6;&#x4E00;&#x4E2A;&#x7ED1;&#x5B9A;</strong>&#xFF0C;&#x8FD9;&#x4E2A;&#x64CD;&#x4F5C;&#x540C;&#x6837;&#x901A;&#x8FC7;<code>let</code>&#x5173;&#x952E;&#x5B57;&#x5B8C;&#x6210;&#xFF0C;&#x548C;&#x7ED1;&#x5B9A;&#x4E0D;&#x540C;&#x7684;&#x662F;&#xFF0C;<code>=</code>&#x4E24;&#x8FB9;&#x7684;&#x5DE6;&#x503C;&#x548C;&#x53F3;&#x503C;&#x5747;&#x4E3A;&#x4E24;&#x4E2A;&#x6807;&#x8BC6;&#x7B26;&#xFF1A;</p>
+<pre><code class="lang-rust">&#x8BED;&#x6CD5;&#xFF1A;
+    <span class="hljs-keyword">let</span> &#x6807;&#x8BC6;&#x7B26;A = &#x6807;&#x8BC6;&#x7B26;B;  <span class="hljs-comment">// &#x628A;&#x201C;B&#x201D;&#x7ED1;&#x5B9A;&#x8D44;&#x6E90;&#x7684;&#x6240;&#x6709;&#x6743;&#x8F6C;&#x79FB;&#x7ED9;&#x201C;A&#x201D;</span>
+</code></pre>
+<p>move&#x524D;&#x540E;&#x7684;&#x5185;&#x5B58;&#x793A;&#x610F;&#x5982;&#x4E0B;&#xFF1A;</p>
+<blockquote>
+<p><strong>Before move:</strong>
+a &lt;=&gt; &#x5185;&#x5B58;(&#x5730;&#x5740;&#xFF1A;<strong>A</strong>&#xFF0C;&#x5185;&#x5BB9;&#xFF1A;&quot;xyz&quot;)
+<strong>After move:</strong>
+a
+b &lt;=&gt; &#x5185;&#x5B58;(&#x5730;&#x5740;&#xFF1A;<strong>A</strong>&#xFF0C;&#x5185;&#x5BB9;&#xFF1A;&quot;xyz&quot;)</p>
+</blockquote>
+<p>&#x88AB;move&#x7684;&#x53D8;&#x91CF;&#x4E0D;&#x53EF;&#x4EE5;&#x7EE7;&#x7EED;&#x88AB;&#x4F7F;&#x7528;&#x3002;&#x5426;&#x5219;&#x63D0;&#x793A;&#x9519;&#x8BEF;<code>error: use of moved value</code>&#x3002;</p>
+<p>&#x8FD9;&#x91CC;&#x6709;&#x4E9B;&#x4EBA;&#x53EF;&#x80FD;&#x4F1A;&#x7591;&#x95EE;&#xFF0C;move&#x540E;&#xFF0C;&#x5982;&#x679C;&#x53D8;&#x91CF;A&#x548C;&#x53D8;&#x91CF;B&#x79BB;&#x5F00;&#x4F5C;&#x7528;&#x57DF;&#xFF0C;&#x6240;&#x5BF9;&#x5E94;&#x7684;&#x5185;&#x5B58;&#x4F1A;&#x4E0D;&#x4F1A;&#x9020;&#x6210;&#x201C;Double Free&#x201D;&#x7684;&#x95EE;&#x9898;&#xFF1F;&#x7B54;&#x6848;&#x662F;&#x5426;&#x5B9A;&#x7684;&#xFF0C;<strong>Rust&#x89C4;&#x5B9A;&#xFF0C;&#x53EA;&#x6709;&#x8D44;&#x6E90;&#x7684;&#x6240;&#x6709;&#x8005;&#x9500;&#x6BC1;&#x540E;&#x624D;&#x91CA;&#x653E;&#x5185;&#x5B58;&#xFF0C;&#x800C;&#x65E0;&#x8BBA;&#x8FD9;&#x4E2A;&#x8D44;&#x6E90;&#x662F;&#x5426;&#x88AB;&#x591A;&#x6B21;<code>move</code>&#xFF0C;&#x540C;&#x4E00;&#x65F6;&#x523B;&#x53EA;&#x6709;&#x4E00;&#x4E2A;<code>owner</code>&#xFF0C;&#x6240;&#x4EE5;&#x8BE5;&#x8D44;&#x6E90;&#x7684;&#x5185;&#x5B58;&#x4E5F;&#x53EA;&#x4F1A;&#x88AB;<code>free</code>&#x4E00;&#x6B21;</strong>&#x3002; &#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x673A;&#x5236;&#xFF0C;&#x5C31;&#x4FDD;&#x8BC1;&#x4E86;&#x5185;&#x5B58;&#x5B89;&#x5168;&#x3002;&#x662F;&#x4E0D;&#x662F;&#x89C9;&#x5F97;&#x5F88;&#x5F3A;&#x5927;&#xFF1F;</p>
+<h3 id="copy&#x7279;&#x6027;"><strong>Copy&#x7279;&#x6027;</strong></h3>
+<p>&#x6709;&#x8BFB;&#x8005;&#x4EFF;&#x7167;&#x201C;move&#x201D;&#x5C0F;&#x8282;&#x4E2D;&#x7684;&#x4F8B;&#x5B50;&#x5199;&#x4E86;&#x4E0B;&#x9762;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#xFF0C;&#x7136;&#x540E;&#x8BF4;&#x201C;a&#x88AB;move&#x540E;&#x662F;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x7684;&#x201D;&#xFF1A;</p>
+<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> a: <span class="hljs-keyword">i32</span> = <span class="hljs-number">100</span>;
+    <span class="hljs-keyword">let</span> b = a;
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, a);
+</code></pre>
+<p>&#x7F16;&#x8BD1;&#x786E;&#x5B9E;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#xFF0C;&#x8F93;&#x51FA;&#x4E3A;<code>100</code>&#x3002;&#x8FD9;&#x662F;&#x4E3A;&#x4EC0;&#x4E48;&#x5462;&#xFF0C;&#x662F;&#x4E0D;&#x662F;&#x8DDF;move&#x5C0F;&#x8282;&#x91CC;&#x7684;&#x7ED3;&#x8BBA;&#x76F8;&#x6096;&#x4E86;&#xFF1F; &#x5176;&#x5B9E;&#x4E0D;&#x7136;&#xFF0C;&#x8FD9;&#x5176;&#x5B9E;&#x662F;&#x6839;&#x636E;&#x53D8;&#x91CF;&#x7C7B;&#x578B;&#x662F;&#x5426;&#x5B9E;&#x73B0;<code>Copy</code>&#x7279;&#x6027;&#x51B3;&#x5B9A;&#x7684;&#x3002;&#x5BF9;&#x4E8E;&#x5B9E;&#x73B0;<code>Copy</code>&#x7279;&#x6027;&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x5728;move&#x65F6;&#x4F1A;&#x62F7;&#x8D1D;&#x8D44;&#x6E90;&#x5230;&#x65B0;&#x5185;&#x5B58;&#x533A;&#x57DF;&#xFF0C;&#x5E76;&#x628A;&#x65B0;&#x5185;&#x5B58;&#x533A;&#x57DF;&#x7684;&#x8D44;&#x6E90;<code>binding</code>&#x4E3A;<code>b</code>&#x3002;</p>
+<blockquote>
+<p><strong>Before move:</strong>
+a &lt;=&gt; &#x5185;&#x5B58;(&#x5730;&#x5740;&#xFF1A;<strong>A</strong>&#xFF0C;&#x5185;&#x5BB9;&#xFF1A;100)
+<strong>After move:</strong>
+a &lt;=&gt; &#x5185;&#x5B58;(&#x5730;&#x5740;&#xFF1A;<strong>A</strong>&#xFF0C;&#x5185;&#x5BB9;&#xFF1A;100)
+b &lt;=&gt; &#x5185;&#x5B58;(&#x5730;&#x5740;&#xFF1A;<strong>B</strong>&#xFF0C;&#x5185;&#x5BB9;&#xFF1A;100)</p>
+</blockquote>
+<p>move&#x524D;&#x540E;&#x7684;<code>a</code>&#x548C;<code>b</code>&#x5BF9;&#x5E94;&#x8D44;&#x6E90;&#x5185;&#x5B58;&#x7684;&#x5730;&#x5740;&#x4E0D;&#x540C;&#x3002;</p>
+<p>&#x5728;Rust&#x4E2D;&#xFF0C;&#x57FA;&#x672C;&#x6570;&#x636E;&#x7C7B;&#x578B;(Primitive Types)&#x5747;&#x5B9E;&#x73B0;&#x4E86;Copy&#x7279;&#x6027;&#xFF0C;&#x5305;&#x62EC;i8, i16, i32, i64, usize, u8, u16, u32, u64, f32, f64, (), bool, char&#x7B49;&#x7B49;&#x3002;&#x5176;&#x4ED6;&#x652F;&#x6301;Copy&#x7684;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x53EF;&#x4EE5;&#x53C2;&#x8003;&#x5B98;&#x65B9;&#x6587;&#x6863;&#x7684;<a href="https://doc.rust-lang.org/std/marker/trait.Copy.html" target="_blank">Copy&#x7AE0;&#x8282;</a>&#x3002;</p>
+<h3 id="&#x6D45;&#x62F7;&#x8D1D;&#x4E0E;&#x6DF1;&#x62F7;&#x8D1D;"><strong>&#x6D45;&#x62F7;&#x8D1D;&#x4E0E;&#x6DF1;&#x62F7;&#x8D1D;</strong></h3>
+<p>&#x524D;&#x9762;&#x4F8B;&#x5B50;&#x4E2D;move String&#x548C;i32&#x7528;&#x6CD5;&#x7684;&#x5DEE;&#x5F02;&#xFF0C;&#x5176;&#x5B9E;&#x548C;&#x5F88;&#x591A;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4E2D;&#x201C;&#x6D45;&#x62F7;&#x8D1D;&#x201D;&#x548C;&#x201C;&#x6DF1;&#x62F7;&#x8D1D;&#x201D;&#x7684;&#x533A;&#x522B;&#x7C7B;&#x4F3C;&#x3002;&#x5BF9;&#x4E8E;&#x57FA;&#x672C;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x6765;&#x8BF4;&#xFF0C;&#x201C;&#x6DF1;&#x62F7;&#x8D1D;&#x201D;&#x548C;&#x201C;&#x6D45;&#x62F7;&#x8D1D;&#x201C;&#x4EA7;&#x751F;&#x7684;&#x6548;&#x679C;&#x76F8;&#x540C;&#x3002;&#x5BF9;&#x4E8E;&#x5F15;&#x7528;&#x5BF9;&#x8C61;&#x7C7B;&#x578B;&#x6765;&#x8BF4;&#xFF0C;&#x201D;&#x6D45;&#x62F7;&#x8D1D;&#x201C;&#x66F4;&#x50CF;&#x4EC5;&#x4EC5;&#x62F7;&#x8D1D;&#x4E86;&#x5BF9;&#x8C61;&#x7684;&#x5185;&#x5B58;&#x5730;&#x5740;&#x3002; &#x5982;&#x679C;&#x6211;&#x4EEC;&#x60F3;&#x5B9E;&#x73B0;&#x5BF9;<code>String</code>&#x7684;&#x201D;&#x6DF1;&#x62F7;&#x8D1D;&#x201C;&#x600E;&#x4E48;&#x529E;&#xFF1F; &#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8C03;&#x7528;<code>String</code>&#x7684;Clone&#x7279;&#x6027;&#x5B9E;&#x73B0;&#x5BF9;&#x5185;&#x5B58;&#x7684;&#x503C;&#x62F7;&#x8D1D;&#x800C;&#x4E0D;&#x662F;&#x7B80;&#x5355;&#x7684;&#x5730;&#x5740;&#x62F7;&#x8D1D;&#x3002;</p>
+<pre><code class="lang-rust">{
+    <span class="hljs-keyword">let</span> a: <span class="hljs-built_in">String</span> = String::from(<span class="hljs-string">&quot;xyz&quot;</span>);
+    <span class="hljs-keyword">let</span> b = a.clone();  <span class="hljs-comment">// &lt;-&#x6CE8;&#x610F;&#x6B64;&#x5904;&#x7684;clone</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, a);
+}
+</code></pre>
+<p>&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x53EF;&#x4EE5;&#x7F16;&#x8BD1;&#x901A;&#x8FC7;&#xFF0C;&#x5E76;&#x4E14;&#x6210;&#x529F;&#x6253;&#x5370;&quot;xyz&quot;&#x3002;</p>
+<p>clone&#x540E;&#x7684;&#x6548;&#x679C;&#x7B49;&#x540C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<blockquote>
+<p><strong>Before move:</strong>
+a &lt;=&gt; &#x5185;&#x5B58;(&#x5730;&#x5740;&#xFF1A;<strong>A</strong>&#xFF0C;&#x5185;&#x5BB9;&#xFF1A;&quot;xyz&quot;)
+<strong>After move:</strong>
+a &lt;=&gt; &#x5185;&#x5B58;(&#x5730;&#x5740;&#xFF1A;<strong>A</strong>&#xFF0C;&#x5185;&#x5BB9;&#xFF1A;&quot;xyz&quot;)
+b &lt;=&gt; &#x5185;&#x5B58;(&#x5730;&#x5740;&#xFF1A;<strong>B</strong>&#xFF0C;&#x5185;&#x5BB9;&#xFF1A;&quot;xyz&quot;)
+&#x6CE8;&#x610F;&#xFF0C;&#x7136;&#x540E;a&#x548C;b&#x5BF9;&#x5E94;&#x7684;&#x8D44;&#x6E90;&#x503C;&#x76F8;&#x540C;&#xFF0C;&#x4F46;&#x662F;&#x5185;&#x5B58;&#x5730;&#x5740;&#x5E76;&#x4E0D;&#x4E00;&#x6837;&#x3002;</p>
+</blockquote>
+<h3 id="&#x53EF;&#x53D8;&#x6027;"><strong>&#x53EF;&#x53D8;&#x6027;</strong></h3>
+<p>&#x901A;&#x8FC7;&#x4E0A;&#x9762;&#xFF0C;&#x6211;&#x4EEC;&#x5DF2;&#x7ECF;&#x5DF2;&#x7ECF;&#x4E86;&#x89E3;&#x4E86;&#x53D8;&#x91CF;&#x58F0;&#x660E;&#x3001;&#x503C;&#x7ED1;&#x5B9A;&#x3001;&#x4EE5;&#x53CA;&#x79FB;&#x52A8;move&#x8BED;&#x4E49;&#x7B49;&#x7B49;&#x76F8;&#x5173;&#x77E5;&#x8BC6;&#xFF0C;&#x4F46;&#x662F;&#x8FD8;&#x6CA1;&#x6709;&#x8FDB;&#x884C;&#x8FC7;&#x4FEE;&#x6539;&#x53D8;&#x91CF;&#x503C;&#x8FD9;&#x4E48;&#x7B80;&#x5355;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x5728;&#x5176;&#x4ED6;&#x8BED;&#x8A00;&#x4E2D;&#x770B;&#x4F3C;&#x7B80;&#x5355;&#x5230;&#x4E0D;&#x503C;&#x5F97;&#x4E00;&#x63D0;&#x7684;&#x4E8B;&#x5374;&#x5728;Rust&#x4E2D;&#x6697;&#x85CF;&#x7384;&#x673A;&#x3002; &#x6309;&#x7167;&#x5176;&#x4ED6;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x601D;&#x7EF4;&#xFF0C;&#x4FEE;&#x6539;&#x4E00;&#x4E2A;&#x53D8;&#x91CF;&#x7684;&#x503C;&#xFF1A;</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> a: <span class="hljs-keyword">i32</span> = <span class="hljs-number">100</span>;
+a = <span class="hljs-number">200</span>;
+</code></pre>
+<p>&#x5F88;&#x62B1;&#x6B49;&#xFF0C;&#x8FD9;&#x4E48;&#x7B80;&#x5355;&#x7684;&#x64CD;&#x4F5C;&#x4F9D;&#x7136;&#x8FD8;&#x4F1A;&#x62A5;&#x9519;&#xFF1A;</p>
+<blockquote>
+<p>error: re-assignment of immutable variable <code>a</code> [E0384]</p>
+<p>:3 a = 200;</p>
+</blockquote>
+<p>&#x4E0D;&#x80FD;&#x5BF9;<strong>&#x4E0D;&#x53EF;&#x53D8;&#x7ED1;&#x5B9A;</strong>&#x8D4B;&#x503C;&#x3002;&#x5982;&#x679C;&#x8981;&#x4FEE;&#x6539;&#x503C;&#xFF0C;&#x5FC5;&#x987B;&#x7528;&#x5173;&#x952E;&#x5B57;mut&#x58F0;&#x660E;&#x7ED1;&#x5B9A;&#x4E3A;&#x53EF;&#x53D8;&#x7684;&#xFF1A;</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> a: <span class="hljs-keyword">i32</span> = <span class="hljs-number">100</span>;  <span class="hljs-comment">// &#x901A;&#x8FC7;&#x5173;&#x952E;&#x5B57;mut&#x58F0;&#x660E;a&#x662F;&#x53EF;&#x53D8;&#x7684;</span>
+a = <span class="hljs-number">200</span>;
+</code></pre>
+<p><strong>&#x60F3;&#x5230;&#x201C;&#x4E0D;&#x53EF;&#x53D8;&#x201D;&#x6211;&#x4EEC;&#x7B2C;&#x4E00;&#x65F6;&#x95F4;&#x60F3;&#x5230;&#x4E86;<code>const</code>&#x5E38;&#x91CF;&#xFF0C;&#x4F46;&#x4E0D;&#x53EF;&#x53D8;&#x7ED1;&#x5B9A;&#x4E0E;<code>const</code>&#x5E38;&#x91CF;&#x662F;&#x5B8C;&#x5168;&#x4E0D;&#x540C;&#x7684;&#x4E24;&#x79CD;&#x6982;&#x5FF5;&#xFF1B;&#x9996;&#x5148;&#xFF0C;&#x201C;&#x4E0D;&#x53EF;&#x53D8;&#x201D;&#x51C6;&#x786E;&#x5730;&#x5E94;&#x8BE5;&#x79F0;&#x4E3A;&#x201C;&#x4E0D;&#x53EF;&#x53D8;&#x7ED1;&#x5B9A;&#x201D;&#xFF0C;&#x662F;&#x7528;&#x6765;&#x7EA6;&#x675F;&#x7ED1;&#x5B9A;&#x884C;&#x4E3A;&#x7684;&#xFF0C;&#x201C;&#x4E0D;&#x53EF;&#x53D8;&#x7ED1;&#x5B9A;&#x201D;&#x540E;&#x4E0D;&#x80FD;&#x901A;&#x8FC7;&#x539F;&#x201C;&#x6240;&#x6709;&#x8005;&#x201D;&#x66F4;&#x6539;&#x8D44;&#x6E90;&#x5185;&#x5BB9;&#x3002;</strong></p>
+<p><strong>&#x4F8B;&#x5982;&#xFF1A;</strong></p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> a = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];  <span class="hljs-comment">//&#x4E0D;&#x53EF;&#x53D8;&#x7ED1;&#x5B9A;, a &lt;=&gt; &#x5185;&#x5B58;&#x533A;&#x57DF;A(1,2,3)</span>
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> a = a;  <span class="hljs-comment">//&#x53EF;&#x53D8;&#x7ED1;&#x5B9A;&#xFF0C; a &lt;=&gt; &#x5185;&#x5B58;&#x533A;&#x57DF;A(1,2,3), &#x6CE8;&#x610F;&#x6B64;a&#x5DF2;&#x975E;&#x4E0A;&#x53E5;a&#xFF0C;&#x53EA;&#x662F;&#x540D;&#x5B57;&#x4E00;&#x6837;&#x800C;&#x5DF2;</span>
+a.push(<span class="hljs-number">4</span>);
+<span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{:?}&quot;</span>, a);  <span class="hljs-comment">//&#x6253;&#x5370;&#xFF1A;[1, 2, 3, 4]</span>
+</code></pre>
+<p>&#x201C;&#x53EF;&#x53D8;&#x7ED1;&#x5B9A;&#x201D;&#x540E;&#xFF0C;&#x76EE;&#x6807;&#x5185;&#x5B58;&#x8FD8;&#x662F;&#x540C;&#x4E00;&#x5757;&#xFF0C;&#x53EA;&#x4E0D;&#x8FC7;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x65B0;&#x7ED1;&#x5B9A;&#x7684;a&#x53BB;&#x4FEE;&#x6539;&#x8FD9;&#x7247;&#x5185;&#x5B58;&#x4E86;&#x3002;</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> a: &amp;<span class="hljs-keyword">str</span> = <span class="hljs-string">&quot;abc&quot;</span>;  <span class="hljs-comment">//&#x53EF;&#x53D8;&#x7ED1;&#x5B9A;, a &lt;=&gt; &#x5185;&#x5B58;&#x533A;&#x57DF;A(&quot;abc&quot;)</span>
+a = <span class="hljs-string">&quot;xyz&quot;</span>;    <span class="hljs-comment">//&#x7ED1;&#x5B9A;&#x5230;&#x53E6;&#x4E00;&#x5185;&#x5B58;&#x533A;&#x57DF;, a &lt;=&gt; &#x5185;&#x5B58;&#x533A;&#x57DF;B(&quot;xyz&quot;)</span>
+<span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{:?}&quot;</span>, a);  <span class="hljs-comment">//&#x6253;&#x5370;&#xFF1A;&quot;xyz&quot;</span>
+</code></pre>
+<p>&#x4E0A;&#x9762;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0D;&#x8981;&#x6DF7;&#x6DC6;&#x4E86;&#xFF0C;<code>a = &quot;xyz&quot;</code>&#x8868;&#x793A;<code>a</code>&#x7ED1;&#x5B9A;&#x76EE;&#x6807;&#x8D44;&#x6E90;&#x53D1;&#x751F;&#x4E86;&#x53D8;&#x5316;&#x3002;</p>
+<p>&#x5176;&#x5B9E;&#xFF0C;Rust&#x4E2D;&#x4E5F;&#x6709;const&#x5E38;&#x91CF;&#xFF0C;&#x5E38;&#x91CF;&#x4E0D;&#x5B58;&#x5728;&#x201C;&#x7ED1;&#x5B9A;&#x201D;&#x4E4B;&#x8BF4;&#xFF0C;&#x548C;&#x5176;&#x4ED6;&#x8BED;&#x8A00;&#x7684;&#x5E38;&#x91CF;&#x542B;&#x4E49;&#x76F8;&#x540C;&#xFF1A;</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">const</span> PI:<span class="hljs-keyword">f32</span> = <span class="hljs-number">3.14</span>;
+</code></pre>
+<p>&#x53EF;&#x53D8;&#x6027;&#x7684;&#x76EE;&#x7684;&#x5C31;&#x662F;&#x4E25;&#x683C;&#x533A;&#x5206;&#x7ED1;&#x5B9A;&#x7684;&#x53EF;&#x53D8;&#x6027;&#xFF0C;&#x4EE5;&#x4FBF;&#x7F16;&#x8BD1;&#x5668;&#x53EF;&#x4EE5;&#x66F4;&#x597D;&#x7684;&#x4F18;&#x5316;&#xFF0C;&#x4E5F;&#x63D0;&#x9AD8;&#x4E86;&#x5185;&#x5B58;&#x5B89;&#x5168;&#x6027;&#x3002;</p>
+<h3 id="&#x9AD8;&#x7EA7;copy&#x7279;&#x6027;"><strong>&#x9AD8;&#x7EA7;Copy&#x7279;&#x6027;</strong></h3>
+<p>&#x5728;&#x524D;&#x9762;&#x7684;&#x5C0F;&#x8282;&#x6709;&#x7B80;&#x5355;&#x4E86;&#x89E3;Copy&#x7279;&#x6027;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x6211;&#x4EEC;&#x6765;&#x6DF1;&#x5165;&#x4E86;&#x89E3;&#x4E0B;&#x8FD9;&#x4E2A;&#x7279;&#x6027;&#x3002; Copy&#x7279;&#x6027;&#x5B9A;&#x4E49;&#x5728;&#x6807;&#x51C6;&#x5E93;<a href="https://doc.rust-lang.org/std/marker/trait.Copy.html" target="_blank">std::marker::Copy</a>&#x4E2D;&#xFF1A;</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">pub</span> <span class="hljs-keyword">trait</span> <span class="hljs-title">Copy</span>: <span class="hljs-built_in">Clone</span> { }
+</code></pre>
+<p>&#x4E00;&#x65E6;&#x4E00;&#x79CD;&#x7C7B;&#x578B;&#x5B9E;&#x73B0;&#x4E86;Copy&#x7279;&#x6027;&#xFF0C;&#x8FD9;&#x5C31;&#x610F;&#x5473;&#x7740;&#x8FD9;&#x79CD;&#x7C7B;&#x578B;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x7684;&#x7B80;&#x5355;&#x7684;&#x4F4D;(bits)&#x62F7;&#x8D1D;&#x5B9E;&#x73B0;&#x62F7;&#x8D1D;&#x3002;&#x4ECE;&#x524D;&#x9762;&#x77E5;&#x8BC6;&#x6211;&#x4EEC;&#x77E5;&#x9053;&#x201C;&#x7ED1;&#x5B9A;&#x201D;&#x5B58;&#x5728;move&#x8BED;&#x4E49;&#xFF08;&#x6240;&#x6709;&#x6743;&#x8F6C;&#x79FB;&#xFF09;&#xFF0C;&#x4F46;&#x662F;&#xFF0C;&#x4E00;&#x65E6;&#x8FD9;&#x79CD;&#x7C7B;&#x578B;&#x5B9E;&#x73B0;&#x4E86;Copy&#x7279;&#x6027;&#xFF0C;&#x4F1A;&#x5148;&#x62F7;&#x8D1D;&#x5185;&#x5BB9;&#x5230;&#x65B0;&#x5185;&#x5B58;&#x533A;&#x57DF;&#xFF0C;&#x7136;&#x540E;&#x628A;&#x65B0;&#x5185;&#x5B58;&#x533A;&#x57DF;&#x548C;&#x8FD9;&#x4E2A;&#x6807;&#x8BC6;&#x7B26;&#x505A;&#x7ED1;&#x5B9A;&#x3002;</p>
+<p><strong>&#x54EA;&#x4E9B;&#x60C5;&#x51B5;&#x4E0B;&#x6211;&#x4EEC;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x7C7B;&#x578B;&#xFF08;&#x5982;&#x67D0;&#x4E2A;Struct&#x7B49;&#xFF09;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;Copy&#x7279;&#x6027;&#xFF1F;</strong> &#x53EA;&#x8981;&#x8FD9;&#x79CD;&#x7C7B;&#x578B;&#x7684;&#x5C5E;&#x6027;&#x7C7B;&#x578B;&#x90FD;&#x5B9E;&#x73B0;&#x4E86;Copy&#x7279;&#x6027;&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x4E2A;&#x7C7B;&#x578B;&#x5C31;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;Copy&#x7279;&#x6027;&#x3002; &#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">struct</span> Foo {  <span class="hljs-comment">//&#x53EF;&#x5B9E;&#x73B0;Copy&#x7279;&#x6027;</span>
+    a: <span class="hljs-keyword">i32</span>,
+    b: <span class="hljs-keyword">bool</span>,
+}
+
+<span class="hljs-keyword">struct</span> Bar {  <span class="hljs-comment">//&#x4E0D;&#x53EF;&#x5B9E;&#x73B0;Copy&#x7279;&#x6027;</span>
+    l: <span class="hljs-built_in">Vec</span>&lt;<span class="hljs-keyword">i32</span>&gt;,
+}
+</code></pre>
+<p>&#x56E0;&#x4E3A;<code>Foo</code>&#x7684;&#x5C5E;&#x6027;<code>a</code>&#x548C;<code>b</code>&#x7684;&#x7C7B;&#x578B;<code>i32</code>&#x548C;<code>bool</code>&#x5747;&#x5B9E;&#x73B0;&#x4E86;<code>Copy</code>&#x7279;&#x6027;&#xFF0C;&#x6240;&#x4EE5;<code>Foo</code>&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;Copy&#x7279;&#x6027;&#x7684;&#x3002;&#x4F46;&#x5BF9;&#x4E8E;<code>Bar</code>&#x6765;&#x8BF4;&#xFF0C;&#x5B83;&#x7684;&#x5C5E;&#x6027;<code>l</code>&#x662F;<code>Vec&lt;T&gt;</code>&#x7C7B;&#x578B;&#xFF0C;&#x8FD9;&#x79CD;&#x7C7B;&#x578B;&#x5E76;&#x6CA1;&#x6709;&#x5B9E;&#x73B0;<code>Copy</code>&#x7279;&#x6027;&#xFF0C;&#x6240;&#x4EE5;<code>Bar</code>&#x4E5F;&#x662F;&#x65E0;&#x6CD5;&#x5B9E;&#x73B0;<code>Copy</code>&#x7279;&#x6027;&#x7684;&#x3002;</p>
+<p><strong>&#x90A3;&#x4E48;&#x6211;&#x4EEC;&#x5982;&#x4F55;&#x6765;&#x5B9E;&#x73B0;<code>Copy</code>&#x7279;&#x6027;&#x5462;&#xFF1F;</strong> &#x6709;&#x4E24;&#x79CD;&#x65B9;&#x5F0F;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x3002;</p>
+<ol>
+<li><p><strong>&#x901A;&#x8FC7;<code>derive</code>&#x8BA9;Rust&#x7F16;&#x8BD1;&#x5668;&#x81EA;&#x52A8;&#x5B9E;&#x73B0;</strong></p>
+<pre><code class="lang-rust">  <span class="hljs-preprocessor">#[derive(Copy, Clone)]</span>
+  <span class="hljs-keyword">struct</span> Foo {
+      a: <span class="hljs-keyword">i32</span>,
+      b: <span class="hljs-keyword">bool</span>,
+  }
+</code></pre>
+<p> &#x7F16;&#x8BD1;&#x5668;&#x4F1A;&#x81EA;&#x52A8;&#x68C0;&#x67E5;<code>Foo</code>&#x7684;&#x6240;&#x6709;&#x5C5E;&#x6027;&#x662F;&#x5426;&#x5B9E;&#x73B0;&#x4E86;<code>Copy</code>&#x7279;&#x6027;&#xFF0C;&#x4E00;&#x65E6;&#x68C0;&#x67E5;&#x901A;&#x8FC7;&#xFF0C;&#x4FBF;&#x4F1A;&#x4E3A;<code>Foo</code>&#x81EA;&#x52A8;&#x5B9E;&#x73B0;<code>Copy</code>&#x7279;&#x6027;&#x3002;</p>
+</li>
+<li><p><strong>&#x624B;&#x52A8;&#x5B9E;&#x73B0;<code>Clone</code>&#x548C;<code>Copy</code> trait</strong></p>
+<pre><code class="lang-rust">  <span class="hljs-preprocessor">#[derive(Debug)]</span>
+  <span class="hljs-keyword">struct</span> Foo {
+      a: <span class="hljs-keyword">i32</span>,
+      b: <span class="hljs-keyword">bool</span>,
+  }
+  <span class="hljs-keyword">impl</span> <span class="hljs-built_in">Copy</span> <span class="hljs-keyword">for</span> Foo {}
+  <span class="hljs-keyword">impl</span> <span class="hljs-built_in">Clone</span> <span class="hljs-keyword">for</span> Foo {
+      <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">clone</span></span>(&amp;<span class="hljs-keyword">self</span>) -&gt; Foo {
+          Foo{a: <span class="hljs-keyword">self</span>.a, b: <span class="hljs-keyword">self</span>.b}
+      }
+  }
+  <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+      <span class="hljs-keyword">let</span> x = Foo{ a: <span class="hljs-number">100</span>, b: <span class="hljs-keyword">true</span>};
+      <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> y = x;
+      y.b = <span class="hljs-keyword">false</span>;
+
+      <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{:?}&quot;</span>, x);  <span class="hljs-comment">//&#x6253;&#x5370;&#xFF1A;Foo { a: 100, b: true }</span>
+      <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{:?}&quot;</span>, y);  <span class="hljs-comment">//&#x6253;&#x5370;&#xFF1A;Foo { a: 100, b: false }</span>
+  }
+</code></pre>
+<p> &#x4ECE;&#x7ED3;&#x679C;&#x6211;&#x4EEC;&#x53D1;&#x73B0;<code>let mut y = x</code>&#x540E;&#xFF0C;<code>x</code>&#x5E76;&#x6CA1;&#x6709;&#x56E0;&#x4E3A;&#x6240;&#x6709;&#x6743;<code>move</code>&#x800C;&#x51FA;&#x73B0;&#x4E0D;&#x53EF;&#x8BBF;&#x95EE;&#x9519;&#x8BEF;&#x3002; &#x56E0;&#x4E3A;<code>Foo</code>&#x7EE7;&#x627F;&#x4E86;<code>Copy</code>&#x7279;&#x6027;&#x548C;<code>Clone</code>&#x7279;&#x6027;&#xFF0C;&#x6240;&#x4EE5;&#x4F8B;&#x5B50;&#x4E2D;&#x6211;&#x4EEC;&#x5B9E;&#x73B0;&#x4E86;&#x8FD9;&#x4E24;&#x4E2A;&#x7279;&#x6027;&#x3002;</p>
+</li>
+</ol>
+<h3 id="&#x9AD8;&#x7EA7;move"><strong>&#x9AD8;&#x7EA7;move</strong></h3>
+<p>&#x6211;&#x4EEC;&#x4ECE;&#x524D;&#x9762;&#x7684;&#x5C0F;&#x8282;&#x4E86;&#x89E3;&#x5230;&#xFF0C;<code>let</code>&#x7ED1;&#x5B9A;&#x4F1A;&#x53D1;&#x751F;&#x6240;&#x6709;&#x6743;&#x8F6C;&#x79FB;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x4F46;<code>ownership</code>&#x8F6C;&#x79FB;&#x5374;&#x56E0;&#x4E3A;&#x8D44;&#x6E90;&#x7C7B;&#x578B;&#x662F;&#x5426;&#x5B9E;&#x73B0;<code>Copy</code>&#x7279;&#x6027;&#x800C;&#x884C;&#x4E3A;&#x4E0D;&#x540C;&#xFF1A;</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> x: T = something;
+<span class="hljs-keyword">let</span> y = x;
+</code></pre>
+<ul>
+<li>&#x7C7B;&#x578B;<code>T</code>&#x6CA1;&#x6709;&#x5B9E;&#x73B0;<code>Copy</code>&#x7279;&#x6027;&#xFF1A;<code>x</code>&#x6240;&#x6709;&#x6743;&#x8F6C;&#x79FB;&#x5230;<code>y</code>&#x3002;</li>
+<li>&#x7C7B;&#x578B;<code>T</code>&#x5B9E;&#x73B0;&#x4E86;<code>Copy</code>&#x7279;&#x6027;&#xFF1A;&#x62F7;&#x8D1D;<code>x</code>&#x6240;&#x7ED1;&#x5B9A;&#x7684;<code>&#x8D44;&#x6E90;</code>&#x4E3A;<code>&#x65B0;&#x8D44;&#x6E90;</code>&#xFF0C;&#x5E76;&#x628A;<code>&#x65B0;&#x8D44;&#x6E90;</code>&#x7684;&#x6240;&#x6709;&#x6743;&#x7ED1;&#x5B9A;&#x7ED9;<code>y</code>&#xFF0C;<code>x</code>&#x4F9D;&#x7136;&#x62E5;&#x6709;&#x539F;&#x8D44;&#x6E90;&#x7684;&#x6240;&#x6709;&#x6743;&#x3002;</li>
+</ul>
+<h5 id="move&#x5173;&#x952E;&#x5B57;"><strong>move&#x5173;&#x952E;&#x5B57;</strong></h5>
+<p>move&#x5173;&#x952E;&#x5B57;&#x5E38;&#x7528;&#x5728;&#x95ED;&#x5305;&#x4E2D;&#xFF0C;&#x5F3A;&#x5236;&#x95ED;&#x5305;&#x83B7;&#x53D6;&#x6240;&#x6709;&#x6743;&#x3002;</p>
+<p><strong>&#x4F8B;&#x5B50;1&#xFF1A;</strong></p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> x: <span class="hljs-keyword">i32</span> = <span class="hljs-number">100</span>;
+    <span class="hljs-keyword">let</span> some_closure = move |i: <span class="hljs-keyword">i32</span>| i + x;
+    <span class="hljs-keyword">let</span> y = some_closure(<span class="hljs-number">2</span>);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;x={}, y={}&quot;</span>, x, y);
+}
+</code></pre>
+<blockquote>
+<p>&#x7ED3;&#x679C;&#xFF1A; x=100, y=102</p>
+</blockquote>
+<p>&#x6CE8;&#x610F;: &#x4F8B;&#x5B50;1&#x662F;&#x6BD4;&#x8F83;&#x7279;&#x522B;&#x7684;&#xFF0C;&#x4F7F;&#x4E0D;&#x4F7F;&#x7528; move &#x5BF9;&#x7ED3;&#x679C;&#x90FD;&#x6CA1;&#x4EC0;&#x4E48;&#x5F71;&#x54CD;&#xFF0C;&#x56E0;&#x4E3A;<code>x</code>&#x7ED1;&#x5B9A;&#x7684;&#x8D44;&#x6E90;&#x662F;<code>i32</code>&#x7C7B;&#x578B;&#xFF0C;&#x5C5E;&#x4E8E; <code>primitive type</code>&#xFF0C;&#x5B9E;&#x73B0;&#x4E86; <code>Copy trait</code>&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x95ED;&#x5305;&#x4F7F;&#x7528; <code>move</code> &#x7684;&#x65F6;&#x5019;&#xFF0C;&#x662F;&#x5148; copy &#x4E86;<code>x</code> &#xFF0C;&#x5728; move &#x7684;&#x65F6;&#x5019;&#x662F; move &#x4E86;&#x8FD9;&#x4EFD; clone &#x7684; <code>x</code>&#xFF0C;&#x6240;&#x4EE5;&#x540E;&#x9762;&#x7684; <code>println!</code>&#x5F15;&#x7528; <code>x</code> &#x7684;&#x65F6;&#x5019;&#x6CA1;&#x6709;&#x62A5;&#x9519;&#x3002;</p>
+<p><strong>&#x4F8B;&#x5B50;2&#xFF1A;</strong></p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> x: <span class="hljs-built_in">String</span> = String::from(<span class="hljs-string">&quot;abc&quot;</span>);
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> some_closure = move |c: <span class="hljs-keyword">char</span>| x.push(c);
+    <span class="hljs-keyword">let</span> y = some_closure(<span class="hljs-string">&apos;d&apos;</span>);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;x={:?}&quot;</span>, x);
+}
+</code></pre>
+<blockquote>
+<p><strong>&#x62A5;&#x9519;&#xFF1A;</strong> error: use of moved value: <code>x</code> [E0382]</p>
+<p>:5 println!(&quot;x={:?}&quot;, x);</p>
+</blockquote>
+<p>&#x8FD9;&#x662F;&#x56E0;&#x4E3A;move&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x4F1A;&#x628A;&#x95ED;&#x5305;&#x4E2D;&#x7684;&#x5916;&#x90E8;&#x53D8;&#x91CF;&#x7684;&#x6240;&#x6709;&#x6743;move&#x5230;&#x5305;&#x4F53;&#x5185;&#xFF0C;&#x53D1;&#x751F;&#x4E86;&#x6240;&#x6709;&#x6743;&#x8F6C;&#x79FB;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x6240;&#x4EE5;<code>println</code>&#x8BBF;&#x95EE;<code>x</code>&#x4F1A;&#x5982;&#x4E0A;&#x9519;&#x8BEF;&#x3002;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x53BB;&#x6389;<code>println</code>&#x5C31;&#x53EF;&#x4EE5;&#x7F16;&#x8BD1;&#x901A;&#x8FC7;&#x3002;</p>
+<p>&#x90A3;&#x4E48;&#xFF0C;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x60F3;&#x5728;&#x5305;&#x4F53;&#x5916;&#x4F9D;&#x7136;&#x8BBF;&#x95EE;x&#xFF0C;&#x5373;x&#x4E0D;&#x5931;&#x53BB;&#x6240;&#x6709;&#x6743;&#xFF0C;&#x600E;&#x4E48;&#x529E;&#xFF1F;</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> x: <span class="hljs-built_in">String</span> = String::from(<span class="hljs-string">&quot;abc&quot;</span>);
+    {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> some_closure = |c: <span class="hljs-keyword">char</span>| x.push(c);
+        some_closure(<span class="hljs-string">&apos;d&apos;</span>);
+    }
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;x={:?}&quot;</span>, x);  <span class="hljs-comment">//&#x6210;&#x529F;&#x6253;&#x5370;&#xFF1A;x=&quot;abcd&quot;</span>
+}
+</code></pre>
+<p>&#x6211;&#x4EEC;&#x53EA;&#x662F;&#x53BB;&#x6389;&#x4E86;move&#xFF0C;&#x53BB;&#x6389;move&#x540E;&#xFF0C;&#x5305;&#x4F53;&#x5185;&#x5C31;&#x4F1A;&#x5BF9;<code>x</code>&#x8FDB;&#x884C;&#x4E86;<strong>&#x53EF;&#x53D8;&#x501F;&#x7528;</strong>&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x201C;&#x5265;&#x593A;&#x201D;<code>x</code>&#x7684;&#x6240;&#x6709;&#x6743;&#xFF0C;&#x7EC6;&#x5FC3;&#x7684;&#x540C;&#x5B66;&#x8FD8;&#x6CE8;&#x610F;&#x5230;&#x6211;&#x4EEC;&#x5728;&#x524D;&#x540E;&#x8FD8;&#x52A0;&#x4E86;<code>{}</code>&#x5927;&#x62EC;&#x53F7;&#x4F5C;&#x7528;&#x57DF;&#xFF0C;&#x662F;&#x4E3A;&#x4E86;&#x4F5C;&#x7528;&#x57DF;&#x7ED3;&#x675F;&#x540E;&#x8BA9;<strong>&#x53EF;&#x53D8;&#x501F;&#x7528;</strong>&#x5931;&#x6548;&#xFF0C;&#x8FD9;&#x6837;<code>println</code>&#x624D;&#x53EF;&#x4EE5;&#x6210;&#x529F;&#x8BBF;&#x95EE;&#x5E76;&#x6253;&#x5370;&#x6211;&#x4EEC;&#x671F;&#x5F85;&#x7684;&#x5185;&#x5BB9;&#x3002;</p>
 
                     
                     </section>

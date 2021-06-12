@@ -57,7 +57,7 @@
         data-chapter-title="Rust 概念"
         data-filepath="Rust/20210526.md"
         data-basepath=".."
-        data-revision="Tue Jun 08 2021 14:47:43 GMT+0800 (CST)"
+        data-revision="Sun Jun 13 2021 06:05:38 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -24151,6 +24151,39 @@ a = <span class="hljs-string">&quot;xyz&quot;</span>;    <span class="hljs-comme
 }
 </code></pre>
 <p>&#x6211;&#x4EEC;&#x53EA;&#x662F;&#x53BB;&#x6389;&#x4E86;move&#xFF0C;&#x53BB;&#x6389;move&#x540E;&#xFF0C;&#x5305;&#x4F53;&#x5185;&#x5C31;&#x4F1A;&#x5BF9;<code>x</code>&#x8FDB;&#x884C;&#x4E86;<strong>&#x53EF;&#x53D8;&#x501F;&#x7528;</strong>&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x201C;&#x5265;&#x593A;&#x201D;<code>x</code>&#x7684;&#x6240;&#x6709;&#x6743;&#xFF0C;&#x7EC6;&#x5FC3;&#x7684;&#x540C;&#x5B66;&#x8FD8;&#x6CE8;&#x610F;&#x5230;&#x6211;&#x4EEC;&#x5728;&#x524D;&#x540E;&#x8FD8;&#x52A0;&#x4E86;<code>{}</code>&#x5927;&#x62EC;&#x53F7;&#x4F5C;&#x7528;&#x57DF;&#xFF0C;&#x662F;&#x4E3A;&#x4E86;&#x4F5C;&#x7528;&#x57DF;&#x7ED3;&#x675F;&#x540E;&#x8BA9;<strong>&#x53EF;&#x53D8;&#x501F;&#x7528;</strong>&#x5931;&#x6548;&#xFF0C;&#x8FD9;&#x6837;<code>println</code>&#x624D;&#x53EF;&#x4EE5;&#x6210;&#x529F;&#x8BBF;&#x95EE;&#x5E76;&#x6253;&#x5370;&#x6211;&#x4EEC;&#x671F;&#x5F85;&#x7684;&#x5185;&#x5BB9;&#x3002;</p>
+<h2 id="&#x89E3;&#x69CB;&#x8CE6;&#x503C;-destructuring">&#x89E3;&#x69CB;&#x8CE6;&#x503C; (Destructuring)</h2>
+<p>Rust &#x4E2D;&#x7684;&#x8907;&#x5408;&#x7684;&#x578B;&#x614B; (&#x9663;&#x5217;&#x3001;&#x5143;&#x7D44;&#x3001;&#x7D50;&#x69CB;) &#x90FD;&#x53EF;&#x4EE5;&#x505A;&#x89E3;&#x69CB;&#xFF1A;</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">struct</span> Point {
+  x: <span class="hljs-keyword">i32</span>,
+  y: <span class="hljs-keyword">i32</span>,
+}
+
+<span class="hljs-keyword">let</span> [a, b] = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>];
+<span class="hljs-keyword">let</span> (num, msg) = (<span class="hljs-number">123</span>, <span class="hljs-string">&quot;foo&quot;</span>);
+<span class="hljs-keyword">let</span> Point { x, y } = Point { x: <span class="hljs-number">10</span>, y: <span class="hljs-number">10</span> };
+</code></pre>
+<p>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x89E3;&#x69CB;&#x662F;&#x8F49;&#x79FB;&#x6240;&#x6709;&#x6B0A;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x5982;&#x679C;&#x4F7F;&#x7528;&#x5230;&#x4E86;&#x7121;&#x6CD5;&#x8907;&#x88FD;&#x7684;&#x578B;&#x614B;&#xFF0C;&#x5247;&#x5B83;&#x7684;&#x503C;&#x5C31;&#x6703;&#x88AB;&#x79FB;&#x52D5;&#xFF0C;&#x6240;&#x4EE5;&#x9019;&#x908A;&#x8981;&#x518D;&#x4F86;&#x4ECB;&#x7D39;&#x4E00;&#x500B;&#x95DC;&#x9375;&#x5B57; <code>ref</code>&#xFF1A;</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> msg = <span class="hljs-string">&quot;Hello world&quot;</span>.to_string();
+
+<span class="hljs-comment">// &#x5E95;&#x4E0B;&#x9019;&#x5169;&#x53E5;&#x7684;&#x610F;&#x601D;&#x662F;&#x4E00;&#x6A23;&#x7684;</span>
+<span class="hljs-keyword">let</span> borrowed_msg = &amp;msg;
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">ref</span> borrowed_msg = msg;
+</code></pre>
+<p>&#x7C21;&#x55AE;&#x4F86;&#x8AAA; <code>ref</code> &#x4EE3;&#x8868;&#x8981;&#x4F7F;&#x7528; borrow &#x4F86;&#x53D6;&#x5F97;&#x5728;&#x53F3;&#x908A;&#x7684;&#x8B8A;&#x6578;&#xFF0C;&#x9019;&#x5728;&#x89E3;&#x69CB;&#x6642;&#x975E;&#x5E38;&#x6709;&#x7528;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x9019;&#x6A23;&#x5BEB;&#xFF1A;</p>
+<pre><code class="lang-rust"><span class="hljs-preprocessor">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> Person {
+    name: <span class="hljs-built_in">String</span>,
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> person = Person {
+        name: <span class="hljs-string">&quot;John&quot;</span>.to_string(),
+    };
+    <span class="hljs-keyword">let</span> Person { <span class="hljs-keyword">ref</span> name } = person;
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{:?}&quot;</span>, person);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{:?}&quot;</span>, name);
+}
+</code></pre>
 
                     
                     </section>

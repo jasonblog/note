@@ -57,7 +57,7 @@
         data-chapter-title="Rust 概念"
         data-filepath="Rust/20210526.md"
         data-basepath=".."
-        data-revision="Sun Jun 13 2021 06:05:38 GMT+0800 (CST)"
+        data-revision="Sun Jun 13 2021 06:19:40 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -23528,7 +23528,94 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h2 id="&#x5982;&#x4F55;&#x5728;rust&#x4E2D;&#x6253;&#x5370;&#x53D8;&#x91CF;&#x7684;&#x7C7B;&#x578B;&#xFF1F;">&#x5982;&#x4F55;&#x5728;Rust&#x4E2D;&#x6253;&#x5370;&#x53D8;&#x91CF;&#x7684;&#x7C7B;&#x578B;&#xFF1F;</h2>
+                        <h2 id="rust&#x8A9E;&#x6CD5;&#x901F;&#x67E5;&#x8868;">Rust&#x8A9E;&#x6CD5;&#x901F;&#x67E5;&#x8868;</h2>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span>;                              <span class="hljs-comment">// &#x5B9A;&#x7FA9;&#x8B8A;&#x91CF;&#xFF0C;&#x9ED8;&#x8A8D;&#x4E0D;&#x53EF;&#x8B8A;</span>
+<span class="hljs-keyword">let</span> b: <span class="hljs-keyword">bool</span> = <span class="hljs-keyword">true</span>;                <span class="hljs-comment">// &#x660E;&#x78BA;&#x6307;&#x5B9A;&#x8B8A;&#x91CF;&#x985E;&#x578B;</span>
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> x = <span class="hljs-number">5</span>;                        <span class="hljs-comment">// &#x5B9A;&#x7FA9;&#x53EF;&#x8B8A;&#x8B8A;&#x91CF;</span>
+<span class="hljs-keyword">const</span> MAX_POINTS: <span class="hljs-keyword">u32</span> = <span class="hljs-number">100_000</span>;   <span class="hljs-comment">// &#x5B9A;&#x7FA9;&#x5E38;&#x91CF;</span>
+<span class="hljs-keyword">let</span> i:<span class="hljs-keyword">i32</span> = _f <span class="hljs-keyword">as</span> <span class="hljs-keyword">i32</span>;        <span class="hljs-comment">// &#x8F49;&#x6578;&#x64DA;&#x985E;&#x578B;</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title">Int</span> = <span class="hljs-keyword">i32</span>;                      <span class="hljs-comment">// &#x7528;&#x95DC;&#x9375;&#x5B57; type &#x70BA;i32&#x985E;&#x578B;&#x5275;&#x5EFA;&#x5225;&#x540D;Int</span>
+
+<span class="hljs-comment">// Rust &#x7684; never &#x985E;&#x578B;&#xFF08; ! &#xFF09;&#x7528;&#x65BC;&#x8868;&#x793A;&#x6C38;&#x9060;&#x4E0D;&#x53EF;&#x80FD;&#x6709;&#x8FD4;&#x56DE;&#x503C;&#x7684;&#x8A08;&#x7B97;&#x985E;&#x578B;&#x3002;</span>
+<span class="hljs-preprocessor">#![feature(never_type)]</span>     
+<span class="hljs-keyword">let</span> x:! = {
+    <span class="hljs-keyword">return</span> <span class="hljs-number">123</span>
+};
+
+<span class="hljs-comment">// &#x5C0D;&#x6574;&#x884C;&#x9032;&#x884C;&#x6CE8;&#x91CB;</span>
+<span class="hljs-comment">/* ..  &#x5C0D;&#x5340;&#x584A;&#x6CE8;&#x91CB;  */</span>
+<span class="hljs-comment">/// &#x751F;&#x6210;&#x5EAB;&#x6587;&#x6A94;&#xFF0C;&#x4E00;&#x822C;&#x7528;&#x65BC;&#x51FD;&#x6578;&#x6216;&#x8005;&#x7D50;&#x69CB;&#x9AD4;&#x7684;&#x8AAA;&#x660E;&#xFF0C;&#x7F6E;&#x65BC;&#x8AAA;&#x660E;&#x5C0D;&#x8C61;&#x7684;&#x4E0A;&#x65B9;</span>
+<span class="hljs-comment">//! &#x4E5F;&#x751F;&#x6210;&#x5EAB;&#x6587;&#x6A94;&#xFF0C;&#x4E00;&#x822C;&#x7528;&#x65BC;&#x8AAA;&#x660E;&#x6574;&#x500B;&#x6A21;&#x584A;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x7F6E;&#x65BC;&#x6A21;&#x584A;&#x6587;&#x4EF6;&#x7684;&#x982D;&#x90E8;</span>
+
+<span class="hljs-keyword">let</span> tup: (<span class="hljs-keyword">i32</span>, <span class="hljs-keyword">f64</span>, <span class="hljs-keyword">u8</span>) = (<span class="hljs-number">500</span>, <span class="hljs-number">6.4</span>, <span class="hljs-number">1</span>);            <span class="hljs-comment">// &#x5143;&#x7D44;&#xFF08;tuple&#xFF09;</span>
+<span class="hljs-keyword">let</span> (x, y, z) = tup;                                                    <span class="hljs-comment">// &#x6A21;&#x5F0F;&#x5339;&#x914D;&#xFF08;pattern matching&#xFF09;&#x4F86;&#x89E3;&#x69CB;&#x5143;&#x7D44;&#x503C;</span>
+(<span class="hljs-number">1</span>,)   <span class="hljs-comment">// &#x7576;&#x5143;&#x7D44;&#x4E2D;&#x53EA;&#x6709;&#x4E00;&#x500B;&#x5143;&#x7D20;&#x6642;&#xFF0C;&#x9700;&#x8981;&#x52A0;&#x9017;&#x865F;&#xFF0C;&#x5373; </span>
+&#xFF40;()&#xFF40;  <span class="hljs-comment">// &#x7A7A;&#x5143;&#x7D44;&#xFF0C;</span>
+<span class="hljs-keyword">let</span> arr: [<span class="hljs-keyword">i32</span>; <span class="hljs-number">3</span>] = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];  <span class="hljs-comment">// &#x6578;&#x7D44;</span>
+<span class="hljs-built_in">assert_eq!</span>((<span class="hljs-number">1</span>..<span class="hljs-number">5</span>), Range{ start: <span class="hljs-number">1</span>, end: <span class="hljs-number">5</span> }); <span class="hljs-comment">// &#x8303;&#x570D;&#x985E;&#x578B;&#xFF0C;&#x5DE6;&#x9589;&#x53F3;&#x958B;</span>
+<span class="hljs-built_in">assert_eq!</span>((<span class="hljs-number">1</span>..=<span class="hljs-number">5</span>), RangeInclusive::new(<span class="hljs-number">1</span>, <span class="hljs-number">5</span>)); <span class="hljs-comment">// &#x8303;&#x570D;&#x985E;&#x578B;&#xFF0C;&#x5168;&#x9589;</span>
+<span class="hljs-keyword">let</span> arr: [<span class="hljs-keyword">i32</span>; <span class="hljs-number">5</span>] = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];                        <span class="hljs-comment">// &#x56FA;&#x5B9A;&#x5927;&#x5C0F;&#x6578;&#x7D44;&#x7684;&#x5207;&#x7247;</span>
+<span class="hljs-keyword">let</span> arr = &amp;<span class="hljs-keyword">mut</span> [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];                                                <span class="hljs-comment">// &#x53EF;&#x8B8A;&#x6578;&#x7D44;&#x7684;&#x5207;&#x7247;</span>
+<span class="hljs-keyword">let</span> vec = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];                                                <span class="hljs-comment">// &#x4F7F;&#x7528; vec! &#x5B8F;&#x5B9A;&#x7FA9;&#x7684;&#x52D5;&#x614B;&#x6578;&#x7D44;&#x7684;&#x5207;&#x7247;</span>
+<span class="hljs-keyword">let</span> str_slice: &amp;[&amp;<span class="hljs-keyword">str</span>] = &amp;[<span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-string">&quot;two&quot;</span>, <span class="hljs-string">&quot;three&quot;</span>];        <span class="hljs-comment">// &#x5B57;&#x7B26;&#x4E32;&#x6578;&#x7D44;&#x7684;&#x5207;&#x7247;</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">struct</span> People {                                                            <span class="hljs-comment">// Named-Field Struct</span>
+    name: &amp;<span class="hljs-string">&apos;static</span> <span class="hljs-keyword">str</span>,
+    gender: <span class="hljs-keyword">u32</span>,
+} <span class="hljs-comment">// &#x6CE8;&#x610F;&#x9019;&#x88E1;&#x6C92;&#x6709;&#x5206;&#x865F;</span>
+<span class="hljs-keyword">let</span> alex = People::new(<span class="hljs-string">&quot;Alex&quot;</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">// &#x7528; :: &#x4F86;&#x8ABF;&#x7528;new&#x65B9;&#x6CD5;&#xFF0C;&#x9ED8;&#x8A8D;&#x4E0D;&#x53EF;&#x8B8A;</span>
+<span class="hljs-keyword">struct</span> Color(<span class="hljs-keyword">i32</span>, <span class="hljs-keyword">i32</span>, <span class="hljs-keyword">i32</span>); <span class="hljs-comment">// &#x6CE8;&#x610F;&#x9019;&#x88E1;&#x8981;&#x6709;&#x5206;&#x865F;&#xFF01; Tuple-Like Struct&#xFF0C;&#x5B57;&#x6BB5;&#x6C92;&#x6709;&#x540D;&#x5B57;&#xFF0C;&#x53EA;&#x6709;&#x985E;&#x578B;</span>
+<span class="hljs-keyword">let</span> color = Color(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>);        <span class="hljs-comment">// &#x76F4;&#x63A5;&#x69CB;&#x9020;&#xFF0C;&#x4E0D;&#x7528;new&#x65B9;&#x6CD5;</span>
+<span class="hljs-keyword">struct</span> Integer(<span class="hljs-keyword">u32</span>); <span class="hljs-comment">// &#x7576;&#x5143;&#x7D44;&#x7D50;&#x69CB;&#x9AD4;&#x53EA;&#x6709;&#x4E00;&#x500B;&#x5B57;&#x6BB5;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x7A31;&#x70BA; New Type &#x6A21;&#x5F0F;</span>
+<span class="hljs-keyword">struct</span> Empty;                    <span class="hljs-comment">// &#x7B49;&#x50F9;&#x65BC;  struct Empty {}&#xFF0C;&#x55AE;&#x5143;&#x7D50;&#x69CB;&#x9AD4;&#x662F;&#x6C92;&#x6709;&#x4EFB;&#x4F55;&#x5B57;&#x6BB5;&#x7684;&#x7D50;&#x69CB;&#x9AD4;&#x3002;</span>
+
+<span class="hljs-keyword">enum</span> <span class="hljs-title">Number</span> {        <span class="hljs-comment">// &#x7121;&#x53C3;&#x6578;&#x679A;&#x8209;</span>
+    Zero,
+    One,
+    Two,
+}
+<span class="hljs-keyword">enum</span> <span class="hljs-title">Color</span> {        <span class="hljs-comment">// &#x985E;C&#x679A;&#x8209;</span>
+    Red = <span class="hljs-number">0xff0000</span>,
+    Green = <span class="hljs-number">0x00ff00</span>,
+    Blue = <span class="hljs-number">0x0000ff</span>,
+}
+<span class="hljs-keyword">enum</span> <span class="hljs-title">IpAddr</span> {        <span class="hljs-comment">// &#x5E36;&#x53C3;&#x6578;&#x679A;&#x8209;</span>
+    V4(<span class="hljs-keyword">u8</span>, <span class="hljs-keyword">u8</span>, <span class="hljs-keyword">u8</span>, <span class="hljs-keyword">u8</span>),
+    V6(<span class="hljs-built_in">String</span>),
+}
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> v1 = <span class="hljs-built_in">vec!</span>[];                     <span class="hljs-comment">// &#x7528;&#x5B8F;&#x5275;&#x5EFA;&#x53EF;&#x8B8A;&#x5411;&#x91CF;</span>
+<span class="hljs-keyword">let</span> v2 = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">0</span>; <span class="hljs-number">10</span>];                    <span class="hljs-comment">// &#x7528;&#x5B8F;&#x5275;&#x5EFA;&#x4E0D;&#x53EF;&#x8B8A;&#x5411;&#x91CF;</span>
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> v3 = Vec::new();            <span class="hljs-comment">// &#x7528; new &#x65B9;&#x6CD5;&#x5275;&#x5EFA;&#x5411;&#x91CF;</span>
+
+<span class="hljs-keyword">let</span> a = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]; 
+<span class="hljs-keyword">let</span> b = &amp;a;                                        <span class="hljs-comment">// &#x5F15;&#x7528;&#x64CD;&#x4F5C;&#x7B26; &amp;&#xFF0C;&#x4E0D;&#x53EF;&#x8B8A;&#xFF0C;&#x672C;&#x8CEA;&#x4E0A;&#x662F;&#x4E00;&#x7A2E;&#x975E;&#x7A7A;&#x6307;&#x91DD;</span>
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> c = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>];            <span class="hljs-comment">// &#x8981;&#x7372;&#x53D6;&#x53EF;&#x8B8A;&#x5F15;&#x7528;&#xFF0C;&#x5FC5;&#x9808;&#x5148;&#x8072;&#x660E;&#x53EF;&#x8B8A;&#x7D81;&#x5B9A;</span>
+<span class="hljs-keyword">let</span> d = &amp;<span class="hljs-keyword">mut</span> c;                                <span class="hljs-comment">// &#x901A;&#x904E; &amp;mut &#x5F97;&#x5230;&#x53EF;&#x8B8A;&#x5F15;&#x7528;</span>
+
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> x = <span class="hljs-number">10</span>;
+<span class="hljs-keyword">let</span> ptr_x = &amp;<span class="hljs-keyword">mut</span> x <span class="hljs-keyword">as</span> *<span class="hljs-keyword">mut</span> <span class="hljs-keyword">i32</span>;            <span class="hljs-comment">// &#x53EF;&#x8B8A;&#x539F;&#x59CB;&#x6307;&#x91DD; *&amp;mut T</span>
+<span class="hljs-keyword">let</span> y = Box::new(<span class="hljs-number">20</span>);
+<span class="hljs-keyword">let</span> ptr_y = &amp;*y <span class="hljs-keyword">as</span> *<span class="hljs-keyword">const</span> <span class="hljs-keyword">i32</span>;            <span class="hljs-comment">// &#x4E0D;&#x53EF;&#x8B8A;&#x539F;&#x59CB;&#x6307;&#x91DD; *const T</span>
+
+
+<span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">math</span></span>(op: <span class="hljs-function"><span class="hljs-keyword">fn</span></span>(<span class="hljs-keyword">i32</span>, <span class="hljs-keyword">i32</span>) -&gt; <span class="hljs-keyword">i32</span>, a: <span class="hljs-keyword">i32</span>, b: <span class="hljs-keyword">i32</span>) -&gt; <span class="hljs-keyword">i32</span>{            <span class="hljs-comment">// &#x5C07;&#x51FD;&#x6578;&#x4F5C;&#x70BA;&#x53C3;&#x6578;&#x50B3;&#x905E;</span>
+    op(a, b)                <span class="hljs-comment">/// &#x901A;&#x904E;&#x51FD;&#x6578;&#x6307;&#x91DD;&#x8ABF;&#x7528;&#x51FD;&#x6578;</span>
+}
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">true_maker</span></span>() -&gt; <span class="hljs-function"><span class="hljs-keyword">fn</span></span>() -&gt; <span class="hljs-keyword">bool</span> { is_true }                <span class="hljs-comment">// &#x51FD;&#x6578;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x662F;&#x53E6;&#x5916;&#x4E00;&#x500B;&#x51FD;&#x6578;</span>
+
+<span class="hljs-keyword">let</span> box_point = Box::new(Point { x: <span class="hljs-number">0.0</span>, y: <span class="hljs-number">0.0</span> });        <span class="hljs-comment">// &#x667A;&#x80FD;&#x6307;&#x91DD;</span>
+</code></pre>
+<h2 id="&#x6D41;&#x7A0B;&#x8655;&#x7406;">&#x6D41;&#x7A0B;&#x8655;&#x7406;</h2>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> big_n = <span class="hljs-keyword">if</span> n &lt; <span class="hljs-number">10</span> &amp;&amp; n &gt; -<span class="hljs-number">10</span> { <span class="hljs-comment">// if &#x4E0D;&#x5E36;&#x62EC;&#x865F;&#xFF0C;&#x771F;&#x4E0D;&#x9069;&#x61C9;</span>
+    <span class="hljs-number">10</span> * n
+} <span class="hljs-keyword">else</span> {
+    n / <span class="hljs-number">2</span>
+};
+
+<span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..<span class="hljs-number">101</span> {}     <span class="hljs-comment">// for &#x2026; in &#x5FAA;&#x74B0;</span>
+<span class="hljs-keyword">while</span> n &lt; <span class="hljs-number">101</span> {}    <span class="hljs-comment">// while &#x5FAA;&#x74B0;</span>
+<span class="hljs-keyword">loop</span> { }    <span class="hljs-comment">// loop &#x5FAA;&#x74B0;&#xFF0C;&#x76F8;&#x7576;&#x65BC;&#x4E00;&#x500B; while true&#xFF0C;&#x9700;&#x8981;&#x7A0B;&#x5E8F;&#x81EA;&#x5DF1; break</span>
+</code></pre>
+<h2 id="&#x5982;&#x4F55;&#x5728;rust&#x4E2D;&#x6253;&#x5370;&#x53D8;&#x91CF;&#x7684;&#x7C7B;&#x578B;&#xFF1F;">&#x5982;&#x4F55;&#x5728;Rust&#x4E2D;&#x6253;&#x5370;&#x53D8;&#x91CF;&#x7684;&#x7C7B;&#x578B;&#xFF1F;</h2>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">print_type_of</span></span>&lt;T&gt;(_: &amp;T) {
     <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, std::any::type_name::&lt;T&gt;())
 }

@@ -57,7 +57,7 @@
         data-chapter-title="Rust 概念"
         data-filepath="Rust/20210526.md"
         data-basepath=".."
-        data-revision="Sun Jun 13 2021 06:19:40 GMT+0800 (CST)"
+        data-revision="Mon Jul 05 2021 21:59:14 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -22719,14 +22719,21 @@
             
         </li>
     
-        <li class="chapter " data-level="69.4" data-path="Rust/Rust_30/Rust30D.html">
+        <li class="chapter " data-level="69.4" data-path="Rust/Rust_TheMachine.html">
+            
+            <span><b>69.4.</b> Rust 與記憶體</span>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="69.5" data-path="Rust/Rust_30/Rust30D.html">
             
                 
                     <a href="../Rust/Rust_30/Rust30D.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>69.4.</b>
+                            <b>69.5.</b>
                         
                         30 天深入淺出 Rust
                     </a>
@@ -22735,14 +22742,14 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="69.4.1" data-path="Rust/Rust_30/Overview.html">
+        <li class="chapter " data-level="69.5.1" data-path="Rust/Rust_30/Overview.html">
             
                 
                     <a href="../Rust/Rust_30/Overview.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>69.4.1.</b>
+                            <b>69.5.1.</b>
                         
                         Overview
                     </a>
@@ -22750,14 +22757,14 @@
             
         </li>
     
-        <li class="chapter " data-level="69.4.2" data-path="Rust/Rust_30/Setup.html">
+        <li class="chapter " data-level="69.5.2" data-path="Rust/Rust_30/Setup.html">
             
                 
                     <a href="../Rust/Rust_30/Setup.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>69.4.2.</b>
+                            <b>69.5.2.</b>
                         
                         安裝環境
                     </a>
@@ -22765,14 +22772,14 @@
             
         </li>
     
-        <li class="chapter " data-level="69.4.3" data-path="Rust/Rust_30/Cargo.html">
+        <li class="chapter " data-level="69.5.3" data-path="Rust/Rust_30/Cargo.html">
             
                 
                     <a href="../Rust/Rust_30/Cargo.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>69.4.3.</b>
+                            <b>69.5.3.</b>
                         
                         Rust 的套件管理工具 Cargo 與套件倉庫
                     </a>
@@ -22780,14 +22787,14 @@
             
         </li>
     
-        <li class="chapter " data-level="69.4.4" data-path="Rust/Rust_30/Basis.html">
+        <li class="chapter " data-level="69.5.4" data-path="Rust/Rust_30/Basis.html">
             
                 
                     <a href="../Rust/Rust_30/Basis.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>69.4.4.</b>
+                            <b>69.5.4.</b>
                         
                         Rust 基礎
                     </a>
@@ -22795,14 +22802,14 @@
             
         </li>
     
-        <li class="chapter " data-level="69.4.5" data-path="Rust/Rust_30/Borrow_and_Ownership.html">
+        <li class="chapter " data-level="69.5.5" data-path="Rust/Rust_30/Borrow_and_Ownership.html">
             
                 
                     <a href="../Rust/Rust_30/Borrow_and_Ownership.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>69.4.5.</b>
+                            <b>69.5.5.</b>
                         
                         變數的所有權與借出變數
                     </a>
@@ -23614,6 +23621,21 @@
 <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..<span class="hljs-number">101</span> {}     <span class="hljs-comment">// for &#x2026; in &#x5FAA;&#x74B0;</span>
 <span class="hljs-keyword">while</span> n &lt; <span class="hljs-number">101</span> {}    <span class="hljs-comment">// while &#x5FAA;&#x74B0;</span>
 <span class="hljs-keyword">loop</span> { }    <span class="hljs-comment">// loop &#x5FAA;&#x74B0;&#xFF0C;&#x76F8;&#x7576;&#x65BC;&#x4E00;&#x500B; while true&#xFF0C;&#x9700;&#x8981;&#x7A0B;&#x5E8F;&#x81EA;&#x5DF1; break</span>
+</code></pre>
+<h2 id="&#x51FD;&#x6578;&#x56DE;&#x50B3;&#x4E00;&#x500B;&#x51FD;&#x6578;">&#x51FD;&#x6578;&#x56DE;&#x50B3;&#x4E00;&#x500B;&#x51FD;&#x6578;</h2>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">func_exit</span></span>() -&gt; <span class="hljs-keyword">bool</span> {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;hi&quot;</span>);
+    <span class="hljs-keyword">true</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">locate_func</span></span>() -&gt; <span class="hljs-function"><span class="hljs-keyword">fn</span></span>() -&gt; <span class="hljs-keyword">bool</span> {
+    func_exit
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> f = locate_func();
+    f();
+}
 </code></pre>
 <h2 id="&#x5982;&#x4F55;&#x5728;rust&#x4E2D;&#x6253;&#x5370;&#x53D8;&#x91CF;&#x7684;&#x7C7B;&#x578B;&#xFF1F;">&#x5982;&#x4F55;&#x5728;Rust&#x4E2D;&#x6253;&#x5370;&#x53D8;&#x91CF;&#x7684;&#x7C7B;&#x578B;&#xFF1F;</h2>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">print_type_of</span></span>&lt;T&gt;(_: &amp;T) {

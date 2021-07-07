@@ -183,6 +183,7 @@ fn main(){
 - [RustPrimer](https://rustcc.gitbooks.io/rustprimer/content/)
 - [RustPrimer繁體](https://shihyu.github.io/RustPrimerBook/)
 - [Rust學習筆記](https://skyao.io/learning-rust/)
+- [通过大量的链表学习Rust](https://weathfold.gitbooks.io/rust-too-many-lists-zhcn/content/)
 
 ---
 

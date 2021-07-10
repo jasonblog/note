@@ -1448,6 +1448,7 @@
    * [Rust 概念](Rust/20210526.md)
    * [Rust筆記](Rust/RustTW2020_note.md)
    * [Rust 與記憶體](Rust/Rust_TheMachine.md)
+   * [物件導向程式設計](Rust/Rust_OO.md)
    * [30 天深入淺出 Rust](Rust/Rust_30/Rust30D.md)
        * [Overview](Rust/Rust_30/Overview.md)
        * [安裝環境](Rust/Rust_30/Setup.md)

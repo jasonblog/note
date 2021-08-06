@@ -926,6 +926,7 @@
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
    * [編譯vim8並添加對lua,python,ruby的支持](vim/bian_yi_vim8_bing_tian_jia_dui_lua_,_python_,_ruby.md)
+   * [NVIM](vim/nvim.md)
 * [TDD](tdd/README.md)
    * [程式設計師升級必練內功：TDD Kata](tdd/311.md)
 * [Raspberry_Pi](raspberry_pi/README.md)

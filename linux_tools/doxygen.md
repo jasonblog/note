@@ -32,3 +32,22 @@ CALL_GRAPH             = YES
 ```
 sed -ri.bak '/^RECURSIVE\s|^HAVE_DOT\s|^EXTRACT_ALL\s|^EXTRACT_PRIVATE\s|^EXTRACT_STATIC\s|^CALL_GRAPH\s|^CALLER_GRAPH\s/s/= NO/= YES/' Doxyfile
 ```
+
+---
+
+```bash
+HAVE_DOT               = YES
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+DISABLE_INDEX          = YES 
+GENERATE_TREEVIEW      = YES
+RECURSIVE              = YES
+```
+
+```bash
+sed -ri.bak '/^HAVE_DOT\s|^EXTRACT_ALL\s|^EXTRACT_PRIVATE\s|^EXTRACT_STATIC\s|^CALL_GRAPH\s|^CALLER_GRAPH\s|^DISABLE_INDEX\s|^GENERATE_TREEVIEW\s|^RECURSIVE\s/s/= NO/= YES/' Doxyfile
+```
+

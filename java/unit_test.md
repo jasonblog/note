@@ -45,5 +45,14 @@ javac HelloWorldTest.java -cp ./:/usr/share/java/junit4.jar
 java -cp .:/usr/share/java/junit4.jar org.junit.runner.JUnitCore HelloWorldTest
 ```
 
-----
+
+
+## Android Unit Test
+
+```bash
+git clone https://github.com/shihyu/UnitTestDemo
+
+android studio 編譯 & Run
+Run ExampleUnitTest
+```
 

@@ -11,7 +11,7 @@ conda deactivate
 sudo apt-get install ninja-build \
      gettext libtool libtool-bin \
      autoconf automake cmake g++ \
-     pkg-config unzip
+     pkg-config unzip xsel
 
 git clone https://github.com/neovim/neovim.git
 cd neovim
@@ -31,6 +31,13 @@ wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```bash
 No "python3" provider found. Run :checkhealth provider
 pip install --user --upgrade pynvim
+
+
+# node 要新版的不然 coc 會報錯
+sudo n 16 
+
+// Enable Copy and Paste 
+sudo apt-get install xclip xsel
 ```
 
 ---

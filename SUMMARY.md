@@ -146,6 +146,7 @@
    * [簽署你的Android應用程式(.keystore)](android_note/qian_shu_ni_de_android_ying_yong_cheng_5f0f28_keys.md)
    * [Building Andordi & Kernels](android_note/building_andordi_&_kernels.md)
    * [Handler消息機制再梳理](android_note/handlerxiao_xi_ji_zhi_zai_shu_li.md)
+   * [用Interface實作Call Back機制](android_note/用Interface實作Call Back機制.md)
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
    * [Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法](ubuntu/windowsyuubuntu_shuang_xi_tong_ff0c_kai_ji_shi_zhe.md)

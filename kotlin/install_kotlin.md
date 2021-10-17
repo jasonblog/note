@@ -1,3 +1,9 @@
+## Kotlin
+
+**Kotlin**是一種在[Java虛擬機](https://zh.wikipedia.org/wiki/Java虛擬機)上執行的[靜態型別](https://zh.wikipedia.org/wiki/静态类型)[程式語言](https://zh.wikipedia.org/wiki/编程语言)，它也可以被編譯成為[JavaScript](https://zh.wikipedia.org/wiki/JavaScript)原始碼。它主要是由[俄羅斯](https://zh.wikipedia.org/wiki/俄羅斯)[聖彼得堡](https://zh.wikipedia.org/wiki/聖彼得堡)的[JetBrains](https://zh.wikipedia.org/wiki/JetBrains)開發團隊所發展出來的程式語言，其名稱來自於聖彼得堡附近的[科特林島](https://zh.wikipedia.org/wiki/科特林島)。[[1\]](https://zh.wikipedia.org/wiki/Kotlin#cite_note-oracle_interview-1)2012年1月，著名期刊《[Dr. Dobb's Journal](https://zh.wikipedia.org/w/index.php?title=Dr._Dobb's_Journal&action=edit&redlink=1)》中Kotlin被認定為該月的最佳語言。[[2\]](https://zh.wikipedia.org/wiki/Kotlin#cite_note-dobbs-2)雖然與Java語法並不相容，但在[JVM](https://zh.wikipedia.org/wiki/JVM)環境中Kotlin被設計成可以和Java程式碼相互運作，並可以重複使用如[Java集合框架](https://zh.wikipedia.org/wiki/Java集合框架)等的現有[Java參照的函式庫](https://zh.wikipedia.org/w/index.php?title=Java引用的函数库&action=edit&redlink=1)。Hathibelagal寫道，「如果你正在為Android開發尋找一種替代程式語言，那麼應該試下Kotlin。它很容易在Android專案中替代Java或者同Java一起使用。」
+
+
+
 ## How to install Kotlin on Ubuntu 20.04 Focal Fossa Linux
 
 

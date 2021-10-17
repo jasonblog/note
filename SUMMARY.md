@@ -1452,6 +1452,7 @@
 * [Kotlin](kotlin/install_kotlin.md)
    * [Kotlin ?!! 這些符號到底什麼意思](kotlin/?!!這些符號.md)
    * [簡介 Kotlin: run, let, with, also 和 apply](kotlin/run,let,with,also和apply.md)
+   * [與Java的比較](kotlin/與Java的比較.md)
 * [Rust](Rust/rust_programming.md)
    * [給 C++ 使用者的 Rust 簡介](Rust/10-rust-an-introduction.md)
    * [Rust 概念](Rust/20210526.md)

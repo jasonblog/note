@@ -343,6 +343,7 @@
        * [(七) 利用Call Gate與TSS (Task-State Segment)實現特權等級的轉換](os/1417.md)
    * [Page Table size太大之解決](os/page_table_sizetai_da_zhi_jie_jue.md)
 * [Linux System](linux_system/README.md)
+   * [事件驅動伺服器](linux_system/事件驅動伺服器.md)
    * [Multi-pthread note](linux_system/multi-pthread_note.md)
        * [fork + pthread_create 記憶體空間差異](linux_system/fork_+_pthreadcreate_ji_yi_ti_kong_jian_cha_yi.md)
        * [Pros and Cons](linux_system/pros_and_cons.md)

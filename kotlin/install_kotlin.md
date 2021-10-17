@@ -44,12 +44,10 @@ Kotlin on Ubuntu 20.04 Focal Fossa Linux
     openjdk-11-jdk
     ```
 
-    :
-
     ```
     $ sudo apt install openjdk-11-jdk
     ```
-
+    
 2. Next step is to install Kotlin:
 
     ```

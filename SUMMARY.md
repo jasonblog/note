@@ -1450,6 +1450,8 @@
    * [花了 6 年才找到的 bug?](qt/hua_le_6_nian_cai_zhao_dao_de_bug.md)
 * [SlickEdit](SlickEdit/slickedit.md)
 * [Kotlin](kotlin/install_kotlin.md)
+   * [Kotlin ?!! 這些符號到底什麼意思](kotlin/?!!這些符號.md)
+   * [簡介 Kotlin: run, let, with, also 和 apply](kotlin/run,let,with,also和apply.md)
 * [Rust](Rust/rust_programming.md)
    * [給 C++ 使用者的 Rust 簡介](Rust/10-rust-an-introduction.md)
    * [Rust 概念](Rust/20210526.md)

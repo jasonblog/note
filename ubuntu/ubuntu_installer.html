@@ -57,7 +57,7 @@
         data-chapter-title="Ubuntu installer"
         data-filepath="ubuntu/ubuntu_installer.md"
         data-basepath=".."
-        data-revision="Sat Oct 23 2021 17:40:05 GMT+0800 (CST)"
+        data-revision="Sun Oct 24 2021 11:13:56 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -24232,7 +24232,7 @@ libgtk-<span class="hljs-number">3</span>-dev libgtk2.<span class="hljs-number">
 libselinux1-dev libtinfo-dev libxaw7-dev libxpm-dev \
 libxt-dev lua5.<span class="hljs-number">2</span> python3-dev ruby ruby-dev tcl-dev \
 libdvdnav4 libdvdread4 gstreamer1.<span class="hljs-number">0</span>-plugins-bad gstreamer1.<span class="hljs-number">0</span>-plugins-ugly libdvd-pkg \
-ubuntu-restricted-extras
+ubuntu-restricted-extras gnome-control-center
 </code></pre>
 <pre><code>sudo apt-get install autoconf automake linux-headers-`uname -r` vim-gnome \
                      libclang-dev p7zip guake p7zip-full liblzma-dev \
@@ -24253,8 +24253,18 @@ ubuntu-restricted-extras
                      texinfo texi2html ghp-import autossh samba sdcv xournal cloc geogebra \
                      libluajit-5.1-dev libacl1-dev libgpmg1-dev libgtk-3-dev libgtk2.0-dev \
                      liblua5.2-dev libperl-dev libselinux1-dev libtinfo-dev libxaw7-dev \
-                     libxpm-dev libxt-dev lua5.2 python3-dev ruby ruby-dev tcl-dev
-</code></pre><h2 id="&#x5B89;&#x88DD;rust">&#x5B89;&#x88DD;Rust</h2>
+                     libxpm-dev libxt-dev lua5.2 python3-dev ruby ruby-dev tcl-dev gnome-control-center
+</code></pre><h2 id="ubuntu-&#x6709;&#x7DDA;&#x9023;&#x7DDA;&#x4E0D;&#x898B;&#xFF08;&#x7DB2;&#x8DEF;&#x5716;&#x793A;&#x4E0D;&#x898B;&#xFF09;&#x89E3;&#x6C7A;&#x65B9;&#x6CD5;">ubuntu &#x6709;&#x7DDA;&#x9023;&#x7DDA;&#x4E0D;&#x898B;&#xFF08;&#x7DB2;&#x8DEF;&#x5716;&#x793A;&#x4E0D;&#x898B;&#xFF09;&#x89E3;&#x6C7A;&#x65B9;&#x6CD5;</h2>
+<pre><code class="lang-shell">sudo apt-get install gnome-control-center
+
+sudo service network-manager stop
+sudo rm /var/lib/NetworkManager/NetworkManager.state
+sudo service network-manager start
+sudo gedit /etc/NetworkManager/NetworkManager.conf
+&#xFF08;&#x628A;false&#x6539;&#x6210;true&#xFF09;
+sudo service network-manager restart
+</code></pre>
+<h2 id="&#x5B89;&#x88DD;rust">&#x5B89;&#x88DD;Rust</h2>
 <pre><code class="lang-sh">curl <span class="hljs-operator">-s</span>Sf https://static.rust-lang.org/rustup.sh | sudo sh
 </code></pre>
 <ul>

@@ -33,7 +33,7 @@ libgtk-3-dev libgtk2.0-dev liblua5.2-dev libperl-dev \
 libselinux1-dev libtinfo-dev libxaw7-dev libxpm-dev \
 libxt-dev lua5.2 python3-dev ruby ruby-dev tcl-dev \
 libdvdnav4 libdvdread4 gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly libdvd-pkg \
-ubuntu-restricted-extras
+ubuntu-restricted-extras gnome-control-center
 ```
 
 ```
@@ -56,7 +56,20 @@ sudo apt-get install autoconf automake linux-headers-`uname -r` vim-gnome \
                      texinfo texi2html ghp-import autossh samba sdcv xournal cloc geogebra \
 					 libluajit-5.1-dev libacl1-dev libgpmg1-dev libgtk-3-dev libgtk2.0-dev \
 					 liblua5.2-dev libperl-dev libselinux1-dev libtinfo-dev libxaw7-dev \
-					 libxpm-dev libxt-dev lua5.2 python3-dev ruby ruby-dev tcl-dev
+					 libxpm-dev libxt-dev lua5.2 python3-dev ruby ruby-dev tcl-dev gnome-control-center
+```
+
+## ubuntu 有線連線不見（網路圖示不見）解決方法
+
+```shell
+sudo apt-get install gnome-control-center
+
+sudo service network-manager stop
+sudo rm /var/lib/NetworkManager/NetworkManager.state
+sudo service network-manager start
+sudo gedit /etc/NetworkManager/NetworkManager.conf
+（把false改成true）
+sudo service network-manager restart
 ```
 
 ## 安裝Rust

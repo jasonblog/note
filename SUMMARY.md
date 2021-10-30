@@ -843,6 +843,7 @@
    * [OpenWRT 編譯環境搭建](openwrt/281.md)
 * [Python](python/README.md)
    * [example](python/example.md)
+       * [月營收這樣看！三種月營收選股法 – Python實作教學](python/三種月營收選股法.md)
        * [個股年成交資訊](python/ge_gu_nian_cheng_jiao_zi_xun.md)
        * [Python 基本爬蟲程式 以 Google 新聞為例](python/python_ji_ben_pa_chong_cheng_shi_yi_google_xin_wen.md)
        * [Python 新聞關鍵字查詢](python/python_xin_wen_guan_jian_zi_cha_xun.md)

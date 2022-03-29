@@ -57,7 +57,7 @@
         data-chapter-title="Rust 概念"
         data-filepath="Rust/20210526.md"
         data-basepath=".."
-        data-revision="Sat Oct 30 2021 13:09:36 GMT+0800 (CST)"
+        data-revision="Wed Mar 30 2022 02:43:14 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -24971,6 +24971,23 @@ a = <span class="hljs-string">&quot;xyz&quot;</span>;    <span class="hljs-comme
     <span class="hljs-keyword">let</span> Person { <span class="hljs-keyword">ref</span> name } = person;
     <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{:?}&quot;</span>, person);
     <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{:?}&quot;</span>, name);
+}
+</code></pre>
+<h2 id="&#x6253;&#x5370;&#x8B8A;&#x91CF;&#x5730;&#x5740;">&#x6253;&#x5370;&#x8B8A;&#x91CF;&#x5730;&#x5740;</h2>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>(){
+    <span class="hljs-keyword">let</span> a:<span class="hljs-keyword">i32</span> = <span class="hljs-number">5</span>;
+    <span class="hljs-comment">//&amp;a&#x5148;&#x8F49;&#x6210;raw&#x6307;&#x91DD;&#xFF0C;&#x7136;&#x5F8C;&#x518D;&#x628A;&#x6307;&#x91DD;&#x8F49;&#x6210;usize&#xFF0C;&#x9019;&#x500B;&#x53EF;&#x4EE5;print&#x7684;</span>
+    <span class="hljs-keyword">let</span> addr = &amp;a <span class="hljs-keyword">as</span> *<span class="hljs-keyword">const</span> <span class="hljs-keyword">i32</span> <span class="hljs-keyword">as</span> usize;
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;addr&#xFF1A;0x{:X}&quot;</span>,addr);
+
+    <span class="hljs-comment">//&#x70BA;&#x4E86;&#x9A57;&#x8B49;&#x525B;&#x624D;&#x7684;&#x5730;&#x5740;&#x662F;&#x4E0D;&#x662F;&#x6B63;&#x78BA;&#x7684;&#xFF0C;&#x6211;&#x5011;&#x4FEE;&#x6539;&#x9019;&#x500B;&#x6307;&#x91DD;&#x6307;&#x5411;&#x7684;&#x6578;&#x64DA;</span>
+    <span class="hljs-comment">//pa&#x5C31;&#x662F;addr&#x5C0D;&#x61C9;&#x7684;raw&#x6307;&#x91DD;</span>
+    <span class="hljs-keyword">let</span> pa = addr <span class="hljs-keyword">as</span> *<span class="hljs-keyword">mut</span> <span class="hljs-keyword">i32</span>;
+    <span class="hljs-comment">//&#x89E3;&#x5F15;&#x7528;&#xFF0C;*pa&#x5176;&#x5BE6;&#x5C31;&#x662F;&amp;mut a&#x4E86;&#xFF0C;&#x7D66;&#x4ED6;&#x8CE6;&#x503C;100</span>
+    <span class="hljs-keyword">unsafe</span>{*pa = <span class="hljs-number">100</span>};
+
+    <span class="hljs-comment">//&#x6253;&#x5370;a&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;a&#x5DF2;&#x7D93;&#x8B8A;&#x6210;100&#x4E86;</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;value:{}&quot;</span>,a);
 }
 </code></pre>
 

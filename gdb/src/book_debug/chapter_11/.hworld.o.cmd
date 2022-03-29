@@ -1,0 +1,1 @@
+cmd_/root/codes/book_debug/chapter_11/hworld.o := ld -m elf_x86_64  -z max-page-size=0x200000   -r -o /root/codes/book_debug/chapter_11/hworld.o /root/codes/book_debug/chapter_11/helloworld.o ; scripts/mod/modpost /root/codes/book_debug/chapter_11/hworld.o

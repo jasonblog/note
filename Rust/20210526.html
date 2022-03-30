@@ -57,7 +57,7 @@
         data-chapter-title="Rust 概念"
         data-filepath="Rust/20210526.md"
         data-basepath=".."
-        data-revision="Thu Mar 31 2022 00:47:48 GMT+0800 (CST)"
+        data-revision="Thu Mar 31 2022 01:26:13 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -24990,6 +24990,49 @@ a = <span class="hljs-string">&quot;xyz&quot;</span>;    <span class="hljs-comme
     <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;value:{}&quot;</span>,a);
 }
 </code></pre>
+<h2 id="asptr">as_ptr</h2>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> s1 = String::from(<span class="hljs-string">&quot;hello world&quot;</span>);
+    <span class="hljs-keyword">let</span> s2 = String::from(<span class="hljs-string">&quot;hello world&quot;</span>);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{:p}&quot;</span>, s1.as_ptr()); 
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{:p}&quot;</span>, s2.as_ptr());
+}
+</code></pre>
+<h2 id="rust-&#x4E2D;&#x6307;&#x91DD;&#x548C;&#x5F15;&#x7528;&#x7684;&#x5340;&#x5225;">Rust &#x4E2D;&#x6307;&#x91DD;&#x548C;&#x5F15;&#x7528;&#x7684;&#x5340;&#x5225;</h2>
+<p>Rust &#x4E2D;&#x7684;&#x6307;&#x91DD; * &#x548C;&#x5F15;&#x7528; &amp; &#x5171;&#x4EAB;&#x76F8;&#x540C;&#x7684;&#x8868;&#x793A;&#xFF08;&#x5B83;&#x5011;&#x90FD;&#x8868;&#x793A;&#x4E00;&#x6BB5;&#x6578;&#x64DA;&#x7684;&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF09;.</p>
+<p>&#x7DE8;&#x5BEB;&#x4EE3;&#x78BC;&#x6642;&#x7684;&#x5BE6;&#x969B;&#x5340;&#x5225;&#x662F;&#x4EC0;&#x9EBC;&#xFF1F;</p>
+<p>&#x7576;&#x5C07; C++ &#x4EE3;&#x78BC;&#x79FB;&#x690D;&#x5230; Rust &#x6642;&#xFF0C;&#x5B83;&#x5011;&#x53EF;&#x4EE5;&#x5B89;&#x5168;&#x5730;&#x66FF;&#x63DB;&#xFF08;c++ &#x6307;&#x91DD; --&gt; rust &#x6307;&#x91DD;&#xFF0C;c++ &#x5F15;&#x7528; --&gt; rust &#x5F15;&#x7528;&#xFF09;&#x55CE;&#xFF1F;</p>
+<hr>
+<h4 id="&#x7B54;">&#x7B54;</h4>
+<p>&#x76E1;&#x53EF;&#x80FD;&#x4F7F;&#x7528;&#x5F15;&#x7528;&#xFF0C;&#x5FC5;&#x8981;&#x6642;&#x4F7F;&#x7528;&#x6307;&#x91DD;. &#x5982;&#x679C;&#x60A8;&#x6C92;&#x6709;&#x5728;&#x7DE8;&#x8B6F;&#x5668;&#x53EF;&#x4EE5;&#x9A57;&#x8B49;&#x7684;&#x8303;&#x570D;&#x5167;&#x9032;&#x884C; FFI &#x6216;&#x5167;&#x5B58;&#x7BA1;&#x7406;&#xFF0C;&#x5247;&#x4E0D;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x6307;&#x91DD;.</p>
+<p>&#x5F15;&#x7528;&#x548C;&#x6307;&#x91DD;&#x90FD;&#x5B58;&#x5728;&#x65BC;&#x5169;&#x7A2E;&#x8B8A;&#x9AD4;&#x4E2D;. &#x6709;&#x5171;&#x4EAB;&#x5F15;&#x7528;<code>&amp;</code>&#x548C;&#x53EF;&#x8B8A;&#x5F15;&#x7528;<code>&amp;mut</code> . &#x6709; const &#x6307;&#x91DD;<code>*const</code>&#x548C; mut &#x6307;&#x91DD;<code>*mut</code> &#xFF08;&#x6620;&#x5C04;&#x5230; C &#x4E2D;&#x7684; const &#x548C;&#x975E; const &#x6307;&#x91DD;&#xFF09;. &#x4F46;&#x662F;&#xFF0C;&#x5F15;&#x7528;&#x7684;&#x8A9E;&#x7FA9;&#x8207;&#x6307;&#x91DD;&#x7684;&#x8A9E;&#x7FA9;&#x5B8C;&#x5168;&#x4E0D;&#x540C;.</p>
+<p>&#x5F15;&#x7528;&#x5C0D;&#x4E00;&#x500B;&#x985E;&#x578B;&#x548C;&#x6574;&#x500B;&#x751F;&#x547D;&#x9031;&#x671F;&#x90FD;&#x662F;&#x901A;&#x7528;&#x7684;. &#x5171;&#x4EAB;&#x5F15;&#x7528;&#x4EE5;&#x9577;&#x683C;&#x5F0F;&#x5BEB;&#x6210;<code>&amp;&apos;a T</code> &#xFF08;&#x5176;&#x4E2D;<code>&apos;a</code>&#x548C;<code>T</code>&#x662F;&#x53C3;&#x6578;&#xFF09;. &#x5728;&#x8A31;&#x591A;&#x60C5;&#x6CC1;&#x4E0B;&#x53EF;&#x4EE5;<a href="https://doc.rust-lang.org/nomicon/lifetime-elision.html" target="_blank">&#x7701;&#x7565;</a>&#x751F;&#x547D;&#x9031;&#x671F;&#x53C3;&#x6578;. &#x7DE8;&#x8B6F;&#x5668;&#x4F7F;&#x7528;&#x751F;&#x547D;&#x9031;&#x671F;&#x53C3;&#x6578;&#x4F86;&#x78BA;&#x4FDD;&#x5F15;&#x7528;&#x7684;&#x58FD;&#x547D;&#x4E0D;&#x6703;&#x8D85;&#x904E;&#x501F;&#x7528;&#x7684;&#x6709;&#x6548;&#x6642;&#x9593;.</p>
+<p>&#x6307;&#x91DD;&#x6C92;&#x6709;&#x751F;&#x547D;&#x9031;&#x671F;&#x53C3;&#x6578;. &#x56E0;&#x6B64;&#xFF0C;&#x7DE8;&#x8B6F;&#x5668;&#x7121;&#x6CD5;&#x6AA2;&#x67E5;&#x7279;&#x5B9A;&#x6307;&#x91DD;&#x662F;&#x5426;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;. &#x9019;&#x5C31;&#x662F;&#x70BA;&#x4EC0;&#x9EBC;&#x53D6;&#x6D88;&#x5F15;&#x7528;&#x6307;&#x91DD;&#x88AB;&#x8A8D;&#x70BA;&#x662F;<code>unsafe</code>&#x7684;.</p>
+<p>&#x7576;&#x60A8;&#x5275;&#x5EFA;&#x5C0D;&#x5C0D;&#x8C61;&#x7684;&#x5171;&#x4EAB;&#x5F15;&#x7528;&#x6642;&#xFF0C;&#x6703;<em>&#x51CD;&#x7D50;</em>&#x5C0D;&#x8C61;&#xFF08;&#x5373;&#x5C0D;&#x50CF;&#x5728;&#x5171;&#x4EAB;&#x5F15;&#x7528;&#x5B58;&#x5728;&#x6642;&#x8B8A;&#x70BA;&#x4E0D;&#x53EF;&#x8B8A;&#xFF09;&#xFF0C;&#x9664;&#x975E;&#x5C0D;&#x8C61;&#x4F7F;&#x7528;&#x67D0;&#x7A2E;&#x5F62;&#x5F0F;&#x7684;&#x5167;&#x90E8;&#x53EF;&#x8B8A;&#x6027;&#xFF08;&#x4F8B;&#x5982;&#x4F7F;&#x7528;<code>Cell</code> &#x3001; <code>RefCell</code> &#x3001; <code>Mutex</code>&#x6216;<code>RwLock</code> &#xFF09;. &#x4F46;&#x662F;&#xFF0C;&#x7576;&#x60A8;&#x6709;&#x4E00;&#x500B;&#x6307;&#x5411;&#x5C0D;&#x8C61;&#x7684; const &#x6307;&#x91DD;&#x6642;&#xFF0C;&#x8A72;&#x5C0D;&#x8C61;&#x53EF;&#x80FD;&#x5728;&#x6307;&#x91DD;&#x8655;&#x65BC;&#x6D3B;&#x52D5;&#x72C0;&#x614B;&#x6642;&#x4ECD;&#x6703;&#x66F4;&#x6539;.</p>
+<p>&#x7576;&#x4F60;&#x6709;&#x4E00;&#x500B;&#x5C0D;&#x8C61;&#x7684;&#x53EF;&#x8B8A;&#x5F15;&#x7528;&#x6642;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;<em>&#x4FDD;&#x8B49;</em>&#x901A;&#x904E;&#x9019;&#x500B;&#x5F15;&#x7528;&#x64C1;&#x6709;&#x5C0D;&#x8A72;&#x5C0D;&#x8C61;&#x7684;&#x7368;&#x4F54;&#x8A2A;&#x554F;&#x6B0A;. &#x8A2A;&#x554F;&#x5C0D;&#x8C61;&#x7684;&#x4EFB;&#x4F55;&#x5176;&#x4ED6;&#x65B9;&#x5F0F;&#x8981;&#x9EBC;&#x66AB;&#x6642;&#x7981;&#x7528;&#xFF0C;&#x8981;&#x9EBC;&#x7121;&#x6CD5;&#x5BE6;&#x73FE;. &#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> x = <span class="hljs-number">0</span>;
+{
+    <span class="hljs-keyword">let</span> y = &amp;<span class="hljs-keyword">mut</span> x;
+    <span class="hljs-keyword">let</span> z = &amp;<span class="hljs-keyword">mut</span> x; <span class="hljs-comment">// ERROR: x is already borrowed mutably</span>
+    *y = <span class="hljs-number">1</span>; <span class="hljs-comment">// OK</span>
+    x = <span class="hljs-number">2</span>; <span class="hljs-comment">// ERROR: x is borrowed</span>
+}
+x = <span class="hljs-number">3</span>; <span class="hljs-comment">// OK, y went out of scope</span>
+</code></pre>
+<p>Mu &#x6307;&#x91DD;&#x6C92;&#x6709;&#x9019;&#x6A23;&#x7684;&#x4FDD;&#x8B49;.</p>
+<p>&#x5F15;&#x7528;&#x4E0D;&#x80FD;&#x70BA;&#x7A7A;&#xFF08;&#x5F88;&#x50CF; C++ &#x5F15;&#x7528;&#xFF09;. &#x6307;&#x91DD;&#x53EF;&#x4EE5;&#x70BA;&#x7A7A;.</p>
+<p>&#x6307;&#x91DD;&#x53EF;&#x4EE5;&#x5305;&#x542B;&#x4EFB;&#x4F55;&#x9069;&#x5408;<code>usize</code>&#x7684;&#x6578;&#x503C;. &#x521D;&#x59CB;&#x5316;&#x6307;&#x91DD;&#x4E0D;&#x662F;<code>unsafe</code>&#x7684;&#xFF1B; &#x53EA;&#x6709;&#x53D6;&#x6D88;&#x5F15;&#x7528;&#x5B83;. &#x53E6;&#x4E00;&#x65B9;&#x9762;&#xFF0C;&#x7522;&#x751F;&#x4E00;&#x500B;&#x7121;&#x6548;&#x7684;&#x5F15;&#x7528;&#x88AB;&#x8A8D;&#x70BA;&#x662F; <a href="https://doc.rust-lang.org/reference/behavior-considered-undefined.html" target="_blank">&#x672A;&#x5B9A;&#x7FA9;&#x7684;&#x884C;&#x70BA;</a>&#xFF0C;&#x5373;&#x4F7F;&#x4F60;&#x5F9E;&#x4F86;&#x6C92;&#x6709;&#x53D6;&#x6D88;&#x5F15;&#x7528;&#x5B83;.</p>
+<p>&#x5982;&#x679C;&#x4F60;&#x6709;&#x4E00;&#x500B;<code>*const T</code> &#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>as</code>&#x81EA;&#x7531;&#x5730;&#x5C07;&#x5B83;&#x8F49;&#x63DB;&#x70BA;<code>*const U</code>&#x6216;<code>*mut T</code> . &#x4F60;&#x4E0D;&#x80FD;&#x7528;&#x5F15;&#x7528;&#x4F86;&#x505A;&#x5230;&#x9019;&#x4E00;&#x9EDE;. &#x4F46;&#x662F;&#xFF0C;&#x60A8;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>as</code>&#x5F37;&#x5236;&#x8F49;&#x63DB;&#x5C0D;&#x6307;&#x91DD;&#x7684;&#x5F15;&#x7528;&#xFF0C;&#x4E26;&#x4E14;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x53D6;&#x6D88;&#x5F15;&#x7528;&#x6307;&#x91DD;&#xFF08;&#x9019;&#x4E5F;&#x662F;<code>unsafe</code> &#xFF09;&#x7136;&#x5F8C;&#x4F7F;&#x7528;<code>&amp;</code>&#x6216;<code>&amp;mut</code>&#x501F;&#x7528;&#x4F4D;&#x7F6E;&#x4F86;&quot;&#x5347;&#x7D1A;&quot;&#x6307;&#x5411;&#x5F15;&#x7528;&#x7684;&#x6307;&#x91DD;. &#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::ffi::OsStr;
+<span class="hljs-keyword">use</span> std::path::Path;
+
+<span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">os_str_to_path</span></span>(s: &amp;OsStr) -&gt; &amp;Path {
+    <span class="hljs-keyword">unsafe</span> { &amp;*(s <span class="hljs-keyword">as</span> *<span class="hljs-keyword">const</span> OsStr <span class="hljs-keyword">as</span> *<span class="hljs-keyword">const</span> Path) }
+}
+</code></pre>
+<p>&#x5728; C++ &#x4E2D;&#xFF0C;&#x5F15;&#x7528;&#x662F;&quot;&#x81EA;&#x52D5;&#x53D6;&#x6D88;&#x5F15;&#x7528;&#x7684;&#x6307;&#x91DD;&quot;. &#x5728; Rust &#x4E2D;&#xFF0C;&#x60A8;&#x901A;&#x5E38;&#x4ECD;&#x7136;&#x9700;&#x8981;&#x986F;&#x5F0F;&#x5730;&#x53D6;&#x6D88;&#x5F15;&#x7528;. &#x4F8B;&#x5916;&#x662F;&#x7576;&#x60A8;&#x4F7F;&#x7528;<code>.</code> &#x904B;&#x7B97;&#x7B26;&#xFF1A;&#x5982;&#x679C;&#x5DE6;&#x5074;&#x662F;&#x5F15;&#x7528;&#xFF0C;&#x7DE8;&#x8B6F;&#x5668;&#x5C07;&#x81EA;&#x52D5;&#x53D6;&#x6D88;&#x5F15;&#x7528;&#x5B83;&#xFF08;&#x5FC5;&#x8981;&#x6642;&#x905E;&#x6B78;&#xFF01;&#xFF09;. &#x4F46;&#x662F;&#xFF0C;&#x6307;&#x91DD;&#x4E0D;&#x6703;&#x81EA;&#x52D5;&#x53D6;&#x6D88;&#x5F15;&#x7528;. &#x9019;&#x610F;&#x5473;&#x8457;&#x5982;&#x679C;&#x8981;&#x53D6;&#x6D88;&#x5F15;&#x7528;&#x548C;&#x8A2A;&#x554F;&#x5B57;&#x6BB5;&#x6216;&#x65B9;&#x6CD5;&#xFF0C;&#x5247;&#x9700;&#x8981;&#x7DE8;&#x5BEB;<code>(*pointer).field</code> pointer).field &#x6216;<code>(*pointer).method()</code> . Rust &#x4E2D;&#x6C92;&#x6709;<code>-&gt;</code>&#x904B;&#x7B97;&#x7B26;.</p>
+<hr>
+<p>Rust &#x5F15;&#x7528;&#x53EA;&#x662F;&#x4E00;&#x500B;&#x6307;&#x91DD;&#xFF0C;&#x4F46;&#x7DE8;&#x8B6F;&#x5668;&#x8CE6;&#x4E88;&#x5B83;&#x5011;&#x501F;&#x7528;&#x8A9E;&#x7FA9;. &#x7576;&#x60A8;&#x5C0D;&#x5C0D;&#x8C61;&#x9032;&#x884C;&#x4E0D;&#x53EF;&#x8B8A;&#x5F15;&#x7528;&#x6642;&#xFF0C;&#x7DE8;&#x8B6F;&#x5668;&#x6703;&#x78BA;&#x4FDD;&#x60A8;&#x5728;&#x6D3E;&#x751F;&#x5F15;&#x7528;&#x6D88;&#x5931;&#x4E4B;&#x524D;&#x7121;&#x6CD5;&#x4FEE;&#x6539;&#x8A72;&#x5C0D;&#x8C61;.</p>
 
                     
                     </section>

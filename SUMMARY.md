@@ -1540,4 +1540,5 @@
    * [ubuntu TA-lib的安裝](invested/ubuntu_ta-libde_an_zhuang.md)
    * [talib BBands + twstock](invested/talibbbands_+_twstock_md.md)
    * [finviz 篩選](invested/finvizshai_xuan_md.md)
+* [Golang](golang/go.md)
 

@@ -184,6 +184,7 @@ fn main(){
 - [RustPrimer繁體](https://shihyu.github.io/RustPrimerBook/)
 - [Rust學習筆記](https://skyao.io/learning-rust/)
 - [通过大量的链表学习Rust](https://weathfold.gitbooks.io/rust-too-many-lists-zhcn/content/)
+- [Rust入門祕籍](https://shihyu.github.io/rust_hacks/)
 
 ---
 

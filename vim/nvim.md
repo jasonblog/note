@@ -44,3 +44,10 @@ sudo apt-get install xclip xsel
 
 
 
+## coc clangd 
+
+```
+CocCommand clangd.install  // 路徑設定自動產生到 coc-setting
+CocInstall coc-clangd
+```
+

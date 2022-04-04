@@ -18,12 +18,12 @@ serve:
 	@gitbook serve
 
 build:
-	@n 6
-	@gitbook build
+	@sudo n 6
+	@gitbook build --gitbook=2.6
 
 clean:
 	rm -fr _book
 
 github:
-	@n 16	
+	@sudo n 16	
 	@ghp-import _book -p -n

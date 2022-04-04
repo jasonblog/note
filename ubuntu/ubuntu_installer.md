@@ -59,6 +59,35 @@ sudo apt-get install autoconf automake linux-headers-`uname -r` vim-gnome \
 					 libxpm-dev libxt-dev lua5.2 python3-dev ruby ruby-dev tcl-dev gnome-control-center
 ```
 
+- ubuntu 20.04
+
+```sh
+
+
+sudo apt-get install autoconf automake linux-headers-`uname -r` \
+                     libclang-dev p7zip guake p7zip-full liblzma-dev \
+                     indicator-multiload filezilla pidgin pcmanx-gtk2 gparted meld \
+                     speedcrunch vim ssh id-utils cflow autogen \
+                     cutecom hexedit ccache clang pbzip2 smplayer plink putty-tools \
+                     ghex doxygen doxygen-doc libstdc++6 lib32stdc++6 build-essential \
+                     doxygen-gui graphviz git-core cconv alsa-oss wmctrl terminator \
+                     curl gnome-tweak-tool cgdb dos2unix libreadline-dev \
+                     hexedit ccache ruby subversion htop astyle ubuntu-restricted-extras \
+                     libncurses5-dev xdot exuberant-ctags cscope \
+                     libsdl1.2-dev gitk libncurses5-dev binutils-dev gtkterm \
+                     libtool mpi-default-dev libbz2-dev libicu-dev python-dev scons csh \
+                     enca ttf-anonymous-pro libperl4-corelibs-perl cgvg catfish gawk \
+                     i2c-tools sshfs wavesurfer audacity fcitx fcitx-chewing libswitch-perl bin86 \
+                     inotify-tools u-boot-tools subversion crash tree mscgen krename umbrello \
+                     intel2gas kernelshark trace-cmd pppoe dcfldd flex bison help2man \
+                     texinfo texi2html ghp-import autossh samba sdcv xournal cloc geogebra \
+                     libluajit-5.1-dev libacl1-dev libgpmg1-dev libgtk-3-dev libgtk2.0-dev \
+                     liblua5.2-dev libperl-dev libselinux1-dev libtinfo-dev libxaw7-dev \
+                     libxpm-dev libxt-dev lua5.2 python3-dev ruby ruby-dev tcl-dev gnome-control-center
+```
+
+
+
 ## ubuntu 有線連線不見（網路圖示不見）解決方法
 
 ```shell
@@ -329,6 +358,14 @@ UUID=1f833a4c-b564-4616-bc72-0fc92d62a687 /media/HD         ext4    defaults    
 # Gitbook 安裝
 
 - 安裝 Node.js
+
+```
+# 安裝最新
+https://nodejs.org/en/  
+
+export N_PREFIX=$HOME/.mybin/node-v17.8.0-linux-x64/
+export PATH=$N_PREFIX/bin:$PATH
+```
 
 ```
 sudo apt-get update
